@@ -22,6 +22,9 @@ const TabWrapper = styled(Footer)`
   height: ${dySize(80)};
   padding-bottom: 20;
   border-top-width: 0px;
+  background-color: ${props => props.theme.colors.background};
+  border-top-width: 0px;
+  elevation: 0;
 `;
 
 class TabView extends React.PureComponent {

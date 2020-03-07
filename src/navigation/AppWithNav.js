@@ -18,7 +18,7 @@ class AppWithNav extends React.Component {
     setTimeout(() => {
       SplashScreen.hide();
     }, 2000);
-    // this.props.resetAllReducer();
+    this.props.resetAllReducer();
   }
 
   // Removes listener to app state changes

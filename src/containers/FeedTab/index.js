@@ -13,7 +13,9 @@ class FeedTabStack extends React.Component {
   render() {
     return (
       <Stack.Navigator
-        initialRouteName={this.props.userToken ? 'Social' : 'Auth_SendSMS'}
+        initialRouteName={
+          this.props.userToken && 0 ? 'Social' : 'Auth_CompleteSignUp'
+        }
         headerMode="none">
         <Stack.Screen name="Social" component={SocialStack} />
         <Stack.Screen name="Auth_SendSMS" component={SendSMSScreen} />

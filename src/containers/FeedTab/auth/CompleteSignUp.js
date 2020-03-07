@@ -73,6 +73,7 @@ class CompleteSignUp extends React.Component {
           </MCView>
           <MCButton
             mt={40}
+            mb={40}
             bordered
             align="center"
             width={150}

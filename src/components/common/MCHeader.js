@@ -14,6 +14,7 @@ const HeaderWrapper = styled(Header)`
   height: ${dySize(80)};
   background-color: ${props => props.theme.colors.background};
   border-bottom-width: 0px;
+  elevation: 0;
 `;
 
 const HeaderLeft = styled(Left)`
