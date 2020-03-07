@@ -1,0 +1,75 @@
+import React from 'react';
+import {connect} from 'react-redux';
+import {withTranslation} from 'react-i18next';
+import {MCRootView, MCView} from 'components/styled/View';
+import {H3} from 'components/styled/Text';
+import {MCButton} from 'components/styled/Button';
+import NavigationService from 'navigation/NavigationService';
+import PlusSvg from 'assets/svgs/Plus';
+import {dySize} from 'utils/responsive';
+import UserSvg from 'assets/svgs/User';
+import UsersSvg from 'assets/svgs/Users';
+import {routerActions} from 'Redux/actions';
+
+class WelcomeToTab extends React.PureComponent {
+  turnOffPoints = () => {};
+
+  gotoMainScreen = () => {
+    this.props.setNewUser(false);
+    NavigationService.navigate('mainStack');
+  };
+
+  render() {
+    const {t, theme} = this.props;
+    return (
+      <MCRootView>
+        <MCView p={20}>
+          <MCView row align="center" mt={40}>
+            <PlusSvg size={dySize(38)} color={theme.colors.text} />
+            <H3 align="center" ml={20}>
+              {`${t('welcome_explain_displayTextForAdd')} `}
+              <H3 weight="bold">{t('add_manual_headerTitle')}</H3>
+              {t('welcome_explain_and')}
+              <H3 weight="bold">{t('trustnetwork_permissions_value')}</H3>,
+              <H3 weight="bold">{` ${t('concept_feedback_title')}`}</H3>
+              {t('welcome_explain_andset')}
+              <H3 weight="bold">{t('trustnetwork_permissions_goal')}</H3>
+            </H3>
+          </MCView>
+          <MCView row align="center" mt={40}>
+            <UserSvg size={dySize(38)} color={theme.colors.text} />
+            <H3 align="center" ml={20}>
+              {t('welcome_explain_displayTextForProfile')}
+            </H3>
+          </MCView>
+          <MCView row align="center" mt={40}>
+            <UsersSvg size={dySize(38)} color={theme.colors.text} />
+            <H3 align="center" ml={20}>
+              {t('welcome_explain_displayTextForNetwork')}
+            </H3>
+          </MCView>
+          <MCButton
+            mt={60}
+            width={240}
+            bordered
+            align="center"
+            onPress={() => this.gotoMainScreen()}>
+            <H3>{t('welcome_reflectionpoints_buttons_continue')}</H3>
+          </MCButton>
+        </MCView>
+      </MCRootView>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
+});
+
+const mapDispatchToProps = {
+  setNewUser: routerActions.setNewUser,
+};
+
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(WelcomeToTab),
+);
