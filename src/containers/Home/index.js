@@ -14,10 +14,12 @@ const Tab = createBottomTabNavigator();
 
 class MainHomeStack extends React.Component {
   componentDidMount() {
+    const _this = this;
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {
-        this.props.setProfileData({pushToken: token});
+        // {token: '', os: 'ios}
+        _this.props.setProfileData({pushToken: token.token});
       },
       // (required) Called when a remote or local notification is opened or received
       onNotification: function(notification) {

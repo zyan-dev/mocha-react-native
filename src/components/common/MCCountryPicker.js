@@ -59,6 +59,7 @@ class MCCountryPicker extends React.Component {
         <MCTextInput
           style={{flex: 1}}
           onChangeText={value => onChangeInput(value)}
+          keyboardType="numeric"
         />
       </MCView>
     );

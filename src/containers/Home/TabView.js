@@ -41,6 +41,7 @@ class TabView extends React.PureComponent {
   }
 
   onClickTab = index => {
+    const {userToken, getMyProfile} = this.props;
     const TabScreens = ['TabFeed', 'TabAddValue', 'TabProfile'];
     this.setState({tabIndex: index});
     NavigationService.navigate(TabScreens[index]);
@@ -53,7 +54,7 @@ class TabView extends React.PureComponent {
         break;
       case 2:
         // call some APIs whenever user clicks Profile Tab
-        this.props.getMyProfile();
+        userToken.length > 0 && getMyProfile();
         break;
       default:
         break;
@@ -130,7 +131,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  phone: state.profileReducer.phone,
+  userToken: state.profileReducer.userToken,
 });
 
 export default withTranslation()(

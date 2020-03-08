@@ -31,9 +31,7 @@ class SocialStack extends React.Component {
         negotiatePan
         side="left"
         tweenHandler={ratio => ({main: {opacity: (2 - ratio) / 2}})}>
-        <Stack.Navigator
-          initialRouteName={this.props.userToken ? 'Social' : 'Auth_SendSMS'}
-          headerMode="none">
+        <Stack.Navigator headerMode="none">
           <Stack.Screen name="Feed" component={FeedScreen} />
           <Stack.Screen name="SendRequest" component={SendRequestScreen} />
           <Stack.Screen

@@ -22,6 +22,9 @@ export function* sendSignUpSMS(action) {
 
 export function* verifySignUpSMS(action) {
   try {
+    const {
+      profileReducer: {pushToken},
+    } = yield select();
     yield put({type: types.SET_SMS_VERIFY_STATUS, payload: 'checking'});
     const response = yield call(API.verifySMS, action.payload); // payload is {phont: '123'} for example
     if (response.data.status === 'success') {
@@ -29,6 +32,7 @@ export function* verifySignUpSMS(action) {
       yield put({type: types.SET_SMS_VERIFY_STATUS, payload: 'passed'});
       const profileData = {
         ...response.data.data.user,
+        pushToken,
         userToken: response.data.data.token,
       };
       // save token to AsyncStorage for API calls
@@ -51,9 +55,9 @@ export function* verifySignUpSMS(action) {
 export function* completeSignUp(action) {
   try {
     const {
-      profileReducer: {phone, name, user_id, avatar},
+      profileReducer: {phone, name, user_id, avatar, pushToken},
     } = yield select();
-    let updatedProfile = {phone, name, user_id};
+    let updatedProfile = {phone, name, user_id, pushToken};
     if (action.payload) {
       // avatar Changed
       const imageType = avatar.includes('.jpg') ? 'jpg' : 'png';
