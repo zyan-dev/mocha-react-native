@@ -11,7 +11,7 @@ import MotivationCard from './cards/Motivation';
 import BeliefAndGoal from './cards/BeliefAndGoal';
 import ChronotypeAndPersonality from './cards/ChronotypeAndPersonality';
 import SkillAndFeedback from './cards/SkillAndFeedback';
-import QuickAndTrigger from './cards/QuickAndTrigger';
+import QuirkAndTrigger from './cards/QuirkAndTrigger';
 import AttachmentAndApproach from './cards/AttachmentAndApproach';
 import LanguageAndRisk from './cards/LanguageAndRisk';
 import StressAndComfort from './cards/StressAndComfort';
@@ -45,7 +45,7 @@ class ProfileScreen extends React.Component {
             <BeliefAndGoal />
             <ChronotypeAndPersonality />
             <SkillAndFeedback />
-            <QuickAndTrigger />
+            <QuirkAndTrigger />
             <AttachmentAndApproach />
             <LanguageAndRisk />
             <StressAndComfort />

@@ -11,12 +11,12 @@ import CardItem from './CardItem';
 
 class QuickAndTrigger extends React.Component {
   static propTypes = {
-    quicks: PropTypes.arrayOf(Object),
+    quirks: PropTypes.arrayOf(Object),
     triggers: PropTypes.arrayOf(Object),
   };
 
   static defaultProps = {
-    quicks: [],
+    quirks: [],
     triggers: [],
   };
 
@@ -43,7 +43,7 @@ class QuickAndTrigger extends React.Component {
   };
 
   render() {
-    const {t, quicks, triggers} = this.props;
+    const {t, quirks, triggers} = this.props;
     const {quickCollapsed, triggerCollapsed} = this.state;
     return (
       <MCView align="center" mt={20}>
@@ -60,19 +60,19 @@ class QuickAndTrigger extends React.Component {
           />
         </MCView>
         <Collapsible collapsed={quickCollapsed}>
-          {quicks.length > 0 && (
+          {quirks.length > 0 && (
             <MCButton
               width={320}
               row
               justify="space-between"
               onPress={() => {}}>
-              <H3>All Quicks</H3>
+              <H3>All quirks</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
           )}
-          {quicks.length === 0 && (
+          {quirks.length === 0 && (
             <MCCard align="center" mt={10} width={320}>
-              <H3>You have not added a Quick</H3>
+              <H3>You have not added a Quirk</H3>
             </MCCard>
           )}
         </Collapsible>
