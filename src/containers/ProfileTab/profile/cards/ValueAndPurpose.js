@@ -94,7 +94,7 @@ class ValueAndPurpose extends React.Component {
                 .slice(0, profileCardNumPerRow)
                 .map(value => this._renderValueItem(value))}
             {values.length === 0 && (
-              <MCCard align="center" mt={10} width={320}>
+              <MCCard align="center" mt={10} width={300}>
                 <H3>You have not added a Value</H3>
               </MCCard>
             )}

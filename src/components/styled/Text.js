@@ -7,7 +7,6 @@ export const MCText = styled.Text`
   font-family: ${props =>
     props.weight ? fontFamilies[props.weight] : 'Raleway-Regular'};
   color: ${props => props.color || props.theme.colors.text};
-  flex-shrink: 1;
   text-align: ${props => props.align || 'left'};
   padding: ${props => dySize(props.padding || 5)}px;
   text-decoration: ${props => props.underline && 'underline'};

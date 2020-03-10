@@ -119,8 +119,8 @@ class BeliefAndGoal extends React.Component {
                 .slice(0, profileCardNumPerRow)
                 .map(value => this._renderBeliefItem(value))}
             {manuals.length === 0 && (
-              <MCCard align="center" mt={10} width={320}>
-                <H3>You have not added a User Manual</H3>
+              <MCCard align="center" mt={10} width={300}>
+                <H3 align="center">You have not added a Belief</H3>
               </MCCard>
             )}
           </MCView>
@@ -142,8 +142,8 @@ class BeliefAndGoal extends React.Component {
                 .slice(0, profileCardNumPerRow)
                 .map(value => this._renderGoalItem(value))}
             {goals.length === 0 && (
-              <MCCard align="center" mt={10} width={320}>
-                <H3>You have not added a Goal</H3>
+              <MCCard align="center" mt={10} width={300}>
+                <H3 align="center">You have not added a Goal</H3>
               </MCCard>
             )}
           </MCView>

@@ -79,10 +79,12 @@ class BasicProfile extends React.Component {
               placeholder={t('profile_name_placeholder')}
               onChange={value => this.onUpdateProfile('name', value)}
             />
-            <MCView row>
-              <MCIcon name="ios-checkmark-circle" color="green" />
-              <H4>{t('profile_completed')}</H4>
-            </MCView>
+            {name.length * bio.length * user_id.length * avatar.length > 0 && (
+              <MCView row>
+                <MCIcon name="ios-checkmark-circle" color="green" />
+                <H4>{t('profile_completed')}</H4>
+              </MCView>
+            )}
           </MCView>
         </MCView>
         <MCView row mt={10}>

@@ -102,7 +102,7 @@ class SkillAndFeedback extends React.Component {
             </MCButton>
           )}
           {skills.length === 0 && (
-            <MCCard align="center" mt={10} width={320}>
+            <MCCard align="center" mt={10} width={300}>
               <H3>You have not added a Skill</H3>
             </MCCard>
           )}
@@ -124,7 +124,7 @@ class SkillAndFeedback extends React.Component {
                 .slice(0, profileCardNumPerRow)
                 .map(value => this._renderFeedbackItem(value))}
             {feedbacks.length === 0 && (
-              <MCCard align="center" mt={10} width={320}>
+              <MCCard align="center" mt={10} width={300}>
                 <H3>You have not added a Feedback</H3>
               </MCCard>
             )}

@@ -56,7 +56,7 @@ export default class MCImage extends React.PureComponent {
         align="center"
         style={{position: 'relative', overflow: 'hidden'}}
         br={round ? width / 2 : 0}>
-        <ProgressWrapper style={{width, height}}>
+        <ProgressWrapper style={imageStyle}>
           {loading && <Progress.Circle size={30} indeterminate />}
           {loadError && <FastImage source={defaultImage} style={imageStyle} />}
         </ProgressWrapper>
