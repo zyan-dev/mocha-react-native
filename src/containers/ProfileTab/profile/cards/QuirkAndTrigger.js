@@ -9,7 +9,7 @@ import {MCButton} from 'components/styled/Button';
 import {selector} from 'Redux/selectors';
 import CardItem from './CardItem';
 
-class QuickAndTrigger extends React.Component {
+class QuirkAndTrigger extends React.Component {
   static propTypes = {
     quirks: PropTypes.arrayOf(Object),
     triggers: PropTypes.arrayOf(Object),
@@ -23,13 +23,13 @@ class QuickAndTrigger extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quickCollapsed: true,
+      quirkCollapsed: true,
       triggerCollapsed: true,
     };
   }
 
-  onToggleQuickCollapse = collapsed => {
-    this.setState({quickCollapsed: collapsed});
+  onToggleQuirkCollapse = collapsed => {
+    this.setState({quirkCollapsed: collapsed});
     if (!collapsed) {
       this.setState({triggerCollapsed: true});
     }
@@ -38,20 +38,20 @@ class QuickAndTrigger extends React.Component {
   onToggleTriggerCollapse = collapsed => {
     this.setState({triggerCollapsed: collapsed});
     if (!collapsed) {
-      this.setState({quickCollapsed: true});
+      this.setState({quirkCollapsed: true});
     }
   };
 
   render() {
     const {t, quirks, triggers} = this.props;
-    const {quickCollapsed, triggerCollapsed} = this.state;
+    const {quirkCollapsed, triggerCollapsed} = this.state;
     return (
       <MCView align="center" mt={20}>
         <MCView width={340} row justify="space-between">
           <CardItem
             icon="ios-bowtie"
-            text={t('profile_card_quick')}
-            onPress={() => this.onToggleQuickCollapse(!quickCollapsed)}
+            text={t('profile_card_quirk')}
+            onPress={() => this.onToggleQuirkCollapse(!quirkCollapsed)}
           />
           <CardItem
             icon="ios-warning"
@@ -59,7 +59,7 @@ class QuickAndTrigger extends React.Component {
             onPress={() => this.onToggleTriggerCollapse(!triggerCollapsed)}
           />
         </MCView>
-        <Collapsible collapsed={quickCollapsed}>
+        <Collapsible collapsed={quirkCollapsed}>
           {quirks.length > 0 && (
             <MCButton
               width={320}
@@ -103,5 +103,5 @@ const mapStateToProps = state => ({
 });
 
 export default withTranslation()(
-  connect(mapStateToProps, undefined)(QuickAndTrigger),
+  connect(mapStateToProps, undefined)(QuirkAndTrigger),
 );

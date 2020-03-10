@@ -28,14 +28,14 @@ class AttachmentAndApproach extends React.Component {
     };
   }
 
-  onToggleQuickCollapse = collapsed => {
+  onToggleAttachmentCollapse = collapsed => {
     this.setState({attachmentCollapsed: collapsed});
     if (!collapsed) {
       this.setState({approachCollapsed: true});
     }
   };
 
-  onToggleTriggerCollapse = collapsed => {
+  onToggleApproachCollapse = collapsed => {
     this.setState({approachCollapsed: collapsed});
     if (!collapsed) {
       this.setState({attachmentCollapsed: true});
@@ -51,12 +51,14 @@ class AttachmentAndApproach extends React.Component {
           <CardItem
             icon="ios-attach"
             text={t('profile_card_attachment')}
-            onPress={() => this.onToggleQuickCollapse(!attachmentCollapsed)}
+            onPress={() =>
+              this.onToggleAttachmentCollapse(!attachmentCollapsed)
+            }
           />
           <CardItem
             icon="ios-git-compare"
             text={t('profile_card_approach')}
-            onPress={() => this.onToggleTriggerCollapse(!approachCollapsed)}
+            onPress={() => this.onToggleApproachCollapse(!approachCollapsed)}
           />
         </MCView>
         <Collapsible collapsed={attachmentCollapsed}>
