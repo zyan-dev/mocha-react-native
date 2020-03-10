@@ -3,8 +3,8 @@ const s3_Options = {
   keyPrefix: 'uploads/',
   bucket: 'mochaassets',
   region: 'us-west-1',
-  accessKey: 'AKIAY22HB4TWCR3BFTMD',
-  secretKey: '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',
+  accessKey: 'AKIAY22HB4TWGBFEA5JQ',
+  secretKey: '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',
   successActionStatus: 201,
 };
 

@@ -9,6 +9,7 @@ import MCEditableText from './MCEditableText';
 const Wrapper = styled(MCView)`
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: ${props => dySize(props.width) || dySize(350)};
   border-radius: 4px;
   border: 1px solid ${props => props.theme.colors.text};

@@ -11,7 +11,7 @@ export const MCButton = styled(Ripple)`
   width: ${props => dySize(props.width) || 'auto'};
   height: ${props => dySize(props.height) || 'auto'};
   display: flex;
-  flex-direction: ${props => props.direction || 'column'};
+  flex-direction: ${props => (props.row ? 'row' : 'column')};
   justify-content: ${props => props.justify || 'flex-start'};
   align-items: ${props => props.align || 'flex-start'};
   margin-top: ${props => dySize(props.mt || 0)}px;

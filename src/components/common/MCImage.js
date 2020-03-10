@@ -35,16 +35,18 @@ export default class MCImage extends React.PureComponent {
     super(props);
     this.state = {
       loading: props.image !== null,
+      loadError: false,
     };
   }
 
   render() {
-    const {loading} = this.state;
+    const {loading, loadError} = this.state;
     const {round, width, height, type, image} = this.props;
     const defaultImage = type === 'avatar' ? DefaultAvatar : DefaultPicture;
     const imageStyle = {
-      width: width,
-      height: height,
+      width: dySize(width),
+      height: dySize(height),
+      borderRadius: round ? dySize(width) / 2 : 0,
     };
     return (
       <MCView
@@ -52,18 +54,16 @@ export default class MCImage extends React.PureComponent {
         height={height}
         justify="center"
         align="center"
-        style={{position: 'relative'}}
+        style={{position: 'relative', overflow: 'hidden'}}
         br={round ? width / 2 : 0}>
         <ProgressWrapper style={{width, height}}>
-          {loading ? (
-            <Progress.Circle size={30} indeterminate />
-          ) : (
-            <FastImage source={defaultImage} style={imageStyle} />
-          )}
+          {loading && <Progress.Circle size={30} indeterminate />}
+          {loadError && <FastImage source={defaultImage} style={imageStyle} />}
         </ProgressWrapper>
         <FastImage
           style={imageStyle}
           onLoadEnd={() => this.setState({loading: false})}
+          onError={() => this.setState({loadError: true})}
           source={image}
           resizeMode={FastImage.resizeMode.cover}
         />

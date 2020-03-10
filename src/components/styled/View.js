@@ -11,12 +11,12 @@ export const MCRootView = styled(Container)`
 `;
 
 export const MCContent = styled(Content)`
-  width: ${dySize(375)};
+  width: ${props => dySize(props.width || 375)}px;
 `;
 
 export const MCView = styled.View`
-  justify-content: ${props => props.justify || 'center'};
-  align-items: ${props => props.align || 'center'};
+  justify-content: ${props => props.justify || 'flex-start'};
+  align-items: ${props => props.align || 'flex-start'};
   padding-horizontal: ${props => dySize(props.ph || 0)}px;
   padding-vertical: ${props => dySize(props.pv || 0)}px;
   padding: ${props => dySize(props.p || 0)}px;
@@ -34,4 +34,10 @@ export const MCView = styled.View`
   width: ${props => (props.width ? `${dySize(props.width)}px` : 'auto')};
   height: ${props => (props.height ? `${dySize(props.height)}px` : 'auto')};
   flex-wrap: ${props => (props.wrap ? 'wrap' : 'nowrap')};
+`;
+
+export const MCCard = styled(MCView)`
+  border: 1px solid ${props => props.theme.colors.border};
+  border-radius: ${props => dySize(props.br || 10)}px;
+  padding: ${props => dySize(props.p || 10)}px;
 `;

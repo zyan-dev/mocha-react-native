@@ -12,7 +12,7 @@ import UsersSvg from 'assets/svgs/Users';
 import UserSvg from 'assets/svgs/User';
 import PlusSvg from 'assets/svgs/Plus';
 import NavigationService from 'navigation/NavigationService';
-import {profileActions} from 'Redux/actions';
+import {profileActions, reflectionActions} from 'Redux/actions';
 
 const TabBarHeight = dySize(80);
 const TabIconBigSize = dySize(40);
@@ -41,20 +41,25 @@ class TabView extends React.PureComponent {
   }
 
   onClickTab = index => {
-    const {userToken, getMyProfile} = this.props;
+    const {
+      userToken,
+      getMyProfile,
+      getMyReflections,
+      getUserReflections,
+    } = this.props;
     const TabScreens = ['TabFeed', 'TabAddValue', 'TabProfile'];
     this.setState({tabIndex: index});
     NavigationService.navigate(TabScreens[index]);
     switch (index) {
-      case 0:
-        // call some APIs whenever user clicks Social Tab
+      case 0: // user clicked Social Tab
         break;
-      case 1:
-        // call some APIs whenever user clicks Add Tab
+      case 1: // user clicked Add Tab
         break;
-      case 2:
-        // call some APIs whenever user clicks Profile Tab
+      case 2: // user clicked Profile Tab
+        // get profile data
         userToken.length > 0 && getMyProfile();
+        // userToken.length > 0 && getMyReflections();
+        userToken.length > 0 && getUserReflections('5e2926b2e60ca9300cee1b7c');
         break;
       default:
         break;
@@ -127,6 +132,8 @@ class TabView extends React.PureComponent {
 
 const mapDispatchToProps = {
   getMyProfile: profileActions.getMyProfile,
+  getMyReflections: reflectionActions.getMyReflections,
+  getUserReflections: reflectionActions.getUserReflections,
 };
 
 const mapStateToProps = state => ({

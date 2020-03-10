@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import {dySize} from 'utils/responsive';
 import {fontFamilies} from 'utils/constants';
+import {Icon} from 'native-base';
 
 export const MCText = styled.Text`
   font-family: ${props =>
@@ -17,7 +18,17 @@ export const MCText = styled.Text`
   margin-top: ${props => dySize(props.mt || 0)}px;
   margin-right: ${props => dySize(props.mr || 0)}px;
   margin-left: ${props => dySize(props.ml || 0)}px;
+  width: ${props => (props.width ? `${dySize(props.width)}px` : 'auto')};
 `;
+
+export const MCIcon = styled(Icon)`
+  font-size: ${props => dySize(props.size || 20)}px;
+  color: ${props => props.color || props.theme.colors.text};
+  padding: ${props => dySize(props.padding || 5)}px;
+  margin: ${props => dySize(props.margin || 0)}px;
+  text-align: ${props => props.align || 'left'};
+`;
+
 export const H1 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_MASSIVE)};
 `;

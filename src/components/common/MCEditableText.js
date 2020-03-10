@@ -15,6 +15,8 @@ class MCEditableText extends React.Component {
     multiline: PropTypes.bool,
     placeholder: PropTypes.string,
     maxLength: PropTypes.number,
+    textAlign: PropTypes.string,
+    fontSize: PropTypes.number,
     onBlur: PropTypes.func,
     style: PropTypes.object,
   };
@@ -25,8 +27,11 @@ class MCEditableText extends React.Component {
     multiline: false,
     placeholder: '',
     maxLength: 40,
+    string: 'left',
     onBlur: () => undefined,
     style: {},
+    textAlign: 'left',
+    fontSize: undefined,
   };
 
   constructor(props) {
@@ -43,6 +48,8 @@ class MCEditableText extends React.Component {
       multiline,
       placeholder,
       maxLength,
+      textAlign,
+      fontSize,
       onBlur,
       style,
       theme,
@@ -64,9 +71,10 @@ class MCEditableText extends React.Component {
           borderRadius: dySize(4),
           borderColor: theme.colors.border,
           color: theme.colors.text,
-          fontSize: dySize(theme.base.FONT_SIZE_MEDIUM),
-          borderWidth: bordered ? 1 : 0,
+          fontSize: fontSize || theme.base.FONT_SIZE_MEDIUM,
+          borderWidth: bordered && editable ? 1 : 0,
           fontFamily: fontFamilies.regular,
+          textAlign,
           ...style,
         }}
       />

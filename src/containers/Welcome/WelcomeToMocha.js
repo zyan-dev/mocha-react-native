@@ -24,7 +24,12 @@ class WelcomeToMocha extends React.PureComponent {
     const {t} = this.props;
     return (
       <MCRootView>
-        <Wrapper bordered p={20} justify="center" width={dySize(300)}>
+        <Wrapper
+          bordered
+          p={20}
+          justify="center"
+          align="center"
+          width={dySize(300)}>
           <H2 underline mt={40}>
             {t('welcome_title')}
           </H2>

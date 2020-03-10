@@ -14,7 +14,7 @@ class WelcomePickTheme extends React.PureComponent {
     const {t, setThemeIndex} = this.props;
     return (
       <MCRootView>
-        <MCView p={20} justify="center">
+        <MCView p={20} justify="center" align="center">
           <H2 mt={40} mb={20}>
             {t('welcome_theme_displayText')}
           </H2>
@@ -24,7 +24,7 @@ class WelcomePickTheme extends React.PureComponent {
                 <MCButton
                   bordered
                   align="center"
-                  width={dySize(120)}
+                  width={120}
                   mt={12}
                   onPress={() => setThemeIndex(index)}
                   style={{

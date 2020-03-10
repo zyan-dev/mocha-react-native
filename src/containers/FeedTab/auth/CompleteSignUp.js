@@ -13,10 +13,9 @@ class CompleteSignUp extends React.Component {
     super(props);
     this.state = {
       avatarChanged: false,
+      editableUsername: this.props.profile.user_id.length === 0,
     };
   }
-
-  componentDidMount() {}
 
   onFinishedProfile = () => {
     this.props.completeSignUp(this.state.avatarChanged);
@@ -31,12 +30,13 @@ class CompleteSignUp extends React.Component {
     const {
       setProfileData,
       profile: {name, user_id, avatar},
+      t,
     } = this.props;
-    const {t} = this.props;
+    const {editableUsername} = this.state;
     return (
       <MCRootView justify="flex-start">
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
-          <MCView mt={dySize(50)} width={350} align="center">
+          <MCView mt={50} width={350} align="center">
             <H3 align="center">{t('auth_comple_signup_title')}</H3>
             <H3 align="center" mt={50} mb={20}>
               {t('auth_comple_signup_select_picture')}
@@ -51,25 +51,31 @@ class CompleteSignUp extends React.Component {
             <H3 align="center" mt={40}>
               {t('auth_profile_name_displayText')}
             </H3>
-            <MCEditableText
-              text={name}
-              editable
-              bordered
-              maxLength={30}
-              onChange={text => setProfileData({name: text})}
-              placeholder={t('auth_profile_name_placeHolder')}
-            />
+            <MCView width={300}>
+              <MCEditableText
+                text={name}
+                editable
+                bordered
+                maxLength={30}
+                textAlign="center"
+                onChange={text => setProfileData({name: text})}
+                placeholder={t('auth_profile_name_placeHolder')}
+              />
+            </MCView>
             <H3 align="center" mt={40}>
               {t('auth_profile_user_id_stableUsername')}
             </H3>
-            <MCEditableText
-              text={user_id}
-              editable
-              bordered
-              maxLength={30}
-              onChange={text => setProfileData({user_id: text})}
-              placeholder={t('auth_profile_user_id_placeHolder')}
-            />
+            <MCView width={300}>
+              <MCEditableText
+                text={user_id}
+                editable={editableUsername}
+                bordered={editableUsername}
+                maxLength={30}
+                textAlign="center"
+                onChange={text => setProfileData({user_id: text})}
+                placeholder={t('auth_profile_user_id_placeHolder')}
+              />
+            </MCView>
           </MCView>
           <MCButton
             mt={40}

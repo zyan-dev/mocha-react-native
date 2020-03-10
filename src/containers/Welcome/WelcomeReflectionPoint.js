@@ -14,7 +14,7 @@ class WelcomeReflectionPoint extends React.PureComponent {
     const {t, theme} = this.props;
     return (
       <MCRootView>
-        <MCView p={20} justify="center">
+        <MCView p={20} justify="center" align="center">
           <MCView row align="center" mt={40}>
             <H2>{t('welcome_reflectionpoints_title')}</H2>
             <Icon

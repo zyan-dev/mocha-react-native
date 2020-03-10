@@ -1,9 +1,8 @@
 import {Alert} from 'react-native';
+import {dySize} from 'utils/responsive';
 
 export const showAlert = text => {
-  Alert.alert('Mocha App', text, [
-    {text: 'OK', onPress: () => console.log('OK Pressed')},
-  ]);
+  Alert.alert('Mocha App', text, [{text: 'OK', onPress: () => {}}]);
 };
 
 // Validates email input
@@ -44,3 +43,6 @@ export const genetratedDate = () => {
   )}`;
   return dateStr;
 };
+
+export const profileCardWidth = dySize(375) >= 375 ? 100 : 150;
+export const profileCardNumPerRow = dySize(375) >= 375 ? 3 : 2;

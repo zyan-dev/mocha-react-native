@@ -10,13 +10,14 @@ const INITIAL_STATE = {
   avatar: '',
   points: 0,
   pushToken: '',
-  address: '',
-  profileCompleted: false,
-  name_pronoun: '',
+  neighborhood: '',
+  namepronoun: '',
   bio: '',
-  gender_pronoun: '',
+  preferredtobecalled: '',
+  preferredpronoun: '',
   email: '',
   userToken: '',
+  avatarChanged: false,
 };
 
 const profileReducer = (state = INITIAL_STATE, action) => {

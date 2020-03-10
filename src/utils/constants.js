@@ -6,3 +6,12 @@ export const fontFamilies = {
   thin: 'Raleway-Thin',
   italic: 'Raleway-Italic',
 };
+
+export const ContactProfileKeys = [
+  'preferredtobecalled',
+  'namepronoun',
+  'preferredpronoun',
+  'email',
+  'phone',
+  'neighborhood',
+];

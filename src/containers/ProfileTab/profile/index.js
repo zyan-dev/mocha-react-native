@@ -1,15 +1,29 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {routerActions} from 'Redux/actions';
-import {MCRootView} from 'components/styled/View';
+import {feedbackActions, routerActions} from 'Redux/actions';
+import {MCRootView, MCContent, MCView} from 'components/styled/View';
 import {MCHeader} from 'components/common';
-import {H3} from 'components/styled/Text';
+import BasicProfile from './cards/BasicProfile';
+import ContactCard from './cards/ContactCard';
+import ValueAndPurpose from './cards/ValueAndPurpose';
+import MotivationCard from './cards/Motivation';
+import BeliefAndGoal from './cards/BeliefAndGoal';
+import ChronotypeAndPersonality from './cards/ChronotypeAndPersonality';
+import SkillAndFeedback from './cards/SkillAndFeedback';
+import QuickAndTrigger from './cards/QuickAndTrigger';
+import AttachmentAndApproach from './cards/AttachmentAndApproach';
+import LanguageAndRisk from './cards/LanguageAndRisk';
+import StressAndComfort from './cards/StressAndComfort';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    this.props.getMyFeedbacks();
   }
 
   render() {
@@ -22,15 +36,33 @@ class ProfileScreen extends React.Component {
           rightIcon="md-menu"
           onPressRight={() => showDrawer(true)}
         />
-        <H3>Profile Screen</H3>
+        <MCContent contentContainerStyle={{paddingBottom: 100}}>
+          <MCView align="center">
+            <BasicProfile />
+            <ContactCard />
+            <ValueAndPurpose />
+            <MotivationCard />
+            <BeliefAndGoal />
+            <ChronotypeAndPersonality />
+            <SkillAndFeedback />
+            <QuickAndTrigger />
+            <AttachmentAndApproach />
+            <LanguageAndRisk />
+            <StressAndComfort />
+          </MCView>
+        </MCContent>
       </MCRootView>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  userReflections: state.reflectionReducer.userReflectons,
+  myReflections: state.reflectionReducer.myReflections,
+});
 
 const mapDispatchToProps = {
+  getMyFeedbacks: feedbackActions.getMyFeedbacks,
   showDrawer: routerActions.setProfileDrawerOpened,
 };
 

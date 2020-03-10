@@ -21,7 +21,7 @@ const persistedReducer = persistCombineReducers(persistConfig, reducers);
 export const store = createStore(
   persistedReducer,
   {},
-  applyMiddleware(logger, thunkMiddleware, sagaMiddleware),
+  applyMiddleware(thunkMiddleware, sagaMiddleware),
 );
 sagaMiddleware.run(mySaga);
 

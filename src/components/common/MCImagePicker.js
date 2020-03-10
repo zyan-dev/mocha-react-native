@@ -5,6 +5,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import MCImage from './MCImage';
+import {dySize} from 'utils/responsive';
 
 class MCImagePicker extends React.PureComponent {
   static propTypes = {
@@ -13,6 +14,7 @@ class MCImagePicker extends React.PureComponent {
     height: PropTypes.number,
     onSelectImage: PropTypes.func.isRequired,
     image: PropTypes.string,
+    enabled: PropTypes.bool,
     type: PropTypes.oneOf(['avatar', 'picture']),
   };
   static defaultProps = {
@@ -20,6 +22,7 @@ class MCImagePicker extends React.PureComponent {
     width: 100,
     height: 100,
     image: '',
+    enabled: true,
     type: 'avatar',
   };
   constructor(props) {
@@ -29,6 +32,9 @@ class MCImagePicker extends React.PureComponent {
     };
   }
   onPressPicker = () => {
+    if (!this.props.enabled) {
+      return;
+    }
     ImagePicker.openPicker({
       width: 400,
       height: 400,
@@ -46,10 +52,10 @@ class MCImagePicker extends React.PureComponent {
       <TouchableOpacity
         onPress={() => this.onPressPicker()}
         style={{
-          width,
-          height: width,
+          width: dySize(width),
+          height: dySize(height),
           overflow: 'hidden',
-          borderRadius: round ? width / 2 : 10,
+          borderRadius: round ? dySize(width) / 2 : 0,
           borderWidth: 1,
           padding: 0,
           borderColor: theme.colors.border,

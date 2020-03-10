@@ -5,7 +5,14 @@ export const setProfileData = profile => ({
   payload: profile,
 });
 
-export const getMyProfile = param => ({
+export const getMyProfile = () => ({
   type: types.GET_MY_PROFILE,
-  payload: param,
+});
+
+export const updateBasicProfile = () => ({
+  type: types.UPDATE_BASIC_PROFILE,
+});
+
+export const updateContactProfile = () => ({
+  type: types.UPDATE_CONTACT_PROFILE,
 });

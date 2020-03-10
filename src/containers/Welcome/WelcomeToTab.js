@@ -23,7 +23,7 @@ class WelcomeToTab extends React.PureComponent {
     const {t, theme} = this.props;
     return (
       <MCRootView>
-        <MCView p={20}>
+        <MCView p={20} align="center">
           <MCView row align="center" mt={40}>
             <PlusSvg size={dySize(38)} color={theme.colors.text} />
             <H3 align="center" ml={20}>

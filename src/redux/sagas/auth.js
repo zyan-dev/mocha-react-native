@@ -60,20 +60,12 @@ export function* completeSignUp(action) {
     let updatedProfile = {phone, name, user_id, pushToken};
     if (action.payload) {
       // avatar Changed
-      const imageType = avatar.includes('.jpg') ? 'jpg' : 'png';
-      const imageName = `${name}/avatar_${genetratedDate()}.${imageType}`;
-      const file = {
-        uri: avatar,
-        name: imageName,
-        type: `image/${imageType}`,
-      };
-      const response = yield call(API.fileUploadToS3, file);
-      if (response.status !== 201) {
-        showAlert('Failed to upload image to S3');
+      const fileResponse = yield call(API.fileUploadToS3, {avatar, name});
+      if (response !== 'error') {
+        updatedProfile.avatar = fileResponse;
       } else {
-        showAlert(response.body.postResponse.location);
+        return;
       }
-      updatedProfile[avatar] = response.body.postResponse.location;
     }
     const response = yield call(API.updateProfile, updatedProfile);
     yield put({
