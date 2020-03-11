@@ -3,6 +3,7 @@ import profileReducer from './profile';
 import authReducer from './auth';
 import reflectionReducer from './reflections';
 import feedbackReducer from './feedbacks';
+import notificationReducer from './notifications';
 
 export {
   routerReducer,
@@ -10,4 +11,5 @@ export {
   authReducer,
   reflectionReducer,
   feedbackReducer,
+  notificationReducer,
 };

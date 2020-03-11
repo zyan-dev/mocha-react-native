@@ -39,5 +39,8 @@ export const MCView = styled.View`
 export const MCCard = styled(MCView)`
   border: 1px solid ${props => props.theme.colors.border};
   border-radius: ${props => dySize(props.br || 10)}px;
+  border-width: ${props => (props.shadow ? 0 : 1)};
+  background-color: ${props =>
+    props.shadow ? props.theme.colors.card : 'transparent'};
   padding: ${props => dySize(props.p || 10)}px;
 `;

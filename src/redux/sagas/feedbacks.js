@@ -5,7 +5,6 @@ import {showAlert} from 'services/operators';
 
 export function* getMyFeedbacks(action) {
   try {
-    // call send sms API
     const response = yield call(API.getMyFeedbacks);
     if (response.data.status === 'success') {
       yield put({

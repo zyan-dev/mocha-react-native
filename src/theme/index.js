@@ -18,6 +18,8 @@ export const colorThemes = [
     background: '#283147',
     profileIcon: '#D0C4B2',
     navbar: '#D0C4B2',
+    toggle_on: '#1A5F11',
+    toggle_off: '#646A6E',
   },
   {
     ...commonTheme,
@@ -26,6 +28,8 @@ export const colorThemes = [
     background: '#336B87',
     profileIcon: '#FFFFFF',
     navbar: '#FFFFFF',
+    toggle_on: '#079311',
+    toggle_off: '#8B9296',
   },
   {
     ...commonTheme,
@@ -35,6 +39,8 @@ export const colorThemes = [
     border: '#888888',
     navbar: '#4E4848',
     profileIcon: '#4E4848',
+    toggle_on: '#079311',
+    toggle_off: '#8B9296',
   },
   {
     ...commonTheme,
@@ -43,6 +49,8 @@ export const colorThemes = [
     background: '#353336',
     profileIcon: '#FFFFFF',
     navbar: '#FFFFFF',
+    toggle_on: '#1A5F11',
+    toggle_off: '#909090',
   },
 ];
 

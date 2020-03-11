@@ -7,7 +7,6 @@ import {ContactProfileKeys} from 'utils/constants';
 
 export function* getMyProfile(action) {
   try {
-    // call send sms API
     const response = yield call(API.getMyProfile);
     if (response.data.status === 'success') {
       yield put({

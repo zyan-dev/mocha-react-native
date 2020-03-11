@@ -50,6 +50,7 @@ class MCHeader extends React.PureComponent {
     rightIconType: PropTypes.string,
     onPressRight: PropTypes.func,
     style: PropTypes.object,
+    onPressBack: PropTypes.func,
   };
   static defaultProps = {
     hasBack: true,
@@ -57,6 +58,9 @@ class MCHeader extends React.PureComponent {
     rightIcon: null,
     rightIconType: 'Ionicon',
     onPressRight: () => undefined,
+    onPressBack: () => {
+      NavigationService.goBack();
+    },
     style: {},
   };
   render() {
@@ -67,6 +71,7 @@ class MCHeader extends React.PureComponent {
       rightIcon,
       rightIconType,
       onPressRight,
+      onPressBack,
       style,
       t,
     } = this.props;
@@ -74,7 +79,7 @@ class MCHeader extends React.PureComponent {
       <HeaderWrapper style={style}>
         <HeaderLeft style={{width: 60}}>
           {hasBack && (
-            <MCButton width={70} onPress={() => NavigationService.goBack()}>
+            <MCButton width={70} onPress={() => onPressBack()}>
               <H4>{t('header_back')}</H4>
             </MCButton>
           )}

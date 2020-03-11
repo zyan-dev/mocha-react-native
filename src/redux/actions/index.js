@@ -3,6 +3,7 @@ import * as profileActions from './profile';
 import * as authActions from './auth';
 import * as reflectionActions from './reflections';
 import * as feedbackActions from './feedbacks';
+import * as notificationActions from './notifications';
 
 export {
   routerActions,
@@ -10,4 +11,5 @@ export {
   authActions,
   reflectionActions,
   feedbackActions,
+  notificationActions,
 };

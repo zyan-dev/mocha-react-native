@@ -13,6 +13,7 @@ const URL_UPDATE_PROFILE = '/user/me';
 const URL_GET_MY_REFLECTION = '/reflection/list';
 const URL_GET_USER_REFLECTION = '/reflection/list/user';
 const URL_GET_MY_FEEDBACK = '/feedback';
+const URL_GET_NOTIFICATION_SETTINGS = '/notification';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -44,7 +45,13 @@ const getMyProfile = () => apiCall('get', URL_UPDATE_PROFILE, {}, true);
 const getMyReflections = () => apiCall('get', URL_GET_MY_REFLECTION, {}, true);
 const getUserReflections = userId =>
   apiCall('get', `${URL_GET_USER_REFLECTION}/${userId}`, {}, true);
-const getMyFeedbacks = param => apiCall('get', URL_GET_MY_FEEDBACK, {}, true);
+const getMyFeedbacks = () => apiCall('get', URL_GET_MY_FEEDBACK, {}, true);
+const getNotificationSettings = () =>
+  apiCall('get', URL_GET_NOTIFICATION_SETTINGS, {}, true);
+const updateNotificationSettings = param =>
+  apiCall('patch', URL_GET_NOTIFICATION_SETTINGS, param, true);
+const createNotificationSettings = param =>
+  apiCall('post', URL_GET_NOTIFICATION_SETTINGS, param, true);
 
 const fileUploadToS3 = async ({avatar, name}) => {
   const imageType = avatar.includes('.jpg') ? 'jpg' : 'png';
@@ -72,4 +79,7 @@ export default {
   getMyReflections,
   getUserReflections,
   getMyFeedbacks,
+  getNotificationSettings,
+  updateNotificationSettings,
+  createNotificationSettings,
 };

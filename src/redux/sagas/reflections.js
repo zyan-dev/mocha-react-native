@@ -5,7 +5,6 @@ import {showAlert} from 'services/operators';
 
 export function* getMyReflections(action) {
   try {
-    // call send sms API
     const response = yield call(API.getMyReflections);
     if (response.data.status === 'success') {
       yield put({
@@ -22,7 +21,6 @@ export function* getMyReflections(action) {
 
 export function* getUserReflections(action) {
   try {
-    // call send sms API
     const response = yield call(API.getUserReflections, action.payload);
     if (response.data.status === 'success') {
       yield put({
