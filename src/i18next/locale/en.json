@@ -155,6 +155,8 @@
   "concept_value_description": "Tell us something you Value",
   "concept_value_title": "Value",
   "constant_type_new_value": "Type your new {{constantName}} here",
+  "contact_request_pending": "Pending",
+  "contact_request_approved": "Approved",
   "create_reflection": "Creating your {{reflection}} now...",
   "date_lastweek": "Last Week",
   "date_thisweek": "This week",

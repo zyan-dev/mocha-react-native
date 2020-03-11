@@ -1,7 +1,6 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
-import {get as lodashGet} from 'lodash';
 import styled from 'styled-components';
 import {Footer} from 'native-base';
 import {MCView} from 'components/styled/View';
@@ -12,7 +11,7 @@ import UsersSvg from 'assets/svgs/Users';
 import UserSvg from 'assets/svgs/User';
 import PlusSvg from 'assets/svgs/Plus';
 import NavigationService from 'navigation/NavigationService';
-import {profileActions, reflectionActions} from 'Redux/actions';
+import {profileActions, reflectionActions, userActions} from 'Redux/actions';
 
 const TabBarHeight = dySize(80);
 const TabIconBigSize = dySize(40);
@@ -35,14 +34,11 @@ class TabView extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(props) {
-    const index = lodashGet(props, 'navigation.state.index', 0);
-    this.setState({tabIndex: index});
-  }
-
   onClickTab = index => {
     const {
       userToken,
+      getAllUsers,
+      getAllTrustMembers,
       getMyProfile,
       getMyReflections,
       getUserReflections,
@@ -52,6 +48,8 @@ class TabView extends React.PureComponent {
     NavigationService.navigate(TabScreens[index]);
     switch (index) {
       case 0: // user clicked Social Tab
+        getAllUsers();
+        getAllTrustMembers();
         break;
       case 1: // user clicked Add Tab
         break;
@@ -131,6 +129,8 @@ class TabView extends React.PureComponent {
 }
 
 const mapDispatchToProps = {
+  getAllUsers: userActions.getAllUsers,
+  getAllTrustMembers: userActions.getAllTrustMembers,
   getMyProfile: profileActions.getMyProfile,
   getMyReflections: reflectionActions.getMyReflections,
   getUserReflections: reflectionActions.getUserReflections,

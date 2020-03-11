@@ -5,6 +5,7 @@ import * as profileSaga from './profile';
 import * as reflectionSaga from './reflections';
 import * as feedbackSaga from './feedbacks';
 import * as notificationSaga from './notifications';
+import * as userSaga from './users';
 
 function* mySaga() {
   // auth
@@ -39,6 +40,10 @@ function* mySaga() {
     types.UPDATE_NOTIFICATION_SETTINGS,
     notificationSaga.updateNotificationSettings,
   );
+  
+  // user
+  yield takeLatest(types.GET_ALL_USERS, userSaga.getAllUsers);
+  yield takeLatest(types.GET_ALL_TRUST_MEMBERS, userSaga.getAllTrustMembers);
 }
 
 export default mySaga;

@@ -51,11 +51,17 @@ class MainHomeStack extends React.Component {
       requestPermissions: true,
     });
   }
+
+  componentWillReceiveProps(props) {
+    console.log(props.route.state.index);
+  }
+
   render() {
     return (
       <Tab.Navigator
         tabBar={() => <TabView />}
         initialRouteName="TabAddValue"
+        backBehavior="none" // not handle back button
         headerMode="none">
         <Tab.Screen name="TabFeed" component={FeedTabStack} />
         <Tab.Screen name="TabAddValue" component={AddValueTabStack} />

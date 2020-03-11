@@ -4,6 +4,7 @@ import * as authActions from './auth';
 import * as reflectionActions from './reflections';
 import * as feedbackActions from './feedbacks';
 import * as notificationActions from './notifications';
+import * as userActions from './users';
 
 export {
   routerActions,
@@ -12,4 +13,5 @@ export {
   reflectionActions,
   feedbackActions,
   notificationActions,
+  userActions,
 };

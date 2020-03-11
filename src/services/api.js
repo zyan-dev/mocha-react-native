@@ -14,6 +14,8 @@ const URL_GET_MY_REFLECTION = '/reflection/list';
 const URL_GET_USER_REFLECTION = '/reflection/list/user';
 const URL_GET_MY_FEEDBACK = '/feedback';
 const URL_GET_NOTIFICATION_SETTINGS = '/notification';
+const URL_GET_ALL_USERS = '/user/all';
+const URL_GET_ALL_TRUST_MEMBERS = '/member';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -52,6 +54,9 @@ const updateNotificationSettings = param =>
   apiCall('patch', URL_GET_NOTIFICATION_SETTINGS, param, true);
 const createNotificationSettings = param =>
   apiCall('post', URL_GET_NOTIFICATION_SETTINGS, param, true);
+const getAllUsers = param => apiCall('get', URL_GET_ALL_USERS, {}, true);
+const getAllTrustMembers = param =>
+  apiCall('get', URL_GET_ALL_TRUST_MEMBERS, {}, true);
 
 const fileUploadToS3 = async ({avatar, name}) => {
   const imageType = avatar.includes('.jpg') ? 'jpg' : 'png';
@@ -82,4 +87,6 @@ export default {
   getNotificationSettings,
   updateNotificationSettings,
   createNotificationSettings,
+  getAllUsers,
+  getAllTrustMembers,
 };
