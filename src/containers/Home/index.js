@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FeedTabStack from '../FeedTab';
-import AddValueTabStack from '../AddValueTab';
+import AddValueTabStack from '../AddTab';
 import ProfileTabStack from '../ProfileTab';
 import TabView from './TabView';
 import {profileActions} from 'Redux/actions';
