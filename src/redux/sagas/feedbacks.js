@@ -12,7 +12,23 @@ export function* getMyFeedbacks(action) {
         payload: response.data.data.feedbacks.feedbacks,
       });
     } else {
-      showAlert('API failed');
+      showAlert(response.data.data.message);
+    }
+  } catch (e) {
+    showAlert(e.toString());
+  }
+}
+
+export function* getUserFeedbacks(action) {
+  try {
+    const response = yield call(API.getUserFeedbacks, action.payload);
+    if (response.data.status === 'success') {
+      yield put({
+        type: types.SET_USER_FEEDBACKS,
+        payload: response.data.data.feedbacks.feedbacks,
+      });
+    } else {
+      showAlert(response.data.data.message);
     }
   } catch (e) {
     showAlert(e.toString());

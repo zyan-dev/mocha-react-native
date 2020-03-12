@@ -35,19 +35,30 @@ export default class MCModal extends React.PureComponent {
     children: PropTypes.node.isRequired,
     onClose: PropTypes.func.isRequired,
     width: PropTypes.number,
+    animationIn: PropTypes.string,
+    animationOut: PropTypes.string,
   };
 
   static defaultProps = {
     width: 320,
+    animationIn: 'slideInLeft',
+    animationOut: 'slideOutRight',
   };
 
   render() {
-    const {isVisible, children, onClose, width} = this.props;
+    const {
+      isVisible,
+      children,
+      onClose,
+      width,
+      animationIn,
+      animationOut,
+    } = this.props;
     return (
       <ModalContainer
         isVisible={isVisible}
-        animationIn="slideInLeft"
-        animationOut="slideOutRight">
+        animationIn={animationIn}
+        animationOut={animationOut}>
         <ModalWrapper width={width}>
           <ModalContent>{children}</ModalContent>
           <ModalCloseView onPress={() => onClose()}>

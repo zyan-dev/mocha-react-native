@@ -52,10 +52,6 @@ class MainHomeStack extends React.Component {
     });
   }
 
-  componentWillReceiveProps(props) {
-    console.log(props.route.state.index);
-  }
-
   render() {
     return (
       <Tab.Navigator

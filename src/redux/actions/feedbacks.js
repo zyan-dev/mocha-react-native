@@ -9,8 +9,9 @@ export const setMyFeedbacks = feedbacks => ({
   payload: feedbacks,
 });
 
-export const getUserFeedbacks = () => ({
+export const getUserFeedbacks = userId => ({
   type: types.GET_USER_FEEDBACKS,
+  payload: userId,
 });
 
 export const setUserFeedbacks = feedbacks => ({

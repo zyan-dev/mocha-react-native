@@ -24,29 +24,37 @@ class WelcomeToTab extends React.PureComponent {
     return (
       <MCRootView>
         <MCView p={20} align="center">
-          <MCView row align="center" mt={40}>
-            <PlusSvg size={dySize(38)} color={theme.colors.text} />
-            <H3 align="center" ml={20}>
-              {`${t('welcome_explain_displayTextForAdd')} `}
-              <H3 weight="bold">{t('add_manual_headerTitle')}</H3>
-              {t('welcome_explain_and')}
-              <H3 weight="bold">{t('trustnetwork_permissions_value')}</H3>,
-              <H3 weight="bold">{` ${t('concept_feedback_title')}`}</H3>
-              {t('welcome_explain_andset')}
-              <H3 weight="bold">{t('trustnetwork_permissions_goal')}</H3>
-            </H3>
+          <MCView row width={320} mt={40} align="center">
+            <MCView width={40} align="center">
+              <PlusSvg size={dySize(38)} color={theme.colors.text} />
+            </MCView>
+            <MCView style={{flex: 1}} align="center">
+              <H3 ml={20}>
+                {`${t('welcome_explain_displayTextForAdd')} `}
+                <H3 weight="bold">{t('add_manual_headerTitle')}</H3>
+                {t('welcome_explain_and')}
+                <H3 weight="bold">{t('trustnetwork_permissions_value')}</H3>,
+                <H3 weight="bold">{` ${t('concept_feedback_title')}`}</H3>
+                {t('welcome_explain_andset')}
+                <H3 weight="bold">{t('trustnetwork_permissions_goal')}</H3>
+              </H3>
+            </MCView>
           </MCView>
-          <MCView row align="center" mt={40}>
-            <UserSvg size={dySize(38)} color={theme.colors.text} />
-            <H3 align="center" ml={20}>
-              {t('welcome_explain_displayTextForProfile')}
-            </H3>
+          <MCView row width={320} mt={40} align="center">
+            <MCView width={40} align="center">
+              <UserSvg size={dySize(38)} color={theme.colors.text} />
+            </MCView>
+            <MCView style={{flex: 1}} align="center">
+              <H3 ml={20}>{t('welcome_explain_displayTextForProfile')}</H3>
+            </MCView>
           </MCView>
-          <MCView row align="center" mt={40}>
-            <UsersSvg size={dySize(38)} color={theme.colors.text} />
-            <H3 align="center" ml={20}>
-              {t('welcome_explain_displayTextForNetwork')}
-            </H3>
+          <MCView row width={320} mt={40} align="center">
+            <MCView width={40} align="center">
+              <UsersSvg size={dySize(38)} color={theme.colors.text} />
+            </MCView>
+            <MCView style={{flex: 1}} align="center">
+              <H3 ml={20}>{t('welcome_explain_displayTextForNetwork')}</H3>
+            </MCView>
           </MCView>
           <MCButton
             mt={60}

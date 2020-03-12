@@ -20,6 +20,7 @@ function* mySaga() {
     types.UPDATE_CONTACT_PROFILE,
     profileSaga.updateContactProfile,
   );
+  yield takeLatest(types.GET_USER_PROFILE, profileSaga.getUserProfile);
 
   // reflection
   yield takeLatest(types.GET_MY_REFLECTIONS, reflectionSaga.getMyReflections);
@@ -30,6 +31,7 @@ function* mySaga() {
 
   // feedback
   yield takeLatest(types.GET_MY_FEEDBACKS, feedbackSaga.getMyFeedbacks);
+  yield takeLatest(types.GET_USER_FEEDBACKS, feedbackSaga.getUserFeedbacks);
 
   // notification
   yield takeLatest(
@@ -40,10 +42,11 @@ function* mySaga() {
     types.UPDATE_NOTIFICATION_SETTINGS,
     notificationSaga.updateNotificationSettings,
   );
-  
+
   // user
   yield takeLatest(types.GET_ALL_USERS, userSaga.getAllUsers);
   yield takeLatest(types.GET_ALL_TRUST_MEMBERS, userSaga.getAllTrustMembers);
+  yield takeLatest(types.SEND_CONTACT_REQUEST, userSaga.sendContactRequest);
 }
 
 export default mySaga;

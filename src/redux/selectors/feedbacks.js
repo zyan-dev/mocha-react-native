@@ -18,4 +18,24 @@ const getMyFeedbacks = state => {
   return {sent, requested, pending, received};
 };
 
-export {getMyFeedbacks};
+const getUserFeedbacks = state => {
+  const userId = state.usersReducer.userProfile._id;
+  const userFeedbacks = state.feedbackReducer.userFeedbacks;
+  // sender: who sent the feedback request
+  // receiver who received the feedback request
+  const sent = userFeedbacks.filter(
+    f => f.receiver._id === userId && !f.pending,
+  );
+  const requested = userFeedbacks.filter(
+    f => f.sender._id === userId && f.pending,
+  );
+  const pending = userFeedbacks.filter(
+    f => f.receiver._id === userId && f.pending,
+  );
+  const received = userFeedbacks.filter(
+    f => f.sender._id === userId && !f.pending,
+  );
+  return {sent, requested, pending, received};
+};
+
+export {getMyFeedbacks, getUserFeedbacks};

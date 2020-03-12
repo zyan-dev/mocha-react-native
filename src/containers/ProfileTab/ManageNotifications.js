@@ -11,6 +11,7 @@ import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
+import {dySize} from 'utils/responsive';
 
 const NotificationKeys = [
   'dailyCheckIn',
@@ -90,18 +91,30 @@ class ManageNotifications extends React.Component {
                           {t(`notification_${key}_description`)}
                         </H4>
                       </MCView>
-                      <ToggleSwitch
-                        isOn={setting.enabled}
-                        onColor={theme.colors.toggle_on}
-                        offColor={theme.colors.toggle_off}
-                        size="medium"
-                        onToggle={isOn => this.onToggle(key, isOn)}
-                      />
+                      <MCView mt={5}>
+                        <ToggleSwitch
+                          isOn={setting.enabled}
+                          onColor={theme.colors.toggle_on}
+                          offColor={theme.colors.toggle_off}
+                          size="medium"
+                          style={{margin: dySize(5)}}
+                          onToggle={isOn => this.onToggle(key, isOn)}
+                        />
+                      </MCView>
                     </MCView>
                     {setting.enabled && setting.daily_time && (
-                      <MCButton row onPress={() => this.onPressTime(key)}>
+                      <MCButton
+                        row
+                        align="center"
+                        style={{
+                          borderTopColor: theme.colors.border,
+                          borderTopWidth: 1,
+                        }}
+                        mt={10}
+                        ph={-10}
+                        onPress={() => this.onPressTime(key)}>
+                        <MCIcon name="md-alarm" />
                         <H4 style={{flex: 1}}>
-                          <MCIcon name="md-alarm" />
                           {moment(`2001-01-01T${setting.daily_time}`).format(
                             'hh:mm A',
                           )}

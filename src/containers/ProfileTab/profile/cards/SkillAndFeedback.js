@@ -15,11 +15,15 @@ class SkillAndFeedback extends React.Component {
   static propTypes = {
     skills: PropTypes.arrayOf(Object),
     feedbacks: PropTypes.arrayOf(Object),
+    onPressAllSkills: PropTypes.func,
+    onPressAllFeedbacks: PropTypes.func,
   };
 
   static defaultProps = {
     skills: [],
     feedbacks: [],
+    onPressAllSkills: () => undefined,
+    onPressAllFeedbacks: () => undefined,
   };
 
   constructor(props) {
@@ -69,7 +73,13 @@ class SkillAndFeedback extends React.Component {
   );
 
   render() {
-    const {t, skills, feedbacks} = this.props;
+    const {
+      t,
+      skills,
+      feedbacks,
+      onPressAllFeedbacks,
+      onPressAllSkills,
+    } = this.props;
     const {
       selectedFeedback,
       skillCollapsed,
@@ -96,15 +106,20 @@ class SkillAndFeedback extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllSkills()}>
               <H3>All Skills</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
           )}
           {skills.length === 0 && (
-            <MCCard align="center" mt={10} width={300}>
+            <MCButton
+              bordered
+              align="center"
+              mt={10}
+              width={300}
+              onPress={() => onPressAllSkills()}>
               <H3>You have not added a Skill</H3>
-            </MCCard>
+            </MCButton>
           )}
         </Collapsible>
         <Collapsible collapsed={feedbackCollapsed}>
@@ -113,7 +128,7 @@ class SkillAndFeedback extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllFeedbacks()}>
               <H3>All Feedbacks</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
@@ -124,9 +139,14 @@ class SkillAndFeedback extends React.Component {
                 .slice(0, profileCardNumPerRow)
                 .map(value => this._renderFeedbackItem(value))}
             {feedbacks.length === 0 && (
-              <MCCard align="center" mt={10} width={300}>
+              <MCButton
+                bordered
+                align="center"
+                mt={10}
+                width={300}
+                onPress={() => onPressAllFeedbacks()}>
                 <H3>You have not added a Feedback</H3>
-              </MCCard>
+              </MCButton>
             )}
           </MCView>
         </Collapsible>
@@ -153,10 +173,4 @@ class SkillAndFeedback extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  feedbacks: selector.feedbacks.getMyFeedbacks(state).received,
-});
-
-export default withTranslation()(
-  connect(mapStateToProps, undefined)(SkillAndFeedback),
-);
+export default withTranslation()(SkillAndFeedback);

@@ -16,6 +16,7 @@ const URL_GET_MY_FEEDBACK = '/feedback';
 const URL_GET_NOTIFICATION_SETTINGS = '/notification';
 const URL_GET_ALL_USERS = '/user/all';
 const URL_GET_ALL_TRUST_MEMBERS = '/member';
+const URL_GET_USER_PROFILE = '/user/profile/';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -44,10 +45,14 @@ const verifySMS = param => apiCall('post', URL_VERIFY_SMS, param);
 const updateProfile = param =>
   apiCall('patch', URL_UPDATE_PROFILE, param, true);
 const getMyProfile = () => apiCall('get', URL_UPDATE_PROFILE, {}, true);
+const getUserProfile = userId =>
+  apiCall('get', `${URL_GET_USER_PROFILE}${userId}`, {}, true);
 const getMyReflections = () => apiCall('get', URL_GET_MY_REFLECTION, {}, true);
 const getUserReflections = userId =>
   apiCall('get', `${URL_GET_USER_REFLECTION}/${userId}`, {}, true);
 const getMyFeedbacks = () => apiCall('get', URL_GET_MY_FEEDBACK, {}, true);
+const getUserFeedbacks = userId =>
+  apiCall('get', `${URL_GET_MY_FEEDBACK}/${userId}`, {}, true);
 const getNotificationSettings = () =>
   apiCall('get', URL_GET_NOTIFICATION_SETTINGS, {}, true);
 const updateNotificationSettings = param =>
@@ -57,6 +62,8 @@ const createNotificationSettings = param =>
 const getAllUsers = param => apiCall('get', URL_GET_ALL_USERS, {}, true);
 const getAllTrustMembers = param =>
   apiCall('get', URL_GET_ALL_TRUST_MEMBERS, {}, true);
+const sendContactRequest = param =>
+  apiCall('post', URL_GET_ALL_TRUST_MEMBERS, param, true);
 
 const fileUploadToS3 = async ({avatar, name}) => {
   const imageType = avatar.includes('.jpg') ? 'jpg' : 'png';
@@ -84,9 +91,12 @@ export default {
   getMyReflections,
   getUserReflections,
   getMyFeedbacks,
+  getUserFeedbacks,
   getNotificationSettings,
   updateNotificationSettings,
   createNotificationSettings,
   getAllUsers,
   getAllTrustMembers,
+  sendContactRequest,
+  getUserProfile,
 };

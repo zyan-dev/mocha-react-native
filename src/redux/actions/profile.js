@@ -9,6 +9,11 @@ export const getMyProfile = () => ({
   type: types.GET_MY_PROFILE,
 });
 
+export const getUserProfile = id => ({
+  type: types.GET_USER_PROFILE,
+  payload: id,
+});
+
 export const updateBasicProfile = () => ({
   type: types.UPDATE_BASIC_PROFILE,
 });

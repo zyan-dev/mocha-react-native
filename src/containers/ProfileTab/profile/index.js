@@ -4,6 +4,7 @@ import {withTranslation} from 'react-i18next';
 import {feedbackActions, routerActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
 import {MCHeader} from 'components/common';
+import {selector} from 'Redux/selectors';
 import BasicProfile from './cards/BasicProfile';
 import ContactCard from './cards/ContactCard';
 import ValueAndPurpose from './cards/ValueAndPurpose';
@@ -27,7 +28,15 @@ class ProfileScreen extends React.Component {
   }
 
   render() {
-    const {t, showDrawer} = this.props;
+    const {
+      t,
+      profile,
+      manuals,
+      goals,
+      values,
+      showDrawer,
+      feedbacks,
+    } = this.props;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -38,17 +47,48 @@ class ProfileScreen extends React.Component {
         />
         <MCContent contentContainerStyle={{paddingBottom: 100}}>
           <MCView align="center">
-            <BasicProfile />
-            <ContactCard />
-            <ValueAndPurpose />
-            <MotivationCard />
-            <BeliefAndGoal />
-            <ChronotypeAndPersonality />
-            <SkillAndFeedback />
-            <QuirkAndTrigger />
-            <AttachmentAndApproach />
-            <LanguageAndRisk />
-            <StressAndComfort />
+            <BasicProfile profile={profile} />
+            <ContactCard profile={profile} />
+            <ValueAndPurpose
+              values={values}
+              onPressAllValues={() => console.log('Go to all values')}
+              onPressAllPurposes={() => console.log('Go to all purposes')}
+            />
+            <MotivationCard
+              onPressAllMotivations={() => console.log('Go to all motivations')}
+            />
+            <BeliefAndGoal
+              manuals={manuals}
+              goals={goals}
+              onPressAllBeliefs={() => console.log('Go to all beliefs')}
+              onPressAllGoals={() => console.log('Go to all goals')}
+            />
+            <ChronotypeAndPersonality
+              onPressAllChronotypes={() => console.log('Go to all chronotypes')}
+              onPressAllPersonalities={() =>
+                console.log('Go to all personalities')
+              }
+            />
+            <SkillAndFeedback
+              feedbacks={feedbacks}
+              onPressAllSkills={() => console.log('Go to all skills')}
+              onPressAllFeedbacks={() => console.log('Go to all feedbacks')}
+            />
+            <QuirkAndTrigger
+              onPressAllQuirks={() => console.log('Go to all quirks')}
+              onPressAllTriggers={() => console.log('Go to all triggers')}
+            />
+            <AttachmentAndApproach
+              onPressAllAttachments={() => console.log('Go to all attachments')}
+              onPressAllApproaches={() => console.log('Go to all approaches')}
+            />
+            <LanguageAndRisk
+              onPressAllLanguages={() => console.log('Go to all languages')}
+              onPressAllRisks={() => console.log('Go to all risks')}
+            />
+            <StressAndComfort
+              onPressAllAnswers={() => console.log('Go to all answers')}
+            />
           </MCView>
         </MCContent>
       </MCRootView>
@@ -57,8 +97,11 @@ class ProfileScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  userReflections: state.reflectionReducer.userReflectons,
-  myReflections: state.reflectionReducer.myReflections,
+  profile: state.profileReducer,
+  goals: selector.reflections.getMyGoals(state),
+  manuals: selector.reflections.getMyManuals(state),
+  values: selector.reflections.getMyValues(state),
+  feedbacks: selector.feedbacks.getMyFeedbacks(state).received,
 });
 
 const mapDispatchToProps = {

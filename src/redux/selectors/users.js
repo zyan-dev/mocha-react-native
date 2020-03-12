@@ -2,7 +2,8 @@ const getAllMembersWithNetworkState = state => {
   const trustMembers = state.usersReducer.trustMembers;
   const result = state.usersReducer.allUsers.map(user => {
     const filtered = trustMembers.find(
-      trustMember => trustMember.joiner === user._id,
+      trustMember =>
+        trustMember.joiner === user._id || trustMember.owner === user._id, // owner's request to joiner
     );
     return {
       ...user,

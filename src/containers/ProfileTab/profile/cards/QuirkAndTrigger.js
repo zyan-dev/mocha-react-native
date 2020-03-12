@@ -1,23 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {withTranslation} from 'react-i18next';
 import Collapsible from 'react-native-collapsible';
-import {MCCard, MCView} from 'components/styled/View';
+import {withTranslation} from 'react-i18next';
+import {MCView} from 'components/styled/View';
 import {H3, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {selector} from 'Redux/selectors';
 import CardItem from './CardItem';
 
 class QuirkAndTrigger extends React.Component {
   static propTypes = {
     quirks: PropTypes.arrayOf(Object),
     triggers: PropTypes.arrayOf(Object),
+    onPressAllQuirks: PropTypes.func,
+    onPressAllTriggers: PropTypes.func,
   };
 
   static defaultProps = {
     quirks: [],
     triggers: [],
+    onPressAllQuirks: () => undefined,
+    onPressAllTriggers: () => undefined,
   };
 
   constructor(props) {
@@ -43,7 +45,13 @@ class QuirkAndTrigger extends React.Component {
   };
 
   render() {
-    const {t, quirks, triggers} = this.props;
+    const {
+      t,
+      quirks,
+      triggers,
+      onPressAllQuirks,
+      onPressAllTriggers,
+    } = this.props;
     const {quirkCollapsed, triggerCollapsed} = this.state;
     return (
       <MCView align="center" mt={20}>
@@ -65,15 +73,20 @@ class QuirkAndTrigger extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllQuirks()}>
               <H3>All quirks</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
           )}
           {quirks.length === 0 && (
-            <MCCard align="center" mt={10} width={320}>
+            <MCButton
+              bordered
+              align="center"
+              mt={10}
+              width={320}
+              onPress={() => onPressAllQuirks()}>
               <H3>You have not added a Quirk</H3>
-            </MCCard>
+            </MCButton>
           )}
         </Collapsible>
         <Collapsible collapsed={triggerCollapsed}>
@@ -82,15 +95,20 @@ class QuirkAndTrigger extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllTriggers()}>
               <H3>All Triggers</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
           )}
           {triggers.length === 0 && (
-            <MCCard align="center" mt={10} width={320}>
+            <MCButton
+              bordered
+              align="center"
+              mt={10}
+              width={320}
+              onPress={() => onPressAllTriggers()}>
               <H3>You have not added a Trigger</H3>
-            </MCCard>
+            </MCButton>
           )}
         </Collapsible>
       </MCView>
@@ -98,10 +116,4 @@ class QuirkAndTrigger extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  values: selector.reflections.getUserValues(state),
-});
-
-export default withTranslation()(
-  connect(mapStateToProps, undefined)(QuirkAndTrigger),
-);
+export default withTranslation()(QuirkAndTrigger);

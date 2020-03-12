@@ -1,8 +1,29 @@
 import {Alert} from 'react-native';
+import Toast from 'react-native-root-toast';
 import {dySize} from 'utils/responsive';
 
 export const showAlert = text => {
-  Alert.alert('Mocha App', text, [{text: 'OK', onPress: () => {}}]);
+  // Alert.alert('Mocha App', text, [{text: 'OK', onPress: () => {}}]);
+  let toast = Toast.show(text, {
+    duration: Toast.durations.SHORT,
+    position: Toast.positions.BOTTOM,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0,
+    onShow: () => {
+      // calls on toast\`s appear animation start
+    },
+    onShown: () => {
+      // calls on toast\`s appear animation end.
+    },
+    onHide: () => {
+      // calls on toast\`s hide animation start.
+    },
+    onHidden: () => {
+      // calls on toast\`s hide animation end.
+    },
+  });
 };
 
 // Validates email input

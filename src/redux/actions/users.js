@@ -7,3 +7,8 @@ export const getAllUsers = () => ({
 export const getAllTrustMembers = () => ({
   type: types.GET_ALL_TRUST_MEMBERS,
 });
+
+export const sendContactRequest = param => ({
+  type: types.SEND_CONTACT_REQUEST,
+  payload: param,
+});

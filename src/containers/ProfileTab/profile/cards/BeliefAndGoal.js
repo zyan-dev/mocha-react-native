@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
 import Collapsible from 'react-native-collapsible';
 import moment from 'moment';
@@ -8,10 +8,23 @@ import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCImage, MCModal, MCTagsView} from 'components/common';
 import {profileCardWidth, profileCardNumPerRow} from 'services/operators';
-import {selector} from 'Redux/selectors';
 import CardItem from './CardItem';
 
 class BeliefAndGoal extends React.Component {
+  static propTypes = {
+    onPressAllBeliefs: PropTypes.func,
+    onPressAllGoals: PropTypes.func,
+    goals: PropTypes.arrayOf(Object),
+    manuals: PropTypes.arrayOf(Object),
+  };
+
+  static defaultProps = {
+    onPressAllBeliefs: () => undefined,
+    onPressAllGoals: () => undefined,
+    goals: [],
+    manuals: [],
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -79,7 +92,7 @@ class BeliefAndGoal extends React.Component {
   );
 
   render() {
-    const {t, goals, manuals} = this.props;
+    const {t, goals, manuals, onPressAllBeliefs, onPressAllGoals} = this.props;
     const {
       selectedBelief,
       selectedGoal,
@@ -108,7 +121,7 @@ class BeliefAndGoal extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllBeliefs()}>
               <H3>All Beliefs</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
@@ -119,9 +132,14 @@ class BeliefAndGoal extends React.Component {
                 .slice(0, profileCardNumPerRow)
                 .map(value => this._renderBeliefItem(value))}
             {manuals.length === 0 && (
-              <MCCard align="center" mt={10} width={300}>
+              <MCButton
+                bordered
+                align="center"
+                mt={10}
+                width={300}
+                onPress={() => onPressAllBeliefs()}>
                 <H3 align="center">You have not added a Belief</H3>
-              </MCCard>
+              </MCButton>
             )}
           </MCView>
         </Collapsible>
@@ -131,7 +149,7 @@ class BeliefAndGoal extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllGoals()}>
               <H3>All Goals</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
@@ -142,9 +160,14 @@ class BeliefAndGoal extends React.Component {
                 .slice(0, profileCardNumPerRow)
                 .map(value => this._renderGoalItem(value))}
             {goals.length === 0 && (
-              <MCCard align="center" mt={10} width={300}>
+              <MCButton
+                bordered
+                align="center"
+                mt={10}
+                width={300}
+                onPress={() => onPressAllGoals()}>
                 <H3 align="center">You have not added a Goal</H3>
-              </MCCard>
+              </MCButton>
             )}
           </MCView>
         </Collapsible>
@@ -244,11 +267,4 @@ class BeliefAndGoal extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  goals: selector.reflections.getUserGoals(state),
-  manuals: selector.reflections.getUserManuals(state),
-});
-
-export default withTranslation()(
-  connect(mapStateToProps, undefined)(BeliefAndGoal),
-);
+export default withTranslation()(BeliefAndGoal);

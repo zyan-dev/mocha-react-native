@@ -1,23 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import Collapsible from 'react-native-collapsible';
-import {MCCard, MCView} from 'components/styled/View';
+import {MCView} from 'components/styled/View';
 import {H3, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {selector} from 'Redux/selectors';
 import CardItem from './CardItem';
 
 class AttachmentAndApproach extends React.Component {
   static propTypes = {
     attachments: PropTypes.arrayOf(Object),
     approaches: PropTypes.arrayOf(Object),
+    onPressAllAttachments: PropTypes.func,
+    onPressAllApproaches: PropTypes.func,
   };
 
   static defaultProps = {
     attachments: [],
     approaches: [],
+    onPressAllAttachments: () => undefined,
+    onPressAllApproaches: () => undefined,
   };
 
   constructor(props) {
@@ -43,7 +45,13 @@ class AttachmentAndApproach extends React.Component {
   };
 
   render() {
-    const {t, attachments, approaches} = this.props;
+    const {
+      t,
+      attachments,
+      approaches,
+      onPressAllAttachments,
+      onPressAllApproaches,
+    } = this.props;
     const {attachmentCollapsed, approachCollapsed} = this.state;
     return (
       <MCView align="center" mt={20}>
@@ -67,15 +75,20 @@ class AttachmentAndApproach extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllAttachments()}>
               <H3>All attachments</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
           )}
           {attachments.length === 0 && (
-            <MCCard align="center" mt={10} width={320}>
+            <MCButton
+              bordered
+              align="center"
+              mt={10}
+              width={320}
+              onPress={() => onPressAllAttachments()}>
               <H3>You have not added an attachment</H3>
-            </MCCard>
+            </MCButton>
           )}
         </Collapsible>
         <Collapsible collapsed={approachCollapsed}>
@@ -84,15 +97,20 @@ class AttachmentAndApproach extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllApproaches()}>
               <H3>All approaches</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
           )}
           {approaches.length === 0 && (
-            <MCCard align="center" mt={10} width={320}>
+            <MCButton
+              bordered
+              align="center"
+              mt={10}
+              width={320}
+              onPress={() => onPressAllApproaches()}>
               <H3>You have not added an approach</H3>
-            </MCCard>
+            </MCButton>
           )}
         </Collapsible>
       </MCView>
@@ -100,10 +118,4 @@ class AttachmentAndApproach extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  values: selector.reflections.getUserValues(state),
-});
-
-export default withTranslation()(
-  connect(mapStateToProps, undefined)(AttachmentAndApproach),
-);
+export default withTranslation()(AttachmentAndApproach);

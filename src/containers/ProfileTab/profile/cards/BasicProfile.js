@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {profileActions} from 'Redux/actions';
@@ -9,6 +10,14 @@ import {MCImage, MCImagePicker, MCEditableText} from 'components/common';
 import {MochaIcon} from 'assets/images';
 
 class BasicProfile extends React.Component {
+  static propTypes = {
+    editable: PropTypes.bool,
+    profile: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    editable: true,
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -43,6 +52,7 @@ class BasicProfile extends React.Component {
   render() {
     const {
       t,
+      editable,
       profile: {name, user_id, bio, avatar},
     } = this.props;
     const {editing} = this.state;
@@ -53,9 +63,11 @@ class BasicProfile extends React.Component {
             <H4>{`@${user_id.length ? user_id : 'Unnamed'}`}</H4>
             <MCImage width={12} height={12} image={MochaIcon} />
           </MCView>
-          <MCButton onPress={() => this.onToggleEdit()}>
-            <MCIcon name={editing ? 'ios-share' : 'md-create'} />
-          </MCButton>
+          {editable && (
+            <MCButton onPress={() => this.onToggleEdit()}>
+              <MCIcon name={editing ? 'ios-share' : 'md-create'} />
+            </MCButton>
+          )}
         </MCView>
         <MCView row>
           <MCImagePicker
@@ -103,15 +115,11 @@ class BasicProfile extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  profile: state.profileReducer,
-});
-
 const mapDispatchToProps = {
   updateProfile: profileActions.setProfileData,
   updateBasicProfile: profileActions.updateBasicProfile,
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(BasicProfile),
+  connect(undefined, mapDispatchToProps)(BasicProfile),
 );

@@ -13,6 +13,7 @@ import {ContactProfileKeys} from 'utils/constants';
 class ContactCard extends React.Component {
   static propTypes = {
     editable: PropTypes.bool,
+    profile: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -64,7 +65,7 @@ class ContactCard extends React.Component {
               </MCView>
             )}
             {ContactProfileKeys.map(key => {
-              if (key === 'phone' && !profile.userToken.length) {
+              if (key === 'phone' && !profile.user_id.length) {
                 return null; // If user didn't sign up, user can't edit his phone number on profile screen
               }
               return (
@@ -88,15 +89,11 @@ class ContactCard extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  profile: state.profileReducer,
-});
-
 const mapDispatchToProps = {
   updateProfile: profileActions.setProfileData,
   updateContactProfile: profileActions.updateContactProfile,
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ContactCard),
+  connect(undefined, mapDispatchToProps)(ContactCard),
 );

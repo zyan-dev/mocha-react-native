@@ -1,23 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import Collapsible from 'react-native-collapsible';
-import {MCCard, MCView} from 'components/styled/View';
+import {MCView} from 'components/styled/View';
 import {H3, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {selector} from 'Redux/selectors';
 import CardItem from './CardItem';
 
 class ChronotypeAndPersonality extends React.Component {
   static propTypes = {
     chronotypes: PropTypes.arrayOf(Object),
     personalities: PropTypes.arrayOf(Object),
+    onPressAllChronotypes: PropTypes.func,
+    onPressAllPersonalities: PropTypes.func,
   };
 
   static defaultProps = {
     chronotypes: [],
     personalities: [],
+    onPressAllChronotypes: () => undefined,
+    onPressAllPersonalities: () => undefined,
   };
 
   constructor(props) {
@@ -43,13 +45,14 @@ class ChronotypeAndPersonality extends React.Component {
   };
 
   render() {
-    const {t, chronotypes, personalities} = this.props;
     const {
-      selectedFeedback,
-      chronotypeCollapsed,
-      personalityCollapsed,
-      showFeedbackModal,
-    } = this.state;
+      t,
+      chronotypes,
+      personalities,
+      onPressAllChronotypes,
+      onPressAllPersonalities,
+    } = this.props;
+    const {chronotypeCollapsed, personalityCollapsed} = this.state;
     return (
       <MCView align="center" mt={20}>
         <MCView width={340} row justify="space-between">
@@ -74,15 +77,20 @@ class ChronotypeAndPersonality extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllChronotypes()}>
               <H3>All Chronotypes</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
           )}
           {chronotypes.length === 0 && (
-            <MCCard align="center" mt={10} width={320}>
+            <MCButton
+              bordered
+              align="center"
+              mt={10}
+              width={320}
+              onPress={() => onPressAllChronotypes()}>
               <H3>You have not added a Chronotype</H3>
-            </MCCard>
+            </MCButton>
           )}
         </Collapsible>
         <Collapsible collapsed={personalityCollapsed}>
@@ -91,15 +99,20 @@ class ChronotypeAndPersonality extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllPersonalities()}>
               <H3>All Personalities</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
           )}
           {personalities.length === 0 && (
-            <MCCard align="center" mt={10} width={320}>
+            <MCButton
+              bordered
+              align="center"
+              mt={10}
+              width={320}
+              onPress={() => onPressAllPersonalities()}>
               <H3>You have not added a Personality</H3>
-            </MCCard>
+            </MCButton>
           )}
         </Collapsible>
       </MCView>
@@ -107,10 +120,4 @@ class ChronotypeAndPersonality extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  values: selector.reflections.getUserValues(state),
-});
-
-export default withTranslation()(
-  connect(mapStateToProps, undefined)(ChronotypeAndPersonality),
-);
+export default withTranslation()(ChronotypeAndPersonality);

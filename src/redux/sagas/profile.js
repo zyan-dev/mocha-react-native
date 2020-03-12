@@ -14,7 +14,7 @@ export function* getMyProfile(action) {
         payload: response.data.data.user,
       });
     } else {
-      showAlert('API failed');
+      showAlert(response.data.data.message);
     }
   } catch (e) {
     showAlert(e.toString());
@@ -54,12 +54,27 @@ export function* updateContactProfile(action) {
   try {
     const {profileReducer} = yield select();
     const updatedProfile = _.pick(profileReducer, ContactProfileKeys);
-    alert(JSON.stringify(updatedProfile));
     const response = yield call(API.updateProfile, updatedProfile);
     yield put({
       type: types.SET_PROFILE_DATA,
       payload: response.data.data.user,
     });
+  } catch (e) {
+    showAlert(e.toString());
+  }
+}
+
+export function* getUserProfile(action) {
+  try {
+    const response = yield call(API.getUserProfile, action.payload);
+    if (response.data.status === 'success') {
+      yield put({
+        type: types.SET_USER_PROFILE,
+        payload: response.data.data.user,
+      });
+    } else {
+      showAlert(response.data.data.message);
+    }
   } catch (e) {
     showAlert(e.toString());
   }

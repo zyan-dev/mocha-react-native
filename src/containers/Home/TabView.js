@@ -41,23 +41,21 @@ class TabView extends React.PureComponent {
       getAllTrustMembers,
       getMyProfile,
       getMyReflections,
-      getUserReflections,
     } = this.props;
     const TabScreens = ['TabFeed', 'TabAddValue', 'TabProfile'];
     this.setState({tabIndex: index});
     NavigationService.navigate(TabScreens[index]);
     switch (index) {
       case 0: // user clicked Social Tab
-        getAllUsers();
-        getAllTrustMembers();
+        userToken.length > 0 && getAllUsers();
+        userToken.length > 0 && getAllTrustMembers();
         break;
       case 1: // user clicked Add Tab
         break;
       case 2: // user clicked Profile Tab
         // get profile data
         userToken.length > 0 && getMyProfile();
-        // userToken.length > 0 && getMyReflections();
-        userToken.length > 0 && getUserReflections('5e2926b2e60ca9300cee1b7c');
+        userToken.length > 0 && getMyReflections();
         break;
       default:
         break;
@@ -128,6 +126,11 @@ class TabView extends React.PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
+  userToken: state.profileReducer.userToken,
+});
+
 const mapDispatchToProps = {
   getAllUsers: userActions.getAllUsers,
   getAllTrustMembers: userActions.getAllTrustMembers,
@@ -135,11 +138,6 @@ const mapDispatchToProps = {
   getMyReflections: reflectionActions.getMyReflections,
   getUserReflections: reflectionActions.getUserReflections,
 };
-
-const mapStateToProps = state => ({
-  theme: state.routerReducer.theme,
-  userToken: state.profileReducer.userToken,
-});
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(TabView),

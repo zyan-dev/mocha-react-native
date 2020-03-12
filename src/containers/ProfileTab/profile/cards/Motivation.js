@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
 import Collapsible from 'react-native-collapsible';
 import FastImage from 'react-native-fast-image';
@@ -9,7 +9,6 @@ import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCModal} from 'components/common';
 import {profileCardWidth, profileCardNumPerRow} from 'services/operators';
-import {selector} from 'Redux/selectors';
 import CardItem from './CardItem';
 
 const dummy = [
@@ -31,6 +30,13 @@ const dummy = [
 ];
 
 class MotivationCard extends React.Component {
+  static propTypes = {
+    onPressAllMotivations: PropTypes.func,
+  };
+
+  static defaultProps = {
+    onPressAllMotivations: () => undefined,
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -61,7 +67,7 @@ class MotivationCard extends React.Component {
   );
 
   render() {
-    const {t} = this.props;
+    const {t, onPressAllMotivations} = this.props;
     const {selected, collapsed, showModal} = this.state;
     return (
       <MCView align="center" mt={20}>
@@ -79,7 +85,7 @@ class MotivationCard extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllMotivations()}>
               <H3>All Motivations</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
@@ -90,9 +96,14 @@ class MotivationCard extends React.Component {
                 .slice(0, profileCardNumPerRow)
                 .map(value => this._renderMotivationItem(value))}
             {dummy.length === 0 && (
-              <MCCard align="center" mt={10} width={320}>
+              <MCButton
+                bordered
+                align="center"
+                mt={10}
+                width={320}
+                onPress={() => onPressAllMotivations()}>
                 <H3>You have not added a Motivation</H3>
-              </MCCard>
+              </MCButton>
             )}
           </MCView>
         </Collapsible>
@@ -111,10 +122,4 @@ class MotivationCard extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  values: selector.reflections.getUserValues(state),
-});
-
-export default withTranslation()(
-  connect(mapStateToProps, undefined)(MotivationCard),
-);
+export default withTranslation()(MotivationCard);

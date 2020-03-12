@@ -25,12 +25,6 @@ class MCImagePicker extends React.PureComponent {
     enabled: true,
     type: 'avatar',
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageUri: props.image,
-    };
-  }
   onPressPicker = () => {
     if (!this.props.enabled) {
       return;
@@ -41,13 +35,11 @@ class MCImagePicker extends React.PureComponent {
       cropping: true,
       includeBase64: true,
     }).then(image => {
-      this.setState({imageUri: image.path});
       this.props.onSelectImage(image); // image object (path, data ...)
     });
   };
   render() {
-    const {imageUri} = this.state;
-    const {round, width, height, type, theme} = this.props;
+    const {image, round, width, height, type, theme} = this.props;
     return (
       <TouchableOpacity
         onPress={() => this.onPressPicker()}
@@ -63,7 +55,7 @@ class MCImagePicker extends React.PureComponent {
         <MCImage
           width={width}
           height={height}
-          image={{uri: imageUri}}
+          image={{uri: image}}
           type={type}
           resizeMode={FastImage.resizeMode.cover}
         />

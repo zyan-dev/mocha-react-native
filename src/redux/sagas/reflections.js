@@ -12,7 +12,7 @@ export function* getMyReflections(action) {
         payload: response.data.data.reflections,
       });
     } else {
-      showAlert('API failed');
+      showAlert(response.data.data.message);
     }
   } catch (e) {
     showAlert(e.toString());
@@ -28,7 +28,7 @@ export function* getUserReflections(action) {
         payload: response.data.data.reflections,
       });
     } else {
-      showAlert('API failed');
+      showAlert(response.data.data.message);
     }
   } catch (e) {
     showAlert(e.toString());

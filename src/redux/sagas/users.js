@@ -30,7 +30,22 @@ export function* getAllTrustMembers(action) {
         payload: response.data.data.contacts,
       });
     } else {
-      showAlert('API failed');
+      showAlert(response.data.data.message);
+    }
+  } catch (e) {
+    showAlert(e.toString());
+  }
+}
+
+export function* sendContactRequest(action) {
+  try {
+    // call send sms API
+    const response = yield call(API.sendContactRequest, action.payload);
+    if (response.data.status === 'success') {
+      showAlert('Your request has been sent successfully');
+      yield put({type: types.GET_ALL_TRUST_MEMBERS});
+    } else {
+      showAlert(response.data.data.message);
     }
   } catch (e) {
     showAlert(e.toString());

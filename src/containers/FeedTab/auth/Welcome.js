@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
+import {CommonActions} from '@react-navigation/native';
 import {withTranslation} from 'react-i18next';
 import FastImage from 'react-native-fast-image';
+import {userActions} from 'Redux/actions';
 import {MCRootView} from 'components/styled/View';
 import {MCHeader} from 'components/common';
 import {H3} from 'components/styled/Text';
@@ -24,8 +26,22 @@ class FeedWelcome extends React.Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    const {userToken, getAllUsers, getAllTrustMembers} = this.props;
+    userToken.length > 0 && getAllUsers();
+    userToken.length > 0 && getAllTrustMembers();
+  }
+
   onSkipWelcome = () => {
     NavigationService.navigate('Social');
+  };
+
+  onPressSendRequest = () => {
+    NavigationService.navigate('Social', {screen: 'SendRequest'});
+  };
+
+  onPressTrustNetwork = () => {
+    NavigationService.navigate('Social', {screen: 'ManageTrustNetwork'});
   };
 
   render() {
@@ -41,13 +57,19 @@ class FeedWelcome extends React.Component {
             <H3 align="center" mt={30}>
               {t('auth_welcome_displayText')}
             </H3>
-            <MCButton bordered mt={30}>
+            <MCButton
+              bordered
+              mt={30}
+              onPress={() => this.onPressSendRequest()}>
               <H3 align="center">{t('feed_menu_send_request')}</H3>
             </MCButton>
             <H3 align="center" mt={50} width={300}>
               {t('auth_welcome_trustnetwork_displayText')}
             </H3>
-            <MCButton bordered mt={30}>
+            <MCButton
+              bordered
+              mt={30}
+              onPress={() => this.onPressTrustNetwork()}>
               <H3 align="center">{t('feed_menu_manage_trust_network')}</H3>
             </MCButton>
             <SuccessIcon source={SignInSuccess} />
@@ -58,9 +80,14 @@ class FeedWelcome extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  userToken: state.profileReducer.userToken,
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getAllUsers: userActions.getAllUsers,
+  getAllTrustMembers: userActions.getAllTrustMembers,
+};
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(FeedWelcome),

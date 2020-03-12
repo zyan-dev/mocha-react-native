@@ -13,7 +13,7 @@ export function* sendSignUpSMS(action) {
       // if success go to verify sms screen
       NavigationService.navigate('Auth_VerifySMS', {phone: action.payload});
     } else {
-      showAlert('API failed');
+      showAlert(response.data.data.message);
     }
   } catch (e) {
     showAlert(e.toString());

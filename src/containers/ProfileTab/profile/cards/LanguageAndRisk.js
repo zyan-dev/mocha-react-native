@@ -1,23 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import Collapsible from 'react-native-collapsible';
-import {MCCard, MCView} from 'components/styled/View';
+import {MCView} from 'components/styled/View';
 import {H3, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {selector} from 'Redux/selectors';
 import CardItem from './CardItem';
 
 class LanguageAndRisk extends React.Component {
   static propTypes = {
     languages: PropTypes.arrayOf(Object),
     risks: PropTypes.arrayOf(Object),
+    onPressAllLanguages: PropTypes.func,
+    onPressAllRisks: PropTypes.func,
   };
 
   static defaultProps = {
     languages: [],
     risks: [],
+    onPressAllLanguages: () => undefined,
+    onPressAllRisks: () => undefined,
   };
 
   constructor(props) {
@@ -43,7 +45,13 @@ class LanguageAndRisk extends React.Component {
   };
 
   render() {
-    const {t, languages, risks} = this.props;
+    const {
+      t,
+      languages,
+      risks,
+      onPressAllLanguages,
+      onPressAllRisks,
+    } = this.props;
     const {languageCollapsed, riskCollapsed} = this.state;
     return (
       <MCView align="center" mt={20}>
@@ -65,15 +73,20 @@ class LanguageAndRisk extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllLanguages()}>
               <H3>All languages</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
           )}
           {languages.length === 0 && (
-            <MCCard align="center" mt={10} width={320}>
+            <MCButton
+              bordered
+              align="center"
+              mt={10}
+              width={320}
+              onPress={() => onPressAllLanguages()}>
               <H3>Please add a language you love.</H3>
-            </MCCard>
+            </MCButton>
           )}
         </Collapsible>
         <Collapsible collapsed={riskCollapsed}>
@@ -82,15 +95,20 @@ class LanguageAndRisk extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllRisks()}>
               <H3>All risks</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
           )}
           {risks.length === 0 && (
-            <MCCard align="center" mt={10} width={320}>
+            <MCButton
+              bordered
+              align="center"
+              mt={10}
+              width={320}
+              onPress={() => onPressAllRisks()}>
               <H3>You have not added a risk</H3>
-            </MCCard>
+            </MCButton>
           )}
         </Collapsible>
       </MCView>
@@ -98,10 +116,4 @@ class LanguageAndRisk extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  values: selector.reflections.getUserValues(state),
-});
-
-export default withTranslation()(
-  connect(mapStateToProps, undefined)(LanguageAndRisk),
-);
+export default withTranslation()(LanguageAndRisk);

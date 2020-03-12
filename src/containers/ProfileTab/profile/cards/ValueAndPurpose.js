@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
 import Collapsible from 'react-native-collapsible';
 import {MCCard, MCView} from 'components/styled/View';
@@ -7,10 +7,22 @@ import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCImage, MCModal} from 'components/common';
 import {profileCardWidth, profileCardNumPerRow} from 'services/operators';
-import {selector} from 'Redux/selectors';
 import CardItem from './CardItem';
 
 class ValueAndPurpose extends React.Component {
+  static propTypes = {
+    values: PropTypes.arrayOf(Object),
+    purposes: PropTypes.arrayOf(Object),
+    onPressAllValues: PropTypes.func,
+    onPressAllPurposes: PropTypes.func,
+  };
+
+  static defaultProps = {
+    values: [],
+    purposes: [],
+    onPressAllValues: () => undefined,
+    onPressAllPurposes: () => undefined,
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +68,13 @@ class ValueAndPurpose extends React.Component {
   );
 
   render() {
-    const {t, values} = this.props;
+    const {
+      t,
+      values,
+      purposes,
+      onPressAllValues,
+      onPressAllPurposes,
+    } = this.props;
     const {
       selectedValue,
       valueCollapsed,
@@ -83,7 +101,7 @@ class ValueAndPurpose extends React.Component {
               width={320}
               row
               justify="space-between"
-              onPress={() => {}}>
+              onPress={() => onPressAllValues()}>
               <H3>All Values</H3>
               <MCIcon name="ios-arrow-forward" />
             </MCButton>
@@ -94,16 +112,36 @@ class ValueAndPurpose extends React.Component {
                 .slice(0, profileCardNumPerRow)
                 .map(value => this._renderValueItem(value))}
             {values.length === 0 && (
-              <MCCard align="center" mt={10} width={300}>
+              <MCButton
+                bordered
+                align="center"
+                mt={10}
+                width={300}
+                onPress={() => onPressAllValues()}>
                 <H3>You have not added a Value</H3>
-              </MCCard>
+              </MCButton>
             )}
           </MCView>
         </Collapsible>
         <Collapsible collapsed={purposeCollapsed}>
-          <MCCard align="center" mt={10} width={320}>
+          {purposes.length > 0 && (
+            <MCButton
+              width={320}
+              row
+              justify="space-between"
+              onPress={() => onPressAllPurposes()}>
+              <H3>All Purposes</H3>
+              <MCIcon name="ios-arrow-forward" />
+            </MCButton>
+          )}
+          <MCButton
+            bordered
+            align="center"
+            mt={10}
+            width={320}
+            onPress={() => onPressAllPurposes()}>
             <H3>You have not added a Purpose</H3>
-          </MCCard>
+          </MCButton>
         </Collapsible>
         {selectedValue && (
           <MCModal
@@ -129,10 +167,4 @@ class ValueAndPurpose extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  values: selector.reflections.getUserValues(state),
-});
-
-export default withTranslation()(
-  connect(mapStateToProps, undefined)(ValueAndPurpose),
-);
+export default withTranslation()(ValueAndPurpose);

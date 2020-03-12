@@ -6,8 +6,8 @@ export const MCButton = styled(Ripple)`
   border: 1px solid ${props => props.theme.colors.border};
   border-radius: 8px;
   border-width: ${props => (props.bordered ? 1 : 0)}
-  padding-vertical: ${props => dySize(props.pv || 5)};
-  padding-horizontal: ${props => dySize(props.ph || 10)};
+  padding-vertical: ${props => dySize(props.pv || 5)}px;
+  padding-horizontal: ${props => dySize(props.ph || 10)}px;
   width: ${props => dySize(props.width) || 'auto'};
   height: ${props => dySize(props.height) || 'auto'};
   display: flex;
