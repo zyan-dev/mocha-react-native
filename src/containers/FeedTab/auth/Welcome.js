@@ -49,6 +49,7 @@ class FeedWelcome extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader
+          hasRight
           rightText={t('header_skip')}
           onPressRight={() => this.onSkipWelcome()}
         />

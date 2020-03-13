@@ -24,12 +24,14 @@ export default class MCImage extends React.PureComponent {
     height: PropTypes.number,
     image: PropTypes.object,
     type: PropTypes.string,
+    style: PropTypes.object,
   };
   static defaultProps = {
     round: false,
     width: 100,
     height: 100,
     image: null,
+    style: {},
   };
   constructor(props) {
     super(props);
@@ -41,7 +43,7 @@ export default class MCImage extends React.PureComponent {
 
   render() {
     const {loading, loadError} = this.state;
-    const {round, width, height, type, image} = this.props;
+    const {round, width, height, type, image, style} = this.props;
     const defaultImage = type === 'avatar' ? DefaultAvatar : DefaultPicture;
     const imageStyle = {
       width: dySize(width),
@@ -54,7 +56,7 @@ export default class MCImage extends React.PureComponent {
         height={height}
         justify="center"
         align="center"
-        style={{position: 'relative', overflow: 'hidden'}}
+        style={{position: 'relative', overflow: 'hidden', ...style}}
         br={round ? width / 2 : 0}>
         <ProgressWrapper style={imageStyle}>
           {loading && <Progress.Circle size={30} indeterminate />}

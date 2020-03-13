@@ -21,6 +21,8 @@ const INITIAL_STATE = {
     email: '',
     avatarChanged: false,
   },
+  selectedUsers: [], // for multiple picker
+  selectedUser: [], // for single picker
 };
 
 const usersReducer = (state = INITIAL_STATE, action) => {
@@ -42,6 +44,28 @@ const usersReducer = (state = INITIAL_STATE, action) => {
           ...INITIAL_STATE.userProfile,
           ...action.payload,
         },
+      };
+    case types.SET_SELECTED_USERS:
+      return {
+        ...state,
+        selectedUsers: action.payload,
+      };
+    case types.SELECT_USER:
+      return {
+        ...state,
+        selectedUsers: state.selectedUsers.concat(action.payload),
+      };
+    case types.DESELECT_USER:
+      return {
+        ...state,
+        selectedUsers: state.selectedUsers.filter(
+          user => user._id !== action.payload._id,
+        ),
+      };
+    case types.SET_SINGLE_SELECTED_USERS:
+      return {
+        ...state,
+        selectedUser: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

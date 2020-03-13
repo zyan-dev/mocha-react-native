@@ -40,6 +40,7 @@ class ProfileScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader
+          hasRight
           hasBack={false}
           title={t('profile_headerTitle')}
           rightIcon="md-menu"

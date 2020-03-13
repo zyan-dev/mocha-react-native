@@ -9,14 +9,14 @@ const API_TIMEOUT = 5000;
 
 const URL_SEND_SMS = '/auth/signup-request';
 const URL_VERIFY_SMS = '/auth/signup-confirm';
-const URL_UPDATE_PROFILE = '/user/me';
+const URL_MY_PROFILE = '/user/me';
 const URL_GET_MY_REFLECTION = '/reflection/list';
 const URL_GET_USER_REFLECTION = '/reflection/list/user';
-const URL_GET_MY_FEEDBACK = '/feedback';
-const URL_GET_NOTIFICATION_SETTINGS = '/notification';
-const URL_GET_ALL_USERS = '/user/all';
-const URL_GET_ALL_TRUST_MEMBERS = '/member';
-const URL_GET_USER_PROFILE = '/user/profile/';
+const URL_FEEDBACK = '/feedback';
+const URL_NOTIFICATION = '/notification';
+const URL_ALL_USERS = '/user/all';
+const URL_TRUST_MEMBERS = '/member';
+const URL_USER_PROFILE = '/user/profile/';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -42,28 +42,27 @@ const apiCall = async (type, url, param, withToken = false, options = {}) => {
 
 const sendSMS = phone => apiCall('post', URL_SEND_SMS, {phone});
 const verifySMS = param => apiCall('post', URL_VERIFY_SMS, param);
-const updateProfile = param =>
-  apiCall('patch', URL_UPDATE_PROFILE, param, true);
-const getMyProfile = () => apiCall('get', URL_UPDATE_PROFILE, {}, true);
+const updateProfile = param => apiCall('patch', URL_MY_PROFILE, param, true);
+const getMyProfile = () => apiCall('get', URL_MY_PROFILE, {}, true);
 const getUserProfile = userId =>
-  apiCall('get', `${URL_GET_USER_PROFILE}${userId}`, {}, true);
+  apiCall('get', `${URL_USER_PROFILE}${userId}`, {}, true);
 const getMyReflections = () => apiCall('get', URL_GET_MY_REFLECTION, {}, true);
 const getUserReflections = userId =>
   apiCall('get', `${URL_GET_USER_REFLECTION}/${userId}`, {}, true);
-const getMyFeedbacks = () => apiCall('get', URL_GET_MY_FEEDBACK, {}, true);
+const getMyFeedbacks = () => apiCall('get', URL_FEEDBACK, {}, true);
 const getUserFeedbacks = userId =>
-  apiCall('get', `${URL_GET_MY_FEEDBACK}/${userId}`, {}, true);
+  apiCall('get', `${URL_FEEDBACK}/${userId}`, {}, true);
 const getNotificationSettings = () =>
-  apiCall('get', URL_GET_NOTIFICATION_SETTINGS, {}, true);
+  apiCall('get', URL_NOTIFICATION, {}, true);
 const updateNotificationSettings = param =>
-  apiCall('patch', URL_GET_NOTIFICATION_SETTINGS, param, true);
+  apiCall('patch', URL_NOTIFICATION, param, true);
 const createNotificationSettings = param =>
-  apiCall('post', URL_GET_NOTIFICATION_SETTINGS, param, true);
-const getAllUsers = param => apiCall('get', URL_GET_ALL_USERS, {}, true);
-const getAllTrustMembers = param =>
-  apiCall('get', URL_GET_ALL_TRUST_MEMBERS, {}, true);
+  apiCall('post', URL_NOTIFICATION, param, true);
+const getAllUsers = param => apiCall('get', URL_ALL_USERS, {}, true);
+const getAllTrustMembers = param => apiCall('get', URL_TRUST_MEMBERS, {}, true);
 const sendContactRequest = param =>
-  apiCall('post', URL_GET_ALL_TRUST_MEMBERS, param, true);
+  apiCall('post', URL_TRUST_MEMBERS, param, true);
+const sendFeedbackRequest = param => apiCall('post', URL_FEEDBACK, param, true);
 
 const fileUploadToS3 = async ({avatar, name}) => {
   const imageType = avatar.includes('.jpg') ? 'jpg' : 'png';
@@ -99,4 +98,5 @@ export default {
   getAllTrustMembers,
   sendContactRequest,
   getUserProfile,
+  sendFeedbackRequest,
 };

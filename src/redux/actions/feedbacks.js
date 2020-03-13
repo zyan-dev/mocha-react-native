@@ -18,3 +18,27 @@ export const setUserFeedbacks = feedbacks => ({
   type: types.SET_USER_FEEDBACKS,
   payload: feedbacks,
 });
+
+export const selectQuestion = question => ({
+  type: types.SELECT_QUESTION,
+  payload: question,
+});
+
+export const deselectQuestion = question => ({
+  type: types.DESELECT_QUESTION,
+  payload: question,
+});
+
+export const setSeletedQuestions = questions => ({
+  type: types.SET_SELCTED_QUESTIONS,
+  payload: questions,
+});
+
+export const createQuestion = question => ({
+  type: types.CREATE_QUESTION,
+  payload: question,
+});
+
+export const requestFeedback = () => ({
+  type: types.REQUEST_FEEDBACK,
+});

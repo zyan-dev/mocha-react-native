@@ -2,7 +2,7 @@ import {call, put, select} from 'redux-saga/effects';
 import * as types from '../actions/types';
 import NavigationService from 'navigation/NavigationService';
 import API from 'services/api';
-import {showAlert, genetratedDate} from 'services/operators';
+import {showAlert} from 'services/operators';
 import {AsyncStorage} from 'react-native';
 
 export function* sendSignUpSMS(action) {

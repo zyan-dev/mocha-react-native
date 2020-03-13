@@ -6,6 +6,7 @@ import WelcomeStack from '../containers/Welcome';
 import MainHomeStack from '../containers/Home';
 import NavigationService from './NavigationService';
 import UserProfile from '../containers/Others/UserProfile';
+import SelectUserScreen from '../containers/Others/SelectUsers';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ class RootNavigator extends React.Component {
           )}
           <Stack.Screen name="mainStack" component={MainHomeStack} />
           <Stack.Screen name="UserProfile" component={UserProfile} />
+          <Stack.Screen name="SelectUser" component={SelectUserScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

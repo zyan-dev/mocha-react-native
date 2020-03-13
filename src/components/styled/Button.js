@@ -4,7 +4,7 @@ import {dySize} from 'utils/responsive';
 
 export const MCButton = styled(Ripple)`
   border: 1px solid ${props => props.theme.colors.border};
-  border-radius: 8px;
+  border-radius: ${props => dySize(props.br || 8)}px;
   border-width: ${props => (props.bordered ? 1 : 0)}
   padding-vertical: ${props => dySize(props.pv || 5)}px;
   padding-horizontal: ${props => dySize(props.ph || 10)}px;

@@ -1,31 +1,19 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {withTranslation} from 'react-i18next';
-import {MCRootView} from 'components/styled/View';
-import {MCHeader} from 'components/common';
-import {H3} from 'components/styled/Text';
+import {createStackNavigator} from '@react-navigation/stack';
+import AddFeedbackScreen from './add';
+import SelectQuestionScreen from './SelectQuestions';
 
-class AddFeedbackScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const Stack = createStackNavigator();
 
+class AddFeedbackStack extends React.Component {
   render() {
-    const {t} = this.props;
     return (
-      <MCRootView justify="flex-start">
-        <MCHeader title={t('add_reflection_feedback_header')} />
-        <H3>Add Feedback Screen</H3>
-      </MCRootView>
+      <Stack.Navigator headerMode="none">
+        <Stack.Screen name="AddFeedback" component={AddFeedbackScreen} />
+        <Stack.Screen name="SelectQuestion" component={SelectQuestionScreen} />
+      </Stack.Navigator>
     );
   }
 }
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {};
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(AddFeedbackScreen),
-);
+export default AddFeedbackStack;

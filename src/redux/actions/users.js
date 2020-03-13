@@ -12,3 +12,23 @@ export const sendContactRequest = param => ({
   type: types.SEND_CONTACT_REQUEST,
   payload: param,
 });
+
+export const setSeletedUsers = users => ({
+  type: types.SET_SELECTED_USERS,
+  payload: users,
+});
+
+export const selectSingleUser = user => ({
+  type: types.SET_SINGLE_SELECTED_USERS,
+  payload: user,
+});
+
+export const selectUser = user => ({
+  type: types.SELECT_USER,
+  payload: user,
+});
+
+export const deselectUser = user => ({
+  type: types.DESELECT_USER,
+  payload: user,
+});

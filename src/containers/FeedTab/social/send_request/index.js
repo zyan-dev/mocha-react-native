@@ -79,16 +79,6 @@ class SendRequestScreen extends React.Component {
                   <H4
                     padding={0}
                     color={theme.colors.border}>{`@${user.user_id}`}</H4>
-                  {/* {user.networkState === 0 && (
-                      <H4 color={theme.colors.border}>
-                        {t('contact_request_pending')}
-                      </H4>
-                    )} */}
-                  {/* {user.networkState === 1 && (
-                      <H4 color={theme.colors.border}>
-                        {t('contact_request_approved')}
-                      </H4>
-                    )} */}
                 </MCView>
                 {user.networkState === -1 && (
                   <MCButton onPress={() => this.onPressUser(user)}>

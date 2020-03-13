@@ -1,4 +1,4 @@
-import {call, put} from 'redux-saga/effects';
+import {call, put, select} from 'redux-saga/effects';
 import * as types from '../actions/types';
 import API from 'services/api';
 import {showAlert} from 'services/operators';

@@ -45,6 +45,7 @@ class MCHeader extends React.PureComponent {
   static propTypes = {
     hasBack: PropTypes.bool,
     title: PropTypes.string.isRequired,
+    hasRight: PropTypes.bool,
     rightText: PropTypes.string,
     rightIcon: PropTypes.string,
     rightIconType: PropTypes.string,
@@ -54,8 +55,9 @@ class MCHeader extends React.PureComponent {
   };
   static defaultProps = {
     hasBack: true,
-    rightText: null,
-    rightIcon: null,
+    hasRight: false,
+    rightText: '',
+    rightIcon: '',
     rightIconType: 'Ionicon',
     onPressRight: () => undefined,
     onPressBack: () => {
@@ -67,6 +69,7 @@ class MCHeader extends React.PureComponent {
     const {
       hasBack,
       title,
+      hasRight,
       rightText,
       rightIcon,
       rightIconType,
@@ -88,7 +91,7 @@ class MCHeader extends React.PureComponent {
           <H3>{title}</H3>
         </HeaderBody>
         <HeaderRight>
-          {rightText && (
+          {hasRight && (
             <MCButton
               width={80}
               align="flex-end"
@@ -96,7 +99,7 @@ class MCHeader extends React.PureComponent {
               <H4>{rightText}</H4>
             </MCButton>
           )}
-          {rightIcon && (
+          {hasRight && rightIcon.length > 0 && (
             <MCButton
               width={80}
               rippleSize={40}

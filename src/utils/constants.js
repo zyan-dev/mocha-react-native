@@ -91,3 +91,16 @@ export const AddReflectionSections = [
     navigateTo: 'AddTapToCount',
   },
 ];
+
+export const sampleFeedbackQuestions = [
+  'mocha_feedback_handle-stress',
+  'mocha_feedback_how-approachable',
+  'mocha_feedback_how-coachable',
+  'mocha_feedback_how-dependable',
+  'mocha_feedback_how-trustworthy',
+  'mocha_feedback_my-blindspots',
+  'mocha_feedback_my-strenhths',
+  'mocha_feedback_my-weakness',
+  'mocha_feedback_when-i-was-at-best',
+  'mocha_feedback_working-with-me',
+];
