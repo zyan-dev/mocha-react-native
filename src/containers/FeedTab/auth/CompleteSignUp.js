@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {profileActions, authActions} from 'Redux/actions';
 import {MCRootView, MCView, MCContent} from 'components/styled/View';
-import {dySize} from 'utils/responsive';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCEditableText, MCImagePicker} from 'components/common';

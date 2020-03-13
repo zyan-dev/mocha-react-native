@@ -45,6 +45,7 @@ class SelectQuestionScreen extends React.Component {
       return;
     } else if (filtered.length > 0) {
       showAlert(t('alert_existing_feedback_question'));
+      return;
     }
     this.props.createQuestion(newQuestion);
     this.setState({showNewModal: false});
@@ -67,7 +68,9 @@ class SelectQuestionScreen extends React.Component {
             const filtered = selectedQuestions.filter(q => q === question);
             return (
               <MCCard row align="center" shadow mt={10} p={0}>
-                <H3 style={{flex: 1}}>{t(question)}</H3>
+                <H3 ml={10} style={{flex: 1}}>
+                  {t(question)}
+                </H3>
                 {filtered.length > 0 ? (
                   <MCButton onPress={() => this.deselect(question)}>
                     <MCIcon
@@ -93,13 +96,18 @@ class SelectQuestionScreen extends React.Component {
           isVisible={showNewModal}
           onClose={() => this.setState({showNewModal: false})}>
           <MCView align="center" width={300} mt={20} p={10}>
-            <H3>{t('new_question')}</H3>
+            <H3 mb={10}>{t('new_question')}</H3>
             <MCTextInput
               multiline
               width={300}
               onChangeText={text => this.setState({newQuestion: text})}
             />
-            <MCButton bordered mt={20} onPress={() => this.onAddNewQuestion()}>
+            <MCButton
+              bordered
+              mt={20}
+              pl={20}
+              pr={20}
+              onPress={() => this.onAddNewQuestion()}>
               <H3>{t('button_add_new')}</H3>
             </MCButton>
           </MCView>

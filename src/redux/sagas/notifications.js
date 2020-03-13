@@ -1,7 +1,6 @@
 import {call, put, select} from 'redux-saga/effects';
 import * as types from '../actions/types';
 import API from 'services/api';
-import * as _ from 'lodash';
 import {showAlert} from 'services/operators';
 
 export function* getNotificationSettings(action) {

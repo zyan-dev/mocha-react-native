@@ -17,6 +17,10 @@ class AddFeedbackScreen extends React.Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    this.props.setSeletedUsers([]);
+  }
+
   onPressAddUser = () => {
     NavigationService.navigate('SelectUser', {multiple: true});
   };
@@ -76,7 +80,9 @@ class AddFeedbackScreen extends React.Component {
           </H3>
           {selectedQuestions.map(question => (
             <MCCard mb={10} row shadow align="center">
-              <H3 style={{flex: 1}}>{t(question)}</H3>
+              <H3 ml={10} style={{flex: 1}}>
+                {t(question)}
+              </H3>
               <TouchableOpacity onPress={() => deselectQuestion(question)}>
                 <MCIcon name="ios-remove-circle-outline" size={20} />
               </TouchableOpacity>
@@ -108,6 +114,7 @@ const mapDispatchToProps = {
   deselectUser: userActions.deselectUser,
   deselectQuestion: feedbackActions.deselectQuestion,
   requestFeedback: feedbackActions.requestFeedback,
+  setSeletedUsers: userActions.setSeletedUsers,
 };
 
 export default withTranslation()(

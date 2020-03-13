@@ -2,6 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {WaveIndicator} from 'react-native-indicators';
+import {routerActions} from 'Redux/actions';
+import {ABSView} from 'components/styled/View';
 import WelcomeStack from '../containers/Welcome';
 import MainHomeStack from '../containers/Home';
 import NavigationService from './NavigationService';
@@ -11,8 +14,11 @@ import SelectUserScreen from '../containers/Others/SelectUsers';
 const Stack = createStackNavigator();
 
 class RootNavigator extends React.Component {
+  componentDidMount() {
+    this.props.setLoading(false);
+  }
   render() {
-    const {isNewUser} = this.props;
+    const {isNewUser, isLoading} = this.props;
     return (
       <NavigationContainer ref={ref => NavigationService.setNavigator(ref)}>
         <Stack.Navigator headerMode="none">
@@ -23,6 +29,11 @@ class RootNavigator extends React.Component {
           <Stack.Screen name="UserProfile" component={UserProfile} />
           <Stack.Screen name="SelectUser" component={SelectUserScreen} />
         </Stack.Navigator>
+        {isLoading && (
+          <ABSView>
+            <WaveIndicator color="white" />
+          </ABSView>
+        )}
       </NavigationContainer>
     );
   }
@@ -30,8 +41,11 @@ class RootNavigator extends React.Component {
 
 const mapStateToProps = state => ({
   isNewUser: state.routerReducer.isNewUser,
+  isLoading: state.routerReducer.isLoading,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setLoading: routerActions.setLoading,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootNavigator);

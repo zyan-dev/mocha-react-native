@@ -6,8 +6,10 @@ export const MCButton = styled(Ripple)`
   border: 1px solid ${props => props.theme.colors.border};
   border-radius: ${props => dySize(props.br || 8)}px;
   border-width: ${props => (props.bordered ? 1 : 0)}
-  padding-vertical: ${props => dySize(props.pv || 5)}px;
-  padding-horizontal: ${props => dySize(props.ph || 10)}px;
+  padding-top: ${props => dySize(props.pt || 5)}px;
+  padding-bottom: ${props => dySize(props.pb || 5)}px;
+  padding-left: ${props => dySize(props.pl || 5)}px;
+  padding-right: ${props => dySize(props.pr || 5)}px;
   width: ${props => dySize(props.width) || 'auto'};
   height: ${props => dySize(props.height) || 'auto'};
   display: flex;
@@ -18,4 +20,5 @@ export const MCButton = styled(Ripple)`
   margin-bottom: ${props => dySize(props.mb || 0)}px;
   margin-left: ${props => dySize(props.ml || 0)}px;
   margin-right: ${props => dySize(props.mr || 0)}px;
+  background-color: ${props => props.background || 'transparent'};
 `;

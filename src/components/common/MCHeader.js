@@ -91,7 +91,7 @@ class MCHeader extends React.PureComponent {
           <H3>{title}</H3>
         </HeaderBody>
         <HeaderRight>
-          {hasRight && (
+          {hasRight && rightText.length > 0 && (
             <MCButton
               width={80}
               align="flex-end"

@@ -1,4 +1,4 @@
-import {call, put, select} from 'redux-saga/effects';
+import {call, put} from 'redux-saga/effects';
 import * as types from '../actions/types';
 import API from 'services/api';
 import {showAlert} from 'services/operators';
@@ -49,5 +49,27 @@ export function* sendContactRequest(action) {
     }
   } catch (e) {
     showAlert(e.toString());
+  }
+}
+
+export function* declineRequest(action) {
+  try {
+    // call send sms API
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.declineRequest, action.payload);
+    if (response.data.status === 'success') {
+      yield put({type: types.GET_ALL_TRUST_MEMBERS});
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({
+      type: types.API_FINISHED,
+      payload: e.toString(),
+    });
   }
 }

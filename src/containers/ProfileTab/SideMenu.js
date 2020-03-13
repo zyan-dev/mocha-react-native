@@ -94,14 +94,15 @@ class ProfileSideMenu extends React.Component {
                 onPress={() => this.onPressItem(menu)}>
                 <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
                 <H3
-                  padding={6}
+                  ml={6}
                   color={menu.index === 7 ? systemTheme.colors.danger : ''}>
                   {t(menu.title)}
                 </H3>
               </MCButton>
             );
           })}
-          <MCView align="center">
+          <MCView height={0.5} mr={10} ml={10} mb={30} mt={30} bordered />
+          <MCView align="center" width={275}>
             <H3 padding={20}>{t('welcome_theme_displayText')}</H3>
             <MCView justify="space-between" row wrap width={240}>
               {colorThemes.map((theme, index) => {

@@ -47,6 +47,7 @@ export function* requestFeedback(action) {
       receivers: selectedUsers.map(user => ({_id: user._id})),
       questions: selectedQuestions.map(question => i18next.t(question)),
     };
+    yield put({type: types.API_CALLING});
     const response = yield call(API.sendFeedbackRequest, param);
     if (response.data.status === 'success') {
       yield put({
@@ -57,11 +58,18 @@ export function* requestFeedback(action) {
         type: types.SET_SELCTED_QUESTIONS,
         payload: [],
       });
+      yield put({type: types.API_FINISHED});
       NavigationService.goBack();
     } else {
-      showAlert(response.data.data.message);
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
     }
   } catch (e) {
-    showAlert(e.toString());
+    yield put({
+      type: types.API_FINISHED,
+      payload: e.toString(),
+    });
   }
 }

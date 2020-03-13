@@ -17,6 +17,7 @@ const URL_NOTIFICATION = '/notification';
 const URL_ALL_USERS = '/user/all';
 const URL_TRUST_MEMBERS = '/member';
 const URL_USER_PROFILE = '/user/profile/';
+const URL_NETWORK = '/network';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -33,7 +34,7 @@ const apiCall = async (type, url, param, withToken = false, options = {}) => {
       },
     };
   }
-  if (type === 'get') {
+  if (type === 'get' || type === 'delete') {
     return axios[type](`${BACKEND_BASE_URL}${url}`, opt);
   } else {
     return axios[type](`${BACKEND_BASE_URL}${url}`, param, opt);
@@ -63,6 +64,14 @@ const getAllTrustMembers = param => apiCall('get', URL_TRUST_MEMBERS, {}, true);
 const sendContactRequest = param =>
   apiCall('post', URL_TRUST_MEMBERS, param, true);
 const sendFeedbackRequest = param => apiCall('post', URL_FEEDBACK, param, true);
+const getTrustNetworks = () => apiCall('get', URL_NETWORK, {}, true);
+const declineRequest = userId =>
+  apiCall('delete', `${URL_TRUST_MEMBERS}/${userId}`, {}, true);
+const createNetwork = param => apiCall('post', URL_NETWORK, param, true);
+const deleteNetwork = networkId =>
+  apiCall('delete', `${URL_NETWORK}/${networkId}`, {}, true);
+const updateNetwork = network =>
+  apiCall('patch', `${URL_NETWORK}/${network._id}`, network, true);
 
 const fileUploadToS3 = async ({avatar, name}) => {
   const imageType = avatar.includes('.jpg') ? 'jpg' : 'png';
@@ -99,4 +108,9 @@ export default {
   sendContactRequest,
   getUserProfile,
   sendFeedbackRequest,
+  getTrustNetworks,
+  declineRequest,
+  createNetwork,
+  updateNetwork,
+  deleteNetwork,
 };

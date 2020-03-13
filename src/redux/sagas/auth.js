@@ -8,15 +8,20 @@ import {AsyncStorage} from 'react-native';
 export function* sendSignUpSMS(action) {
   try {
     // call send sms API
+    yield put({type: types.API_CALLING});
     const response = yield call(API.sendSMS, action.payload);
     if (response.data.status === 'success') {
       // if success go to verify sms screen
       NavigationService.navigate('Auth_VerifySMS', {phone: action.payload});
+      yield put({type: types.API_FINISHED});
     } else {
-      showAlert(response.data.data.message);
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
     }
   } catch (e) {
-    showAlert(e.toString());
+    yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }
 

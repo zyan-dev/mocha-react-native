@@ -92,7 +92,7 @@ export const AddReflectionSections = [
   },
 ];
 
-export const sampleFeedbackQuestions = [
+export const SampleFeedbackQuestions = [
   'mocha_feedback_handle-stress',
   'mocha_feedback_how-approachable',
   'mocha_feedback_how-coachable',
@@ -103,4 +103,13 @@ export const sampleFeedbackQuestions = [
   'mocha_feedback_my-weakness',
   'mocha_feedback_when-i-was-at-best',
   'mocha_feedback_working-with-me',
+];
+
+export const NetworkPermissions = [
+  {key: 'Value', data: 'value'},
+  {key: 'Manual', data: 'user-manual'},
+  {key: 'Emotion', data: 'emotion'},
+  {key: 'Need', data: 'need'},
+  {key: 'Goal', data: 'goal'},
+  {key: 'Tap', data: 'tap-to-count'},
 ];

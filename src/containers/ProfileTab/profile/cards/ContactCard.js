@@ -50,13 +50,18 @@ class ContactCard extends React.Component {
     return (
       <MCView align="center" mt={20}>
         <MCButton onPress={() => this.onToggleCollapse(!collapsed)}>
-          <MCCard width={280} padding={20} align="center">
+          <MCCard
+            width={280}
+            height={150}
+            p={20}
+            align="center"
+            justify="space-between">
             <MCIcon name="ios-call" size={40} />
             <H3>{t('profile_card_contact')}</H3>
           </MCCard>
         </MCButton>
         <Collapsible collapsed={collapsed}>
-          <MCCard mt={20} width={320} padding={6} align="center">
+          <MCCard mt={20} width={320} p={10} align="center">
             {editable && (
               <MCView align="flex-end" width={320}>
                 <MCButton onPress={() => this.onToggleEdit(!editing)}>

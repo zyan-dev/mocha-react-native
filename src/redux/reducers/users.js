@@ -62,6 +62,11 @@ const usersReducer = (state = INITIAL_STATE, action) => {
           user => user._id !== action.payload._id,
         ),
       };
+    case types.INIT_TRUST_NETWORK:
+      return {
+        ...state,
+        selectedUsers: [],
+      };
     case types.SET_SINGLE_SELECTED_USERS:
       return {
         ...state,

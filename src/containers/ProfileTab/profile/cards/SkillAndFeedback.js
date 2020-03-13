@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import Collapsible from 'react-native-collapsible';
 import {MCCard, MCView} from 'components/styled/View';
@@ -8,7 +7,6 @@ import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCImage, MCModal} from 'components/common';
 import {profileCardWidth, profileCardNumPerRow} from 'services/operators';
-import {selector} from 'Redux/selectors';
 import CardItem from './CardItem';
 
 class SkillAndFeedback extends React.Component {

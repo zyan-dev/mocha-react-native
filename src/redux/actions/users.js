@@ -32,3 +32,8 @@ export const deselectUser = user => ({
   type: types.DESELECT_USER,
   payload: user,
 });
+
+export const declineRequest = userId => ({
+  type: types.DECLINE_USER_REQUEST,
+  payload: userId,
+});

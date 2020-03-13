@@ -57,8 +57,8 @@ class BasicProfile extends React.Component {
     } = this.props;
     const {editing} = this.state;
     return (
-      <MCCard width={320} padding={6}>
-        <MCView row justify="space-between">
+      <MCCard width={320} p={10}>
+        <MCView row justify="space-between" align="center">
           <MCView row align="center" style={{flex: 1}}>
             <H4>{`@${user_id.length ? user_id : 'Unnamed'}`}</H4>
             <MCImage width={12} height={12} image={MochaIcon} />

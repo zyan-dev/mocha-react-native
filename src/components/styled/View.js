@@ -44,3 +44,13 @@ export const MCCard = styled(MCView)`
     props.shadow ? props.theme.colors.card : 'transparent'};
   padding: ${props => dySize(props.p || 5)}px;
 `;
+
+export const ABSView = styled.View`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  justify-content: center;
+  align-items: center;
+`;

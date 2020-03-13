@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
-import {CommonActions} from '@react-navigation/native';
 import {withTranslation} from 'react-i18next';
 import FastImage from 'react-native-fast-image';
 import {userActions} from 'Redux/actions';
@@ -41,7 +40,7 @@ class FeedWelcome extends React.Component {
   };
 
   onPressTrustNetwork = () => {
-    NavigationService.navigate('Social', {screen: 'ManageTrustNetwork'});
+    NavigationService.navigate('Social', {screen: 'MyTrustNetwork'});
   };
 
   render() {

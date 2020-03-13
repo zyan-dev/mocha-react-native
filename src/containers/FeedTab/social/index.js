@@ -4,7 +4,10 @@ import Drawer from 'react-native-drawer';
 import {createStackNavigator} from '@react-navigation/stack';
 import FeedScreen from './feed';
 import SendRequestScreen from './send_request';
-import ManageTrustNetworkScreen from './manage_trustnetwork';
+import MyTrustNetworkScreen from './manage_trustnetwork';
+import ManageTrustNetworkScreen from './manage_trustnetwork/Manage';
+import PendingRequestScreen from './pending';
+import AddPendingUserScreen from './pending/Add';
 import SocialSideMenu from './SideMenu';
 import {dySize} from 'utils/responsive';
 import {routerActions} from 'Redux/actions';
@@ -35,8 +38,20 @@ class SocialStack extends React.Component {
           <Stack.Screen name="Feed" component={FeedScreen} />
           <Stack.Screen name="SendRequest" component={SendRequestScreen} />
           <Stack.Screen
+            name="MyTrustNetwork"
+            component={MyTrustNetworkScreen}
+          />
+          <Stack.Screen
             name="ManageTrustNetwork"
             component={ManageTrustNetworkScreen}
+          />
+          <Stack.Screen
+            name="PendingRequest"
+            component={PendingRequestScreen}
+          />
+          <Stack.Screen
+            name="AddPendingUser"
+            component={AddPendingUserScreen}
           />
         </Stack.Navigator>
       </Drawer>

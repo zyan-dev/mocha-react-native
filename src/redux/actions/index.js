@@ -5,6 +5,7 @@ import * as reflectionActions from './reflections';
 import * as feedbackActions from './feedbacks';
 import * as notificationActions from './notifications';
 import * as userActions from './users';
+import * as networkActions from './network';
 
 export {
   routerActions,
@@ -14,4 +15,5 @@ export {
   feedbackActions,
   notificationActions,
   userActions,
+  networkActions,
 };

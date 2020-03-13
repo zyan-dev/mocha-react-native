@@ -6,6 +6,7 @@ import * as reflectionSaga from './reflections';
 import * as feedbackSaga from './feedbacks';
 import * as notificationSaga from './notifications';
 import * as userSaga from './users';
+import * as networkSaga from './network';
 
 function* mySaga() {
   // auth
@@ -48,6 +49,13 @@ function* mySaga() {
   yield takeLatest(types.GET_ALL_USERS, userSaga.getAllUsers);
   yield takeLatest(types.GET_ALL_TRUST_MEMBERS, userSaga.getAllTrustMembers);
   yield takeLatest(types.SEND_CONTACT_REQUEST, userSaga.sendContactRequest);
+  yield takeLatest(types.DECLINE_USER_REQUEST, userSaga.declineRequest);
+
+  // network
+  yield takeLatest(types.GET_TRUST_NETWORKS, networkSaga.getTrustNetworks);
+  yield takeLatest(types.CREATE_TRUST_NETWORK, networkSaga.createNetwork);
+  yield takeLatest(types.UPDATE_TRUST_NETWORK, networkSaga.updateNetwork);
+  yield takeLatest(types.DELETE_TRUST_NETWORK, networkSaga.deleteNetwork);
 }
 
 export default mySaga;

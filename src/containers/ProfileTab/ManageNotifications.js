@@ -11,7 +11,6 @@ import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
-import {dySize} from 'utils/responsive';
 
 const NotificationKeys = [
   'dailyCheckIn',
@@ -85,19 +84,18 @@ class ManageNotifications extends React.Component {
                 return (
                   <MCCard shadow mt={10}>
                     <MCView row>
-                      <MCView style={{flex: 1}}>
+                      <MCView style={{flex: 1}} p={5}>
                         <H3>{t(`notification_${key}_title`)}</H3>
                         <H4 color={theme.colors.border}>
                           {t(`notification_${key}_description`)}
                         </H4>
                       </MCView>
-                      <MCView mt={5}>
+                      <MCView mt={10}>
                         <ToggleSwitch
                           isOn={setting.enabled}
                           onColor={theme.colors.toggle_on}
                           offColor={theme.colors.toggle_off}
                           size="medium"
-                          style={{margin: dySize(5)}}
                           onToggle={isOn => this.onToggle(key, isOn)}
                         />
                       </MCView>

@@ -8,7 +8,8 @@ export const MCText = styled.Text`
     props.weight ? fontFamilies[props.weight] : 'Raleway-Regular'};
   color: ${props => props.color || props.theme.colors.text};
   text-align: ${props => props.align || 'left'};
-  padding: ${props => dySize(props.padding || 5)}px;
+  padding-horizontal: ${props => dySize(props.ph || 0)}px;
+  padding-vertical: ${props => dySize(props.pv || 5)}px;
   text-decoration: ${props => props.underline && 'underline'};
   text-decoration-color: ${props =>
     props.underColor || props.theme.colors.text};
@@ -45,6 +46,13 @@ export const H5 = styled(MCText)`
 `;
 export const H6 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_TINY)};
+`;
+
+export const MCEmptyText = styled(H4)`
+  color: ${props => props.theme.colors.border};
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const MCTextInput = styled.TextInput`

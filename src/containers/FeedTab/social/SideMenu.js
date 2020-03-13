@@ -20,7 +20,14 @@ const sideMenuList = [
     icon: 'ios-git-network',
     iconType: 'Ionicon',
     title: 'feed_menu_manage_trust_network',
-    redirectTo: 'ManageTrustNetwork',
+    redirectTo: 'MyTrustNetwork',
+  },
+  {
+    index: 3,
+    icon: 'ios-hourglass',
+    iconType: 'Ionicon',
+    title: 'feed_menu_pending_requests',
+    redirectTo: 'PendingRequest',
   },
 ];
 
@@ -51,7 +58,7 @@ class SocialSideMenu extends React.Component {
               row
               onPress={() => this.onPressItem(menu)}>
               <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
-              <H3 align="right" padding={6}>
+              <H3 align="right" ml={6}>
                 {t(menu.title)}
               </H3>
             </MCButton>

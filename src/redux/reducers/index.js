@@ -5,6 +5,7 @@ import reflectionReducer from './reflections';
 import feedbackReducer from './feedbacks';
 import notificationReducer from './notifications';
 import usersReducer from './users';
+import networkReducer from './network';
 
 export {
   routerReducer,
@@ -14,4 +15,5 @@ export {
   feedbackReducer,
   notificationReducer,
   usersReducer,
+  networkReducer,
 };

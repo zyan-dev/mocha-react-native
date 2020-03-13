@@ -1,10 +1,10 @@
 import * as types from '../actions/types';
-import {sampleFeedbackQuestions} from 'utils/constants';
+import {SampleFeedbackQuestions} from 'utils/constants';
 
 const INITIAL_STATE = {
   myFeedbacks: [],
   userFeedbacks: [],
-  questions: sampleFeedbackQuestions,
+  questions: SampleFeedbackQuestions,
   selectedQuestions: [], // feedback questions for new request
 };
 

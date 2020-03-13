@@ -1,5 +1,6 @@
 import * as types from '../actions/types';
 import {colorThemes, baseTheme} from 'theme';
+import {showAlert} from 'services/operators';
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -47,6 +48,19 @@ const routerReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isProfileDrawerOpened: action.payload,
+      };
+    case types.API_CALLING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case types.API_FINISHED:
+      if (action.payload) {
+        showAlert(action.payload);
+      }
+      return {
+        ...state,
+        isLoading: false,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;
