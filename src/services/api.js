@@ -13,6 +13,7 @@ const URL_MY_PROFILE = '/user/me';
 const URL_GET_MY_REFLECTION = '/reflection/list';
 const URL_GET_USER_REFLECTION = '/reflection/list/user';
 const URL_FEEDBACK = '/feedback';
+const URL_REQUEST_FEEDBACK = '/feedback/request';
 const URL_NOTIFICATION = '/notification';
 const URL_ALL_USERS = '/user/all';
 const URL_TRUST_MEMBERS = '/member';
@@ -51,6 +52,10 @@ const getMyReflections = () => apiCall('get', URL_GET_MY_REFLECTION, {}, true);
 const getUserReflections = userId =>
   apiCall('get', `${URL_GET_USER_REFLECTION}/${userId}`, {}, true);
 const getMyFeedbacks = () => apiCall('get', URL_FEEDBACK, {}, true);
+const submitFeedback = (id, param) =>
+  apiCall('patch', `${URL_FEEDBACK}/${id}`, param, true);
+const removeFeedbackRequest = id =>
+  apiCall('delete', `${URL_REQUEST_FEEDBACK}/${id}`, {}, true);
 const getUserFeedbacks = userId =>
   apiCall('get', `${URL_FEEDBACK}/${userId}`, {}, true);
 const getNotificationSettings = () =>
@@ -113,4 +118,6 @@ export default {
   createNetwork,
   updateNetwork,
   deleteNetwork,
+  removeFeedbackRequest,
+  submitFeedback,
 };

@@ -11,7 +11,12 @@ import UsersSvg from 'assets/svgs/Users';
 import UserSvg from 'assets/svgs/User';
 import PlusSvg from 'assets/svgs/Plus';
 import NavigationService from 'navigation/NavigationService';
-import {profileActions, reflectionActions, userActions} from 'Redux/actions';
+import {
+  profileActions,
+  reflectionActions,
+  userActions,
+  feedbackActions,
+} from 'Redux/actions';
 
 const TabBarHeight = dySize(80);
 const TabIconBigSize = dySize(40);
@@ -41,6 +46,7 @@ class TabView extends React.PureComponent {
       getAllTrustMembers,
       getMyProfile,
       getMyReflections,
+      getMyFeedbacks,
     } = this.props;
     const TabScreens = ['TabFeed', 'TabAddValue', 'TabProfile'];
     this.setState({tabIndex: index});
@@ -56,6 +62,7 @@ class TabView extends React.PureComponent {
         // get profile data
         userToken.length > 0 && getMyProfile();
         userToken.length > 0 && getMyReflections();
+        userToken.length > 0 && getMyFeedbacks();
         break;
       default:
         break;
@@ -137,6 +144,7 @@ const mapDispatchToProps = {
   getMyProfile: profileActions.getMyProfile,
   getMyReflections: reflectionActions.getMyReflections,
   getUserReflections: reflectionActions.getUserReflections,
+  getMyFeedbacks: feedbackActions.getMyFeedbacks,
 };
 
 export default withTranslation()(

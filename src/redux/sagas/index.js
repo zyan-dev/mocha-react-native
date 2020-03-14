@@ -34,6 +34,11 @@ function* mySaga() {
   yield takeLatest(types.GET_MY_FEEDBACKS, feedbackSaga.getMyFeedbacks);
   yield takeLatest(types.GET_USER_FEEDBACKS, feedbackSaga.getUserFeedbacks);
   yield takeLatest(types.REQUEST_FEEDBACK, feedbackSaga.requestFeedback);
+  yield takeLatest(types.SUBMIT_FEEDBACK, feedbackSaga.submitFeedback);
+  yield takeLatest(
+    types.REMOVE_FEEDBACK_REQUEST,
+    feedbackSaga.removeFeedbackRequest,
+  );
 
   // notification
   yield takeLatest(

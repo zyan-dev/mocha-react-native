@@ -16,6 +16,7 @@ import QuirkAndTrigger from './cards/QuirkAndTrigger';
 import AttachmentAndApproach from './cards/AttachmentAndApproach';
 import LanguageAndRisk from './cards/LanguageAndRisk';
 import StressAndComfort from './cards/StressAndComfort';
+import NavigationService from 'navigation/NavigationService';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -73,7 +74,9 @@ class ProfileScreen extends React.Component {
             <SkillAndFeedback
               feedbacks={feedbacks}
               onPressAllSkills={() => console.log('Go to all skills')}
-              onPressAllFeedbacks={() => console.log('Go to all feedbacks')}
+              onPressAllFeedbacks={() =>
+                NavigationService.navigate('Feedbacks')
+              }
             />
             <QuirkAndTrigger
               onPressAllQuirks={() => console.log('Go to all quirks')}

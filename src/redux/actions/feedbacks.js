@@ -42,3 +42,13 @@ export const createQuestion = question => ({
 export const requestFeedback = () => ({
   type: types.REQUEST_FEEDBACK,
 });
+
+export const removeFeedbackRequest = id => ({
+  type: types.REMOVE_FEEDBACK_REQUEST,
+  payload: id,
+});
+
+export const submitFeedback = param => ({
+  type: types.SUBMIT_FEEDBACK,
+  payload: param,
+});

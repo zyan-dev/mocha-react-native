@@ -37,6 +37,32 @@ export function* getUserFeedbacks(action) {
   }
 }
 
+export function* submitFeedback(action) {
+  try {
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.submitFeedback, action.payload.id, {
+      feedback: {
+        pending: false,
+        feedback: action.payload.feedback,
+      },
+    });
+    if (response.data.status === 'success') {
+      yield put({type: types.GET_MY_FEEDBACKS});
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({
+      type: types.API_FINISHED,
+      payload: e.toString(),
+    });
+  }
+}
+
 export function* requestFeedback(action) {
   try {
     const {
@@ -71,5 +97,23 @@ export function* requestFeedback(action) {
       type: types.API_FINISHED,
       payload: e.toString(),
     });
+  }
+}
+
+export function* removeFeedbackRequest(action) {
+  try {
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.removeFeedbackRequest, action.payload);
+    if (response.data.status === 'success') {
+      yield put({type: types.GET_MY_FEEDBACKS});
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }

@@ -7,6 +7,7 @@ import MCModal from './MCModal';
 import MCTagsView from './MCTagsView';
 import MCTagInput from './MCTagInput';
 import MCVulnerabilityPicker from './MCVulnerabilityPicker';
+import MCReadMoreText from './MCReadMoreText';
 
 export {
   MCEditableText,
@@ -18,4 +19,5 @@ export {
   MCTagsView,
   MCTagInput,
   MCVulnerabilityPicker,
+  MCReadMoreText,
 };

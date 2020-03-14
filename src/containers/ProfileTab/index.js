@@ -11,6 +11,7 @@ import AnalyzeScreen from './Analyze';
 import SendMochaCVScreen from './SendMochaCV';
 import ManageNotifications from './ManageNotifications';
 import PurchaseSubscription from './PurchaseSubscription';
+import FeedbackScreen from './profile/details/feedback';
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,7 @@ class ProfileTabStack extends React.Component {
             component={ManageNotifications}
           />
           <Stack.Screen name="Purchase" component={PurchaseSubscription} />
+          <Stack.Screen name="Feedbacks" component={FeedbackScreen} />
         </Stack.Navigator>
       </Drawer>
     );
