@@ -27,19 +27,19 @@ class FeedbackScreen extends React.Component {
     const routes = [
       {
         key: 'received',
-        title: t('tab_feedback_received', {count: received.length}),
+        title: t('tab_feedback_received'),
       },
       {
         key: 'requested',
-        title: t('tab_feedback_requested', {count: requested.length}),
+        title: t('tab_feedback_requested'),
       },
       {
         key: 'pending',
-        title: t('tab_feedback_pending', {count: pending.length}),
+        title: t('tab_feedback_pending'),
       },
       {
         key: 'sent',
-        title: t('tab_feedback_sent', {count: sent.length}),
+        title: t('tab_feedback_sent'),
       },
     ];
     const renderTabBar = props => (
@@ -51,11 +51,19 @@ class FeedbackScreen extends React.Component {
           borderBottomWidth: 0,
           borderColor: 'red',
         }}
-        renderLabel={({route, focused, color}) => (
-          <H5 color={focused ? theme.colors.text : theme.colors.border}>
-            {route.title}
-          </H5>
-        )}
+        renderLabel={({route, focused, color}) => {
+          const count = this.props[route.key].length;
+          return (
+            <>
+              <H5 color={focused ? theme.colors.text : theme.colors.border}>
+                {route.title}
+              </H5>
+              <H5 pv={1} align="center">
+                {`( ${count} )`}
+              </H5>
+            </>
+          );
+        }}
       />
     );
     return (
