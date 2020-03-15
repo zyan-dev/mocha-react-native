@@ -7,9 +7,7 @@ import {MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {H3} from 'components/styled/Text';
-import UsersSvg from 'assets/svgs/Users';
-import UserSvg from 'assets/svgs/User';
-import PlusSvg from 'assets/svgs/Plus';
+import {UsersSvg, UserSvg, ToolsSvg} from 'assets/svgs';
 import NavigationService from 'navigation/NavigationService';
 import {
   profileActions,
@@ -37,6 +35,25 @@ class TabView extends React.PureComponent {
     this.state = {
       tabIndex: 1,
     };
+  }
+
+  componentWillReceiveProps(props) {
+    const history = props.state.history;
+    if (history.length > 0) {
+      switch (history[0].key.split('-')[0]) {
+        case 'TabFeed':
+          this.setState({tabIndex: 0});
+          break;
+        case 'TabAddValue':
+          this.setState({tabIndex: 1});
+          break;
+        case 'TabProfile':
+          this.setState({tabIndex: 2});
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   onClickTab = index => {
@@ -103,7 +120,7 @@ class TabView extends React.PureComponent {
             onPress={() => this.onClickTab(1)}
             style={{flex: 1}}
             height={TabBarHeight}>
-            <PlusSvg
+            <ToolsSvg
               size={tabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
               color={theme.colors.text}
             />

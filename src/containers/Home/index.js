@@ -55,7 +55,7 @@ class MainHomeStack extends React.Component {
   render() {
     return (
       <Tab.Navigator
-        tabBar={() => <TabView />}
+        tabBar={props => <TabView {...props} />}
         initialRouteName="TabAddValue"
         backBehavior="none" // not handle back button
         headerMode="none">

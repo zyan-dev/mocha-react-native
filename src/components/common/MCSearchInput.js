@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {Icon} from 'native-base';
-import {MCView} from '../styled/View';
 import {dySize} from 'utils/responsive';
 import MCEditableText from './MCEditableText';
+import {MCView} from '../styled/View';
+import {MCButton} from '../styled/Button';
+import {MCIcon} from '../styled/Text';
 
 const Wrapper = styled(MCView)`
   display: flex;
@@ -42,6 +44,9 @@ export default class MCSearchInput extends React.PureComponent {
           text={text}
           style={{flex: 1}}
         />
+        <MCButton onPress={() => onChange('')}>
+          <MCIcon name="ios-close-circle-outline" size={20} />
+        </MCButton>
       </Wrapper>
     );
   }

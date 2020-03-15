@@ -60,7 +60,7 @@ class BeliefAndGoal extends React.Component {
   };
 
   _renderBeliefItem = item => (
-    <MCCard width={profileCardWidth} mr={10} align="center">
+    <MCCard width={profileCardWidth} ml={5} mr={5} align="center">
       <MCButton
         key={item._id}
         align="center"
@@ -76,7 +76,7 @@ class BeliefAndGoal extends React.Component {
   );
 
   _renderGoalItem = item => (
-    <MCCard width={profileCardWidth} mr={10} align="center">
+    <MCCard width={profileCardWidth} ml={5} mr={5} align="center">
       <MCButton
         key={item._id}
         align="center"
@@ -116,59 +116,63 @@ class BeliefAndGoal extends React.Component {
           />
         </MCView>
         <Collapsible collapsed={beliefCollapsed}>
-          {manuals.length > 0 && (
-            <MCButton
-              width={320}
-              row
-              justify="space-between"
-              onPress={() => onPressAllBeliefs()}>
-              <H3>All Beliefs</H3>
-              <MCIcon name="ios-arrow-forward" />
-            </MCButton>
-          )}
-          <MCView row width={300}>
-            {manuals.length > 0 &&
-              manuals
-                .slice(0, profileCardNumPerRow)
-                .map(value => this._renderBeliefItem(value))}
-            {manuals.length === 0 && (
+          <MCView align="center">
+            {manuals.length > 0 && (
               <MCButton
-                bordered
-                align="center"
-                mt={10}
-                width={300}
+                width={320}
+                row
+                justify="space-between"
                 onPress={() => onPressAllBeliefs()}>
-                <H3 align="center">You have not added a Belief</H3>
+                <H3>All Beliefs</H3>
+                <MCIcon name="ios-arrow-forward" />
               </MCButton>
             )}
+            <MCView row width={350} justify="center">
+              {manuals.length > 0 &&
+                manuals
+                  .slice(0, profileCardNumPerRow)
+                  .map(value => this._renderBeliefItem(value))}
+              {manuals.length === 0 && (
+                <MCButton
+                  bordered
+                  align="center"
+                  mt={10}
+                  width={300}
+                  onPress={() => onPressAllBeliefs()}>
+                  <H3 align="center">You have not added a Belief</H3>
+                </MCButton>
+              )}
+            </MCView>
           </MCView>
         </Collapsible>
         <Collapsible collapsed={goalCollapsed}>
-          {goals.length > 0 && (
-            <MCButton
-              width={320}
-              row
-              justify="space-between"
-              onPress={() => onPressAllGoals()}>
-              <H3>All Goals</H3>
-              <MCIcon name="ios-arrow-forward" />
-            </MCButton>
-          )}
-          <MCView row width={300}>
-            {goals.length > 0 &&
-              goals
-                .slice(0, profileCardNumPerRow)
-                .map(value => this._renderGoalItem(value))}
-            {goals.length === 0 && (
+          <MCView align="center">
+            {goals.length > 0 && (
               <MCButton
-                bordered
-                align="center"
-                mt={10}
-                width={300}
+                width={320}
+                row
+                justify="space-between"
                 onPress={() => onPressAllGoals()}>
-                <H3 align="center">You have not added a Goal</H3>
+                <H3>All Goals</H3>
+                <MCIcon name="ios-arrow-forward" />
               </MCButton>
             )}
+            <MCView row width={350} justify="center">
+              {goals.length > 0 &&
+                goals
+                  .slice(0, profileCardNumPerRow)
+                  .map(value => this._renderGoalItem(value))}
+              {goals.length === 0 && (
+                <MCButton
+                  bordered
+                  align="center"
+                  mt={10}
+                  width={300}
+                  onPress={() => onPressAllGoals()}>
+                  <H3 align="center">You have not added a Goal</H3>
+                </MCButton>
+              )}
+            </MCView>
           </MCView>
         </Collapsible>
         {selectedBelief && (

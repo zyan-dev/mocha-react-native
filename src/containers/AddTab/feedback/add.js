@@ -6,10 +6,9 @@ import {userActions, feedbackActions} from 'Redux/actions';
 import {MCRootView} from 'components/styled/View';
 import {MCHeader, MCImage} from 'components/common';
 import {H2, H3, MCIcon} from 'components/styled/Text';
-import {MCContent, MCView} from 'components/styled/View';
+import {MCContent, MCView, MCCard} from 'components/styled/View';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
-import {MCCard} from '../../../components/styled/View';
 
 class AddFeedbackScreen extends React.Component {
   constructor(props) {

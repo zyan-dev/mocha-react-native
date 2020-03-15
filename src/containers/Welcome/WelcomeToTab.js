@@ -5,10 +5,8 @@ import {MCRootView, MCView} from 'components/styled/View';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
-import PlusSvg from 'assets/svgs/Plus';
+import {ToolsSvg, UserSvg, UsersSvg} from 'assets/svgs';
 import {dySize} from 'utils/responsive';
-import UserSvg from 'assets/svgs/User';
-import UsersSvg from 'assets/svgs/Users';
 import {routerActions} from 'Redux/actions';
 
 class WelcomeToTab extends React.PureComponent {
@@ -26,7 +24,7 @@ class WelcomeToTab extends React.PureComponent {
         <MCView p={20} align="center">
           <MCView row width={320} mt={40} align="center">
             <MCView width={40} align="center">
-              <PlusSvg size={dySize(38)} color={theme.colors.text} />
+              <ToolsSvg size={dySize(38)} color={theme.colors.text} />
             </MCView>
             <MCView style={{flex: 1}}>
               <H3 ml={20}>

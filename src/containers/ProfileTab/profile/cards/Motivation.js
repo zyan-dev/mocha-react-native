@@ -55,7 +55,7 @@ class MotivationCard extends React.Component {
   };
 
   _renderMotivationItem = item => (
-    <MCCard width={profileCardWidth} mr={10} align="center">
+    <MCCard width={profileCardWidth} ml={5} mr={5} align="center">
       <MCButton
         key={item._id}
         align="center"
@@ -80,31 +80,33 @@ class MotivationCard extends React.Component {
           />
         </MCView>
         <Collapsible collapsed={collapsed}>
-          {dummy.length > 0 && (
-            <MCButton
-              width={320}
-              row
-              justify="space-between"
-              onPress={() => onPressAllMotivations()}>
-              <H3>All Motivations</H3>
-              <MCIcon name="ios-arrow-forward" />
-            </MCButton>
-          )}
-          <MCView row width={300}>
-            {dummy.length > 0 &&
-              dummy
-                .slice(0, profileCardNumPerRow)
-                .map(value => this._renderMotivationItem(value))}
-            {dummy.length === 0 && (
+          <MCView align="center">
+            {dummy.length > 0 && (
               <MCButton
-                bordered
-                align="center"
-                mt={10}
                 width={320}
+                row
+                justify="space-between"
                 onPress={() => onPressAllMotivations()}>
-                <H3>You have not added a Motivation</H3>
+                <H3>All Motivations</H3>
+                <MCIcon name="ios-arrow-forward" />
               </MCButton>
             )}
+            <MCView row width={350} justify="center">
+              {dummy.length > 0 &&
+                dummy
+                  .slice(0, profileCardNumPerRow)
+                  .map(value => this._renderMotivationItem(value))}
+              {dummy.length === 0 && (
+                <MCButton
+                  bordered
+                  align="center"
+                  mt={10}
+                  width={320}
+                  onPress={() => onPressAllMotivations()}>
+                  <H3>You have not added a Motivation</H3>
+                </MCButton>
+              )}
+            </MCView>
           </MCView>
         </Collapsible>
         {selected && (

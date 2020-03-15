@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import AddFeedbackScreen from './add';
 import SelectQuestionScreen from './SelectQuestions';
+import CompletedFeedbackScreen from './completed';
 
 const Stack = createStackNavigator();
 
@@ -11,6 +12,10 @@ class AddFeedbackStack extends React.Component {
       <Stack.Navigator headerMode="none">
         <Stack.Screen name="AddFeedback" component={AddFeedbackScreen} />
         <Stack.Screen name="SelectQuestion" component={SelectQuestionScreen} />
+        <Stack.Screen
+          name="CompletedFeedback"
+          component={CompletedFeedbackScreen}
+        />
       </Stack.Navigator>
     );
   }

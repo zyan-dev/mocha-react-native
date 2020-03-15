@@ -85,7 +85,7 @@ export function* requestFeedback(action) {
         payload: [],
       });
       yield put({type: types.API_FINISHED});
-      NavigationService.goBack();
+      NavigationService.navigate('CompletedFeedback');
     } else {
       yield put({
         type: types.API_FINISHED,

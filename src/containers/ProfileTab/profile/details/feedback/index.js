@@ -11,6 +11,7 @@ import FeedbackRequestedScreen from './Requested';
 import FeedbackPendingScreen from './Pending';
 import FeedbackSentScreen from './Sent';
 import MCHeader from '../../../../../components/common/MCHeader';
+import NavigationService from '../../../../../navigation/NavigationService';
 
 class FeedbackScreen extends React.Component {
   constructor(props) {
@@ -59,7 +60,10 @@ class FeedbackScreen extends React.Component {
     );
     return (
       <View style={{flex: 1}}>
-        <MCHeader title={t('add_feedback_headerTitle')} />
+        <MCHeader
+          title={t('add_feedback_headerTitle')}
+          onPressBack={() => NavigationService.navigate('Profile')}
+        />
         <TabView
           navigationState={{index, routes}}
           renderScene={SceneMap({

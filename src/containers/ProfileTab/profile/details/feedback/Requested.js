@@ -23,7 +23,7 @@ class FeedbackRequestedScreen extends React.Component {
     const {theme, removeFeedbackRequest} = this.props;
     return (
       <MCView bordered br={10} mb={20}>
-        <MCCard shadow style={{width: '100%'}}>
+        <MCCard shadow br={1} style={{width: '100%'}}>
           <MCView row align="center">
             <MCButton
               onPress={() =>

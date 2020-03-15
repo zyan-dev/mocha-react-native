@@ -121,31 +121,33 @@ class SkillAndFeedback extends React.Component {
           )}
         </Collapsible>
         <Collapsible collapsed={feedbackCollapsed}>
-          {feedbacks.length > 0 && (
-            <MCButton
-              width={320}
-              row
-              justify="space-between"
-              onPress={() => onPressAllFeedbacks()}>
-              <H3>All Feedbacks</H3>
-              <MCIcon name="ios-arrow-forward" />
-            </MCButton>
-          )}
-          <MCView row width={300}>
-            {feedbacks.length > 0 &&
-              feedbacks
-                .slice(0, profileCardNumPerRow)
-                .map(value => this._renderFeedbackItem(value))}
-            {feedbacks.length === 0 && (
+          <MCView align="center">
+            {feedbacks.length > 0 && (
               <MCButton
-                bordered
-                align="center"
-                mt={10}
-                width={300}
+                width={320}
+                row
+                justify="space-between"
                 onPress={() => onPressAllFeedbacks()}>
-                <H3>You have not added a Feedback</H3>
+                <H3>All Feedbacks</H3>
+                <MCIcon name="ios-arrow-forward" />
               </MCButton>
             )}
+            <MCView row width={350} justify="center">
+              {feedbacks.length > 0 &&
+                feedbacks
+                  .slice(0, profileCardNumPerRow)
+                  .map(value => this._renderFeedbackItem(value))}
+              {feedbacks.length === 0 && (
+                <MCButton
+                  bordered
+                  align="center"
+                  mt={10}
+                  width={300}
+                  onPress={() => onPressAllFeedbacks()}>
+                  <H3>You have not added a Feedback</H3>
+                </MCButton>
+              )}
+            </MCView>
           </MCView>
         </Collapsible>
         {selectedFeedback && (

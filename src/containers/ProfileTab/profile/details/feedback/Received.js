@@ -22,7 +22,7 @@ class FeedbackReceivedScreen extends React.Component {
     const {theme} = this.props;
     return (
       <MCView bordered br={10} mb={10}>
-        <MCCard shadow style={{width: '100%'}}>
+        <MCCard shadow br={1} style={{width: '100%'}}>
           <MCView row align="center">
             <MCButton
               onPress={() =>
