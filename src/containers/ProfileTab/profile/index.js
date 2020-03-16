@@ -66,7 +66,9 @@ class ProfileScreen extends React.Component {
               onPressAllGoals={() => console.log('Go to all goals')}
             />
             <ChronotypeAndPersonality
-              onPressAllChronotypes={() => console.log('Go to all chronotypes')}
+              onPressAllChronotypes={() =>
+                NavigationService.navigate('Chronotype')
+              }
               onPressAllPersonalities={() =>
                 console.log('Go to all personalities')
               }

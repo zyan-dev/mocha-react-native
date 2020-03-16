@@ -16,13 +16,12 @@ import {
   feedbackActions,
 } from 'Redux/actions';
 
-const TabBarHeight = dySize(80);
+const TabBarHeight = 80;
 const TabIconBigSize = dySize(40);
 const TabIconSmallSize = dySize(25);
 
 const TabWrapper = styled(Footer)`
-  height: ${dySize(80)};
-  padding-bottom: 20;
+  height: ${TabBarHeight};
   border-top-width: 0px;
   background-color: ${props => props.theme.colors.background};
   border-top-width: 0px;
@@ -94,7 +93,7 @@ class TabView extends React.PureComponent {
         <MCView
           row
           p={0}
-          width={dySize(375)}
+          width={375}
           style={{backgroundColor: theme.colors.background}}>
           <MCButton
             rippleCentered
@@ -125,7 +124,7 @@ class TabView extends React.PureComponent {
               color={theme.colors.text}
             />
             <H3 weight={tabIndex === 1 ? 'bold' : 'regular'}>
-              {t('footer_add')}
+              {t('footer_tools')}
             </H3>
           </MCButton>
           <MCButton

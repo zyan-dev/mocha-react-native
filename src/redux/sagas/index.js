@@ -29,6 +29,7 @@ function* mySaga() {
     types.GET_USER_REFLECTIONS,
     reflectionSaga.getUserReflections,
   );
+  yield takeLatest(types.SAVE_CHRONOTYPE, reflectionSaga.saveMyChronotype);
 
   // feedback
   yield takeLatest(types.GET_MY_FEEDBACKS, feedbackSaga.getMyFeedbacks);

@@ -35,7 +35,7 @@ export const MCView = styled.View`
   width: ${props => (props.width ? `${dySize(props.width)}px` : 'auto')};
   height: ${props => (props.height ? `${dySize(props.height)}px` : 'auto')};
   flex-wrap: ${props => (props.wrap ? 'wrap' : 'nowrap')};
-  overflow: hidden;
+  overflow: ${props => props.overflow || 'hidden'};
 `;
 
 export const MCCard = styled(MCView)`
@@ -65,7 +65,8 @@ export const NativeCard = styled(Card)`
   shadow-radius: 4;
   elevation: 2;
   border-width: 1px;
-  border-color: transparent;
+  border-color: ${props =>
+    props.bordered ? props.theme.colors.text : 'transparent'};
   padding: ${props => dySize(props.p || 10)}px;
   width: ${props => (props.width ? dySize(props.width) : '100%')};
   margin-top: ${props => dySize(props.mt || 10)}px;

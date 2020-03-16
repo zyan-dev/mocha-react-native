@@ -11,7 +11,7 @@ import {dySize} from 'utils/responsive';
 
 const HeaderWrapper = styled(Header)`
   width: ${dySize(375)};
-  height: ${dySize(80)};
+  height: 80px;
   background-color: ${props => props.theme.colors.background};
   border-bottom-width: 0px;
   elevation: 0;

@@ -49,12 +49,7 @@ class PurchaseSubscription extends React.Component {
               <NativeCard
                 key={item.key}
                 width={340}
-                style={{
-                  borderColor:
-                    selectedItem.key === item.key
-                      ? theme.colors.text
-                      : 'transparent',
-                }}>
+                bordered={selectedItem.key === item.key}>
                 <MCView>
                   <MCView row align="center">
                     <H3 weight="bold">12 </H3>

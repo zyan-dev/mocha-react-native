@@ -12,6 +12,7 @@ import SendMochaCVScreen from './SendMochaCV';
 import ManageNotifications from './ManageNotifications';
 import PurchaseSubscription from './PurchaseSubscription';
 import FeedbackScreen from './profile/details/feedback';
+import ChronotypeScreen from './profile/details/chronotype';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ class ProfileTabStack extends React.Component {
           />
           <Stack.Screen name="Purchase" component={PurchaseSubscription} />
           <Stack.Screen name="Feedbacks" component={FeedbackScreen} />
+          <Stack.Screen name="Chronotype" component={ChronotypeScreen} />
         </Stack.Navigator>
       </Drawer>
     );

@@ -8,6 +8,7 @@ import MCTagsView from './MCTagsView';
 import MCTagInput from './MCTagInput';
 import MCVulnerabilityPicker from './MCVulnerabilityPicker';
 import MCReadMoreText from './MCReadMoreText';
+import MCTimeSlider from './MCTimeSlider';
 
 export {
   MCEditableText,
@@ -20,4 +21,5 @@ export {
   MCTagInput,
   MCVulnerabilityPicker,
   MCReadMoreText,
+  MCTimeSlider,
 };

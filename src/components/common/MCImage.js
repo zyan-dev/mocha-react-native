@@ -25,6 +25,7 @@ export default class MCImage extends React.PureComponent {
     image: PropTypes.object,
     type: PropTypes.string,
     style: PropTypes.object,
+    resizeMode: PropTypes.oneOfType(['cover', 'contain', 'stretch']),
   };
   static defaultProps = {
     round: false,
@@ -32,6 +33,7 @@ export default class MCImage extends React.PureComponent {
     height: 100,
     image: null,
     style: {},
+    resizeMode: 'cover',
   };
   constructor(props) {
     super(props);
@@ -43,7 +45,7 @@ export default class MCImage extends React.PureComponent {
 
   render() {
     const {loading, loadError} = this.state;
-    const {round, width, height, type, image, style} = this.props;
+    const {round, width, height, type, image, resizeMode, style} = this.props;
     const defaultImage = type === 'avatar' ? DefaultAvatar : DefaultPicture;
     const imageStyle = {
       width: dySize(width),
@@ -67,7 +69,7 @@ export default class MCImage extends React.PureComponent {
           onLoadEnd={() => this.setState({loading: false})}
           onError={() => this.setState({loadError: true})}
           source={image}
-          resizeMode={FastImage.resizeMode.cover}
+          resizeMode={FastImage.resizeMode[resizeMode]}
         />
       </MCView>
     );

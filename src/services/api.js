@@ -10,6 +10,8 @@ const API_TIMEOUT = 5000;
 const URL_SEND_SMS = '/auth/signup-request';
 const URL_VERIFY_SMS = '/auth/signup-confirm';
 const URL_MY_PROFILE = '/user/me';
+const URL_REFLECTION_UPDATE = '/reflection/update';
+const URL_REFLECTION_ADD = '/reflection/add';
 const URL_GET_MY_REFLECTION = '/reflection/list';
 const URL_GET_USER_REFLECTION = '/reflection/list/user';
 const URL_FEEDBACK = '/feedback';
@@ -77,6 +79,9 @@ const deleteNetwork = networkId =>
   apiCall('delete', `${URL_NETWORK}/${networkId}`, {}, true);
 const updateNetwork = network =>
   apiCall('patch', `${URL_NETWORK}/${network._id}`, network, true);
+const addChronotype = param => apiCall('post', URL_REFLECTION_ADD, param, true);
+const updateChronotype = param =>
+  apiCall('post', URL_REFLECTION_UPDATE, param, true);
 
 const fileUploadToS3 = async ({avatar, name}) => {
   const imageType = avatar.includes('.jpg') ? 'jpg' : 'png';
@@ -120,4 +125,6 @@ export default {
   deleteNetwork,
   removeFeedbackRequest,
   submitFeedback,
+  addChronotype,
+  updateChronotype,
 };
