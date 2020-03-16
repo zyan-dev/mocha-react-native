@@ -1,4 +1,5 @@
 import {Container, Content} from 'native-base';
+import {Card} from 'native-base';
 import styled from 'styled-components';
 import {dySize} from 'utils/responsive';
 
@@ -54,4 +55,19 @@ export const ABSView = styled.View`
   left: 0px;
   justify-content: center;
   align-items: center;
+`;
+
+export const NativeCard = styled(Card)`
+  background-color: ${props => props.theme.colors.background};
+  shadow-color: black;
+  shadow-offset: {width: 0, height: 2};
+  shadow-opacity: 0.5;
+  shadow-radius: 4;
+  elevation: 2;
+  border-width: 1px;
+  border-color: transparent;
+  padding: ${props => dySize(props.p || 10)}px;
+  width: ${props => (props.width ? dySize(props.width) : '100%')};
+  margin-top: ${props => dySize(props.mt || 10)}px;
+  border-radius: ${props => dySize(props.mt || 10)}px;
 `;

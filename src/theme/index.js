@@ -8,6 +8,7 @@ const commonTheme = {
   chart_gradient_start_color: '#006622',
   chart_gradient_end_color: '#000000',
   chart_bg: 'rgba(255,255,255,0.2)',
+  purchase: '#19D868',
 };
 
 export const colorThemes = [
