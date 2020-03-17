@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {routerActions} from 'Redux/actions';
+import {routerActions, profileActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {colorThemes} from 'theme';
 import {H3, MCIcon} from 'components/styled/Text';
@@ -73,7 +73,7 @@ class ProfileSideMenu extends React.Component {
     this.setState({index: menu.index});
     this.props.showDrawer(false);
     if (menu.index === 7) {
-      // this.props.deleteAccount();
+      this.props.deleteAccount();
     } else {
       NavigationService.navigate(menu.redirectTo);
     }
@@ -136,6 +136,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   showDrawer: routerActions.setProfileDrawerOpened,
   setThemeIndex: routerActions.setThemeIndex,
+  deleteAccount: profileActions.deleteAccount,
 };
 
 export default withTranslation()(

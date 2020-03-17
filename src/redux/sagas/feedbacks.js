@@ -84,6 +84,7 @@ export function* requestFeedback(action) {
         type: types.SET_SELCTED_QUESTIONS,
         payload: [],
       });
+      yield put({type: types.GET_MY_FEEDBACKS});
       yield put({type: types.API_FINISHED});
       NavigationService.navigate('CompletedFeedback');
     } else {

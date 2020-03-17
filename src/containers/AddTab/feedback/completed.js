@@ -12,7 +12,7 @@ class CompletedFeedbackScreen extends React.Component {
       <MCRootView>
         <MCView width={320} align="center">
           <H2>{t('congrats')}</H2>
-          <H2>{t('completed_feedback_title')}</H2>
+          <H2 align="center">{t('completed_feedback_title')}</H2>
           <H1>{t('completed_emojis')}</H1>
           <H3 mt={30} align="center">
             {t('completed_feedback_displayText')}

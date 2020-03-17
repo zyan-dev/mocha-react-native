@@ -18,13 +18,7 @@ function reset(routeName, params) {
     config.navigator.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [
-          {name: routeName},
-          {
-            name: 'routeName',
-            params,
-          },
-        ],
+        routes: [{name: routeName}],
       }),
     );
   }
