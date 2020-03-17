@@ -21,3 +21,7 @@ export const updateBasicProfile = () => ({
 export const updateContactProfile = () => ({
   type: types.UPDATE_CONTACT_PROFILE,
 });
+
+export const deleteAccount = () => ({
+  type: types.DELETE_ACCOUNT,
+});

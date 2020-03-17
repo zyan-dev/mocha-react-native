@@ -4,6 +4,7 @@ import API from 'services/api';
 import * as _ from 'lodash';
 import {showAlert} from 'services/operators';
 import {ContactProfileKeys} from 'utils/constants';
+import NavigationService from 'navigation/NavigationService';
 
 export function* getMyProfile(action) {
   try {
@@ -77,5 +78,24 @@ export function* getUserProfile(action) {
     }
   } catch (e) {
     showAlert(e.toString());
+  }
+}
+
+export function* deleteAccount() {
+  try {
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.deleteProfile);
+    if (response.data.status === 'success') {
+      yield put({type: types.API_FINISHED});
+      yield put({type: types.RESET_ALL_REDUCER});
+      NavigationService.reset('welcomeStack');
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }

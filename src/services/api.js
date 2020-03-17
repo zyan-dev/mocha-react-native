@@ -48,6 +48,7 @@ const sendSMS = phone => apiCall('post', URL_SEND_SMS, {phone});
 const verifySMS = param => apiCall('post', URL_VERIFY_SMS, param);
 const updateProfile = param => apiCall('patch', URL_MY_PROFILE, param, true);
 const getMyProfile = () => apiCall('get', URL_MY_PROFILE, {}, true);
+const deleteProfile = () => apiCall('delete', URL_MY_PROFILE, {}, true);
 const getUserProfile = userId =>
   apiCall('get', `${URL_USER_PROFILE}${userId}`, {}, true);
 const getMyReflections = () => apiCall('get', URL_GET_MY_REFLECTION, {}, true);
@@ -127,4 +128,5 @@ export default {
   submitFeedback,
   addChronotype,
   updateChronotype,
+  deleteProfile,
 };
