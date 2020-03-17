@@ -11,11 +11,18 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 const sideMenuList = [
   {
-    index: 1,
+    index: 0,
     icon: 'ios-link',
     iconType: 'Ionicon',
     title: 'profile_menu_signin',
     redirectTo: 'TabFeed',
+  },
+  {
+    index: 1,
+    icon: 'ios-log-out',
+    iconType: 'Ionicon',
+    title: 'profile_menu_signout',
+    redirectTo: '',
   },
   {
     index: 2,
@@ -72,7 +79,10 @@ class ProfileSideMenu extends React.Component {
   onPressItem = menu => {
     this.setState({index: menu.index});
     this.props.showDrawer(false);
-    if (menu.index === 7) {
+    if (menu.index === 1) {
+      this.props.resetAllReducer();
+      NavigationService.reset('welcomeStack');
+    } else if (menu.index === 7) {
       this.props.deleteAccount();
     } else {
       NavigationService.navigate(menu.redirectTo);
@@ -80,12 +90,14 @@ class ProfileSideMenu extends React.Component {
   };
 
   render() {
-    const {setThemeIndex, systemTheme, t} = this.props;
+    const {setThemeIndex, systemTheme, profile, t} = this.props;
     return (
       <MCRootView justify="flex-start" align="flex-start">
         <ScrollView>
           <MCView height={80} />
           {sideMenuList.map(menu => {
+            if (profile.userToken.length && menu.index === 0) return;
+            else if (!profile.userToken.length && menu.index === 1) return;
             return (
               <MCButton
                 style={{width: '100%'}}
@@ -102,7 +114,7 @@ class ProfileSideMenu extends React.Component {
             );
           })}
           <MCView height={0.5} mr={10} ml={10} mb={30} mt={30} bordered />
-          <MCView align="center" width={275}>
+          <MCView align="center" width={275} mb={50}>
             <H3 padding={20}>{t('welcome_theme_displayText')}</H3>
             <MCView justify="space-between" row wrap width={240}>
               {colorThemes.map((theme, index) => {
@@ -131,12 +143,14 @@ class ProfileSideMenu extends React.Component {
 
 const mapStateToProps = state => ({
   systemTheme: state.routerReducer.theme,
+  profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {
   showDrawer: routerActions.setProfileDrawerOpened,
   setThemeIndex: routerActions.setThemeIndex,
   deleteAccount: profileActions.deleteAccount,
+  resetAllReducer: routerActions.resetAllReducer,
 };
 
 export default withTranslation()(

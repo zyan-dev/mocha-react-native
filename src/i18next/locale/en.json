@@ -1375,6 +1375,7 @@
   "profile_menu_purchase": "Purchase Subscription",
   "profile_menu_timeline": "Timeline",
   "profile_menu_signin": "Sign In",
+  "profile_menu_signout": "Sign Out",
   "profile_name_input_placeholder": "Tap to type your {{type}}",
   "profile_noData": "You have no {{type}}s",
   "profile_noactivies": "No Activities",
