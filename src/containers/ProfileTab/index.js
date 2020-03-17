@@ -13,6 +13,8 @@ import ManageNotifications from './ManageNotifications';
 import PurchaseSubscription from './PurchaseSubscription';
 import FeedbackScreen from './profile/details/feedback';
 import ChronotypeScreen from './profile/details/chronotype';
+import MotivationListScreen from './profile/details/motivations';
+import CreateMotivationScreen from './profile/details/motivations/create';
 
 const Stack = createStackNavigator();
 
@@ -48,6 +50,11 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen name="Purchase" component={PurchaseSubscription} />
           <Stack.Screen name="Feedbacks" component={FeedbackScreen} />
           <Stack.Screen name="Chronotype" component={ChronotypeScreen} />
+          <Stack.Screen name="Motivations" component={MotivationListScreen} />
+          <Stack.Screen
+            name="AddMotivation"
+            component={CreateMotivationScreen}
+          />
         </Stack.Navigator>
       </Drawer>
     );

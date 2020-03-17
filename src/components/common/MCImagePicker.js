@@ -16,6 +16,7 @@ class MCImagePicker extends React.PureComponent {
     image: PropTypes.string,
     enabled: PropTypes.bool,
     type: PropTypes.oneOf(['avatar', 'picture']),
+    br: PropTypes.number,
   };
   static defaultProps = {
     round: false,
@@ -24,6 +25,7 @@ class MCImagePicker extends React.PureComponent {
     image: '',
     enabled: true,
     type: 'avatar',
+    br: 0,
   };
   onPressPicker = () => {
     if (!this.props.enabled) {
@@ -39,7 +41,7 @@ class MCImagePicker extends React.PureComponent {
     });
   };
   render() {
-    const {image, round, width, height, type, theme} = this.props;
+    const {image, round, width, height, type, br, theme} = this.props;
     return (
       <TouchableOpacity
         onPress={() => this.onPressPicker()}
@@ -47,7 +49,7 @@ class MCImagePicker extends React.PureComponent {
           width: dySize(width),
           height: dySize(height),
           overflow: 'hidden',
-          borderRadius: round ? dySize(width) / 2 : 0,
+          borderRadius: round ? dySize(width) / 2 : br,
           borderWidth: 1,
           padding: 0,
           borderColor: theme.colors.border,

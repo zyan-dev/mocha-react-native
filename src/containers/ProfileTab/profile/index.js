@@ -37,6 +37,7 @@ class ProfileScreen extends React.Component {
       values,
       showDrawer,
       feedbacks,
+      motivations,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -57,7 +58,10 @@ class ProfileScreen extends React.Component {
               onPressAllPurposes={() => console.log('Go to all purposes')}
             />
             <MotivationCard
-              onPressAllMotivations={() => console.log('Go to all motivations')}
+              motivations={motivations}
+              onPressAllMotivations={() =>
+                NavigationService.navigate('Motivations')
+              }
             />
             <BeliefAndGoal
               manuals={manuals}
@@ -107,6 +111,7 @@ const mapStateToProps = state => ({
   goals: selector.reflections.getMyGoals(state),
   manuals: selector.reflections.getMyManuals(state),
   values: selector.reflections.getMyValues(state),
+  motivations: selector.reflections.getMyMotivations(state),
   feedbacks: selector.feedbacks.getMyFeedbacks(state).received,
 });
 

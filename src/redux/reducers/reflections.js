@@ -1,19 +1,18 @@
 import * as types from '../actions/types';
 
-const defaultChronotype = {
-  type: 'Chronotype',
+const defaultMotivation = {
+  type: 'Motivation',
   data: {
-    type: 'morning', // morning, flexible, night
-    night_sleep_offset_start: 3, // 0 ~ 12
-    night_sleep_offset_end: 3, // 0 ~ 12
-    day_sleep_offset_start: 5, // 0 ~ 12
-    day_sleep_offset_end: 5, // 0 ~ 12
+    title: '',
+    description: '',
+    image: '',
   },
 };
 
 const INITIAL_STATE = {
   myReflections: [],
   userReflections: [],
+  selectedMotivation: null,
 };
 
 const reflectionReducer = (state = INITIAL_STATE, action) => {
@@ -28,10 +27,26 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
         ...state,
         userReflections: action.payload,
       };
-    case types.ADD_INITIAL_CHRONOTYPE:
+    case types.SET_INITIAL_MOTIVATION:
       return {
         ...state,
-        myReflections: state.myReflections.concat(defaultChronotype),
+        selectedMotivation: defaultMotivation,
+      };
+    case types.SELECT_MOTIVATION:
+      return {
+        ...state,
+        selectedMotivation: action.payload,
+      };
+    case types.UPDATE_SELECTED_MOTIVATION:
+      return {
+        ...state,
+        selectedMotivation: {
+          ...state.selectedMotivation,
+          data: {
+            ...state.selectedMotivation.data,
+            ...action.payload,
+          },
+        },
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

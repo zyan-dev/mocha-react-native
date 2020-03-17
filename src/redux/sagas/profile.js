@@ -30,7 +30,11 @@ export function* updateBasicProfile(action) {
     let updatedProfile = {bio, name, avatar};
     if (avatarChanged) {
       // avatar Changed
-      response = yield call(API.fileUploadToS3, {avatar, name});
+      response = yield call(API.fileUploadToS3, {
+        image: avatar,
+        name,
+        type: 'avatar',
+      });
       if (response !== 'error') {
         updatedProfile.avatar = response;
       } else {

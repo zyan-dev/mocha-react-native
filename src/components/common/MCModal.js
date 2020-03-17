@@ -20,6 +20,8 @@ const ModalWrapper = styled(MCCard)`
 
 const ModalContent = styled(ScrollView)`
   max-height: ${dySize(400)};
+  margin-bottom: 20px;
+  width: 100%;
 `;
 
 const ModalCloseView = styled(MCButton)`
@@ -60,7 +62,12 @@ export default class MCModal extends React.PureComponent {
         animationIn={animationIn}
         animationOut={animationOut}>
         <ModalWrapper width={width}>
-          <ModalContent>{children}</ModalContent>
+          <ModalContent
+            contentContainerStyle={{
+              alignItems: 'center',
+            }}>
+            {children}
+          </ModalContent>
           <ModalCloseView onPress={() => onClose()}>
             <MCIcon name="md-close" />
           </ModalCloseView>

@@ -7,35 +7,19 @@ import {DefaultPicture} from 'assets/images';
 import {MCCard, MCView} from 'components/styled/View';
 import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCModal} from 'components/common';
+import {MCModal, MCImage} from 'components/common';
 import {profileCardWidth, profileCardNumPerRow} from 'services/operators';
 import CardItem from './CardItem';
-
-const dummy = [
-  {
-    _id: 1,
-    title: 'Belonging',
-    description: 'Description 1',
-  },
-  {
-    _id: 2,
-    title: 'Family',
-    description: 'Description 2',
-  },
-  {
-    _id: 3,
-    title: 'Love',
-    description: 'Description 3',
-  },
-];
 
 class MotivationCard extends React.Component {
   static propTypes = {
     onPressAllMotivations: PropTypes.func,
+    motivations: PropTypes.arrayOf(Object),
   };
 
   static defaultProps = {
     onPressAllMotivations: () => undefined,
+    motivations: [],
   };
   constructor(props) {
     super(props);
@@ -54,20 +38,26 @@ class MotivationCard extends React.Component {
     this.setState({selected: value, showModal: true});
   };
 
-  _renderMotivationItem = item => (
-    <MCCard width={profileCardWidth} ml={5} mr={5} align="center">
-      <MCButton
-        key={item._id}
-        align="center"
-        onPress={() => this.onPressValue(item)}>
-        <H4 numberOfLines={1}>{item.title}</H4>
-        <FastImage source={DefaultPicture} style={{width: 100, height: 100}} />
-      </MCButton>
-    </MCCard>
-  );
+  _renderMotivationItem = item => {
+    const motivation = item.data;
+    return (
+      <MCCard width={profileCardWidth} ml={5} mr={5} align="center">
+        <MCButton
+          key={item._id}
+          align="center"
+          onPress={() => this.onPressValue(motivation)}>
+          <H4 numberOfLines={1}>{motivation.title}</H4>
+          <MCImage
+            image={{uri: motivation.image}}
+            style={{width: 100, height: 100}}
+          />
+        </MCButton>
+      </MCCard>
+    );
+  };
 
   render() {
-    const {t, onPressAllMotivations} = this.props;
+    const {t, onPressAllMotivations, motivations} = this.props;
     const {selected, collapsed, showModal} = this.state;
     return (
       <MCView align="center" mt={20}>
@@ -81,7 +71,7 @@ class MotivationCard extends React.Component {
         </MCView>
         <Collapsible collapsed={collapsed}>
           <MCView align="center">
-            {dummy.length > 0 && (
+            {motivations.length > 0 && (
               <MCButton
                 width={320}
                 row
@@ -92,11 +82,11 @@ class MotivationCard extends React.Component {
               </MCButton>
             )}
             <MCView row width={350} justify="center">
-              {dummy.length > 0 &&
-                dummy
+              {motivations.length > 0 &&
+                motivations
                   .slice(0, profileCardNumPerRow)
                   .map(value => this._renderMotivationItem(value))}
-              {dummy.length === 0 && (
+              {motivations.length === 0 && (
                 <MCButton
                   bordered
                   align="center"
@@ -113,7 +103,8 @@ class MotivationCard extends React.Component {
           <MCModal
             isVisible={showModal}
             onClose={() => this.setState({showModal: false})}>
-            <MCView align="center" width={300} mt={20}>
+            <MCView align="center" width={280} mt={20}>
+              <MCImage image={{uri: selected.image}} />
               <H3 weight="bold">{selected.title}</H3>
               <H4>{selected.description}</H4>
             </MCView>

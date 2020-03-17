@@ -14,6 +14,7 @@ const URL_REFLECTION_UPDATE = '/reflection/update';
 const URL_REFLECTION_ADD = '/reflection/add';
 const URL_GET_MY_REFLECTION = '/reflection/list';
 const URL_GET_USER_REFLECTION = '/reflection/list/user';
+const URL_REFLECTION = '/reflection';
 const URL_FEEDBACK = '/feedback';
 const URL_REQUEST_FEEDBACK = '/feedback/request';
 const URL_NOTIFICATION = '/notification';
@@ -79,15 +80,18 @@ const deleteNetwork = networkId =>
   apiCall('delete', `${URL_NETWORK}/${networkId}`, {}, true);
 const updateNetwork = network =>
   apiCall('patch', `${URL_NETWORK}/${network._id}`, network, true);
-const addChronotype = param => apiCall('post', URL_REFLECTION_ADD, param, true);
-const updateChronotype = param =>
+const addReflections = param =>
+  apiCall('post', URL_REFLECTION_ADD, param, true);
+const updateReflections = param =>
   apiCall('post', URL_REFLECTION_UPDATE, param, true);
+const removeReflection = id =>
+  apiCall('delete', `${URL_REFLECTION}/${id}`, {}, true);
 
-const fileUploadToS3 = async ({avatar, name}) => {
-  const imageType = avatar.includes('.jpg') ? 'jpg' : 'png';
-  const imageName = `${name}/avatar_${genetratedDate()}.${imageType}`;
+const fileUploadToS3 = async ({image, name, type}) => {
+  const imageType = image.includes('.jpg') ? 'jpg' : 'png';
+  const imageName = `${name}/${type}_${genetratedDate()}.${imageType}`;
   const file = {
-    uri: avatar,
+    uri: image,
     name: imageName,
     type: `image/${imageType}`,
   };
@@ -125,6 +129,7 @@ export default {
   deleteNetwork,
   removeFeedbackRequest,
   submitFeedback,
-  addChronotype,
-  updateChronotype,
+  addReflections,
+  updateReflections,
+  removeReflection,
 };

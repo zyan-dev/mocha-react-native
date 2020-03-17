@@ -28,7 +28,6 @@ class ValueListScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  userToken: state.profileReducer.userToken,
 });
 
 const mapDispatchToProps = {

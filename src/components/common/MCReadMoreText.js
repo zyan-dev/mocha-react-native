@@ -7,7 +7,6 @@ import {H4} from '../styled/Text';
 
 class MCReadMoreText extends React.Component {
   static propTypes = {
-    text: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
   };
 

@@ -30,6 +30,11 @@ function* mySaga() {
     reflectionSaga.getUserReflections,
   );
   yield takeLatest(types.SAVE_CHRONOTYPE, reflectionSaga.saveMyChronotype);
+  yield takeLatest(types.REMOVE_REFLECTION, reflectionSaga.removeReflection);
+  yield takeLatest(
+    types.ADD_OR_UPDATE_MOTIVATION,
+    reflectionSaga.addOrUpdateMotivation,
+  );
 
   // feedback
   yield takeLatest(types.GET_MY_FEEDBACKS, feedbackSaga.getMyFeedbacks);

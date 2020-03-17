@@ -65,7 +65,11 @@ export function* completeSignUp(action) {
     let updatedProfile = {phone, name, user_id, pushToken};
     if (action.payload) {
       // avatar Changed
-      const fileResponse = yield call(API.fileUploadToS3, {avatar, name});
+      const fileResponse = yield call(API.fileUploadToS3, {
+        image: avatar,
+        name,
+        type: 'avatar',
+      });
       if (response !== 'error') {
         updatedProfile.avatar = fileResponse;
       } else {

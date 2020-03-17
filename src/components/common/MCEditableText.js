@@ -71,7 +71,7 @@ class MCEditableText extends React.Component {
           borderRadius: dySize(4),
           borderColor: theme.colors.border,
           color: theme.colors.text,
-          fontSize: fontSize || theme.base.FONT_SIZE_MEDIUM,
+          fontSize: dySize(fontSize || theme.base.FONT_SIZE_MEDIUM),
           borderWidth: bordered && editable ? 1 : 0,
           fontFamily: fontFamilies.regular,
           textAlign,
