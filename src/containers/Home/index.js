@@ -17,9 +17,10 @@ class MainHomeStack extends React.Component {
     const _this = this;
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
-      onRegister: function(token) {
-        console.log('PushToken:', token.token);
-        _this.props.setProfileData({pushToken: token.token});
+      onRegister: async function(token) {
+        const fcmToken = await messaging().getToken();
+        console.log('FCM PushToken: ', fcmToken); // used FCM token instead of APNs token on iOS
+        _this.props.setProfileData({pushToken: fcmToken});
       },
       // (required) Called when a remote or local notification is opened or received
       onNotification: function(notification) {
@@ -39,25 +40,7 @@ class MainHomeStack extends React.Component {
       popInitialNotification: true,
       requestPermissions: true,
     });
-    // this.getToken();
   }
-
-  getToken = async () => {
-    const granted = messaging().requestPermission();
-    if (!granted) {
-      return;
-    }
-    if (Platform.OS === 'ios') {
-      console.log('John: ', 'registering');
-      await messaging().registerForRemoteNotifications();
-      console.log('John: ', 'registered');
-      const fcmToken = await messaging().getAPNSToken();
-      console.log('iOS PushToken: ', fcmToken);
-    } else {
-      const fcmToken = await messaging().getToken();
-      console.log('Android PushToken: ', fcmToken);
-    }
-  };
 
   render() {
     return (
