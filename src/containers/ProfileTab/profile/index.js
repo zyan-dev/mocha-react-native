@@ -28,6 +28,13 @@ class ProfileScreen extends React.Component {
     this.props.getMyFeedbacks();
   }
 
+  onPressAllUserManuals = () => {
+    NavigationService.navigate('TabAddValue');
+    setTimeout(() => {
+      NavigationService.navigate('UserManuals');
+    });
+  };
+
   render() {
     const {
       t,
@@ -66,7 +73,7 @@ class ProfileScreen extends React.Component {
             <BeliefAndGoal
               manuals={manuals}
               goals={goals}
-              onPressAllBeliefs={() => console.log('Go to all beliefs')}
+              onPressAllBeliefs={() => this.onPressAllUserManuals()}
               onPressAllGoals={() => console.log('Go to all goals')}
             />
             <ChronotypeAndPersonality
