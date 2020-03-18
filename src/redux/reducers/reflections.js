@@ -1,18 +1,11 @@
 import * as types from '../actions/types';
-
-const defaultMotivation = {
-  type: 'Motivation',
-  data: {
-    title: '',
-    description: '',
-    image: '',
-  },
-};
+import {defaultReflections, sampleReflectionSections} from 'utils/constants';
 
 const INITIAL_STATE = {
   myReflections: [],
   userReflections: [],
-  selectedMotivation: null,
+  selectedReflection: {},
+  reflectionSections: sampleReflectionSections,
 };
 
 const reflectionReducer = (state = INITIAL_STATE, action) => {
@@ -27,23 +20,33 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
         ...state,
         userReflections: action.payload,
       };
-    case types.SET_INITIAL_MOTIVATION:
+    case types.SET_INITIAL_REFLECTION:
       return {
         ...state,
-        selectedMotivation: defaultMotivation,
+        selectedReflection: defaultReflections[action.payload.toLowerCase()],
       };
-    case types.SELECT_MOTIVATION:
+    case types.SELECT_REFLECTION:
       return {
         ...state,
-        selectedMotivation: action.payload,
+        selectedReflection: action.payload,
       };
-    case types.UPDATE_SELECTED_MOTIVATION:
+    case types.ADD_CUSTOM_REFLECTION_TITLE:
       return {
         ...state,
-        selectedMotivation: {
-          ...state.selectedMotivation,
+        reflectionSections: {
+          ...state.reflectionSections,
+          [action.payload.type]: state.reflectionSections[
+            action.payload.type
+          ].concat(action.payload.title),
+        },
+      };
+    case types.UPDATE_SELECTED_REFLECTION:
+      return {
+        ...state,
+        selectedReflection: {
+          ...state.selectedReflection,
           data: {
-            ...state.selectedMotivation.data,
+            ...state.selectedReflection.data,
             ...action.payload,
           },
         },

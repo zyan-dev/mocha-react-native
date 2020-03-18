@@ -6,7 +6,7 @@ import CompletedFeedbackScreen from './completed';
 
 const Stack = createStackNavigator();
 
-class AddFeedbackStack extends React.Component {
+class FeedbackStack extends React.Component {
   render() {
     return (
       <Stack.Navigator headerMode="none">
@@ -21,4 +21,4 @@ class AddFeedbackStack extends React.Component {
   }
 }
 
-export default AddFeedbackStack;
+export default FeedbackStack;

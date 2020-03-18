@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import MCImage from './MCImage';
 import {dySize} from 'utils/responsive';
+import {MCIcon} from '../styled/Text';
 
 class MCImagePicker extends React.PureComponent {
   static propTypes = {
@@ -53,14 +54,20 @@ class MCImagePicker extends React.PureComponent {
           borderWidth: 1,
           padding: 0,
           borderColor: theme.colors.border,
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
-        <MCImage
-          width={width}
-          height={height}
-          image={{uri: image}}
-          type={type}
-          resizeMode={FastImage.resizeMode.cover}
-        />
+        {image.length > 0 ? (
+          <MCImage
+            width={width}
+            height={height}
+            image={{uri: image}}
+            type={type}
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        ) : (
+          <MCIcon name="ios-cloud-upload" size={40} />
+        )}
       </TouchableOpacity>
     );
   }

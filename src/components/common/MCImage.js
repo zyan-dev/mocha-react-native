@@ -26,6 +26,7 @@ export default class MCImage extends React.PureComponent {
     type: PropTypes.string,
     style: PropTypes.object,
     resizeMode: PropTypes.oneOfType(['cover', 'contain', 'stretch']),
+    br: PropTypes.number,
   };
   static defaultProps = {
     round: false,
@@ -34,6 +35,7 @@ export default class MCImage extends React.PureComponent {
     image: null,
     style: {},
     resizeMode: 'cover',
+    br: 0,
   };
   constructor(props) {
     super(props);
@@ -45,7 +47,16 @@ export default class MCImage extends React.PureComponent {
 
   render() {
     const {loading, loadError} = this.state;
-    const {round, width, height, type, image, resizeMode, style} = this.props;
+    const {
+      round,
+      width,
+      height,
+      type,
+      image,
+      resizeMode,
+      br,
+      style,
+    } = this.props;
     const defaultImage = type === 'avatar' ? DefaultAvatar : DefaultPicture;
     const imageStyle = {
       width: dySize(width),
@@ -59,7 +70,7 @@ export default class MCImage extends React.PureComponent {
         justify="center"
         align="center"
         style={{position: 'relative', overflow: 'hidden', ...style}}
-        br={round ? width / 2 : 0}>
+        br={round ? width / 2 : br}>
         <ProgressWrapper style={imageStyle}>
           {loading && <Progress.Circle size={30} indeterminate />}
           {loadError && <FastImage source={defaultImage} style={imageStyle} />}

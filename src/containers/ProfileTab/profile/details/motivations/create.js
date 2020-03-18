@@ -19,16 +19,16 @@ class CreateMotivationScreen extends React.PureComponent {
   }
 
   onPressRight = () => {
-    this.props.addOrUpdateMotivation();
+    this.props.addOrUpdateReflection();
   };
 
   render() {
     const {
       t,
-      selectedMotivation: {
+      selectedReflection: {
         data: {title, description, image},
       },
-      updateSelectedMotivation,
+      updateSelectedReflection,
     } = this.props;
     return (
       <MCRootView>
@@ -36,26 +36,26 @@ class CreateMotivationScreen extends React.PureComponent {
           title={t('motivation_headerTitle')}
           hasRight={title.length * description.length > 0}
           rightText={
-            updateSelectedMotivation._id ? t('button_update') : t('button_add')
+            updateSelectedReflection._id ? t('button_update') : t('button_add')
           }
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
           <H3>{t('motivation_title')}</H3>
           <MCTextInput
-            onChangeText={text => updateSelectedMotivation({title: text})}
+            onChangeText={text => updateSelectedReflection({title: text})}
           />
           <H3 mt={20}>{t('motivation_description')}</H3>
           <MCTextInput
             multiline
-            onChangeText={text => updateSelectedMotivation({description: text})}
+            onChangeText={text => updateSelectedReflection({description: text})}
           />
           <MCView align="center" mt={50}>
             <MCImagePicker
               width={150}
               height={150}
               image={image}
-              onSelectImage={img => updateSelectedMotivation({image: img.path})}
+              onSelectImage={img => updateSelectedReflection({image: img.path})}
               type="picture"
               br={10}
             />
@@ -71,12 +71,12 @@ class CreateMotivationScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedMotivation: state.reflectionReducer.selectedMotivation,
+  selectedReflection: state.reflectionReducer.selectedReflection,
 });
 
 const mapDispatchToProps = {
-  updateSelectedMotivation: reflectionActions.updateSelectedMotivation,
-  addOrUpdateMotivation: reflectionActions.addOrUpdateMotivation,
+  updateSelectedReflection: reflectionActions.updateSelectedReflection,
+  addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
 };
 
 export default withTranslation()(

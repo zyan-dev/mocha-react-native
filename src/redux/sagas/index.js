@@ -33,8 +33,8 @@ function* mySaga() {
   yield takeLatest(types.SAVE_CHRONOTYPE, reflectionSaga.saveMyChronotype);
   yield takeLatest(types.REMOVE_REFLECTION, reflectionSaga.removeReflection);
   yield takeLatest(
-    types.ADD_OR_UPDATE_MOTIVATION,
-    reflectionSaga.addOrUpdateMotivation,
+    types.ADD_OR_UPDATE_REFLECTION,
+    reflectionSaga.addOrUpdateReflection,
   );
 
   // feedback

@@ -20,10 +20,7 @@ class ManageTrustNetworkScreen extends React.Component {
     this.state = {
       isNew: props.route.params.new, // true: create network, false: edit network
       permissions: props.selectedNetwork.permissions,
-      tags: {
-        tag: '',
-        tagsArray: props.selectedNetwork.tags,
-      },
+      tags: props.selectedNetwork.tags,
     };
   }
 
@@ -66,7 +63,7 @@ class ManageTrustNetworkScreen extends React.Component {
   };
 
   updateTagState = state => {
-    this.setState({tags: state});
+    this.setState({tags: state.tagsArray});
     this.props.updateSelectedTrustNetwork({tags: state.tagsArray});
   };
 
@@ -155,9 +152,7 @@ class ManageTrustNetworkScreen extends React.Component {
             ))}
           </MCView>
           <H3 mt={20}>{t('trustnetwork_tags_title')}</H3>
-          <H4 color={theme.colors.border}>
-            {t('trustnetwork_tags_title_displayText')}
-          </H4>
+          <H4 color={theme.colors.border}>{t('tag_input_placeholderText')}</H4>
           <MCTagInput
             updateState={this.updateTagState}
             tags={this.state.tags}

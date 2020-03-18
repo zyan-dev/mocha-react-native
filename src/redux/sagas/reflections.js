@@ -66,47 +66,53 @@ export function* saveMyChronotype(action) {
   }
 }
 
-export function* addOrUpdateMotivation(action) {
+export function* addOrUpdateReflection(action) {
   try {
     let response = {};
     const {
-      reflectionReducer: {selectedMotivation},
+      reflectionReducer: {selectedReflection},
       profileReducer: {name},
     } = yield select();
     yield put({type: types.API_CALLING});
     if (
-      selectedMotivation.data.image.length &&
-      selectedMotivation.data.image.indexOf('https://') < 0
+      selectedReflection.image &&
+      selectedReflection.data.image.length &&
+      selectedReflection.data.image.indexOf('https://') < 0
     ) {
       response = yield call(API.fileUploadToS3, {
-        image: selectedMotivation.data.image,
+        image: selectedReflection.data.image,
         name,
-        type: 'motivation',
+        type: selectedReflection.type,
       });
       if (response === 'error') {
         return;
       } else {
-        selectedMotivation.data.image = response;
+        selectedReflection.data.image = response;
       }
     }
-    if (selectedMotivation._id) {
+    if (selectedReflection._id) {
       // update
       response = yield call(API.updateReflections, {
-        data: [selectedMotivation],
+        data: [selectedReflection],
       });
     } else {
       // add
       response = yield call(API.addReflections, {
         data: {
-          motivation: [selectedMotivation.data],
+          [selectedReflection.type]: [selectedReflection.data],
         },
       });
     }
     if (response.data.status === 'success') {
       yield put({type: types.GET_MY_REFLECTIONS});
       yield put({type: types.API_FINISHED});
-      if (!selectedMotivation._id) NavigationService.goBack();
-      yield put({type: types.SET_INITIAL_MOTIVATION, payload: {}});
+      yield put({
+        type: types.SET_INITIAL_REFLECTION,
+        payload: selectedReflection.type,
+      });
+      if (selectedReflection._id && selectedReflection.type === 'motivation')
+        return;
+      NavigationService.goBack();
     } else {
       yield put({
         type: types.API_FINISHED,

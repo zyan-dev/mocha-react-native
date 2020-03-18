@@ -1,4 +1,5 @@
 import {call, put, select} from 'redux-saga/effects';
+import * as _ from 'lodash';
 import * as types from '../actions/types';
 import API from 'services/api';
 import {showAlert} from 'services/operators';
@@ -26,6 +27,7 @@ export function* createNetwork(action) {
       networkReducer: {selectedNetwork},
     } = yield select();
     yield put({type: types.API_CALLING});
+    console.log(selectedNetwork);
     const response = yield call(API.createNetwork, selectedNetwork);
     if (response.data.status === 'success') {
       yield put({type: types.GET_TRUST_NETWORKS});
@@ -48,7 +50,16 @@ export function* updateNetwork(action) {
       networkReducer: {selectedNetwork},
     } = yield select();
     yield put({type: types.API_CALLING});
-    const response = yield call(API.updateNetwork, selectedNetwork);
+    const param = _.pick(selectedNetwork, [
+      '_id',
+      'permissions',
+      'tags',
+      'members',
+      'name',
+      'vulnerability',
+    ]);
+    alert(JSON.stringify(param));
+    const response = yield call(API.updateNetwork, param);
     if (response.data.status === 'success') {
       yield put({type: types.GET_TRUST_NETWORKS});
       yield put({type: types.API_FINISHED});

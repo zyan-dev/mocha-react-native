@@ -21,7 +21,7 @@ class MCTagInput extends React.Component {
   onPressEnterOrBlur = () => {
     const {text} = this.state;
     const {tags, updateState} = this.props;
-    const temp = tags.tagsArray;
+    const temp = tags;
     if (text.length === 0) {
       return;
     }
@@ -46,7 +46,7 @@ class MCTagInput extends React.Component {
         updateState={param => this.updateState(param)}
         tags={{
           tag: text,
-          tagsArray: tags.tagsArray,
+          tagsArray: tags,
         }}
         placeholder={t('tag_input_placeholder')}
         placeholderTextColor={theme.colors.border}
@@ -61,7 +61,10 @@ class MCTagInput extends React.Component {
         }}
         tagStyle={{
           height: dySize(30),
-          borderRadius: dySize(15),
+          borderRadius: dySize(8),
+        }}
+        tagTextStyle={{
+          color: theme.colors.background,
         }}
         inputStyle={{
           color: theme.colors.text,

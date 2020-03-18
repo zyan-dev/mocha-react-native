@@ -7,6 +7,7 @@ import {
   feedbackActions,
 } from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
+import {H2} from 'components/styled/Text';
 import {MCHeader} from 'components/common';
 import {selector} from 'Redux/selectors';
 import BasicProfile from '../ProfileTab/profile/cards/BasicProfile';
@@ -24,18 +25,52 @@ import StressAndComfort from '../ProfileTab/profile/cards/StressAndComfort';
 class UserProfileScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      unknownUser: false,
+    };
   }
 
   componentDidMount() {
     const {id} = this.props.route.params;
-    this.props.getUserProfile(id);
-    this.props.getUserReflections(id);
-    this.props.getUserFeedbacks(id);
+    const {
+      allUsers,
+      getUserProfile,
+      getUserReflections,
+      getUserFeedbacks,
+    } = this.props;
+    const find = allUsers.find(user => user._id === id);
+    if (find) {
+      getUserProfile(id);
+      getUserReflections(id);
+      getUserFeedbacks(id);
+    } else {
+      this.setState({unknownUser: true});
+    }
   }
 
   render() {
-    const {t, profile, manuals, goals, values, feedbacks} = this.props;
+    const {id} = this.props.route.params;
+    const {
+      t,
+      allUsers,
+      profile,
+      manuals,
+      goals,
+      values,
+      feedbacks,
+    } = this.props;
+    const find = allUsers.find(user => user._id === id);
+    console.log({find});
+    if (!find || 1) {
+      return (
+        <MCRootView justify="flex-start">
+          <MCHeader />
+          <MCView align="center" mt={50}>
+            <H2 align="center">{t('unknown_user_displayText')}</H2>
+          </MCView>
+        </MCRootView>
+      );
+    }
     if (!profile.user_id) {
       return <MCRootView justify="flex-start" />;
     }
@@ -64,6 +99,7 @@ class UserProfileScreen extends React.Component {
 
 const mapStateToProps = state => ({
   profile: state.usersReducer.userProfile,
+  allUsers: state.usersReducer.allUsers,
   goals: selector.reflections.getUserGoals(state),
   manuals: selector.reflections.getUserManuals(state),
   values: selector.reflections.getUserValues(state),

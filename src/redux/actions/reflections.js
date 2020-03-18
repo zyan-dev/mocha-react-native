@@ -14,25 +14,31 @@ export const saveMyChronotype = param => ({
   payload: param,
 });
 
-export const setInitialMotivation = () => ({
-  type: types.SET_INITIAL_MOTIVATION,
+export const setInitialReflection = type => ({
+  type: types.SET_INITIAL_REFLECTION,
+  payload: type,
 });
 
-export const selectMotivation = motivation => ({
-  type: types.SELECT_MOTIVATION,
+export const selectReflection = motivation => ({
+  type: types.SELECT_REFLECTION,
   payload: motivation,
 });
 
-export const updateSelectedMotivation = param => ({
-  type: types.UPDATE_SELECTED_MOTIVATION,
+export const updateSelectedReflection = param => ({
+  type: types.UPDATE_SELECTED_REFLECTION,
   payload: param,
 });
 
-export const addOrUpdateMotivation = () => ({
-  type: types.ADD_OR_UPDATE_MOTIVATION,
+export const addOrUpdateReflection = () => ({
+  type: types.ADD_OR_UPDATE_REFLECTION,
 });
 
 export const removeReflection = reflection => ({
   type: types.REMOVE_REFLECTION,
   payload: reflection,
+});
+
+export const addCustomReflectionTitle = (type, title) => ({
+  type: types.ADD_CUSTOM_REFLECTION_TITLE,
+  payload: {type, title},
 });

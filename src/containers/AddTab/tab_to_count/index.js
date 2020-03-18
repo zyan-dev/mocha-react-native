@@ -5,7 +5,7 @@ import {MCRootView} from 'components/styled/View';
 import {MCHeader} from 'components/common';
 import {H3} from 'components/styled/Text';
 
-class AddTapToCountScreen extends React.Component {
+class TapToCountScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -27,5 +27,5 @@ const mapStateToProps = state => ({});
 const mapDispatchToProps = {};
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(AddTapToCountScreen),
+  connect(mapStateToProps, mapDispatchToProps)(TapToCountScreen),
 );

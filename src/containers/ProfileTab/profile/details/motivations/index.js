@@ -14,29 +14,23 @@ import MCEditableText from '../../../../../components/common/MCEditableText';
 import {MCContent} from '../../../../../components/styled/View';
 
 class MotivationListScreen extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedReflectionId: '',
-    };
-  }
-
   onPressNew = () => {
-    this.props.setInitialMotivation();
+    this.props.setInitialReflection('motivation');
     NavigationService.navigate('AddMotivation');
   };
 
   onPressEdit = item => {
     const {
-      selectedMotivation,
-      selectMotivation,
-      addOrUpdateMotivation,
+      selectedReflection,
+      selectReflection,
+      addOrUpdateReflection,
     } = this.props;
-    if (selectedMotivation._id === item._id) {
+    if (selectedReflection && selectedReflection._id === item._id) {
       // save
-      addOrUpdateMotivation();
+      addOrUpdateReflection();
     } else {
-      selectMotivation(item);
+      // edit
+      selectReflection(item);
     }
   };
 
@@ -46,8 +40,8 @@ class MotivationListScreen extends React.PureComponent {
 
   _renderListItem = ({item}) => {
     const motivation = item.data;
-    const {selectedMotivation, updateSelectedMotivation} = this.props;
-    const editable = selectedMotivation._id === item._id;
+    const {selectedReflection, updateSelectedReflection} = this.props;
+    const editable = selectedReflection && selectedReflection._id === item._id;
     return (
       <MCView
         key={item.key}
@@ -55,17 +49,15 @@ class MotivationListScreen extends React.PureComponent {
         bordered
         align="center"
         br={10}
-        mb={20}
-        ml={20}
-        mr={20}>
+        mb={20}>
         <MCCard shadow br={1} width={340} align="center">
           <MCView width={300}>
             {editable ? (
               <MCEditableText
                 maxLength={200}
                 fontSize={18}
-                text={selectedMotivation.data.title}
-                onChange={text => updateSelectedMotivation({title: text})}
+                text={selectedReflection.data.title}
+                onChange={text => updateSelectedReflection({title: text})}
               />
             ) : (
               <H3>{motivation.title}</H3>
@@ -78,8 +70,8 @@ class MotivationListScreen extends React.PureComponent {
               fontSize={14}
               multiline
               maxLength={1024}
-              text={selectedMotivation.data.description}
-              onChange={text => updateSelectedMotivation({description: text})}
+              text={selectedReflection.data.description}
+              onChange={text => updateSelectedReflection({description: text})}
             />
           ) : (
             <MCReadMoreText>
@@ -117,13 +109,14 @@ class MotivationListScreen extends React.PureComponent {
           rightText={t('new')}
           onPressRight={() => this.onPressNew()}
         />
-        <MCContent extraHeight={100}>
+        <MCContent>
           <FlatList
             data={motivations}
             renderItem={this._renderListItem}
             keyExtractor={item => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>No results</MCEmptyText>}
+            contentContainerStyle={{alignItems: 'center'}}
           />
         </MCContent>
       </MCRootView>
@@ -134,15 +127,15 @@ class MotivationListScreen extends React.PureComponent {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   motivations: selector.reflections.getMyMotivations(state),
-  selectedMotivation: state.reflectionReducer.selectedMotivation,
+  selectedReflection: state.reflectionReducer.selectedReflection,
 });
 
 const mapDispatchToProps = {
-  setInitialMotivation: reflectionActions.setInitialMotivation,
+  setInitialReflection: reflectionActions.setInitialReflection,
   removeReflection: reflectionActions.removeReflection,
-  selectMotivation: reflectionActions.selectMotivation,
-  updateSelectedMotivation: reflectionActions.updateSelectedMotivation,
-  addOrUpdateMotivation: reflectionActions.addOrUpdateMotivation,
+  selectReflection: reflectionActions.selectReflection,
+  updateSelectedReflection: reflectionActions.updateSelectedReflection,
+  addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
 };
 
 export default withTranslation()(

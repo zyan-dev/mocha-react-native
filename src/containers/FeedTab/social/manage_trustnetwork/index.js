@@ -44,7 +44,7 @@ class MyTrustNetworkScreen extends React.Component {
               width={40}
               height={40}
               round
-              image={{uri: find.avatar}}
+              image={{uri: find ? find.avatar : ''}}
               style={{
                 position: 'absolute',
                 left: 20 * index,
