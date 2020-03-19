@@ -18,7 +18,9 @@ class UserManualScreen extends React.Component {
 
   onPressNew = () => {
     this.props.setInitialReflection('manual');
-    NavigationService.navigate('EditUserManual');
+    setTimeout(() => {
+      NavigationService.navigate('EditUserManual');
+    });
   };
 
   onPressEdit = item => {

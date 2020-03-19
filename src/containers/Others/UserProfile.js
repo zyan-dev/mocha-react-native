@@ -61,7 +61,7 @@ class UserProfileScreen extends React.Component {
     } = this.props;
     const find = allUsers.find(user => user._id === id);
     console.log({find});
-    if (!find || 1) {
+    if (!find) {
       return (
         <MCRootView justify="flex-start">
           <MCHeader />

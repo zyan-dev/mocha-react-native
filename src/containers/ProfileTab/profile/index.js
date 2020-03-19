@@ -35,6 +35,13 @@ class ProfileScreen extends React.Component {
     });
   };
 
+  onPressNewFeedback = () => {
+    NavigationService.navigate('TabAddValue');
+    setTimeout(() => {
+      NavigationService.navigate('Feedbacks');
+    });
+  };
+
   render() {
     const {
       t,
@@ -90,6 +97,7 @@ class ProfileScreen extends React.Component {
               onPressAllFeedbacks={() =>
                 NavigationService.navigate('Feedbacks')
               }
+              onPressNewFeedback={() => this.onPressNewFeedback()}
             />
             <QuirkAndTrigger
               onPressAllQuirks={() => console.log('Go to all quirks')}

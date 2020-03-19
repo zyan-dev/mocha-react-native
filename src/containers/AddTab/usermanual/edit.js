@@ -26,6 +26,24 @@ class EditUserManualScreen extends React.PureComponent {
     };
   }
 
+  componentDidMount() {
+    this.setInitTitleForCreate();
+  }
+
+  setInitTitleForCreate = () => {
+    const {
+      t,
+      selectedReflection,
+      updateSelectedReflection,
+      reflectionSections,
+    } = this.props;
+    if (selectedReflection.data.title === '') {
+      updateSelectedReflection({
+        title: t(`mocha_manual_${reflectionSections.manuals[0]}`),
+      });
+    }
+  };
+
   onPressRight = () => {
     this.props.addOrUpdateReflection();
   };

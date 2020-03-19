@@ -14,6 +14,7 @@ class SkillAndFeedback extends React.Component {
     skills: PropTypes.arrayOf(Object),
     feedbacks: PropTypes.arrayOf(Object),
     onPressAllSkills: PropTypes.func,
+    onPressNewFeedback: PropTypes.func,
     onPressAllFeedbacks: PropTypes.func,
   };
 
@@ -77,6 +78,7 @@ class SkillAndFeedback extends React.Component {
       feedbacks,
       onPressAllFeedbacks,
       onPressAllSkills,
+      onPressNewFeedback,
     } = this.props;
     const {
       selectedFeedback,
@@ -143,7 +145,7 @@ class SkillAndFeedback extends React.Component {
                   align="center"
                   mt={10}
                   width={300}
-                  onPress={() => onPressAllFeedbacks()}>
+                  onPress={() => onPressNewFeedback()}>
                   <H3>You have not added a Feedback</H3>
                 </MCButton>
               )}

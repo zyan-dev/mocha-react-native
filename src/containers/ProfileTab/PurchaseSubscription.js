@@ -52,10 +52,10 @@ class PurchaseSubscription extends React.Component {
                 bordered={selectedItem.key === item.key}>
                 <MCView>
                   <MCView row align="center">
-                    <H3 weight="bold">12 </H3>
+                    <H3 weight="bold">{item.months} </H3>
                     <H4 weight="bold">{t('unit_months')}</H4>
                   </MCView>
-                  <H3 pv={1}>$49.99</H3>
+                  <H3 pv={1}>${item.price}</H3>
                 </MCView>
               </NativeCard>
             </MCButton>

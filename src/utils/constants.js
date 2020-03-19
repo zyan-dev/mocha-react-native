@@ -1021,7 +1021,7 @@ export const defaultReflections = {
   manual: {
     type: 'manual',
     data: {
-      title: i18next.t('mocha_manual_good-at'),
+      title: '',
       text: '',
       vulnerability: 1,
       tags: [],
