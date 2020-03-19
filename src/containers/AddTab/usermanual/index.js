@@ -11,11 +11,6 @@ import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 
 class UserManualScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   onPressNew = () => {
     this.props.setInitialReflection('manual');
     setTimeout(() => {

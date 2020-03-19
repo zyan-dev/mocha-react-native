@@ -4,25 +4,19 @@ import {connect} from 'react-redux';
 import {Picker} from '@react-native-community/picker';
 import {reflectionActions} from 'Redux/actions';
 import {showAlert} from 'services/operators';
-import {
-  MCHeader,
-  MCImagePicker,
-  MCTagInput,
-  MCVulnerabilityPicker,
-} from 'components/common';
-import {MCView, MCRootView, MCContent} from 'components/styled/View';
+import {MCHeader, MCImagePicker, MCSearchInput} from 'components/common';
+import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {H3, H4, MCTextInput} from 'components/styled/Text';
+import {H3, H4, MCTextInput, MCIcon} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
-import {MCIcon} from '../../../components/styled/Text';
-import {MCCard} from '../../../components/styled/View';
 
-class EditUserManualScreen extends React.PureComponent {
+class EditValueScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       addingCustomTitle: false,
       customTitle: '',
+      searchText: '',
     };
   }
 
@@ -37,9 +31,11 @@ class EditUserManualScreen extends React.PureComponent {
       updateSelectedReflection,
       reflectionSections,
     } = this.props;
-    if (selectedReflection.data.title === '') {
+    if (selectedReflection.data.value === '') {
       updateSelectedReflection({
-        title: t(`mocha_manual_${reflectionSections.manuals[0]}`),
+        value: t(
+          `mocha_value_${reflectionSections.values[0].replace(/ /g, '_')}`,
+        ),
       });
     }
   };
@@ -48,22 +44,18 @@ class EditUserManualScreen extends React.PureComponent {
     this.props.addOrUpdateReflection();
   };
 
-  updateTagState = state => {
-    this.props.updateSelectedReflection({tags: state.tagsArray});
-  };
-
   onToggleCustomButton = () => {
     const {addingCustomTitle, customTitle} = this.state;
     const {t, reflectionSections, updateSelectedReflection} = this.props;
     if (addingCustomTitle) {
       if (
-        this.getPickerItems(reflectionSections.manuals).indexOf(customTitle) < 0
+        this.getPickerItems(reflectionSections.values).indexOf(customTitle) < 0
       ) {
         this.props.addCustomReflectionTitle(
-          'manuals',
-          `custom_manual_title${customTitle}`,
+          'values',
+          `custom_value_title${customTitle}`,
         );
-        updateSelectedReflection({title: customTitle});
+        updateSelectedReflection({value: customTitle});
         this.setState({addingCustomTitle: false, customTitle: ''});
       } else {
         showAlert(t('add_new_constant_duplicateError'));
@@ -74,14 +66,17 @@ class EditUserManualScreen extends React.PureComponent {
   };
 
   getPickerItems = keys => {
+    const {searchText} = this.state;
     const {t} = this.props;
-    return keys.map(key => {
-      if (key.indexOf('custom_manual_title') < 0) {
-        return t(`mocha_manual_${key}`);
-      } else {
-        return key.split('custom_manual_title')[1];
-      }
-    });
+    return keys
+      .filter(key => key.indexOf(searchText) > -1)
+      .map(key => {
+        if (key.indexOf('custom_value_title') < 0) {
+          return t(`mocha_value_${key.replace(/ /g, '_')}`);
+        } else {
+          return key.split('custom_value_title')[1];
+        }
+      });
   };
 
   render() {
@@ -92,28 +87,32 @@ class EditUserManualScreen extends React.PureComponent {
       updateSelectedReflection,
       reflectionSections,
     } = this.props;
-    const {addingCustomTitle, customTitle} = this.state;
+    const {addingCustomTitle, customTitle, searchText} = this.state;
     const {
-      data: {title, text, image, vulnerability, tags},
+      data: {value, phrase, image},
     } = selectedReflection;
     return (
       <MCRootView>
         <MCHeader
-          title={t('profile_Manual_title')}
-          hasRight={title.length * text.length > 0}
+          title={t('add_value_headerTitle')}
+          hasRight={value.length * phrase.length > 0}
           rightText={
             selectedReflection._id ? t('button_update') : t('button_add')
           }
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
+          <MCSearchInput
+            text={searchText}
+            onChange={text => this.setState({searchText: text})}
+          />
           <Picker
             itemStyle={{color: theme.colors.text}}
-            selectedValue={title}
+            selectedValue={value}
             onValueChange={(itemValue, itemIndex) => {
-              updateSelectedReflection({title: itemValue});
+              updateSelectedReflection({value: itemValue});
             }}>
-            {this.getPickerItems(reflectionSections.manuals).map(section => (
+            {this.getPickerItems(reflectionSections.values).map(section => (
               <Picker.Item label={section} value={section} />
             ))}
           </Picker>
@@ -124,7 +123,7 @@ class EditUserManualScreen extends React.PureComponent {
                 style={{flex: 1}}
                 placeholder={t('motivation_description')}
                 value={customTitle}
-                onChangeText={value => this.setState({customTitle: value})}
+                onChangeText={text => this.setState({customTitle: text})}
               />
             )}
             <MCButton
@@ -133,24 +132,23 @@ class EditUserManualScreen extends React.PureComponent {
               onPress={() => this.onToggleCustomButton()}>
               <MCIcon name="ios-add-circle-outline" />
               <H3>
-                {addingCustomTitle
-                  ? t('add_addButton')
-                  : t('usermanual_custom_title')}
+                {addingCustomTitle ? t('add_addButton') : t('value_custom')}
               </H3>
             </MCButton>
           </MCView>
           <MCCard p={1}>
             <MCCard shadow br={1} style={{width: '100%'}} align="center">
-              <H4>{title}</H4>
+              <H4>{value}</H4>
             </MCCard>
             <MCView p={10}>
               <MCTextInput
                 style={{width: dySize(333)}}
-                placeholder={t('motivation_description')}
+                placeholder={t('add_value_phrase')}
+                placeholderTextColor="gray"
                 multiline
                 maxHeight={300}
-                value={text}
-                onChangeText={value => updateSelectedReflection({text: value})}
+                value={phrase}
+                onChangeText={text => updateSelectedReflection({phrase: text})}
               />
               <MCView width={340} align="center" mt={50}>
                 <MCImagePicker
@@ -164,23 +162,9 @@ class EditUserManualScreen extends React.PureComponent {
                   br={10}
                 />
                 <H3 align="center" width={240} mt={30}>
-                  {t('motivation_image_placeholder')}
+                  {t('value_image_placeholder')}
                 </H3>
               </MCView>
-              <H3 mt={20}>{t('trustnetwork_tags_title')}</H3>
-              <H4 color={theme.colors.border}>
-                {t('tag_input_placeholderText')}
-              </H4>
-              <MCView width={333}>
-                <MCTagInput updateState={this.updateTagState} tags={tags} />
-              </MCView>
-              <H3 mt={20}>{t('section_label_vulnerability')}</H3>
-              <MCVulnerabilityPicker
-                defaultIndex={vulnerability}
-                onSelect={index =>
-                  updateSelectedReflection({vulnerability: index})
-                }
-              />
             </MCView>
           </MCCard>
         </MCContent>
@@ -202,5 +186,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(EditUserManualScreen),
+  connect(mapStateToProps, mapDispatchToProps)(EditValueScreen),
 );

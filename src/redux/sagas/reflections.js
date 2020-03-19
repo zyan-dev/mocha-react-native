@@ -6,6 +6,10 @@ import NavigationService from 'navigation/NavigationService';
 
 export function* getMyReflections(action) {
   try {
+    const {
+      profileReducer: {userToken},
+    } = yield select();
+    if (!userToken) return;
     const response = yield call(API.getMyReflections);
     if (response.data.status === 'success') {
       yield put({
@@ -70,12 +74,13 @@ export function* addOrUpdateReflection(action) {
   try {
     let response = {};
     const {
-      reflectionReducer: {selectedReflection},
-      profileReducer: {name},
+      reflectionReducer: {selectedReflection, myReflections},
+      profileReducer: {name, userToken},
     } = yield select();
     yield put({type: types.API_CALLING});
     if (
-      selectedReflection.image &&
+      userToken &&
+      selectedReflection.data.image &&
       selectedReflection.data.image.length &&
       selectedReflection.data.image.indexOf('https://') < 0
     ) {
@@ -91,19 +96,43 @@ export function* addOrUpdateReflection(action) {
       }
     }
     if (selectedReflection._id) {
-      // update
-      response = yield call(API.updateReflections, {
-        data: [selectedReflection],
-      });
+      if (userToken) {
+        // online update
+        response = yield call(API.updateReflections, {
+          data: [selectedReflection],
+        });
+      } else {
+        // offline update
+        const updated = myReflections.map(reflection => {
+          if (reflection._id === selectedReflection._id)
+            return selectedReflection;
+          else return reflection;
+        });
+        yield put({
+          type: types.SET_MY_REFLECTIONS,
+          payload: updated,
+        });
+      }
     } else {
-      // add
-      response = yield call(API.addReflections, {
-        data: {
-          [selectedReflection.type]: [selectedReflection.data],
-        },
-      });
+      if (userToken) {
+        // online add
+        response = yield call(API.addReflections, {
+          data: {
+            [selectedReflection.type]: [selectedReflection.data],
+          },
+        });
+      } else {
+        // offline add
+        yield put({
+          type: types.SET_MY_REFLECTIONS,
+          payload: myReflections.concat({
+            ...selectedReflection,
+            _id: new Date().getTime(),
+          }),
+        });
+      }
     }
-    if (response.data.status === 'success') {
+    if (!userToken || response.data.status === 'success') {
       yield put({type: types.GET_MY_REFLECTIONS});
       yield put({type: types.API_FINISHED});
       yield put({
@@ -126,16 +155,33 @@ export function* addOrUpdateReflection(action) {
 
 export function* removeReflection(action) {
   try {
+    const {
+      reflectionReducer: {myReflections},
+      profileReducer: {userToken},
+    } = yield select();
     yield put({type: types.API_CALLING});
-    const response = yield call(API.removeReflection, action.payload._id);
-    if (response.data.status === 'success') {
-      yield put({type: types.GET_MY_REFLECTIONS});
-      yield put({type: types.API_FINISHED});
+    if (userToken) {
+      // online remove
+      const response = yield call(API.removeReflection, action.payload._id);
+      if (response.data.status === 'success') {
+        yield put({type: types.GET_MY_REFLECTIONS});
+        yield put({type: types.API_FINISHED});
+      } else {
+        yield put({
+          type: types.API_FINISHED,
+          payload: response.data.data.message,
+        });
+      }
     } else {
+      // offline remove
+      const filtered = myReflections.filter(
+        reflection => reflection._id !== action.payload._id,
+      );
       yield put({
-        type: types.API_FINISHED,
-        payload: response.data.data.message,
+        type: types.SET_MY_REFLECTIONS,
+        payload: filtered,
       });
+      yield put({type: types.API_FINISHED});
     }
   } catch (e) {
     yield put({type: types.API_FINISHED, payload: e.toString()});

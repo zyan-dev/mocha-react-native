@@ -24,69 +24,50 @@ import {MCTimeSlider} from 'components/common';
 import {NightSliderValues, DaySliderValues} from 'utils/constants';
 
 class ChronotypeScreen extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isNew: true,
-      chronotypeData: {
-        type: 'morning', // morning, flexible, night
-        night_sleep_offset_start: 3, // 0 ~ 12
-        night_sleep_offset_end: 10, // 0 ~ 12
-        day_sleep_offset_start: 5, // 0 ~ 12
-        day_sleep_offset_end: 7, // 0 ~ 12
-      },
-    };
-  }
-
   componentWillMount() {
     const {myChronotype} = this.props;
     if (myChronotype.length) {
-      this.setState({chronotypeData: myChronotype[0].data, isNew: false});
+      this.props.selectReflection(myChronotype[0]);
+    } else {
+      this.props.setInitialReflection('chronotype');
     }
   }
 
   onSaveMyChronotype = () => {
-    const {isNew, chronotypeData} = this.state;
-    const {saveMyChronotype, myChronotype} = this.props;
-    saveMyChronotype({
-      isNew,
-      param: {
-        _id: isNew ? '' : myChronotype[0]._id,
-        data: chronotypeData,
-      },
-    });
+    this.props.addOrUpdateReflection();
   };
 
   onSelectType = type => {
-    const {chronotypeData} = this.state;
-    this.setState({chronotypeData: {...chronotypeData, type}});
+    this.props.updateSelectedReflection({type});
   };
 
   onChangeNightTimeRange = range => {
-    const {chronotypeData} = this.state;
-    this.setState({
-      chronotypeData: {
-        ...chronotypeData,
-        night_sleep_offset_start: range.start,
-        night_sleep_offset_end: range.end,
-      },
+    this.props.updateSelectedReflection({
+      night_sleep_offset_start: range.start,
+      night_sleep_offset_end: range.end,
     });
   };
 
   onChangeDayTimeRange = range => {
-    const {chronotypeData} = this.state;
-    this.setState({
-      chronotypeData: {
-        ...chronotypeData,
-        day_sleep_offset_start: range.start,
-        day_sleep_offset_end: range.end,
-      },
+    this.props.updateSelectedReflection({
+      day_sleep_offset_start: range.start,
+      day_sleep_offset_end: range.end,
     });
   };
 
   render() {
-    const {t} = this.props;
-    const {chronotypeData} = this.state;
+    const {
+      t,
+      selectedReflection: {
+        data: {
+          type,
+          night_sleep_offset_start,
+          night_sleep_offset_end,
+          day_sleep_offset_start,
+          day_sleep_offset_end,
+        },
+      },
+    } = this.props;
     return (
       <MCRootView>
         <MCHeader
@@ -97,7 +78,7 @@ class ChronotypeScreen extends React.PureComponent {
           <H3 underline>{t('profile_card_chronotype')}</H3>
           <MCView row align="center" justify="center">
             <MCButton onPress={() => this.onSelectType('morning')}>
-              <NativeCard bordered={chronotypeData.type === 'morning'}>
+              <NativeCard bordered={type === 'morning'}>
                 <MCView width={85} align="center">
                   <MCImage
                     image={MorningLarkIcon}
@@ -110,7 +91,7 @@ class ChronotypeScreen extends React.PureComponent {
               </NativeCard>
             </MCButton>
             <MCButton onPress={() => this.onSelectType('flexible')}>
-              <NativeCard bordered={chronotypeData.type === 'flexible'}>
+              <NativeCard bordered={type === 'flexible'}>
                 <MCView width={85} align="center">
                   <MCImage
                     image={FlexibleIcon}
@@ -123,7 +104,7 @@ class ChronotypeScreen extends React.PureComponent {
               </NativeCard>
             </MCButton>
             <MCButton onPress={() => this.onSelectType('night')}>
-              <NativeCard bordered={chronotypeData.type === 'night'}>
+              <NativeCard bordered={type === 'night'}>
                 <MCView width={85} align="center">
                   <MCImage
                     image={NightOwlIcon}
@@ -146,15 +127,14 @@ class ChronotypeScreen extends React.PureComponent {
             <MCTimeSlider
               width={320}
               range={{
-                start: chronotypeData.night_sleep_offset_start,
-                end: chronotypeData.night_sleep_offset_end,
+                start: night_sleep_offset_start,
+                end: night_sleep_offset_end,
               }}
               onChange={range => this.onChangeNightTimeRange(range)}
               values={NightSliderValues}
             />
             <MCText weight="bold" style={{fontSize: dySize(80)}}>
-              {chronotypeData.night_sleep_offset_end -
-                chronotypeData.night_sleep_offset_start}
+              {night_sleep_offset_end - night_sleep_offset_start}
             </MCText>
             <H2>{t('unit_hours')}</H2>
           </MCView>
@@ -168,15 +148,14 @@ class ChronotypeScreen extends React.PureComponent {
             <MCTimeSlider
               width={320}
               range={{
-                start: chronotypeData.day_sleep_offset_start,
-                end: chronotypeData.day_sleep_offset_end,
+                start: day_sleep_offset_start,
+                end: day_sleep_offset_end,
               }}
               onChange={range => this.onChangeDayTimeRange(range)}
               values={DaySliderValues}
             />
             <MCText weight="bold" style={{fontSize: dySize(80)}}>
-              {chronotypeData.day_sleep_offset_end -
-                chronotypeData.day_sleep_offset_start}
+              {day_sleep_offset_end - day_sleep_offset_start}
             </MCText>
             <H2>{t('unit_hours')}</H2>
           </MCView>
@@ -188,10 +167,15 @@ class ChronotypeScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   myChronotype: selector.reflections.getMyChronotype(state),
+  selectedReflection: state.reflectionReducer.selectedReflection,
 });
 
 const mapDispatchToProps = {
   saveMyChronotype: reflectionActions.saveMyChronotype,
+  setInitialReflection: reflectionActions.setInitialReflection,
+  updateSelectedReflection: reflectionActions.updateSelectedReflection,
+  addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  selectReflection: reflectionActions.selectReflection,
 };
 
 export default withTranslation()(

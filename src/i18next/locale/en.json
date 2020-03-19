@@ -1430,6 +1430,8 @@
   "user_search_title": "Search Users",
   "usermanual_custom_title": "Custom Title",
   "username": "username",
+  "value_custom": "Custom Value",
+  "value_image_placeholder": "Upload icon or image to describe this value",
   "vulnerability_most": "Most",
   "vulnerability_not": "Not",
   "vulnerability_somewhat": "Somewhat",

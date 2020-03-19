@@ -26,10 +26,12 @@ export function* updateBasicProfile(action) {
   try {
     let response = {};
     const {
-      profileReducer: {bio, name, avatar, avatarChanged},
+      profileReducer: {bio, name, avatar, avatarChanged, userToken},
     } = yield select();
+    if (!userToken) return;
     let updatedProfile = {bio, name, avatar};
-    if (avatarChanged) {
+    yield put({type: types.API_CALLING});
+    if (avatar.length && avatar.indexOf('https://') < 0) {
       // avatar Changed
       response = yield call(API.fileUploadToS3, {
         image: avatar,
@@ -43,29 +45,44 @@ export function* updateBasicProfile(action) {
       }
     }
     response = yield call(API.updateProfile, updatedProfile);
-    yield put({
-      type: types.SET_PROFILE_DATA,
-      payload: {
-        ...response.data.data.user,
-        avatarChanged: false,
-      },
-    });
+    if (response.data.status === 'success') {
+      yield put({
+        type: types.SET_PROFILE_DATA,
+        payload: response.data.data.user,
+      });
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
   } catch (e) {
-    showAlert(e.toString());
+    yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }
 
 export function* updateContactProfile(action) {
   try {
     const {profileReducer} = yield select();
+    if (!profileReducer.userToken) return;
+    yield put({type: types.API_CALLING});
     const updatedProfile = _.pick(profileReducer, ContactProfileKeys);
     const response = yield call(API.updateProfile, updatedProfile);
-    yield put({
-      type: types.SET_PROFILE_DATA,
-      payload: response.data.data.user,
-    });
+    if (response.data.status === 'success') {
+      yield put({
+        type: types.SET_PROFILE_DATA,
+        payload: response.data.data.user,
+      });
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
   } catch (e) {
-    showAlert(e.toString());
+    yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }
 

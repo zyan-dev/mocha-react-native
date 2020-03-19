@@ -44,12 +44,16 @@ class AddReflectionScreen extends React.Component {
   };
 
   render() {
-    const {t} = this.props;
+    const {
+      t,
+      profile: {userToken},
+    } = this.props;
     return (
       <MCRootView justify="flex-start">
         <MCHeader hasBack={false} title={t('add_headerTitle')} />
         <MCContent>
           {AddReflectionSections.map(section => {
+            if (!userToken && section.registerRequired) return null;
             return (
               <MCButton onPress={() => this.onPressCard(section)}>
                 <MCCard shadow row p={10}>
@@ -82,7 +86,9 @@ class AddReflectionScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  profile: state.profileReducer,
+});
 
 const mapDispatchToProps = {};
 

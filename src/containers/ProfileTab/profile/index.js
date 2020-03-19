@@ -17,6 +17,7 @@ import AttachmentAndApproach from './cards/AttachmentAndApproach';
 import LanguageAndRisk from './cards/LanguageAndRisk';
 import StressAndComfort from './cards/StressAndComfort';
 import NavigationService from 'navigation/NavigationService';
+import {showAlert} from '../../../services/operators';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -28,6 +29,22 @@ class ProfileScreen extends React.Component {
     this.props.getMyFeedbacks();
   }
 
+  onPressAllValues = () => {
+    NavigationService.navigate('TabAddValue');
+    setTimeout(() => {
+      NavigationService.navigate('Values');
+    });
+  };
+
+  onPressAllPurposes = () => {};
+
+  onPressAllGoals = () => {
+    if (!this.props.userToken) {
+      showAlert('You need to sign up');
+    } else {
+    }
+  };
+
   onPressAllUserManuals = () => {
     NavigationService.navigate('TabAddValue');
     setTimeout(() => {
@@ -36,11 +53,26 @@ class ProfileScreen extends React.Component {
   };
 
   onPressNewFeedback = () => {
-    NavigationService.navigate('TabAddValue');
-    setTimeout(() => {
-      NavigationService.navigate('Feedbacks');
-    });
+    if (!this.props.userToken) {
+      showAlert('You need to sign up');
+    } else {
+      NavigationService.navigate('TabAddValue');
+      setTimeout(() => {
+        NavigationService.navigate('Feedbacks');
+      });
+    }
   };
+
+  onPressAllPersonalities = () => {};
+
+  onPressAllSkills = () => {};
+  onPressAllQuirks = () => {};
+  onPressAllTriggers = () => {};
+  onPressAllAttachments = () => {};
+  onPressAllApproaches = () => {};
+  onPressAllLanguages = () => {};
+  onPressAllRisks = () => {};
+  onPressAllAnswers = () => {};
 
   render() {
     const {
@@ -68,8 +100,8 @@ class ProfileScreen extends React.Component {
             <ContactCard profile={profile} />
             <ValueAndPurpose
               values={values}
-              onPressAllValues={() => console.log('Go to all values')}
-              onPressAllPurposes={() => console.log('Go to all purposes')}
+              onPressAllValues={() => this.onPressAllValues()}
+              onPressAllPurposes={() => this.onPressAllPurposes()}
             />
             <MotivationCard
               motivations={motivations}
@@ -81,38 +113,36 @@ class ProfileScreen extends React.Component {
               manuals={manuals}
               goals={goals}
               onPressAllBeliefs={() => this.onPressAllUserManuals()}
-              onPressAllGoals={() => console.log('Go to all goals')}
+              onPressAllGoals={() => this.onPressAllGoals()}
             />
             <ChronotypeAndPersonality
               onPressAllChronotypes={() =>
                 NavigationService.navigate('Chronotype')
               }
-              onPressAllPersonalities={() =>
-                console.log('Go to all personalities')
-              }
+              onPressAllPersonalities={() => this.onPressAllPersonalities()}
             />
             <SkillAndFeedback
               feedbacks={feedbacks}
-              onPressAllSkills={() => console.log('Go to all skills')}
+              onPressAllSkills={() => this.onPressAllSkills()}
               onPressAllFeedbacks={() =>
                 NavigationService.navigate('Feedbacks')
               }
               onPressNewFeedback={() => this.onPressNewFeedback()}
             />
             <QuirkAndTrigger
-              onPressAllQuirks={() => console.log('Go to all quirks')}
-              onPressAllTriggers={() => console.log('Go to all triggers')}
+              onPressAllQuirks={() => this.onPressAllQuirks()}
+              onPressAllTriggers={() => this.onPressAllTriggers()}
             />
             <AttachmentAndApproach
-              onPressAllAttachments={() => console.log('Go to all attachments')}
-              onPressAllApproaches={() => console.log('Go to all approaches')}
+              onPressAllAttachments={() => this.onPressAllAttachments()}
+              onPressAllApproaches={() => this.onPressAllApproaches()}
             />
             <LanguageAndRisk
-              onPressAllLanguages={() => console.log('Go to all languages')}
-              onPressAllRisks={() => console.log('Go to all risks')}
+              onPressAllLanguages={() => this.onPressAllLanguages()}
+              onPressAllRisks={() => this.onPressAllRisks()}
             />
             <StressAndComfort
-              onPressAllAnswers={() => console.log('Go to all answers')}
+              onPressAllAnswers={() => this.onPressAllAnswers()}
             />
           </MCView>
         </MCContent>

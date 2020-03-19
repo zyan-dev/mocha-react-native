@@ -36,6 +36,7 @@ export const AddReflectionSections = [
     boldWordKeys: ['user_manual'], // You can find `add_reflection_manual_bold_user_manual` to check the bold text
     icon: AddUserManualIcon,
     navigateTo: 'UserManuals',
+    registerRequired: false,
   },
   {
     key: 'value',
@@ -45,6 +46,7 @@ export const AddReflectionSections = [
     boldWordKeys: ['value'],
     icon: AddValueIcon,
     navigateTo: 'Values',
+    registerRequired: false,
   },
   {
     key: 'feedback',
@@ -54,6 +56,7 @@ export const AddReflectionSections = [
     boldWordKeys: ['request_feedback'],
     icon: AddFeedbackIcon,
     navigateTo: 'Feedbacks',
+    registerRequired: true,
   },
   {
     key: 'goal',
@@ -63,6 +66,7 @@ export const AddReflectionSections = [
     boldWordKeys: ['goal'],
     icon: AddGoalIcon,
     navigateTo: 'Goals',
+    registerRequired: true,
   },
   {
     key: 'mood_and_emotion',
@@ -72,6 +76,7 @@ export const AddReflectionSections = [
     boldWordKeys: ['mood', 'emotions'],
     icon: AddEmotionIcon,
     navigateTo: 'Emotions',
+    registerRequired: false,
   },
   {
     key: 'need',
@@ -81,6 +86,7 @@ export const AddReflectionSections = [
     boldWordKeys: ['needs'],
     icon: AddNeedIcon,
     navigateTo: 'Needs',
+    registerRequired: false,
   },
   {
     key: 'tapToCount',
@@ -90,6 +96,74 @@ export const AddReflectionSections = [
     boldWordKeys: ['tap_to_count'],
     icon: AddTapToCountIcon,
     navigateTo: 'TapToCounts',
+    registerRequired: true,
+  },
+];
+
+export const profileSideMenuList = [
+  {
+    index: 0,
+    icon: 'ios-link',
+    iconType: 'Ionicon',
+    title: 'profile_menu_signin',
+    redirectTo: 'TabFeed',
+    registerRequired: false,
+  },
+  {
+    index: 1,
+    icon: 'ios-log-out',
+    iconType: 'Ionicon',
+    title: 'profile_menu_signout',
+    redirectTo: '',
+    registerRequired: true,
+  },
+  {
+    index: 2,
+    icon: 'ios-calendar',
+    iconType: 'Ionicon',
+    title: 'profile_menu_timeline',
+    redirectTo: 'TimeLine',
+    registerRequired: true,
+  },
+  {
+    index: 3,
+    icon: 'ios-trending-up',
+    iconType: 'Ionicon',
+    title: 'profile_menu_analyze',
+    redirectTo: 'Analyze',
+    registerRequired: true,
+  },
+  {
+    index: 4,
+    icon: 'ios-send',
+    iconType: 'Ionicon',
+    title: 'profile_menu_cv',
+    redirectTo: 'SendMochaCV',
+    registerRequired: true,
+  },
+  {
+    index: 5,
+    icon: 'ios-notifications-outline',
+    iconType: 'Ionicon',
+    title: 'profile_menu_manage_notifications',
+    redirectTo: 'ManageNotifications',
+    registerRequired: true,
+  },
+  {
+    index: 6,
+    icon: 'logo-usd',
+    iconType: 'Ionicon',
+    title: 'profile_menu_purchase',
+    redirectTo: 'Purchase',
+    registerRequired: true,
+  },
+  {
+    index: 7,
+    icon: 'ios-remove-circle-outline',
+    iconType: 'Ionicon',
+    title: 'profile_menu_delete',
+    redirectTo: '',
+    registerRequired: true,
   },
 ];
 
@@ -1026,6 +1100,26 @@ export const defaultReflections = {
       vulnerability: 1,
       tags: [],
       image: '',
+    },
+  },
+  chronotype: {
+    type: 'chronotype',
+    data: {
+      type: 'morning', // morning, flexible, night
+      night_sleep_offset_start: 3, // 0 ~ 12
+      night_sleep_offset_end: 10, // 0 ~ 12
+      day_sleep_offset_start: 5, // 0 ~ 12
+      day_sleep_offset_end: 7, // 0 ~ 12
+    },
+  },
+  value: {
+    type: 'value',
+    data: {
+      value: '',
+      phrase: '',
+      learn: '',
+      image: '',
+      action: '',
     },
   },
 };

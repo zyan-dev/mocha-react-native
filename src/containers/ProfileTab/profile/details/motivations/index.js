@@ -41,7 +41,9 @@ class MotivationListScreen extends React.PureComponent {
   _renderListItem = ({item}) => {
     const motivation = item.data;
     const {selectedReflection, updateSelectedReflection} = this.props;
-    const editable = selectedReflection && selectedReflection._id === item._id;
+
+    const editable =
+      item._id !== undefined && selectedReflection._id === item._id;
     return (
       <MCView
         key={item.key}
@@ -81,7 +83,7 @@ class MotivationListScreen extends React.PureComponent {
         </MCView>
         {motivation.image.length > 0 && (
           <MCImagePicker
-            editable={editable}
+            enabled={editable}
             image={motivation.image}
             type="picture"
           />
@@ -112,7 +114,7 @@ class MotivationListScreen extends React.PureComponent {
         <MCContent>
           <FlatList
             data={motivations}
-            renderItem={this._renderListItem}
+            renderItem={this._renderListItem.bind(this)}
             keyExtractor={item => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>No results</MCEmptyText>}

@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ReflectionScreen from './Home';
 import UserManualScreen from './usermanual';
 import ValueScreen from './value';
+import EditValueScreen from './value/edit';
 import FeedbackStack from './feedback';
 import GoalScreen from './goal';
 import EmotionScreen from './emotion';
@@ -19,6 +20,7 @@ class AddValueTabStack extends React.Component {
         <Stack.Screen name="AddTabHome" component={ReflectionScreen} />
         <Stack.Screen name="UserManuals" component={UserManualScreen} />
         <Stack.Screen name="Values" component={ValueScreen} />
+        <Stack.Screen name="EditValue" component={EditValueScreen} />
         <Stack.Screen name="Feedbacks" component={FeedbackStack} />
         <Stack.Screen name="Goals" component={GoalScreen} />
         <Stack.Screen name="Emotions" component={EmotionScreen} />

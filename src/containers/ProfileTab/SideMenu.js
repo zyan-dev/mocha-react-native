@@ -4,69 +4,11 @@ import {withTranslation} from 'react-i18next';
 import {routerActions, profileActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {colorThemes} from 'theme';
-import {H3, MCIcon} from 'components/styled/Text';
+import {H3, H5, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {ScrollView} from 'react-native-gesture-handler';
-
-const sideMenuList = [
-  {
-    index: 0,
-    icon: 'ios-link',
-    iconType: 'Ionicon',
-    title: 'profile_menu_signin',
-    redirectTo: 'TabFeed',
-  },
-  {
-    index: 1,
-    icon: 'ios-log-out',
-    iconType: 'Ionicon',
-    title: 'profile_menu_signout',
-    redirectTo: '',
-  },
-  {
-    index: 2,
-    icon: 'ios-calendar',
-    iconType: 'Ionicon',
-    title: 'profile_menu_timeline',
-    redirectTo: 'TimeLine',
-  },
-  {
-    index: 3,
-    icon: 'ios-trending-up',
-    iconType: 'Ionicon',
-    title: 'profile_menu_analyze',
-    redirectTo: 'Analyze',
-  },
-  {
-    index: 4,
-    icon: 'ios-send',
-    iconType: 'Ionicon',
-    title: 'profile_menu_cv',
-    redirectTo: 'SendMochaCV',
-  },
-  {
-    index: 5,
-    icon: 'ios-notifications-outline',
-    iconType: 'Ionicon',
-    title: 'profile_menu_manage_notifications',
-    redirectTo: 'ManageNotifications',
-  },
-  {
-    index: 6,
-    icon: 'logo-usd',
-    iconType: 'Ionicon',
-    title: 'profile_menu_purchase',
-    redirectTo: 'Purchase',
-  },
-  {
-    index: 7,
-    icon: 'ios-remove-circle-outline',
-    iconType: 'Ionicon',
-    title: 'profile_menu_delete',
-    redirectTo: '',
-  },
-];
+import {profileSideMenuList} from 'utils/constants';
 
 class ProfileSideMenu extends React.Component {
   constructor(props) {
@@ -95,21 +37,27 @@ class ProfileSideMenu extends React.Component {
       <MCRootView justify="flex-start" align="flex-start">
         <ScrollView>
           <MCView height={80} />
-          {sideMenuList.map(menu => {
-            if (profile.userToken.length && menu.index === 0) return;
-            else if (!profile.userToken.length && menu.index === 1) return;
+          {profileSideMenuList.map(menu => {
+            if (profile.userToken.length && !menu.registerRequired) return;
+            else if (!profile.userToken.length && menu.registerRequired) return;
             return (
               <MCButton
                 style={{width: '100%'}}
-                align="flex-start"
                 row
                 onPress={() => this.onPressItem(menu)}>
                 <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
-                <H3
-                  ml={6}
-                  color={menu.index === 7 ? systemTheme.colors.danger : ''}>
-                  {t(menu.title)}
-                </H3>
+                <MCView>
+                  <H3
+                    ml={6}
+                    color={menu.index === 7 ? systemTheme.colors.danger : ''}>
+                    {t(menu.title)}
+                  </H3>
+                  {menu.index === 0 && (
+                    <H5 ml={6} color={systemTheme.colors.border}>
+                      This is required for more features
+                    </H5>
+                  )}
+                </MCView>
               </MCButton>
             );
           })}

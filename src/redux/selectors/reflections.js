@@ -1,27 +1,43 @@
+import {capitalizeString} from 'services/operators';
+
 const getMyValues = state =>
-  state.reflectionReducer.myReflections.filter(({type}) => type === 'Value');
+  state.reflectionReducer.myReflections.filter(
+    ({type}) => capitalizeString(type) === 'Value',
+  );
 const getMyManuals = state =>
-  state.reflectionReducer.myReflections.filter(({type}) => type === 'Manual');
+  state.reflectionReducer.myReflections.filter(
+    ({type}) => capitalizeString(type) === 'Manual',
+  );
 const getMyGoals = state =>
-  state.reflectionReducer.myReflections.filter(({type}) => type === 'Goal');
+  state.reflectionReducer.myReflections.filter(
+    ({type}) => capitalizeString(type) === 'Goal',
+  );
 const getMyFeedbacks = state =>
-  state.reflectionReducer.myReflections.filter(({type}) => type === 'Feedback');
+  state.reflectionReducer.myReflections.filter(
+    ({type}) => capitalizeString(type) === 'Feedback',
+  );
 const getMyChronotype = state =>
   state.reflectionReducer.myReflections.filter(
-    ({type}) => type === 'Chronotype',
+    ({type}) => capitalizeString(type) === 'Chronotype',
   );
 const getMyMotivations = state =>
   state.reflectionReducer.myReflections.filter(
-    ({type}) => type === 'Motivation',
+    ({type}) => capitalizeString(type) === 'Motivation',
   );
 
 // User Reflections
 const getUserValues = state =>
-  state.reflectionReducer.userReflections.filter(({type}) => type === 'Value');
+  state.reflectionReducer.userReflections.filter(
+    ({type}) => capitalizeString(type) === 'Value',
+  );
 const getUserManuals = state =>
-  state.reflectionReducer.userReflections.filter(({type}) => type === 'Manual');
+  state.reflectionReducer.userReflections.filter(
+    ({type}) => capitalizeString(type) === 'Manual',
+  );
 const getUserGoals = state =>
-  state.reflectionReducer.userReflections.filter(({type}) => type === 'Goal');
+  state.reflectionReducer.userReflections.filter(
+    ({type}) => capitalizeString(type) === 'Goal',
+  );
 const getUserFeedbacks = state =>
   state.reflectionReducer.userReflections.filter(
     ({type}) => type === 'Feedback',
