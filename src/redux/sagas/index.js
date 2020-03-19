@@ -7,6 +7,7 @@ import * as feedbackSaga from './feedbacks';
 import * as notificationSaga from './notifications';
 import * as userSaga from './users';
 import * as networkSaga from './network';
+import * as otherSaga from './other';
 
 function* mySaga() {
   // auth
@@ -68,6 +69,9 @@ function* mySaga() {
   yield takeLatest(types.CREATE_TRUST_NETWORK, networkSaga.createNetwork);
   yield takeLatest(types.UPDATE_TRUST_NETWORK, networkSaga.updateNetwork);
   yield takeLatest(types.DELETE_TRUST_NETWORK, networkSaga.deleteNetwork);
+
+  // other
+  yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);
 }
 
 export default mySaga;

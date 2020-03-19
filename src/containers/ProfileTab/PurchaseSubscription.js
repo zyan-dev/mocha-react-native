@@ -1,24 +1,46 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import RNIap, {
+  getProducts,
+  purchaseErrorListener,
+  purchaseUpdatedListener,
+} from 'react-native-iap';
+import {otherActions} from 'Redux/actions';
 import {MCRootView} from 'components/styled/View';
 import {MCHeader} from 'components/common';
 import {H3, H4} from 'components/styled/Text';
 import {MCView, NativeCard, MCContent} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
+import {showAlert} from 'services/operators';
 
-const purchaseItems = [
-  {
-    key: 'com.mocha.purchase.year',
-    months: 12,
-    price: 49.99,
-  },
-  {
-    key: 'com.mocha.purchase.month',
-    months: 1,
-    price: 4.99,
-  },
-];
+const purchaseItems = Platform.select({
+  ios: ['com.mocha.mobile.annual', 'com.mocha.mobile.monthly'],
+  android: ['com.mocha.mobile.annual', 'com.mocha.mobile.monthly'],
+});
+
+const monthsPerProduct = {
+  'com.mocha.mobile.annual': 12,
+  'com.mocha.mobile.monthly': 1,
+};
+
+// const sampleProductInfo = {
+//   currency: 'GBP',
+//   description: 'Annual Subscription',
+//   discounts: [Array],
+//   introductoryPrice: '',
+//   introductoryPriceNumberOfPeriodsIOS: '',
+//   introductoryPricePaymentModeIOS: '',
+//   introductoryPriceSubscriptionPeriodIOS: '',
+//   localizedPrice: '£48.99',
+//   price: '48.99',
+//   productId: 'com.mocha.mobile.annual',
+//   subscriptionPeriodNumberIOS: '1',
+//   subscriptionPeriodUnitIOS: 'YEAR',
+//   title: 'Annual Subscription',
+//   type: 'Do not use this. It returned sub only before',
+// };
 
 class PurchaseSubscription extends React.Component {
   constructor(props) {
@@ -28,34 +50,74 @@ class PurchaseSubscription extends React.Component {
     };
   }
 
+  async componentDidMount() {
+    try {
+      // this.props.loadingProducts(true);
+      const products = await getProducts(purchaseItems);
+      this.props.setPurchaseProducts(products);
+      // this.props.loadingProducts(false);
+    } catch (err) {
+      console.warn(err); // standardized err.code and err.message available
+    }
+    this.purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
+      console.log('purchaseUpdatedListener', purchase);
+      const receipt = purchase.transactionReceipt;
+      if (receipt) {
+        this.props.purchaseSubscription({receipt, purchase});
+      }
+    });
+
+    this.purchaseErrorSubscription = purchaseErrorListener(error => {
+      showAlert(error.debugMessage);
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.purchaseUpdateSubscription) {
+      this.purchaseUpdateSubscription.remove();
+      this.purchaseUpdateSubscription = null;
+    }
+    if (this.purchaseErrorSubscription) {
+      this.purchaseErrorSubscription.remove();
+      this.purchaseErrorSubscription = null;
+    }
+  }
+
   onPressPurchaseItem = item => {
     this.setState({selectedItem: item});
   };
 
-  onPurchase = () => {
+  onPurchase = async () => {
     const {selectedItem} = this.state;
-    alert(`You purchased $${selectedItem.price} successfully! (Test)`);
+    try {
+      await RNIap.requestSubscription(selectedItem.productId);
+    } catch (err) {
+      showAlert(err.toString());
+    }
   };
 
   render() {
     const {selectedItem} = this.state;
-    const {t, theme} = this.props;
+    const {t, products} = this.props;
+    if (!products) return <MCRootView />;
     return (
       <MCRootView justify="flex-start">
         <MCHeader title={t('profile_menu_purchase')} />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
-          {purchaseItems.map(item => (
-            <MCButton onPress={() => this.onPressPurchaseItem(item)}>
+          {products.map(product => (
+            <MCButton onPress={() => this.onPressPurchaseItem(product)}>
               <NativeCard
-                key={item.key}
+                key={product.productId}
                 width={340}
-                bordered={selectedItem.key === item.key}>
+                bordered={selectedItem.productId === product.productId}>
                 <MCView>
                   <MCView row align="center">
-                    <H3 weight="bold">{item.months} </H3>
+                    <H3 weight="bold">
+                      {monthsPerProduct[product.productId]}{' '}
+                    </H3>
                     <H4 weight="bold">{t('unit_months')}</H4>
                   </MCView>
-                  <H3 pv={1}>${item.price}</H3>
+                  <H3 pv={1}>{product.localizedPrice}</H3>
                 </MCView>
               </NativeCard>
             </MCButton>
@@ -63,7 +125,7 @@ class PurchaseSubscription extends React.Component {
         </MCContent>
         <MCButton
           onPress={() => this.onPurchase()}
-          disabled={!selectedItem.key}
+          disabled={!selectedItem.productId}
           align="center"
           background="#19D868"
           width={340}
@@ -78,9 +140,14 @@ class PurchaseSubscription extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
+  products: state.otherReducer.purchaseProducts,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  purchaseSubscription: otherActions.purchaseSubscription,
+  setPurchaseProducts: otherActions.setPurchaseProducts,
+  loadingProducts: otherActions.loadingProducts,
+};
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(PurchaseSubscription),
