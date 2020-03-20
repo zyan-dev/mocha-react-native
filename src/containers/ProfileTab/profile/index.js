@@ -39,9 +39,10 @@ class ProfileScreen extends React.Component {
   onPressAllPurposes = () => {};
 
   onPressAllGoals = () => {
-    if (!this.props.userToken) {
+    if (!this.props.profile.userToken) {
       showAlert('You need to sign up');
     } else {
+      NavigationService.navigate('Goals');
     }
   };
 
@@ -53,7 +54,7 @@ class ProfileScreen extends React.Component {
   };
 
   onPressNewFeedback = () => {
-    if (!this.props.userToken) {
+    if (!this.props.profile.userToken) {
       showAlert('You need to sign up');
     } else {
       NavigationService.navigate('TabAddValue');
