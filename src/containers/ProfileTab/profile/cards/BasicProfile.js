@@ -6,7 +6,12 @@ import {profileActions} from 'Redux/actions';
 import {MCCard, MCView} from 'components/styled/View';
 import {H4, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCImage, MCImagePicker, MCEditableText} from 'components/common';
+import {
+  MCImage,
+  MCImagePicker,
+  MCEditableText,
+  MCReadMoreText,
+} from 'components/common';
 import {MochaIcon} from 'assets/images';
 
 class BasicProfile extends React.Component {
@@ -52,68 +57,72 @@ class BasicProfile extends React.Component {
   render() {
     const {
       t,
+      theme,
       editable,
       profile: {name, user_id, bio, avatar},
     } = this.props;
     const {editing} = this.state;
     return (
-      <MCCard width={320} p={10}>
-        <MCView row justify="space-between" align="center">
-          <MCView row align="center" style={{flex: 1}}>
-            <H4>{`@${user_id.length ? user_id : 'Unnamed'}`}</H4>
-            <MCImage width={12} height={12} image={MochaIcon} />
+      <MCCard width={320} align="center" p={10}>
+        <MCView height={15} />
+        <MCImagePicker
+          round
+          width={100}
+          height={100}
+          image={avatar}
+          type="avatar"
+          enabled={editing}
+          onSelectImage={image => this.onChangedAvatar(image)}
+        />
+        <MCView width={200} mt={10}>
+          <MCEditableText
+            text={name}
+            editable={editing}
+            maxLength={30}
+            fontSize={16}
+            textAlign="center"
+            placeholder={t('profile_name_placeholder')}
+            onChange={value => this.onUpdateProfile('name', value)}
+          />
+        </MCView>
+        <MCView row align="center" mb={10}>
+          <H4 color={theme.colors.border} pv={1}>{`@${
+            user_id.length ? user_id : 'Unnamed'
+          }`}</H4>
+          <MCImage width={12} height={12} image={MochaIcon} />
+        </MCView>
+        {editing ? (
+          <MCEditableText
+            multiline
+            text={bio}
+            placeholder={t('profile_bio_placeholder')}
+            maxLength={1024}
+            onChange={value => this.onUpdateProfile('bio', value)}
+            style={{flex: 1}}
+          />
+        ) : (
+          <MCView width={300}>
+            <MCReadMoreText>
+              <H4>{bio}</H4>
+            </MCReadMoreText>
           </MCView>
+        )}
+
+        <MCView row justify="flex-end" width={320}>
           {editable && (
             <MCButton onPress={() => this.onToggleEdit()}>
               <MCIcon name={editing ? 'ios-share' : 'md-create'} />
             </MCButton>
           )}
         </MCView>
-        <MCView row>
-          <MCImagePicker
-            round
-            width={100}
-            height={100}
-            image={avatar}
-            type="avatar"
-            enabled={editing}
-            onSelectImage={image => this.onChangedAvatar(image)}
-          />
-          <MCView
-            ml={20}
-            justify="flex-start"
-            align="flex-start"
-            style={{flex: 1}}>
-            <MCEditableText
-              text={name}
-              editable={editing}
-              maxLength={30}
-              placeholder={t('profile_name_placeholder')}
-              onChange={value => this.onUpdateProfile('name', value)}
-            />
-            {name.length * bio.length * user_id.length * avatar.length > 0 && (
-              <MCView row>
-                <MCIcon name="ios-checkmark-circle" color="green" />
-                <H4>{t('profile_completed')}</H4>
-              </MCView>
-            )}
-          </MCView>
-        </MCView>
-        <MCView row mt={10}>
-          <H4 mt={5}>{`${t('profile_bio')}: `}</H4>
-          <MCEditableText
-            text={bio}
-            placeholder={t('profile_bio_placeholder')}
-            editable={editing}
-            maxLength={1024}
-            onChange={value => this.onUpdateProfile('bio', value)}
-            style={{flex: 1}}
-          />
-        </MCView>
       </MCCard>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
+});
 
 const mapDispatchToProps = {
   updateProfile: profileActions.setProfileData,
@@ -121,5 +130,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(undefined, mapDispatchToProps)(BasicProfile),
+  connect(mapStateToProps, mapDispatchToProps)(BasicProfile),
 );

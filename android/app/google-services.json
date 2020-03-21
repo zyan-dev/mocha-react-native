@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:662639718845:android:00f15a29c70ed64a7162d4",
+        "mobilesdk_app_id": "1:662639718845:android:43f194183b0971017162d4",
         "android_client_info": {
-          "package_name": "com.mocha_cli"
+          "package_name": "com.mocha.mobile"
         }
       },
       "oauth_client": [

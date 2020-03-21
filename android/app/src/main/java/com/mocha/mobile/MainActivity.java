@@ -1,4 +1,4 @@
-package com.mocha_cli;
+package com.mocha.mobile;
 
 import com.facebook.react.ReactActivity;
 

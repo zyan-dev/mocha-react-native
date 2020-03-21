@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {feedbackActions, routerActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
+import {H3, H4} from 'components/styled/Text';
 import {MCHeader} from 'components/common';
 import {selector} from 'Redux/selectors';
 import BasicProfile from './cards/BasicProfile';
@@ -100,6 +102,25 @@ class ProfileScreen extends React.Component {
         <MCContent contentContainerStyle={{paddingBottom: 100}}>
           <MCView align="center">
             <BasicProfile profile={profile} />
+            <MCView align="center" mt={20}>
+              <AnimatedCircularProgress
+                size={150}
+                width={15}
+                rotation={0}
+                lineCap="round"
+                fill={70}
+                duration={2000}
+                tintColor="#00e0ff"
+                onAnimationComplete={() => console.log('onAnimationComplete')}
+                backgroundColor="#3d5875">
+                {fill => (
+                  <MCView align="center">
+                    <H3 weight="bold">{Math.floor(fill)}%</H3>
+                    <H4>Completed</H4>
+                  </MCView>
+                )}
+              </AnimatedCircularProgress>
+            </MCView>
             <ContactCard profile={profile} />
             <ValueAndPurpose
               values={values}
