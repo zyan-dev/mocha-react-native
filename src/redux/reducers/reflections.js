@@ -49,6 +49,7 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
             ...state.selectedReflection.data,
             ...action.payload,
           },
+          updated: new Date().toISOString(),
         },
       };
     case types.RESET_ALL_REDUCER:

@@ -33,3 +33,13 @@ export const setProfileDrawerOpened = opened => ({
   type: types.SET_PROFILE_DRAWER_OPENED,
   payload: opened,
 });
+
+export const setNetworkOfflineStatus = status => ({
+  type: types.SET_NETWORK_OFFLINE_STATUS,
+  payload: status,
+});
+
+export const syncData = isNewUser => ({
+  type: types.SYNC_DATA,
+  payload: isNewUser,
+});

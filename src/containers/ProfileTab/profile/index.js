@@ -26,7 +26,9 @@ class ProfileScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getMyFeedbacks();
+    if (this.props.profile.userToken.length > 0) {
+      this.props.getMyFeedbacks();
+    }
   }
 
   onPressAllValues = () => {

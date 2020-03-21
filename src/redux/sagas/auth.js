@@ -59,29 +59,12 @@ export function* verifySignUpSMS(action) {
 
 export function* completeSignUp(action) {
   try {
-    const {
-      profileReducer: {phone, name, user_id, avatar, pushToken},
-    } = yield select();
-    let updatedProfile = {phone, name, user_id, pushToken};
-    if (action.payload) {
-      // avatar Changed
-      const fileResponse = yield call(API.fileUploadToS3, {
-        image: avatar,
-        name,
-        type: 'avatar',
-      });
-      if (response !== 'error') {
-        updatedProfile.avatar = fileResponse;
-      } else {
-        return;
-      }
-    }
-    const response = yield call(API.updateProfile, updatedProfile);
-    yield put({
-      type: types.SET_PROFILE_DATA,
-      payload: response.data.data.user,
-    });
-    NavigationService.navigate('Auth_Welcome');
+    yield put({type: types.API_CALLING});
+    yield put({type: types.SYNC_DATA});
+    setTimeout(function*() {
+      yield put({type: types.API_FINISHED});
+      NavigationService.navigate('Auth_Welcome');
+    }, 2000);
   } catch (e) {
     showAlert(e.toString());
   }

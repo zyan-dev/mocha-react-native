@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {WaveIndicator} from 'react-native-indicators';
+import NetInfo from '@react-native-community/netinfo';
 import {routerActions} from 'Redux/actions';
 import {ABSView} from 'components/styled/View';
 import WelcomeStack from '../containers/Welcome';
@@ -10,12 +11,21 @@ import MainHomeStack from '../containers/Home';
 import NavigationService from './NavigationService';
 import UserProfile from '../containers/Others/UserProfile';
 import SelectUserScreen from '../containers/Others/SelectUsers';
+import {showAlert} from '../services/operators';
 
 const Stack = createStackNavigator();
 
 class RootNavigator extends React.Component {
   componentDidMount() {
     this.props.setLoading(false);
+    NetInfo.addEventListener(state => {
+      this.props.setNetworkOfflineStatus(state.isInternetReachable);
+      if (!state.isInternetReachable) showAlert('Network is offline now.');
+      else if (this.props.profile.userToken.length) {
+        // sync data
+        this.props.syncData(false);
+      }
+    });
   }
   render() {
     const {isNewUser, isLoading} = this.props;
@@ -42,10 +52,13 @@ class RootNavigator extends React.Component {
 const mapStateToProps = state => ({
   isNewUser: state.routerReducer.isNewUser,
   isLoading: state.routerReducer.isLoading,
+  profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {
   setLoading: routerActions.setLoading,
+  setNetworkOfflineStatus: routerActions.setNetworkOfflineStatus,
+  syncData: routerActions.syncData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootNavigator);

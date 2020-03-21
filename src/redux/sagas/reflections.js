@@ -76,10 +76,11 @@ export function* addOrUpdateReflection(action) {
     const {
       reflectionReducer: {selectedReflection, myReflections},
       profileReducer: {name, userToken},
+      routerReducer: {isInternetReachable},
     } = yield select();
     yield put({type: types.API_CALLING});
     if (
-      userToken &&
+      isInternetReachable &&
       selectedReflection.data.image &&
       selectedReflection.data.image.length &&
       selectedReflection.data.image.indexOf('https://') < 0
@@ -96,7 +97,7 @@ export function* addOrUpdateReflection(action) {
       }
     }
     if (selectedReflection._id) {
-      if (userToken) {
+      if (userToken && isInternetReachable) {
         // online update
         response = yield call(API.updateReflections, {
           data: [selectedReflection],
@@ -114,7 +115,7 @@ export function* addOrUpdateReflection(action) {
         });
       }
     } else {
-      if (userToken) {
+      if (userToken && isInternetReachable) {
         // online add
         response = yield call(API.addReflections, {
           data: {

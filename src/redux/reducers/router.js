@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   },
   isSocialDrawerOpened: false,
   isProfileDrawerOpened: false,
+  isInternetReachable: true,
 };
 
 const routerReducer = (state = INITIAL_STATE, action) => {
@@ -61,6 +62,11 @@ const routerReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case types.SET_NETWORK_OFFLINE_STATUS:
+      return {
+        ...state,
+        isInternetReachable: action.payload ? true : false,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;
