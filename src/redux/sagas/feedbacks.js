@@ -7,6 +7,10 @@ import NavigationService from 'navigation/NavigationService';
 
 export function* getMyFeedbacks(action) {
   try {
+    const {
+      routerReducer: {isInternetReachable},
+    } = yield select();
+    if (!isInternetReachable) return;
     const response = yield call(API.getMyFeedbacks);
     if (response.data.status === 'success') {
       yield put({

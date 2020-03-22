@@ -60,11 +60,7 @@ export function* verifySignUpSMS(action) {
 export function* completeSignUp(action) {
   try {
     yield put({type: types.API_CALLING});
-    yield put({type: types.SYNC_DATA});
-    setTimeout(function*() {
-      yield put({type: types.API_FINISHED});
-      NavigationService.navigate('Auth_Welcome');
-    }, 2000);
+    yield put({type: types.SYNC_DATA, payload: true});
   } catch (e) {
     showAlert(e.toString());
   }

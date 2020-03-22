@@ -8,8 +8,9 @@ export function* getMyReflections(action) {
   try {
     const {
       profileReducer: {userToken},
+      routerReducer: {isInternetReachable},
     } = yield select();
-    if (!userToken) return;
+    if (!userToken || !isInternetReachable) return;
     const response = yield call(API.getMyReflections);
     if (response.data.status === 'success') {
       yield put({
@@ -133,7 +134,11 @@ export function* addOrUpdateReflection(action) {
         });
       }
     }
-    if (!userToken || response.data.status === 'success') {
+    if (
+      !userToken ||
+      !isInternetReachable ||
+      response.data.status === 'success'
+    ) {
       yield put({type: types.GET_MY_REFLECTIONS});
       yield put({type: types.API_FINISHED});
       yield put({
