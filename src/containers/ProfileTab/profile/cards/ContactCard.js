@@ -83,6 +83,7 @@ class ContactCard extends React.Component {
                     editable={key === 'phone' ? false : editing}
                     onChange={value => this.onUpdateProfile(key, value)}
                     style={{flex: 1}}
+                    keyboardType={key === 'email' ? 'email-address' : 'default'}
                   />
                 </MCView>
               );

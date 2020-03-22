@@ -1,5 +1,6 @@
 import {all, call, put, select} from 'redux-saga/effects';
 import RNIap from 'react-native-iap';
+import NetInfo from '@react-native-community/netinfo';
 import * as types from '../actions/types';
 import API from 'services/api';
 import {showAlert, capitalizeString} from 'services/operators';
@@ -17,6 +18,15 @@ export function* purchaseSubscription(action) {
   } catch (e) {
     showAlert(e.toString());
   }
+}
+
+export function* checkNetwork(action) {
+  const networkState = yield call(NetInfo.fetch);
+  console.log(networkState.isInternetReachable);
+  yield put({
+    type: types.SET_NETWORK_OFFLINE_STATUS,
+    payload: networkState.isInternetReachable,
+  });
 }
 
 export function* syncData(action) {

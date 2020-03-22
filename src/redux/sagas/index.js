@@ -73,6 +73,7 @@ function* mySaga() {
   // other
   yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);
   yield takeLatest(types.SYNC_DATA, otherSaga.syncData);
+  yield takeEvery(types.API_CALLING, otherSaga.checkNetwork);
 }
 
 export default mySaga;

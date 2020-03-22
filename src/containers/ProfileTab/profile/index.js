@@ -79,6 +79,33 @@ class ProfileScreen extends React.Component {
   onPressAllRisks = () => {};
   onPressAllAnswers = () => {};
 
+  getProfileCompletePercentage = () => {
+    const {
+      profile: {
+        user_id,
+        name,
+        avatar,
+        neighborhood,
+        namepronoun,
+        bio,
+        preferredtobecalled,
+        preferredpronoun,
+        email,
+      },
+    } = this.props;
+    let percentage = 0;
+    if (user_id.length) percentage += 20;
+    if (name.length) percentage += 10;
+    if (avatar.length) percentage += 10;
+    if (neighborhood.length) percentage += 10;
+    if (namepronoun.length) percentage += 10;
+    if (bio.length) percentage += 10;
+    if (preferredtobecalled.length) percentage += 10;
+    if (preferredpronoun.length) percentage += 10;
+    if (email.length) percentage += 10;
+    return percentage;
+  };
+
   render() {
     const {
       t,
@@ -108,7 +135,7 @@ class ProfileScreen extends React.Component {
                 width={15}
                 rotation={0}
                 lineCap="round"
-                fill={70}
+                fill={this.getProfileCompletePercentage()}
                 duration={2000}
                 tintColor="#00e0ff"
                 onAnimationComplete={() => console.log('onAnimationComplete')}

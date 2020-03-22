@@ -1,5 +1,6 @@
 import {AsyncStorage} from 'react-native';
 import {RNS3} from 'react-native-aws3/lib/RNS3';
+import NetInfo from '@react-native-community/netinfo';
 import {s3_Options} from '../utils/config';
 import {genetratedDate, showAlert} from './operators';
 const axios = require('axios');
@@ -44,6 +45,11 @@ const apiCall = async (type, url, param, withToken = false, options = {}) => {
   } else {
     return axios[type](`${BACKEND_BASE_URL}${url}`, param, opt);
   }
+};
+
+const getNetworkInfo = async () => {
+  const networkState = await NetInfo.fetch();
+  return networkState;
 };
 
 const sendSMS = phone => apiCall('post', URL_SEND_SMS, {phone});
@@ -107,6 +113,7 @@ const fileUploadToS3 = async ({image, name, type}) => {
 };
 
 export default {
+  getNetworkInfo,
   sendSMS,
   verifySMS,
   updateProfile,

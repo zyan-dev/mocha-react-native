@@ -1,6 +1,7 @@
 import * as types from '../actions/types';
 import {colorThemes, baseTheme} from 'theme';
 import {showAlert} from 'services/operators';
+import i18next from 'i18next';
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -64,6 +65,11 @@ const routerReducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
       };
     case types.SET_NETWORK_OFFLINE_STATUS:
+      if (action.payload && state.isInternetReachable !== action.payload) {
+        showAlert(i18next.t('network_online_message'));
+      } else if (state.isInternetReachable !== action.payload) {
+        showAlert(i18next.t('network_offline_message'));
+      }
       return {
         ...state,
         isInternetReachable: action.payload ? true : false,

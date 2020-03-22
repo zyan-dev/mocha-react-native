@@ -11,26 +11,31 @@ import MainHomeStack from '../containers/Home';
 import NavigationService from './NavigationService';
 import UserProfile from '../containers/Others/UserProfile';
 import SelectUserScreen from '../containers/Others/SelectUsers';
-import {showAlert} from '../services/operators';
 
 const Stack = createStackNavigator();
 
 class RootNavigator extends React.Component {
   componentDidMount() {
     this.props.setLoading(false);
-    NetInfo.addEventListener(state => {
-      this.props.setNetworkOfflineStatus(state.isInternetReachable);
-      if (!state.isInternetReachable) showAlert('Network is offline now.');
-      else if (this.props.profile.userToken.length) {
-        // sync data
-        this.props.syncData(false);
-      }
-    });
   }
+
+  _onNavigationStateChange = newState => {
+    const {isInternetReachable, setNetworkOfflineStatus, syncData} = this.props;
+    NetInfo.fetch().then(state => {
+      if (!isInternetReachable && state.isInternetReachable) {
+        // changed to online status
+        syncData(false);
+      }
+      setNetworkOfflineStatus(state.isInternetReachable);
+    });
+  };
+
   render() {
     const {isNewUser, isLoading} = this.props;
     return (
-      <NavigationContainer ref={ref => NavigationService.setNavigator(ref)}>
+      <NavigationContainer
+        ref={ref => NavigationService.setNavigator(ref)}
+        onStateChange={this._onNavigationStateChange}>
         <Stack.Navigator headerMode="none">
           {isNewUser && (
             <Stack.Screen name="welcomeStack" component={WelcomeStack} />
@@ -53,6 +58,7 @@ const mapStateToProps = state => ({
   isNewUser: state.routerReducer.isNewUser,
   isLoading: state.routerReducer.isLoading,
   profile: state.profileReducer,
+  isInternetReachable: state.routerReducer.isInternetReachable,
 });
 
 const mapDispatchToProps = {

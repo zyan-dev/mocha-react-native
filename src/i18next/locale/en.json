@@ -1307,6 +1307,8 @@
   "name": "name",
   "network_member": "member",
   "network_members": "members",
+  "network_online_message": "Network is online now",
+  "network_offline_message": "Network is offline now",
   "new": "New",
   "new_question": "New Question",
   "no": "No",

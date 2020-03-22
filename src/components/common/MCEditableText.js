@@ -16,6 +16,7 @@ class MCEditableText extends React.Component {
     placeholder: PropTypes.string,
     maxLength: PropTypes.number,
     textAlign: PropTypes.string,
+    keyboardType: PropTypes.string,
     fontSize: PropTypes.number,
     onBlur: PropTypes.func,
     style: PropTypes.object,
@@ -32,6 +33,7 @@ class MCEditableText extends React.Component {
     style: {},
     textAlign: 'left',
     fontSize: undefined,
+    keyboardType: 'default',
   };
 
   constructor(props) {
@@ -50,6 +52,7 @@ class MCEditableText extends React.Component {
       maxLength,
       textAlign,
       fontSize,
+      keyboardType,
       onBlur,
       style,
       theme,
@@ -64,6 +67,7 @@ class MCEditableText extends React.Component {
         placeholderTextColor={theme.colors.border}
         maxLength={maxLength}
         onBlur={onBlur}
+        keyboardType={keyboardType}
         style={{
           width: '100%',
           paddingHorizontal: dySize(5),
