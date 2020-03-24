@@ -87,7 +87,7 @@ class UserManualScreen extends React.Component {
         <MCHeader
           title={t('profile_Manual_title')}
           hasRight={true}
-          rightText={t('add_addButton')}
+          rightIcon="ios-add"
           onPressRight={() => this.onPressNew()}
         />
         <MCContent>
@@ -97,7 +97,7 @@ class UserManualScreen extends React.Component {
             renderItem={this._renderListItem}
             keyExtractor={item => item._id}
             keyboardShouldPersistTaps="always"
-            ListEmptyComponent={<MCEmptyText>No results</MCEmptyText>}
+            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
         </MCContent>
       </MCRootView>
@@ -116,5 +116,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(UserManualScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(UserManualScreen),
 );

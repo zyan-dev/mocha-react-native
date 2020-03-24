@@ -5,11 +5,13 @@ import UserManualScreen from './usermanual';
 import ValueScreen from './value';
 import EditValueScreen from './value/edit';
 import FeedbackStack from './feedback';
-import GoalScreen from './goal';
+import ObjectiveScreen from './goal';
+import EditObjectiveScreen from './goal/Add';
 import EmotionScreen from './emotion';
 import NeedScreen from './need';
 import TapToCountScreen from './tab_to_count';
 import EditUserManualScreen from './usermanual/edit';
+import EditEmotionScreen from './emotion/edit';
 
 const Stack = createStackNavigator();
 
@@ -22,8 +24,10 @@ class AddValueTabStack extends React.Component {
         <Stack.Screen name="Values" component={ValueScreen} />
         <Stack.Screen name="EditValue" component={EditValueScreen} />
         <Stack.Screen name="Feedbacks" component={FeedbackStack} />
-        <Stack.Screen name="Goals" component={GoalScreen} />
+        <Stack.Screen name="Objectives" component={ObjectiveScreen} />
+        <Stack.Screen name="EditObjective" component={EditObjectiveScreen} />
         <Stack.Screen name="Emotions" component={EmotionScreen} />
+        <Stack.Screen name="EditEmotion" component={EditEmotionScreen} />
         <Stack.Screen name="Needs" component={NeedScreen} />
         <Stack.Screen name="TapToCounts" component={TapToCountScreen} />
         <Stack.Screen name="EditUserManual" component={EditUserManualScreen} />

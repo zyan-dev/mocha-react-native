@@ -42,7 +42,7 @@ class AddFeedbackScreen extends React.Component {
         <MCHeader
           title={t('add_reflection_feedback_header')}
           hasRight={selectedUsers.length * selectedQuestions.length > 0}
-          rightText={t('send')}
+          rightIcon="ios-send"
           onPressRight={() => requestFeedback()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
@@ -117,5 +117,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(AddFeedbackScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AddFeedbackScreen),
 );

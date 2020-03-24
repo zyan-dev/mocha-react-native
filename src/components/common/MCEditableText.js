@@ -19,6 +19,7 @@ class MCEditableText extends React.Component {
     keyboardType: PropTypes.string,
     fontSize: PropTypes.number,
     onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
     style: PropTypes.object,
   };
   static defaultProps = {
@@ -30,6 +31,7 @@ class MCEditableText extends React.Component {
     maxLength: 40,
     string: 'left',
     onBlur: () => undefined,
+    onFocus: () => undefined,
     style: {},
     textAlign: 'left',
     fontSize: undefined,
@@ -54,6 +56,7 @@ class MCEditableText extends React.Component {
       fontSize,
       keyboardType,
       onBlur,
+      onFocus,
       style,
       theme,
     } = this.props;
@@ -67,6 +70,7 @@ class MCEditableText extends React.Component {
         placeholderTextColor={theme.colors.border}
         maxLength={maxLength}
         onBlur={onBlur}
+        onFocus={onFocus}
         keyboardType={keyboardType}
         style={{
           width: '100%',
@@ -91,5 +95,8 @@ const mapStateToProps = state => ({
 });
 
 export default withTranslation()(
-  connect(mapStateToProps, undefined)(MCEditableText),
+  connect(
+    mapStateToProps,
+    undefined,
+  )(MCEditableText),
 );

@@ -67,9 +67,5 @@ export const baseTheme = {
   FONT_WEIGHT_MEDIUM: '500',
   FONT_WEIGHT_BOLD: '700',
 
-  PRIMARY_FONT_FAMILY: 'AvertaDemo-Regular',
-  PRIMARY_FONT_FAMILY_BOLD: 'AvertaDemo-ExtraBoldItalic',
-
-  SECONDARY_FONT_FAMILY: 'Product-Sans-Regular',
-  SECONDARY_FONT_FAMILY_ITALIC: 'Product-Sans-Italic',
+  PRIMARY_FONT_FAMILY: 'Raleway-Regular',
 };

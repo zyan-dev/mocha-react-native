@@ -96,9 +96,7 @@ class EditValueScreen extends React.PureComponent {
         <MCHeader
           title={t('add_value_headerTitle')}
           hasRight={value.length * phrase.length > 0}
-          rightText={
-            selectedReflection._id ? t('button_update') : t('button_add')
-          }
+          rightIcon={selectedReflection._id ? 'ios-cloud-upload' : 'ios-send'}
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
@@ -186,5 +184,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(EditValueScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditValueScreen),
 );

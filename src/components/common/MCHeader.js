@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {Header, Left, Body, Right, Icon} from 'native-base';
-import {H4, H3} from '../styled/Text';
+import {H4, H3, MCIcon} from '../styled/Text';
 import {MCButton} from '../styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
@@ -83,7 +83,8 @@ class MCHeader extends React.PureComponent {
         <HeaderLeft style={{width: 60}}>
           {hasBack && (
             <MCButton width={70} onPress={() => onPressBack()}>
-              <H4>{t('header_back')}</H4>
+              {/* <H4>{t('header_back')}</H4> */}
+              <MCIcon name="ios-arrow-back" />
             </MCButton>
           )}
         </HeaderLeft>
@@ -118,4 +119,9 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
 });
 
-export default withTranslation()(connect(mapStateToProps, undefined)(MCHeader));
+export default withTranslation()(
+  connect(
+    mapStateToProps,
+    undefined,
+  )(MCHeader),
+);

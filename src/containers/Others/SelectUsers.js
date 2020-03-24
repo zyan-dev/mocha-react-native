@@ -63,7 +63,7 @@ class SelectUserScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight
-          rightText={t('header_select')}
+          rightIcon="md-checkmark"
           onPressRight={() => NavigationService.goBack()}
           onPressBack={() => this.onPressBack()}
           title={t('add_reflection_feedback_header')}
@@ -151,5 +151,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(SelectUserScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SelectUserScreen),
 );

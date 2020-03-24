@@ -27,6 +27,37 @@ export const ContactProfileKeys = [
   'neighborhood',
 ];
 
+export const weekDays = [
+  {
+    long: 'Sunday',
+    short: 'Sun',
+  },
+  {
+    long: 'Monday',
+    short: 'Mon',
+  },
+  {
+    long: 'Tuesday',
+    short: 'Tue',
+  },
+  {
+    long: 'Wednesday',
+    short: 'Wed',
+  },
+  {
+    long: 'Thursday',
+    short: 'Thu',
+  },
+  {
+    long: 'Friday',
+    short: 'Fri',
+  },
+  {
+    long: 'Saturday',
+    short: 'Sat',
+  },
+];
+
 export const AddReflectionSections = [
   {
     key: 'manual', // You can find `add_reflection_manual` in en.json to check the reflection card title
@@ -65,7 +96,7 @@ export const AddReflectionSections = [
     duration: '4-6',
     boldWordKeys: ['goal'],
     icon: AddGoalIcon,
-    navigateTo: 'Goals',
+    navigateTo: 'Objectives',
     registerRequired: true,
   },
   {
@@ -1122,4 +1153,94 @@ export const defaultReflections = {
       action: '',
     },
   },
+  emotion: {
+    type: 'emotion',
+    data: {
+      emotion: '',
+      how: '',
+      story: '',
+    },
+  },
+  objective: {
+    type: 'objective',
+    data: {
+      title: '',
+      measures: [],
+      isDaily: false,
+      deadline: new Date().getTime(),
+      collaborators: [],
+    },
+  },
 };
+
+export const EMOTIONS = [
+  'anger_enraged_hateful',
+  'anger_enraged_hostile',
+  'anger_exasperated_agitated',
+  'anger_exasperated_frustrated',
+  'anger_irritable_annoyed',
+  'anger_irritable_aggravated',
+  'anger_envious_resentful',
+  'anger_envious_jealout',
+  'anger_disgusted_contemptuous',
+  'anger_disgusted_revolted',
+  'sadness_distressed_agonized',
+  'sadness_distressed_hurt',
+  'sadness_melancholic_depressed',
+  'sadness_melancholic_sorrowful',
+  'sadness_disappointed_dismayed',
+  'sadness_disappointed_displeased',
+  'sadness_shameful_regretful',
+  'sadness_shameful_guilty',
+  'sadness_neglected_isolated',
+  'sadness_neglected_lonely',
+  'sadness_hopeless_anguished',
+  'sadness_hopeless_powerless',
+  'surprise_stunned_shocked',
+  'surprise_stunned_dismayed',
+  'surprise_confused_disillusioned',
+  'surprise_confused_perplexed',
+  'surprise_amazed_astonished',
+  'surprise_amazed_awe-struck',
+  'surprise_overcome_speechless',
+  'surprise_overcome_astounded',
+  'surprise_moved_stimulated',
+  'surprise_moved_touched',
+  'joy_content_thankful',
+  'joy_content_pleased',
+  'joy_happy_amused',
+  'joy_happy_delighted',
+  'joy_cheerful_jovial',
+  'joy_cheerful_playful',
+  'joy_proud_trimphant',
+  'joy_proud_illustrious',
+  'joy_optimistic_eager',
+  'joy_optimistic_hopeful',
+  'joy_enthusiastic_excited',
+  'joy_enthusiastic_zealous',
+  'joy_elated_euphoric',
+  'joy_elated_jubilant',
+  'joy_enthralled_enchanted',
+  'joy_enthralled_rapturous',
+  'love_desirous_passionate',
+  'love_desirous_infatuated',
+  'love_romantic_attractive',
+  'love_romantic_enamored',
+  'love_longing_sentimental',
+  'love_longing_affectionate',
+  'love_tender_caring',
+  'love_tender_compassionate',
+  'love_peaceful_tranquil',
+  'love_peaceful_satisfied',
+  'fear_scared_frightened',
+  'fear_scared_helpless',
+  'fear_terrified_panic',
+  'fear_terrified_hysterical',
+  'fear_insecure_inferior',
+  'fear_insecure_indadequate',
+  'fear_nervous_worried',
+  'fear_nervous_anxious',
+  'fear_horrified_mortified',
+  'fear_horrified_dreadful',
+];
+export const emotionHow = ['midly', 'moderately', 'intensely', 'hysterically'];

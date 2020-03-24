@@ -139,6 +139,9 @@ export function* syncData(action) {
             motivation: reflections_should_be_added
               .filter(({type}) => capitalizeString(type) === 'Motivation')
               .map(reflection => reflection.data),
+            emotion: reflections_should_be_added
+              .filter(({type}) => capitalizeString(type) === 'Emotion')
+              .map(reflection => reflection.data),
           },
         });
         if (response.data.status !== 'success') {

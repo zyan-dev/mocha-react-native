@@ -35,8 +35,8 @@ class CreateMotivationScreen extends React.PureComponent {
         <MCHeader
           title={t('motivation_headerTitle')}
           hasRight={title.length * description.length > 0}
-          rightText={
-            updateSelectedReflection._id ? t('button_update') : t('button_add')
+          rightIcon={
+            updateSelectedReflection._id ? 'ios-cloud-upload' : 'ios-send'
           }
           onPressRight={() => this.onPressRight()}
         />
@@ -80,5 +80,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(CreateMotivationScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(CreateMotivationScreen),
 );

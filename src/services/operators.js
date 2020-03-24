@@ -67,3 +67,8 @@ export const genetratedDate = () => {
 
 export const profileCardWidth = dySize(375) >= 375 ? 100 : 150;
 export const profileCardNumPerRow = dySize(375) >= 375 ? 3 : 2;
+
+export const getAfterDate = days => {
+  const date = new Date();
+  return new Date(date.getTime() + days * 86400 * 1000);
+};

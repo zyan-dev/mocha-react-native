@@ -101,9 +101,7 @@ class EditUserManualScreen extends React.PureComponent {
         <MCHeader
           title={t('profile_Manual_title')}
           hasRight={title.length * text.length > 0}
-          rightText={
-            selectedReflection._id ? t('button_update') : t('button_add')
-          }
+          rightIcon={selectedReflection._id ? 'ios-cloud-upload' : 'ios-send'}
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
@@ -202,5 +200,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(EditUserManualScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditUserManualScreen),
 );

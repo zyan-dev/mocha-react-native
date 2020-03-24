@@ -108,7 +108,7 @@ class ManageTrustNetworkScreen extends React.Component {
             isNew ? t('create_network') : t('feed_network_edit_headerTitle')
           }
           hasRight={selectedNetwork.name.length * selectedUsers.length > 0}
-          rightText={isNew ? t('header_create') : t('header_save')}
+          rightIcon={isNew ? 'ios-send' : 'ios-cloud-upload'}
           onPressRight={() => this.onPressDone()}
         />
         <MCContent contentContainerStyle={{padding: dySize(15)}}>
@@ -146,6 +146,7 @@ class ManageTrustNetworkScreen extends React.Component {
                 rightTextStyle={{
                   color: theme.colors.text,
                   fontSize: theme.base.FONT_SIZE_LARGE,
+                  fontFamily: 'Raleway-Regular',
                 }}
                 checkBoxColor={theme.colors.text}
               />
@@ -197,5 +198,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ManageTrustNetworkScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ManageTrustNetworkScreen),
 );

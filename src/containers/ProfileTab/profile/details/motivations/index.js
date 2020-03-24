@@ -108,7 +108,7 @@ class MotivationListScreen extends React.PureComponent {
         <MCHeader
           title={t('motivation_headerTitle')}
           hasRight={true}
-          rightText={t('new')}
+          rightIcon="ios-add"
           onPressRight={() => this.onPressNew()}
         />
         <MCContent>
@@ -141,5 +141,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(MotivationListScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(MotivationListScreen),
 );

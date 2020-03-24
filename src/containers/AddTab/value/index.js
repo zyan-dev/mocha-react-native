@@ -71,7 +71,7 @@ class ValueScreen extends React.Component {
         <MCHeader
           title={t('add_value_headerTitle')}
           hasRight={true}
-          rightText={t('add_addButton')}
+          rightIcon="ios-add"
           onPressRight={() => this.onPressNew()}
         />
         <MCContent>
@@ -81,7 +81,7 @@ class ValueScreen extends React.Component {
             renderItem={this._renderListItem}
             keyExtractor={item => item._id}
             keyboardShouldPersistTaps="always"
-            ListEmptyComponent={<MCEmptyText>No results</MCEmptyText>}
+            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
         </MCContent>
       </MCRootView>
@@ -100,5 +100,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ValueScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ValueScreen),
 );

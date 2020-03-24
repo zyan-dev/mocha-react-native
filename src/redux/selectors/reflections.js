@@ -12,6 +12,14 @@ const getMyGoals = state =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Goal',
   );
+const getMyDailyObjectives = state =>
+  state.reflectionReducer.myReflections.filter(
+    ({type, data}) => capitalizeString(type) === 'Objective' && data.isDaily,
+  );
+const getMyWeeklyObjectives = state =>
+  state.reflectionReducer.myReflections.filter(
+    ({type, data}) => capitalizeString(type) === 'Objective' && !data.isDaily,
+  );
 const getMyFeedbacks = state =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Feedback',
@@ -23,6 +31,10 @@ const getMyChronotype = state =>
 const getMyMotivations = state =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Motivation',
+  );
+const getMyEmotions = state =>
+  state.reflectionReducer.myReflections.filter(
+    ({type}) => capitalizeString(type) === 'Emotion',
   );
 
 // User Reflections
@@ -43,15 +55,34 @@ const getUserFeedbacks = state =>
     ({type}) => type === 'Feedback',
   );
 
+const getUserChronotype = state =>
+  state.reflectionReducer.userReflections.filter(
+    ({type}) => capitalizeString(type) === 'Chronotype',
+  );
+const getUserMotivations = state =>
+  state.reflectionReducer.userReflections.filter(
+    ({type}) => capitalizeString(type) === 'Motivation',
+  );
+const getUserEmotions = state =>
+  state.reflectionReducer.userReflections.filter(
+    ({type}) => capitalizeString(type) === 'Emotion',
+  );
+
 export {
   getMyValues,
   getMyManuals,
   getMyGoals,
+  getMyDailyObjectives,
+  getMyWeeklyObjectives,
   getMyFeedbacks,
   getMyChronotype,
   getMyMotivations,
+  getMyEmotions,
   getUserValues,
   getUserManuals,
   getUserGoals,
   getUserFeedbacks,
+  getUserChronotype,
+  getUserMotivations,
+  getUserEmotions,
 };
