@@ -1,15 +1,9 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
-import {Picker} from '@react-native-community/picker';
 import {reflectionActions} from 'Redux/actions';
 import {showAlert} from 'services/operators';
-import {
-  MCHeader,
-  MCImagePicker,
-  MCSearchInput,
-  MCSearchableDropdown,
-} from 'components/common';
+import {MCHeader, MCPicker} from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, MCTextInput, MCIcon} from 'components/styled/Text';
@@ -42,7 +36,7 @@ class EditEmotionScreen extends React.PureComponent {
       <MCRootView>
         <MCHeader
           title={t('edit_emotion_headerTitle')}
-          hasRight={story.length > 0}
+          hasRight={story.length * emotion.length * how.length > 0}
           rightIcon={selectedReflection._id ? 'ios-cloud-upload' : 'ios-send'}
           onPressRight={() => this.onPressRight()}
         />
@@ -50,20 +44,17 @@ class EditEmotionScreen extends React.PureComponent {
           <H4 width={350} align="left">
             {t('emotion_select')}
           </H4>
-          <MCSearchableDropdown
-            data={EMOTIONS}
-            width={350}
-            height={50}
-            selectedItem={
-              <H3>{emotion.length ? t(`mocha_emotion_${emotion}`) : ''}</H3>
-            }
-            dropDownHeight={200}
-            searchable={true}
-            onSelect={item => updateSelectedReflection({emotion: item})}>
-            {EMOTIONS.map(emotion => (
-              <H3>{t(`mocha_emotion_${emotion}`)}</H3>
-            ))}
-          </MCSearchableDropdown>
+          <MCPicker
+            items={EMOTIONS.map(value => ({
+              label: t(`mocha_emotion_${value.replace(/ /g, '_')}`),
+              value,
+            }))}
+            onChange={itemValue => {
+              if (itemValue) updateSelectedReflection({emotion: itemValue});
+              else updateSelectedReflection({emotion: ''});
+            }}
+            value={emotion}
+          />
           {emotion.length > 0 && (
             <>
               <H4 width={350} align="left" mt={20}>
@@ -71,30 +62,32 @@ class EditEmotionScreen extends React.PureComponent {
                   emotion: t(`mocha_emotion_${emotion}`),
                 })}
               </H4>
-              <MCSearchableDropdown
-                data={emotionHow}
-                width={350}
-                height={50}
-                searchable={false}
-                selectedItem={
-                  <H3>{how.length ? t(`add_emotion_value_${how}`) : ''}</H3>
-                }
-                onSelect={item => updateSelectedReflection({how: item})}>
-                {emotionHow.map(how => (
-                  <H3>{t(`add_emotion_value_${how}`)}</H3>
-                ))}
-              </MCSearchableDropdown>
+              <MCPicker
+                items={emotionHow.map(value => ({
+                  label: t(`add_emotion_value_${value}`),
+                  value,
+                }))}
+                value={how}
+                onChange={itemValue => {
+                  if (itemValue) updateSelectedReflection({how: itemValue});
+                  else updateSelectedReflection({how: ''});
+                }}
+              />
             </>
           )}
 
           <MCCard p={1} mt={30}>
             <MCCard shadow br={1} style={{width: '100%'}} align="center">
-              <H4>
-                {t('add_emotion_full', {
-                  emotion: t(`mocha_emotion_${emotion}`),
-                  state: how,
-                })}
-              </H4>
+              <MCView row wrap>
+                <H4>{t('add_emotion_full')}</H4>
+                <H4 weight="bold">
+                  {emotion.length ? t(`mocha_emotion_${emotion}`) : ''}
+                </H4>
+                <H4 weight="italic">
+                  {' '}
+                  {how.length ? t(`add_emotion_value_${how}`) : ''}
+                </H4>
+              </MCView>
             </MCCard>
             <MCView p={10}>
               <MCTextInput
@@ -102,6 +95,7 @@ class EditEmotionScreen extends React.PureComponent {
                 placeholder={t('add_emotion_story_placeholder')}
                 placeholderTextColor="gray"
                 multiline
+                textAlignVertical="top"
                 maxHeight={300}
                 value={story}
                 onChangeText={text => updateSelectedReflection({story: text})}

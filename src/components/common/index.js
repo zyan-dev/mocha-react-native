@@ -9,7 +9,7 @@ import MCTagInput from './MCTagInput';
 import MCVulnerabilityPicker from './MCVulnerabilityPicker';
 import MCReadMoreText from './MCReadMoreText';
 import MCTimeSlider from './MCTimeSlider';
-import MCSearchableDropdown from './MCSearchableDropdown';
+import MCPicker from './MCPicker';
 
 export {
   MCEditableText,
@@ -23,5 +23,5 @@ export {
   MCVulnerabilityPicker,
   MCReadMoreText,
   MCTimeSlider,
-  MCSearchableDropdown,
+  MCPicker,
 };

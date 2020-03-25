@@ -99,6 +99,7 @@ class SelectQuestionScreen extends React.Component {
             <H3 mb={10}>{t('new_question')}</H3>
             <MCTextInput
               multiline
+              textAlignVertical="top"
               width={300}
               onChangeText={text => this.setState({newQuestion: text})}
             />

@@ -1,7 +1,6 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
-import {Picker} from '@react-native-community/picker';
 import {reflectionActions} from 'Redux/actions';
 import {showAlert} from 'services/operators';
 import {
@@ -9,6 +8,7 @@ import {
   MCImagePicker,
   MCTagInput,
   MCVulnerabilityPicker,
+  MCPicker,
 } from 'components/common';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
@@ -25,24 +25,6 @@ class EditUserManualScreen extends React.PureComponent {
       customTitle: '',
     };
   }
-
-  componentDidMount() {
-    this.setInitTitleForCreate();
-  }
-
-  setInitTitleForCreate = () => {
-    const {
-      t,
-      selectedReflection,
-      updateSelectedReflection,
-      reflectionSections,
-    } = this.props;
-    if (selectedReflection.data.title === '') {
-      updateSelectedReflection({
-        title: t(`mocha_manual_${reflectionSections.manuals[0]}`),
-      });
-    }
-  };
 
   onPressRight = () => {
     this.props.addOrUpdateReflection();
@@ -63,7 +45,7 @@ class EditUserManualScreen extends React.PureComponent {
           'manuals',
           `custom_manual_title${customTitle}`,
         );
-        updateSelectedReflection({title: customTitle});
+        updateSelectedReflection({title: `custom_manual_title${customTitle}`});
         this.setState({addingCustomTitle: false, customTitle: ''});
       } else {
         showAlert(t('add_new_constant_duplicateError'));
@@ -75,13 +57,21 @@ class EditUserManualScreen extends React.PureComponent {
 
   getPickerItems = keys => {
     const {t} = this.props;
-    return keys.map(key => {
-      if (key.indexOf('custom_manual_title') < 0) {
-        return t(`mocha_manual_${key}`);
-      } else {
-        return key.split('custom_manual_title')[1];
-      }
-    });
+    return keys.map(key => ({
+      label: this.getLabelWithKey(key),
+      value: key,
+    }));
+  };
+
+  getLabelWithKey = key => {
+    const {t} = this.props;
+    if (key.length === 0) {
+      return '';
+    } else if (key.indexOf('custom_manual_title') < 0) {
+      return t(`mocha_manual_${key}`);
+    } else {
+      return key.split('custom_manual_title')[1];
+    }
   };
 
   render() {
@@ -105,17 +95,15 @@ class EditUserManualScreen extends React.PureComponent {
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
-          <Picker
-            itemStyle={{color: theme.colors.text}}
-            selectedValue={title}
-            onValueChange={(itemValue, itemIndex) => {
-              updateSelectedReflection({title: itemValue});
-            }}>
-            {this.getPickerItems(reflectionSections.manuals).map(section => (
-              <Picker.Item label={section} value={section} />
-            ))}
-          </Picker>
-
+          <H3 weight="bold">{t('title')}</H3>
+          <MCPicker
+            items={this.getPickerItems(reflectionSections.manuals)}
+            onChange={itemValue => {
+              if (itemValue) updateSelectedReflection({title: itemValue});
+              else updateSelectedReflection({title: ''});
+            }}
+            value={title}
+          />
           <MCView row align="center" justify="flex-end" mb={20}>
             {addingCustomTitle && (
               <MCTextInput
@@ -139,13 +127,14 @@ class EditUserManualScreen extends React.PureComponent {
           </MCView>
           <MCCard p={1}>
             <MCCard shadow br={1} style={{width: '100%'}} align="center">
-              <H4>{title}</H4>
+              <H4>{this.getLabelWithKey(title)}</H4>
             </MCCard>
             <MCView p={10}>
               <MCTextInput
                 style={{width: dySize(333)}}
                 placeholder={t('motivation_description')}
                 multiline
+                textAlignVertical="top"
                 maxHeight={300}
                 value={text}
                 onChangeText={value => updateSelectedReflection({text: value})}

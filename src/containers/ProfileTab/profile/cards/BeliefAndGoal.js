@@ -60,11 +60,13 @@ class BeliefAndGoal extends React.Component {
   };
 
   _renderBeliefItem = item => (
-    <MCCard width={profileCardWidth} ml={5} mr={5} align="center">
-      <MCButton
-        key={item._id}
-        align="center"
-        onPress={() => this.onPressBelief(item)}>
+    <MCCard
+      width={profileCardWidth}
+      key={item._id}
+      ml={5}
+      mr={5}
+      align="center">
+      <MCButton align="center" onPress={() => this.onPressBelief(item)}>
         <H4 numberOfLines={1}>{item.data.title}</H4>
         <MCImage
           width={profileCardWidth - 10}

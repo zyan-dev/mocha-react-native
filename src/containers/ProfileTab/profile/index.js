@@ -46,7 +46,10 @@ class ProfileScreen extends React.Component {
     if (!this.props.profile.userToken) {
       showAlert('You need to sign up');
     } else {
-      NavigationService.navigate('Goals');
+      NavigationService.navigate('TabAddValue');
+      setTimeout(() => {
+        NavigationService.navigate('Objectives');
+      });
     }
   };
 
@@ -217,5 +220,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ProfileScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ProfileScreen),
 );

@@ -1,10 +1,9 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
-import {Picker} from '@react-native-community/picker';
 import {reflectionActions} from 'Redux/actions';
 import {showAlert} from 'services/operators';
-import {MCHeader, MCImagePicker, MCSearchInput} from 'components/common';
+import {MCHeader, MCImagePicker, MCPicker} from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, MCTextInput, MCIcon} from 'components/styled/Text';
@@ -55,7 +54,7 @@ class EditValueScreen extends React.PureComponent {
           'values',
           `custom_value_title${customTitle}`,
         );
-        updateSelectedReflection({value: customTitle});
+        updateSelectedReflection({value: `custom_value_title${customTitle}`});
         this.setState({addingCustomTitle: false, customTitle: ''});
       } else {
         showAlert(t('add_new_constant_duplicateError'));
@@ -66,17 +65,22 @@ class EditValueScreen extends React.PureComponent {
   };
 
   getPickerItems = keys => {
-    const {searchText} = this.state;
     const {t} = this.props;
-    return keys
-      .filter(key => key.indexOf(searchText) > -1)
-      .map(key => {
-        if (key.indexOf('custom_value_title') < 0) {
-          return t(`mocha_value_${key.replace(/ /g, '_')}`);
-        } else {
-          return key.split('custom_value_title')[1];
-        }
-      });
+    return keys.map(key => ({
+      label: this.getLabelWithKey(key),
+      value: key,
+    }));
+  };
+
+  getLabelWithKey = key => {
+    const {t} = this.props;
+    if (key.length === 0) {
+      return '';
+    } else if (key.indexOf('custom_value_title') < 0) {
+      return t(`mocha_value_${key.replace(/ /g, '_')}`);
+    } else {
+      return key.split('custom_value_title')[1];
+    }
   };
 
   render() {
@@ -100,21 +104,14 @@ class EditValueScreen extends React.PureComponent {
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
-          <MCSearchInput
-            text={searchText}
-            onChange={text => this.setState({searchText: text})}
+          <MCPicker
+            items={this.getPickerItems(reflectionSections.values)}
+            onChange={itemValue => {
+              if (itemValue) updateSelectedReflection({value: itemValue});
+              else updateSelectedReflection({value: ''});
+            }}
+            value={value}
           />
-          <Picker
-            itemStyle={{color: theme.colors.text}}
-            selectedValue={value}
-            onValueChange={(itemValue, itemIndex) => {
-              updateSelectedReflection({value: itemValue});
-            }}>
-            {this.getPickerItems(reflectionSections.values).map(section => (
-              <Picker.Item label={section} value={section} />
-            ))}
-          </Picker>
-
           <MCView row align="center" justify="flex-end" mb={20}>
             {addingCustomTitle && (
               <MCTextInput
@@ -136,7 +133,7 @@ class EditValueScreen extends React.PureComponent {
           </MCView>
           <MCCard p={1}>
             <MCCard shadow br={1} style={{width: '100%'}} align="center">
-              <H4>{value}</H4>
+              <H4>{this.getLabelWithKey(value)}</H4>
             </MCCard>
             <MCView p={10}>
               <MCTextInput
@@ -144,6 +141,7 @@ class EditValueScreen extends React.PureComponent {
                 placeholder={t('add_value_phrase')}
                 placeholderTextColor="gray"
                 multiline
+                textAlignVertical="top"
                 maxHeight={300}
                 value={phrase}
                 onChangeText={text => updateSelectedReflection({phrase: text})}

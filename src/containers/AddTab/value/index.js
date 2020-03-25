@@ -25,6 +25,15 @@ class ValueScreen extends React.Component {
     this.props.removeReflection(item);
   };
 
+  getLabelWithKey = key => {
+    const {t} = this.props;
+    if (key.indexOf('custom_value_title') < 0) {
+      return t(`mocha_value_${key.replace(/ /g, '_')}`);
+    } else {
+      return key.split('custom_value_title')[1];
+    }
+  };
+
   _renderListItem = ({item}) => {
     const value = item.data;
     return (
@@ -44,7 +53,7 @@ class ValueScreen extends React.Component {
         )}
         <MCCard shadow br={1} width={340} align="center">
           <MCView width={300} align="center">
-            <H3>{value.value}</H3>
+            <H3>{this.getLabelWithKey(value.value)}</H3>
           </MCView>
         </MCCard>
         <MCView width={300} mt={10} mb={20}>

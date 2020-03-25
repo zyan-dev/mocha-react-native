@@ -74,7 +74,12 @@ class ContactCard extends React.Component {
                 return null; // If user didn't sign up, user can't edit his phone number on profile screen
               }
               return (
-                <MCView row mt={5} justify="space-between" align="center">
+                <MCView
+                  row
+                  mt={5}
+                  key={key}
+                  justify="space-between"
+                  align="center">
                   <H4>{`${t(`profile_card_${key}`)}: `}</H4>
                   <MCEditableText
                     text={profile[key]}
@@ -101,5 +106,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(undefined, mapDispatchToProps)(ContactCard),
+  connect(
+    undefined,
+    mapDispatchToProps,
+  )(ContactCard),
 );

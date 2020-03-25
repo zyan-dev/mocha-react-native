@@ -52,11 +52,13 @@ class ValueAndPurpose extends React.Component {
   };
 
   _renderValueItem = item => (
-    <MCCard width={profileCardWidth} ml={5} mr={5} align="center">
-      <MCButton
-        key={item._id}
-        align="center"
-        onPress={() => this.onPressValue(item)}>
+    <MCCard
+      width={profileCardWidth}
+      key={item._id}
+      ml={5}
+      mr={5}
+      align="center">
+      <MCButton align="center" onPress={() => this.onPressValue(item)}>
         <H4 numberOfLines={1}>{item.data.value}</H4>
         <MCImage
           width={profileCardWidth - 10}

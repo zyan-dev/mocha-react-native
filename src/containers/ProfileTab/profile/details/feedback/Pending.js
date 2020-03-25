@@ -92,6 +92,7 @@ class FeedbackPendingScreen extends React.Component {
           <MCView row ml={10} mr={10}>
             <MCTextInput
               multiline
+              textAlignVertical="top"
               maxLength={1024}
               style={{width: '100%'}}
               onChangeText={text => this.onChangeFeedback(text)}
@@ -139,5 +140,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(FeedbackPendingScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FeedbackPendingScreen),
 );

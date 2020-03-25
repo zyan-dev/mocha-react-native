@@ -42,6 +42,7 @@ class ProfileSideMenu extends React.Component {
             else if (!profile.userToken.length && menu.registerRequired) return;
             return (
               <MCButton
+                key={menu.index}
                 style={{width: '100%'}}
                 row
                 onPress={() => this.onPressItem(menu)}>
@@ -102,5 +103,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ProfileSideMenu),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ProfileSideMenu),
 );

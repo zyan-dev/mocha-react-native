@@ -27,6 +27,15 @@ class UserManualScreen extends React.Component {
     this.props.removeReflection(item);
   };
 
+  getLabelWithKey = key => {
+    const {t} = this.props;
+    if (key.indexOf('custom_manual_title') < 0) {
+      return t(`mocha_manual_${key}`);
+    } else {
+      return key.split('custom_manual_title')[1];
+    }
+  };
+
   _renderListItem = ({item}) => {
     const {t} = this.props;
     const usermanual = item.data;
@@ -42,7 +51,7 @@ class UserManualScreen extends React.Component {
         mr={20}>
         <MCCard shadow br={1} width={340} align="center" mb={10}>
           <MCView width={300} align="center">
-            <H3>{usermanual.title}</H3>
+            <H3>{this.getLabelWithKey(usermanual.title)}</H3>
           </MCView>
         </MCCard>
         <MCView width={300}>

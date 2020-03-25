@@ -48,6 +48,7 @@ class CreateMotivationScreen extends React.PureComponent {
           <H3 mt={20}>{t('motivation_description')}</H3>
           <MCTextInput
             multiline
+            textAlignVertical="top"
             onChangeText={text => updateSelectedReflection({description: text})}
           />
           <MCView align="center" mt={50}>

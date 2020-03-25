@@ -55,7 +55,9 @@ class AddReflectionScreen extends React.Component {
           {AddReflectionSections.map(section => {
             if (!userToken && section.registerRequired) return null;
             return (
-              <MCButton onPress={() => this.onPressCard(section)}>
+              <MCButton
+                key={section.key}
+                onPress={() => this.onPressCard(section)}>
                 <MCCard shadow row p={10}>
                   <MCView style={{flex: 1}} height={60} justify="space-between">
                     {this.renderSectionTitle(section)}
@@ -93,5 +95,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {};
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(AddReflectionScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AddReflectionScreen),
 );
