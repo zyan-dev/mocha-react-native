@@ -74,6 +74,7 @@ function* mySaga() {
   yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);
   yield takeLatest(types.SYNC_DATA, otherSaga.syncData);
   yield takeEvery(types.API_CALLING, otherSaga.checkNetwork);
+  yield takeEvery(types.TRACK_MIXPANEL_EVENT, otherSaga.trackMixpanelEvent);
 }
 
 export default mySaga;

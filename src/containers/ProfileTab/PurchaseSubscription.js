@@ -68,7 +68,7 @@ class PurchaseSubscription extends React.Component {
     });
 
     this.purchaseErrorSubscription = purchaseErrorListener(error => {
-      showAlert(error.debugMessage);
+      showAlert(error.message);
     });
   }
 
@@ -150,5 +150,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(PurchaseSubscription),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PurchaseSubscription),
 );

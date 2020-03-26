@@ -13,3 +13,8 @@ export const setPurchaseProducts = products => ({
 export const loadingProducts = loading => ({
   type: loading ? types.API_CALLING : types.API_FINISHED,
 });
+
+export const trackEvent = param => ({
+  type: types.TRACK_MIXPANEL_EVENT,
+  payload: param,
+});

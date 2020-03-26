@@ -6210,6 +6210,11 @@ react-native-material-ripple@^0.9.1:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-mixpanel@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-mixpanel/-/react-native-mixpanel-1.2.0.tgz#17c24151cf2039482cd20decc54ccf0e49ccebc5"
+  integrity sha512-Xy+KEIEVFidWuASBdexZquXTJBb3JCyFM7xSgnIOZt5PRzpARGFrYMDErTUZ1wSPK+KFaf1oylInOoC2DddI/Q==
+
 react-native-modal-datetime-picker@^8.5.1:
   version "8.5.1"
   resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-8.5.1.tgz#61e18b114c265964fdf6b2e39f4874028f96d06f"
