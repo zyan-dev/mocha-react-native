@@ -111,7 +111,7 @@ class ChronotypeAndPersonality extends React.Component {
               mt={10}
               width={320}
               onPress={() => onPressAllPersonalities()}>
-              <H3>You have not added a Personality</H3>
+              <H3>Coming soon!</H3>
             </MCButton>
           )}
         </Collapsible>

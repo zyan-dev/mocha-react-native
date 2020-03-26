@@ -118,7 +118,7 @@ class SkillAndFeedback extends React.Component {
               mt={10}
               width={300}
               onPress={() => onPressAllSkills()}>
-              <H3>You have not added a Skill</H3>
+              <H3>Coming soon!</H3>
             </MCButton>
           )}
         </Collapsible>
