@@ -60,7 +60,6 @@ class UserProfileScreen extends React.Component {
       feedbacks,
     } = this.props;
     const find = allUsers.find(user => user._id === id);
-    console.log({find});
     if (!find) {
       return (
         <MCRootView justify="flex-start">
@@ -113,5 +112,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(UserProfileScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(UserProfileScreen),
 );

@@ -23,11 +23,18 @@ export function* purchaseSubscription(action) {
 
 export function* checkNetwork(action) {
   const networkState = yield call(NetInfo.fetch);
-  console.log(networkState.isInternetReachable);
   yield put({
     type: types.SET_NETWORK_OFFLINE_STATUS,
     payload: networkState.isInternetReachable,
   });
+  if (!networkState.isInternetReachable) {
+    yield put({
+      type: types.TRACK_MIXPANEL_EVENT,
+      payload: {
+        event: 'Network Offline',
+      },
+    });
+  }
 }
 
 export function* syncData(action) {
@@ -175,7 +182,6 @@ export function* syncData(action) {
 
 export function* trackMixpanelEvent(action) {
   const {profileReducer} = yield select();
-  console.log(action.payload);
   Mixpanel.trackWithProperties(action.payload.event, {
     ...action.payload.data,
     userId: profileReducer._id,

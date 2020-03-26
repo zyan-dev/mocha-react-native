@@ -52,6 +52,13 @@ export function* submitFeedback(action) {
     });
     if (response.data.status === 'success') {
       yield put({type: types.GET_MY_FEEDBACKS});
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {
+          event: 'Give Feedback',
+          data: {feedback: action.payload.feedback},
+        },
+      });
       yield put({type: types.API_FINISHED});
     } else {
       yield put({
@@ -87,6 +94,13 @@ export function* requestFeedback(action) {
       yield put({
         type: types.SET_SELCTED_QUESTIONS,
         payload: [],
+      });
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {
+          event: 'Request Feedback',
+          data: {to: param.receivers},
+        },
       });
       yield put({type: types.GET_MY_FEEDBACKS});
       yield put({type: types.API_FINISHED});

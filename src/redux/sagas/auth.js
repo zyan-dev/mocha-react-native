@@ -59,8 +59,16 @@ export function* verifySignUpSMS(action) {
 
 export function* completeSignUp(action) {
   try {
+    const {
+      profileReducer: {user_id},
+    } = yield select();
     yield put({type: types.API_CALLING});
     yield put({type: types.SYNC_DATA, payload: true});
+    // track mixpanel event
+    yield put({
+      type: types.TRACK_MIXPANEL_EVENT,
+      payload: {event: 'VERIFIED SMS', data: {username: user_id}},
+    });
   } catch (e) {
     showAlert(e.toString());
   }

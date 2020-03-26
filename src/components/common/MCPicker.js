@@ -52,6 +52,8 @@ class MCPicker extends React.Component {
             },
             inputAndroid: {
               color: theme.colors.text,
+              margin: 0,
+              padding: 0,
             },
             viewContainer: {
               backgroundColor: theme.colors.background,

@@ -27,11 +27,17 @@ export function* createNetwork(action) {
       networkReducer: {selectedNetwork},
     } = yield select();
     yield put({type: types.API_CALLING});
-    console.log(selectedNetwork);
     const response = yield call(API.createNetwork, selectedNetwork);
     if (response.data.status === 'success') {
       yield put({type: types.GET_TRUST_NETWORKS});
       yield put({type: types.API_FINISHED});
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {
+          event: 'Create Network',
+          data: {networkName: selectedNetwork.name},
+        },
+      });
       NavigationService.goBack();
     } else {
       yield put({

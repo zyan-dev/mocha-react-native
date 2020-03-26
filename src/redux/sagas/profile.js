@@ -50,6 +50,13 @@ export function* updateBasicProfile(action) {
         type: types.SET_PROFILE_DATA,
         payload: response.data.data.user,
       });
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {
+          event: 'Update Profile',
+          data: {profile: response.data.data.user},
+        },
+      });
       yield put({type: types.API_FINISHED});
     } else {
       yield put({
@@ -73,6 +80,13 @@ export function* updateContactProfile(action) {
       yield put({
         type: types.SET_PROFILE_DATA,
         payload: response.data.data.user,
+      });
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {
+          event: 'Update Profile',
+          data: {profile: response.data.data.user},
+        },
       });
       yield put({type: types.API_FINISHED});
     } else {
@@ -104,10 +118,20 @@ export function* getUserProfile(action) {
 
 export function* deleteAccount() {
   try {
+    const {
+      profileReducer: {_id},
+    } = yield select();
     yield put({type: types.API_CALLING});
     const response = yield call(API.deleteProfile);
     if (response.data.status === 'success') {
       yield put({type: types.API_FINISHED});
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {
+          event: 'Delete Account',
+          data: {userId: _id},
+        },
+      });
       yield put({type: types.RESET_ALL_REDUCER});
       NavigationService.reset('welcomeStack');
     } else {
