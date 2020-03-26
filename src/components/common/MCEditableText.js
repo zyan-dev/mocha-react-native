@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {dySize} from 'utils/responsive';
-import {fontFamilies} from 'utils/constants';
+import {FontFamilies} from 'utils/constants';
 
 class MCEditableText extends React.Component {
   static propTypes = {
@@ -81,7 +81,7 @@ class MCEditableText extends React.Component {
           color: theme.colors.text,
           fontSize: dySize(fontSize || theme.base.FONT_SIZE_MEDIUM),
           borderWidth: bordered && editable ? 1 : 0,
-          fontFamily: fontFamilies.regular,
+          fontFamily: FontFamilies.regular,
           textAlign,
           ...style,
         }}

@@ -8,7 +8,7 @@ import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, MCTextInput, MCIcon} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
-import {emotionHow} from 'utils/constants';
+import {EmotionHow} from 'utils/constants';
 import {EMOTIONS} from '../../../utils/constants';
 
 class EditEmotionScreen extends React.PureComponent {
@@ -63,7 +63,7 @@ class EditEmotionScreen extends React.PureComponent {
                 })}
               </H4>
               <MCPicker
-                items={emotionHow.map(value => ({
+                items={EmotionHow.map(value => ({
                   label: t(`add_emotion_value_${value}`),
                   value,
                 }))}

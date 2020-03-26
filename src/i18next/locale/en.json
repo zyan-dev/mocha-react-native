@@ -161,6 +161,7 @@
   "chronotype_night_owl": "Night Owl",
   "chronotype_night_sleep_title": "Average Nightime Sleep",
   "chronotype_day_sleep_title": "Average Daytime Sleep",
+  "commit_number": "commit(s)",
   "completed_emojis": "🤗🥰😉",
   "completed_feedback_title": "You added a new Feedback",
   "completed_feedback_displayText": "Check out your profile to see the latest reflection or reqeust another feedbacks.",

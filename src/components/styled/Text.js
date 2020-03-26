@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import {dySize} from 'utils/responsive';
-import {fontFamilies} from 'utils/constants';
+import {FontFamilies} from 'utils/constants';
 import {Icon} from 'native-base';
 
 export const MCText = styled.Text`
   font-family: ${props =>
-    props.weight ? fontFamilies[props.weight] : 'Raleway-Regular'};
+    props.weight ? FontFamilies[props.weight] : 'Raleway-Regular'};
   color: ${props => props.color || props.theme.colors.text};
   text-align: ${props => props.align || 'left'};
   padding-horizontal: ${props => dySize(props.ph || 0)}px;

@@ -8,7 +8,7 @@ import {H3, H5, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {ScrollView} from 'react-native-gesture-handler';
-import {profileSideMenuList} from 'utils/constants';
+import {ProfileSideMenuList} from 'utils/constants';
 
 class ProfileSideMenu extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class ProfileSideMenu extends React.Component {
       <MCRootView justify="flex-start" align="flex-start">
         <ScrollView>
           <MCView height={80} />
-          {profileSideMenuList.map(menu => {
+          {ProfileSideMenuList.map(menu => {
             if (profile.userToken.length && !menu.registerRequired) return;
             else if (!profile.userToken.length && menu.registerRequired) return;
             return (

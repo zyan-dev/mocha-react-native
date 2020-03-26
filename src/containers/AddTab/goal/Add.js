@@ -13,7 +13,7 @@ import {H3, H4, MCIcon} from 'components/styled/Text';
 import {getAfterDate} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
-import {weekDays} from 'utils/constants';
+import {WeekDays} from 'utils/constants';
 
 class EditObjectiveScreen extends React.PureComponent {
   constructor(props) {
@@ -184,7 +184,7 @@ class EditObjectiveScreen extends React.PureComponent {
                 <MCView row align="center" mr={10}>
                   <MCIcon name="md-alarm" />
                   <H4>{`${t('by')} ${
-                    weekDays[new Date(deadline).getDay()].long
+                    WeekDays[new Date(deadline).getDay()].long
                   }`}</H4>
                 </MCView>
               )}

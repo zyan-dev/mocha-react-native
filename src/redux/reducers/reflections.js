@@ -1,11 +1,11 @@
 import * as types from '../actions/types';
-import {defaultReflections, sampleReflectionSections} from 'utils/constants';
+import {DefaultReflections, SampleReflectionSections} from 'utils/constants';
 
 const INITIAL_STATE = {
   myReflections: [],
   userReflections: [],
   selectedReflection: {},
-  reflectionSections: sampleReflectionSections,
+  reflectionSections: SampleReflectionSections,
 };
 
 const reflectionReducer = (state = INITIAL_STATE, action) => {
@@ -23,7 +23,7 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
     case types.SET_INITIAL_REFLECTION:
       return {
         ...state,
-        selectedReflection: defaultReflections[action.payload.toLowerCase()],
+        selectedReflection: DefaultReflections[action.payload.toLowerCase()],
       };
     case types.SELECT_REFLECTION:
       return {

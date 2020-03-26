@@ -13,14 +13,16 @@ class MCPicker extends React.Component {
     placeholder: PropTypes.string,
     items: PropTypes.arrayOf(Object).isRequired,
     value: PropTypes.string.isRequired,
+    height: PropTypes.number,
   };
 
   static defaultProps = {
     placeholder: 'select',
+    height: 50,
   };
 
   render() {
-    const {t, theme, value, placeholder, items, onChange} = this.props;
+    const {t, theme, value, height, placeholder, items, onChange} = this.props;
     return (
       <MCCard bordered>
         <RNPickerSelect
@@ -38,7 +40,7 @@ class MCPicker extends React.Component {
             inputIOSContainer: {
               flexDirection: 'row',
               alignItems: 'center',
-              height: 50,
+              height,
             },
             inputIOS: {
               color: theme.colors.text,
@@ -46,7 +48,7 @@ class MCPicker extends React.Component {
             inputAndroidContainer: {
               flexDirection: 'row',
               alignItems: 'center',
-              height: 50,
+              height,
             },
             inputAndroid: {
               color: theme.colors.text,

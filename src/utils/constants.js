@@ -11,7 +11,7 @@ import {
 
 // Constants used for testing
 
-export const fontFamilies = {
+export const FontFamilies = {
   bold: 'Raleway-Bold',
   regular: 'Raleway-Regular',
   thin: 'Raleway-Thin',
@@ -27,7 +27,7 @@ export const ContactProfileKeys = [
   'neighborhood',
 ];
 
-export const weekDays = [
+export const WeekDays = [
   {
     long: 'Sunday',
     short: 'Sun',
@@ -131,7 +131,7 @@ export const AddReflectionSections = [
   },
 ];
 
-export const profileSideMenuList = [
+export const ProfileSideMenuList = [
   {
     index: 0,
     icon: 'ios-link',
@@ -251,7 +251,7 @@ export const DaySliderValues = [
   '07:00 PM',
 ];
 
-export const sampleReflectionSections = {
+export const SampleReflectionSections = {
   values: [
     'Above and Beyond',
     'Abundance',
@@ -1114,7 +1114,7 @@ export const sampleReflectionSections = {
   ],
 };
 
-export const defaultReflections = {
+export const DefaultReflections = {
   motivation: {
     type: 'motivation',
     data: {
@@ -1243,4 +1243,18 @@ export const EMOTIONS = [
   'fear_horrified_mortified',
   'fear_horrified_dreadful',
 ];
-export const emotionHow = ['midly', 'moderately', 'intensely', 'hysterically'];
+export const EmotionHow = ['midly', 'moderately', 'intensely', 'hysterically'];
+
+export const AnalyzeDummyData = {
+  '20190305': 2,
+  '20190506': 6,
+  '20200120': 10,
+  '20200122': 20,
+  '20200123': 30,
+  '20200303': 1,
+  '20200308': 10,
+  '20200313': 9,
+  '20200320': 1,
+  '20200323': 12,
+  '20200325': 5,
+};
