@@ -46,15 +46,14 @@ class AnalyzeObjectiveScreen extends React.Component {
     const thisYear = today.getFullYear();
     if (year === thisYear) {
       // current year
-      const todayStartDate = new Date(
-        Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()),
-      );
+      today.setHours(0, 0, 0, 0);
+      const todayStartDate = today;
       const weekEndDate = new Date(
         todayStartDate.getTime() + 86400 * 1000 * (6 - today.getDay()),
       );
       return weekEndDate;
     } else {
-      return new Date(Date.UTC(year, 11, 31));
+      return new Date(year, 11, 31);
     }
   };
 
@@ -63,7 +62,7 @@ class AnalyzeObjectiveScreen extends React.Component {
     const {endDate} = this.state;
     const commitDate = new Date(
       endDate.getTime() -
-        86400 * 1000 * (6 - weekDayOffset - 1) -
+        86400 * 1000 * (6 - weekDayOffset) -
         86400 * 1000 * 7 * weekNumberOffset,
     );
     const commitKey = getCommitKey(commitDate);
