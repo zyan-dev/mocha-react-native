@@ -102,7 +102,6 @@ class MotivationListScreen extends React.PureComponent {
 
   render() {
     const {t, motivations} = this.props;
-    console.log(motivations);
     return (
       <MCRootView>
         <MCHeader

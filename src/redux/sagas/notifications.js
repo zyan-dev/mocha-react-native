@@ -32,6 +32,14 @@ export function* updateNotificationSettings(action) {
     );
     if (response.data.status === 'error') {
       showAlert(response.data.data.message);
+    } else {
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {
+          event: 'Update Notification Settings',
+          data: {settings: notificationReducer},
+        },
+      });
     }
   } catch (e) {
     showAlert(e.toString());

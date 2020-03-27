@@ -85,7 +85,7 @@ class LanguageAndRisk extends React.Component {
               mt={10}
               width={320}
               onPress={() => onPressAllLanguages()}>
-              <H3>Please add a language you love.</H3>
+              <H3>Coming soon!</H3>
             </MCButton>
           )}
         </Collapsible>
@@ -107,7 +107,7 @@ class LanguageAndRisk extends React.Component {
               mt={10}
               width={320}
               onPress={() => onPressAllRisks()}>
-              <H3>You have not added a risk</H3>
+              <H3>Coming soon!</H3>
             </MCButton>
           )}
         </Collapsible>

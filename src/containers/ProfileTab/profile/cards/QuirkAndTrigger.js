@@ -85,7 +85,7 @@ class QuirkAndTrigger extends React.Component {
               mt={10}
               width={320}
               onPress={() => onPressAllQuirks()}>
-              <H3>You have not added a Quirk</H3>
+              <H3>Coming soon!</H3>
             </MCButton>
           )}
         </Collapsible>
@@ -107,7 +107,7 @@ class QuirkAndTrigger extends React.Component {
               mt={10}
               width={320}
               onPress={() => onPressAllTriggers()}>
-              <H3>You have not added a Trigger</H3>
+              <H3>Coming soon!</H3>
             </MCButton>
           )}
         </Collapsible>

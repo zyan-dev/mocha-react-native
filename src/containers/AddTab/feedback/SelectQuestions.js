@@ -36,7 +36,6 @@ class SelectQuestionScreen extends React.Component {
     const {newQuestion} = this.state;
     const {t, questions} = this.props;
     const filtered = questions.filter(question => {
-      console.log(t(question).toLowerCase());
       return (
         String(t(question).toLowerCase()) === String(newQuestion.toLowerCase())
       );

@@ -140,6 +140,15 @@ export function* addOrUpdateReflection(action) {
       response.data.status === 'success'
     ) {
       yield put({type: types.GET_MY_REFLECTIONS});
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {
+          event: selectedReflection._id
+            ? 'Update Reflection'
+            : 'Add Reflection',
+          data: {type: selectedReflection.type},
+        },
+      });
       yield put({type: types.API_FINISHED});
       yield put({
         type: types.SET_INITIAL_REFLECTION,
@@ -171,6 +180,13 @@ export function* removeReflection(action) {
       const response = yield call(API.removeReflection, action.payload._id);
       if (response.data.status === 'success') {
         yield put({type: types.GET_MY_REFLECTIONS});
+        yield put({
+          type: types.TRACK_MIXPANEL_EVENT,
+          payload: {
+            event: 'Remove Reflection',
+            data: {type: action.payload.type},
+          },
+        });
         yield put({type: types.API_FINISHED});
       } else {
         yield put({

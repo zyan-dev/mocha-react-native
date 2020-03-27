@@ -7,13 +7,14 @@ import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {ToolsSvg, UserSvg, UsersSvg} from 'assets/svgs';
 import {dySize} from 'utils/responsive';
-import {routerActions} from 'Redux/actions';
+import {routerActions, otherActions} from 'Redux/actions';
 
 class WelcomeToTab extends React.PureComponent {
   turnOffPoints = () => {};
 
   gotoMainScreen = () => {
     this.props.setNewUser(false);
+    this.props.trackEvent({event: 'Welcome to Mocha'});
     NavigationService.navigate('mainStack');
   };
 
@@ -74,8 +75,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setNewUser: routerActions.setNewUser,
+  trackEvent: otherActions.trackEvent,
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(WelcomeToTab),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(WelcomeToTab),
 );

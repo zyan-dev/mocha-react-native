@@ -62,7 +62,7 @@ class StressAndComfort extends React.Component {
               mt={10}
               width={320}
               onPress={() => onPressAllAnswers()}>
-              <H3>You have not added any answer</H3>
+              <H3>Coming soon!</H3>
             </MCButton>
           )}
         </Collapsible>

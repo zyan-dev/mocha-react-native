@@ -144,7 +144,7 @@ class ValueAndPurpose extends React.Component {
             mt={10}
             width={320}
             onPress={() => onPressAllPurposes()}>
-            <H3>You have not added a Purpose</H3>
+            <H3>Coming soon!</H3>
           </MCButton>
         </Collapsible>
         {selectedValue && (

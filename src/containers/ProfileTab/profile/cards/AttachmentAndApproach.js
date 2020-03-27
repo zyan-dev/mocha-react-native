@@ -87,7 +87,7 @@ class AttachmentAndApproach extends React.Component {
               mt={10}
               width={320}
               onPress={() => onPressAllAttachments()}>
-              <H3>You have not added an attachment</H3>
+              <H3>Coming soon!</H3>
             </MCButton>
           )}
         </Collapsible>
@@ -109,7 +109,7 @@ class AttachmentAndApproach extends React.Component {
               mt={10}
               width={320}
               onPress={() => onPressAllApproaches()}>
-              <H3>You have not added an approach</H3>
+              <H3>Coming soon!</H3>
             </MCButton>
           )}
         </Collapsible>
