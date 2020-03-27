@@ -7,9 +7,7 @@ import {MCPicker} from 'components/common';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCView, MCContent} from 'components/styled/View';
-import {getWeekNumber} from 'services/operators';
-import {AnalyzeDummyData} from 'utils/constants';
-import {showAlert} from '../../../services/operators';
+import {showAlert, getCommitKey} from 'services/operators';
 
 const colors = ['#99AA99', '#669966', '#11BB11', '#00FF00'];
 
@@ -32,11 +30,11 @@ class AnalyzeObjectiveScreen extends React.Component {
     const sinceYear = memberSince.getFullYear();
     const thisYear = new Date().getFullYear();
     let yearList = [];
-    for (let i = thisYear; i >= sinceYear - 1; i--) {
+    for (let i = thisYear; i >= sinceYear; i--) {
       yearList.push(i.toString());
     }
     this.setState({yearList, selectedYear: thisYear.toString()});
-    this.onChangeYear(thisYear);
+    this.onChangeYear(thisYear.toString());
   };
 
   onChangeYear = year => {
@@ -61,15 +59,16 @@ class AnalyzeObjectiveScreen extends React.Component {
   };
 
   getCommitData = (weekNumberOffset, weekDayOffset) => {
+    const {myCommits} = this.props;
     const {endDate} = this.state;
-    console.log({endDate});
     const commitDate = new Date(
       endDate.getTime() -
         86400 * 1000 * (6 - weekDayOffset - 1) -
         86400 * 1000 * 7 * weekNumberOffset,
     );
-    const commitKey = moment(commitDate).format('YYYYMMDD');
-    const commitNum = AnalyzeDummyData[commitKey];
+    const commitKey = getCommitKey(commitDate);
+    const find = myCommits.find(commit => commit.date === commitKey);
+    const commitNum = find ? find.amount : undefined;
     if (commitNum) {
       let color = 'transparent';
       if (commitNum > 15) color = colors[3];
@@ -101,7 +100,6 @@ class AnalyzeObjectiveScreen extends React.Component {
   };
 
   render() {
-    const {t, profile} = this.props;
     const {yearList, selectedYear} = this.state;
     return (
       <MCRootView justify="flex-start">
@@ -120,7 +118,7 @@ class AnalyzeObjectiveScreen extends React.Component {
             value={selectedYear}
           />
         </MCView>
-        <MCView mt={20} row align="center" mb={20}>
+        <MCView mt={20} row align="center">
           <MCView mr={5} width={10} height={10} br={5} background={colors[0]} />
           <MCView mr={5} width={10} height={10} br={5} background={colors[1]} />
           <MCView mr={5} width={10} height={10} br={5} background={colors[2]} />
@@ -145,13 +143,7 @@ class AnalyzeObjectiveScreen extends React.Component {
           contentContainerStyle={{alignItems: 'center', paddingBottom: 100}}>
           {Array.apply(null, Array(52)).map((i, index) => {
             return (
-              <MCView
-                width={350}
-                mt={5}
-                row
-                wrap
-                align="center"
-                justify="center">
+              <MCView width={350} row wrap align="center" justify="center">
                 <MCView style={{flex: 1}}>
                   <H3 ml={10}>
                     {moment(this.getCommitData(index, 6).date).format('YYYY')}
@@ -243,6 +235,7 @@ class AnalyzeObjectiveScreen extends React.Component {
 
 const mapStateToProps = state => ({
   profile: state.profileReducer,
+  myCommits: state.otherReducer.myCommits,
 });
 
 const mapDispatchToProps = {};

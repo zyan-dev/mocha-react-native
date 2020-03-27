@@ -5,7 +5,8 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import CheckBox from 'react-native-check-box';
 import {FlatList} from 'react-native-gesture-handler';
 import moment from 'moment';
-import {reflectionActions, userActions} from 'Redux/actions';
+import * as _ from 'lodash';
+import {reflectionActions, userActions, otherActions} from 'Redux/actions';
 import {MCHeader, MCEditableText, MCImage} from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
@@ -14,6 +15,7 @@ import {getAfterDate} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {WeekDays} from 'utils/constants';
+import {getCommitKey} from '../../../services/operators';
 
 class EditObjectiveScreen extends React.PureComponent {
   constructor(props) {
@@ -21,15 +23,69 @@ class EditObjectiveScreen extends React.PureComponent {
     this.state = {
       showTimePicker: false,
       newMeasureTitle: '',
+      origin: {},
     };
+  }
+
+  componentDidMount() {
+    this.setState({origin: this.props.selectedReflection});
   }
 
   onPressRight = () => {
     const {selectedUsers, updateSelectedReflection} = this.props;
-    updateSelectedReflection({collaborators: selectedUsers});
+    updateSelectedReflection({
+      collaborators: selectedUsers.map(user =>
+        _.pick(user, ['_id', 'avatar', 'pushToken', 'name']),
+      ),
+    });
+    this.updateCommitHistory();
     setTimeout(() => {
       this.props.addOrUpdateReflection();
     });
+  };
+
+  updateCommitHistory = () => {
+    const {
+      selectedReflection: {
+        data: {measures},
+      },
+    } = this.props;
+    const {origin} = this.state;
+    const todayKey = getCommitKey(new Date());
+    let temp = {};
+    measures.map(measure => {
+      const find = origin.data.measures.find(i => i.title === measure.title);
+      if (find) {
+        // existing measure
+        if (find.completed && !measure.completed) {
+          const findKey = getCommitKey(new Date(find.completed));
+          temp = {
+            ...temp,
+            [findKey]: temp[findKey] ? temp[todayKey] - 1 : -1,
+          };
+        } else if (!find.completed && measure.completed) {
+          temp = {
+            ...temp,
+            [todayKey]: temp[todayKey] ? temp[todayKey] + 1 : 1,
+          };
+        }
+      } else {
+        // new measure
+        if (measure.completed) {
+          temp = {
+            ...temp,
+            [todayKey]: temp[todayKey] ? temp[todayKey] + 1 : 1,
+          };
+        }
+      }
+    });
+    if (Object.keys(temp).length > 0) {
+      const param = Object.keys(temp).map(key => ({
+        date: key,
+        amount: temp[key],
+      }));
+      this.props.updateAnalyzeStatus({data: param});
+    }
   };
 
   onToggleCheck = measure => {
@@ -41,7 +97,10 @@ class EditObjectiveScreen extends React.PureComponent {
     } = this.props;
     const updated = measures.map(item => {
       if (item.title === measure.title) {
-        return {...measure, completed: !measure.completed};
+        return {
+          ...measure,
+          completed: measure.completed ? undefined : new Date().getTime(),
+        };
       } else {
         return item;
       }
@@ -76,7 +135,7 @@ class EditObjectiveScreen extends React.PureComponent {
       },
     } = this.props;
     if (title.length === 0) return;
-    measures.push({title, completed: false});
+    measures.push({title, completed: undefined});
     this.props.updateSelectedReflection({measures});
     this.setState({newMeasureTitle: ''});
   };
@@ -320,6 +379,7 @@ const mapDispatchToProps = {
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
   addCustomReflectionTitle: reflectionActions.addCustomReflectionTitle,
   deselectUser: userActions.deselectUser,
+  updateAnalyzeStatus: otherActions.updateAnalyzeStatus,
 };
 
 export default withTranslation()(

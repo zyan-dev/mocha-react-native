@@ -23,6 +23,7 @@ const URL_ALL_USERS = '/user/all';
 const URL_TRUST_MEMBERS = '/member';
 const URL_USER_PROFILE = '/user/profile/';
 const URL_NETWORK = '/network';
+const URL_COMMIT = '/commit';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -94,6 +95,8 @@ const updateReflections = param =>
   apiCall('post', URL_REFLECTION_UPDATE, param, true);
 const removeReflection = id =>
   apiCall('delete', `${URL_REFLECTION}/${id}`, {}, true);
+const updateCommits = param => apiCall('patch', URL_COMMIT, param, true);
+const getMyCommits = param => apiCall('get', URL_COMMIT, {}, true);
 
 const fileUploadToS3 = async ({image, name, type}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
@@ -142,4 +145,6 @@ export default {
   updateReflections,
   removeReflection,
   deleteProfile,
+  updateCommits,
+  getMyCommits,
 };

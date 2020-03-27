@@ -171,3 +171,32 @@ export function* syncData(action) {
     });
   }
 }
+
+export function* getMyCommits(action) {
+  try {
+    const response = yield call(API.getMyCommits);
+    if (response.data.status !== 'success') {
+      showAlert(response.data.data.message);
+    } else {
+      yield put({
+        type: types.SET_MY_COMMITS,
+        payload: response.data.data.commits || [],
+      });
+    }
+  } catch (e) {
+    showAlert(e.toString());
+  }
+}
+
+export function* updateCommits(action) {
+  try {
+    const response = yield call(API.updateCommits, action.payload);
+    if (response.data.status !== 'success') {
+      showAlert(response.data.data.message);
+    } else {
+      yield put({type: types.GET_MY_COMMITS});
+    }
+  } catch (e) {
+    showAlert(e.toString());
+  }
+}

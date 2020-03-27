@@ -1,6 +1,7 @@
 import {Alert} from 'react-native';
 import Toast from 'react-native-root-toast';
 import {dySize} from 'utils/responsive';
+import moment from 'moment';
 
 export const showAlert = text => {
   // Alert.alert('Mocha App', text, [{text: 'OK', onPress: () => {}}]);
@@ -85,4 +86,8 @@ export const getWeekNumber = d => {
   var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
   // Return array of year and week number
   return weekNo;
+};
+
+export const getCommitKey = date => {
+  return moment(date).format('YYYYMMDD');
 };
