@@ -99,6 +99,7 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
+  - Mixpanel (3.6.0)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -270,6 +271,9 @@ PODS:
   - React-jsinspector (0.61.5)
   - react-native-image-picker (2.3.1):
     - React
+  - react-native-mixpanel (1.2.0):
+    - Mixpanel (~> 3.6.0)
+    - React
   - react-native-netinfo (5.6.2):
     - React
   - react-native-safe-area-context (0.7.3):
@@ -376,6 +380,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-mixpanel (from `../node_modules/react-native-mixpanel`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -421,6 +426,7 @@ SPEC REPOS:
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
     - libwebp
+    - Mixpanel
     - nanopb
     - Protobuf
     - RSKImageCropper
@@ -458,6 +464,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-mixpanel:
+    :path: "../node_modules/react-native-mixpanel"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
@@ -533,6 +541,7 @@ SPEC CHECKSUMS:
   GoogleDataTransportCCTSupport: 6f15a89b0ca35d6fa523e1f752ef818588885988
   GoogleUtilities: ad0f3b691c67909d03a3327cc205222ab8f42e0e
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
+  Mixpanel: 446b6e7713aa34a9a3516ff7648d56551384fc94
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
@@ -545,6 +554,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-image-picker: 6a850c41f57f0848d918c2a77aedd7aa272ffa30
+  react-native-mixpanel: d644efe1ca33d2646d5cba29e24a13ebc9b37209
   react-native-netinfo: 73303369946c2487c600418961bfdc87748b832f
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865

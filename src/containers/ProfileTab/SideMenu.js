@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {routerActions, profileActions} from 'Redux/actions';
+import {routerActions, profileActions, otherActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {colorThemes} from 'theme';
 import {H3, H5, MCIcon} from 'components/styled/Text';
@@ -31,8 +31,16 @@ class ProfileSideMenu extends React.Component {
     }
   };
 
+  onPressTheme = index => {
+    this.props.setThemeIndex(index);
+    this.props.trackEvent({
+      event: 'Select Theme',
+      data: {type: colorThemes[index].theme_name},
+    });
+  };
+
   render() {
-    const {setThemeIndex, systemTheme, profile, t} = this.props;
+    const {systemTheme, profile, t} = this.props;
     return (
       <MCRootView justify="flex-start" align="flex-start">
         <ScrollView>
@@ -73,7 +81,7 @@ class ProfileSideMenu extends React.Component {
                     align="center"
                     width={110}
                     mt={12}
-                    onPress={() => setThemeIndex(index)}
+                    onPress={() => this.onPressTheme(index)}
                     style={{
                       backgroundColor: theme.background,
                       borderColor: theme.border,
@@ -100,6 +108,7 @@ const mapDispatchToProps = {
   setThemeIndex: routerActions.setThemeIndex,
   deleteAccount: profileActions.deleteAccount,
   resetAllReducer: routerActions.resetAllReducer,
+  trackEvent: otherActions.trackEvent,
 };
 
 export default withTranslation()(

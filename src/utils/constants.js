@@ -1171,6 +1171,14 @@ export const DefaultReflections = {
       collaborators: [],
     },
   },
+  need: {
+    type: 'need',
+    data: {
+      need: '',
+      value: '',
+      reason: '',
+    },
+  },
 };
 
 export const EMOTIONS = [

@@ -9,6 +9,7 @@ import ObjectiveScreen from './goal';
 import EditObjectiveScreen from './goal/Add';
 import EmotionScreen from './emotion';
 import NeedScreen from './need';
+import EditNeedScreen from './need/edit';
 import TapToCountScreen from './tab_to_count';
 import EditUserManualScreen from './usermanual/edit';
 import EditEmotionScreen from './emotion/edit';
@@ -29,6 +30,7 @@ class AddValueTabStack extends React.Component {
         <Stack.Screen name="Emotions" component={EmotionScreen} />
         <Stack.Screen name="EditEmotion" component={EditEmotionScreen} />
         <Stack.Screen name="Needs" component={NeedScreen} />
+        <Stack.Screen name="EditNeed" component={EditNeedScreen} />
         <Stack.Screen name="TapToCounts" component={TapToCountScreen} />
         <Stack.Screen name="EditUserManual" component={EditUserManualScreen} />
       </Stack.Navigator>

@@ -1,5 +1,6 @@
 import {all, call, put, select} from 'redux-saga/effects';
 import RNIap from 'react-native-iap';
+import Mixpanel from 'react-native-mixpanel';
 import NetInfo from '@react-native-community/netinfo';
 import * as types from '../actions/types';
 import API from 'services/api';
@@ -199,4 +200,13 @@ export function* updateCommits(action) {
   } catch (e) {
     showAlert(e.toString());
   }
+ }
+  
+export function* trackMixpanelEvent(action) {
+  const {profileReducer} = yield select();
+  console.log(action.payload);
+  Mixpanel.trackWithProperties(action.payload.event, {
+    ...action.payload.data,
+    userId: profileReducer._id,
+  });
 }

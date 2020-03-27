@@ -36,6 +36,10 @@ const getMyEmotions = state =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Emotion',
   );
+const getMyNeeds = state =>
+  state.reflectionReducer.myReflections.filter(
+    ({type}) => capitalizeString(type) === 'Need',
+  );
 
 // User Reflections
 const getUserValues = state =>
@@ -67,6 +71,10 @@ const getUserEmotions = state =>
   state.reflectionReducer.userReflections.filter(
     ({type}) => capitalizeString(type) === 'Emotion',
   );
+const getUserNeeds = state =>
+  state.reflectionReducer.userReflections.filter(
+    ({type}) => capitalizeString(type) === 'Need',
+  );
 
 export {
   getMyValues,
@@ -78,6 +86,7 @@ export {
   getMyChronotype,
   getMyMotivations,
   getMyEmotions,
+  getMyNeeds,
   getUserValues,
   getUserManuals,
   getUserGoals,
@@ -85,4 +94,5 @@ export {
   getUserChronotype,
   getUserMotivations,
   getUserEmotions,
+  getUserNeeds,
 };

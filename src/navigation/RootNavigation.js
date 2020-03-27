@@ -11,12 +11,16 @@ import MainHomeStack from '../containers/Home';
 import NavigationService from './NavigationService';
 import UserProfile from '../containers/Others/UserProfile';
 import SelectUserScreen from '../containers/Others/SelectUsers';
+import {MixpanelToken} from 'utils/config';
+
+import Mixpanel from 'react-native-mixpanel';
 
 const Stack = createStackNavigator();
 
 class RootNavigator extends React.Component {
   componentDidMount() {
     this.props.setLoading(false);
+    Mixpanel.sharedInstanceWithToken(MixpanelToken);
   }
 
   _onNavigationStateChange = newState => {
@@ -67,4 +71,7 @@ const mapDispatchToProps = {
   syncData: routerActions.syncData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RootNavigator);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RootNavigator);

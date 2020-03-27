@@ -27,3 +27,8 @@ export const setMyCommits = commits => ({
 export const getMyCommits = () => ({
   type: types.GET_MY_COMMITS,
 });
+
+export const trackEvent = param => ({
+  type: types.TRACK_MIXPANEL_EVENT,
+  payload: param,
+});

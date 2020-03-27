@@ -76,6 +76,7 @@ function* mySaga() {
   yield takeEvery(types.API_CALLING, otherSaga.checkNetwork);
   yield takeEvery(types.GET_MY_COMMITS, otherSaga.getMyCommits);
   yield takeEvery(types.UPDATE_COMMITS, otherSaga.updateCommits);
+  yield takeEvery(types.TRACK_MIXPANEL_EVENT, otherSaga.trackMixpanelEvent);
 }
 
 export default mySaga;

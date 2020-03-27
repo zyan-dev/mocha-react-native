@@ -7,15 +7,22 @@ import {dySize} from 'utils/responsive';
 import {MCButton} from 'components/styled/Button';
 import {colorThemes} from 'theme';
 import NavigationService from 'navigation/NavigationService';
-import {routerActions} from 'Redux/actions';
+import {routerActions, otherActions} from 'Redux/actions';
 
 class WelcomePickTheme extends React.PureComponent {
+  onPressTheme = index => {
+    this.props.setThemeIndex(index);
+    this.props.trackEvent({
+      event: 'Select Theme',
+      data: {type: colorThemes[index].theme_name},
+    });
+  };
   render() {
-    const {t, setThemeIndex} = this.props;
+    const {t} = this.props;
     return (
       <MCRootView>
         <MCView p={20} justify="center" align="center">
-          <H2 mt={40} mb={20}>
+          <H2 mt={40} mb={20} align="center">
             {t('welcome_theme_displayText')}
           </H2>
           <MCView justify="space-between" row wrap width={dySize(250)}>
@@ -26,7 +33,7 @@ class WelcomePickTheme extends React.PureComponent {
                   align="center"
                   width={120}
                   mt={12}
-                  onPress={() => setThemeIndex(index)}
+                  onPress={() => this.onPressTheme(index)}
                   style={{
                     backgroundColor: theme.background,
                     borderColor: theme.border,
@@ -58,8 +65,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setThemeIndex: routerActions.setThemeIndex,
+  trackEvent: otherActions.trackEvent,
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(WelcomePickTheme),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(WelcomePickTheme),
 );
