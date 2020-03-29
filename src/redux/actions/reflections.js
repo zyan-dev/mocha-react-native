@@ -42,3 +42,8 @@ export const addCustomReflectionTitle = (type, title) => ({
   type: types.ADD_CUSTOM_REFLECTION_TITLE,
   payload: {type, title},
 });
+
+export const updateTapToCounts = tapToCounts => ({
+  type: types.UPDATE_TAP_TO_COUNTS,
+  payload: tapToCounts,
+});

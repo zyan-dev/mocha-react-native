@@ -7,7 +7,11 @@ import {MCPicker} from 'components/common';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCView, MCContent} from 'components/styled/View';
-import {showAlert, getCommitKey} from 'services/operators';
+import {
+  showAlert,
+  getCommitKey,
+  getTodayStartDateStamp,
+} from 'services/operators';
 
 const colors = ['#99AA99', '#669966', '#11BB11', '#00FF00'];
 
@@ -46,10 +50,8 @@ class AnalyzeObjectiveScreen extends React.Component {
     const thisYear = today.getFullYear();
     if (year === thisYear) {
       // current year
-      today.setHours(0, 0, 0, 0);
-      const todayStartDate = today;
       const weekEndDate = new Date(
-        todayStartDate.getTime() + 86400 * 1000 * (6 - today.getDay()),
+        getTodayStartDateStamp() + 86400 * 1000 * (6 - today.getDay()),
       );
       return weekEndDate;
     } else {

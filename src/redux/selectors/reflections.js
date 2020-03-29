@@ -40,6 +40,10 @@ const getMyNeeds = state =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Need',
   );
+const getMyTapToCounts = state =>
+  state.reflectionReducer.myReflections.filter(
+    ({type}) => capitalizeString(type) === 'Tap',
+  );
 
 // User Reflections
 const getUserValues = state =>
@@ -87,6 +91,7 @@ export {
   getMyMotivations,
   getMyEmotions,
   getMyNeeds,
+  getMyTapToCounts,
   getUserValues,
   getUserManuals,
   getUserGoals,

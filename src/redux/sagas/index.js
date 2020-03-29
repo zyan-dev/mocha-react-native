@@ -32,6 +32,10 @@ function* mySaga() {
     reflectionSaga.getUserReflections,
   );
   yield takeLatest(types.SAVE_CHRONOTYPE, reflectionSaga.saveMyChronotype);
+  yield takeLatest(
+    types.UPDATE_TAP_TO_COUNTS,
+    reflectionSaga.updateTapToCounts,
+  );
   yield takeLatest(types.REMOVE_REFLECTION, reflectionSaga.removeReflection);
   yield takeLatest(
     types.ADD_OR_UPDATE_REFLECTION,

@@ -93,8 +93,8 @@ const addReflections = param =>
   apiCall('post', URL_REFLECTION_ADD, param, true);
 const updateReflections = param =>
   apiCall('post', URL_REFLECTION_UPDATE, param, true);
-const removeReflection = id =>
-  apiCall('delete', `${URL_REFLECTION}/${id}`, {}, true);
+const removeReflection = param =>
+  apiCall('post', `${URL_REFLECTION}/remove`, param, true);
 const updateCommits = param => apiCall('patch', URL_COMMIT, param, true);
 const getMyCommits = param => apiCall('get', URL_COMMIT, {}, true);
 

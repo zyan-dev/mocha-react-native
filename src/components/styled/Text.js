@@ -62,7 +62,7 @@ export const MCTextInput = styled.TextInput`
   border-left-width: ${props => (props.underline ? 0 : 1)}px;
   border-right-width: ${props => (props.underline ? 0 : 1)}px;
   padding: 10px 5px;
-  min-height: ${props => (props.multiline ? dySize(120) : 'auto')};
+  min-height: ${props => (props.multiline ? dySize(80) : 'auto')};
   max-height: ${props => props.maxHeight || 120}px;
   color: ${props => props.theme.colors.text};
   font-size: ${props =>

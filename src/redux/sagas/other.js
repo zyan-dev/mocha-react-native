@@ -77,7 +77,6 @@ export function* syncData(action) {
           serverReflections.map(sr => {
             const find = localReflections.find(lr => lr._id === sr._id);
             if (!find) {
-              console.log('removing reflection: ', sr._id);
               put({type: types.REMOVE_REFLECTION, payload: sr});
             }
           }),
@@ -207,8 +206,8 @@ export function* updateCommits(action) {
   } catch (e) {
     showAlert(e.toString());
   }
- }
-  
+}
+
 export function* trackMixpanelEvent(action) {
   const {profileReducer} = yield select();
   Mixpanel.trackWithProperties(action.payload.event, {

@@ -27,7 +27,6 @@ const getAllPendingUsers = state => {
         ...find,
         requestId: trust._id,
       });
-      console.log(trust._id);
     }
   });
   return result;

@@ -2,7 +2,6 @@ import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import {reflectionActions} from 'Redux/actions';
-import {showAlert} from 'services/operators';
 import {MCHeader, MCPicker} from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';

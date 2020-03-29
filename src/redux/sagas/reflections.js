@@ -1,8 +1,11 @@
 import {call, put, select} from 'redux-saga/effects';
+import * as _ from 'lodash';
+import {selector} from 'Redux/selectors';
 import * as types from '../actions/types';
 import API from 'services/api';
 import {showAlert} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
+import {getWeekStartDateStamp} from 'services/operators';
 
 export function* getMyReflections(action) {
   try {
@@ -177,7 +180,9 @@ export function* removeReflection(action) {
     yield put({type: types.API_CALLING});
     if (userToken) {
       // online remove
-      const response = yield call(API.removeReflection, action.payload._id);
+      const response = yield call(API.removeReflection, {
+        data: [action.payload._id],
+      });
       if (response.data.status === 'success') {
         yield put({type: types.GET_MY_REFLECTIONS});
         yield put({
@@ -207,5 +212,69 @@ export function* removeReflection(action) {
     }
   } catch (e) {
     yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
+export function* updateTapToCounts(action) {
+  try {
+    const tapToCounts = action.payload.map(i => ({
+      ...i,
+      data: {
+        ...i.data,
+        times: i.data.times.filter(t => t > getWeekStartDateStamp()),
+      },
+    }));
+    const state = yield select();
+    const origin = selector.reflections.getMyTapToCounts(state);
+    const addItems = tapToCounts
+      .filter(i => i._id.length < 20)
+      .map(i => i.data);
+    const removeItems = origin
+      .filter(i => {
+        const find = tapToCounts.find(item => item._id === i._id);
+        return !find;
+      })
+      .map(i => i._id);
+    const updateItems = tapToCounts
+      .filter(i => i._id.length > 20)
+      .filter(i => {
+        const find = origin.find(item => item._id === i._id);
+        if (find.updated === i.updated) return false;
+        else return true;
+      })
+      .map(i => _.pick(i, ['_id', 'data']));
+    let response;
+    if (addItems.length > 0) {
+      response = yield call(API.addReflections, {
+        data: {
+          tap: addItems,
+        },
+      });
+      if (response.data.status !== 'success') {
+        showAlert(response.data.data.message);
+        return;
+      }
+    }
+    if (removeItems.length > 0) {
+      response = yield call(API.removeReflection, {
+        data: removeItems,
+      });
+      if (response.data.status !== 'success') {
+        showAlert(response.data.data.message);
+        return;
+      }
+    }
+    if (updateItems.length > 0) {
+      response = yield call(API.updateReflections, {
+        data: updateItems,
+      });
+      if (response.data.status !== 'success') {
+        showAlert(response.data.data.message);
+        return;
+      }
+    }
+    yield put({type: types.GET_MY_REFLECTIONS});
+  } catch (e) {
+    showAlert(e.toString());
   }
 }

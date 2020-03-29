@@ -91,3 +91,15 @@ export const getWeekNumber = d => {
 export const getCommitKey = date => {
   return moment(date).format('YYYYMMDD');
 };
+
+export const getTodayStartDateStamp = () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today.getTime();
+};
+
+export const getWeekStartDateStamp = () => {
+  return (
+    getTodayStartDateStamp() - (getWeekNumber(new Date()) - 1) * 86400 * 1000
+  );
+};
