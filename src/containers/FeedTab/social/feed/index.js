@@ -26,30 +26,29 @@ class FeedScreen extends React.Component {
     const {theme} = this.props;
     const user = item;
     return (
-      <MCView
+      <MCButton
         row
         align="center"
         width={340}
-        p={10}
+        pt={10}
+        pb={10}
+        onPress={() => this.onPressUserAvatar(user)}
         style={{
           borderBottomWidth: 0.2,
           borderColor: theme.colors.border,
-          paddingLeft: 0,
         }}>
-        <MCButton onPress={() => this.onPressUserAvatar(user)}>
-          <MCImage
-            width={60}
-            height={60}
-            round
-            type="avatar"
-            image={{uri: user.avatar}}
-          />
-        </MCButton>
+        <MCImage
+          width={60}
+          height={60}
+          round
+          type="avatar"
+          image={{uri: user.avatar}}
+        />
         <MCView style={{flex: 1}} ml={10} justify="center">
           <H3>{user.name}</H3>
           <H4 padding={0} color={theme.colors.border}>{`@${user.user_id}`}</H4>
         </MCView>
-      </MCView>
+      </MCButton>
     );
   };
 
