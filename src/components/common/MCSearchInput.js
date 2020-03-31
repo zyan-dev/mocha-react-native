@@ -31,10 +31,15 @@ export default class MCSearchInput extends React.PureComponent {
     width: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func,
+  };
+
+  static defaultProps = {
+    onBlur: () => undefined,
   };
 
   render() {
-    const {width, onChange, text} = this.props;
+    const {width, onChange, onBlur, text} = this.props;
     return (
       <Wrapper width={width}>
         <SearchIcon name="ios-search" />
@@ -42,6 +47,7 @@ export default class MCSearchInput extends React.PureComponent {
           bordered={false}
           onChange={onChange}
           text={text}
+          onBlur={() => onBlur()}
           style={{flex: 1}}
         />
         <MCButton onPress={() => onChange('')}>
