@@ -29,8 +29,9 @@ export const updateSelectedReflection = param => ({
   payload: param,
 });
 
-export const addOrUpdateReflection = () => ({
+export const addOrUpdateReflection = (redirect = true) => ({
   type: types.ADD_OR_UPDATE_REFLECTION,
+  payload: redirect,
 });
 
 export const removeReflection = reflection => ({

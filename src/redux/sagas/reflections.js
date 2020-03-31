@@ -159,7 +159,7 @@ export function* addOrUpdateReflection(action) {
       });
       if (selectedReflection._id && selectedReflection.type === 'motivation')
         return;
-      NavigationService.goBack();
+      if (action.payload) NavigationService.goBack();
     } else {
       yield put({
         type: types.API_FINISHED,

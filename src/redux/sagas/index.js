@@ -37,7 +37,7 @@ function* mySaga() {
     reflectionSaga.updateTapToCounts,
   );
   yield takeLatest(types.REMOVE_REFLECTION, reflectionSaga.removeReflection);
-  yield takeLatest(
+  yield takeEvery(
     types.ADD_OR_UPDATE_REFLECTION,
     reflectionSaga.addOrUpdateReflection,
   );

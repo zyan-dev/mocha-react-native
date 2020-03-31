@@ -103,3 +103,35 @@ export const getWeekStartDateStamp = () => {
     getTodayStartDateStamp() - (getWeekNumber(new Date()) - 1) * 86400 * 1000
   );
 };
+
+export const getUpdatedMeasures = (measures, origin) => {
+  const todayKey = getCommitKey(new Date());
+  let temp = {};
+  measures.map(measure => {
+    const find = origin.data.measures.find(i => i.title === measure.title);
+    if (find) {
+      // existing measure
+      if (find.completed && !measure.completed) {
+        const findKey = getCommitKey(new Date(find.completed));
+        temp = {
+          ...temp,
+          [findKey]: temp[findKey] ? temp[todayKey] - 1 : -1,
+        };
+      } else if (!find.completed && measure.completed) {
+        temp = {
+          ...temp,
+          [todayKey]: temp[todayKey] ? temp[todayKey] + 1 : 1,
+        };
+      }
+    } else {
+      // new measure
+      if (measure.completed) {
+        temp = {
+          ...temp,
+          [todayKey]: temp[todayKey] ? temp[todayKey] + 1 : 1,
+        };
+      }
+    }
+  });
+  return temp;
+};

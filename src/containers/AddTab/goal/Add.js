@@ -15,7 +15,7 @@ import {getAfterDate} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {WeekDays} from 'utils/constants';
-import {getCommitKey} from '../../../services/operators';
+import {getCommitKey, getUpdatedMeasures} from '../../../services/operators';
 
 class EditObjectiveScreen extends React.PureComponent {
   constructor(props) {
@@ -51,38 +51,11 @@ class EditObjectiveScreen extends React.PureComponent {
       },
     } = this.props;
     const {origin} = this.state;
-    const todayKey = getCommitKey(new Date());
-    let temp = {};
-    measures.map(measure => {
-      const find = origin.data.measures.find(i => i.title === measure.title);
-      if (find) {
-        // existing measure
-        if (find.completed && !measure.completed) {
-          const findKey = getCommitKey(new Date(find.completed));
-          temp = {
-            ...temp,
-            [findKey]: temp[findKey] ? temp[todayKey] - 1 : -1,
-          };
-        } else if (!find.completed && measure.completed) {
-          temp = {
-            ...temp,
-            [todayKey]: temp[todayKey] ? temp[todayKey] + 1 : 1,
-          };
-        }
-      } else {
-        // new measure
-        if (measure.completed) {
-          temp = {
-            ...temp,
-            [todayKey]: temp[todayKey] ? temp[todayKey] + 1 : 1,
-          };
-        }
-      }
-    });
-    if (Object.keys(temp).length > 0) {
-      const param = Object.keys(temp).map(key => ({
+    const updatedMeasures = getUpdatedMeasures(measures, origin);
+    if (Object.keys(updatedMeasures).length > 0) {
+      const param = Object.keys(updatedMeasures).map(key => ({
         date: key,
-        amount: temp[key],
+        amount: updatedMeasures[key],
       }));
       this.props.updateAnalyzeStatus({data: param});
     }
@@ -140,6 +113,10 @@ class EditObjectiveScreen extends React.PureComponent {
     this.setState({newMeasureTitle: ''});
   };
 
+  onDelete = () => {
+    this.props.removeReflection(this.props.selectedReflection);
+  };
+
   _renderMemberItem = ({item}) => {
     const user = item;
     const {deselectUser} = this.props;
@@ -183,6 +160,7 @@ class EditObjectiveScreen extends React.PureComponent {
     const {
       data: {title, isDaily, measures, deadline, collaborators},
     } = selectedReflection;
+    console.log('measures', measures);
     return (
       <MCRootView>
         <MCHeader
@@ -361,6 +339,18 @@ class EditObjectiveScreen extends React.PureComponent {
               ListFooterComponent={this._renderSocialListFooter}
             />
           </MCCard>
+          {selectedReflection._id && (
+            <MCView mt={50} mb={30} align="center">
+              <MCButton
+                onPress={() => this.onDelete()}
+                align="center"
+                width={250}
+                bordered
+                background={theme.colors.danger}>
+                <H3>{t('button_remove_objective')}</H3>
+              </MCButton>
+            </MCView>
+          )}
         </MCContent>
       </MCRootView>
     );
@@ -377,7 +367,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
-  addCustomReflectionTitle: reflectionActions.addCustomReflectionTitle,
+  removeReflection: reflectionActions.removeReflection,
   deselectUser: userActions.deselectUser,
   updateAnalyzeStatus: otherActions.updateAnalyzeStatus,
 };

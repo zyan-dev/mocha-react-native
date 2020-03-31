@@ -29,7 +29,7 @@ class GoalScreen extends React.Component {
   };
 
   render() {
-    const {t, theme, received, requested, pending, sent} = this.props;
+    const {t, theme} = this.props;
     const {index} = this.state;
     const routes = [
       {
@@ -92,7 +92,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   removeReflection: reflectionActions.removeReflection,
-  selectReflection: reflectionActions.selectReflection,
   getMyCommits: otherActions.getMyCommits,
 };
 

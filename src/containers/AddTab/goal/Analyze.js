@@ -4,7 +4,7 @@ import {withTranslation} from 'react-i18next';
 import moment from 'moment';
 import {MCRootView} from 'components/styled/View';
 import {MCPicker} from 'components/common';
-import {H3} from 'components/styled/Text';
+import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCView, MCContent} from 'components/styled/View';
 import {
@@ -19,44 +19,20 @@ class AnalyzeObjectiveScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      yearList: [],
-      selectedYear: 0,
       endDate: new Date(),
     };
   }
 
   componentDidMount() {
-    this.getYearList();
+    this.setEndDate();
   }
 
-  getYearList = () => {
-    const memberSince = new Date(this.props.profile.created);
-    const sinceYear = memberSince.getFullYear();
-    const thisYear = new Date().getFullYear();
-    let yearList = [];
-    for (let i = thisYear; i >= sinceYear; i--) {
-      yearList.push(i.toString());
-    }
-    this.setState({yearList, selectedYear: thisYear.toString()});
-    this.onChangeYear(thisYear.toString());
-  };
-
-  onChangeYear = year => {
-    this.setState({selectedYear: year, endDate: this.getEndDate(Number(year))});
-  };
-
-  getEndDate = year => {
+  setEndDate = year => {
     const today = new Date();
-    const thisYear = today.getFullYear();
-    if (year === thisYear) {
-      // current year
-      const weekEndDate = new Date(
-        getTodayStartDateStamp() + 86400 * 1000 * (6 - today.getDay()),
-      );
-      return weekEndDate;
-    } else {
-      return new Date(year, 11, 31);
-    }
+    const weekEndDate = new Date(
+      getTodayStartDateStamp() + 86400 * 1000 * (6 - today.getDay()),
+    );
+    this.setState({endDate: weekEndDate});
   };
 
   getCommitData = (weekNumberOffset, weekDayOffset) => {
@@ -89,6 +65,19 @@ class AnalyzeObjectiveScreen extends React.Component {
     }
   };
 
+  getLastWeekCommitCount = () => {
+    const {myCommits} = this.props;
+    const todayST = getTodayStartDateStamp();
+    let commitKey = '';
+    let result = 0;
+    for (i = 0; i < 7; i++) {
+      commitKey = getCommitKey(todayST - 86400 * 1000 * i);
+      const find = myCommits.find(commit => commit.date === commitKey);
+      if (find && find.amount) result += find.amount;
+    }
+    return result;
+  };
+
   onPressCommit = (weekNumberOffset, weekDayOffset) => {
     const {t} = this.props;
     const commitData = this.getCommitData(weekNumberOffset, weekDayOffset);
@@ -101,25 +90,13 @@ class AnalyzeObjectiveScreen extends React.Component {
   };
 
   render() {
-    const {yearList, selectedYear} = this.state;
+    const {t} = this.props;
     return (
       <MCRootView justify="flex-start">
-        <MCView width={300} mt={20}>
-          <MCPicker
-            items={yearList.map(year => ({
-              label: year,
-              value: year,
-            }))}
-            height={30}
-            placeholder="Select Year"
-            onChange={itemValue => {
-              if (itemValue) this.onChangeYear(itemValue);
-              else this.setState({selectedYear: 0});
-            }}
-            value={selectedYear}
-          />
-        </MCView>
-        <MCView mt={20} row align="center">
+        <H3 align="center" mt={10}>
+          {t('commits_last_week', {commits: this.getLastWeekCommitCount()})}
+        </H3>
+        <MCView mt={10} row align="center">
           <MCView mr={5} width={10} height={10} br={5} background={colors[0]} />
           <MCView mr={5} width={10} height={10} br={5} background={colors[1]} />
           <MCView mr={5} width={10} height={10} br={5} background={colors[2]} />
@@ -145,11 +122,7 @@ class AnalyzeObjectiveScreen extends React.Component {
           {Array.apply(null, Array(52)).map((i, index) => {
             return (
               <MCView width={350} row wrap align="center" justify="center">
-                <MCView style={{flex: 1}}>
-                  <H3 ml={10}>
-                    {moment(this.getCommitData(index, 6).date).format('YYYY')}
-                  </H3>
-                </MCView>
+                <MCView style={{flex: 1}} />
                 <MCButton
                   ml={5}
                   mr={5}

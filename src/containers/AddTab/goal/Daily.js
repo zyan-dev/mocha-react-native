@@ -3,7 +3,7 @@ import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import CheckBox from 'react-native-check-box';
-import {reflectionActions, userActions} from 'Redux/actions';
+import {reflectionActions, userActions, otherActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
 import {MCRootView, MCView, MCCard} from 'components/styled/View';
 import {MCImage} from 'components/common';
@@ -11,6 +11,7 @@ import {H3, H4, MCEmptyText, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
+import {getCommitKey} from '../../../services/operators';
 
 class DailyObjectiveScreen extends React.Component {
   constructor(props) {
@@ -24,13 +25,33 @@ class DailyObjectiveScreen extends React.Component {
     NavigationService.navigate('EditObjective');
   };
 
-  onPressRemove = item => {
-    this.props.removeReflection(item);
+  onToggleCheck = (objective, measure) => {
+    this.props.selectReflection(objective);
+    const updated = objective.data.measures.map(i => {
+      if (i.title === measure.title) {
+        return {
+          title: measure.title,
+          completed: measure.completed ? undefined : new Date().getTime(),
+        };
+      } else {
+        return i;
+      }
+    });
+    this.props.updateSelectedReflection({measures: updated});
+    this.props.addOrUpdateReflection(false);
+    this.props.updateAnalyzeStatus({
+      data: [
+        {
+          date: getCommitKey(measure.completed || new Date().getTime()),
+          amount: measure.completed ? -1 : 1,
+        },
+      ],
+    });
   };
 
   _renderItem = ({item}) => {
     const {t, theme} = this.props;
-    const {title, measures, isDaily, deadline, collaborators} = item.data;
+    const {title, measures, collaborators} = item.data;
     return (
       <MCView width={350} bordered br={10} align="center">
         <MCCard shadow br={1} row align="center">
@@ -41,7 +62,7 @@ class DailyObjectiveScreen extends React.Component {
         {measures.map(measure => (
           <CheckBox
             style={{width: dySize(330), marginTop: 10}}
-            onClick={() => {}}
+            onClick={() => this.onToggleCheck(item, measure)}
             isChecked={measure.completed}
             leftText={measure.title}
             leftTextStyle={{
@@ -73,9 +94,6 @@ class DailyObjectiveScreen extends React.Component {
             <MCButton onPress={() => this.onPressEdit(item)}>
               <MCIcon name="ios-create" />
             </MCButton>
-            <MCButton onPress={() => this.onPressRemove(item)}>
-              <MCIcon name="ios-trash" />
-            </MCButton>
           </MCView>
         </MCView>
       </MCView>
@@ -105,9 +123,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
-  removeReflection: reflectionActions.removeReflection,
   selectReflection: reflectionActions.selectReflection,
+  updateSelectedReflection: reflectionActions.updateSelectedReflection,
+  addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
   setSeletedUsers: userActions.setSeletedUsers,
+  updateAnalyzeStatus: otherActions.updateAnalyzeStatus,
 };
 
 export default withTranslation()(
