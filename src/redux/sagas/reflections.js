@@ -6,6 +6,8 @@ import API from 'services/api';
 import {showAlert} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {getWeekStartDateStamp} from 'services/operators';
+import {getTodayStartDateStamp} from '../../services/operators';
+import i18next from 'i18next';
 
 export function* getMyReflections(action) {
   try {
@@ -276,5 +278,79 @@ export function* updateTapToCounts(action) {
     yield put({type: types.GET_MY_REFLECTIONS});
   } catch (e) {
     showAlert(e.toString());
+  }
+}
+
+export function* resetMyObjectives(action) {
+  try {
+    const state = yield select();
+    const todayStartTS = getTodayStartDateStamp();
+    if (todayStartTS === state.reflectionReducer.objectiveResetTime) return;
+    yield put({type: types.API_CALLING});
+    const dailyObjectives = selector.reflections.getMyDailyObjectives(state);
+    let updateParam = [];
+    dailyObjectives.map(objective => {
+      if (new Date(objective.updated).getTime() < todayStartTS) {
+        updateParam.push({
+          _id: objective._id,
+          data: {
+            ...objective.data,
+            measures: objective.data.measures.map(measure => ({
+              title: measure.title,
+            })),
+          },
+        });
+      }
+    });
+    let removeParam = [];
+    const weeklyObjectives = selector.reflections.getMyWeeklyObjectives(state);
+    weeklyObjectives.map(objective => {
+      if (objective.data.deadline < todayStartTS) {
+        if (objective.updated < todayStartTS) {
+          removeParam.push(objective._id);
+        }
+      }
+    });
+    let response;
+    if (updateParam.length > 0) {
+      console.log('Reseting objectives: ', updateParam);
+      response = yield call(API.updateReflections, {
+        data: updateParam,
+      });
+      if (response.data.status !== 'success') {
+        yield put({
+          type: types.API_FINISHED,
+          payload: response.data.data.message,
+        });
+        return;
+      }
+    }
+    if (removeParam.length > 0) {
+      console.log('Reseting objectives: ', removeParam);
+      response = yield call(API.removeReflection, {
+        data: removeParam,
+      });
+      if (response.data.status !== 'success') {
+        yield put({
+          type: types.API_FINISHED,
+          payload: response.data.data.message,
+        });
+        return;
+      }
+    }
+    yield put({
+      type: types.SET_OBJECTIVE_RESET_TIME,
+      payload: getTodayStartDateStamp(),
+    });
+    yield put({type: types.GET_MY_REFLECTIONS});
+    yield put({
+      type: types.API_FINISHED,
+      payload: i18next.t('objective_reset_success'),
+    });
+  } catch (e) {
+    yield put({
+      type: types.API_FINISHED,
+      payload: e.toString(),
+    });
   }
 }

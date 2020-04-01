@@ -17,9 +17,11 @@ class MCEditableText extends React.Component {
     maxLength: PropTypes.number,
     textAlign: PropTypes.string,
     keyboardType: PropTypes.string,
+    blurOnSubmit: PropTypes.bool,
     fontSize: PropTypes.number,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
+    onSubmit: PropTypes.func,
     style: PropTypes.object,
   };
   static defaultProps = {
@@ -30,8 +32,10 @@ class MCEditableText extends React.Component {
     placeholder: '',
     maxLength: 40,
     string: 'left',
+    blurOnSubmit: true,
     onBlur: () => undefined,
     onFocus: () => undefined,
+    onSubmit: () => undefined,
     style: {},
     textAlign: 'left',
     fontSize: undefined,
@@ -55,8 +59,10 @@ class MCEditableText extends React.Component {
       textAlign,
       fontSize,
       keyboardType,
+      blurOnSubmit,
       onBlur,
       onFocus,
+      onSubmit,
       style,
       theme,
     } = this.props;
@@ -71,6 +77,8 @@ class MCEditableText extends React.Component {
         maxLength={maxLength}
         onBlur={onBlur}
         onFocus={onFocus}
+        onSubmitEditing={onSubmit}
+        blurOnSubmit={blurOnSubmit}
         keyboardType={keyboardType}
         style={{
           width: '100%',

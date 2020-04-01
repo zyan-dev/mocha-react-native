@@ -10,6 +10,7 @@ import MCVulnerabilityPicker from './MCVulnerabilityPicker';
 import MCReadMoreText from './MCReadMoreText';
 import MCTimeSlider from './MCTimeSlider';
 import MCPicker from './MCPicker';
+import MCDateTimePicker from './MCDateTimePicker';
 
 export {
   MCEditableText,
@@ -24,4 +25,5 @@ export {
   MCReadMoreText,
   MCTimeSlider,
   MCPicker,
+  MCDateTimePicker,
 };

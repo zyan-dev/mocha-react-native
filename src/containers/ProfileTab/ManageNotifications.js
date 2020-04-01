@@ -3,10 +3,9 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import moment from 'moment';
 import ToggleSwitch from 'toggle-switch-react-native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import * as _ from 'lodash';
 import {notificationActions} from 'Redux/actions';
-import {MCHeader} from 'components/common';
+import {MCHeader, MCDateTimePicker} from 'components/common';
 import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
@@ -127,7 +126,7 @@ class ManageNotifications extends React.Component {
           </MCView>
         </MCContent>
         {dateKey && (
-          <DateTimePickerModal
+          <MCDateTimePicker
             isVisible={showTimePicker}
             mode="time"
             minimumDate={new Date('2000-01-01T00:00:00.000Z')}

@@ -53,7 +53,7 @@ class DailyObjectiveScreen extends React.Component {
     const {t, theme} = this.props;
     const {title, measures, collaborators} = item.data;
     return (
-      <MCView width={350} bordered br={10} align="center">
+      <MCView width={350} bordered br={10} align="center" mb={10}>
         <MCCard shadow br={1} row align="center">
           <H4 style={{flex: 1}} align="center">
             {title}
@@ -131,8 +131,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(DailyObjectiveScreen),
+  connect(mapStateToProps, mapDispatchToProps)(DailyObjectiveScreen),
 );

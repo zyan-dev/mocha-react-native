@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as types from '../actions/types';
 import {DefaultReflections, SampleReflectionSections} from 'utils/constants';
 
@@ -6,6 +7,7 @@ const INITIAL_STATE = {
   userReflections: [],
   selectedReflection: {},
   reflectionSections: SampleReflectionSections,
+  objectiveResetTime: 0,
 };
 
 const reflectionReducer = (state = INITIAL_STATE, action) => {
@@ -21,9 +23,10 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
         userReflections: action.payload,
       };
     case types.SET_INITIAL_REFLECTION:
+      const reflection = DefaultReflections[action.payload.toLowerCase()];
       return {
         ...state,
-        selectedReflection: DefaultReflections[action.payload.toLowerCase()],
+        selectedReflection: _.cloneDeep(reflection),
       };
     case types.SELECT_REFLECTION:
       return {
@@ -51,6 +54,11 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
           },
           updated: new Date().toISOString(),
         },
+      };
+    case types.SET_OBJECTIVE_RESET_TIME:
+      return {
+        ...state,
+        objectiveResetTime: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

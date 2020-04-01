@@ -1,13 +1,17 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import CheckBox from 'react-native-check-box';
 import {FlatList} from 'react-native-gesture-handler';
 import moment from 'moment';
 import * as _ from 'lodash';
 import {reflectionActions, userActions, otherActions} from 'Redux/actions';
-import {MCHeader, MCEditableText, MCImage} from 'components/common';
+import {
+  MCHeader,
+  MCEditableText,
+  MCImage,
+  MCDateTimePicker,
+} from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, MCIcon} from 'components/styled/Text';
@@ -83,7 +87,9 @@ class EditObjectiveScreen extends React.PureComponent {
 
   onChangeTime = time => {
     const {updateSelectedReflection} = this.props;
-    updateSelectedReflection({deadline: new Date(time).getTime()});
+    updateSelectedReflection({
+      deadline: new Date(time).getTime() + 86400 + 1000,
+    }); // set deadline to end of the day
     this.hideDatePicker();
   };
 
@@ -101,7 +107,7 @@ class EditObjectiveScreen extends React.PureComponent {
     this.props.updateSelectedReflection({measures: filtered});
   };
 
-  onAddMeasure = title => {
+  addNewMeasure = title => {
     const {
       selectedReflection: {
         data: {measures},
@@ -115,6 +121,7 @@ class EditObjectiveScreen extends React.PureComponent {
 
   onDelete = () => {
     this.props.removeReflection(this.props.selectedReflection);
+    NavigationService.goBack();
   };
 
   _renderMemberItem = ({item}) => {
@@ -158,7 +165,7 @@ class EditObjectiveScreen extends React.PureComponent {
       selectedUsers,
     } = this.props;
     const {
-      data: {title, isDaily, measures, deadline, collaborators},
+      data: {title, isDaily, measures, deadline},
     } = selectedReflection;
     console.log('measures', measures);
     return (
@@ -277,7 +284,7 @@ class EditObjectiveScreen extends React.PureComponent {
               <H4>{moment(new Date(deadline)).format('MMMM D YYYY')}</H4>
             </MCButton>
           )}
-          <DateTimePickerModal
+          <MCDateTimePicker
             isVisible={showTimePicker}
             mode="date"
             minimumDate={new Date()}
@@ -285,7 +292,6 @@ class EditObjectiveScreen extends React.PureComponent {
             date={new Date(deadline)}
             onConfirm={this.onChangeTime}
             onCancel={this.hideDatePicker}
-            headerTextIOS={t('objective_deadline_picker_title')}
           />
 
           <MCView row align="center" mt={20}>
@@ -313,10 +319,12 @@ class EditObjectiveScreen extends React.PureComponent {
               <MCEditableText
                 maxLength={60}
                 text={newMeasureTitle}
+                blurOnSubmit={false}
                 onChange={text => this.setState({newMeasureTitle: text})}
+                onSubmit={() => this.addNewMeasure(newMeasureTitle)}
               />
             </MCView>
-            <MCButton onPress={() => this.onAddMeasure(newMeasureTitle)}>
+            <MCButton onPress={() => this.addNewMeasure(newMeasureTitle)}>
               <MCIcon name="ios-add-circle-outline" padding={1} />
             </MCButton>
           </MCView>
@@ -373,8 +381,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(EditObjectiveScreen),
+  connect(mapStateToProps, mapDispatchToProps)(EditObjectiveScreen),
 );

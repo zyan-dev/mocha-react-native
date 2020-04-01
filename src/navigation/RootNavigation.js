@@ -24,6 +24,12 @@ class RootNavigator extends React.Component {
   }
 
   _onNavigationStateChange = newState => {
+    setTimeout(() => {
+      this.checkNetworkStatus();
+    }, 1000);
+  };
+
+  checkNetworkStatus = () => {
     const {isInternetReachable, setNetworkOfflineStatus, syncData} = this.props;
     NetInfo.fetch().then(state => {
       if (!isInternetReachable && state.isInternetReachable) {

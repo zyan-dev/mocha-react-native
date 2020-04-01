@@ -3,13 +3,14 @@ import {Dimensions, View} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
-import {reflectionActions, otherActions} from 'Redux/actions';
+import {reflectionActions, otherActions, userActions} from 'Redux/actions';
 import {H5} from 'components/styled/Text';
 import WeeklyObjectiveScreen from './Weekly';
 import AnalyzeObjectiveScreen from './Analyze';
 import DailyObjectiveScreen from './Daily';
 import {MCHeader} from 'components/common';
 import NavigationService from 'navigation/NavigationService';
+import {getTodayStartDateStamp} from 'services/operators';
 
 class GoalScreen extends React.Component {
   constructor(props) {
@@ -21,9 +22,16 @@ class GoalScreen extends React.Component {
 
   componentDidMount() {
     this.props.getMyCommits();
+    this.props.resetMyObjectives();
+    const resetTimeIn =
+      getTodayStartDateStamp() + 86400 * 1000 - new Date().getTime();
+    setTimeout(() => {
+      this.props.resetMyObjectives();
+    }, resetTimeIn);
   }
 
   onPressNew = () => {
+    this.props.setSeletedUsers([]);
     this.props.setInitialReflection('objective');
     NavigationService.navigate('EditObjective');
   };
@@ -92,12 +100,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   removeReflection: reflectionActions.removeReflection,
+  resetMyObjectives: reflectionActions.resetMyObjectives,
   getMyCommits: otherActions.getMyCommits,
+  setSeletedUsers: userActions.setSeletedUsers,
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(GoalScreen),
+  connect(mapStateToProps, mapDispatchToProps)(GoalScreen),
 );

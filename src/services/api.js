@@ -31,7 +31,7 @@ const apiCall = async (type, url, param, withToken = false, options = {}) => {
     ...options,
   };
   const token = await AsyncStorage.getItem('userToken');
-  console.log(`API calling: [${type}]`, url, token);
+  // console.log(`API calling: [${type}]`, url, token);
   if (withToken) {
     opt = {
       ...opt,
@@ -46,11 +46,6 @@ const apiCall = async (type, url, param, withToken = false, options = {}) => {
   } else {
     return axios[type](`${BACKEND_BASE_URL}${url}`, param, opt);
   }
-};
-
-const getNetworkInfo = async () => {
-  const networkState = await NetInfo.fetch();
-  return networkState;
 };
 
 const sendSMS = phone => apiCall('post', URL_SEND_SMS, {phone});
@@ -116,7 +111,6 @@ const fileUploadToS3 = async ({image, name, type}) => {
 };
 
 export default {
-  getNetworkInfo,
   sendSMS,
   verifySMS,
   updateProfile,

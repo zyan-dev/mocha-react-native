@@ -65,9 +65,9 @@ const routerReducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
       };
     case types.SET_NETWORK_OFFLINE_STATUS:
-      if (action.payload && state.isInternetReachable !== action.payload) {
+      if (action.payload && !state.isInternetReachable) {
         showAlert(i18next.t('network_online_message'));
-      } else if (state.isInternetReachable !== action.payload) {
+      } else if (state.isInternetReachable && !action.payload) {
         showAlert(i18next.t('network_offline_message'));
       }
       return {

@@ -48,3 +48,7 @@ export const updateTapToCounts = tapToCounts => ({
   type: types.UPDATE_TAP_TO_COUNTS,
   payload: tapToCounts,
 });
+
+export const resetMyObjectives = () => ({
+  type: types.RESET_MY_OBJECTIVES,
+});
