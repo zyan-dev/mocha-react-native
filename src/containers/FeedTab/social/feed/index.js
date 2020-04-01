@@ -5,7 +5,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import {routerActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {H3, H4} from 'components/styled/Text';
+import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCHeader, MCSearchInput, MCImage} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
@@ -90,7 +90,7 @@ class FeedScreen extends React.Component {
             width={350}
             text={searchText}
             onChange={text => this.setState({searchText: text})}
-            onBlur={() => this.setState({searchText: ''})}
+            // onBlur={() => this.setState({searchText: ''})}
           />
           {searchText.length > 0 && (
             <FlatList
@@ -111,6 +111,7 @@ class FeedScreen extends React.Component {
               }}
               data={this.getFilteredUsers()}
               renderItem={this._renderUserItem}
+              ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
               keyExtractor={item => item._id}
             />
           )}
