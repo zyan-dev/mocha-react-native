@@ -1,6 +1,7 @@
 import React from 'react';
 import {YellowBox} from 'react-native';
 import {Provider} from 'react-redux';
+import codePush from 'react-native-code-push';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from 'Redux/store';
@@ -28,4 +29,4 @@ class MochaApp extends React.Component {
   }
 }
 
-export default MochaApp;
+export default codePush(MochaApp);
