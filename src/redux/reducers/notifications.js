@@ -18,6 +18,9 @@ const INITIAL_STATE = {
   addTrustMember: {
     enabled: true,
   },
+  objective: {
+    enabled: true,
+  },
 };
 
 const notificationReducer = (state = INITIAL_STATE, action) => {

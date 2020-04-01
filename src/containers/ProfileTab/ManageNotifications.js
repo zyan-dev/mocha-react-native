@@ -17,6 +17,7 @@ const NotificationKeys = [
   'feedbackReceived',
   'feedbackRequested',
   'addTrustMember',
+  'objective',
 ];
 
 class ManageNotifications extends React.Component {

@@ -117,6 +117,11 @@ class EditObjectiveScreen extends React.PureComponent {
     measures.push({title, completed: undefined});
     this.props.updateSelectedReflection({measures});
     this.setState({newMeasureTitle: ''});
+
+    // scroll up content after adding new measure to avoid hiding keyboard
+    const position = this.scrollView._root.position;
+    this.scrollView &&
+      this.scrollView._root.scrollToPosition(0, position.y + dySize(65), true);
   };
 
   onDelete = () => {
@@ -181,6 +186,7 @@ class EditObjectiveScreen extends React.PureComponent {
           onPressRight={() => this.onPressRight()}
         />
         <MCContent
+          ref={ref => (this.scrollView = ref)}
           contentContainerStyle={{padding: dySize(10), paddingBottom: 200}}>
           <H3 width={350} align="left" underline>
             {t('objective_preview')}
