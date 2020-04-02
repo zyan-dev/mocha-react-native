@@ -26,8 +26,8 @@ import {NightSliderValues, DaySliderValues} from 'utils/constants';
 class ChronotypeScreen extends React.PureComponent {
   componentWillMount() {
     const {myChronotype} = this.props;
-    if (myChronotype.length) {
-      this.props.selectReflection(myChronotype[0]);
+    if (myChronotype) {
+      this.props.selectReflection(myChronotype);
     } else {
       this.props.setInitialReflection('chronotype');
     }
@@ -86,7 +86,7 @@ class ChronotypeScreen extends React.PureComponent {
                     width={70}
                     height={70}
                   />
-                  <H5>{t('chronotype_morning_lark')}</H5>
+                  <H5>{t('chronotype_type_morning')}</H5>
                 </MCView>
               </NativeCard>
             </MCButton>
@@ -99,7 +99,7 @@ class ChronotypeScreen extends React.PureComponent {
                     width={70}
                     height={70}
                   />
-                  <H5>{t('chronotype_flexible')}</H5>
+                  <H5>{t('chronotype_type_flexible')}</H5>
                 </MCView>
               </NativeCard>
             </MCButton>
@@ -112,7 +112,7 @@ class ChronotypeScreen extends React.PureComponent {
                     width={70}
                     height={70}
                   />
-                  <H5>{t('chronotype_night_owl')}</H5>
+                  <H5>{t('chronotype_type_night')}</H5>
                 </MCView>
               </NativeCard>
             </MCButton>

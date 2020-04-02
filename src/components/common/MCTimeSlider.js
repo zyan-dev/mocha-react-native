@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import styled from 'styled-components';
-import {MCCard, MCView} from '../styled/View';
-import {H4, MCIcon} from '../styled/Text';
-import {MCButton} from '../styled/Button';
+import {MCView} from '../styled/View';
+import {H4} from '../styled/Text';
 import {dySize} from 'utils/responsive';
 import {withTranslation} from 'react-i18next';
 
@@ -29,18 +28,27 @@ const MarkerContainer = styled.View`
   position: relative;
 `;
 
+const Scale = styled.View`
+  width: 2px;
+  height: 10px;
+  background-color: ${props => props.theme.colors.text};
+`;
+
 class MCTimeSlider extends React.PureComponent {
   static propTypes = {
     width: PropTypes.number,
     values: PropTypes.array.isRequired,
     range: PropTypes.object.isRequired, // {start: 0, end: 10}
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
+    enabled: PropTypes.bool,
   };
 
   static defaultProps = {
     width: 320,
     animationIn: 'slideInLeft',
     animationOut: 'slideOutRight',
+    onChange: () => undefined,
+    enabled: true,
   };
 
   multiSliderValuesChange = values => {
@@ -55,6 +63,7 @@ class MCTimeSlider extends React.PureComponent {
       width,
       range: {start, end},
       values,
+      enabled,
     } = this.props;
     const offset = end - start;
     return (
@@ -66,11 +75,13 @@ class MCTimeSlider extends React.PureComponent {
         justify="center">
         <MCView height={24} width={width} row justify="space-between">
           {values.map(value => (
-            <MCView width={2} height={10} style={{backgroundColor: 'white'}} />
+            <Scale />
           ))}
         </MCView>
         <MultiSlider
           isMarkersSeparated={true}
+          enabledOne={enabled}
+          enabledTwo={enabled}
           customMarkerLeft={e => {
             return (
               <MarkerContainer>

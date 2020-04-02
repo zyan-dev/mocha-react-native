@@ -25,7 +25,7 @@ const getMyFeedbacks = state =>
     ({type}) => capitalizeString(type) === 'Feedback',
   );
 const getMyChronotype = state =>
-  state.reflectionReducer.myReflections.filter(
+  state.reflectionReducer.myReflections.find(
     ({type}) => capitalizeString(type) === 'Chronotype',
   );
 const getMyMotivations = state =>
