@@ -103,8 +103,5 @@ const mapStateToProps = state => ({
 });
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    undefined,
-  )(MCEditableText),
+  connect(mapStateToProps, undefined)(MCEditableText),
 );

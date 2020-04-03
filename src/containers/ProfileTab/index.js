@@ -16,6 +16,7 @@ import ChronotypeScreen from './profile/details/chronotype';
 import MotivationListScreen from './profile/details/motivations';
 import CreateMotivationScreen from './profile/details/motivations/create';
 import ValueListScreen from './profile/details/values';
+import PersonalityScreen from './profile/details/personality';
 
 const Stack = createStackNavigator();
 
@@ -52,6 +53,7 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen name="Feedbacks" component={FeedbackScreen} />
           <Stack.Screen name="Chronotype" component={ChronotypeScreen} />
           <Stack.Screen name="Motivations" component={MotivationListScreen} />
+          <Stack.Screen name="Personality" component={PersonalityScreen} />
           <Stack.Screen name="Values" component={ValueListScreen} />
           <Stack.Screen
             name="AddMotivation"

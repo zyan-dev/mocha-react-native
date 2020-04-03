@@ -120,6 +120,7 @@ class ProfileScreen extends React.Component {
       feedbacks,
       motivations,
       chronotype,
+      personality,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -172,10 +173,11 @@ class ProfileScreen extends React.Component {
             />
             <ChronotypeAndPersonality
               chronotype={chronotype}
-              onPressAllChronotypes={() =>
-                NavigationService.navigate('Chronotype')
+              personality={personality}
+              onPressChronotype={() => NavigationService.navigate('Chronotype')}
+              onPressPersonality={() =>
+                NavigationService.navigate('Personality')
               }
-              onPressAllPersonalities={() => this.onPressAllPersonalities()}
             />
             <SkillAndFeedback
               feedbacks={feedbacks}
@@ -215,6 +217,7 @@ const mapStateToProps = state => ({
   motivations: selector.reflections.getMyMotivations(state),
   feedbacks: selector.feedbacks.getMyFeedbacks(state).received,
   chronotype: selector.reflections.getMyChronotype(state),
+  personality: selector.reflections.getMyPersonality(state),
 });
 
 const mapDispatchToProps = {

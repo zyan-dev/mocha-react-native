@@ -28,6 +28,10 @@ const getMyChronotype = state =>
   state.reflectionReducer.myReflections.find(
     ({type}) => capitalizeString(type) === 'Chronotype',
   );
+const getMyPersonality = state =>
+  state.reflectionReducer.myReflections.find(
+    ({type}) => capitalizeString(type) === 'Personality',
+  );
 const getMyMotivations = state =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Motivation',
@@ -88,6 +92,7 @@ export {
   getMyWeeklyObjectives,
   getMyFeedbacks,
   getMyChronotype,
+  getMyPersonality,
   getMyMotivations,
   getMyEmotions,
   getMyNeeds,

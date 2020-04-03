@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
 import Collapsible from 'react-native-collapsible';
 import {MCView, NativeCard} from 'components/styled/View';
-import {H2, H3, H4, MCText, MCIcon} from 'components/styled/Text';
+import {H2, H3, H4, H5, MCText, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCImage, MCTimeSlider} from 'components/common';
+import {MCImage, MCTimeSlider, MCSpeedoMeter} from 'components/common';
 import CardItem from './CardItem';
 import {
   MorningLarkIcon,
@@ -25,16 +25,16 @@ const chronotypeIcons = {
 class ChronotypeAndPersonality extends React.Component {
   static propTypes = {
     chronotype: PropTypes.Object,
-    personalities: PropTypes.arrayOf(Object),
-    onPressAllChronotypes: PropTypes.func,
-    onPressAllPersonalities: PropTypes.func,
+    personality: PropTypes.arrayOf(Object),
+    onPressChronotype: PropTypes.func,
+    onPressPersonality: PropTypes.func,
   };
 
   static defaultProps = {
     chronotypes: null,
-    personalities: [],
-    onPressAllChronotypes: () => undefined,
-    onPressAllPersonalities: () => undefined,
+    personality: [],
+    onPressChronotype: () => undefined,
+    onPressPersonality: () => undefined,
   };
 
   constructor(props) {
@@ -63,9 +63,9 @@ class ChronotypeAndPersonality extends React.Component {
     const {
       t,
       chronotype,
-      personalities,
-      onPressAllChronotypes,
-      onPressAllPersonalities,
+      personality,
+      onPressChronotype,
+      onPressPersonality,
     } = this.props;
     const {
       night_sleep_offset_start,
@@ -97,7 +97,7 @@ class ChronotypeAndPersonality extends React.Component {
             width={320}
             row
             justify="space-between"
-            onPress={() => onPressAllChronotypes()}>
+            onPress={() => onPressChronotype()}>
             <H3>My Chronotype</H3>
             <MCIcon name="ios-arrow-forward" />
           </MCButton>
@@ -173,30 +173,91 @@ class ChronotypeAndPersonality extends React.Component {
               align="center"
               mt={10}
               width={320}
-              onPress={() => onPressAllChronotypes()}>
+              onPress={() => onPressChronotype()}>
               <H3>You have not set up your chronotype</H3>
             </MCButton>
           )}
         </Collapsible>
         <Collapsible collapsed={personalityCollapsed}>
-          {personalities.length > 0 && (
-            <MCButton
-              width={320}
-              row
-              justify="space-between"
-              onPress={() => onPressAllPersonalities()}>
-              <H3>All Personalities</H3>
-              <MCIcon name="ios-arrow-forward" />
-            </MCButton>
-          )}
-          {personalities.length === 0 && (
+          <MCButton
+            width={320}
+            row
+            justify="space-between"
+            onPress={() => onPressPersonality()}>
+            <H3>My Personalities</H3>
+            <MCIcon name="ios-arrow-forward" />
+          </MCButton>
+          {personality ? (
+            <MCView width={320}>
+              <MCView row width={320} justify="space-between">
+                <MCView ph={20} align="center" visible="visible">
+                  <MCSpeedoMeter
+                    width={120}
+                    value={personality.data.honest_humility}
+                  />
+                  <H5 align="center" width={120}>
+                    {t('personality_honest_humility')}
+                  </H5>
+                </MCView>
+                <MCView ph={20} align="center" visible="visible">
+                  <MCSpeedoMeter
+                    width={120}
+                    value={personality.data.emotionality}
+                  />
+                  <H5 align="center" width={120}>
+                    {t('personality_emotionality')}
+                  </H5>
+                </MCView>
+              </MCView>
+              <MCView row width={320} justify="space-between">
+                <MCView ph={20} align="center" visible="visible">
+                  <MCSpeedoMeter
+                    width={120}
+                    value={personality.data.extraversion}
+                  />
+                  <H5 align="center" width={120}>
+                    {t('personality_extraversion')}
+                  </H5>
+                </MCView>
+                <MCView ph={20} align="center" visible="visible">
+                  <MCSpeedoMeter
+                    width={120}
+                    value={personality.data.agreeableness}
+                  />
+                  <H5 align="center" width={120}>
+                    {t('personality_agreeableness')}
+                  </H5>
+                </MCView>
+              </MCView>
+              <MCView row width={320} justify="space-between">
+                <MCView ph={20} align="center" visible="visible">
+                  <MCSpeedoMeter
+                    width={120}
+                    value={personality.data.conscientiousness}
+                  />
+                  <H5 align="center" width={120}>
+                    {t('personality_conscientiousness')}
+                  </H5>
+                </MCView>
+                <MCView ph={20} align="center" visible="visible">
+                  <MCSpeedoMeter
+                    width={120}
+                    value={personality.data.openness_to_experience}
+                  />
+                  <H5 align="center" width={120}>
+                    {t('personality_openness_to_experience')}
+                  </H5>
+                </MCView>
+              </MCView>
+            </MCView>
+          ) : (
             <MCButton
               bordered
               align="center"
               mt={10}
               width={320}
-              onPress={() => onPressAllPersonalities()}>
-              <H3>Coming soon!</H3>
+              onPress={() => onPressPersonality()}>
+              <H3>You have not added your personalities yet.</H3>
             </MCButton>
           )}
         </Collapsible>

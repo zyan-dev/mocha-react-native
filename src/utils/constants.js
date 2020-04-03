@@ -1179,6 +1179,17 @@ export const DefaultReflections = {
       reason: '',
     },
   },
+  personality: {
+    type: 'personality',
+    data: {
+      honest_humility: 0,
+      emotionality: 0,
+      extraversion: 0,
+      agreeableness: 0,
+      conscientiousness: 0,
+      openness_to_experience: 0,
+    },
+  },
 };
 
 export const EMOTIONS = [

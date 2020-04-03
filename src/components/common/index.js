@@ -11,6 +11,7 @@ import MCReadMoreText from './MCReadMoreText';
 import MCTimeSlider from './MCTimeSlider';
 import MCPicker from './MCPicker';
 import MCDateTimePicker from './MCDateTimePicker';
+import MCSpeedoMeter from './MCSpeedoMeter';
 
 export {
   MCEditableText,
@@ -26,4 +27,5 @@ export {
   MCTimeSlider,
   MCPicker,
   MCDateTimePicker,
+  MCSpeedoMeter,
 };

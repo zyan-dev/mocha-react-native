@@ -19,3 +19,4 @@ export const FlexibleIcon = require('./images/profile/chronotype_flexible.png');
 export const NightOwlIcon = require('./images/profile/chronotype_night_owl.png');
 export const DaytimeIcon = require('./images/profile/icon_daytime.png');
 export const NightimeIcon = require('./images/profile/icon_nightime.png');
+export const SpeedoMeterImage = require('./images/profile/speedometer.png');

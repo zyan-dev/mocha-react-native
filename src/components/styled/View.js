@@ -20,7 +20,6 @@ export const MCView = styled.View`
   align-items: ${props => props.align || 'flex-start'};
   padding-horizontal: ${props => dySize(props.ph || 0)}px;
   padding-vertical: ${props => dySize(props.pv || 0)}px;
-  padding: ${props => dySize(props.p || 0)}px;
   margin-horizontal: ${props => dySize(props.mh || 0)}px;
   margin-vertical: ${props => dySize(props.mv || 0)}px;
   margin-bottom: ${props => dySize(props.mb || 0)}px;
