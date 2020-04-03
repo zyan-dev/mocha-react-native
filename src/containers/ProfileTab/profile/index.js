@@ -11,7 +11,7 @@ import BasicProfile from './cards/BasicProfile';
 import ContactCard from './cards/ContactCard';
 import ValueAndPurpose from './cards/ValueAndPurpose';
 import MotivationCard from './cards/Motivation';
-import BeliefAndGoal from './cards/BeliefAndGoal';
+import BeliefAndObjective from './cards/BeliefAndObjective';
 import ChronotypeAndPersonality from './cards/ChronotypeAndPersonality';
 import SkillAndFeedback from './cards/SkillAndFeedback';
 import QuirkAndTrigger from './cards/QuirkAndTrigger';
@@ -42,7 +42,7 @@ class ProfileScreen extends React.Component {
 
   onPressAllPurposes = () => {};
 
-  onPressAllGoals = () => {
+  onPressAllObjectives = () => {
     if (!this.props.profile.userToken) {
       showAlert('You need to sign up');
     } else {
@@ -121,6 +121,8 @@ class ProfileScreen extends React.Component {
       motivations,
       chronotype,
       personality,
+      dailyObjectives,
+      weeklyObjectives,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -165,11 +167,12 @@ class ProfileScreen extends React.Component {
                 NavigationService.navigate('Motivations')
               }
             />
-            <BeliefAndGoal
+            <BeliefAndObjective
               manuals={manuals}
-              goals={goals}
+              dailyObjectives={dailyObjectives}
+              weeklyObjectives={weeklyObjectives}
               onPressAllBeliefs={() => this.onPressAllUserManuals()}
-              onPressAllGoals={() => this.onPressAllGoals()}
+              onPressAllObjectives={() => this.onPressAllObjectives()}
             />
             <ChronotypeAndPersonality
               chronotype={chronotype}
@@ -218,6 +221,8 @@ const mapStateToProps = state => ({
   feedbacks: selector.feedbacks.getMyFeedbacks(state).received,
   chronotype: selector.reflections.getMyChronotype(state),
   personality: selector.reflections.getMyPersonality(state),
+  dailyObjectives: selector.reflections.getMyDailyObjectives(state),
+  weeklyObjectives: selector.reflections.getMyWeeklyObjectives(state),
 });
 
 const mapDispatchToProps = {

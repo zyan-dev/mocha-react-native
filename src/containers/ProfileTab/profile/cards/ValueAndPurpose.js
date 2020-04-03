@@ -8,6 +8,7 @@ import {MCButton} from 'components/styled/Button';
 import {MCImage, MCModal} from 'components/common';
 import {profileCardWidth, profileCardNumPerRow} from 'services/operators';
 import CardItem from './CardItem';
+import {getTitleByKey} from '../../../../services/operators';
 
 class ValueAndPurpose extends React.Component {
   static propTypes = {
@@ -59,7 +60,7 @@ class ValueAndPurpose extends React.Component {
       mr={5}
       align="center">
       <MCButton align="center" onPress={() => this.onPressValue(item)}>
-        <H4 numberOfLines={1}>{item.data.value}</H4>
+        <H4 numberOfLines={1}>{getTitleByKey('value', item.data.value)}</H4>
         <MCImage
           width={profileCardWidth - 10}
           height={profileCardWidth - 10}
@@ -160,7 +161,7 @@ class ValueAndPurpose extends React.Component {
                 br={6}
               />
               <H3 weight="bold" align="center">
-                {selectedValue.data.value}
+                {getTitleByKey('value', selectedValue.data.value)}
               </H3>
               <H4>{selectedValue.data.phrase}</H4>
             </MCView>

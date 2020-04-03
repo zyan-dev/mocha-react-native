@@ -13,19 +13,22 @@ import {
   getTitleByKey,
 } from 'services/operators';
 import CardItem from './CardItem';
+import {dySize} from 'utils/responsive';
 
-class BeliefAndGoal extends React.Component {
+class BeliefAndObjective extends React.Component {
   static propTypes = {
     onPressAllBeliefs: PropTypes.func,
-    onPressAllGoals: PropTypes.func,
-    goals: PropTypes.arrayOf(Object),
+    onPressAllObjectives: PropTypes.func,
+    dailyObjectives: PropTypes.arrayOf(Object),
+    weeklyObjectives: PropTypes.arrayOf(Object),
     manuals: PropTypes.arrayOf(Object),
   };
 
   static defaultProps = {
     onPressAllBeliefs: () => undefined,
-    onPressAllGoals: () => undefined,
-    goals: [],
+    onPressAllObjectives: () => undefined,
+    dailyObjectives: [],
+    weeklyObjectives: [],
     manuals: [],
   };
 
@@ -33,23 +36,23 @@ class BeliefAndGoal extends React.Component {
     super(props);
     this.state = {
       beliefCollapsed: true,
-      goalCollapsed: true,
+      objectiveCollapsed: true,
       selectedBelief: null,
-      selectedGoal: null,
+      selectedObjective: null,
       showBeliefModal: false,
-      showGoalModal: false,
+      showObjectiveModal: false,
     };
   }
 
   onToggleBeliefCollapse = collapsed => {
     this.setState({beliefCollapsed: collapsed});
     if (!collapsed) {
-      this.setState({goalCollapsed: true});
+      this.setState({objectiveCollapsed: true});
     }
   };
 
-  onToggleGoalCollapse = collapsed => {
-    this.setState({goalCollapsed: collapsed});
+  onToggleObjectiveCollapse = collapsed => {
+    this.setState({objectiveCollapsed: collapsed});
     if (!collapsed) {
       this.setState({beliefCollapsed: true});
     }
@@ -59,8 +62,8 @@ class BeliefAndGoal extends React.Component {
     this.setState({selectedBelief: value, showBeliefModal: true});
   };
 
-  onPressGoal = value => {
-    this.setState({selectedGoal: value, showGoalModal: true});
+  onPressObjective = value => {
+    this.setState({selectedObjective: value, showObjectiveModal: true});
   };
 
   _renderBeliefItem = item => (
@@ -82,31 +85,47 @@ class BeliefAndGoal extends React.Component {
     </MCCard>
   );
 
-  _renderGoalItem = item => (
-    <MCCard width={profileCardWidth} ml={5} mr={5} align="center">
+  _renderObjectiveItem = objective => (
+    <MCCard width={300} mb={10} ml={20} align="center">
       <MCButton
-        key={item._id}
+        key={objective._id}
         align="center"
-        onPress={() => this.onPressGoal(item)}>
-        <H4 numberOfLines={1}>{item.data.title}</H4>
-        <MCImage
-          width={profileCardWidth - 10}
-          height={profileCardWidth - 10}
-          image={{uri: item.data.image}}
-        />
+        row
+        onPress={() => this.onPressObjective(objective)}>
+        <H4 style={{flex: 1}} numberOfLines={1}>
+          {objective.data.title}
+        </H4>
+        <MCView row align="center" ml={30} overflow="visible">
+          {objective.data.collaborators.map(user => (
+            <MCImage
+              image={{uri: user.avatar}}
+              round
+              width={30}
+              height={30}
+              style={{marginLeft: dySize(-20)}}
+            />
+          ))}
+        </MCView>
       </MCButton>
     </MCCard>
   );
 
   render() {
-    const {t, goals, manuals, onPressAllBeliefs, onPressAllGoals} = this.props;
+    const {
+      t,
+      manuals,
+      onPressAllBeliefs,
+      onPressAllObjectives,
+      dailyObjectives,
+      weeklyObjectives,
+    } = this.props;
     const {
       selectedBelief,
-      selectedGoal,
+      selectedObjective,
       beliefCollapsed,
-      goalCollapsed,
+      objectiveCollapsed,
       showBeliefModal,
-      showGoalModal,
+      showObjectiveModal,
     } = this.state;
     return (
       <MCView align="center" mt={20}>
@@ -118,8 +137,8 @@ class BeliefAndGoal extends React.Component {
           />
           <CardItem
             icon="ios-compass"
-            text={t('profile_card_goal')}
-            onPress={() => this.onToggleGoalCollapse(!goalCollapsed)}
+            text={t('profile_card_objective')}
+            onPress={() => this.onToggleObjectiveCollapse(!objectiveCollapsed)}
           />
         </MCView>
         <Collapsible collapsed={beliefCollapsed}>
@@ -152,33 +171,37 @@ class BeliefAndGoal extends React.Component {
             </MCView>
           </MCView>
         </Collapsible>
-        <Collapsible collapsed={goalCollapsed}>
+        <Collapsible collapsed={objectiveCollapsed}>
           <MCView align="center">
-            {goals.length > 0 && (
+            <MCButton
+              width={320}
+              row
+              justify="space-between"
+              onPress={() => onPressAllObjectives()}>
+              <H3>{t('profile_card_objective')}</H3>
+              <MCIcon name="ios-arrow-forward" />
+            </MCButton>
+            {dailyObjectives.length + weeklyObjectives.length === 0 && (
               <MCButton
-                width={320}
-                row
-                justify="space-between"
-                onPress={() => onPressAllGoals()}>
-                <H3>All Goals</H3>
-                <MCIcon name="ios-arrow-forward" />
+                bordered
+                align="center"
+                mt={10}
+                width={300}
+                onPress={() => onPressAllObjectives()}>
+                <H3 align="center">You have not added any objective</H3>
               </MCButton>
             )}
-            <MCView row width={350} justify="center">
-              {goals.length > 0 &&
-                goals
-                  .slice(0, profileCardNumPerRow)
-                  .map(value => this._renderGoalItem(value))}
-              {goals.length === 0 && (
-                <MCButton
-                  bordered
-                  align="center"
-                  mt={10}
-                  width={300}
-                  onPress={() => onPressAllGoals()}>
-                  <H3 align="center">You have not added a Goal</H3>
-                </MCButton>
-              )}
+            <MCView width={320} justify="center">
+              {dailyObjectives.length > 0 && <H4 mb={10}>Daily</H4>}
+              {dailyObjectives.length > 0 &&
+                dailyObjectives
+                  .slice(0, 3)
+                  .map(objective => this._renderObjectiveItem(objective))}
+              {weeklyObjectives.length > 0 && <H4 mb={10}>Weekly</H4>}
+              {weeklyObjectives.length > 0 &&
+                weeklyObjectives
+                  .slice(0, 3)
+                  .map(objective => this._renderObjectiveItem(objective))}
             </MCView>
           </MCView>
         </Collapsible>
@@ -202,72 +225,30 @@ class BeliefAndGoal extends React.Component {
             </MCView>
           </MCModal>
         )}
-        {selectedGoal && (
+        {selectedObjective && (
           <MCModal
-            isVisible={showGoalModal}
-            onClose={() => this.setState({showGoalModal: false})}>
+            isVisible={showObjectiveModal}
+            onClose={() => this.setState({showObjectiveModal: false})}>
             <MCView align="center" mt={20} width={300}>
-              <MCImage image={{uri: selectedGoal.data.image}} />
               <H3 weight="bold" align="center" mt={10} mb={10}>
-                {selectedGoal.data.title}
+                {selectedObjective.data.title}
               </H3>
-              <MCView row>
-                <MCIcon
-                  type="AntDesign"
-                  name="clockcircleo"
-                  align="center"
-                  style={{width: 40}}
-                />
-                <H4>{t('goal_section_by_when')}</H4>
-                <H4 align="right" style={{flex: 1}}>
-                  {moment(selectedGoal.data.deadline).format('MMM D, YYYY')}
-                </H4>
-              </MCView>
-              <MCView row>
-                <MCIcon
-                  type="Entypo"
-                  name="ruler"
-                  align="center"
-                  style={{width: 40}}
-                />
-                <H4>{t('goal_section_measures')}</H4>
-                <H4 align="right" style={{flex: 1}}>
-                  {selectedGoal.data.measures && selectedGoal.data.measures[0]}
-                </H4>
-              </MCView>
-              <MCView row>
-                <MCIcon
-                  type="MaterialCommunityIcons"
-                  name="account-group"
-                  align="center"
-                  style={{width: 40}}
-                />
-                <H4>{t('goal_section_accountable_to')}</H4>
-                <MCView row wrap justify="flex-end" style={{flex: 1}}>
-                  {selectedGoal.data.collaboraters.length > 0 &&
-                    selectedGoal.data.collaboraters.map(collaborater => (
-                      <MCView mr={5} mb={5}>
-                        <MCImage
-                          round
-                          width={30}
-                          height={30}
-                          image={{uri: collaborater.avatar}}
-                        />
-                      </MCView>
-                    ))}
+              {selectedObjective.data.measures.map(measure => (
+                <MCView row align="center" width={300}>
+                  <H4 style={{flex: 1}} numberOfLines={1}>
+                    {measure.title}
+                  </H4>
+                  <MCIcon
+                    name={
+                      measure.completed
+                        ? 'ios-checkmark-circle-outline'
+                        : 'ios-hourglass'
+                    }
+                  />
+                  {/* {measure.completed && <H4 weight="bold">Completed</H4>}
+                  {!measure.completed && <H4 weight="italic">Working...</H4>} */}
                 </MCView>
-              </MCView>
-              <MCView row>
-                <MCIcon
-                  name="ios-notifications-outline"
-                  align="center"
-                  style={{width: 40}}
-                />
-                <H4>{t('goal_section_expired_time')}</H4>
-                <H4 align="right" style={{flex: 1}}>
-                  Expired Time
-                </H4>
-              </MCView>
+              ))}
             </MCView>
           </MCModal>
         )}
@@ -276,4 +257,4 @@ class BeliefAndGoal extends React.Component {
   }
 }
 
-export default withTranslation()(BeliefAndGoal);
+export default withTranslation()(BeliefAndObjective);

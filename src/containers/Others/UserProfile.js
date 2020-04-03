@@ -14,7 +14,7 @@ import BasicProfile from '../ProfileTab/profile/cards/BasicProfile';
 import ContactCard from '../ProfileTab/profile/cards/ContactCard';
 import ValueAndPurpose from '../ProfileTab/profile/cards/ValueAndPurpose';
 import MotivationCard from '../ProfileTab/profile/cards/Motivation';
-import BeliefAndGoal from '../ProfileTab/profile/cards/BeliefAndGoal';
+import BeliefAndObjective from '../ProfileTab/profile/cards/BeliefAndObjective';
 import ChronotypeAndPersonality from '../ProfileTab/profile/cards/ChronotypeAndPersonality';
 import SkillAndFeedback from '../ProfileTab/profile/cards/SkillAndFeedback';
 import QuirkAndTrigger from '../ProfileTab/profile/cards/QuirkAndTrigger';
@@ -58,8 +58,14 @@ class UserProfileScreen extends React.Component {
       goals,
       values,
       feedbacks,
+      motivations,
+      chronotype,
+      personality,
+      dailyObjectives,
+      weeklyObjectives,
     } = this.props;
     const find = allUsers.find(user => user._id === id);
+    console.log('User Chronotype', chronotype);
     if (!find) {
       return (
         <MCRootView justify="flex-start">
@@ -81,9 +87,16 @@ class UserProfileScreen extends React.Component {
             <BasicProfile profile={profile} editable={false} />
             <ContactCard profile={profile} editable={false} />
             <ValueAndPurpose values={values} />
-            <MotivationCard />
-            <BeliefAndGoal manuals={manuals} goals={goals} />
-            <ChronotypeAndPersonality />
+            <MotivationCard motivations={motivations} />
+            <BeliefAndObjective
+              manuals={manuals}
+              dailyObjectives={dailyObjectives}
+              weeklyObjectives={weeklyObjectives}
+            />
+            <ChronotypeAndPersonality
+              chronotype={chronotype}
+              personality={personality}
+            />
             <SkillAndFeedback feedbacks={feedbacks} />
             <QuirkAndTrigger />
             <AttachmentAndApproach />
@@ -103,6 +116,11 @@ const mapStateToProps = state => ({
   manuals: selector.reflections.getUserManuals(state),
   values: selector.reflections.getUserValues(state),
   feedbacks: selector.feedbacks.getUserFeedbacks(state).received,
+  motivations: selector.reflections.getUserMotivations(state),
+  chronotype: selector.reflections.getUserChronotype(state),
+  personality: selector.reflections.getUserPersonality(state),
+  dailyObjectives: selector.reflections.getUserDailyObjectives(state),
+  weeklyObjectives: selector.reflections.getUserWeeklyObjectives(state),
 });
 
 const mapDispatchToProps = {
@@ -112,8 +130,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(UserProfileScreen),
+  connect(mapStateToProps, mapDispatchToProps)(UserProfileScreen),
 );

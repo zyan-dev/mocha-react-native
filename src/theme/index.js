@@ -9,6 +9,7 @@ const commonTheme = {
   chart_gradient_end_color: '#000000',
   chart_bg: 'rgba(255,255,255,0.2)',
   purchase: '#19D868',
+  outline: '#FFFF55',
 };
 
 export const colorThemes = [
@@ -42,6 +43,7 @@ export const colorThemes = [
     profileIcon: '#4E4848',
     toggle_on: '#079311',
     toggle_off: '#8B9296',
+    outline: '#5555FF',
   },
   {
     ...commonTheme,

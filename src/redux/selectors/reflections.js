@@ -84,6 +84,20 @@ const getUserNeeds = state =>
     ({type}) => capitalizeString(type) === 'Need',
   );
 
+const getUserPersonality = state =>
+  state.reflectionReducer.userReflections.find(
+    ({type}) => capitalizeString(type) === 'Personality',
+  );
+
+const getUserDailyObjectives = state =>
+  state.reflectionReducer.userReflections.filter(
+    ({type, data}) => capitalizeString(type) === 'Objective' && data.isDaily,
+  );
+const getUserWeeklyObjectives = state =>
+  state.reflectionReducer.userReflections.filter(
+    ({type, data}) => capitalizeString(type) === 'Objective' && !data.isDaily,
+  );
+
 export {
   getMyValues,
   getMyManuals,
@@ -105,4 +119,7 @@ export {
   getUserMotivations,
   getUserEmotions,
   getUserNeeds,
+  getUserPersonality,
+  getUserDailyObjectives,
+  getUserWeeklyObjectives,
 };
