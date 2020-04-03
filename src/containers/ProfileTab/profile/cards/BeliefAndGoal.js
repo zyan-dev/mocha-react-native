@@ -7,7 +7,11 @@ import {MCCard, MCView} from 'components/styled/View';
 import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCImage, MCModal, MCTagsView} from 'components/common';
-import {profileCardWidth, profileCardNumPerRow} from 'services/operators';
+import {
+  profileCardWidth,
+  profileCardNumPerRow,
+  getTitleByKey,
+} from 'services/operators';
 import CardItem from './CardItem';
 
 class BeliefAndGoal extends React.Component {
@@ -67,11 +71,12 @@ class BeliefAndGoal extends React.Component {
       mr={5}
       align="center">
       <MCButton align="center" onPress={() => this.onPressBelief(item)}>
-        <H4 numberOfLines={1}>{item.data.title}</H4>
+        <H4 numberOfLines={1}>{getTitleByKey('manual', item.data.title)}</H4>
         <MCImage
           width={profileCardWidth - 10}
           height={profileCardWidth - 10}
           image={{uri: item.data.image}}
+          br={6}
         />
       </MCButton>
     </MCCard>
@@ -183,9 +188,7 @@ class BeliefAndGoal extends React.Component {
             onClose={() => this.setState({showBeliefModal: false})}>
             <MCView align="center" width={300} mt={20}>
               <H3 weight="bold" align="center" mb={10}>
-                {t('modal_usermanual_header', {
-                  title: selectedBelief.data.title,
-                })}
+                {getTitleByKey('manual', selectedBelief.data.title)}
               </H3>
               <MCImage image={{uri: selectedBelief.data.image}} />
               <H4 mt={10}>{selectedBelief.data.text}</H4>

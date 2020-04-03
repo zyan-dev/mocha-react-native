@@ -9,6 +9,7 @@ import AddValueTabStack from '../AddTab';
 import ProfileTabStack from '../ProfileTab';
 import TabView from './TabView';
 import {profileActions} from 'Redux/actions';
+import NavigationService from '../../navigation/NavigationService';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,8 +27,40 @@ class MainHomeStack extends React.Component {
       onNotification: function(notification) {
         console.log('NOTIFICATION:', notification);
         // process the notification here
-        // required on iOS only
-        notification.finish(PushNotificationIOS.FetchResult.NoData);
+        // Sample notification data
+        // {
+        //   foreground: false,
+        //   userInteraction: true,
+        //   message: 'Tian asked you feedback',
+        //   data: {
+        //     remote: true,
+        //     'google.c.sender.id': '662639718845',
+        //     'google.c.a.e': '1',
+        //     notificationId: '5BDDC2CD-954E-4340-8043-61BDCD2FFF3F',
+        //     type: 'request.feedback',
+        //     'gcm.message_id': '1585932751509582'
+        //   },
+        //   badge: undefined,
+        //   alert: 'Tian asked you feedback',
+        //   sound: 'default',
+        //   finish: [Function: finish]
+        // }
+        switch (notification.data.type) {
+          case 'request.feedback':
+            NavigationService.navigate('TabProfile');
+            setTimeout(() => {
+              NavigationService.navigate('Feedbacks', {tabIndex: 2});
+            });
+            break;
+          case 'feedback.received':
+            NavigationService.navigate('TabProfile');
+            setTimeout(() => {
+              NavigationService.navigate('Feedbacks');
+            });
+            break;
+          default:
+            break;
+        }
       },
       // Android only
       senderID: '662639718845',

@@ -16,6 +16,7 @@ import {H3, H4, MCTextInput} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {MCIcon} from '../../../components/styled/Text';
 import {MCCard} from '../../../components/styled/View';
+import {getTitleByKey} from '../../../services/operators';
 
 class EditUserManualScreen extends React.PureComponent {
   constructor(props) {
@@ -58,7 +59,7 @@ class EditUserManualScreen extends React.PureComponent {
   getPickerItems = keys => {
     const {t} = this.props;
     return keys.map(key => ({
-      label: this.getLabelWithKey(key),
+      label: getTitleByKey('manual', key),
       value: key,
     }));
   };

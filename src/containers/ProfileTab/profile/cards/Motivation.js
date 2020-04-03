@@ -50,6 +50,7 @@ class MotivationCard extends React.Component {
           <MCImage
             image={{uri: motivation.image}}
             style={{width: 100, height: 100}}
+            br={6}
           />
         </MCButton>
       </MCCard>
@@ -104,7 +105,7 @@ class MotivationCard extends React.Component {
             isVisible={showModal}
             onClose={() => this.setState({showModal: false})}>
             <MCView align="center" width={280} mt={20}>
-              <MCImage image={{uri: selected.image}} />
+              <MCImage image={{uri: selected.image}} br={6} />
               <H3 weight="bold">{selected.title}</H3>
               <H4>{selected.description}</H4>
             </MCView>

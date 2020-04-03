@@ -8,6 +8,7 @@ import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, MCTextInput, MCIcon} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
+import {getTitleByKey} from '../../../services/operators';
 
 class EditValueScreen extends React.PureComponent {
   constructor(props) {
@@ -67,7 +68,7 @@ class EditValueScreen extends React.PureComponent {
   getPickerItems = keys => {
     const {t} = this.props;
     return keys.map(key => ({
-      label: this.getLabelWithKey(key),
+      label: getTitleByKey('value', key),
       value: key,
     }));
   };

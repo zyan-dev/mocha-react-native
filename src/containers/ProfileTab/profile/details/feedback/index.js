@@ -17,7 +17,7 @@ class FeedbackScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
+      index: props.route.params ? props.route.params.tabIndex : 0,
     };
   }
 

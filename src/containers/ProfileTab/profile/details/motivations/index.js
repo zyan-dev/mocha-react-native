@@ -47,13 +47,13 @@ class MotivationListScreen extends React.PureComponent {
     return (
       <MCView
         key={item.key}
-        width={320}
+        width={340}
         bordered
         align="center"
         br={10}
         mb={20}>
         <MCCard shadow br={1} width={340} align="center">
-          <MCView width={300}>
+          <MCView width={320}>
             {editable ? (
               <MCEditableText
                 maxLength={200}
@@ -66,7 +66,7 @@ class MotivationListScreen extends React.PureComponent {
             )}
           </MCView>
         </MCCard>
-        <MCView width={300} mt={10} mb={20}>
+        <MCView width={320} mt={10} mb={20}>
           {editable ? (
             <MCEditableText
               fontSize={14}
@@ -88,7 +88,7 @@ class MotivationListScreen extends React.PureComponent {
             type="picture"
           />
         )}
-        <MCView row align="center" width={300} justify="flex-end">
+        <MCView row align="center" width={320} justify="flex-end">
           <MCButton onPress={() => this.onPressEdit(item)}>
             <MCIcon name={editable ? 'ios-share' : 'ios-create'} />
           </MCButton>
@@ -140,8 +140,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(MotivationListScreen),
+  connect(mapStateToProps, mapDispatchToProps)(MotivationListScreen),
 );

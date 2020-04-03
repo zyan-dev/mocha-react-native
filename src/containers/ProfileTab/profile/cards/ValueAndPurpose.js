@@ -64,6 +64,7 @@ class ValueAndPurpose extends React.Component {
           width={profileCardWidth - 10}
           height={profileCardWidth - 10}
           image={{uri: item.data.image}}
+          br={6}
         />
       </MCButton>
     </MCCard>
@@ -156,13 +157,12 @@ class ValueAndPurpose extends React.Component {
                 image={{uri: selectedValue.data.image}}
                 width={120}
                 height={120}
+                br={6}
               />
               <H3 weight="bold" align="center">
                 {selectedValue.data.value}
               </H3>
-              <H4>{selectedValue.data.action}</H4>
-              <H4>{selectedValue.data.learn}</H4>
-              <H4>{selectedValue.data.pharse}</H4>
+              <H4>{selectedValue.data.phrase}</H4>
             </MCView>
           </MCModal>
         )}

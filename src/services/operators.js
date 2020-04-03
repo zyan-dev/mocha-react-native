@@ -2,6 +2,7 @@ import {Alert} from 'react-native';
 import Toast from 'react-native-root-toast';
 import {dySize} from 'utils/responsive';
 import moment from 'moment';
+import i18next from 'i18next';
 
 export const showAlert = text => {
   // Alert.alert('Mocha App', text, [{text: 'OK', onPress: () => {}}]);
@@ -134,4 +135,21 @@ export const getUpdatedMeasures = (measures, origin) => {
     }
   });
   return temp;
+};
+
+export const getTitleByKey = (reflectionType, key) => {
+  const prefixArray = {
+    value: 'mocha_value_',
+    manual: 'mocha_manual_',
+  };
+  const customAppendKeyArray = {
+    value: 'custom_value_title',
+    manual: 'custom_manual_title',
+  };
+  if (key.length === 0) return '';
+  else if (key.indexOf(customAppendKeyArray[reflectionType]) < 0) {
+    return i18next.t(`${prefixArray[reflectionType]}${key.replace(/ /g, '_')}`);
+  } else {
+    return key.split(customAppendKeyArray[reflectionType])[1];
+  }
 };
