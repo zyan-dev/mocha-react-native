@@ -88,7 +88,7 @@ class EditEmotionScreen extends React.PureComponent {
                 </H4>
               </MCView>
             </MCCard>
-            <MCView p={10}>
+            <MCView ph={10} pv={10}>
               <MCTextInput
                 style={{width: dySize(333)}}
                 placeholder={t('add_emotion_story_placeholder')}
@@ -120,8 +120,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(EditEmotionScreen),
+  connect(mapStateToProps, mapDispatchToProps)(EditEmotionScreen),
 );

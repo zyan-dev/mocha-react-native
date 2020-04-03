@@ -92,7 +92,6 @@ class TabView extends React.PureComponent {
       <TabWrapper>
         <MCView
           row
-          p={0}
           width={375}
           style={{backgroundColor: theme.colors.background}}>
           <MCButton

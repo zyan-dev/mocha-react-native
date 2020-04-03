@@ -67,8 +67,11 @@ export const NativeCard = styled(Card)`
   border-width: 1px;
   border-color: ${props =>
     props.bordered ? props.theme.colors.text : 'transparent'};
-  padding: ${props => dySize(props.p || 10)}px;
+  padding-horizontal: ${props => dySize(props.ph || 10)}px;
+  padding-vertical: ${props => dySize(props.pv || 10)}px;
   width: ${props => (props.width ? dySize(props.width) : '100%')};
   margin-top: ${props => dySize(props.mt || 10)}px;
   border-radius: ${props => dySize(props.mt || 10)}px;
+  justify-content: ${props => props.justify || 'center'};
+  align-items: ${props => props.align || 'center'};
 `;

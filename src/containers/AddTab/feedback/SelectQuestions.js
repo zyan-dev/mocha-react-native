@@ -94,7 +94,7 @@ class SelectQuestionScreen extends React.Component {
         <MCModal
           isVisible={showNewModal}
           onClose={() => this.setState({showNewModal: false})}>
-          <MCView align="center" width={300} mt={20} p={10}>
+          <MCView align="center" width={300} mt={20} ph={10} pv={10}>
             <H3 mb={10}>{t('new_question')}</H3>
             <MCTextInput
               multiline
@@ -131,8 +131,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SelectQuestionScreen),
+  connect(mapStateToProps, mapDispatchToProps)(SelectQuestionScreen),
 );

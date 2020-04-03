@@ -184,64 +184,100 @@ class ChronotypeAndPersonality extends React.Component {
           {personality.data ? (
             <MCView width={320}>
               <MCView row width={320} justify="space-between">
-                <MCView ph={20} align="center" visible="visible">
+                <NativeCard
+                  width={150}
+                  pv={20}
+                  align="center"
+                  visible="visible">
                   <MCSpeedoMeter
                     width={120}
                     value={personality.data.honest_humility}
                   />
-                  <H5 align="center" width={120}>
-                    {t('personality_honest_humility')}
-                  </H5>
-                </MCView>
-                <MCView ph={20} align="center" visible="visible">
+                  <MCView height={40} justify="center">
+                    <H5 align="center" width={120}>
+                      {t('personality_honest_humility')}
+                    </H5>
+                  </MCView>
+                </NativeCard>
+                <NativeCard
+                  width={150}
+                  pv={20}
+                  align="center"
+                  visible="visible">
                   <MCSpeedoMeter
                     width={120}
                     value={personality.data.emotionality}
                   />
-                  <H5 align="center" width={120}>
-                    {t('personality_emotionality')}
-                  </H5>
-                </MCView>
+                  <MCView height={40} justify="center">
+                    <H5 align="center" width={120}>
+                      {t('personality_emotionality')}
+                    </H5>
+                  </MCView>
+                </NativeCard>
               </MCView>
               <MCView row width={320} justify="space-between">
-                <MCView ph={20} align="center" visible="visible">
+                <NativeCard
+                  width={150}
+                  pv={20}
+                  align="center"
+                  visible="visible">
                   <MCSpeedoMeter
                     width={120}
                     value={personality.data.extraversion}
                   />
-                  <H5 align="center" width={120}>
-                    {t('personality_extraversion')}
-                  </H5>
-                </MCView>
-                <MCView ph={20} align="center" visible="visible">
+                  <MCView height={40} justify="center">
+                    <H5 align="center" width={120}>
+                      {t('personality_extraversion')}
+                    </H5>
+                  </MCView>
+                </NativeCard>
+                <NativeCard
+                  width={150}
+                  pv={20}
+                  align="center"
+                  visible="visible">
                   <MCSpeedoMeter
                     width={120}
                     value={personality.data.agreeableness}
                   />
-                  <H5 align="center" width={120}>
-                    {t('personality_agreeableness')}
-                  </H5>
-                </MCView>
+                  <MCView height={40} justify="center">
+                    <H5 align="center" width={120}>
+                      {t('personality_agreeableness')}
+                    </H5>
+                  </MCView>
+                </NativeCard>
               </MCView>
               <MCView row width={320} justify="space-between">
-                <MCView ph={20} align="center" visible="visible">
+                <NativeCard
+                  width={150}
+                  pv={20}
+                  align="center"
+                  visible="visible">
                   <MCSpeedoMeter
                     width={120}
                     value={personality.data.conscientiousness}
                   />
-                  <H5 align="center" width={120}>
-                    {t('personality_conscientiousness')}
-                  </H5>
-                </MCView>
-                <MCView ph={20} align="center" visible="visible">
+                  <MCView height={40} justify="center">
+                    <H5 align="center" width={120}>
+                      {t('personality_conscientiousness')}
+                    </H5>
+                  </MCView>
+                </NativeCard>
+                <NativeCard
+                  width={150}
+                  pv={20}
+                  align="center"
+                  visible="visible">
                   <MCSpeedoMeter
                     width={120}
                     value={personality.data.openness_to_experience}
                   />
-                  <H5 align="center" width={120}>
-                    {t('personality_openness_to_experience')}
-                  </H5>
-                </MCView>
+                  <MCView height={40} justify="center">
+                    <H5 align="center" width={120}>
+                      {t('personality_openness_to_experience')}
+                    </H5>
+                  </MCView>
+                </NativeCard>
               </MCView>
             </MCView>
           ) : (

@@ -31,15 +31,13 @@ class NeedScreen extends React.Component {
     return (
       <MCView
         key={item.key}
-        width={320}
+        width={340}
         bordered
         align="center"
         br={10}
-        mb={20}
-        ml={20}
-        mr={20}>
+        mb={20}>
         <MCCard shadow br={1} width={340} align="center">
-          <MCView width={300} row wrap>
+          <MCView width={320} row wrap>
             <H4 pv={1}>{t('add_need_heading')}</H4>
             <H4 pv={1} weight="bold">
               {t(`mocha_need_${need.need}`)}
@@ -51,12 +49,12 @@ class NeedScreen extends React.Component {
             <H4 pv={1}>{t('because')}</H4>
           </MCView>
         </MCCard>
-        <MCView width={300} mt={10}>
+        <MCView width={320} mt={10}>
           <MCReadMoreText>
             <H4 ph={5}>{need.reason}</H4>
           </MCReadMoreText>
         </MCView>
-        <MCView row width={300} justify="flex-end">
+        <MCView row width={320} justify="flex-end">
           <MCButton onPress={() => this.onPressEdit(item)}>
             <MCIcon name="ios-create" />
           </MCButton>
@@ -104,8 +102,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(NeedScreen),
+  connect(mapStateToProps, mapDispatchToProps)(NeedScreen),
 );

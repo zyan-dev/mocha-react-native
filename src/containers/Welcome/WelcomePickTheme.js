@@ -21,7 +21,7 @@ class WelcomePickTheme extends React.PureComponent {
     const {t} = this.props;
     return (
       <MCRootView>
-        <MCView p={20} justify="center" align="center">
+        <MCView ph={20} pv={20} justify="center" align="center">
           <H2 mt={40} mb={20} align="center">
             {t('welcome_theme_displayText')}
           </H2>
@@ -69,8 +69,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(WelcomePickTheme),
+  connect(mapStateToProps, mapDispatchToProps)(WelcomePickTheme),
 );

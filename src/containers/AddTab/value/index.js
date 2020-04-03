@@ -39,29 +39,27 @@ class ValueScreen extends React.Component {
     return (
       <MCView
         key={item.key}
-        width={320}
+        width={340}
         bordered
         align="center"
         br={10}
-        mb={20}
-        ml={20}
-        mr={20}>
+        mb={20}>
         {value.image.length > 0 && (
           <MCView>
             <MCImage image={{uri: value.image}} width={340} height={180} />
           </MCView>
         )}
         <MCCard shadow br={1} width={340} align="center">
-          <MCView width={300} align="center">
+          <MCView width={320} align="center">
             <H3>{this.getLabelWithKey(value.value)}</H3>
           </MCView>
         </MCCard>
-        <MCView width={300} mt={10} mb={20}>
+        <MCView width={320} mt={10} mb={20}>
           <MCReadMoreText>
             <H4>{value.phrase}</H4>
           </MCReadMoreText>
         </MCView>
-        <MCView row width={300} justify="flex-end">
+        <MCView row width={320} justify="flex-end">
           <MCButton onPress={() => this.onPressEdit(item)}>
             <MCIcon name="ios-create" />
           </MCButton>
@@ -109,8 +107,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ValueScreen),
+  connect(mapStateToProps, mapDispatchToProps)(ValueScreen),
 );

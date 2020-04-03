@@ -31,31 +31,34 @@ class MCSpeedoMeter extends React.PureComponent {
     const radius = 160 * scale;
     console.log({radius});
     return (
-      <MCView
-        width={width}
-        align="center"
-        style={{overflow: 'visible'}}
-        mb={10}>
+      <MCView width={width} align="center" style={{overflow: 'visible'}}>
         <MCView
           style={{
             position: 'absolute',
             left: dySize(-5),
-            top: 80 * scale + 20,
+            top: 90 * scale,
           }}>
           <H4>0</H4>
         </MCView>
         <H4
           style={{
             position: 'absolute',
-            left: dySize(width - 10),
-            top: 80 * scale + 20,
+            left: dySize(width - 15),
+            top: 90 * scale,
           }}>
           100
         </H4>
-        <MCImage width={width} image={SpeedoMeterImage} resizeMode="contain" />
+        <MCImage
+          width={width}
+          height={144 * scale}
+          image={SpeedoMeterImage}
+          resizeMode="contain"
+        />
         <MCView
           row
-          width={width * 2.25}
+          width={width * 0.95 + 100}
+          height={20}
+          overflow="visible"
           align="center"
           style={{
             marginTop: dySize(-10),
@@ -64,14 +67,14 @@ class MCSpeedoMeter extends React.PureComponent {
           <H4
             align="center"
             style={{
-              width: width * 0.8,
+              width: dySize(50),
               transform: [{rotate: '-90deg'}],
             }}>
             {value}
           </H4>
           <MCView
             br={1}
-            width={width * 0.3}
+            width={width * 0.45}
             height={2}
             background={theme.colors.text}
           />
@@ -81,13 +84,15 @@ class MCSpeedoMeter extends React.PureComponent {
             height={width * 0.05}
             background={theme.colors.text}
           />
-          <MCView
-            br={1}
-            width={width * 0.3}
-            height={2}
-            background="transparent"
-          />
-          <MCView width={width * 0.8} />
+          <MCView br={1} width={width * 0.45} height={2} />
+          <H4
+            align="center"
+            style={{
+              width: dySize(50),
+              transform: [{rotate: '-90deg'}],
+            }}>
+            {''}
+          </H4>
         </MCView>
       </MCView>
     );

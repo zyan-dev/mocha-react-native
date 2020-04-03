@@ -129,7 +129,7 @@ class EditUserManualScreen extends React.PureComponent {
             <MCCard shadow br={1} style={{width: '100%'}} align="center">
               <H4>{this.getLabelWithKey(title)}</H4>
             </MCCard>
-            <MCView p={10}>
+            <MCView ph={10} pv={10}>
               <MCTextInput
                 style={{width: dySize(333)}}
                 placeholder={t('motivation_description')}
@@ -189,8 +189,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(EditUserManualScreen),
+  connect(mapStateToProps, mapDispatchToProps)(EditUserManualScreen),
 );

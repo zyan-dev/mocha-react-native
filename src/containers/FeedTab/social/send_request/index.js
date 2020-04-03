@@ -117,7 +117,7 @@ class SendRequestScreen extends React.Component {
             animationIn="zoomInDown"
             animationOut="zoomOutUp"
             onClose={() => this.setState({showModal: false})}>
-            <MCView align="center" width={320} p={20}>
+            <MCView align="center" width={320} ph={20} pv={20}>
               <MCImage
                 width={60}
                 height={60}

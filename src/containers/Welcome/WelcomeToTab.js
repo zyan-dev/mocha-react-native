@@ -22,7 +22,7 @@ class WelcomeToTab extends React.PureComponent {
     const {t, theme} = this.props;
     return (
       <MCRootView>
-        <MCView p={20} align="center">
+        <MCView ph={20} pv={20} align="center">
           <MCView row width={320} mt={40} align="center">
             <MCView width={40} align="center">
               <ToolsSvg size={dySize(38)} color={theme.colors.text} />
@@ -79,8 +79,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(WelcomeToTab),
+  connect(mapStateToProps, mapDispatchToProps)(WelcomeToTab),
 );

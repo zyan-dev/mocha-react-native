@@ -36,26 +36,24 @@ class EmotionScreen extends React.Component {
     return (
       <MCView
         key={item.key}
-        width={320}
+        width={340}
         bordered
         align="center"
         br={10}
-        mb={20}
-        ml={20}
-        mr={20}>
+        mb={20}>
         <MCCard shadow br={1} width={340} align="center">
-          <MCView width={300} row wrap>
+          <MCView width={320} row wrap>
             <H4>{t('add_emotion_heading')}</H4>
             <H4 weight="bold">{t(`mocha_emotion_${emotion.emotion}`)}</H4>
             <H4 weight="italic"> {t(`add_emotion_value_${emotion.how}`)}</H4>
           </MCView>
         </MCCard>
-        <MCView width={300} mt={10}>
+        <MCView width={320} mt={10}>
           <MCReadMoreText>
             <H4>{emotion.story}</H4>
           </MCReadMoreText>
         </MCView>
-        <MCView row width={300} justify="flex-end">
+        <MCView row width={320} justify="flex-end">
           <MCButton onPress={() => this.onPressEdit(item)}>
             <MCIcon name="ios-create" />
           </MCButton>
@@ -103,8 +101,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(EmotionScreen),
+  connect(mapStateToProps, mapDispatchToProps)(EmotionScreen),
 );

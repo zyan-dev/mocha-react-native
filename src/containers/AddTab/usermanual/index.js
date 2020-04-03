@@ -42,19 +42,17 @@ class UserManualScreen extends React.Component {
     return (
       <MCView
         key={item.key}
-        width={320}
+        width={340}
         bordered
         align="center"
         br={10}
-        mb={20}
-        ml={20}
-        mr={20}>
+        mb={20}>
         <MCCard shadow br={1} width={340} align="center" mb={10}>
-          <MCView width={300} align="center">
+          <MCView width={320} align="center">
             <H3>{this.getLabelWithKey(usermanual.title)}</H3>
           </MCView>
         </MCCard>
-        <MCView width={300}>
+        <MCView width={320}>
           <MCReadMoreText>
             <H4 ml={20}>{usermanual.text}</H4>
           </MCReadMoreText>
@@ -69,10 +67,10 @@ class UserManualScreen extends React.Component {
             />
           </MCView>
         )}
-        <MCView width={300} mt={20}>
+        <MCView width={320} mt={20}>
           <MCTagsView tags={usermanual.tags} />
         </MCView>
-        <MCView row width={300} align="center">
+        <MCView row width={320} align="center">
           <H4>{`${t('section_label_vulnerability')}:  ${
             usermanual.vulnerability
           }`}</H4>
@@ -125,8 +123,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(UserManualScreen),
+  connect(mapStateToProps, mapDispatchToProps)(UserManualScreen),
 );
