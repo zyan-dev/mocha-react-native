@@ -31,7 +31,7 @@ class ChronotypeAndPersonality extends React.Component {
   };
 
   static defaultProps = {
-    chronotypes: null,
+    chronotype: {},
     personality: [],
     onPressChronotype: () => undefined,
     onPressPersonality: () => undefined,
@@ -67,12 +67,6 @@ class ChronotypeAndPersonality extends React.Component {
       onPressChronotype,
       onPressPersonality,
     } = this.props;
-    const {
-      night_sleep_offset_start,
-      night_sleep_offset_end,
-      day_sleep_offset_start,
-      day_sleep_offset_end,
-    } = chronotype.data;
     const {chronotypeCollapsed, personalityCollapsed} = this.state;
     return (
       <MCView align="center" mt={20}>
@@ -101,7 +95,7 @@ class ChronotypeAndPersonality extends React.Component {
             <H3>My Chronotype</H3>
             <MCIcon name="ios-arrow-forward" />
           </MCButton>
-          {chronotype ? (
+          {chronotype.data ? (
             <>
               <MCView row width={320} justify="space-between">
                 <NativeCard width={150}>
@@ -125,10 +119,10 @@ class ChronotypeAndPersonality extends React.Component {
                         fontSize: dySize(60),
                         fontFamily: null,
                       }}>
-                      {night_sleep_offset_end -
-                        night_sleep_offset_start +
-                        day_sleep_offset_end -
-                        day_sleep_offset_start}
+                      {chronotype.data.night_sleep_offset_end -
+                        chronotype.data.night_sleep_offset_start +
+                        chronotype.data.day_sleep_offset_end -
+                        chronotype.data.day_sleep_offset_start}
                     </MCText>
                   </MCView>
                   <H4 align="center">{t('hours_sleep')}</H4>
@@ -143,8 +137,8 @@ class ChronotypeAndPersonality extends React.Component {
                     width={260}
                     enabled={false}
                     range={{
-                      start: night_sleep_offset_start,
-                      end: night_sleep_offset_end,
+                      start: chronotype.data.night_sleep_offset_start,
+                      end: chronotype.data.night_sleep_offset_end,
                     }}
                     values={NightSliderValues}
                   />
@@ -159,8 +153,8 @@ class ChronotypeAndPersonality extends React.Component {
                     width={260}
                     enabled={false}
                     range={{
-                      start: day_sleep_offset_start,
-                      end: day_sleep_offset_end,
+                      start: chronotype.data.day_sleep_offset_start,
+                      end: chronotype.data.day_sleep_offset_end,
                     }}
                     values={DaySliderValues}
                   />
@@ -187,7 +181,7 @@ class ChronotypeAndPersonality extends React.Component {
             <H3>My Personalities</H3>
             <MCIcon name="ios-arrow-forward" />
           </MCButton>
-          {personality ? (
+          {personality.data ? (
             <MCView width={320}>
               <MCView row width={320} justify="space-between">
                 <MCView ph={20} align="center" visible="visible">

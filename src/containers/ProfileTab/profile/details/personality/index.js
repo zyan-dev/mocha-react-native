@@ -44,12 +44,13 @@ class PersonalityScreen extends React.PureComponent {
   _renderPersonalityItem = ({item}) => {
     const key = item;
     const {t, selectedReflection} = this.props;
+    const text = selectedReflection.data[key] || '';
     return (
       <MCView row align="center" mb={20}>
         <H3 style={{flex: 1}} underline>{`${t(`personality_${key}`)} :`}</H3>
         <MCView width={50}>
           <MCEditableText
-            text={selectedReflection.data[key].toString()}
+            text={text.toString()}
             onChange={value => this.onChangeValue(key, value)}
             keyboardType="numeric"
           />

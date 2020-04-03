@@ -5,7 +5,10 @@ import {DefaultReflections, SampleReflectionSections} from 'utils/constants';
 const INITIAL_STATE = {
   myReflections: [],
   userReflections: [],
-  selectedReflection: {},
+  selectedReflection: {
+    type: '',
+    data: {},
+  },
   reflectionSections: SampleReflectionSections,
   objectiveResetTime: 0,
 };

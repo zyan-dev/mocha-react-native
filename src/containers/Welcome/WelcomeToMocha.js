@@ -26,7 +26,8 @@ class WelcomeToMocha extends React.PureComponent {
       <MCRootView>
         <Wrapper
           bordered
-          p={20}
+          ph={20}
+          pv={20}
           justify="center"
           align="center"
           width={dySize(300)}>

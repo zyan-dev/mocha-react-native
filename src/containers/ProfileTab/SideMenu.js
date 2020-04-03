@@ -1,4 +1,5 @@
 import React from 'react';
+import {AsyncStorage} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {routerActions, profileActions, otherActions} from 'Redux/actions';
@@ -23,6 +24,7 @@ class ProfileSideMenu extends React.Component {
     this.props.showDrawer(false);
     if (menu.index === 1) {
       this.props.resetAllReducer();
+      AsyncStorage.removeItem('userToken');
       NavigationService.reset('welcomeStack');
     } else if (menu.index === 7) {
       this.props.deleteAccount();
@@ -112,8 +114,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ProfileSideMenu),
+  connect(mapStateToProps, mapDispatchToProps)(ProfileSideMenu),
 );

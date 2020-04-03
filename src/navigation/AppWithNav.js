@@ -54,7 +54,4 @@ const mapDispatchToProps = {
   resetAllReducer: routerActions.resetAllReducer,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AppWithNav);
+export default connect(mapStateToProps, mapDispatchToProps)(AppWithNav);
