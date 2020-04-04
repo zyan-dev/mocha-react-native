@@ -68,7 +68,7 @@ const getUserFeedbacks = state =>
   );
 
 const getUserChronotype = state =>
-  state.reflectionReducer.userReflections.filter(
+  state.reflectionReducer.userReflections.find(
     ({type}) => capitalizeString(type) === 'Chronotype',
   );
 const getUserMotivations = state =>
