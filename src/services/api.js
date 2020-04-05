@@ -48,50 +48,53 @@ const apiCall = async (type, url, param, withToken = false, options = {}) => {
   }
 };
 
-const sendSMS = phone => apiCall('post', URL_SEND_SMS, {phone});
-const verifySMS = param => apiCall('post', URL_VERIFY_SMS, param);
-const updateProfile = param => apiCall('patch', URL_MY_PROFILE, param, true);
+const sendSMS = (phone) => apiCall('post', URL_SEND_SMS, {phone});
+const verifySMS = (param) => apiCall('post', URL_VERIFY_SMS, param);
+const updateProfile = (param) => apiCall('patch', URL_MY_PROFILE, param, true);
 const getMyProfile = () => apiCall('get', URL_MY_PROFILE, {}, true);
 const deleteProfile = () => apiCall('delete', URL_MY_PROFILE, {}, true);
-const getUserProfile = userId =>
+const getUserProfile = (userId) =>
   apiCall('get', `${URL_USER_PROFILE}${userId}`, {}, true);
 const getMyReflections = () => apiCall('get', URL_GET_MY_REFLECTION, {}, true);
-const getUserReflections = userId =>
+const getUserReflections = (userId) =>
   apiCall('get', `${URL_GET_USER_REFLECTION}/${userId}`, {}, true);
 const getMyFeedbacks = () => apiCall('get', URL_FEEDBACK, {}, true);
 const submitFeedback = (id, param) =>
   apiCall('patch', `${URL_FEEDBACK}/${id}`, param, true);
-const removeFeedbackRequest = id =>
+const removeFeedbackRequest = (id) =>
   apiCall('delete', `${URL_REQUEST_FEEDBACK}/${id}`, {}, true);
-const getUserFeedbacks = userId =>
+const getUserFeedbacks = (userId) =>
   apiCall('get', `${URL_FEEDBACK}/${userId}`, {}, true);
 const getNotificationSettings = () =>
   apiCall('get', URL_NOTIFICATION, {}, true);
-const updateNotificationSettings = param =>
+const updateNotificationSettings = (param) =>
   apiCall('patch', URL_NOTIFICATION, param, true);
-const createNotificationSettings = param =>
+const createNotificationSettings = (param) =>
   apiCall('post', URL_NOTIFICATION, param, true);
-const getAllUsers = param => apiCall('get', URL_ALL_USERS, {}, true);
-const getAllTrustMembers = param => apiCall('get', URL_TRUST_MEMBERS, {}, true);
-const sendContactRequest = param =>
+const getAllUsers = (param) => apiCall('get', URL_ALL_USERS, {}, true);
+const getAllTrustMembers = (param) =>
+  apiCall('get', URL_TRUST_MEMBERS, {}, true);
+const sendContactRequest = (param) =>
   apiCall('post', URL_TRUST_MEMBERS, param, true);
-const sendFeedbackRequest = param => apiCall('post', URL_FEEDBACK, param, true);
+const sendFeedbackRequest = (param) =>
+  apiCall('post', URL_FEEDBACK, param, true);
 const getTrustNetworks = () => apiCall('get', URL_NETWORK, {}, true);
-const declineRequest = userId =>
+const declineRequest = (userId) =>
   apiCall('delete', `${URL_TRUST_MEMBERS}/${userId}`, {}, true);
-const createNetwork = param => apiCall('post', URL_NETWORK, param, true);
-const deleteNetwork = networkId =>
+const createNetwork = (param) => apiCall('post', URL_NETWORK, param, true);
+const deleteNetwork = (networkId) =>
   apiCall('delete', `${URL_NETWORK}/${networkId}`, {}, true);
-const updateNetwork = network =>
+const updateNetwork = (network) =>
   apiCall('patch', `${URL_NETWORK}/${network._id}`, network, true);
-const addReflections = param =>
+const addReflections = (param) =>
   apiCall('post', URL_REFLECTION_ADD, param, true);
-const updateReflections = param =>
+const updateReflections = (param) =>
   apiCall('post', URL_REFLECTION_UPDATE, param, true);
-const removeReflection = param =>
+const removeReflection = (param) =>
   apiCall('post', `${URL_REFLECTION}/remove`, param, true);
-const updateCommits = param => apiCall('patch', URL_COMMIT, param, true);
-const getMyCommits = param => apiCall('get', URL_COMMIT, {}, true);
+const updateCommits = (param) => apiCall('patch', URL_COMMIT, param, true);
+const getUserCommits = (userId) =>
+  apiCall('get', `${URL_COMMIT}/${userId}`, {}, true);
 
 const fileUploadToS3 = async ({image, name, type}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
@@ -140,5 +143,5 @@ export default {
   removeReflection,
   deleteProfile,
   updateCommits,
-  getMyCommits,
+  getUserCommits,
 };

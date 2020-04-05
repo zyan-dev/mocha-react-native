@@ -11,6 +11,7 @@ import MainHomeStack from '../containers/Home';
 import NavigationService from './NavigationService';
 import UserProfile from '../containers/Others/UserProfile';
 import SelectUserScreen from '../containers/Others/SelectUsers';
+import UserObjectiveScreen from '../containers/Others/UserObjectives';
 import {MixpanelToken} from 'utils/config';
 
 import Mixpanel from 'react-native-mixpanel';
@@ -23,7 +24,7 @@ class RootNavigator extends React.Component {
     Mixpanel.sharedInstanceWithToken(MixpanelToken);
   }
 
-  _onNavigationStateChange = newState => {
+  _onNavigationStateChange = (newState) => {
     setTimeout(() => {
       this.checkNetworkStatus();
     }, 1000);
@@ -31,7 +32,7 @@ class RootNavigator extends React.Component {
 
   checkNetworkStatus = () => {
     const {isInternetReachable, setNetworkOfflineStatus, syncData} = this.props;
-    NetInfo.fetch().then(state => {
+    NetInfo.fetch().then((state) => {
       if (!isInternetReachable && state.isInternetReachable) {
         // changed to online status
         syncData(false);
@@ -44,7 +45,7 @@ class RootNavigator extends React.Component {
     const {isNewUser, isLoading} = this.props;
     return (
       <NavigationContainer
-        ref={ref => NavigationService.setNavigator(ref)}
+        ref={(ref) => NavigationService.setNavigator(ref)}
         onStateChange={this._onNavigationStateChange}>
         <Stack.Navigator headerMode="none">
           {isNewUser && (
@@ -52,6 +53,7 @@ class RootNavigator extends React.Component {
           )}
           <Stack.Screen name="mainStack" component={MainHomeStack} />
           <Stack.Screen name="UserProfile" component={UserProfile} />
+          <Stack.Screen name="UserObjective" component={UserObjectiveScreen} />
           <Stack.Screen name="SelectUser" component={SelectUserScreen} />
         </Stack.Navigator>
         {isLoading && (
@@ -64,7 +66,7 @@ class RootNavigator extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isNewUser: state.routerReducer.isNewUser,
   isLoading: state.routerReducer.isLoading,
   profile: state.profileReducer,
@@ -77,7 +79,4 @@ const mapDispatchToProps = {
   syncData: routerActions.syncData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RootNavigator);
+export default connect(mapStateToProps, mapDispatchToProps)(RootNavigator);

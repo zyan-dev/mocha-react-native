@@ -12,7 +12,7 @@ import {dySize} from 'utils/responsive';
 const HeaderWrapper = styled(Header)`
   width: ${dySize(375)};
   height: 80px;
-  background-color: ${props => props.theme.colors.background};
+  background-color: ${(props) => props.theme.colors.background};
   border-bottom-width: 0px;
   elevation: 0;
 `;
@@ -25,9 +25,8 @@ const HeaderLeft = styled(Left)`
 
 const HeaderRight = styled(Right)`
   flex: 1;
-  justify-content: center;
-  align-items: flex-end;
-  padding-right: 10px;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 const HeaderBody = styled(Body)`
@@ -38,7 +37,7 @@ const HeaderBody = styled(Body)`
 
 const HeaderIcon = styled(Icon)`
   font-size: ${dySize(30)};
-  color: ${props => props.theme.colors.text};
+  color: ${(props) => props.theme.colors.text};
 `;
 
 class MCHeader extends React.PureComponent {
@@ -48,6 +47,7 @@ class MCHeader extends React.PureComponent {
     hasRight: PropTypes.bool,
     rightText: PropTypes.string,
     rightIcon: PropTypes.string,
+    rightImage: PropTypes.node,
     rightIconType: PropTypes.string,
     onPressRight: PropTypes.func,
     style: PropTypes.object,
@@ -58,6 +58,7 @@ class MCHeader extends React.PureComponent {
     hasRight: false,
     rightText: '',
     rightIcon: '',
+    rightImage: null,
     rightIconType: 'Ionicon',
     onPressRight: () => undefined,
     onPressBack: () => {
@@ -72,6 +73,7 @@ class MCHeader extends React.PureComponent {
       hasRight,
       rightText,
       rightIcon,
+      rightImage,
       rightIconType,
       onPressRight,
       onPressBack,
@@ -109,19 +111,15 @@ class MCHeader extends React.PureComponent {
               <HeaderIcon type={rightIconType} name={rightIcon} />
             </MCButton>
           )}
+          {rightImage}
         </HeaderRight>
       </HeaderWrapper>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
 });
 
-export default withTranslation()(
-  connect(
-    mapStateToProps,
-    undefined,
-  )(MCHeader),
-);
+export default withTranslation()(connect(mapStateToProps, undefined)(MCHeader));

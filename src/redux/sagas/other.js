@@ -74,8 +74,8 @@ export function* syncData(action) {
       // processing deleted reflections
       if (!action.payload) {
         yield all(
-          serverReflections.map(sr => {
-            const find = localReflections.find(lr => lr._id === sr._id);
+          serverReflections.map((sr) => {
+            const find = localReflections.find((lr) => lr._id === sr._id);
             if (!find) {
               put({type: types.REMOVE_REFLECTION, payload: sr});
             }
@@ -88,7 +88,7 @@ export function* syncData(action) {
       const reflections_should_be_added = [];
       for (let i = 0; i < localReflections.length; i++) {
         const lr = localReflections[i];
-        const find = serverReflections.find(sr => lr._id === sr._id);
+        const find = serverReflections.find((sr) => lr._id === sr._id);
         if (
           lr.data.image &&
           lr.data.image.length &&
@@ -130,25 +130,25 @@ export function* syncData(action) {
           data: {
             goal: reflections_should_be_added
               .filter(({type}) => capitalizeString(type) === 'Goal')
-              .map(reflection => reflection.data),
+              .map((reflection) => reflection.data),
             value: reflections_should_be_added
               .filter(({type}) => capitalizeString(type) === 'Value')
-              .map(reflection => reflection.data),
+              .map((reflection) => reflection.data),
             manual: reflections_should_be_added
               .filter(({type}) => capitalizeString(type) === 'Manual')
-              .map(reflection => reflection.data),
+              .map((reflection) => reflection.data),
             feedback: reflections_should_be_added
               .filter(({type}) => capitalizeString(type) === 'Feedback')
-              .map(reflection => reflection.data),
+              .map((reflection) => reflection.data),
             chronotype: reflections_should_be_added
               .filter(({type}) => capitalizeString(type) === 'Chronotype')
-              .map(reflection => reflection.data),
+              .map((reflection) => reflection.data),
             motivation: reflections_should_be_added
               .filter(({type}) => capitalizeString(type) === 'Motivation')
-              .map(reflection => reflection.data),
+              .map((reflection) => reflection.data),
             emotion: reflections_should_be_added
               .filter(({type}) => capitalizeString(type) === 'Emotion')
-              .map(reflection => reflection.data),
+              .map((reflection) => reflection.data),
           },
         });
         if (response.data.status !== 'success') {
@@ -179,14 +179,14 @@ export function* syncData(action) {
   }
 }
 
-export function* getMyCommits(action) {
+export function* getUserCommits(action) {
   try {
-    const response = yield call(API.getMyCommits);
+    const response = yield call(API.getUserCommits, action.payload);
     if (response.data.status !== 'success') {
       showAlert(response.data.data.message);
     } else {
       yield put({
-        type: types.SET_MY_COMMITS,
+        type: types.SET_USER_COMMITS,
         payload: response.data.data.commits || [],
       });
     }
@@ -201,7 +201,7 @@ export function* updateCommits(action) {
     if (response.data.status !== 'success') {
       showAlert(response.data.data.message);
     } else {
-      yield put({type: types.GET_MY_COMMITS});
+      yield put({type: types.GET_USER_COMMITS});
     }
   } catch (e) {
     showAlert(e.toString());

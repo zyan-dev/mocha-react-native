@@ -27,7 +27,7 @@ class AnalyzeObjectiveScreen extends React.Component {
     this.setEndDate();
   }
 
-  setEndDate = year => {
+  setEndDate = (year) => {
     const today = new Date();
     const weekEndDate = new Date(
       getTodayStartDateStamp() + 86400 * 1000 * (6 - today.getDay()),
@@ -36,7 +36,7 @@ class AnalyzeObjectiveScreen extends React.Component {
   };
 
   getCommitData = (weekNumberOffset, weekDayOffset) => {
-    const {myCommits} = this.props;
+    const {commits} = this.props;
     const {endDate} = this.state;
     const commitDate = new Date(
       endDate.getTime() -
@@ -44,7 +44,7 @@ class AnalyzeObjectiveScreen extends React.Component {
         86400 * 1000 * 7 * weekNumberOffset,
     );
     const commitKey = getCommitKey(commitDate);
-    const find = myCommits.find(commit => commit.date === commitKey);
+    const find = commits.find((commit) => commit.date === commitKey);
     const commitNum = find ? find.amount : undefined;
     if (commitNum) {
       let color = 'transparent';
@@ -66,13 +66,13 @@ class AnalyzeObjectiveScreen extends React.Component {
   };
 
   getLastWeekCommitCount = () => {
-    const {myCommits} = this.props;
+    const {commits} = this.props;
     const todayST = getTodayStartDateStamp();
     let commitKey = '';
     let result = 0;
     for (i = 0; i < 7; i++) {
       commitKey = getCommitKey(todayST - 86400 * 1000 * i);
-      const find = myCommits.find(commit => commit.date === commitKey);
+      const find = commits.find((commit) => commit.date === commitKey);
       if (find && find.amount) result += find.amount;
     }
     return result;
@@ -207,16 +207,13 @@ class AnalyzeObjectiveScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.profileReducer,
-  myCommits: state.otherReducer.myCommits,
+  commits: state.otherReducer.commits,
 });
 
 const mapDispatchToProps = {};
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(AnalyzeObjectiveScreen),
+  connect(mapStateToProps, mapDispatchToProps)(AnalyzeObjectiveScreen),
 );

@@ -1511,5 +1511,6 @@
   "welcome_theme_displayText": "Choose your color scheme!",
   "welcome_theme_title": "ColorScheme",
   "welcome_title": "Welcome to Mocha",
+  "whos_objective": "{{who}}'s objectives",
   "yes": "Yes"
 }

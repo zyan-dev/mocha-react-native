@@ -21,6 +21,7 @@ import QuirkAndTrigger from '../ProfileTab/profile/cards/QuirkAndTrigger';
 import AttachmentAndApproach from '../ProfileTab/profile/cards/AttachmentAndApproach';
 import LanguageAndRisk from '../ProfileTab/profile/cards/LanguageAndRisk';
 import StressAndComfort from '../ProfileTab/profile/cards/StressAndComfort';
+import NavigationService from 'navigation/NavigationService';
 
 class UserProfileScreen extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class UserProfileScreen extends React.Component {
       getUserReflections,
       getUserFeedbacks,
     } = this.props;
-    const find = allUsers.find(user => user._id === id);
+    const find = allUsers.find((user) => user._id === id);
     if (find) {
       getUserProfile(id);
       getUserReflections(id);
@@ -64,7 +65,7 @@ class UserProfileScreen extends React.Component {
       dailyObjectives,
       weeklyObjectives,
     } = this.props;
-    const find = allUsers.find(user => user._id === id);
+    const find = allUsers.find((user) => user._id === id);
     console.log('User Chronotype', chronotype);
     if (!find) {
       return (
@@ -89,6 +90,9 @@ class UserProfileScreen extends React.Component {
             <ValueAndPurpose values={values} />
             <MotivationCard motivations={motivations} />
             <BeliefAndObjective
+              onPressAllObjectives={() =>
+                NavigationService.navigate('UserObjective')
+              }
               manuals={manuals}
               dailyObjectives={dailyObjectives}
               weeklyObjectives={weeklyObjectives}
@@ -109,7 +113,7 @@ class UserProfileScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.usersReducer.userProfile,
   allUsers: state.usersReducer.allUsers,
   goals: selector.reflections.getUserGoals(state),

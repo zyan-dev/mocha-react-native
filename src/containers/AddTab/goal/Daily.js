@@ -19,15 +19,16 @@ class DailyObjectiveScreen extends React.Component {
     this.state = {};
   }
 
-  onPressEdit = item => {
+  onPressEdit = (item) => {
     this.props.selectReflection(item);
     this.props.setSeletedUsers(item.data.collaborators);
     NavigationService.navigate('EditObjective');
   };
 
   onToggleCheck = (objective, measure) => {
+    if (this.props.isShowingUserObjective) return;
     this.props.selectReflection(objective);
-    const updated = objective.data.measures.map(i => {
+    const updated = objective.data.measures.map((i) => {
       if (i.title === measure.title) {
         return {
           title: measure.title,
@@ -50,7 +51,7 @@ class DailyObjectiveScreen extends React.Component {
   };
 
   _renderItem = ({item}) => {
-    const {t, theme} = this.props;
+    const {theme, isShowingUserObjective} = this.props;
     const {title, measures, collaborators} = item.data;
     return (
       <MCView width={350} bordered br={10} align="center" mb={10}>
@@ -59,7 +60,7 @@ class DailyObjectiveScreen extends React.Component {
             {title}
           </H4>
         </MCCard>
-        {measures.map(measure => (
+        {measures.map((measure) => (
           <CheckBox
             style={{width: dySize(330), marginTop: 10}}
             onClick={() => this.onToggleCheck(item, measure)}
@@ -80,7 +81,7 @@ class DailyObjectiveScreen extends React.Component {
             style={{flex: 1}}
             ml={30}
             overflow="visible">
-            {collaborators.map(user => (
+            {collaborators.map((user) => (
               <MCImage
                 image={{uri: user.avatar}}
                 round
@@ -90,25 +91,36 @@ class DailyObjectiveScreen extends React.Component {
               />
             ))}
           </MCView>
-          <MCView row align="center" justify="flex-end" style={{flex: 1}}>
-            <MCButton onPress={() => this.onPressEdit(item)}>
-              <MCIcon name="ios-create" />
-            </MCButton>
-          </MCView>
+          {!isShowingUserObjective && (
+            <MCView row align="center" justify="flex-end" style={{flex: 1}}>
+              <MCButton onPress={() => this.onPressEdit(item)}>
+                <MCIcon name="ios-create" />
+              </MCButton>
+            </MCView>
+          )}
         </MCView>
       </MCView>
     );
   };
 
   render() {
-    const {t, dailyObjectives} = this.props;
+    const {
+      t,
+      isShowingUserObjective,
+      dailyObjectives,
+      userDailyObjectives,
+    } = this.props;
     return (
       <MCRootView justify="flex-start">
         <FlatList
-          contentContainerStyle={{paddingTop: 20}}
-          data={dailyObjectives}
+          contentContainerStyle={{
+            width: dySize(375),
+            paddingTop: 20,
+            alignItems: 'center',
+          }}
+          data={isShowingUserObjective ? userDailyObjectives : dailyObjectives}
           renderItem={this._renderItem}
-          keyExtractor={item => item._id}
+          keyExtractor={(item) => item._id}
           ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
         />
       </MCRootView>
@@ -116,9 +128,11 @@ class DailyObjectiveScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
+  isShowingUserObjective: state.otherReducer.isShowingUserObjective,
   dailyObjectives: selector.reflections.getMyDailyObjectives(state),
+  userDailyObjectives: selector.reflections.getUserDailyObjectives(state),
 });
 
 const mapDispatchToProps = {

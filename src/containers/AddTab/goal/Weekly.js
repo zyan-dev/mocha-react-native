@@ -20,15 +20,16 @@ class WeeklyObjectiveScreen extends React.Component {
     this.state = {};
   }
 
-  onPressEdit = item => {
+  onPressEdit = (item) => {
     this.props.selectReflection(item);
     this.props.setSeletedUsers(item.data.collaborators);
     NavigationService.navigate('EditObjective');
   };
 
   onToggleCheck = (objective, measure) => {
+    if (this.props.isShowingUserObjective) return;
     this.props.selectReflection(objective);
-    const updated = objective.data.measures.map(i => {
+    const updated = objective.data.measures.map((i) => {
       if (i.title === measure.title) {
         return {
           title: measure.title,
@@ -51,7 +52,7 @@ class WeeklyObjectiveScreen extends React.Component {
   };
 
   _renderItem = ({item}) => {
-    const {t, theme} = this.props;
+    const {t, theme, isShowingUserObjective} = this.props;
     const {title, measures, isDaily, deadline, collaborators} = item.data;
     return (
       <MCView width={350} bordered br={10} align="center" mb={10}>
@@ -60,7 +61,7 @@ class WeeklyObjectiveScreen extends React.Component {
             {title}
           </H4>
         </MCCard>
-        {measures.map(measure => (
+        {measures.map((measure) => (
           <CheckBox
             style={{width: dySize(330), marginTop: 10}}
             onClick={() => this.onToggleCheck(item, measure)}
@@ -74,14 +75,14 @@ class WeeklyObjectiveScreen extends React.Component {
             checkBoxColor={theme.colors.text}
           />
         ))}
-        <MCView row align="center" mt={10}>
+        <MCView row align="center" mt={10} mb={10}>
           <MCView
             row
             align="center"
             style={{flex: 1}}
             ml={30}
             overflow="visible">
-            {collaborators.map(user => (
+            {collaborators.map((user) => (
               <MCImage
                 image={{uri: user.avatar}}
                 round
@@ -98,24 +99,33 @@ class WeeklyObjectiveScreen extends React.Component {
             }`}</H4>
           </MCView>
         </MCView>
-        <MCView row align="center" justify="flex-end" width={350}>
-          <MCButton onPress={() => this.onPressEdit(item)}>
-            <MCIcon name="ios-create" />
-          </MCButton>
-        </MCView>
+        {!isShowingUserObjective && (
+          <MCView row align="center" justify="flex-end" width={350}>
+            <MCButton onPress={() => this.onPressEdit(item)}>
+              <MCIcon name="ios-create" />
+            </MCButton>
+          </MCView>
+        )}
       </MCView>
     );
   };
 
   render() {
-    const {t, weeklyObjectives} = this.props;
+    const {
+      t,
+      isShowingUserObjective,
+      weeklyObjectives,
+      userWeeklyObjectives,
+    } = this.props;
     return (
       <MCRootView justify="flex-start">
         <FlatList
           contentContainerStyle={{paddingTop: 20}}
-          data={weeklyObjectives}
+          data={
+            isShowingUserObjective ? userWeeklyObjectives : weeklyObjectives
+          }
           renderItem={this._renderItem}
-          keyExtractor={item => item._id}
+          keyExtractor={(item) => item._id}
           ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
         />
       </MCRootView>
@@ -123,9 +133,11 @@ class WeeklyObjectiveScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
+  isShowingUserObjective: state.otherReducer.isShowingUserObjective,
   weeklyObjectives: selector.reflections.getMyWeeklyObjectives(state),
+  userWeeklyObjectives: selector.reflections.getUserWeeklyObjectives(state),
 });
 
 const mapDispatchToProps = {

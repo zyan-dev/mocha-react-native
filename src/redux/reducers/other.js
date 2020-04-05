@@ -3,7 +3,8 @@ import * as types from '../actions/types';
 const INITIAL_STATE = {
   purchaseProducts: [], // pending, checking, incorrect, passed
   loadingProducts: false,
-  myCommits: [],
+  commits: [],
+  isShowingUserObjective: false,
 };
 
 const otherReducer = (state = INITIAL_STATE, action) => {
@@ -18,10 +19,15 @@ const otherReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loadingProducts: action.payload,
       };
-    case types.SET_MY_COMMITS:
+    case types.SET_USER_COMMITS:
       return {
         ...state,
-        myCommits: action.payload,
+        commits: action.payload,
+      };
+    case types.SHOW_USER_OBJECTIVES:
+      return {
+        ...state,
+        isShowingUserObjective: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

@@ -4,11 +4,11 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {reflectionActions, otherActions, userActions} from 'Redux/actions';
 import {MCHeader} from 'components/common';
-import NavigationService from 'navigation/NavigationService';
 import {getTodayStartDateStamp} from 'services/operators';
-import ObjectiveTabView from './TabView';
+import ObjectiveTabView from '../AddTab/goal/TabView';
+import {MCImage} from '../../components/common';
 
-class GoalScreen extends React.Component {
+class UserObjectiveScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,34 +17,28 @@ class GoalScreen extends React.Component {
   }
 
   componentWillMount() {
+    this.props.showUserObjectives(true);
+  }
+
+  componentWillUnmount() {
     this.props.showUserObjectives(false);
   }
 
   componentDidMount() {
-    const {profile, getUserCommits, resetMyObjectives} = this.props;
-    getUserCommits(profile._id);
-    resetMyObjectives();
-    const resetTimeIn =
-      getTodayStartDateStamp() + 86400 * 1000 - new Date().getTime();
-    setTimeout(() => {
-      resetMyObjectives();
-    }, resetTimeIn);
+    const {user, getUserCommits} = this.props;
+    getUserCommits(user._id);
   }
 
-  onPressNew = () => {
-    this.props.setSeletedUsers([]);
-    this.props.setInitialReflection('objective');
-    NavigationService.navigate('EditObjective');
-  };
-
   render() {
-    const {t} = this.props;
+    const {t, user} = this.props;
     return (
       <View style={{flex: 1}}>
         <MCHeader
-          title={t('objective_headerTitle')}
+          title={t('whos_objective', {who: user.name})}
           hasRight
-          rightIcon="ios-add"
+          rightImage={
+            <MCImage image={{uri: user.avatar}} round width={30} height={30} />
+          }
           onPressRight={() => this.onPressNew()}
         />
         <ObjectiveTabView />
@@ -53,16 +47,17 @@ class GoalScreen extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  profile: state.profileReducer,
+  theme: state.routerReducer.theme,
+  user: state.usersReducer.userProfile,
 });
 const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   resetMyObjectives: reflectionActions.resetMyObjectives,
   getUserCommits: otherActions.getUserCommits,
-  showUserObjectives: otherActions.showUserObjectives,
   setSeletedUsers: userActions.setSeletedUsers,
+  showUserObjectives: otherActions.showUserObjectives,
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(GoalScreen),
+  connect(mapStateToProps, mapDispatchToProps)(UserObjectiveScreen),
 );
