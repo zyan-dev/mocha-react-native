@@ -27,7 +27,7 @@ class AppWithNav extends React.Component {
   }
 
   // Updates lock status based on app state changes
-  _handleAppStateChange = nextAppState => {
+  _handleAppStateChange = (nextAppState) => {
     if (this.state.appState.match(/active/) && nextAppState === 'inactive') {
       console.log('App has come to the foreground!');
     }
@@ -46,7 +46,7 @@ class AppWithNav extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
 });
 

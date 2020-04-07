@@ -77,3 +77,25 @@ export function* declineRequest(action) {
     });
   }
 }
+
+export function* approveRequest(action) {
+  try {
+    // call send sms API
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.approveRequest, action.payload);
+    if (response.data.status === 'success') {
+      yield put({type: types.GET_ALL_TRUST_MEMBERS});
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({
+      type: types.API_FINISHED,
+      payload: e.toString(),
+    });
+  }
+}

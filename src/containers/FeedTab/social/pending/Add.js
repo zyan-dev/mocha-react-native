@@ -8,7 +8,7 @@ import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {updateSelectedTrustNetwork} from '../../../../redux/actions/network';
+import {showAlert} from 'services/operators';
 
 class AddPendingUserScreen extends React.Component {
   componentDidMount() {
@@ -22,27 +22,36 @@ class AddPendingUserScreen extends React.Component {
     NavigationService.navigate('ManageTrustNetwork', {new: true});
   };
 
-  onAdd = network => {
+  onAdd = (network) => {
     const {selectTrustNetwork, updateNetwork} = this.props;
-    selectTrustNetwork(network);
-    const members = selectTrustNetwork.members;
-    members.push(this.props.route.params.pendingUser._id);
-    updateSelectedTrustNetwork({members});
-    updateNetwork();
+    try {
+      const pendingUserId = this.props.route.params.pendingUser._id;
+      selectTrustNetwork({
+        ...network,
+        members: network.members.concat([pendingUserId]),
+      });
+      setTimeout(() => {
+        updateNetwork();
+        this.props.approveRequest(pendingUserId);
+      });
+    } catch (e) {
+      showAlert(e.toString());
+    }
   };
 
-  renderAvatars = network => {
+  renderAvatars = (network) => {
     const {allUsers} = this.props;
     return (
       <MCView width={80} height={70} style={{position: 'relative'}}>
         {network.members.slice(0, 3).map((memberId, index) => {
-          const find = allUsers.find(user => user._id === memberId);
+          const find = allUsers.find((user) => user._id === memberId);
           return (
             <MCImage
               width={40}
               height={40}
               round
-              image={{uri: find.avatar}}
+              type="avatar"
+              image={{uri: find ? find.avatar : ''}}
               style={{
                 position: 'absolute',
                 left: 20 * index,
@@ -68,7 +77,7 @@ class AddPendingUserScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader title={t('feed_network_add_headerTitle')} />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          {myNetworks.map(network => {
+          {myNetworks.map((network) => {
             return (
               <MCCard row mb={10} height={70} align="center">
                 {this.renderAvatars(network)}
@@ -118,7 +127,7 @@ class AddPendingUserScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   myNetworks: state.networkReducer.myNetworks,
   allUsers: state.usersReducer.allUsers,
   theme: state.routerReducer.theme,
@@ -129,9 +138,9 @@ const mapDispatchToProps = {
   getTrustNetworks: networkActions.getTrustNetworks,
   initTrustNetwork: networkActions.initTrustNetwork,
   selectTrustNetwork: networkActions.selectTrustNetwork,
-  updateSelectedTrustNetwork: networkActions.updateSelectedTrustNetwork,
   updateNetwork: networkActions.updateNetwork,
   setSeletedUsers: userActions.setSeletedUsers,
+  approveRequest: userActions.approveRequest,
 };
 
 export default withTranslation()(

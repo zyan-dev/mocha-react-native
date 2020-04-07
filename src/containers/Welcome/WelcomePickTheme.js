@@ -10,7 +10,7 @@ import NavigationService from 'navigation/NavigationService';
 import {routerActions, otherActions} from 'Redux/actions';
 
 class WelcomePickTheme extends React.PureComponent {
-  onPressTheme = index => {
+  onPressTheme = (index) => {
     this.props.setThemeIndex(index);
     this.props.trackEvent({
       event: 'Select Theme',
@@ -48,9 +48,7 @@ class WelcomePickTheme extends React.PureComponent {
             width={240}
             bordered
             align="center"
-            onPress={() =>
-              NavigationService.navigate('WelcomeReflectionPoint')
-            }>
+            onPress={() => NavigationService.navigate('WelcomeToTab')}>
             <H3>{t('button_next')}</H3>
           </MCButton>
         </MCView>
@@ -59,7 +57,7 @@ class WelcomePickTheme extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
 });
 

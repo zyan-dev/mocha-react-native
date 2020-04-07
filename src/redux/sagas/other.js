@@ -41,6 +41,7 @@ export function* syncData(action) {
   const {
     profileReducer,
     reflectionReducer: {myReflections},
+    notificationReducer,
   } = yield select();
   try {
     yield put({type: types.API_CALLING});
@@ -159,6 +160,22 @@ export function* syncData(action) {
           return;
         }
       }
+
+      //sync notification settings
+      response = yield call(
+        API.updateNotificationSettings,
+        notificationReducer,
+      );
+      console.log(response);
+      if (response.data.status !== 'success') {
+        yield put({
+          type: types.API_FINISHED,
+          payload:
+            'Error occured while synchronizing your notification settings',
+        });
+        return;
+      }
+
       yield put({
         type: types.API_FINISHED,
         payload: 'All data has been synced successfully',

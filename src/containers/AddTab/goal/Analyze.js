@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import moment from 'moment';
 import {MCRootView} from 'components/styled/View';
-import {MCPicker} from 'components/common';
-import {H3, H4} from 'components/styled/Text';
+import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCView, MCContent} from 'components/styled/View';
 import {
@@ -102,7 +101,7 @@ class AnalyzeObjectiveScreen extends React.Component {
           <MCView mr={5} width={10} height={10} br={5} background={colors[2]} />
           <MCView mr={5} width={10} height={10} br={5} background={colors[3]} />
         </MCView>
-        <MCView width={250} mt={10} row wrap justify="center">
+        <MCView width={250} mt={10} mb={15} row wrap justify="center">
           <MCView ml={5} mr={5} width={24} height={30} />
           <MCView ml={5} mr={5} width={24} height={30} align="center">
             <H3>M</H3>
@@ -118,6 +117,7 @@ class AnalyzeObjectiveScreen extends React.Component {
           <MCView ml={5} mr={5} width={24} height={30} />
         </MCView>
         <MCContent
+          style={{marginBottom: 10}}
           contentContainerStyle={{alignItems: 'center', paddingBottom: 100}}>
           {Array.apply(null, Array(52)).map((i, index) => {
             return (
@@ -208,7 +208,6 @@ class AnalyzeObjectiveScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  profile: state.profileReducer,
   commits: state.otherReducer.commits,
 });
 

@@ -19,7 +19,7 @@ import {getAfterDate} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {WeekDays} from 'utils/constants';
-import {getCommitKey, getUpdatedMeasures} from '../../../services/operators';
+import {getUpdatedMeasures} from '../../../services/operators';
 
 class EditObjectiveScreen extends React.PureComponent {
   constructor(props) {
@@ -36,11 +36,22 @@ class EditObjectiveScreen extends React.PureComponent {
   }
 
   onPressRight = () => {
-    const {selectedUsers, updateSelectedReflection} = this.props;
+    const {
+      selectedUsers,
+      updateSelectedReflection,
+      selectedReflection: {
+        data: {measures},
+      },
+    } = this.props;
+    const {newMeasureTitle} = this.state;
     updateSelectedReflection({
-      collaborators: selectedUsers.map(user =>
+      collaborators: selectedUsers.map((user) =>
         _.pick(user, ['_id', 'avatar', 'pushToken', 'name']),
       ),
+      measures:
+        newMeasureTitle.length > 0
+          ? measures.concat([{title: newMeasureTitle}])
+          : measures,
     });
     this.updateCommitHistory();
     setTimeout(() => {
@@ -57,7 +68,7 @@ class EditObjectiveScreen extends React.PureComponent {
     const {origin} = this.state;
     const updatedMeasures = getUpdatedMeasures(measures, origin);
     if (Object.keys(updatedMeasures).length > 0) {
-      const param = Object.keys(updatedMeasures).map(key => ({
+      const param = Object.keys(updatedMeasures).map((key) => ({
         date: key,
         amount: updatedMeasures[key],
       }));
@@ -65,14 +76,14 @@ class EditObjectiveScreen extends React.PureComponent {
     }
   };
 
-  onToggleCheck = measure => {
+  onToggleCheck = (measure) => {
     const {
       updateSelectedReflection,
       selectedReflection: {
         data: {measures},
       },
     } = this.props;
-    const updated = measures.map(item => {
+    const updated = measures.map((item) => {
       if (item.title === measure.title) {
         return {
           ...measure,
@@ -85,7 +96,7 @@ class EditObjectiveScreen extends React.PureComponent {
     updateSelectedReflection({measures: updated});
   };
 
-  onChangeTime = time => {
+  onChangeTime = (time) => {
     const {updateSelectedReflection} = this.props;
     updateSelectedReflection({
       deadline: new Date(time).getTime() + 86400 + 1000,
@@ -97,17 +108,17 @@ class EditObjectiveScreen extends React.PureComponent {
     this.setState({showTimePicker: false});
   };
 
-  onRemoveMeasure = measure => {
+  onRemoveMeasure = (measure) => {
     const {
       selectedReflection: {
         data: {measures},
       },
     } = this.props;
-    const filtered = measures.filter(item => item.title !== measure.title);
+    const filtered = measures.filter((item) => item.title !== measure.title);
     this.props.updateSelectedReflection({measures: filtered});
   };
 
-  addNewMeasure = title => {
+  addNewMeasure = (title) => {
     const {
       selectedReflection: {
         data: {measures},
@@ -181,12 +192,14 @@ class EditObjectiveScreen extends React.PureComponent {
               ? t('objective_edit_title')
               : t('objective_add_title')
           }
-          hasRight={title.length * measures.length * selectedUsers.length > 0}
+          hasRight={
+            title.length * (measures.length + newMeasureTitle.length) > 0
+          }
           rightIcon={selectedReflection._id ? 'ios-cloud-upload' : 'ios-send'}
           onPressRight={() => this.onPressRight()}
         />
         <MCContent
-          ref={ref => (this.scrollView = ref)}
+          ref={(ref) => (this.scrollView = ref)}
           contentContainerStyle={{padding: dySize(10), paddingBottom: 200}}>
           <H3 width={350} align="left" underline>
             {t('objective_preview')}
@@ -197,7 +210,7 @@ class EditObjectiveScreen extends React.PureComponent {
                 {title}
               </H4>
             </MCCard>
-            {measures.map(measure => (
+            {measures.map((measure) => (
               <CheckBox
                 style={{width: dySize(330), marginTop: 10}}
                 onClick={() => this.onToggleCheck(measure)}
@@ -218,7 +231,7 @@ class EditObjectiveScreen extends React.PureComponent {
                 style={{flex: 1}}
                 ml={30}
                 overflow="visible">
-                {selectedUsers.map(user => (
+                {selectedUsers.map((user) => (
                   <MCImage
                     image={{uri: user.avatar}}
                     round
@@ -257,7 +270,7 @@ class EditObjectiveScreen extends React.PureComponent {
           </H4>
           <MCEditableText
             text={title}
-            onChange={text => updateSelectedReflection({title: text})}
+            onChange={(text) => updateSelectedReflection({title: text})}
           />
 
           <MCView row align="center" justify="space-between" mt={20}>
@@ -326,7 +339,7 @@ class EditObjectiveScreen extends React.PureComponent {
                 maxLength={60}
                 text={newMeasureTitle}
                 blurOnSubmit={false}
-                onChange={text => this.setState({newMeasureTitle: text})}
+                onChange={(text) => this.setState({newMeasureTitle: text})}
                 onSubmit={() => this.addNewMeasure(newMeasureTitle)}
               />
             </MCView>
@@ -349,7 +362,7 @@ class EditObjectiveScreen extends React.PureComponent {
               style={{width: '100%', height: dySize(200)}}
               data={selectedUsers}
               renderItem={this._renderMemberItem}
-              keyExtractor={item => item}
+              keyExtractor={(item) => item}
               ListFooterComponent={this._renderSocialListFooter}
             />
           </MCCard>
@@ -371,10 +384,9 @@ class EditObjectiveScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
-  reflectionSections: state.reflectionReducer.reflectionSections,
   selectedUsers: state.usersReducer.selectedUsers,
 });
 

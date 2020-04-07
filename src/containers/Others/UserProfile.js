@@ -91,7 +91,7 @@ class UserProfileScreen extends React.Component {
             <MotivationCard motivations={motivations} />
             <BeliefAndObjective
               onPressAllObjectives={() =>
-                NavigationService.navigate('UserObjective')
+                NavigationService.navigate('UserObjective', {id: profile._id})
               }
               manuals={manuals}
               dailyObjectives={dailyObjectives}

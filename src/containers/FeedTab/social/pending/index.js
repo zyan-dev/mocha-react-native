@@ -12,7 +12,10 @@ import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 
 class PendingRequestScreen extends React.Component {
-  onAddUser = user => {
+  componentDidMount() {
+    this.props.getAllTrustMembers();
+  }
+  onAddUser = (user) => {
     NavigationService.navigate('AddPendingUser', {pendingUser: user});
   };
 
@@ -69,7 +72,7 @@ class PendingRequestScreen extends React.Component {
           style={{width: dySize(355)}}
           data={pendingUsers}
           renderItem={this._renderPendingReqeustItem}
-          keyExtractor={item => item.requestId}
+          keyExtractor={(item) => item.requestId}
           ListEmptyComponent={<MCEmptyText>{t('empty_request')}</MCEmptyText>}
         />
       </MCRootView>
@@ -77,13 +80,14 @@ class PendingRequestScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pendingUsers: selector.users.getAllPendingUsers(state),
   theme: state.routerReducer.theme,
 });
 
 const mapDispatchToProps = {
   declineRequest: userActions.declineRequest,
+  getAllTrustMembers: userActions.getAllTrustMembers,
 };
 
 export default withTranslation()(

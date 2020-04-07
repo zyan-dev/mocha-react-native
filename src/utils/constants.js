@@ -212,12 +212,54 @@ export const SampleFeedbackQuestions = [
 ];
 
 export const NetworkPermissions = [
-  {key: 'Value', data: 'value'},
-  {key: 'Manual', data: 'user-manual'},
-  {key: 'Emotion', data: 'emotion'},
-  {key: 'Need', data: 'need'},
-  {key: 'Goal', data: 'goal'},
-  {key: 'Tap', data: 'tap-to-count'},
+  {
+    key: 'Personal',
+    label: 'personal',
+    iconType: 'FontAwesome5',
+    icon: 'baby',
+  },
+  {
+    key: 'Feedback',
+    label: 'feedback',
+    iconType: 'Ionicon',
+    icon: 'ios-git-compare',
+  },
+  {
+    key: 'Risk',
+    label: 'risk',
+    iconType: 'Ionicon',
+    icon: 'ios-warning',
+  },
+  {
+    key: 'Attachment',
+    label: 'attachment',
+    iconType: 'Ionicon',
+    icon: 'ios-attach',
+  },
+  {
+    key: 'Approach',
+    label: 'approach',
+    iconType: 'FontAwesome5',
+    icon: 'hand-middle-finger',
+  },
+  {
+    key: 'Value',
+    label: 'value',
+    iconType: 'FontAwesome',
+    icon: 'key',
+  },
+  {
+    key: 'Body',
+    label: 'body-awareness',
+    iconType: 'Ionicon',
+    icon: 'ios-body',
+  },
+  {
+    key: 'Objective',
+    label: 'objective',
+    iconType: 'Ionicon',
+    icon: 'ios-compass',
+  },
 ];
 
 export const NightSliderValues = [

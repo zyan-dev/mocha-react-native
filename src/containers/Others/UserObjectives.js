@@ -25,8 +25,9 @@ class UserObjectiveScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {user, getUserCommits} = this.props;
-    getUserCommits(user._id);
+    const {id} = this.props.route.params;
+    const {getUserCommits} = this.props;
+    getUserCommits(id);
   }
 
   render() {
@@ -34,7 +35,7 @@ class UserObjectiveScreen extends React.Component {
     return (
       <View style={{flex: 1}}>
         <MCHeader
-          title={t('whos_objective', {who: user.name})}
+          title={t('whos_objective', {who: user.name.split(' ')[0]})}
           hasRight
           rightImage={
             <MCImage image={{uri: user.avatar}} round width={30} height={30} />

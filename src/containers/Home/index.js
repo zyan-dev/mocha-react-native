@@ -1,5 +1,4 @@
 import React from 'react';
-import {PushNotificationIOS, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
@@ -8,23 +7,33 @@ import FeedTabStack from '../FeedTab';
 import AddValueTabStack from '../AddTab';
 import ProfileTabStack from '../ProfileTab';
 import TabView from './TabView';
-import {profileActions} from 'Redux/actions';
-import NavigationService from '../../navigation/NavigationService';
+import {
+  profileActions,
+  userActions,
+  feedbackActions,
+  reflectionActions,
+} from 'Redux/actions';
+import NavigationService from 'navigation/NavigationService';
 
 const Tab = createBottomTabNavigator();
 
 class MainHomeStack extends React.Component {
   componentDidMount() {
-    const _this = this;
+    const {
+      setProfileData,
+      getAllTrustMembers,
+      getMyFeedbacks,
+      getUserProfile,
+    } = this.props;
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
-      onRegister: async function(token) {
+      onRegister: async function (token) {
         const fcmToken = await messaging().getToken();
         console.log('FCM PushToken: ', fcmToken); // used FCM token instead of APNs token on iOS
-        _this.props.setProfileData({pushToken: fcmToken});
+        setProfileData({pushToken: fcmToken});
       },
       // (required) Called when a remote or local notification is opened or received
-      onNotification: function(notification) {
+      onNotification: function (notification) {
         console.log('NOTIFICATION:', notification);
         // process the notification here
         // Sample notification data
@@ -47,15 +56,39 @@ class MainHomeStack extends React.Component {
         // }
         switch (notification.data.type) {
           case 'request.feedback':
+            getMyFeedbacks();
             NavigationService.navigate('TabProfile');
             setTimeout(() => {
               NavigationService.navigate('Feedbacks', {tabIndex: 2});
             });
             break;
           case 'feedback.received':
+            getMyFeedbacks();
             NavigationService.navigate('TabProfile');
             setTimeout(() => {
               NavigationService.navigate('Feedbacks');
+            });
+            break;
+          case 'send.request':
+            getAllTrustMembers();
+            NavigationService.navigate('TabFeed');
+            setTimeout(() => {
+              NavigationService.navigate('PendingRequest');
+            });
+            break;
+          case 'add.trustnetwork':
+            getAllTrustMembers();
+            NavigationService.navigate('TabFeed');
+            setTimeout(() => {
+              NavigationService.navigate('MyTrustNetwork');
+            });
+            break;
+          case 'complete.objective':
+            const userId = notification.data.userId;
+            getUserProfile(userId);
+            getUserReflections(userId);
+            setTimeout(() => {
+              NavigationService.navigate('UserObjective', {id: userId});
             });
             break;
           default:
@@ -78,7 +111,7 @@ class MainHomeStack extends React.Component {
   render() {
     return (
       <Tab.Navigator
-        tabBar={props => <TabView {...props} />}
+        tabBar={(props) => <TabView {...props} />}
         initialRouteName="TabAddValue"
         backBehavior="none" // not handle back button
         headerMode="none">
@@ -92,6 +125,10 @@ class MainHomeStack extends React.Component {
 
 const mapDispatchToProps = {
   setProfileData: profileActions.setProfileData,
+  getAllTrustMembers: userActions.getAllTrustMembers,
+  getMyFeedbacks: feedbackActions.getMyFeedbacks,
+  getUserProfile: profileActions.getUserProfile,
+  getUserReflections: reflectionActions.getUserReflections,
 };
 
 export default connect(undefined, mapDispatchToProps)(MainHomeStack);
