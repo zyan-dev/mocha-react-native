@@ -24,6 +24,7 @@ class MainHomeStack extends React.Component {
       getAllTrustMembers,
       getMyFeedbacks,
       getUserProfile,
+      getUserReflections,
     } = this.props;
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
