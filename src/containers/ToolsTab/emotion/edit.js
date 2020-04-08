@@ -21,13 +21,7 @@ class EditEmotionScreen extends React.PureComponent {
   };
 
   render() {
-    const {
-      t,
-      theme,
-      selectedReflection,
-      updateSelectedReflection,
-      reflectionSections,
-    } = this.props;
+    const {t, theme, selectedReflection, updateSelectedReflection} = this.props;
     const {
       data: {emotion, how, story},
     } = selectedReflection;
@@ -44,11 +38,11 @@ class EditEmotionScreen extends React.PureComponent {
             {t('emotion_select')}
           </H4>
           <MCPicker
-            items={EMOTIONS.map(value => ({
+            items={EMOTIONS.map((value) => ({
               label: t(`mocha_emotion_${value.replace(/ /g, '_')}`),
               value,
             }))}
-            onChange={itemValue => {
+            onChange={(itemValue) => {
               if (itemValue) updateSelectedReflection({emotion: itemValue});
               else updateSelectedReflection({emotion: ''});
             }}
@@ -62,12 +56,12 @@ class EditEmotionScreen extends React.PureComponent {
                 })}
               </H4>
               <MCPicker
-                items={EmotionHow.map(value => ({
+                items={EmotionHow.map((value) => ({
                   label: t(`add_emotion_value_${value}`),
                   value,
                 }))}
                 value={how}
-                onChange={itemValue => {
+                onChange={(itemValue) => {
                   if (itemValue) updateSelectedReflection({how: itemValue});
                   else updateSelectedReflection({how: ''});
                 }}
@@ -97,7 +91,7 @@ class EditEmotionScreen extends React.PureComponent {
                 textAlignVertical="top"
                 maxHeight={300}
                 value={story}
-                onChangeText={text => updateSelectedReflection({story: text})}
+                onChangeText={(text) => updateSelectedReflection({story: text})}
               />
             </MCView>
           </MCCard>
@@ -107,7 +101,7 @@ class EditEmotionScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
   reflectionSections: state.reflectionReducer.reflectionSections,

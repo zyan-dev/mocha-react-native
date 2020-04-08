@@ -6,6 +6,7 @@ import feedbackReducer from './feedbacks';
 import notificationReducer from './notifications';
 import usersReducer from './users';
 import networkReducer from './network';
+import resourceReducer from './resource';
 import otherReducer from './other';
 
 export {
@@ -17,5 +18,6 @@ export {
   notificationReducer,
   usersReducer,
   networkReducer,
+  resourceReducer,
   otherReducer,
 };

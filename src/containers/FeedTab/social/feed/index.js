@@ -9,6 +9,7 @@ import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCHeader, MCSearchInput, MCImage} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
+import {getStringIndexOf} from 'services/operators';
 
 class FeedScreen extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class FeedScreen extends React.Component {
     };
   }
 
-  onPressUserAvatar = user => {
+  onPressUserAvatar = (user) => {
     NavigationService.navigate('UserProfile', {id: user._id});
   };
 
@@ -57,15 +58,12 @@ class FeedScreen extends React.Component {
     const {allUsers} = this.props;
     if (searchText.length === 0) return [];
     else {
-      return allUsers.filter(user => {
-        if (
-          user.name &&
-          user.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-        )
+      return allUsers.filter((user) => {
+        if (user.name && getStringIndexOf(user.name, searchText) > -1)
           return true;
         else if (
           user.user_id &&
-          user.user_id.toLowerCase().indexOf(searchText.toLowerCase()) > -1
+          getStringIndexOf(user.user_id, searchText) > -1
         )
           return true;
         else return false;
@@ -89,7 +87,7 @@ class FeedScreen extends React.Component {
           <MCSearchInput
             width={350}
             text={searchText}
-            onChange={text => this.setState({searchText: text})}
+            onChange={(text) => this.setState({searchText: text})}
             // onBlur={() => this.setState({searchText: ''})}
           />
           {searchText.length > 0 && (
@@ -112,7 +110,7 @@ class FeedScreen extends React.Component {
               data={this.getFilteredUsers()}
               renderItem={this._renderUserItem}
               ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-              keyExtractor={item => item._id}
+              keyExtractor={(item) => item._id}
             />
           )}
         </MCView>
@@ -131,7 +129,7 @@ class FeedScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   allUsers: state.usersReducer.allUsers,
   theme: state.routerReducer.theme,
 });

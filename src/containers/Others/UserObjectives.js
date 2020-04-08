@@ -5,7 +5,7 @@ import {withTranslation} from 'react-i18next';
 import {reflectionActions, otherActions, userActions} from 'Redux/actions';
 import {MCHeader} from 'components/common';
 import {getTodayStartDateStamp} from 'services/operators';
-import ObjectiveTabView from '../AddTab/goal/TabView';
+import ObjectiveTabView from '../ToolsTab/goal/TabView';
 import {MCImage} from '../../components/common';
 
 class UserObjectiveScreen extends React.Component {

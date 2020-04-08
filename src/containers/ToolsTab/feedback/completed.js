@@ -24,7 +24,7 @@ class CompletedFeedbackScreen extends React.Component {
           width={300}
           align="center"
           onPress={() => {
-            NavigationService.navigate('AddTabHome');
+            NavigationService.navigate('ToolsTabHome');
             NavigationService.navigate('TabProfile', {screen: 'Profile'});
             setTimeout(() => {
               NavigationService.navigate('Feedbacks');

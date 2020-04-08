@@ -7,6 +7,7 @@ import {MCHeader, MCImage, MCSearchInput} from 'components/common';
 import {H3, H4, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
+import {getStringIndexOf} from 'services/operators';
 
 class SelectUserScreen extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class SelectUserScreen extends React.Component {
     };
   }
 
-  onPressUserAvatar = user => {
+  onPressUserAvatar = (user) => {
     NavigationService.navigate('UserProfile', {id: user._id});
   };
 
@@ -33,7 +34,7 @@ class SelectUserScreen extends React.Component {
     NavigationService.goBack();
   };
 
-  selectUser = user => {
+  selectUser = (user) => {
     const {isMultiple} = this.state;
     if (isMultiple) {
       this.props.selectUser(user);
@@ -42,7 +43,7 @@ class SelectUserScreen extends React.Component {
     }
   };
 
-  deselectUser = user => {
+  deselectUser = (user) => {
     const {isMultiple} = this.state;
     if (isMultiple) {
       this.props.deselectUser(user);
@@ -71,23 +72,23 @@ class SelectUserScreen extends React.Component {
         <MCSearchInput
           width={350}
           text={searchText}
-          onChange={text => this.setState({searchText: text})}
+          onChange={(text) => this.setState({searchText: text})}
         />
         <MCContent contentContainerStyle={{paddingHorizontal: 10}}>
-          {allUsers.map(user => {
+          {allUsers.map((user) => {
             const userName = user.user_id;
             const fullName = user.name;
             const filterString = searchText.toLowerCase();
             if (!userName || !fullName || user._id === myProfile._id) {
               return;
             } else if (
-              userName.toLowerCase().indexOf(filterString) < 0 &&
-              fullName.toLowerCase().indexOf(filterString) < 0
+              getStringIndexOf(userName, filterString) < 0 &&
+              getStringIndexOf(fullName, filterString) < 0
             ) {
               return;
             }
             const filtered = selectedUsers.filter(
-              selected => selected._id === user._id,
+              (selected) => selected._id === user._id,
             );
             const selected = isMultiple
               ? filtered.length > 0
@@ -135,7 +136,7 @@ class SelectUserScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedUsers: state.usersReducer.selectedUsers,
   selectedUser: state.usersReducer.selectedUser,
   allUsers: state.usersReducer.allUsers,
@@ -151,8 +152,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SelectUserScreen),
+  connect(mapStateToProps, mapDispatchToProps)(SelectUserScreen),
 );

@@ -7,6 +7,7 @@ import * as notificationActions from './notifications';
 import * as userActions from './users';
 import * as networkActions from './network';
 import * as otherActions from './other';
+import * as resourceActions from './resource';
 
 export {
   routerActions,
@@ -18,4 +19,5 @@ export {
   userActions,
   networkActions,
   otherActions,
+  resourceActions,
 };

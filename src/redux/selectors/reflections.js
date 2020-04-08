@@ -1,99 +1,103 @@
 import {capitalizeString} from 'services/operators';
 
-const getMyValues = state =>
+const getMyValues = (state) =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Value',
   );
-const getMyManuals = state =>
+const getMyManuals = (state) =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Manual',
   );
-const getMyGoals = state =>
+const getMyGoals = (state) =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Goal',
   );
-const getMyDailyObjectives = state =>
+const getMyDailyObjectives = (state) =>
   state.reflectionReducer.myReflections.filter(
     ({type, data}) => capitalizeString(type) === 'Objective' && data.isDaily,
   );
-const getMyWeeklyObjectives = state =>
+const getMyWeeklyObjectives = (state) =>
   state.reflectionReducer.myReflections.filter(
     ({type, data}) => capitalizeString(type) === 'Objective' && !data.isDaily,
   );
-const getMyFeedbacks = state =>
+const getMyFeedbacks = (state) =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Feedback',
   );
-const getMyChronotype = state =>
+const getMyChronotype = (state) =>
   state.reflectionReducer.myReflections.find(
     ({type}) => capitalizeString(type) === 'Chronotype',
   );
-const getMyPersonality = state =>
+const getMyPersonality = (state) =>
   state.reflectionReducer.myReflections.find(
     ({type}) => capitalizeString(type) === 'Personality',
   );
-const getMyMotivations = state =>
+const getMyMotivations = (state) =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Motivation',
   );
-const getMyEmotions = state =>
+const getMyEmotions = (state) =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Emotion',
   );
-const getMyNeeds = state =>
+const getMyNeeds = (state) =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Need',
   );
-const getMyTapToCounts = state =>
+const getMyTapToCounts = (state) =>
   state.reflectionReducer.myReflections.filter(
     ({type}) => capitalizeString(type) === 'Tap',
   );
+const getMyResources = (state) =>
+  state.reflectionReducer.myReflections.filter(
+    ({type}) => capitalizeString(type) === 'Resource',
+  );
 
 // User Reflections
-const getUserValues = state =>
+const getUserValues = (state) =>
   state.reflectionReducer.userReflections.filter(
     ({type}) => capitalizeString(type) === 'Value',
   );
-const getUserManuals = state =>
+const getUserManuals = (state) =>
   state.reflectionReducer.userReflections.filter(
     ({type}) => capitalizeString(type) === 'Manual',
   );
-const getUserGoals = state =>
+const getUserGoals = (state) =>
   state.reflectionReducer.userReflections.filter(
     ({type}) => capitalizeString(type) === 'Goal',
   );
-const getUserFeedbacks = state =>
+const getUserFeedbacks = (state) =>
   state.reflectionReducer.userReflections.filter(
     ({type}) => type === 'Feedback',
   );
 
-const getUserChronotype = state =>
+const getUserChronotype = (state) =>
   state.reflectionReducer.userReflections.find(
     ({type}) => capitalizeString(type) === 'Chronotype',
   );
-const getUserMotivations = state =>
+const getUserMotivations = (state) =>
   state.reflectionReducer.userReflections.filter(
     ({type}) => capitalizeString(type) === 'Motivation',
   );
-const getUserEmotions = state =>
+const getUserEmotions = (state) =>
   state.reflectionReducer.userReflections.filter(
     ({type}) => capitalizeString(type) === 'Emotion',
   );
-const getUserNeeds = state =>
+const getUserNeeds = (state) =>
   state.reflectionReducer.userReflections.filter(
     ({type}) => capitalizeString(type) === 'Need',
   );
 
-const getUserPersonality = state =>
+const getUserPersonality = (state) =>
   state.reflectionReducer.userReflections.find(
     ({type}) => capitalizeString(type) === 'Personality',
   );
 
-const getUserDailyObjectives = state =>
+const getUserDailyObjectives = (state) =>
   state.reflectionReducer.userReflections.filter(
     ({type, data}) => capitalizeString(type) === 'Objective' && data.isDaily,
   );
-const getUserWeeklyObjectives = state =>
+const getUserWeeklyObjectives = (state) =>
   state.reflectionReducer.userReflections.filter(
     ({type, data}) => capitalizeString(type) === 'Objective' && !data.isDaily,
   );
@@ -111,6 +115,7 @@ export {
   getMyEmotions,
   getMyNeeds,
   getMyTapToCounts,
+  getMyResources,
   getUserValues,
   getUserManuals,
   getUserGoals,

@@ -5,8 +5,9 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FeedTabStack from '../FeedTab';
-import AddValueTabStack from '../AddTab';
+import ToolsTabStack from '../ToolsTab';
 import ProfileTabStack from '../ProfileTab';
+import AddResourceTabStack from '../ResourceTab';
 import TabView from './TabView';
 import {profileActions} from 'Redux/actions';
 import NavigationService from '../../navigation/NavigationService';
@@ -18,13 +19,13 @@ class MainHomeStack extends React.Component {
     const _this = this;
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
-      onRegister: async function(token) {
+      onRegister: async function (token) {
         const fcmToken = await messaging().getToken();
         console.log('FCM PushToken: ', fcmToken); // used FCM token instead of APNs token on iOS
         _this.props.setProfileData({pushToken: fcmToken});
       },
       // (required) Called when a remote or local notification is opened or received
-      onNotification: function(notification) {
+      onNotification: function (notification) {
         console.log('NOTIFICATION:', notification);
         // process the notification here
         // Sample notification data
@@ -78,12 +79,13 @@ class MainHomeStack extends React.Component {
   render() {
     return (
       <Tab.Navigator
-        tabBar={props => <TabView {...props} />}
-        initialRouteName="TabAddValue"
+        tabBar={(props) => <TabView {...props} />}
+        initialRouteName="TabTools"
         backBehavior="none" // not handle back button
         headerMode="none">
         <Tab.Screen name="TabFeed" component={FeedTabStack} />
-        <Tab.Screen name="TabAddValue" component={AddValueTabStack} />
+        <Tab.Screen name="TabResource" component={AddResourceTabStack} />
+        <Tab.Screen name="TabTools" component={ToolsTabStack} />
         <Tab.Screen name="TabProfile" component={ProfileTabStack} />
       </Tab.Navigator>
     );

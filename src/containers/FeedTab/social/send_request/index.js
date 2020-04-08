@@ -1,16 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {MCRootView} from 'components/styled/View';
 import {userActions} from 'Redux/actions';
 import {MCHeader, MCSearchInput, MCImage, MCModal} from 'components/common';
-import {H3, H4} from 'components/styled/Text';
+import {H3, H4, MCIcon} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {selector} from 'Redux/selectors';
 import NavigationService from 'navigation/NavigationService';
-import {MCContent, MCCard, MCView} from '../../../../components/styled/View';
-import {MCIcon} from '../../../../components/styled/Text';
-import {MCButton} from '../../../../components/styled/Button';
+import {MCContent, MCCard, MCView, MCRootView} from 'components/styled/View';
+import {MCButton} from 'components/styled/Button';
+import {getStringIndexOf} from 'services/operators';
 
 class SendRequestScreen extends React.Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class SendRequestScreen extends React.Component {
     };
   }
 
-  onPressUser = user => {
+  onPressUser = (user) => {
     if (user.networkState > -1) {
       return;
     }
@@ -35,7 +34,7 @@ class SendRequestScreen extends React.Component {
     this.setState({showModal: false});
   };
 
-  onPressUserAvatar = user => {
+  onPressUserAvatar = (user) => {
     NavigationService.navigate('UserProfile', {id: user._id});
   };
 
@@ -48,18 +47,18 @@ class SendRequestScreen extends React.Component {
         <MCSearchInput
           width={350}
           text={searchText}
-          onChange={text => this.setState({searchText: text})}
+          onChange={(text) => this.setState({searchText: text})}
         />
         <MCContent contentContainerStyle={{paddingHorizontal: dySize(10)}}>
-          {allUsers.map(user => {
+          {allUsers.map((user) => {
             const userName = user.user_id;
             const fullName = user.name;
             const filterString = searchText.toLowerCase();
             if (!userName || !fullName || user._id === myProfile._id) {
               return;
             } else if (
-              userName.toLowerCase().indexOf(filterString) < 0 &&
-              fullName.toLowerCase().indexOf(filterString) < 0
+              getStringIndexOf(userName, filterString) < 0 &&
+              getStringIndexOf(fullName, filterString) < 0
             ) {
               return;
             }
@@ -139,7 +138,7 @@ class SendRequestScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
   myProfile: state.profileReducer,
   allUsers: selector.users.getAllMembersWithNetworkState(state),

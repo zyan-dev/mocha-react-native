@@ -7,6 +7,7 @@ import * as feedbackSaga from './feedbacks';
 import * as notificationSaga from './notifications';
 import * as userSaga from './users';
 import * as networkSaga from './network';
+import * as resourceSaga from './resource';
 import * as otherSaga from './other';
 
 function* mySaga() {
@@ -74,6 +75,14 @@ function* mySaga() {
   yield takeLatest(types.CREATE_TRUST_NETWORK, networkSaga.createNetwork);
   yield takeLatest(types.UPDATE_TRUST_NETWORK, networkSaga.updateNetwork);
   yield takeLatest(types.DELETE_TRUST_NETWORK, networkSaga.deleteNetwork);
+
+  // Resouurce
+  yield takeEvery(types.GET_ALL_RESOURCES, resourceSaga.getAllResources);
+  yield takeEvery(types.GET_MY_RESOURCES, resourceSaga.getMyResources);
+  yield takeEvery(types.CREATE_RESOURCES, resourceSaga.createResources);
+  yield takeEvery(types.UPDATE_RESOURCES, resourceSaga.updateResources);
+  yield takeEvery(types.REMOVE_RESOURCES, resourceSaga.removeResources);
+  yield takeEvery(types.BOOKMARK_RESOURCE, resourceSaga.bookmarkResource);
 
   // other
   yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);

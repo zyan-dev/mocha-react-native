@@ -131,6 +131,37 @@ export const AddReflectionSections = [
   },
 ];
 
+export const ResourceSideMenuList = [
+  {
+    index: 0,
+    icon: 'ios-search',
+    iconType: 'Ionicon',
+    title: 'resource_menu_search',
+    redirectTo: 'ResourceSearch',
+  },
+  {
+    index: 1,
+    icon: 'ios-apps',
+    iconType: 'Ionicon',
+    title: 'resource_menu_my_resources',
+    redirectTo: 'MyResources',
+  },
+  {
+    index: 2,
+    icon: 'ios-add',
+    iconType: 'Ionicon',
+    title: 'resource_menu_add',
+    redirectTo: 'AddResource',
+  },
+  {
+    index: 0,
+    icon: 'ios-gift',
+    iconType: 'Ionicon',
+    title: 'resource_menu_favourite',
+    redirectTo: 'ResourceBookmarked',
+  },
+];
+
 export const ProfileSideMenuList = [
   {
     index: 0,
@@ -1192,6 +1223,41 @@ export const DefaultReflections = {
   },
 };
 
+export const ResourceTypes = [
+  {
+    type: 'book',
+    icon: 'book',
+  },
+  {
+    type: 'article',
+    icon: 'book-reader',
+  },
+  {
+    type: 'video',
+    icon: 'video',
+  },
+  {
+    type: 'podcast',
+    icon: 'podcast',
+  },
+  {
+    type: 'class',
+    icon: 'question',
+  },
+  {
+    type: 'blog',
+    icon: 'blog',
+  },
+  {
+    type: 'event',
+    icon: 'rss-square',
+  },
+  {
+    type: 'author',
+    icon: 'user-edit',
+  },
+];
+
 export const EMOTIONS = [
   'anger_enraged_hateful',
   'anger_enraged_hostile',
@@ -1276,4 +1342,61 @@ export const AnalyzeDummyData = {
   '20200320': 1,
   '20200323': 12,
   '20200325': 5,
+};
+
+export const BasicProfileCards = {
+  personal: {
+    practice: '1',
+    title: 'personal_story',
+    iconType: 'FontAwesome5',
+    icon: 'baby',
+    minutes: 5,
+    width: 250,
+    redirectTo: '',
+  },
+  feedback: {
+    practice: '2-1',
+    title: 'feedback_preference',
+    iconType: 'Ionicon',
+    icon: 'ios-git-compare',
+    minutes: 2,
+    width: 150,
+    redirectTo: '',
+  },
+  behavior: {
+    practice: '2-2',
+    title: 'behavior_preference',
+    iconType: 'FontAwesome5',
+    icon: 'thumbs-up',
+    minutes: 2,
+    width: 150,
+    redirectTo: '',
+  },
+  risk: {
+    practice: '3',
+    title: 'risk_tolerance',
+    iconType: 'FontAwesome5',
+    icon: 'skiing',
+    minutes: 2,
+    width: 250,
+    redirectTo: '',
+  },
+  attach: {
+    practice: '4-1',
+    title: 'attachment_style',
+    iconType: 'FontAwesome5',
+    icon: 'paperclip',
+    minutes: 2,
+    width: 150,
+    redirectTo: '',
+  },
+  approach: {
+    practice: '4-2',
+    title: 'approach_to_conflict',
+    iconType: 'FontAwesome5',
+    icon: 'hand-middle-finger',
+    minutes: 4,
+    width: 150,
+    redirectTo: '',
+  },
 };

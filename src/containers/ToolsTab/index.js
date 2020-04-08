@@ -13,14 +13,16 @@ import EditNeedScreen from './need/edit';
 import TapToCountScreen from './tab_to_count';
 import EditUserManualScreen from './usermanual/edit';
 import EditEmotionScreen from './emotion/edit';
+import KnowYourSelfStack from './know_yourself';
 
 const Stack = createStackNavigator();
 
-class AddValueTabStack extends React.Component {
+class ToolsTabStack extends React.Component {
   render() {
     return (
       <Stack.Navigator headerMode="none">
-        <Stack.Screen name="AddTabHome" component={ReflectionScreen} />
+        <Stack.Screen name="ToolsTabHome" component={ReflectionScreen} />
+        <Stack.Screen name="KnowYourSelf" component={KnowYourSelfStack} />
         <Stack.Screen name="UserManuals" component={UserManualScreen} />
         <Stack.Screen name="Values" component={ValueScreen} />
         <Stack.Screen name="EditValue" component={EditValueScreen} />
@@ -38,4 +40,4 @@ class AddValueTabStack extends React.Component {
   }
 }
 
-export default AddValueTabStack;
+export default ToolsTabStack;

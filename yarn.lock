@@ -6624,6 +6624,11 @@ react-native-push-notification@^3.1.9:
   dependencies:
     "@react-native-community/push-notification-ios" "^1.0.1"
 
+react-native-raw-bottom-sheet@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-raw-bottom-sheet/-/react-native-raw-bottom-sheet-2.1.0.tgz#cf875206a748d4ccf0b1086d2d113eb75d128664"
+  integrity sha512-Ho/UkKrq8MzmiSRLcveUdMEEwa8oFwDr8Va2NnjJrLpe3v/0WDLpA7SKdU1zg8FcHYmCWXdrGjFbhVMi4lSCqg==
+
 react-native-read-more-text@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/react-native-read-more-text/-/react-native-read-more-text-1.1.2.tgz#3f64aee61ec4d3109437f4125f10e49eccdee65a"
@@ -6895,6 +6900,11 @@ realpath-native@^1.1.0:
   integrity sha512-wlgPA6cCIIg9gKz0fgAPjnzh4yR/LnXovwuo9hvyGvx3h8nX4+/iLZplfUWasXpqD8BdnGnP5njOFjkUwPzvjA==
   dependencies:
     util.promisify "^1.0.0"
+
+reanimated-bottom-sheet@^1.0.0-alpha.19:
+  version "1.0.0-alpha.19"
+  resolved "https://registry.yarnpkg.com/reanimated-bottom-sheet/-/reanimated-bottom-sheet-1.0.0-alpha.19.tgz#94ea79e7b2896b8f489547415d15d15c99ac44ba"
+  integrity sha512-Q0sGUHYdr5h2n/AY7pKQty35zcUAxxYM1nCl+luSQAyqiY6a5Kf8IBQRsOVvs60sDzqXxtbwxHgM5mkwaiQC4Q==
 
 recursive-fs@^1.1.2:
   version "1.1.2"

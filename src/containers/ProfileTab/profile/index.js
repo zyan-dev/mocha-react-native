@@ -34,7 +34,7 @@ class ProfileScreen extends React.Component {
   }
 
   onPressAllValues = () => {
-    NavigationService.navigate('TabAddValue');
+    NavigationService.navigate('TabTools');
     setTimeout(() => {
       NavigationService.navigate('Values');
     });
@@ -46,7 +46,7 @@ class ProfileScreen extends React.Component {
     if (!this.props.profile.userToken) {
       showAlert('You need to sign up');
     } else {
-      NavigationService.navigate('TabAddValue');
+      NavigationService.navigate('TabTools');
       setTimeout(() => {
         NavigationService.navigate('Objectives');
       });
@@ -54,7 +54,7 @@ class ProfileScreen extends React.Component {
   };
 
   onPressAllUserManuals = () => {
-    NavigationService.navigate('TabAddValue');
+    NavigationService.navigate('TabTools');
     setTimeout(() => {
       NavigationService.navigate('UserManuals');
     });
@@ -64,7 +64,7 @@ class ProfileScreen extends React.Component {
     if (!this.props.profile.userToken) {
       showAlert('You need to sign up');
     } else {
-      NavigationService.navigate('TabAddValue');
+      NavigationService.navigate('TabTools');
       setTimeout(() => {
         NavigationService.navigate('Feedbacks');
       });
@@ -147,7 +147,7 @@ class ProfileScreen extends React.Component {
                 tintColor="#00e0ff"
                 onAnimationComplete={() => console.log('onAnimationComplete')}
                 backgroundColor="#3d5875">
-                {fill => (
+                {(fill) => (
                   <MCView align="center">
                     <H3 weight="bold">{Math.floor(fill)}%</H3>
                     <H4>Completed</H4>
@@ -212,7 +212,7 @@ class ProfileScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.profileReducer,
   goals: selector.reflections.getMyGoals(state),
   manuals: selector.reflections.getMyManuals(state),

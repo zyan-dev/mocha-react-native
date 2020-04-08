@@ -24,6 +24,7 @@ const URL_TRUST_MEMBERS = '/member';
 const URL_USER_PROFILE = '/user/profile/';
 const URL_NETWORK = '/network';
 const URL_COMMIT = '/commit';
+const URL_RESOURCE = '/resource';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -31,7 +32,7 @@ const apiCall = async (type, url, param, withToken = false, options = {}) => {
     ...options,
   };
   const token = await AsyncStorage.getItem('userToken');
-  console.log(`API calling: [${type}]`, url, token);
+  console.log(`API calling: [${type}]`, url, param);
   if (withToken) {
     opt = {
       ...opt,
@@ -95,6 +96,15 @@ const removeReflection = (param) =>
 const updateCommits = (param) => apiCall('patch', URL_COMMIT, param, true);
 const getUserCommits = (userId) =>
   apiCall('get', `${URL_COMMIT}/${userId}`, {}, true);
+const getAllResources = () =>
+  apiCall('get', `${URL_RESOURCE}/list/all`, {}, true);
+const getMyResources = () => apiCall('get', `${URL_RESOURCE}`, {}, true);
+const createResources = (param) =>
+  apiCall('post', `${URL_RESOURCE}`, param, true);
+const updateResources = (param) =>
+  apiCall('patch', `${URL_RESOURCE}`, param, true);
+const removeResources = (param) =>
+  apiCall('post', `${URL_RESOURCE}/remove`, param, true);
 
 const fileUploadToS3 = async ({image, name, type}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
@@ -144,4 +154,9 @@ export default {
   deleteProfile,
   updateCommits,
   getUserCommits,
+  getAllResources,
+  getMyResources,
+  createResources,
+  updateResources,
+  removeResources,
 };

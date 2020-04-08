@@ -12,9 +12,9 @@ const Wrapper = styled(MCView)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: ${props => dySize(props.width) || dySize(350)};
+  width: ${(props) => dySize(props.width) || dySize(350)};
   border-radius: 4px;
-  border: 1px solid ${props => props.theme.colors.text};
+  border: 1px solid ${(props) => props.theme.colors.text};
   background-color: rgba(0, 0, 0, 0.3);
   margin-top: 10px;
   margin-bottom: 10px;
@@ -23,29 +23,32 @@ const Wrapper = styled(MCView)`
 const SearchIcon = styled(Icon)`
   margin-horizontal: 10px;
   font-size: 24px;
-  color: ${props => props.theme.colors.text};
+  color: ${(props) => props.theme.colors.text};
 `;
 
 export default class MCSearchInput extends React.PureComponent {
   static propTypes = {
     width: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func,
   };
 
   static defaultProps = {
+    placeholder: '',
     onBlur: () => undefined,
   };
 
   render() {
-    const {width, onChange, onBlur, text} = this.props;
+    const {width, onChange, placeholder, onBlur, text} = this.props;
     return (
       <Wrapper width={width}>
         <SearchIcon name="ios-search" />
         <MCEditableText
           bordered={false}
           onChange={onChange}
+          placeholder={placeholder}
           text={text}
           onBlur={() => onBlur()}
           style={{flex: 1}}
