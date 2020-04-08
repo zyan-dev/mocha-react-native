@@ -27,8 +27,7 @@ class ProfileBasicCard extends React.Component {
   onPressCard = () => {
     const {data, locked} = this.props;
     if (!locked) {
-      alert('coming soon');
-      // NavigationService.navigate(data.redirectTo);
+      NavigationService.navigate(data.redirectTo);
     }
   };
 

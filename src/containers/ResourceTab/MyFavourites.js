@@ -2,14 +2,10 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
-import {reflectionActions, otherActions} from 'Redux/actions';
-import {selector} from 'Redux/selectors';
-import {MCContent, MCRootView, MCView, MCCard} from 'components/styled/View';
-import {MCHeader, MCReadMoreText, MCTagsView} from 'components/common';
-import {H3, H4, MCEmptyText, MCIcon} from 'components/styled/Text';
-import {MCButton} from 'components/styled/Button';
-import {dySize} from 'utils/responsive';
-import NavigationService from 'navigation/NavigationService';
+import {resourceActions} from 'Redux/actions';
+import {MCContent, MCRootView} from 'components/styled/View';
+import {MCHeader} from 'components/common';
+import {MCEmptyText} from 'components/styled/Text';
 import ResourceItem from './ResourceItem';
 
 class FavouriteResourceScreen extends React.PureComponent {
@@ -26,7 +22,10 @@ class FavouriteResourceScreen extends React.PureComponent {
       <ResourceItem
         resource={item}
         bookmarked
-        onPressBookmark={(id) => this.props.bookmarkResource(id)}
+        onPressBookmark={(id) => {
+          this.props.bookmarkResource(id);
+          this.forceUpdate();
+        }}
         onPressEdit={this.onPressEdit}
         onPressRemove={this.onPressRemove}
         editable={false}
@@ -63,7 +62,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  bookmarkResource: otherActions.bookmarkResource,
+  bookmarkResource: resourceActions.bookmarkResource,
 };
 
 export default withTranslation()(
