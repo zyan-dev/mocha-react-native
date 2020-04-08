@@ -80,6 +80,8 @@ const sendContactRequest = (param) =>
 const sendFeedbackRequest = (param) =>
   apiCall('post', URL_FEEDBACK, param, true);
 const getTrustNetworks = () => apiCall('get', URL_NETWORK, {}, true);
+const approveRequest = (userId) =>
+  apiCall('patch', `${URL_TRUST_MEMBERS}`, {joiner: userId}, true);
 const declineRequest = (userId) =>
   apiCall('delete', `${URL_TRUST_MEMBERS}/${userId}`, {}, true);
 const createNetwork = (param) => apiCall('post', URL_NETWORK, param, true);
@@ -142,6 +144,7 @@ export default {
   getUserProfile,
   sendFeedbackRequest,
   getTrustNetworks,
+  approveRequest,
   declineRequest,
   createNetwork,
   updateNetwork,

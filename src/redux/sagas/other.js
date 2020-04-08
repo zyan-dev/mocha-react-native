@@ -41,6 +41,7 @@ export function* syncData(action) {
   const {
     profileReducer,
     reflectionReducer: {myReflections},
+    notificationReducer,
   } = yield select();
   try {
     yield put({type: types.API_CALLING});
@@ -86,10 +87,14 @@ export function* syncData(action) {
       // processing updated reflections
       const reflections_should_be_uppdated = [];
       const reflections_should_be_added = [];
+      const reflections_should_be_removed = [];
       for (let i = 0; i < localReflections.length; i++) {
         const lr = localReflections[i];
         const find = serverReflections.find((sr) => lr._id === sr._id);
-        if (
+        if (lr._id && !lr.data) {
+          reflections_should_be_removed.push(lr._id);
+        } else if (
+          lr.data &&
           lr.data.image &&
           lr.data.image.length &&
           lr.data.image.indexOf('https://') < 0
@@ -111,7 +116,6 @@ export function* syncData(action) {
           reflections_should_be_added.push(lr);
         }
       }
-
       if (reflections_should_be_uppdated.length > 0) {
         response = yield call(API.updateReflections, {
           data: reflections_should_be_uppdated,
@@ -119,7 +123,20 @@ export function* syncData(action) {
         if (response.data.status !== 'success') {
           yield put({
             type: types.API_FINISHED,
-            payload: 'Error occured while processing updated reflections',
+            payload: 'Error occured while updating reflections',
+          });
+          return;
+        }
+      }
+
+      if (reflections_should_be_removed.length > 0) {
+        response = yield call(API.removeReflection, {
+          data: reflections_should_be_removed,
+        });
+        if (response.data.status !== 'success') {
+          yield put({
+            type: types.API_FINISHED,
+            payload: 'Error occured while deleting reflections',
           });
           return;
         }
@@ -159,6 +176,22 @@ export function* syncData(action) {
           return;
         }
       }
+
+      //sync notification settings
+      response = yield call(
+        API.updateNotificationSettings,
+        notificationReducer,
+      );
+      console.log(response);
+      if (response.data.status !== 'success') {
+        yield put({
+          type: types.API_FINISHED,
+          payload:
+            'Error occured while synchronizing your notification settings',
+        });
+        return;
+      }
+
       yield put({
         type: types.API_FINISHED,
         payload: 'All data has been synced successfully',

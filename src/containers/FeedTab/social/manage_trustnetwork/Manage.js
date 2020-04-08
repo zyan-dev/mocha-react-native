@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {FlatList} from 'react-native-gesture-handler';
-import CheckBox from 'react-native-check-box';
 import {networkActions, userActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCCard, MCView} from 'components/styled/View';
 import {MCHeader, MCImage} from 'components/common';
@@ -10,8 +9,7 @@ import {H3, H4, MCIcon, MCTextInput} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
-import {NetworkPermissions} from '../../../../utils/constants';
-import {MCTagInput, MCVulnerabilityPicker} from '../../../../components/common';
+import {NetworkPermissions} from 'utils/constants';
 import {Alert} from 'react-native';
 
 class ManageTrustNetworkScreen extends React.Component {
@@ -32,7 +30,7 @@ class ManageTrustNetworkScreen extends React.Component {
       updateNetwork,
       updateSelectedTrustNetwork,
     } = this.props;
-    const members = selectedUsers.map(user => user._id);
+    const members = selectedUsers.map((user) => user._id);
     updateSelectedTrustNetwork({members});
     if (isNew) {
       createNetwork();
@@ -62,12 +60,12 @@ class ManageTrustNetworkScreen extends React.Component {
     );
   };
 
-  updateTagState = state => {
+  updateTagState = (state) => {
     this.setState({tags: state.tagsArray});
     this.props.updateSelectedTrustNetwork({tags: state.tagsArray});
   };
 
-  onToggleCheck = key => {
+  onToggleCheck = (key) => {
     const {permissions} = this.state;
     const index = permissions.indexOf(key);
     if (index < 0) {
@@ -115,7 +113,7 @@ class ManageTrustNetworkScreen extends React.Component {
           <H3>{t('feed_network_edit_nameofgroup')}*</H3>
           <MCTextInput
             value={selectedNetwork.name}
-            onChangeText={text => updateSelectedTrustNetwork({name: text})}
+            onChangeText={(text) => updateSelectedTrustNetwork({name: text})}
           />
           <MCView mt={20} row justify="space-between" align="center">
             <H3>{`${t('mocha_value_Members')}* - ${selectedUsers.length}`}</H3>
@@ -129,42 +127,50 @@ class ManageTrustNetworkScreen extends React.Component {
               style={{width: '100%', height: dySize(200)}}
               data={selectedUsers}
               renderItem={this._renderMemberItem}
-              keyExtractor={item => item}
+              keyExtractor={(item) => item}
             />
           </MCCard>
           <H3 mt={20}>{t('feed_network_edit_viewpermission')}</H3>
           <H4 color={theme.colors.border}>
             {t('feed_network_edit_viewpermission_displayText')}
           </H4>
-          <MCView align="center">
-            {NetworkPermissions.map(item => (
-              <CheckBox
-                style={{width: dySize(150), marginTop: 10}}
-                onClick={() => this.onToggleCheck(item.key)}
-                isChecked={permissions.indexOf(item.key) > -1}
-                rightText={t(`trustnetwork_permissions_${item.data}`)}
-                rightTextStyle={{
-                  color: theme.colors.text,
-                  fontSize: theme.base.FONT_SIZE_LARGE,
-                  fontFamily: 'Raleway-Regular',
-                }}
-                checkBoxColor={theme.colors.text}
-              />
+          <MCView align="center" mt={40}>
+            {NetworkPermissions.map((item) => (
+              // <CheckBox
+              //   style={{width: dySize(150), marginTop: 10}}
+              //   onClick={() => this.onToggleCheck(item.key)}
+              //   isChecked={permissions.indexOf(item.key) > -1}
+              //   rightText={t(`trustnetwork_permissions_${item.data}`)}
+              //   rightTextStyle={{
+              //     color: theme.colors.text,
+              //     fontSize: theme.base.FONT_SIZE_LARGE,
+              //     fontFamily: 'Raleway-Regular',
+              //   }}
+              //   checkBoxColor={theme.colors.text}
+              // />
+              <MCButton
+                row
+                width={300}
+                onPress={() => this.onToggleCheck(item.key)}>
+                {
+                  <MCIcon
+                    type="FontAwesome"
+                    name={
+                      permissions.indexOf(item.key) > -1
+                        ? 'check-square'
+                        : 'square'
+                    }
+                  />
+                }
+                <H3 style={{flex: 1}} ml={10}>
+                  {t(`trustnetwork_permissions_${item.label}`)}
+                </H3>
+                <MCView width={40} align="center">
+                  <MCIcon type={item.iconType} name={item.icon} />
+                </MCView>
+              </MCButton>
             ))}
           </MCView>
-          <H3 mt={20}>{t('trustnetwork_tags_title')}</H3>
-          <H4 color={theme.colors.border}>{t('tag_input_placeholderText')}</H4>
-          <MCTagInput
-            updateState={this.updateTagState}
-            tags={this.state.tags}
-          />
-          <H3 mt={20}>{t('section_label_vulnerability')}</H3>
-          <MCVulnerabilityPicker
-            defaultIndex={isNew ? 1 : selectedNetwork.vulnerability}
-            onSelect={index =>
-              updateSelectedTrustNetwork({vulnerability: index})
-            }
-          />
           {!isNew && (
             <MCView mt={50} mb={30} align="center">
               <MCButton
@@ -183,7 +189,7 @@ class ManageTrustNetworkScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedNetwork: state.networkReducer.selectedNetwork,
   selectedUsers: state.usersReducer.selectedUsers,
   theme: state.routerReducer.theme,
@@ -198,8 +204,5 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ManageTrustNetworkScreen),
+  connect(mapStateToProps, mapDispatchToProps)(ManageTrustNetworkScreen),
 );
