@@ -116,15 +116,28 @@ class UserProfileScreen extends React.Component {
 const mapStateToProps = (state) => ({
   profile: state.usersReducer.userProfile,
   allUsers: state.usersReducer.allUsers,
-  goals: selector.reflections.getUserGoals(state),
-  manuals: selector.reflections.getUserManuals(state),
-  values: selector.reflections.getUserValues(state),
+  goals: selector.reflections.getUserSpecialReflections(state, 'Goal'),
+  manuals: selector.reflections.getUserSpecialReflections(state, 'Manual'),
+  values: selector.reflections.getUserSpecialReflections(state, 'Value'),
   feedbacks: selector.feedbacks.getUserFeedbacks(state).received,
-  motivations: selector.reflections.getUserMotivations(state),
-  chronotype: selector.reflections.getUserChronotype(state),
-  personality: selector.reflections.getUserPersonality(state),
-  dailyObjectives: selector.reflections.getUserDailyObjectives(state),
-  weeklyObjectives: selector.reflections.getUserWeeklyObjectives(state),
+  motivations: selector.reflections.getUserSpecialReflections(
+    state,
+    'Motivation',
+  ),
+  chronotype: selector.reflections.findUserSpecialReflections(
+    state,
+    'Chronotype',
+  ),
+  personality: selector.reflections.findUserSpecialReflections(
+    state,
+    'Personality',
+  ),
+  dailyObjectives: selector.reflections
+    .getUserSpecialReflections(state, 'Objective')
+    .filter(({data}) => data.isDaily),
+  weeklyObjectives: selector.reflections
+    .getUserSpecialReflections(state, 'Objective')
+    .filter(({data}) => !data.isDaily),
 });
 
 const mapDispatchToProps = {

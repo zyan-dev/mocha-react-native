@@ -37,18 +37,18 @@ class ChronotypeScreen extends React.PureComponent {
     this.props.addOrUpdateReflection();
   };
 
-  onSelectType = type => {
+  onSelectType = (type) => {
     this.props.updateSelectedReflection({type});
   };
 
-  onChangeNightTimeRange = range => {
+  onChangeNightTimeRange = (range) => {
     this.props.updateSelectedReflection({
       night_sleep_offset_start: range.start,
       night_sleep_offset_end: range.end,
     });
   };
 
-  onChangeDayTimeRange = range => {
+  onChangeDayTimeRange = (range) => {
     this.props.updateSelectedReflection({
       day_sleep_offset_start: range.start,
       day_sleep_offset_end: range.end,
@@ -130,7 +130,7 @@ class ChronotypeScreen extends React.PureComponent {
                 start: night_sleep_offset_start,
                 end: night_sleep_offset_end,
               }}
-              onChange={range => this.onChangeNightTimeRange(range)}
+              onChange={(range) => this.onChangeNightTimeRange(range)}
               values={NightSliderValues}
             />
             <MCText weight="bold" style={{fontSize: dySize(80)}}>
@@ -151,7 +151,7 @@ class ChronotypeScreen extends React.PureComponent {
                 start: day_sleep_offset_start,
                 end: day_sleep_offset_end,
               }}
-              onChange={range => this.onChangeDayTimeRange(range)}
+              onChange={(range) => this.onChangeDayTimeRange(range)}
               values={DaySliderValues}
             />
             <MCText weight="bold" style={{fontSize: dySize(80)}}>
@@ -165,8 +165,11 @@ class ChronotypeScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  myChronotype: selector.reflections.getMyChronotype(state),
+const mapStateToProps = (state) => ({
+  myChronotype: selector.reflections.findMySpecialReflections(
+    state,
+    'Chronotype',
+  ),
   selectedReflection: state.reflectionReducer.selectedReflection,
 });
 

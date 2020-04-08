@@ -4,7 +4,7 @@ import Mixpanel from 'react-native-mixpanel';
 import NetInfo from '@react-native-community/netinfo';
 import * as types from '../actions/types';
 import API from 'services/api';
-import {showAlert, capitalizeString} from 'services/operators';
+import {showAlert} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 
 export function* purchaseSubscription(action) {
@@ -146,25 +146,25 @@ export function* syncData(action) {
         response = yield call(API.addReflections, {
           data: {
             goal: reflections_should_be_added
-              .filter(({type}) => capitalizeString(type) === 'Goal')
+              .filter(({type}) => type === 'Goal')
               .map((reflection) => reflection.data),
             value: reflections_should_be_added
-              .filter(({type}) => capitalizeString(type) === 'Value')
+              .filter(({type}) => type === 'Value')
               .map((reflection) => reflection.data),
             manual: reflections_should_be_added
-              .filter(({type}) => capitalizeString(type) === 'Manual')
+              .filter(({type}) => type === 'Manual')
               .map((reflection) => reflection.data),
             feedback: reflections_should_be_added
-              .filter(({type}) => capitalizeString(type) === 'Feedback')
+              .filter(({type}) => type === 'Feedback')
               .map((reflection) => reflection.data),
             chronotype: reflections_should_be_added
-              .filter(({type}) => capitalizeString(type) === 'Chronotype')
+              .filter(({type}) => type === 'Chronotype')
               .map((reflection) => reflection.data),
             motivation: reflections_should_be_added
-              .filter(({type}) => capitalizeString(type) === 'Motivation')
+              .filter(({type}) => type === 'Motivation')
               .map((reflection) => reflection.data),
             emotion: reflections_should_be_added
-              .filter(({type}) => capitalizeString(type) === 'Emotion')
+              .filter(({type}) => type === 'Emotion')
               .map((reflection) => reflection.data),
           },
         });

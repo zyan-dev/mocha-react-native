@@ -21,12 +21,12 @@ class EmotionScreen extends React.Component {
     NavigationService.navigate('EditEmotion');
   };
 
-  onPressEdit = item => {
+  onPressEdit = (item) => {
     this.props.selectReflection(item);
     NavigationService.navigate('EditEmotion');
   };
 
-  onPressRemove = item => {
+  onPressRemove = (item) => {
     this.props.removeReflection(item);
   };
 
@@ -80,7 +80,7 @@ class EmotionScreen extends React.Component {
             contentContainerStyle={{alignItems: 'center'}}
             data={emotions}
             renderItem={this._renderListItem}
-            keyExtractor={item => item._id}
+            keyExtractor={(item) => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
@@ -90,8 +90,8 @@ class EmotionScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  emotions: selector.reflections.getMyEmotions(state),
+const mapStateToProps = (state) => ({
+  emotions: selector.reflections.getMySpecialReflections(state, 'Emotion'),
 });
 
 const mapDispatchToProps = {

@@ -16,16 +16,16 @@ class ValueScreen extends React.Component {
     NavigationService.navigate('EditValue');
   };
 
-  onPressEdit = item => {
+  onPressEdit = (item) => {
     this.props.selectReflection(item);
     NavigationService.navigate('EditValue');
   };
 
-  onPressRemove = item => {
+  onPressRemove = (item) => {
     this.props.removeReflection(item);
   };
 
-  getLabelWithKey = key => {
+  getLabelWithKey = (key) => {
     const {t} = this.props;
     if (key.indexOf('custom_value_title') < 0) {
       return t(`mocha_value_${key.replace(/ /g, '_')}`);
@@ -86,7 +86,7 @@ class ValueScreen extends React.Component {
             contentContainerStyle={{alignItems: 'center'}}
             data={values}
             renderItem={this._renderListItem}
-            keyExtractor={item => item._id}
+            keyExtractor={(item) => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
@@ -96,8 +96,8 @@ class ValueScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  values: selector.reflections.getMyValues(state),
+const mapStateToProps = (state) => ({
+  values: selector.reflections.getMySpecialReflections(state, 'Value'),
 });
 
 const mapDispatchToProps = {

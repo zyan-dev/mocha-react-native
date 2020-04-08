@@ -16,12 +16,12 @@ class NeedScreen extends React.Component {
     NavigationService.navigate('EditNeed');
   };
 
-  onPressEdit = item => {
+  onPressEdit = (item) => {
     this.props.selectReflection(item);
     NavigationService.navigate('EditNeed');
   };
 
-  onPressRemove = item => {
+  onPressRemove = (item) => {
     this.props.removeReflection(item);
   };
 
@@ -81,7 +81,7 @@ class NeedScreen extends React.Component {
             contentContainerStyle={{alignItems: 'center'}}
             data={needs}
             renderItem={this._renderListItem}
-            keyExtractor={item => item._id}
+            keyExtractor={(item) => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
@@ -91,8 +91,8 @@ class NeedScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  needs: selector.reflections.getMyNeeds(state),
+const mapStateToProps = (state) => ({
+  needs: selector.reflections.getMySpecialReflections(state, 'Need'),
 });
 
 const mapDispatchToProps = {

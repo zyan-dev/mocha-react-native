@@ -110,7 +110,7 @@ export function* addOrUpdateReflection(action) {
         });
       } else {
         // offline update
-        const updated = myReflections.map(reflection => {
+        const updated = myReflections.map((reflection) => {
           if (reflection._id === selectedReflection._id)
             return selectedReflection;
           else return reflection;
@@ -161,7 +161,8 @@ export function* addOrUpdateReflection(action) {
       });
       if (selectedReflection._id && selectedReflection.type === 'motivation')
         return;
-      if (action.payload) NavigationService.goBack();
+      if (action.payload === 'goBack') NavigationService.goBack();
+      else NavigationService.navigate(action.payload);
     } else {
       yield put({
         type: types.API_FINISHED,
@@ -204,7 +205,7 @@ export function* removeReflection(action) {
     } else {
       // offline remove
       const filtered = myReflections.filter(
-        reflection => reflection._id !== action.payload._id,
+        (reflection) => reflection._id !== action.payload._id,
       );
       yield put({
         type: types.SET_MY_REFLECTIONS,
@@ -219,32 +220,32 @@ export function* removeReflection(action) {
 
 export function* updateTapToCounts(action) {
   try {
-    const tapToCounts = action.payload.map(i => ({
+    const tapToCounts = action.payload.map((i) => ({
       ...i,
       data: {
         ...i.data,
-        times: i.data.times.filter(t => t > getWeekStartDateStamp()),
+        times: i.data.times.filter((t) => t > getWeekStartDateStamp()),
       },
     }));
     const state = yield select();
-    const origin = selector.reflections.getMyTapToCounts(state);
+    const origin = selector.reflections.getMySpecialReflections(state, 'Tap');
     const addItems = tapToCounts
-      .filter(i => i._id.length < 20)
-      .map(i => i.data);
+      .filter((i) => i._id.length < 20)
+      .map((i) => i.data);
     const removeItems = origin
-      .filter(i => {
-        const find = tapToCounts.find(item => item._id === i._id);
+      .filter((i) => {
+        const find = tapToCounts.find((item) => item._id === i._id);
         return !find;
       })
-      .map(i => i._id);
+      .map((i) => i._id);
     const updateItems = tapToCounts
-      .filter(i => i._id.length > 20)
-      .filter(i => {
-        const find = origin.find(item => item._id === i._id);
+      .filter((i) => i._id.length > 20)
+      .filter((i) => {
+        const find = origin.find((item) => item._id === i._id);
         if (find.updated === i.updated) return false;
         else return true;
       })
-      .map(i => _.pick(i, ['_id', 'data']));
+      .map((i) => _.pick(i, ['_id', 'data']));
     let response;
     if (addItems.length > 0) {
       response = yield call(API.addReflections, {
@@ -287,15 +288,17 @@ export function* resetMyObjectives(action) {
     const todayStartTS = getTodayStartDateStamp();
     if (todayStartTS === state.reflectionReducer.objectiveResetTime) return;
     yield put({type: types.API_CALLING});
-    const dailyObjectives = selector.reflections.getMyDailyObjectives(state);
+    const dailyObjectives = selector.reflections
+      .getMySpecialReflections(state, 'Objective')
+      .filter(({data}) => data.isDaily);
     let updateParam = [];
-    dailyObjectives.map(objective => {
+    dailyObjectives.map((objective) => {
       if (new Date(objective.updated).getTime() < todayStartTS) {
         updateParam.push({
           _id: objective._id,
           data: {
             ...objective.data,
-            measures: objective.data.measures.map(measure => ({
+            measures: objective.data.measures.map((measure) => ({
               title: measure.title,
             })),
           },
@@ -303,8 +306,10 @@ export function* resetMyObjectives(action) {
       }
     });
     let removeParam = [];
-    const weeklyObjectives = selector.reflections.getMyWeeklyObjectives(state);
-    weeklyObjectives.map(objective => {
+    const weeklyObjectives = selector.reflections
+      .getUserSpecialReflections(state, 'Objective')
+      .filter(({data}) => !data.isDaily);
+    weeklyObjectives.map((objective) => {
       if (objective.data.deadline < todayStartTS) {
         if (objective.updated < todayStartTS) {
           removeParam.push(objective._id);

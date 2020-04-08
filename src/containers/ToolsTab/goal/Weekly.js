@@ -40,7 +40,7 @@ class WeeklyObjectiveScreen extends React.Component {
       }
     });
     this.props.updateSelectedReflection({measures: updated});
-    this.props.addOrUpdateReflection(false);
+    this.props.addOrUpdateReflection('');
     this.props.updateAnalyzeStatus({
       data: [
         {
@@ -136,8 +136,12 @@ class WeeklyObjectiveScreen extends React.Component {
 const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
   isShowingUserObjective: state.otherReducer.isShowingUserObjective,
-  weeklyObjectives: selector.reflections.getMyWeeklyObjectives(state),
-  userWeeklyObjectives: selector.reflections.getUserWeeklyObjectives(state),
+  weeklyObjectives: selector.reflections
+    .getMySpecialReflections(state, 'Objective')
+    .filter(({data}) => !data.isDaily),
+  userWeeklyObjectives: selector.reflections
+    .getUserSpecialReflections(state, 'Objective')
+    .filter(({data}) => !data.isDaily),
 });
 
 const mapDispatchToProps = {

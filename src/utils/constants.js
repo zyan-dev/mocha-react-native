@@ -1189,7 +1189,7 @@ export const SampleReflectionSections = {
 
 export const DefaultReflections = {
   motivation: {
-    type: 'motivation',
+    type: 'Motivation',
     data: {
       title: '',
       description: '',
@@ -1197,7 +1197,7 @@ export const DefaultReflections = {
     },
   },
   manual: {
-    type: 'manual',
+    type: 'Manual',
     data: {
       title: '',
       text: '',
@@ -1207,7 +1207,7 @@ export const DefaultReflections = {
     },
   },
   chronotype: {
-    type: 'chronotype',
+    type: 'Chronotype',
     data: {
       type: 'morning', // morning, flexible, night
       night_sleep_offset_start: 3, // 0 ~ 12
@@ -1217,7 +1217,7 @@ export const DefaultReflections = {
     },
   },
   value: {
-    type: 'value',
+    type: 'Value',
     data: {
       value: '',
       phrase: '',
@@ -1227,7 +1227,7 @@ export const DefaultReflections = {
     },
   },
   emotion: {
-    type: 'emotion',
+    type: 'Emotion',
     data: {
       emotion: '',
       how: '',
@@ -1235,7 +1235,7 @@ export const DefaultReflections = {
     },
   },
   objective: {
-    type: 'objective',
+    type: 'Objective',
     data: {
       title: '',
       measures: [],
@@ -1245,7 +1245,7 @@ export const DefaultReflections = {
     },
   },
   need: {
-    type: 'need',
+    type: 'Need',
     data: {
       need: '',
       value: '',
@@ -1253,7 +1253,7 @@ export const DefaultReflections = {
     },
   },
   personality: {
-    type: 'personality',
+    type: 'Personality',
     data: {
       honest_humility: 0,
       emotionality: 0,
@@ -1261,6 +1261,23 @@ export const DefaultReflections = {
       agreeableness: 0,
       conscientiousness: 0,
       openness_to_experience: 0,
+    },
+  },
+  personalstory: {
+    type: 'PersonalStory',
+    data: {
+      pronounce: '', // file path
+      hometown: '',
+      number_of_kids: 1,
+      childhood_hobbies: [],
+      first_job: '',
+      biggest_challenge: '',
+    },
+  },
+  feedback_preference: {
+    type: 'FeedbackPreference',
+    data: {
+      how: [],
     },
   },
 };
@@ -1403,7 +1420,7 @@ export const BasicProfileCards = {
     icon: 'ios-git-compare',
     minutes: 2,
     width: 150,
-    redirectTo: '',
+    redirectTo: 'KY_FeedbackPreference',
   },
   behavior: {
     practice: '2-2',

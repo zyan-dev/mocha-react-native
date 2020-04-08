@@ -92,7 +92,7 @@ export function* removeResources(action) {
   try {
     yield put({type: types.API_CALLING});
     const response = yield call(API.removeResources, {
-      data: param,
+      data: action.payload,
     });
     if (response.data.status === 'success') {
       yield put({type: types.GET_ALL_RESOURCES});

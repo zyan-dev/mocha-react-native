@@ -63,7 +63,7 @@ export function* completeSignUp(action) {
       profileReducer: {user_id},
     } = yield select();
     yield put({type: types.API_CALLING});
-    yield put({type: types.SYNC_DATA, payload: true});
+    yield put({type: types.SYNC_DATA, payload: ''});
     // track mixpanel event
     yield put({
       type: types.TRACK_MIXPANEL_EVENT,

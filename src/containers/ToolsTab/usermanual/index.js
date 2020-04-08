@@ -18,16 +18,16 @@ class UserManualScreen extends React.Component {
     });
   };
 
-  onPressEdit = item => {
+  onPressEdit = (item) => {
     this.props.selectReflection(item);
     NavigationService.navigate('EditUserManual');
   };
 
-  onPressRemove = item => {
+  onPressRemove = (item) => {
     this.props.removeReflection(item);
   };
 
-  getLabelWithKey = key => {
+  getLabelWithKey = (key) => {
     const {t} = this.props;
     if (key.indexOf('custom_manual_title') < 0) {
       return t(`mocha_manual_${key}`);
@@ -102,7 +102,7 @@ class UserManualScreen extends React.Component {
             contentContainerStyle={{alignItems: 'center'}}
             data={usermanuals}
             renderItem={this._renderListItem}
-            keyExtractor={item => item._id}
+            keyExtractor={(item) => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
@@ -112,8 +112,8 @@ class UserManualScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  usermanuals: selector.reflections.getMyManuals(state),
+const mapStateToProps = (state) => ({
+  usermanuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
 });
 
 const mapDispatchToProps = {

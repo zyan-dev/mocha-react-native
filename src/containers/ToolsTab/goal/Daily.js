@@ -39,7 +39,7 @@ class DailyObjectiveScreen extends React.Component {
       }
     });
     this.props.updateSelectedReflection({measures: updated});
-    this.props.addOrUpdateReflection(false);
+    this.props.addOrUpdateReflection('');
     this.props.updateAnalyzeStatus({
       data: [
         {
@@ -131,8 +131,12 @@ class DailyObjectiveScreen extends React.Component {
 const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
   isShowingUserObjective: state.otherReducer.isShowingUserObjective,
-  dailyObjectives: selector.reflections.getMyDailyObjectives(state),
-  userDailyObjectives: selector.reflections.getUserDailyObjectives(state),
+  myObjectives: selector.reflections
+    .getMySpecialReflections(state, 'Objective')
+    .filter(({data}) => data.isDaily),
+  userDailyObjectives: selector.reflections
+    .getUserSpecialReflections(state, 'Objective')
+    .filter(({data}) => data.isDaily),
 });
 
 const mapDispatchToProps = {

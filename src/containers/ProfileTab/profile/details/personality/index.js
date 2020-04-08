@@ -51,7 +51,7 @@ class PersonalityScreen extends React.PureComponent {
         <MCView width={50}>
           <MCEditableText
             text={text.toString()}
-            onChange={value => this.onChangeValue(key, value)}
+            onChange={(value) => this.onChangeValue(key, value)}
             keyboardType="numeric"
           />
         </MCView>
@@ -76,7 +76,7 @@ class PersonalityScreen extends React.PureComponent {
               contentContainerStyle={{padding: dySize(15)}}
               data={Object.keys(DefaultReflections.personality.data)}
               renderItem={this._renderPersonalityItem}
-              keyExtractor={item => item}
+              keyExtractor={(item) => item}
             />
           )}
         </MCContent>
@@ -85,9 +85,12 @@ class PersonalityScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
-  myPersonality: selector.reflections.getMyPersonality(state),
+  myPersonality: selector.reflections.findMySpecialReflections(
+    state,
+    'Personality',
+  ),
   selectedReflection: state.reflectionReducer.selectedReflection,
 });
 

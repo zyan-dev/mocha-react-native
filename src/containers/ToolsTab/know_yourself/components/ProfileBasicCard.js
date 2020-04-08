@@ -13,15 +13,29 @@ const LockIcon = styled(MCIcon)`
   right: -20px;
 `;
 
+const CompletedView = styled(MCView)`
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  background-color: green;
+  border-radius: 15px;
+`;
+
 class ProfileBasicCard extends React.Component {
   static PropTypes = {
     data: PropTypes.object.isRequired,
     onPress: PropTypes.func.isRequired,
     locked: PropTypes.bool,
+    completed: PropTypes.bool,
   };
 
   static defaultProps = {
     locked: false,
+    completed: false,
   };
 
   onPressCard = () => {
@@ -35,6 +49,7 @@ class ProfileBasicCard extends React.Component {
     const {
       t,
       locked,
+      completed,
       data: {practice, title, iconType, icon, minutes, width},
     } = this.props;
     return (
@@ -54,9 +69,15 @@ class ProfileBasicCard extends React.Component {
           mt={10}
           mb={10}
           bordered
+          overflow="visible"
           align="center"
           justify="center">
           <MCIcon type={iconType} name={icon} size={40} />
+          {completed && (
+            <CompletedView>
+              <MCIcon name="ios-checkmark" size={20} />
+            </CompletedView>
+          )}
         </MCView>
         <MCView height={50} justify="center">
           <H4 weight="bold" align="center" ph={20}>

@@ -19,7 +19,7 @@ class MotivationListScreen extends React.PureComponent {
     NavigationService.navigate('AddMotivation');
   };
 
-  onPressEdit = item => {
+  onPressEdit = (item) => {
     const {
       selectedReflection,
       selectReflection,
@@ -34,7 +34,7 @@ class MotivationListScreen extends React.PureComponent {
     }
   };
 
-  onPressRemove = item => {
+  onPressRemove = (item) => {
     this.props.removeReflection(item);
   };
 
@@ -59,7 +59,7 @@ class MotivationListScreen extends React.PureComponent {
                 maxLength={200}
                 fontSize={18}
                 text={selectedReflection.data.title}
-                onChange={text => updateSelectedReflection({title: text})}
+                onChange={(text) => updateSelectedReflection({title: text})}
               />
             ) : (
               <H3>{motivation.title}</H3>
@@ -73,7 +73,7 @@ class MotivationListScreen extends React.PureComponent {
               multiline
               maxLength={1024}
               text={selectedReflection.data.description}
-              onChange={text => updateSelectedReflection({description: text})}
+              onChange={(text) => updateSelectedReflection({description: text})}
             />
           ) : (
             <MCReadMoreText>
@@ -114,7 +114,7 @@ class MotivationListScreen extends React.PureComponent {
           <FlatList
             data={motivations}
             renderItem={this._renderListItem.bind(this)}
-            keyExtractor={item => item._id}
+            keyExtractor={(item) => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>No results</MCEmptyText>}
             contentContainerStyle={{alignItems: 'center'}}
@@ -125,9 +125,12 @@ class MotivationListScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
-  motivations: selector.reflections.getMyMotivations(state),
+  motivations: selector.reflections.getMySpecialReflections(
+    state,
+    'Motivation',
+  ),
   selectedReflection: state.reflectionReducer.selectedReflection,
 });
 

@@ -114,7 +114,6 @@ class ProfileScreen extends React.Component {
       t,
       profile,
       manuals,
-      goals,
       values,
       showDrawer,
       feedbacks,
@@ -214,15 +213,27 @@ class ProfileScreen extends React.Component {
 
 const mapStateToProps = (state) => ({
   profile: state.profileReducer,
-  goals: selector.reflections.getMyGoals(state),
-  manuals: selector.reflections.getMyManuals(state),
-  values: selector.reflections.getMyValues(state),
-  motivations: selector.reflections.getMyMotivations(state),
+  manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
+  values: selector.reflections.getMySpecialReflections(state, 'Value'),
+  motivations: selector.reflections.getMySpecialReflections(
+    state,
+    'Motivation',
+  ),
   feedbacks: selector.feedbacks.getMyFeedbacks(state).received,
-  chronotype: selector.reflections.getMyChronotype(state),
-  personality: selector.reflections.getMyPersonality(state),
-  dailyObjectives: selector.reflections.getMyDailyObjectives(state),
-  weeklyObjectives: selector.reflections.getMyWeeklyObjectives(state),
+  chronotype: selector.reflections.findMySpecialReflections(
+    state,
+    'Chronotype',
+  ),
+  personality: selector.reflections.findMySpecialReflections(
+    state,
+    'Personality',
+  ),
+  myObjectives: selector.reflections
+    .getMySpecialReflections(state, 'Objective')
+    .filter(({data}) => data.isDaily),
+  weeklyObjectives: selector.reflections
+    .getMySpecialReflections(state, 'Objective')
+    .filter(({data}) => !data.isDaily),
 });
 
 const mapDispatchToProps = {
