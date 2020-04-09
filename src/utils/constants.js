@@ -1277,7 +1277,8 @@ export const DefaultReflections = {
   feedback_preference: {
     type: 'FeedbackPreference',
     data: {
-      how: [],
+      positive: [],
+      negative: [],
     },
   },
 };
@@ -1429,7 +1430,7 @@ export const BasicProfileCards = {
     icon: 'thumbs-up',
     minutes: 2,
     width: 150,
-    redirectTo: '',
+    redirectTo: 'KY_BehaviorPreference',
   },
   risk: {
     practice: '3',
@@ -1486,3 +1487,23 @@ export const BasicProfileCards = {
     redirectTo: '',
   },
 };
+
+export const FeedbackPreferences = [
+  'private',
+  'public',
+  'written_or_email',
+  'person',
+  'immediately',
+  'closed_door_meeting',
+  'data',
+  'directly',
+  'clear_and_specific',
+  'detailed',
+  'quickly',
+  'soften_the_blow',
+  'empathatically',
+  'supportively',
+  'reassuringly',
+  'do_not_give',
+  'template',
+];

@@ -75,7 +75,7 @@ class ProfileBasicCard extends React.Component {
           <MCIcon type={iconType} name={icon} size={40} />
           {completed && (
             <CompletedView>
-              <MCIcon name="ios-checkmark" size={20} />
+              <MCIcon name="ios-checkmark" size={20} color="white" />
             </CompletedView>
           )}
         </MCView>

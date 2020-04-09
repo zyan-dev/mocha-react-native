@@ -4,9 +4,9 @@ import {withTranslation} from 'react-i18next';
 import AudioRecord from 'react-native-audio-record';
 import {reflectionActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
-import {MCView, MCCard, MCRootView, MCContent} from 'components/styled/View';
+import {MCView, MCRootView, MCContent} from 'components/styled/View';
 import {H3, H4, MCIcon} from 'components/styled/Text';
-import {MCHeader, MCImage} from 'components/common';
+import {MCHeader} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {MCTextInput} from '../../../components/styled/Text';
@@ -118,6 +118,7 @@ class PersonalStoryScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight
+          title={`${t('practice')} 1`}
           rightIcon="ios-send"
           hasRight={
             hometown.length *
@@ -131,7 +132,7 @@ class PersonalStoryScreen extends React.Component {
         />
         <MCContent contentContainerStyle={{paddingHorizontal: dySize(20)}}>
           <MCView row justify="center" align="center" mb={20}>
-            <H3>{`${t('practice')} 1 - ${t('tools_tab_personal_story')}`}</H3>
+            <H3>{t('tools_tab_personal_story')}</H3>
             <MCIcon type="FontAwesome5" name="baby" size={30} />
           </MCView>
           <H4>{t('tools_tab_how_pronounce')}</H4>

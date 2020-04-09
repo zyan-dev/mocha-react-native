@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ProfileBasicScreen from './ProfileBasics';
 import PersonalStoryScreen from './PersonalStoryScreen';
 import FeedbackPreferenceScreen from './FeedbackPreference';
+import BehaviorPreferenceScreen from './BehaviorPreference';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,10 @@ class KnowYourSelfStack extends React.Component {
         <Stack.Screen
           name="KY_FeedbackPreference"
           component={FeedbackPreferenceScreen}
+        />
+        <Stack.Screen
+          name="KY_BehaviorPreference"
+          component={BehaviorPreferenceScreen}
         />
       </Stack.Navigator>
     );

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {selector} from 'Redux/selectors';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
-import {MCHeader, MCImage} from 'components/common';
+import {MCHeader} from 'components/common';
 import {BasicProfileCards} from 'utils/constants';
 import ProfileBasicCard from './components/ProfileBasicCard';
 
