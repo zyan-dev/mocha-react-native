@@ -282,6 +282,53 @@ export function* updateTapToCounts(action) {
   }
 }
 
+export function* getSupportedObjectives(action) {
+  try {
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.getSupportedObjectives);
+    if (response.data.status === 'success') {
+      yield put({
+        type: types.SET_SUPPORTED_OJBECTIVES,
+        payload: response.data.data.reflections,
+      });
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({
+      type: types.API_FINISHED,
+      payload: e.toString(),
+    });
+  }
+}
+
+export function* reactToObjective(action) {
+  try {
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.updateReflections, {
+      data: [action.payload],
+    });
+    if (response.data.status === 'success') {
+      showAlert(i18next.t('successful_reaction'));
+      yield put({type: types.GET_SUPPORTED_OJBECTIVES});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({
+      type: types.API_FINISHED,
+      payload: e.toString(),
+    });
+  }
+}
+
 export function* resetMyObjectives(action) {
   try {
     const state = yield select();

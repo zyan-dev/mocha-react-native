@@ -43,6 +43,14 @@ function* mySaga() {
     reflectionSaga.addOrUpdateReflection,
   );
   yield takeEvery(types.RESET_MY_OBJECTIVES, reflectionSaga.resetMyObjectives);
+  yield takeEvery(
+    types.GET_SUPPORTED_OJBECTIVES,
+    reflectionSaga.getSupportedObjectives,
+  );
+  yield takeEvery(
+    types.UPDATE_SPECIFIC_REFLECTION,
+    reflectionSaga.reactToObjective,
+  );
 
   // feedback
   yield takeLatest(types.GET_MY_FEEDBACKS, feedbackSaga.getMyFeedbacks);

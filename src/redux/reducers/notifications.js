@@ -21,6 +21,9 @@ const INITIAL_STATE = {
   objective: {
     enabled: true,
   },
+  reaction: {
+    enabled: true,
+  },
 };
 
 const notificationReducer = (state = INITIAL_STATE, action) => {

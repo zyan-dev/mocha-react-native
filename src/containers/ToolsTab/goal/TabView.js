@@ -8,6 +8,8 @@ import {H5} from 'components/styled/Text';
 import WeeklyObjectiveScreen from './Weekly';
 import AnalyzeObjectiveScreen from './Analyze';
 import DailyObjectiveScreen from './Daily';
+import SupportObjectiveScreen from './Support';
+import {dySize} from 'utils/responsive';
 
 class ObjectiveTabView extends React.Component {
   constructor(props) {
@@ -17,8 +19,18 @@ class ObjectiveTabView extends React.Component {
     };
   }
 
+  onChangeTabIndex = (i) => {
+    this.setState({index: i});
+    switch (i) {
+      case 3:
+        this.props.getSupportedObjectives();
+        break;
+      default:
+    }
+  };
+
   render() {
-    const {t, theme} = this.props;
+    const {t, theme, isShowingUserObjective} = this.props;
     const {index} = this.state;
     const routes = [
       {
@@ -34,6 +46,12 @@ class ObjectiveTabView extends React.Component {
         title: t('objective_analyze_tabTitle'),
       },
     ];
+    if (!isShowingUserObjective) {
+      routes.push({
+        key: 'accountability',
+        title: t('objective_accountability_tabTitle'),
+      });
+    }
     const renderTabBar = (props) => (
       <TabBar
         {...props}
@@ -41,11 +59,14 @@ class ObjectiveTabView extends React.Component {
         style={{
           backgroundColor: theme.colors.background,
           borderBottomWidth: 0,
-          borderColor: 'red',
         }}
+        scrollEnabled
+        tabStyle={{width: dySize(125)}}
         renderLabel={({route, focused, color}) => {
           return (
-            <H5 color={focused ? theme.colors.text : theme.colors.border}>
+            <H5
+              align="center"
+              color={focused ? theme.colors.text : theme.colors.border}>
               {route.title}
             </H5>
           );
@@ -60,8 +81,9 @@ class ObjectiveTabView extends React.Component {
             daily: DailyObjectiveScreen,
             weekly: WeeklyObjectiveScreen,
             analyze: AnalyzeObjectiveScreen,
+            accountability: SupportObjectiveScreen,
           })}
-          onIndexChange={(i) => this.setState({index: i})}
+          onIndexChange={(i) => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}
           renderTabBar={renderTabBar}
         />
@@ -71,8 +93,13 @@ class ObjectiveTabView extends React.Component {
 }
 const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
+  isShowingUserObjective: state.otherReducer.isShowingUserObjective,
 });
 
+const mapDispatchToProps = {
+  getSupportedObjectives: reflectionActions.getSupportedObjectives,
+};
+
 export default withTranslation()(
-  connect(mapStateToProps, undefined)(ObjectiveTabView),
+  connect(mapStateToProps, mapDispatchToProps)(ObjectiveTabView),
 );

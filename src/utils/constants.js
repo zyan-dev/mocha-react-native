@@ -1242,6 +1242,12 @@ export const DefaultReflections = {
       isDaily: false,
       deadline: new Date().getTime(),
       collaborators: [],
+      love: 0,
+      nudge: 0,
+      strong: 0,
+      cheer: 0,
+      congrats: 0,
+      crown: 0,
     },
   },
   need: {

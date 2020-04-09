@@ -52,3 +52,12 @@ export const updateTapToCounts = (tapToCounts) => ({
 export const resetMyObjectives = () => ({
   type: types.RESET_MY_OBJECTIVES,
 });
+
+export const getSupportedObjectives = () => ({
+  type: types.GET_SUPPORTED_OJBECTIVES,
+});
+
+export const reactToObjective = (reflection) => ({
+  type: types.UPDATE_SPECIFIC_REFLECTION,
+  payload: reflection,
+});

@@ -23,6 +23,8 @@ class GoalScreen extends React.Component {
   componentDidMount() {
     const {profile, getUserCommits, resetMyObjectives} = this.props;
     getUserCommits(profile._id);
+
+    // reset current object and set time for the next reset
     resetMyObjectives();
     const resetTimeIn =
       getTodayStartDateStamp() + 86400 * 1000 - new Date().getTime();
