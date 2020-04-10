@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   },
   reflectionSections: SampleReflectionSections,
   objectiveResetTime: 0,
+  supportedObjectives: [],
 };
 
 const reflectionReducer = (state = INITIAL_STATE, action) => {
@@ -46,6 +47,11 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
             action.payload.type
           ].concat(action.payload.title),
         },
+      };
+    case types.SET_SUPPORTED_OJBECTIVES:
+      return {
+        ...state,
+        supportedObjectives: action.payload,
       };
     case types.UPDATE_SELECTED_REFLECTION:
       return {

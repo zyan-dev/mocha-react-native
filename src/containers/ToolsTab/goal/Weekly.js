@@ -2,6 +2,7 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import styled from 'styled-components';
 import CheckBox from 'react-native-check-box';
 import {reflectionActions, userActions, otherActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
@@ -14,10 +15,23 @@ import NavigationService from 'navigation/NavigationService';
 import {WeekDays} from 'utils/constants';
 import {getCommitKey} from '../../../services/operators';
 
+const ReactionView = styled(MCView)`
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  border-radius: 20px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  padding-horizontal: 10px;
+  background-color: ${(props) => props.theme.colors.card};
+`;
+
 class WeeklyObjectiveScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showCompletedOnly: false,
+    };
   }
 
   onPressEdit = (item) => {
@@ -52,8 +66,22 @@ class WeeklyObjectiveScreen extends React.Component {
   };
 
   _renderItem = ({item}) => {
+    const {showCompletedOnly} = this.state;
     const {t, theme, isShowingUserObjective} = this.props;
-    const {title, measures, isDaily, deadline, collaborators} = item.data;
+    const {
+      title,
+      measures,
+      collaborators,
+      deadline,
+      love,
+      nudge,
+      strong,
+      cheer,
+      congrats,
+      crown,
+    } = item.data;
+    const incompleted = measures.filter((measure) => !measure.completed);
+    if (showCompletedOnly && incompleted.length > 0) return null;
     return (
       <MCView width={350} bordered br={10} align="center" mb={10}>
         <MCCard shadow br={1} row align="center">
@@ -106,6 +134,44 @@ class WeeklyObjectiveScreen extends React.Component {
             </MCButton>
           </MCView>
         )}
+        <MCView row wrap align="center" width={330}>
+          {love > 0 && (
+            <ReactionView>
+              <H3>❤</H3>
+              <H3 ml={10}>{love}</H3>
+            </ReactionView>
+          )}
+          {nudge > 0 && (
+            <ReactionView>
+              <H3>👉</H3>
+              <H3 ml={10}>{nudge}</H3>
+            </ReactionView>
+          )}
+          {strong > 0 && (
+            <ReactionView>
+              <H3>💪</H3>
+              <H3 ml={10}>{strong}</H3>
+            </ReactionView>
+          )}
+          {cheer > 0 && (
+            <ReactionView>
+              <H3>👏</H3>
+              <H3 ml={10}>{cheer}</H3>
+            </ReactionView>
+          )}
+          {congrats > 0 && (
+            <ReactionView>
+              <H3>🏆</H3>
+              <H3 ml={10}>{congrats}</H3>
+            </ReactionView>
+          )}
+          {crown > 0 && (
+            <ReactionView>
+              <H3>👑</H3>
+              <H3 ml={10}>{crown}</H3>
+            </ReactionView>
+          )}
+        </MCView>
       </MCView>
     );
   };
@@ -113,14 +179,28 @@ class WeeklyObjectiveScreen extends React.Component {
   render() {
     const {
       t,
+      theme,
       isShowingUserObjective,
       weeklyObjectives,
       userWeeklyObjectives,
     } = this.props;
+    const {showCompletedOnly} = this.state;
     return (
-      <MCRootView justify="flex-start">
+      <MCRootView justify="flex-start" align="flex-start">
+        <CheckBox
+          style={{width: dySize(120), margin: dySize(10)}}
+          onClick={() => this.setState({showCompletedOnly: !showCompletedOnly})}
+          isChecked={showCompletedOnly}
+          rightText={'Completed'}
+          rightTextStyle={{
+            color: theme.colors.text,
+            fontSize: theme.base.FONT_SIZE_LARGE,
+            fontFamily: 'Raleway-Regular',
+          }}
+          checkBoxColor={theme.colors.text}
+        />
         <FlatList
-          contentContainerStyle={{paddingTop: 20}}
+          contentContainerStyle={{alignItems: 'center', width: dySize(375)}}
           data={
             isShowingUserObjective ? userWeeklyObjectives : weeklyObjectives
           }

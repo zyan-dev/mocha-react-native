@@ -1,6 +1,7 @@
 import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
+import styled from 'styled-components';
 import {withTranslation} from 'react-i18next';
 import CheckBox from 'react-native-check-box';
 import {reflectionActions, userActions, otherActions} from 'Redux/actions';
@@ -13,10 +14,23 @@ import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {getCommitKey} from '../../../services/operators';
 
+const ReactionView = styled(MCView)`
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  border-radius: 20px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  padding-horizontal: 10px;
+  background-color: ${(props) => props.theme.colors.card};
+`;
+
 class DailyObjectiveScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showCompletedOnly: false,
+    };
   }
 
   onPressEdit = (item) => {
@@ -51,8 +65,21 @@ class DailyObjectiveScreen extends React.Component {
   };
 
   _renderItem = ({item}) => {
+    const {showCompletedOnly} = this.state;
     const {theme, isShowingUserObjective} = this.props;
-    const {title, measures, collaborators} = item.data;
+    const {
+      title,
+      measures,
+      collaborators,
+      love,
+      nudge,
+      strong,
+      cheer,
+      congrats,
+      crown,
+    } = item.data;
+    const incompleted = measures.filter((measure) => !measure.completed);
+    if (showCompletedOnly && incompleted.length > 0) return null;
     return (
       <MCView width={350} bordered br={10} align="center" mb={10}>
         <MCCard shadow br={1} row align="center">
@@ -99,6 +126,44 @@ class DailyObjectiveScreen extends React.Component {
             </MCView>
           )}
         </MCView>
+        <MCView row wrap align="center" width={330}>
+          {love > 0 && (
+            <ReactionView>
+              <H3>❤</H3>
+              <H3 ml={10}>{love}</H3>
+            </ReactionView>
+          )}
+          {nudge > 0 && (
+            <ReactionView>
+              <H3>👉</H3>
+              <H3 ml={10}>{nudge}</H3>
+            </ReactionView>
+          )}
+          {strong > 0 && (
+            <ReactionView>
+              <H3>💪</H3>
+              <H3 ml={10}>{strong}</H3>
+            </ReactionView>
+          )}
+          {cheer > 0 && (
+            <ReactionView>
+              <H3>👏</H3>
+              <H3 ml={10}>{cheer}</H3>
+            </ReactionView>
+          )}
+          {congrats > 0 && (
+            <ReactionView>
+              <H3>🏆</H3>
+              <H3 ml={10}>{congrats}</H3>
+            </ReactionView>
+          )}
+          {crown > 0 && (
+            <ReactionView>
+              <H3>👑</H3>
+              <H3 ml={10}>{crown}</H3>
+            </ReactionView>
+          )}
+        </MCView>
       </MCView>
     );
   };
@@ -106,19 +171,34 @@ class DailyObjectiveScreen extends React.Component {
   render() {
     const {
       t,
+      theme,
       isShowingUserObjective,
-      dailyObjectives,
+      myDailyObjectives,
       userDailyObjectives,
     } = this.props;
+    const {showCompletedOnly} = this.state;
     return (
-      <MCRootView justify="flex-start">
+      <MCRootView justify="flex-start" align="flex-start">
+        <CheckBox
+          style={{width: dySize(120), margin: dySize(10)}}
+          onClick={() => this.setState({showCompletedOnly: !showCompletedOnly})}
+          isChecked={showCompletedOnly}
+          rightText={'Completed'}
+          rightTextStyle={{
+            color: theme.colors.text,
+            fontSize: theme.base.FONT_SIZE_LARGE,
+            fontFamily: 'Raleway-Regular',
+          }}
+          checkBoxColor={theme.colors.text}
+        />
         <FlatList
           contentContainerStyle={{
             width: dySize(375),
-            paddingTop: 20,
             alignItems: 'center',
           }}
-          data={isShowingUserObjective ? userDailyObjectives : dailyObjectives}
+          data={
+            isShowingUserObjective ? userDailyObjectives : myDailyObjectives
+          }
           renderItem={this._renderItem}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
@@ -131,7 +211,7 @@ class DailyObjectiveScreen extends React.Component {
 const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
   isShowingUserObjective: state.otherReducer.isShowingUserObjective,
-  myObjectives: selector.reflections
+  myDailyObjectives: selector.reflections
     .getMySpecialReflections(state, 'Objective')
     .filter(({data}) => data.isDaily),
   userDailyObjectives: selector.reflections
