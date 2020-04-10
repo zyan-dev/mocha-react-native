@@ -27,6 +27,7 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
       };
     case types.SET_INITIAL_REFLECTION:
       const reflection = DefaultReflections[action.payload.toLowerCase()];
+      console.log({reflection});
       return {
         ...state,
         selectedReflection: _.cloneDeep(reflection),

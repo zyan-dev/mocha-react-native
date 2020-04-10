@@ -9,7 +9,13 @@ import ProfileBasicCard from './components/ProfileBasicCard';
 
 class ProfileBasicScreen extends React.Component {
   render() {
-    const {t, myPersonalStory, feedbackPreference} = this.props;
+    const {
+      t,
+      myPersonalStory,
+      feedbackPreference,
+      behaviorPreference,
+      riskTolerance,
+    } = this.props;
     return (
       <MCRootView justify="flex-start">
         <MCHeader title={t('tools_tab_profile_basic')} />
@@ -27,11 +33,19 @@ class ProfileBasicScreen extends React.Component {
             <ProfileBasicCard
               data={BasicProfileCards.behavior}
               locked={!feedbackPreference}
+              completed={behaviorPreference}
             />
           </MCView>
-          <ProfileBasicCard data={BasicProfileCards.risk} locked />
+          <ProfileBasicCard
+            data={BasicProfileCards.risk}
+            locked={!behaviorPreference}
+            completed={riskTolerance}
+          />
           <MCView row justify="space-between" width={320} overflow="visible">
-            <ProfileBasicCard data={BasicProfileCards.attach} locked />
+            <ProfileBasicCard
+              data={BasicProfileCards.attach}
+              locked={!riskTolerance}
+            />
             <ProfileBasicCard data={BasicProfileCards.approach} locked />
           </MCView>
           <ProfileBasicCard
@@ -54,6 +68,14 @@ const mapStateToProps = (state) => ({
   feedbackPreference: selector.reflections.findMySpecialReflections(
     state,
     'FeedbackPreference',
+  ),
+  behaviorPreference: selector.reflections.findMySpecialReflections(
+    state,
+    'BehaviorPreference',
+  ),
+  riskTolerance: selector.reflections.findMySpecialReflections(
+    state,
+    'RiskTolerance',
   ),
 });
 

@@ -4,6 +4,7 @@ import ProfileBasicScreen from './ProfileBasics';
 import PersonalStoryScreen from './PersonalStoryScreen';
 import FeedbackPreferenceScreen from './FeedbackPreference';
 import BehaviorPreferenceScreen from './BehaviorPreference';
+import RiskToleranceScreen from './RiskTolerance';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ class KnowYourSelfStack extends React.Component {
           name="KY_BehaviorPreference"
           component={BehaviorPreferenceScreen}
         />
+        <Stack.Screen name="KY_RiskTolerance" component={RiskToleranceScreen} />
       </Stack.Navigator>
     );
   }

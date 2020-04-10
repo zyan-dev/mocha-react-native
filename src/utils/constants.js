@@ -1281,6 +1281,29 @@ export const DefaultReflections = {
       negative: [],
     },
   },
+  behavior_preference: {
+    type: 'BehaviorPreference',
+    data: {
+      ownership: 50,
+      flexible: 50,
+      punctual: 50,
+      optimistic: 50,
+      criticism: 50,
+      creative: 50,
+      sense_of_humor: 50,
+      listener: 50,
+      storyteller: 50,
+      emotional_intelligence: 50,
+      integrity: 50,
+      conscientiousness: 50,
+    },
+  },
+  risk_tolerance: {
+    type: 'RiskTolerance',
+    data: {
+      options: [],
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1439,7 +1462,7 @@ export const BasicProfileCards = {
     icon: 'skiing',
     minutes: 2,
     width: 250,
-    redirectTo: '',
+    redirectTo: 'KY_RiskTolerance',
   },
   attach: {
     practice: '4-1',
@@ -1506,4 +1529,33 @@ export const FeedbackPreferences = [
   'reassuringly',
   'do_not_give',
   'template',
+];
+
+export const BehaviorPreferences = [
+  'ownership',
+  'flexible',
+  'punctual',
+  'optimistic',
+  'criticism',
+  'creative',
+  'sense_of_humor',
+  'listener',
+  'storyteller',
+  'emotional_intelligence',
+  'integrity',
+  'conscientiousness',
+];
+
+export const RiskTolerances = [
+  'driving_fast',
+  'business',
+  'kitesurfing',
+  'driving_shark',
+  'gambling',
+  'live_regret',
+  'fly',
+  'rock_climbing',
+  'training_race',
+  'alone',
+  'people',
 ];

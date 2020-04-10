@@ -99,7 +99,9 @@ class FeedbackPreferenceScreen extends React.Component {
           {step === 1 && (
             <>
               <H4>{t(`feedback_preference_positive_title`)}</H4>
-              <H4 mb={20}>{t(`select_all_that_apply`)}</H4>
+              <H4 weight="italic" mb={20}>
+                {t(`select_all_that_apply`)}
+              </H4>
               <MCView row wrap justify="space-between">
                 {FeedbackPreferences.map((key) => (
                   <MCButton
@@ -120,6 +122,7 @@ class FeedbackPreferenceScreen extends React.Component {
                     }}
                     onPress={() => this.onPressItem('positive', key)}>
                     <H3
+                      weight={positive.indexOf(key) < 0 ? 'regular' : 'bold'}
                       align="center"
                       color={
                         positive.indexOf(key) < 0
@@ -130,6 +133,7 @@ class FeedbackPreferenceScreen extends React.Component {
                     </H3>
                     {key === 'template' && (
                       <H3
+                        weight={positive.indexOf(key) < 0 ? 'regular' : 'bold'}
                         align="center"
                         color={
                           positive.indexOf(key) < 0
@@ -149,36 +153,28 @@ class FeedbackPreferenceScreen extends React.Component {
               <H4>{t(`feedback_preference_negative_title`)}</H4>
               <H4 mb={20}>{t(`select_all_that_apply`)}</H4>
               <MCView row wrap justify="space-between">
-                {FeedbackPreferences.map((key) => (
-                  <MCButton
-                    bordered
-                    width={key === 'template' ? 335 : 160}
-                    height={100}
-                    br={6}
-                    mb={10}
-                    pl={20}
-                    pr={20}
-                    align="center"
-                    justify="center"
-                    style={{
-                      borderColor:
-                        negative.indexOf(key) < 0
-                          ? theme.colors.border
-                          : theme.colors.outline,
-                      opacity: positive.indexOf(key) < 0 ? 1 : 0.5,
-                    }}
-                    disabled={positive.indexOf(key) > -1}
-                    onPress={() => this.onPressItem('negative', key)}>
-                    <H3
+                {FeedbackPreferences.map((key) => {
+                  if (positive.indexOf(key) > -1) return null;
+                  return (
+                    <MCButton
+                      bordered
+                      width={key === 'template' ? 335 : 160}
+                      height={100}
+                      br={6}
+                      mb={10}
+                      pl={20}
+                      pr={20}
                       align="center"
-                      color={
-                        negative.indexOf(key) < 0
-                          ? theme.colors.text
-                          : theme.colors.outline
-                      }>
-                      {t(`feedback_preference_${key}`)}
-                    </H3>
-                    {key === 'template' && (
+                      justify="center"
+                      style={{
+                        borderColor:
+                          negative.indexOf(key) < 0
+                            ? theme.colors.border
+                            : theme.colors.outline,
+                        opacity: positive.indexOf(key) < 0 ? 1 : 0.5,
+                      }}
+                      disabled={positive.indexOf(key) > -1}
+                      onPress={() => this.onPressItem('negative', key)}>
                       <H3
                         align="center"
                         color={
@@ -186,11 +182,22 @@ class FeedbackPreferenceScreen extends React.Component {
                             ? theme.colors.text
                             : theme.colors.outline
                         }>
-                        {`"${t(`feedback_preference_${key}_question`)}"`}
+                        {t(`feedback_preference_${key}`)}
                       </H3>
-                    )}
-                  </MCButton>
-                ))}
+                      {key === 'template' && (
+                        <H3
+                          align="center"
+                          color={
+                            negative.indexOf(key) < 0
+                              ? theme.colors.text
+                              : theme.colors.outline
+                          }>
+                          {`"${t(`feedback_preference_${key}_question`)}"`}
+                        </H3>
+                      )}
+                    </MCButton>
+                  );
+                })}
               </MCView>
             </>
           )}
