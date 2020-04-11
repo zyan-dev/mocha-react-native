@@ -1310,6 +1310,18 @@ export const DefaultReflections = {
       options: [],
     },
   },
+  attachment: {
+    type: 'Attachment',
+    data: {
+      options: [],
+    },
+  },
+  approach: {
+    type: 'Attachment',
+    data: {
+      options: [],
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1477,7 +1489,7 @@ export const BasicProfileCards = {
     icon: 'paperclip',
     minutes: 2,
     width: 150,
-    redirectTo: '',
+    redirectTo: 'KY_Attachment',
   },
   approach: {
     practice: '4-2',
@@ -1486,7 +1498,7 @@ export const BasicProfileCards = {
     icon: 'hand-middle-finger',
     minutes: 4,
     width: 150,
-    redirectTo: '',
+    redirectTo: 'KY_Approach',
   },
   values_and_judgements: {
     practice: '5',
@@ -1564,4 +1576,11 @@ export const RiskTolerances = [
   'training_race',
   'alone',
   'people',
+];
+
+export const AttachmentOptions = [
+  'avoidant',
+  'anxious',
+  'secure',
+  'anxious_and_avoidant',
 ];

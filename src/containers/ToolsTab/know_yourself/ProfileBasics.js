@@ -15,6 +15,7 @@ class ProfileBasicScreen extends React.Component {
       feedbackPreference,
       behaviorPreference,
       riskTolerance,
+      attachment,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -45,8 +46,12 @@ class ProfileBasicScreen extends React.Component {
             <ProfileBasicCard
               data={BasicProfileCards.attach}
               locked={!riskTolerance}
+              completed={attachment}
             />
-            <ProfileBasicCard data={BasicProfileCards.approach} locked />
+            <ProfileBasicCard
+              data={BasicProfileCards.approach}
+              locked={!attachment}
+            />
           </MCView>
           <ProfileBasicCard
             data={BasicProfileCards.values_and_judgements}
@@ -60,7 +65,7 @@ class ProfileBasicScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   myPersonalStory: selector.reflections.findMySpecialReflections(
     state,
     'PersonalStory',
@@ -77,10 +82,17 @@ const mapStateToProps = (state) => ({
     state,
     'RiskTolerance',
   ),
+  attachment: selector.reflections.findMySpecialReflections(
+    state,
+    'Attachment',
+  ),
 });
 
 const mapDispatchToProps = {};
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ProfileBasicScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ProfileBasicScreen),
 );
