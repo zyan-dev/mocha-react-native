@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {WaveIndicator} from 'react-native-indicators';
-import NetInfo from '@react-native-community/netinfo';
 import {routerActions} from 'Redux/actions';
 import {ABSView} from 'components/styled/View';
 import WelcomeStack from '../containers/Welcome';
@@ -24,29 +23,10 @@ class RootNavigator extends React.Component {
     Mixpanel.sharedInstanceWithToken(MixpanelToken);
   }
 
-  _onNavigationStateChange = (newState) => {
-    setTimeout(() => {
-      this.checkNetworkStatus();
-    }, 1000);
-  };
-
-  checkNetworkStatus = () => {
-    const {isInternetReachable, setNetworkOfflineStatus, syncData} = this.props;
-    NetInfo.fetch().then((state) => {
-      if (!isInternetReachable && state.isInternetReachable) {
-        // changed to online status
-        syncData(false);
-      }
-      setNetworkOfflineStatus(state.isInternetReachable);
-    });
-  };
-
   render() {
     const {isNewUser, isLoading} = this.props;
     return (
-      <NavigationContainer
-        ref={(ref) => NavigationService.setNavigator(ref)}
-        onStateChange={this._onNavigationStateChange}>
+      <NavigationContainer ref={(ref) => NavigationService.setNavigator(ref)}>
         <Stack.Navigator headerMode="none">
           {isNewUser && (
             <Stack.Screen name="welcomeStack" component={WelcomeStack} />
@@ -70,13 +50,10 @@ const mapStateToProps = (state) => ({
   isNewUser: state.routerReducer.isNewUser,
   isLoading: state.routerReducer.isLoading,
   profile: state.profileReducer,
-  isInternetReachable: state.routerReducer.isInternetReachable,
 });
 
 const mapDispatchToProps = {
   setLoading: routerActions.setLoading,
-  setNetworkOfflineStatus: routerActions.setNetworkOfflineStatus,
-  syncData: routerActions.syncData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootNavigator);

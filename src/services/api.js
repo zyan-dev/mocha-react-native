@@ -1,6 +1,5 @@
 import {AsyncStorage} from 'react-native';
 import {RNS3} from 'react-native-aws3/lib/RNS3';
-import NetInfo from '@react-native-community/netinfo';
 import {s3_Options} from '../utils/config';
 import {genetratedDate, showAlert} from './operators';
 const axios = require('axios');

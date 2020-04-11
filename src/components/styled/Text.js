@@ -51,8 +51,6 @@ export const H6 = styled(MCText)`
 export const MCEmptyText = styled(H4)`
   color: ${(props) => props.theme.colors.border};
   text-align: center;
-  margin-bottom: ${(props) => dySize(props.mb || 10)}px;
-  margin-top: ${(props) => dySize(props.mt || 10)}px;
 `;
 
 export const MCTextInput = styled.TextInput`

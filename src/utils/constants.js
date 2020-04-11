@@ -1584,3 +1584,96 @@ export const AttachmentOptions = [
   'secure',
   'anxious_and_avoidant',
 ];
+
+export const profileIcons = [
+  {
+    key: 'overview',
+    iconType: 'FontAwesome5',
+    icon: 'pen-alt',
+  },
+  {
+    key: 'contact',
+    iconType: 'FontAwesome5',
+    icon: 'phone',
+  },
+  {
+    key: 'value',
+    iconType: 'Ionicon',
+    icon: 'ios-key',
+  },
+  {
+    key: 'purpose',
+    iconType: 'Ionicon',
+    icon: 'ios-body',
+  },
+  {
+    key: 'motivation',
+    iconType: 'Ionicon',
+    icon: 'ios-fitness',
+  },
+  {
+    key: 'languages',
+    iconType: 'Ionicon',
+    icon: 'ios-heart',
+  },
+  {
+    key: 'skill',
+    iconType: 'Ionicon',
+    icon: 'ios-hammer',
+  },
+  {
+    key: 'belief',
+    iconType: 'Ionicon',
+    icon: 'ios-cloud-upload',
+  },
+  {
+    key: 'objective',
+    iconType: 'Ionicon',
+    icon: 'ios-compass',
+  },
+  {
+    key: 'chronotype',
+    iconType: 'Ionicon',
+    icon: 'ios-hourglass',
+  },
+  {
+    key: 'personality',
+    iconType: 'Ionicon',
+    icon: 'ios-finger-print',
+  },
+  {
+    key: 'stress',
+    iconType: 'Ionicon',
+    icon: 'ios-thunderstorm',
+  },
+  {
+    key: 'risk',
+    iconType: 'FontAwesome5',
+    icon: 'skiing',
+  },
+  {
+    key: 'feedback',
+    iconType: 'Ionicon',
+    icon: 'ios-people',
+  },
+  {
+    key: 'quirk',
+    iconType: 'Ionicon',
+    icon: 'ios-bowtie',
+  },
+  {
+    key: 'trigger',
+    iconType: 'Ionicon',
+    icon: 'ios-warning',
+  },
+  {
+    key: 'attachment',
+    iconType: 'Ionicon',
+    icon: 'ios-attach',
+  },
+  {
+    key: 'approach',
+    iconType: 'Ionicon',
+    icon: 'ios-git-compare',
+  },
+];

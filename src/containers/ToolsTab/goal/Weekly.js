@@ -103,7 +103,7 @@ class WeeklyObjectiveScreen extends React.Component {
             checkBoxColor={theme.colors.text}
           />
         ))}
-        <MCView row align="center" mt={10} mb={10}>
+        <MCView row align="center" mt={10} mb={isShowingUserObjective ? 10 : 0}>
           <MCView
             row
             align="center"

@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import ReflectionScreen from './Home';
 import UserManualScreen from './usermanual';
+import EditUserManualScreen from './usermanual/edit';
 import ValueScreen from './value';
 import EditValueScreen from './value/edit';
 import FeedbackStack from './feedback';
@@ -11,7 +12,6 @@ import EmotionScreen from './emotion';
 import NeedScreen from './need';
 import EditNeedScreen from './need/edit';
 import TapToCountScreen from './tab_to_count';
-import EditUserManualScreen from './usermanual/edit';
 import EditEmotionScreen from './emotion/edit';
 import KnowYourSelfStack from './know_yourself';
 
@@ -24,6 +24,7 @@ class ToolsTabStack extends React.Component {
         <Stack.Screen name="ToolsTabHome" component={ReflectionScreen} />
         <Stack.Screen name="KnowYourSelf" component={KnowYourSelfStack} />
         <Stack.Screen name="UserManuals" component={UserManualScreen} />
+        <Stack.Screen name="EditUserManual" component={EditUserManualScreen} />
         <Stack.Screen name="Values" component={ValueScreen} />
         <Stack.Screen name="EditValue" component={EditValueScreen} />
         <Stack.Screen name="Feedbacks" component={FeedbackStack} />
@@ -34,7 +35,6 @@ class ToolsTabStack extends React.Component {
         <Stack.Screen name="Needs" component={NeedScreen} />
         <Stack.Screen name="EditNeed" component={EditNeedScreen} />
         <Stack.Screen name="TapToCounts" component={TapToCountScreen} />
-        <Stack.Screen name="EditUserManual" component={EditUserManualScreen} />
       </Stack.Navigator>
     );
   }

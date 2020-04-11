@@ -22,18 +22,27 @@ export function* purchaseSubscription(action) {
 }
 
 export function* checkNetwork(action) {
+  const {
+    routerReducer: {isInternetReachable},
+  } = yield select();
   const networkState = yield call(NetInfo.fetch);
-  yield put({
-    type: types.SET_NETWORK_OFFLINE_STATUS,
-    payload: networkState.isInternetReachable,
-  });
-  if (!networkState.isInternetReachable) {
+
+  if (networkState.isInternetReachable !== null) {
+    yield put({
+      type: types.SET_NETWORK_STATUS,
+      payload: networkState.isInternetReachable,
+    });
     yield put({
       type: types.TRACK_MIXPANEL_EVENT,
       payload: {
-        event: 'Network Offline',
+        event: `Network ${
+          networkState.isInternetReachable ? 'Online' : 'Offline'
+        }`,
       },
     });
+    if (!isInternetReachable && networkState.isInternetReachable) {
+      yield put({type: types.SYNC_DATA, payload: false});
+    }
   }
 }
 

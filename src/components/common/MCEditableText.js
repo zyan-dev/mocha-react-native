@@ -70,15 +70,15 @@ class MCEditableText extends React.Component {
       <TextInput
         value={text}
         editable={editable}
-        onChangeText={value => onChange(value)}
+        onChangeText={(value) => onChange(value)}
         multiline={multiline}
         placeholder={placeholder}
         placeholderTextColor={theme.colors.border}
         maxLength={maxLength}
         onBlur={onBlur}
         onFocus={onFocus}
-        onSubmitEditing={onSubmit}
-        blurOnSubmit={blurOnSubmit}
+        onSubmitEditing={multiline ? undefined : onSubmit}
+        blurOnSubmit={multiline ? false : blurOnSubmit}
         keyboardType={keyboardType}
         style={{
           width: '100%',
@@ -88,7 +88,7 @@ class MCEditableText extends React.Component {
           borderColor: theme.colors.border,
           color: theme.colors.text,
           fontSize: dySize(fontSize || theme.base.FONT_SIZE_MEDIUM),
-          borderWidth: bordered && editable ? 1 : 0,
+          borderWidth: bordered && editable ? 0.5 : 0,
           fontFamily: FontFamilies.regular,
           textAlign,
           ...style,
@@ -98,7 +98,7 @@ class MCEditableText extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
 });
 

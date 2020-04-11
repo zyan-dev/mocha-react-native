@@ -40,7 +40,10 @@ class GoalScreen extends React.Component {
   };
 
   render() {
-    const {t} = this.props;
+    const {
+      t,
+      route: {params},
+    } = this.props;
     return (
       <View style={{flex: 1}}>
         <MCHeader
@@ -49,7 +52,7 @@ class GoalScreen extends React.Component {
           rightIcon="ios-add"
           onPressRight={() => this.onPressNew()}
         />
-        <ObjectiveTabView />
+        <ObjectiveTabView initialIndex={params ? params.tabIndex : 0} />
       </View>
     );
   }

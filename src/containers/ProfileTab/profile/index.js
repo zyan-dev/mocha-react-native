@@ -1,30 +1,41 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {AnimatedCircularProgress} from 'react-native-circular-progress';
-import {feedbackActions, routerActions} from 'Redux/actions';
+import {feedbackActions, routerActions, reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H3, H4} from 'components/styled/Text';
+import {MCIcon} from 'components/styled/Text';
+import {MCButton} from 'components/styled/Button';
 import {MCHeader} from 'components/common';
 import {selector} from 'Redux/selectors';
-import BasicProfile from './cards/BasicProfile';
-import ContactCard from './cards/ContactCard';
-import ValueAndPurpose from './cards/ValueAndPurpose';
-import MotivationCard from './cards/Motivation';
-import BeliefAndObjective from './cards/BeliefAndObjective';
-import ChronotypeAndPersonality from './cards/ChronotypeAndPersonality';
-import SkillAndFeedback from './cards/SkillAndFeedback';
-import QuirkAndTrigger from './cards/QuirkAndTrigger';
-import AttachmentAndApproach from './cards/AttachmentAndApproach';
-import LanguageAndRisk from './cards/LanguageAndRisk';
-import StressAndComfort from './cards/StressAndComfort';
+import OverviewCard from './components/Overview';
+import ContactCard from './components/Contact';
+import ValuesCard from './components/Values';
+import PurposesCard from './components/Purposes';
+import MotivationCard from './components/Motivations';
+import LanguagesCard from './components/Languages';
+import SkillsCard from './components/Skills';
+import UserManualsCard from './components/UserManuals';
+import ObjectivesCard from './components/Objectives';
+import ChronotypeCard from './components/Chronotype';
+import PersonalityCard from './components/Personality';
+import StressAndComfortCard from './components/StressAndComfort';
+import RiskToleranceCard from './components/RiskTolerance';
+import FeedbacksCard from './components/Feedbacks';
+import QuirksCard from './components/Quirks';
+import TriggersCard from './components/Triggers';
+import AttachmentCard from './components/Attachment';
+import ApproachCard from './components/Approach';
 import NavigationService from 'navigation/NavigationService';
-import {showAlert} from '../../../services/operators';
+import {showAlert} from 'services/operators';
+import {profileIcons} from 'utils/constants';
+import {dySize} from 'utils/responsive';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selected: 'overview',
+    };
   }
 
   componentDidMount() {
@@ -34,30 +45,43 @@ class ProfileScreen extends React.Component {
   }
 
   onPressAllValues = () => {
-    NavigationService.navigate('TabTools');
-    setTimeout(() => {
-      NavigationService.navigate('Values');
-    });
+    NavigationService.navigate('Values');
+  };
+  onPressNewValue = () => {
+    this.props.setInitialReflection('value');
+    NavigationService.navigate('EditValue');
+  };
+
+  onPressAllMotivations = () => {
+    NavigationService.navigate('Motivations');
+  };
+
+  onPressNewMotivation = () => {
+    this.props.setInitialReflection('motivation');
+    NavigationService.navigate('AddMotivation');
   };
 
   onPressAllPurposes = () => {};
 
-  onPressAllObjectives = () => {
+  onPressAllObjectives = (tabIndex) => {
     if (!this.props.profile.userToken) {
       showAlert('You need to sign up');
     } else {
-      NavigationService.navigate('TabTools');
-      setTimeout(() => {
-        NavigationService.navigate('Objectives');
-      });
+      NavigationService.navigate('Objectives', {tabIndex});
     }
   };
 
+  onPressNewObjective = () => {
+    this.props.setInitialReflection('objective');
+    NavigationService.navigate('EditObjective');
+  };
+
   onPressAllUserManuals = () => {
-    NavigationService.navigate('TabTools');
-    setTimeout(() => {
-      NavigationService.navigate('UserManuals');
-    });
+    NavigationService.navigate('UserManuals');
+  };
+  onPressNewUserManual = () => {
+    this.props.setInitialReflection('manual');
+    NavigationService.navigate('EditUserManual');
   };
 
   onPressNewFeedback = () => {
@@ -72,7 +96,6 @@ class ProfileScreen extends React.Component {
   };
 
   onPressAllPersonalities = () => {};
-
   onPressAllSkills = () => {};
   onPressAllQuirks = () => {};
   onPressAllTriggers = () => {};
@@ -81,140 +104,156 @@ class ProfileScreen extends React.Component {
   onPressAllLanguages = () => {};
   onPressAllRisks = () => {};
   onPressAllAnswers = () => {};
-
-  getProfileCompletePercentage = () => {
-    const {
-      profile: {
-        user_id,
-        name,
-        avatar,
-        neighborhood,
-        namepronoun,
-        bio,
-        preferredtobecalled,
-        preferredpronoun,
-        email,
-      },
-    } = this.props;
-    let percentage = 0;
-    if (user_id.length) percentage += 20;
-    if (name.length) percentage += 10;
-    if (avatar.length) percentage += 10;
-    if (neighborhood.length) percentage += 10;
-    if (namepronoun.length) percentage += 10;
-    if (bio.length) percentage += 10;
-    if (preferredtobecalled.length) percentage += 10;
-    if (preferredpronoun.length) percentage += 10;
-    if (email.length) percentage += 10;
-    return percentage;
+  onPressProfileIcon = (icon) => {
+    this.setState({selected: icon.key});
   };
 
   render() {
     const {
-      t,
+      theme,
       profile,
-      manuals,
       values,
       showDrawer,
       feedbacks,
       motivations,
+      manuals,
       chronotype,
       personality,
       dailyObjectives,
       weeklyObjectives,
     } = this.props;
+    const {selected} = this.state;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          hasRight
-          hasBack={false}
-          title={t('profile_headerTitle')}
-          rightIcon="md-menu"
-          onPressRight={() => showDrawer(true)}
+          leftIcon="md-menu"
+          leftIconSize={30}
+          onPressBack={() => showDrawer(true)}
         />
-        <MCContent contentContainerStyle={{paddingBottom: 100}}>
-          <MCView align="center">
-            <BasicProfile profile={profile} />
-            <MCView align="center" mt={20}>
-              <AnimatedCircularProgress
-                size={150}
-                width={15}
-                rotation={0}
-                lineCap="round"
-                fill={this.getProfileCompletePercentage()}
-                duration={2000}
-                tintColor="#00e0ff"
-                onAnimationComplete={() => console.log('onAnimationComplete')}
-                backgroundColor="#3d5875">
-                {(fill) => (
-                  <MCView align="center">
-                    <H3 weight="bold">{Math.floor(fill)}%</H3>
-                    <H4>Completed</H4>
-                  </MCView>
-                )}
-              </AnimatedCircularProgress>
-            </MCView>
-            <ContactCard profile={profile} />
-            <ValueAndPurpose
-              values={values}
-              onPressAllValues={() => this.onPressAllValues()}
-              onPressAllPurposes={() => this.onPressAllPurposes()}
-            />
-            <MotivationCard
-              motivations={motivations}
-              onPressAllMotivations={() =>
-                NavigationService.navigate('Motivations')
-              }
-            />
-            <BeliefAndObjective
-              manuals={manuals}
-              dailyObjectives={dailyObjectives}
-              weeklyObjectives={weeklyObjectives}
-              onPressAllBeliefs={() => this.onPressAllUserManuals()}
-              onPressAllObjectives={() => this.onPressAllObjectives()}
-            />
-            <ChronotypeAndPersonality
-              chronotype={chronotype}
-              personality={personality}
-              onPressChronotype={() => NavigationService.navigate('Chronotype')}
-              onPressPersonality={() =>
-                NavigationService.navigate('Personality')
-              }
-            />
-            <SkillAndFeedback
-              feedbacks={feedbacks}
-              onPressAllSkills={() => this.onPressAllSkills()}
-              onPressAllFeedbacks={() =>
-                NavigationService.navigate('Feedbacks')
-              }
-              onPressNewFeedback={() => this.onPressNewFeedback()}
-            />
-            <QuirkAndTrigger
-              onPressAllQuirks={() => this.onPressAllQuirks()}
-              onPressAllTriggers={() => this.onPressAllTriggers()}
-            />
-            <AttachmentAndApproach
-              onPressAllAttachments={() => this.onPressAllAttachments()}
-              onPressAllApproaches={() => this.onPressAllApproaches()}
-            />
-            <LanguageAndRisk
-              onPressAllLanguages={() => this.onPressAllLanguages()}
-              onPressAllRisks={() => this.onPressAllRisks()}
-            />
-            <StressAndComfort
-              onPressAllAnswers={() => this.onPressAllAnswers()}
-            />
+        <MCView row style={{flex: 1}}>
+          <MCView width={325}>
+            <MCContent
+              style={{width: dySize(325)}}
+              contentContainerStyle={{padding: dySize(10)}}>
+              {selected === 'overview' && <OverviewCard profile={profile} />}
+              {selected === 'contact' && <ContactCard profile={profile} />}
+              {selected === 'value' && (
+                <ValuesCard
+                  values={values}
+                  onPressDetails={() => this.onPressAllValues()}
+                  onPressNew={() => this.onPressNewValue()}
+                />
+              )}
+              {selected === 'purpose' && (
+                <PurposesCard
+                  onPressDetails={() => this.onPressAllPurposes()}
+                />
+              )}
+              {selected === 'motivation' && (
+                <MotivationCard
+                  motivations={motivations}
+                  onPressDetails={() => this.onPressAllMotivations()}
+                  onPressNew={() => this.onPressNewMotivation()}
+                />
+              )}
+              {selected === 'languages' && (
+                <LanguagesCard onPressDetails={() => {}} />
+              )}
+              {selected === 'skill' && <SkillsCard onPressDetails={() => {}} />}
+              {selected === 'belief' && (
+                <UserManualsCard
+                  manuals={manuals}
+                  onPressDetails={() => this.onPressAllUserManuals()}
+                  onPressNew={() => this.onPressNewUserManual()}
+                />
+              )}
+              {selected === 'objective' && (
+                <ObjectivesCard
+                  dailyObjectives={dailyObjectives}
+                  weeklyObjectives={weeklyObjectives}
+                  onPressAllDaily={() => this.onPressAllObjectives(0)}
+                  onPressAllWeekly={() => this.onPressAllObjectives(1)}
+                  onPressNew={() => this.onPressNewObjective()}
+                />
+              )}
+              {selected === 'chronotype' && (
+                <ChronotypeCard
+                  chronotype={chronotype}
+                  onPressEdit={() => NavigationService.navigate('Chronotype')}
+                />
+              )}
+              {selected === 'personality' && (
+                <PersonalityCard
+                  personality={personality}
+                  onPressEdit={() => NavigationService.navigate('Personality')}
+                />
+              )}
+              {selected === 'stress' && (
+                <StressAndComfortCard onPressEdit={() => {}} />
+              )}
+              {selected === 'risk' && (
+                <RiskToleranceCard onPressEdit={() => {}} />
+              )}
+              {selected === 'feedback' && (
+                <FeedbacksCard
+                  feedbacks={feedbacks}
+                  onPressDetails={() => NavigationService.navigate('Feedbacks')}
+                  onPressNew={() => this.onPressNewFeedback()}
+                />
+              )}
+              {selected === 'quirk' && <QuirksCard onPressEdit={() => {}} />}
+              {selected === 'trigger' && (
+                <TriggersCard onPressEdit={() => {}} />
+              )}
+              {selected === 'attachment' && (
+                <AttachmentCard onPressEdit={() => {}} />
+              )}
+              {selected === 'approach' && (
+                <ApproachCard onPressEdit={() => {}} />
+              )}
+            </MCContent>
           </MCView>
-        </MCContent>
+          <MCView
+            width={50}
+            style={{borderLeftWidth: 1, borderColor: theme.colors.border}}>
+            <MCContent>
+              {profileIcons.map((icon) => (
+                <MCButton
+                  width={50}
+                  align="center"
+                  onPress={() => this.onPressProfileIcon(icon)}>
+                  <MCIcon
+                    type={icon.iconType}
+                    name={icon.icon}
+                    size={selected === icon.key ? 30 : 20}
+                    color={
+                      selected === icon.key
+                        ? theme.colors.outline
+                        : theme.colors.text
+                    }
+                  />
+                </MCButton>
+              ))}
+            </MCContent>
+          </MCView>
+        </MCView>
       </MCRootView>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
+  theme: state.routerReducer.theme,
   profile: state.profileReducer,
   manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   values: selector.reflections.getMySpecialReflections(state, 'Value'),
+  dailyObjectives: selector.reflections
+    .getMySpecialReflections(state, 'Objective')
+    .filter(({data}) => data.isDaily),
+  weeklyObjectives: selector.reflections
+    .getMySpecialReflections(state, 'Objective')
+    .filter(({data}) => !data.isDaily),
+  manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   motivations: selector.reflections.getMySpecialReflections(
     state,
     'Motivation',
@@ -228,17 +267,12 @@ const mapStateToProps = (state) => ({
     state,
     'Personality',
   ),
-  myObjectives: selector.reflections
-    .getMySpecialReflections(state, 'Objective')
-    .filter(({data}) => data.isDaily),
-  weeklyObjectives: selector.reflections
-    .getMySpecialReflections(state, 'Objective')
-    .filter(({data}) => !data.isDaily),
 });
 
 const mapDispatchToProps = {
   getMyFeedbacks: feedbackActions.getMyFeedbacks,
   showDrawer: routerActions.setProfileDrawerOpened,
+  setInitialReflection: reflectionActions.setInitialReflection,
 };
 
 export default withTranslation()(

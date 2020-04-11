@@ -32,6 +32,7 @@ class UserObjectiveScreen extends React.Component {
 
   render() {
     const {t, user} = this.props;
+    const {tabIndex} = this.props.route.params;
     return (
       <View style={{flex: 1}}>
         <MCHeader
@@ -42,7 +43,7 @@ class UserObjectiveScreen extends React.Component {
           }
           onPressRight={() => this.onPressNew()}
         />
-        <ObjectiveTabView />
+        <ObjectiveTabView initialIndex={tabIndex} />
       </View>
     );
   }

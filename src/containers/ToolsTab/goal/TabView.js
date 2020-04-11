@@ -15,7 +15,7 @@ class ObjectiveTabView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
+      index: props.initialIndex || 0,
     };
   }
 
@@ -61,7 +61,7 @@ class ObjectiveTabView extends React.Component {
           borderBottomWidth: 0,
         }}
         scrollEnabled
-        tabStyle={{width: dySize(125)}}
+        tabStyle={{width: isShowingUserObjective ? dySize(125) : dySize(100)}}
         renderLabel={({route, focused, color}) => {
           return (
             <H5

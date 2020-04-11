@@ -15,8 +15,13 @@ import FeedbackScreen from './profile/details/feedback';
 import ChronotypeScreen from './profile/details/chronotype';
 import MotivationListScreen from './profile/details/motivations';
 import CreateMotivationScreen from './profile/details/motivations/create';
-import ValueListScreen from './profile/details/values';
 import PersonalityScreen from './profile/details/personality';
+import ValueScreen from '../ToolsTab/value';
+import EditValueScreen from '../ToolsTab/value/edit';
+import UserManualScreen from '../ToolsTab/usermanual';
+import EditUserManualScreen from '../ToolsTab/usermanual/edit';
+import ObjectiveScreen from '../ToolsTab/goal';
+import EditObjectiveScreen from '../ToolsTab/goal/Add';
 
 const Stack = createStackNavigator();
 
@@ -25,7 +30,7 @@ class ProfileTabStack extends React.Component {
     const {isDrawerOpened, showDrawer} = this.props;
     return (
       <Drawer
-        ref={ref => (this._drawer = ref)}
+        ref={(ref) => (this._drawer = ref)}
         content={<ProfileSideMenu />}
         type="overlay"
         acceptDoubleTap
@@ -39,9 +44,19 @@ class ProfileTabStack extends React.Component {
         openDrawerOffset={dySize(100)}
         negotiatePan
         side="left"
-        tweenHandler={ratio => ({main: {opacity: (2 - ratio) / 2}})}>
+        tweenHandler={(ratio) => ({main: {opacity: (2 - ratio) / 2}})}>
         <Stack.Navigator headerMode="none">
           <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Values" component={ValueScreen} />
+          <Stack.Screen name="EditValue" component={EditValueScreen} />
+          <Stack.Screen name="UserManuals" component={UserManualScreen} />
+          <Stack.Screen
+            name="EditUserManual"
+            component={EditUserManualScreen}
+          />
+          <Stack.Screen name="Objectives" component={ObjectiveScreen} />
+          <Stack.Screen name="EditObjective" component={EditObjectiveScreen} />
+
           <Stack.Screen name="TimeLine" component={TimeLineScreen} />
           <Stack.Screen name="Analyze" component={AnalyzeScreen} />
           <Stack.Screen name="SendMochaCV" component={SendMochaCVScreen} />
@@ -54,7 +69,6 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen name="Chronotype" component={ChronotypeScreen} />
           <Stack.Screen name="Motivations" component={MotivationListScreen} />
           <Stack.Screen name="Personality" component={PersonalityScreen} />
-          <Stack.Screen name="Values" component={ValueListScreen} />
           <Stack.Screen
             name="AddMotivation"
             component={CreateMotivationScreen}
@@ -65,7 +79,7 @@ class ProfileTabStack extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isDrawerOpened: state.routerReducer.isProfileDrawerOpened,
 });
 

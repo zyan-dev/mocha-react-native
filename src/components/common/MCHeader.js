@@ -50,6 +50,7 @@ class MCHeader extends React.PureComponent {
     rightImage: PropTypes.node,
     rightIconType: PropTypes.string,
     leftIcon: PropTypes.string,
+    leftIconSize: PropTypes.number,
     leftIconType: PropTypes.string,
     onPressRight: PropTypes.func,
     style: PropTypes.object,
@@ -61,6 +62,7 @@ class MCHeader extends React.PureComponent {
     rightText: '',
     rightIcon: '',
     leftIcon: 'ios-arrow-back',
+    leftIconSize: 20,
     rightImage: null,
     rightIconType: 'Ionicon',
     leftIconType: 'Ionicon',
@@ -78,6 +80,7 @@ class MCHeader extends React.PureComponent {
       rightText,
       rightIcon,
       leftIcon,
+      leftIconSize,
       rightImage,
       leftIconType,
       rightIconType,
@@ -92,7 +95,7 @@ class MCHeader extends React.PureComponent {
           {hasBack && (
             <MCButton width={70} onPress={() => onPressBack()}>
               {/* <H4>{t('header_back')}</H4> */}
-              <MCIcon type={leftIconType} name={leftIcon} />
+              <MCIcon type={leftIconType} name={leftIcon} size={leftIconSize} />
             </MCButton>
           )}
         </HeaderLeft>
