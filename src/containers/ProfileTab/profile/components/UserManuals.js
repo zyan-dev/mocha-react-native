@@ -69,7 +69,7 @@ class UserManualsCard extends React.Component {
           )}
         </MCView>
         <FlatList
-          data={[]}
+          data={manuals.slice(0, 4)}
           renderItem={this._renderItem}
           keyExtractor={(item) => item._id}
           numColumns={2}
