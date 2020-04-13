@@ -1,13 +1,11 @@
 import React from 'react';
+import {Animated} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
-import {Icon} from 'native-base';
 import {dySize} from 'utils/responsive';
-import MCEditableText from './MCEditableText';
 import {MCView} from '../styled/View';
-import {MCButton} from '../styled/Button';
-import {MCIcon, H4} from '../styled/Text';
+import {H4} from '../styled/Text';
 import {SpeedoMeterImage} from '../../assets/images';
 import MCImage from './MCImage';
 
@@ -17,7 +15,7 @@ const ScaleView = styled.View`
   left: 75
 `;
 
-class MCSpeedoMeter extends React.PureComponent {
+class MCSpeedoMeter extends React.Component {
   static propTypes = {
     width: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired,
@@ -25,11 +23,40 @@ class MCSpeedoMeter extends React.PureComponent {
 
   static defaultProps = {};
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      rotateDeg: new Animated.Value(0),
+    };
+  }
+
+  componentDidMount() {
+    this.animate();
+  }
+
+  componentWillReceiveProps(props) {
+    if (this.state.origin !== props.value) {
+      this.animate();
+    }
+  }
+
+  animate() {
+    Animated.spring(this.state.rotateDeg, {
+      toValue: 1,
+      tension: 150,
+      friction: 5,
+      useNativeDriver: true,
+    }).start();
+  }
+
   render() {
     const {width, value, theme} = this.props;
+    const {rotateDeg} = this.state;
     const scale = dySize(width / 260);
-    const radius = 160 * scale;
-    console.log({radius});
+    const rotate = rotateDeg.interpolate({
+      inputRange: [0, 1],
+      outputRange: [`${40}deg`, `${value + 40}deg`],
+    });
     return (
       <MCView width={width} align="center" style={{overflow: 'visible'}}>
         <MCView
@@ -55,6 +82,7 @@ class MCSpeedoMeter extends React.PureComponent {
           resizeMode="contain"
         />
         <MCView
+          as={Animated.View}
           row
           width={width * 0.95 + 100}
           height={20}
@@ -62,7 +90,7 @@ class MCSpeedoMeter extends React.PureComponent {
           align="center"
           style={{
             marginTop: dySize(-10),
-            transform: [{rotate: `${40 + value}deg`}],
+            transform: [{rotate}, {perspective: 1000}],
           }}>
           <H4
             align="center"
@@ -103,4 +131,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
 });
 
-export default connect(mapStateToProps, undefined)(MCSpeedoMeter);
+export default connect(
+  mapStateToProps,
+  undefined,
+)(MCSpeedoMeter);

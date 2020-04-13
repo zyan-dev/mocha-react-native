@@ -63,7 +63,7 @@ class ProfileScreen extends React.Component {
 
   onPressAllPurposes = () => {};
 
-  onPressAllObjectives = (tabIndex) => {
+  onPressAllObjectives = tabIndex => {
     if (!this.props.profile.userToken) {
       showAlert('You need to sign up');
     } else {
@@ -104,7 +104,7 @@ class ProfileScreen extends React.Component {
   onPressAllLanguages = () => {};
   onPressAllRisks = () => {};
   onPressAllAnswers = () => {};
-  onPressProfileIcon = (icon) => {
+  onPressProfileIcon = icon => {
     this.setState({selected: icon.key});
   };
 
@@ -217,23 +217,27 @@ class ProfileScreen extends React.Component {
             width={50}
             style={{borderLeftWidth: 1, borderColor: theme.colors.border}}>
             <MCContent>
-              {profileIcons.map((icon) => (
-                <MCButton
-                  width={50}
-                  align="center"
-                  onPress={() => this.onPressProfileIcon(icon)}>
-                  <MCIcon
-                    type={icon.iconType}
-                    name={icon.icon}
-                    size={selected === icon.key ? 30 : 20}
-                    color={
-                      selected === icon.key
-                        ? theme.colors.outline
-                        : theme.colors.text
-                    }
-                  />
-                </MCButton>
-              ))}
+              {profileIcons.map(icon => {
+                if (icon.signinRequired && !profile.userToken.length)
+                  return null;
+                return (
+                  <MCButton
+                    width={50}
+                    align="center"
+                    onPress={() => this.onPressProfileIcon(icon)}>
+                    <MCIcon
+                      type={icon.iconType}
+                      name={icon.icon}
+                      size={selected === icon.key ? 30 : 20}
+                      color={
+                        selected === icon.key
+                          ? theme.colors.outline
+                          : theme.colors.text
+                      }
+                    />
+                  </MCButton>
+                );
+              })}
             </MCContent>
           </MCView>
         </MCView>
@@ -242,7 +246,7 @@ class ProfileScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
   manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
@@ -276,5 +280,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ProfileScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ProfileScreen),
 );
