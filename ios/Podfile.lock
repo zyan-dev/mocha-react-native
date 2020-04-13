@@ -389,9 +389,9 @@ PODS:
   - RNSVG (11.0.1):
     - React
   - RSKImageCropper (2.2.3)
-  - SDWebImage (5.7.1):
-    - SDWebImage/Core (= 5.7.1)
-  - SDWebImage/Core (5.7.1)
+  - SDWebImage (5.7.2):
+    - SDWebImage/Core (= 5.7.2)
+  - SDWebImage/Core (5.7.2)
   - SDWebImageWebPCoder (0.2.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.0)
@@ -655,7 +655,7 @@ SPEC CHECKSUMS:
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNSVG: 67f1f12dae2cef6ed59a42cae74a6b8f5a9e7b46
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
-  SDWebImage: 5d4cf6afccd9ac1d2ee701ed0c4917cbb1b80536
+  SDWebImage: d9ea4959d99c52276dfada481987018fcaea3d58
   SDWebImageWebPCoder: 947093edd1349d820c40afbd9f42acb6cdecd987
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b

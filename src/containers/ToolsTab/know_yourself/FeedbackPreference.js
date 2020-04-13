@@ -103,7 +103,7 @@ class FeedbackPreferenceScreen extends React.Component {
                 {t(`select_all_that_apply`)}
               </H4>
               <MCView row wrap justify="space-between">
-                {FeedbackPreferences.map((key) => (
+                {FeedbackPreferences.map(key => (
                   <MCButton
                     bordered
                     width={key === 'template' ? 335 : 160}
@@ -153,8 +153,7 @@ class FeedbackPreferenceScreen extends React.Component {
               <H4>{t(`feedback_preference_negative_title`)}</H4>
               <H4 mb={20}>{t(`select_all_that_apply`)}</H4>
               <MCView row wrap justify="space-between">
-                {FeedbackPreferences.map((key) => {
-                  if (positive.indexOf(key) > -1) return null;
+                {FeedbackPreferences.map(key => {
                   return (
                     <MCButton
                       bordered
@@ -171,11 +170,10 @@ class FeedbackPreferenceScreen extends React.Component {
                           negative.indexOf(key) < 0
                             ? theme.colors.border
                             : theme.colors.outline,
-                        opacity: positive.indexOf(key) < 0 ? 1 : 0.5,
                       }}
-                      disabled={positive.indexOf(key) > -1}
                       onPress={() => this.onPressItem('negative', key)}>
                       <H3
+                        weight={negative.indexOf(key) < 0 ? 'regular' : 'bold'}
                         align="center"
                         color={
                           negative.indexOf(key) < 0
@@ -186,6 +184,9 @@ class FeedbackPreferenceScreen extends React.Component {
                       </H3>
                       {key === 'template' && (
                         <H3
+                          weight={
+                            negative.indexOf(key) < 0 ? 'regular' : 'bold'
+                          }
                           align="center"
                           color={
                             negative.indexOf(key) < 0
@@ -207,7 +208,7 @@ class FeedbackPreferenceScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
   myFeedbackPreference: selector.reflections.findMySpecialReflections(
@@ -224,5 +225,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(FeedbackPreferenceScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FeedbackPreferenceScreen),
 );

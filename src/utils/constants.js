@@ -1317,7 +1317,7 @@ export const DefaultReflections = {
     },
   },
   approach: {
-    type: 'Attachment',
+    type: 'Approach',
     data: {
       options: [],
     },
@@ -1676,4 +1676,15 @@ export const profileIcons = [
     iconType: 'Ionicon',
     icon: 'ios-git-compare',
   },
+];
+
+export const ApproachToConflictOptions = [
+  'peace_keeping',
+  'avoid_withdraw',
+  'hostile',
+  'volitile',
+  'validator',
+  'compromising',
+  'competing',
+  'collaborating',
 ];
