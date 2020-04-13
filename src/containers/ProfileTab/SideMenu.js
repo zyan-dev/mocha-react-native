@@ -24,8 +24,8 @@ class ProfileSideMenu extends React.Component {
     this.props.showDrawer(false);
     if (menu.index === 1) {
       this.props.resetAllReducer();
-      AsyncStorage.removeItem('userToken');
       NavigationService.reset('welcomeStack');
+      AsyncStorage.removeItem('userToken');
     } else if (menu.index === 7) {
       this.props.deleteAccount();
     } else {
@@ -114,5 +114,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ProfileSideMenu),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ProfileSideMenu),
 );

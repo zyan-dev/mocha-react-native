@@ -7,8 +7,12 @@ import {dySize} from 'utils/responsive';
 
 class MCTagInput extends React.Component {
   static propTypes = {
-    tags: PropTypes.array.isRequired,
+    tags: PropTypes.array,
     updateState: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    tags: [],
   };
 
   constructor(props) {
@@ -33,7 +37,7 @@ class MCTagInput extends React.Component {
     this.setState({text: ''});
   };
 
-  updateState = param => {
+  updateState = (param) => {
     this.props.updateState(param);
     console.log(param.tag);
     this.setState({text: param.tag});
@@ -42,46 +46,47 @@ class MCTagInput extends React.Component {
   render() {
     const {text} = this.state;
     const {t, theme, tags} = this.props;
-    return (
-      <TagInput
-        ref={ref => (this.input = ref)}
-        updateState={param => this.updateState(param)}
-        tags={{
-          tag: text,
-          tagsArray: tags,
-        }}
-        placeholder={t('tag_input_placeholder')}
-        placeholderTextColor={theme.colors.border}
-        labelStyle={{
-          color: theme.colors.border,
-          fontSize: theme.base.FONT_SIZE_MEDIUM,
-        }}
-        containerStyle={{
-          borderWidth: 1,
-          borderColor: theme.colors.text,
-          borderRadius: dySize(10),
-        }}
-        tagStyle={{
-          height: dySize(30),
-          borderRadius: dySize(8),
-        }}
-        tagTextStyle={{
-          color: theme.colors.background,
-        }}
-        inputStyle={{
-          color: theme.colors.text,
-          margin: 0,
-        }}
-        keysForTag={','}
-        onSubmitEditing={() => this.onPressEnterOrBlur()}
-        onChange={e => this.setState({text: e.nativeEvent.text})}
-        blurOnSubmit={false}
-      />
-    );
+    if (tags)
+      return (
+        <TagInput
+          ref={(ref) => (this.input = ref)}
+          updateState={(param) => this.updateState(param)}
+          tags={{
+            tag: text,
+            tagsArray: tags,
+          }}
+          placeholder={t('tag_input_placeholder')}
+          placeholderTextColor={theme.colors.border}
+          labelStyle={{
+            color: theme.colors.border,
+            fontSize: theme.base.FONT_SIZE_MEDIUM,
+          }}
+          containerStyle={{
+            borderWidth: 1,
+            borderColor: theme.colors.text,
+            borderRadius: dySize(10),
+          }}
+          tagStyle={{
+            height: dySize(30),
+            borderRadius: dySize(8),
+          }}
+          tagTextStyle={{
+            color: theme.colors.background,
+          }}
+          inputStyle={{
+            color: theme.colors.text,
+            margin: 0,
+          }}
+          keysForTag={','}
+          onSubmitEditing={() => this.onPressEnterOrBlur()}
+          onChange={(e) => this.setState({text: e.nativeEvent.text})}
+          blurOnSubmit={false}
+        />
+      );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.routerReducer.theme,
 });
 

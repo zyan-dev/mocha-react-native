@@ -21,6 +21,7 @@ class PersonalityCard extends React.Component {
 
   render() {
     const {t, personality, onPressEdit, editable} = this.props;
+    if (!personality.data) return null;
     return (
       <MCView align="center" mt={20}>
         <MCView row align="center" mb={20}>
