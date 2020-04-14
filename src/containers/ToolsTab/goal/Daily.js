@@ -22,7 +22,7 @@ const ReactionView = styled(MCView)`
   margin-right: 10px;
   margin-bottom: 20px;
   padding-horizontal: 10px;
-  background-color: ${(props) => props.theme.colors.card};
+  background-color: ${props => props.theme.colors.card};
 `;
 
 class DailyObjectiveScreen extends React.Component {
@@ -33,7 +33,7 @@ class DailyObjectiveScreen extends React.Component {
     };
   }
 
-  onPressEdit = (item) => {
+  onPressEdit = item => {
     this.props.selectReflection(item);
     this.props.setSeletedUsers(item.data.collaborators);
     NavigationService.navigate('EditObjective');
@@ -42,7 +42,7 @@ class DailyObjectiveScreen extends React.Component {
   onToggleCheck = (objective, measure) => {
     if (this.props.isShowingUserObjective) return;
     this.props.selectReflection(objective);
-    const updated = objective.data.measures.map((i) => {
+    const updated = objective.data.measures.map(i => {
       if (i.title === measure.title) {
         return {
           title: measure.title,
@@ -78,7 +78,7 @@ class DailyObjectiveScreen extends React.Component {
       congrats,
       crown,
     } = item.data;
-    const incompleted = measures.filter((measure) => !measure.completed);
+    const incompleted = measures.filter(measure => !measure.completed);
     if (showCompletedOnly && incompleted.length > 0) return null;
     return (
       <MCView width={350} bordered br={10} align="center" mb={10}>
@@ -87,7 +87,7 @@ class DailyObjectiveScreen extends React.Component {
             {title}
           </H4>
         </MCCard>
-        {measures.map((measure) => (
+        {measures.map(measure => (
           <CheckBox
             style={{width: dySize(330), marginTop: 10}}
             onClick={() => this.onToggleCheck(item, measure)}
@@ -108,7 +108,7 @@ class DailyObjectiveScreen extends React.Component {
             style={{flex: 1}}
             ml={30}
             overflow="visible">
-            {collaborators.map((user) => (
+            {collaborators.map(user => (
               <MCImage
                 image={{uri: user.avatar}}
                 round
@@ -180,7 +180,10 @@ class DailyObjectiveScreen extends React.Component {
     return (
       <MCRootView justify="flex-start" align="flex-start">
         <CheckBox
-          style={{width: dySize(120), margin: dySize(10)}}
+          style={{
+            width: dySize(250),
+            margin: dySize(10),
+          }}
           onClick={() => this.setState({showCompletedOnly: !showCompletedOnly})}
           isChecked={showCompletedOnly}
           rightText={'Completed'}
@@ -200,7 +203,7 @@ class DailyObjectiveScreen extends React.Component {
             isShowingUserObjective ? userDailyObjectives : myDailyObjectives
           }
           renderItem={this._renderItem}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
         />
       </MCRootView>
@@ -208,7 +211,7 @@ class DailyObjectiveScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   isShowingUserObjective: state.otherReducer.isShowingUserObjective,
   myDailyObjectives: selector.reflections
@@ -229,5 +232,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(DailyObjectiveScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(DailyObjectiveScreen),
 );

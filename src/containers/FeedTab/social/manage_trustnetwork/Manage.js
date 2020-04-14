@@ -30,7 +30,7 @@ class ManageTrustNetworkScreen extends React.Component {
       updateNetwork,
       updateSelectedTrustNetwork,
     } = this.props;
-    const members = selectedUsers.map((user) => user._id);
+    const members = selectedUsers.map(user => user._id);
     updateSelectedTrustNetwork({members});
     if (isNew) {
       createNetwork();
@@ -46,26 +46,26 @@ class ManageTrustNetworkScreen extends React.Component {
   onDelete = () => {
     const {t, deleteNetwork} = this.props;
     Alert.alert(
-      'Mocha Alert',
+      t('alert_title_mocha'),
       t('alert_remove_network'),
       [
         {
-          text: 'Cancel',
+          text: t('modal_cancel'),
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => deleteNetwork()},
+        {text: t('modal_ok'), onPress: () => deleteNetwork()},
       ],
       {cancelable: false},
     );
   };
 
-  updateTagState = (state) => {
+  updateTagState = state => {
     this.setState({tags: state.tagsArray});
     this.props.updateSelectedTrustNetwork({tags: state.tagsArray});
   };
 
-  onToggleCheck = (key) => {
+  onToggleCheck = key => {
     const {permissions} = this.state;
     const index = permissions.indexOf(key);
     if (index < 0) {
@@ -113,7 +113,7 @@ class ManageTrustNetworkScreen extends React.Component {
           <H3>{t('feed_network_edit_nameofgroup')}*</H3>
           <MCTextInput
             value={selectedNetwork.name}
-            onChangeText={(text) => updateSelectedTrustNetwork({name: text})}
+            onChangeText={text => updateSelectedTrustNetwork({name: text})}
           />
           <MCView mt={20} row justify="space-between" align="center">
             <H3>{`${t('mocha_value_Members')}* - ${selectedUsers.length}`}</H3>
@@ -127,7 +127,7 @@ class ManageTrustNetworkScreen extends React.Component {
               style={{width: '100%', height: dySize(200)}}
               data={selectedUsers}
               renderItem={this._renderMemberItem}
-              keyExtractor={(item) => item}
+              keyExtractor={item => item}
             />
           </MCCard>
           <H3 mt={20}>{t('feed_network_edit_viewpermission')}</H3>
@@ -135,7 +135,7 @@ class ManageTrustNetworkScreen extends React.Component {
             {t('feed_network_edit_viewpermission_displayText')}
           </H4>
           <MCView align="center" mt={40}>
-            {NetworkPermissions.map((item) => (
+            {NetworkPermissions.map(item => (
               // <CheckBox
               //   style={{width: dySize(150), marginTop: 10}}
               //   onClick={() => this.onToggleCheck(item.key)}
@@ -189,7 +189,7 @@ class ManageTrustNetworkScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   selectedNetwork: state.networkReducer.selectedNetwork,
   selectedUsers: state.usersReducer.selectedUsers,
   theme: state.routerReducer.theme,
@@ -204,5 +204,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ManageTrustNetworkScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ManageTrustNetworkScreen),
 );

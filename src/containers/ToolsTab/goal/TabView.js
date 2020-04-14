@@ -19,7 +19,7 @@ class ObjectiveTabView extends React.Component {
     };
   }
 
-  onChangeTabIndex = (i) => {
+  onChangeTabIndex = i => {
     this.setState({index: i});
     switch (i) {
       case 3:
@@ -48,11 +48,11 @@ class ObjectiveTabView extends React.Component {
     ];
     if (!isShowingUserObjective) {
       routes.push({
-        key: 'accountability',
-        title: t('objective_accountability_tabTitle'),
+        key: 'support',
+        title: t('objective_support_tabTitle'),
       });
     }
-    const renderTabBar = (props) => (
+    const renderTabBar = props => (
       <TabBar
         {...props}
         indicatorStyle={{backgroundColor: theme.colors.text}}
@@ -81,9 +81,9 @@ class ObjectiveTabView extends React.Component {
             daily: DailyObjectiveScreen,
             weekly: WeeklyObjectiveScreen,
             analyze: AnalyzeObjectiveScreen,
-            accountability: SupportObjectiveScreen,
+            support: SupportObjectiveScreen,
           })}
-          onIndexChange={(i) => this.onChangeTabIndex(i)}
+          onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}
           renderTabBar={renderTabBar}
         />
@@ -91,7 +91,7 @@ class ObjectiveTabView extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   isShowingUserObjective: state.otherReducer.isShowingUserObjective,
 });
@@ -101,5 +101,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ObjectiveTabView),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ObjectiveTabView),
 );
