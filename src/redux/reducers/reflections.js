@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   reflectionSections: SampleReflectionSections,
   objectiveResetTime: 0,
   supportedObjectives: [],
+  draft: {},
 };
 
 const reflectionReducer = (state = INITIAL_STATE, action) => {

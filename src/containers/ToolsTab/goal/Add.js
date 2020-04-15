@@ -45,7 +45,7 @@ class EditObjectiveScreen extends React.PureComponent {
     } = this.props;
     const {newMeasureTitle} = this.state;
     updateSelectedReflection({
-      collaborators: selectedUsers.map((user) =>
+      collaborators: selectedUsers.map(user =>
         _.pick(user, ['_id', 'avatar', 'pushToken', 'name']),
       ),
       measures:
@@ -68,7 +68,7 @@ class EditObjectiveScreen extends React.PureComponent {
     const {origin} = this.state;
     const updatedMeasures = getUpdatedMeasures(measures, origin);
     if (Object.keys(updatedMeasures).length > 0) {
-      const param = Object.keys(updatedMeasures).map((key) => ({
+      const param = Object.keys(updatedMeasures).map(key => ({
         date: key,
         amount: updatedMeasures[key],
       }));
@@ -76,14 +76,14 @@ class EditObjectiveScreen extends React.PureComponent {
     }
   };
 
-  onToggleCheck = (measure) => {
+  onToggleCheck = measure => {
     const {
       updateSelectedReflection,
       selectedReflection: {
         data: {measures},
       },
     } = this.props;
-    const updated = measures.map((item) => {
+    const updated = measures.map(item => {
       if (item.title === measure.title) {
         return {
           ...measure,
@@ -96,7 +96,7 @@ class EditObjectiveScreen extends React.PureComponent {
     updateSelectedReflection({measures: updated});
   };
 
-  onChangeTime = (time) => {
+  onChangeTime = time => {
     const {updateSelectedReflection} = this.props;
     updateSelectedReflection({
       deadline: new Date(time).getTime() + 86400 + 1000,
@@ -108,17 +108,17 @@ class EditObjectiveScreen extends React.PureComponent {
     this.setState({showTimePicker: false});
   };
 
-  onRemoveMeasure = (measure) => {
+  onRemoveMeasure = measure => {
     const {
       selectedReflection: {
         data: {measures},
       },
     } = this.props;
-    const filtered = measures.filter((item) => item.title !== measure.title);
+    const filtered = measures.filter(item => item.title !== measure.title);
     this.props.updateSelectedReflection({measures: filtered});
   };
 
-  addNewMeasure = (title) => {
+  addNewMeasure = title => {
     const {
       selectedReflection: {
         data: {measures},
@@ -137,6 +137,14 @@ class EditObjectiveScreen extends React.PureComponent {
 
   onDelete = () => {
     this.props.removeReflection(this.props.selectedReflection);
+    NavigationService.goBack();
+  };
+
+  onPressBack = () => {
+    // const {selectedReflection} = this.props;
+    // this.props.saveReflectionDraft({
+    //   [selectedReflection.type]: selectedReflection,
+    // });
     NavigationService.goBack();
   };
 
@@ -197,9 +205,10 @@ class EditObjectiveScreen extends React.PureComponent {
           }
           rightIcon={selectedReflection._id ? 'ios-cloud-upload' : 'ios-send'}
           onPressRight={() => this.onPressRight()}
+          onPressBack={() => this.onPressBack()}
         />
         <MCContent
-          ref={(ref) => (this.scrollView = ref)}
+          ref={ref => (this.scrollView = ref)}
           contentContainerStyle={{padding: dySize(10), paddingBottom: 200}}>
           <H3 width={350} align="left" underline>
             {t('objective_preview')}
@@ -210,7 +219,7 @@ class EditObjectiveScreen extends React.PureComponent {
                 {title}
               </H4>
             </MCCard>
-            {measures.map((measure) => (
+            {measures.map(measure => (
               <CheckBox
                 style={{width: dySize(330), marginTop: 10}}
                 onClick={() => this.onToggleCheck(measure)}
@@ -231,7 +240,7 @@ class EditObjectiveScreen extends React.PureComponent {
                 style={{flex: 1}}
                 ml={30}
                 overflow="visible">
-                {selectedUsers.map((user) => (
+                {selectedUsers.map(user => (
                   <MCImage
                     image={{uri: user.avatar}}
                     round
@@ -270,7 +279,7 @@ class EditObjectiveScreen extends React.PureComponent {
           </H4>
           <MCEditableText
             text={title}
-            onChange={(text) => updateSelectedReflection({title: text})}
+            onChange={text => updateSelectedReflection({title: text})}
           />
 
           <MCView row align="center" justify="space-between" mt={20}>
@@ -339,7 +348,7 @@ class EditObjectiveScreen extends React.PureComponent {
                 maxLength={60}
                 text={newMeasureTitle}
                 blurOnSubmit={false}
-                onChange={(text) => this.setState({newMeasureTitle: text})}
+                onChange={text => this.setState({newMeasureTitle: text})}
                 onSubmit={() => this.addNewMeasure(newMeasureTitle)}
               />
             </MCView>
@@ -362,7 +371,7 @@ class EditObjectiveScreen extends React.PureComponent {
               style={{width: '100%', height: dySize(200)}}
               data={selectedUsers}
               renderItem={this._renderMemberItem}
-              keyExtractor={(item) => item}
+              keyExtractor={item => item}
               ListFooterComponent={this._renderSocialListFooter}
             />
           </MCCard>
@@ -384,7 +393,7 @@ class EditObjectiveScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
   selectedUsers: state.usersReducer.selectedUsers,
@@ -394,10 +403,14 @@ const mapDispatchToProps = {
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
   removeReflection: reflectionActions.removeReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
   deselectUser: userActions.deselectUser,
   updateAnalyzeStatus: otherActions.updateAnalyzeStatus,
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(EditObjectiveScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditObjectiveScreen),
 );

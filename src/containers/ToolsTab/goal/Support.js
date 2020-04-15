@@ -2,6 +2,7 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import CheckBox from 'react-native-check-box';
 import {reflectionActions} from 'Redux/actions';
 import {MCImage} from 'components/common';
 import {MCRootView, MCView, MCCard} from 'components/styled/View';
@@ -26,7 +27,6 @@ class SupportObjectiveScreen extends React.Component {
   initialize = () => {
     const {selectedOwner} = this.state;
     const owners = this.getObjectiveOwners();
-    console.log({owners});
     this.setState({owners});
     if (owners.length > 0 && !selectedOwner.length)
       this.setState({selectedOwner: owners[0]});
@@ -44,15 +44,16 @@ class SupportObjectiveScreen extends React.Component {
 
   getObjectiveOwners = () => {
     const {supportedObjectives, allUsers} = this.props;
-    const result = [];
+    let owners = [];
     supportedObjectives.map(objective => {
-      const index = result.indexOf(objective.owner);
-      if (index < 0) {
+      const find = owners.find(user => user._id === objective.owner);
+      if (!find) {
         const owner = allUsers.find(user => user._id === objective.owner);
-        if (owner) result.push(owner);
+        if (owner) owners.push(owner);
       }
     });
-    return result;
+    console.log({supportedObjectives});
+    return owners;
   };
 
   _renderOwnerItem = ({item}) => {
@@ -86,26 +87,30 @@ class SupportObjectiveScreen extends React.Component {
 
   _renderObjectiveItem = ({item}) => {
     const objective = item.data;
-    const {allUsers} = this.props;
+    const {allUsers, theme} = this.props;
     const owner = allUsers.find(user => user._id === item.owner);
     if (!owner) return null;
     return (
       <MCView width={350} bordered br={8} mt={10}>
-        <MCCard shadow row align="center" width={350} br={1}>
-          <MCImage image={{uri: owner.avatar}} width={30} height={30} br={15} />
-          <H3 ml={10} style={{flex: 1}}>
-            {owner.name}
+        <MCCard shadow row align="center" justify="center" width={350} br={1}>
+          <H3 ml={5} weight="bold">
+            {objective.title}
           </H3>
         </MCCard>
-        <H3 ml={10} mt={10} weight="bold">
-          {objective.title}
-        </H3>
+
         {objective.measures.map(measure => (
-          <MCView row align="center" justify="space-between">
-            <H4 weight="italic" ml={10} style={{flex: 1}} mr={30}>
-              {measure.title}
-            </H4>
-            {measure.completed && <MCIcon name="md-checkmark" />}
+          <MCView width={350} align="center">
+            <CheckBox
+              style={{width: dySize(330), marginTop: 10}}
+              isChecked={measure.completed}
+              leftText={measure.title}
+              leftTextStyle={{
+                color: theme.colors.text,
+                fontSize: theme.base.FONT_SIZE_LARGE,
+                fontFamily: 'Raleway-Regular',
+              }}
+              checkBoxColor={theme.colors.text}
+            />
           </MCView>
         ))}
         <MCView row align="center" justify="space-between">

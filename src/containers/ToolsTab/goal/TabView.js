@@ -32,7 +32,7 @@ class ObjectiveTabView extends React.Component {
   render() {
     const {t, theme, isShowingUserObjective} = this.props;
     const {index} = this.state;
-    const routes = [
+    let routes = [
       {
         key: 'daily',
         title: t('objective_daily_tabTitle'),
@@ -47,7 +47,7 @@ class ObjectiveTabView extends React.Component {
       },
     ];
     if (!isShowingUserObjective) {
-      routes.push({
+      routes.splice(2, 0, {
         key: 'support',
         title: t('objective_support_tabTitle'),
       });
