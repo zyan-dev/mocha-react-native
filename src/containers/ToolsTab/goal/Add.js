@@ -153,6 +153,15 @@ class EditObjectiveScreen extends React.PureComponent {
       this.props.selectedReflection.data.measures.length > 0 ||
       this.state.newMeasureTitle.length > 0
     );
+  };
+
+  onPressBack = () => {
+    // const {selectedReflection} = this.props;
+    // this.props.saveReflectionDraft({
+    //   [selectedReflection.type]: selectedReflection,
+    // });
+    NavigationService.goBack();
+  };
 
   _renderMemberItem = ({item}) => {
     const user = item;
