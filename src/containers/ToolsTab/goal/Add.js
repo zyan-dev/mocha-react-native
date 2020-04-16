@@ -153,7 +153,6 @@ class EditObjectiveScreen extends React.PureComponent {
       this.props.selectedReflection.data.measures.length > 0 ||
       this.state.newMeasureTitle.length > 0
     );
-  };
 
   _renderMemberItem = ({item}) => {
     const user = item;
@@ -211,6 +210,7 @@ class EditObjectiveScreen extends React.PureComponent {
           hasRight
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
+          onPressBack={() => this.onPressBack()}
         />
         <MCContent
           ref={ref => (this.scrollView = ref)}
@@ -414,6 +414,7 @@ const mapDispatchToProps = {
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
   removeReflection: reflectionActions.removeReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
   deselectUser: userActions.deselectUser,
   updateAnalyzeStatus: otherActions.updateAnalyzeStatus,
 };

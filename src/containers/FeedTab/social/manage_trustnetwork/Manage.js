@@ -50,15 +50,15 @@ class ManageTrustNetworkScreen extends React.Component {
   onDelete = () => {
     const {t, deleteNetwork} = this.props;
     Alert.alert(
-      'Mocha Alert',
+      t('alert_title_mocha'),
       t('alert_remove_network'),
       [
         {
-          text: 'Cancel',
+          text: t('modal_cancel'),
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => deleteNetwork()},
+        {text: t('modal_ok'), onPress: () => deleteNetwork()},
       ],
       {cancelable: false},
     );

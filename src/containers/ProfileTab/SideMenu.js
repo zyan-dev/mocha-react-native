@@ -1,5 +1,5 @@
 import React from 'react';
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {routerActions, profileActions, otherActions} from 'Redux/actions';
@@ -20,6 +20,7 @@ class ProfileSideMenu extends React.Component {
   }
 
   onPressItem = menu => {
+    const {t} = this.props;
     this.setState({index: menu.index});
     this.props.showDrawer(false);
     if (menu.index === 1) {
@@ -27,7 +28,19 @@ class ProfileSideMenu extends React.Component {
       NavigationService.reset('welcomeStack');
       AsyncStorage.removeItem('userToken');
     } else if (menu.index === 7) {
-      this.props.deleteAccount();
+      Alert.alert(
+        t('alert_title_mocha'),
+        t('alert_remove_account'),
+        [
+          {
+            text: t('modal_cancel'),
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: t('modal_ok'), onPress: () => this.props.deleteAccount()},
+        ],
+        {cancelable: false},
+      );
     } else {
       NavigationService.navigate(menu.redirectTo);
     }

@@ -22,7 +22,7 @@ class PersonalityCard extends React.Component {
   render() {
     const {t, personality, onPressEdit, editable} = this.props;
     return (
-      <MCView align="center" mt={20}>
+      <MCView align="center">
         <MCView row align="center" mb={20}>
           <H3 weight="bold" style={{flex: 1}}>
             {t('profile_card_personality')}

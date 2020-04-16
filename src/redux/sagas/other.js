@@ -187,18 +187,36 @@ export function* syncData(action) {
       }
 
       //sync notification settings
-      response = yield call(
-        API.updateNotificationSettings,
-        notificationReducer,
-      );
-      console.log(response);
-      if (response.data.status !== 'success') {
-        yield put({
-          type: types.API_FINISHED,
-          payload:
-            'Error occured while synchronizing your notification settings',
-        });
-        return;
+      if (notificationReducer.owner) {
+        console.log('updating notification settings...', notificationReducer);
+        response = yield call(
+          API.updateNotificationSettings,
+          notificationReducer,
+        );
+        console.log(response);
+        if (response.data.status !== 'success') {
+          yield put({
+            type: types.API_FINISHED,
+            payload:
+              'Error occured while synchronizing your notification settings',
+          });
+          return;
+        }
+      } else if (notificationReducer) {
+        console.log('adding notification settings...', notificationReducer);
+        response = yield call(
+          API.createNotificationSettings,
+          notificationReducer,
+        );
+        console.log(response);
+        if (response.data.status !== 'success') {
+          yield put({
+            type: types.API_FINISHED,
+            payload:
+              'Error occured while synchronizing your notification settings',
+          });
+          return;
+        }
       }
 
       yield put({

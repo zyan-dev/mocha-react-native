@@ -86,16 +86,16 @@ class TapToCountScreen extends React.Component {
   onPressReset = () => {
     const {t} = this.props;
     Alert.alert(
-      'Mocha Alert',
+      t('alert_title_mocha'),
       t('alert_reset_tap_to_count'),
       [
         {
-          text: 'Cancel',
+          text: t('modal_cancel'),
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {
-          text: 'OK',
+          text: t('modal_ok'),
           onPress: () => {
             this.props.updateTapToCounts([]);
             this.setState({tapToCounts: []});

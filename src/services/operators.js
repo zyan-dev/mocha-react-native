@@ -4,9 +4,8 @@ import {dySize} from 'utils/responsive';
 import moment from 'moment';
 import i18next from 'i18next';
 
-export const showAlert = (text) => {
-  // Alert.alert('Mocha App', text, [{text: 'OK', onPress: () => {}}]);
-  let toast = Toast.show(text, {
+export const showAlert = text => {
+  Toast.show(text, {
     duration: Toast.durations.SHORT,
     position: Toast.positions.BOTTOM,
     shadow: true,
@@ -29,18 +28,18 @@ export const showAlert = (text) => {
 };
 
 // Validates email input
-export const validateEmail = (email) => {
+export const validateEmail = email => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 };
 
 // Validates phone input
-export const validatePhone = (phone) => {
+export const validatePhone = phone => {
   const re = /^\([0-9]{3}\) [0-9]{3}-[0-9]{4}$/;
   return re.test(String(phone).toLowerCase());
 };
 
-export const validURL = (str) => {
+export const validURL = str => {
   var pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -58,7 +57,7 @@ export const getStringIndexOf = (str1, str2) => {
 };
 
 // Capitalizes string
-export const capitalizeString = (text) => {
+export const capitalizeString = text => {
   let res = '';
   text.split(' ').map((snippet, index) => {
     if (index > 0) {
@@ -87,12 +86,12 @@ export const genetratedDate = () => {
 export const profileCardWidth = dySize(375) >= 375 ? 100 : 150;
 export const profileCardNumPerRow = dySize(375) >= 375 ? 3 : 2;
 
-export const getAfterDate = (days) => {
+export const getAfterDate = days => {
   const date = new Date();
   return new Date(date.getTime() + days * 86400 * 1000);
 };
 
-export const getWeekNumber = (d) => {
+export const getWeekNumber = d => {
   // Copy date so don't modify original
   d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
   // Set to nearest Thursday: current date + 4 - current day number
@@ -106,7 +105,7 @@ export const getWeekNumber = (d) => {
   return weekNo;
 };
 
-export const getCommitKey = (date) => {
+export const getCommitKey = date => {
   return moment(date).format('YYYYMMDD');
 };
 
@@ -125,8 +124,8 @@ export const getWeekStartDateStamp = () => {
 export const getUpdatedMeasures = (measures, origin) => {
   const todayKey = getCommitKey(new Date());
   let temp = {};
-  measures.map((measure) => {
-    const find = origin.data.measures.find((i) => i.title === measure.title);
+  measures.map(measure => {
+    const find = origin.data.measures.find(i => i.title === measure.title);
     if (find) {
       // existing measure
       if (find.completed && !measure.completed) {
