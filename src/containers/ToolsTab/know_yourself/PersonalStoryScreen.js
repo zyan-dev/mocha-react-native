@@ -5,12 +5,10 @@ import AudioRecord from 'react-native-audio-record';
 import {reflectionActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
-import {H3, H4, MCIcon} from 'components/styled/Text';
+import {H3, H4, MCIcon, MCTextInput} from 'components/styled/Text';
 import {MCHeader, MCTextFormInput, MCTagInput} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
-import {MCTextInput} from '../../../components/styled/Text';
-import {MCTagInput} from '../../../components/common';
 import NavigationService from 'navigation/NavigationService';
 
 var Sound = require('react-native-sound');
@@ -115,7 +113,7 @@ class PersonalStoryScreen extends React.Component {
       });
     }
     NavigationService.goBack();
-    }
+  };
   validateTown = () => {
     return this.props.selectedReflection.data.hometown.length > 0;
   };
