@@ -257,11 +257,12 @@ export function* getUserCommits(action) {
 
 export function* updateCommits(action) {
   try {
+    const {profileReducer} = yield select();
     const response = yield call(API.updateCommits, action.payload);
     if (response.data.status !== 'success') {
       showAlert(response.data.data.message);
     } else {
-      yield put({type: types.GET_USER_COMMITS});
+      yield put({type: types.GET_USER_COMMITS, payload: profileReducer._id});
     }
   } catch (e) {
     showAlert(e.toString());
