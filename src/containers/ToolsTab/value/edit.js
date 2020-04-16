@@ -2,13 +2,17 @@ import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import {reflectionActions} from 'Redux/actions';
-import {showAlert} from 'services/operators';
-import {MCHeader, MCImagePicker, MCPicker} from 'components/common';
+import {showAlert, getTitleByKey} from 'services/operators';
+import {
+  MCHeader,
+  MCImagePicker,
+  MCPicker,
+  MCTextFormInput,
+} from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {H3, H4, MCTextInput, MCIcon} from 'components/styled/Text';
+import {H3, H4, MCTextInput, MCIcon, ErrorText} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
-import {getTitleByKey} from '../../../services/operators';
 
 class EditValueScreen extends React.PureComponent {
   constructor(props) {
@@ -16,7 +20,7 @@ class EditValueScreen extends React.PureComponent {
     this.state = {
       addingCustomTitle: false,
       customTitle: '',
-      searchText: '',
+      submitted: false,
     };
   }
 
@@ -41,6 +45,9 @@ class EditValueScreen extends React.PureComponent {
   };
 
   onPressRight = () => {
+    this.setState({submitted: true});
+    if (!this.validateValue()) return;
+    if (!this.validatePhrase()) return;
     this.props.addOrUpdateReflection();
   };
 
@@ -84,6 +91,14 @@ class EditValueScreen extends React.PureComponent {
     }
   };
 
+  validateValue = () => {
+    return this.props.selectedReflection.data.value.length > 0;
+  };
+
+  validatePhrase = () => {
+    return this.props.selectedReflection.data.phrase.length > 0;
+  };
+
   render() {
     const {
       t,
@@ -92,16 +107,18 @@ class EditValueScreen extends React.PureComponent {
       updateSelectedReflection,
       reflectionSections,
     } = this.props;
-    const {addingCustomTitle, customTitle, searchText} = this.state;
+    const {addingCustomTitle, customTitle, submitted} = this.state;
     const {
       data: {value, phrase, image},
     } = selectedReflection;
+    const isErrorValue = !this.validateValue();
+    const isErrorPhrase = !this.validatePhrase();
     return (
       <MCRootView>
         <MCHeader
           title={t('add_value_headerTitle')}
-          hasRight={value.length * phrase.length > 0}
-          rightIcon={selectedReflection._id ? 'ios-cloud-upload' : 'ios-send'}
+          hasRight
+          rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
@@ -112,7 +129,11 @@ class EditValueScreen extends React.PureComponent {
               else updateSelectedReflection({value: ''});
             }}
             value={value}
+            height={30}
           />
+          {isErrorValue && submitted && (
+            <ErrorText>{t('error_input_required')}</ErrorText>
+          )}
           <MCView row align="center" justify="flex-end" mb={20}>
             {addingCustomTitle && (
               <MCTextInput
@@ -137,7 +158,7 @@ class EditValueScreen extends React.PureComponent {
               <H4>{this.getLabelWithKey(value)}</H4>
             </MCCard>
             <MCView ph={10} pv={10}>
-              <MCTextInput
+              <MCTextFormInput
                 style={{width: dySize(333)}}
                 placeholder={t('add_value_phrase')}
                 placeholderTextColor="gray"
@@ -145,7 +166,10 @@ class EditValueScreen extends React.PureComponent {
                 textAlignVertical="top"
                 maxHeight={300}
                 value={phrase}
-                onChangeText={text => updateSelectedReflection({phrase: text})}
+                onChange={text => updateSelectedReflection({phrase: text})}
+                submitted={submitted}
+                errorText={t('error_input_required')}
+                isInvalid={isErrorPhrase}
               />
               <MCView width={340} align="center" mt={50}>
                 <MCImagePicker
@@ -183,5 +207,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(EditValueScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditValueScreen),
 );

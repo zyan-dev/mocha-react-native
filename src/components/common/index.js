@@ -2,6 +2,7 @@ import MCEditableText from './MCEditableText';
 import MCImagePicker from './MCImagePicker';
 import MCImage from './MCImage';
 import MCHeader from './MCHeader';
+import MCTextFormInput from './MCTextFormInput';
 import MCSearchInput from './MCSearchInput';
 import MCModal from './MCModal';
 import MCTagsView from './MCTagsView';
@@ -18,6 +19,7 @@ export {
   MCImagePicker,
   MCImage,
   MCHeader,
+  MCTextFormInput,
   MCSearchInput,
   MCModal,
   MCTagsView,

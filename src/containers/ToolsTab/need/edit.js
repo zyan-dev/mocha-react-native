@@ -2,37 +2,55 @@ import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import {reflectionActions} from 'Redux/actions';
-import {showAlert} from 'services/operators';
-import {MCHeader, MCPicker} from 'components/common';
-import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
-import {MCButton} from 'components/styled/Button';
-import {H3, H4, MCTextInput, MCIcon} from 'components/styled/Text';
+import {MCHeader, MCPicker, MCTextFormInput} from 'components/common';
+import {MCView, MCRootView, MCContent} from 'components/styled/View';
+import {H4, ErrorText} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
-import {EmotionHow} from 'utils/constants';
-import {EMOTIONS, SampleReflectionSections} from '../../../utils/constants';
+import {SampleReflectionSections} from 'utils/constants';
 
 class EditNeedScreen extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      submitted: false,
+    };
+  }
+
   onPressRight = () => {
+    this.setState({submitted: true});
+    if (!this.validateNeed()) return;
+    if (!this.validateValue()) return;
+    if (!this.validateReason()) return;
     this.props.addOrUpdateReflection();
   };
 
+  validateNeed = () => {
+    return this.props.selectedReflection.data.need.length > 0;
+  };
+
+  validateValue = () => {
+    return this.props.selectedReflection.data.value.length > 0;
+  };
+
+  validateReason = () => {
+    return this.props.selectedReflection.data.reason.length > 0;
+  };
+
   render() {
-    const {
-      t,
-      theme,
-      selectedReflection,
-      updateSelectedReflection,
-      reflectionSections,
-    } = this.props;
+    const {submitted} = this.state;
+    const {t, selectedReflection, updateSelectedReflection} = this.props;
     const {
       data: {need, value, reason},
     } = selectedReflection;
+    const isErrorNeed = !this.validateNeed();
+    const isErrorValue = !this.validateValue();
+    const isErrorReason = !this.validateReason();
     return (
       <MCRootView>
         <MCHeader
           title={t('edit_need_headerTitle')}
-          hasRight={need.length * value.length * reason.length > 0}
-          rightIcon={selectedReflection._id ? 'ios-cloud-upload' : 'ios-send'}
+          hasRight
+          rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
@@ -51,6 +69,9 @@ class EditNeedScreen extends React.PureComponent {
             value={need}
             height={30}
           />
+          {isErrorNeed && submitted && (
+            <ErrorText>{t('error_input_required')}</ErrorText>
+          )}
           {need.length > 0 && (
             <>
               <H4 width={350} align="left" mt={20} mb={5}>
@@ -68,21 +89,27 @@ class EditNeedScreen extends React.PureComponent {
                 }}
                 height={30}
               />
+              {isErrorValue && submitted && (
+                <ErrorText>{t('error_input_required')}</ErrorText>
+              )}
             </>
           )}
           <H4 width={350} mt={20} mb={5}>
             {t('add_need_reason')}
           </H4>
           <MCView>
-            <MCTextInput
-              style={{width: '100%'}}
+            <MCTextFormInput
               placeholder={t('add_need_reason_placeholder')}
               placeholderTextColor="gray"
               multiline
               textAlignVertical="top"
               maxHeight={300}
               value={reason}
-              onChangeText={text => updateSelectedReflection({reason: text})}
+              onChange={text => updateSelectedReflection({reason: text})}
+              submitted={submitted}
+              errorText={t('error_input_required')}
+              isInvalid={isErrorReason}
+              style={{width: '100%'}}
             />
           </MCView>
         </MCContent>

@@ -2,27 +2,36 @@ import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import {reflectionActions} from 'Redux/actions';
-import {MCHeader, MCImagePicker} from 'components/common';
-import {MCView, MCRootView} from 'components/styled/View';
-import {MCButton} from 'components/styled/Button';
+import {MCHeader, MCImagePicker, MCTextFormInput} from 'components/common';
+import {MCView, MCRootView, MCContent} from 'components/styled/View';
 import {dySize} from 'utils/responsive';
 import {H3} from 'components/styled/Text';
-import {profileActions} from 'Redux/actions';
-import {MCContent} from '../../../../../components/styled/View';
-import NavigationService from '../../../../../navigation/NavigationService';
-import {MCTextInput} from '../../../../../components/styled/Text';
 
 class CreateMotivationScreen extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      submitted: false,
+    };
   }
 
   onPressRight = () => {
+    this.setState({submitted: true});
+    if (!this.validateTitle()) return;
+    if (!this.validateDescription()) return;
     this.props.addOrUpdateReflection();
   };
 
+  validateTitle = () => {
+    return this.props.selectedReflection.data.title.length > 0;
+  };
+
+  validateDescription = () => {
+    return this.props.selectedReflection.data.description.length > 0;
+  };
+
   render() {
+    const {submitted} = this.state;
     const {
       t,
       selectedReflection: {
@@ -30,26 +39,34 @@ class CreateMotivationScreen extends React.PureComponent {
       },
       updateSelectedReflection,
     } = this.props;
+    const isErrorTitle = !this.validateTitle();
+    const isErrorDescription = !this.validateDescription();
     return (
       <MCRootView>
         <MCHeader
           title={t('motivation_headerTitle')}
-          hasRight={title.length * description.length > 0}
-          rightIcon={
-            updateSelectedReflection._id ? 'ios-cloud-upload' : 'ios-send'
-          }
+          hasRight
+          rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
-          <H3>{t('motivation_title')}</H3>
-          <MCTextInput
-            onChangeText={text => updateSelectedReflection({title: text})}
+          <MCTextFormInput
+            label={t('motivation_title')}
+            value={title}
+            onChange={text => updateSelectedReflection({title: text})}
+            submitted={submitted}
+            errorText={t('error_input_required')}
+            isInvalid={isErrorTitle}
           />
-          <H3 mt={20}>{t('motivation_description')}</H3>
-          <MCTextInput
+          <MCTextFormInput
+            label={t('motivation_description')}
             multiline
+            value={description}
             textAlignVertical="top"
-            onChangeText={text => updateSelectedReflection({description: text})}
+            onChange={text => updateSelectedReflection({description: text})}
+            submitted={submitted}
+            errorText={t('error_input_required')}
+            isInvalid={isErrorDescription}
           />
           <MCView align="center" mt={50}>
             <MCImagePicker

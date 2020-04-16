@@ -38,7 +38,7 @@ class TapToCountScreen extends React.Component {
     const {t} = this.props;
     const {newText, tapToCounts} = this.state;
     const find = tapToCounts.find(
-      (i) => i.data.text.toLowerCase() === newText.toLowerCase(),
+      i => i.data.text.toLowerCase() === newText.toLowerCase(),
     );
     if (find) {
       showAlert(t('add_new_constant_duplicateError'));
@@ -60,8 +60,8 @@ class TapToCountScreen extends React.Component {
     });
   };
 
-  onPressItem = (item) => {
-    const updated = this.state.tapToCounts.map((i) => {
+  onPressItem = item => {
+    const updated = this.state.tapToCounts.map(i => {
       if (i._id === item._id) {
         return {
           ...i,
@@ -78,8 +78,8 @@ class TapToCountScreen extends React.Component {
     this.setState({tapToCounts: updated});
   };
 
-  onPressRemove = (item) => {
-    const filtered = this.state.tapToCounts.filter((i) => i._id !== item._id);
+  onPressRemove = item => {
+    const filtered = this.state.tapToCounts.filter(i => i._id !== item._id);
     this.setState({tapToCounts: filtered});
   };
 
@@ -106,15 +106,13 @@ class TapToCountScreen extends React.Component {
     );
   };
 
-  getTodayCount = (tapToCount) => {
-    const result = tapToCount.times.filter(
-      (i) => i >= getTodayStartDateStamp(),
-    );
+  getTodayCount = tapToCount => {
+    const result = tapToCount.times.filter(i => i >= getTodayStartDateStamp());
     return result.length;
   };
 
-  getWeekCount = (tapToCount) => {
-    const result = tapToCount.times.filter((i) => (i) => getWeekStartDateStamp);
+  getWeekCount = tapToCount => {
+    const result = tapToCount.times.filter(i => i => getWeekStartDateStamp);
     return result.length;
   };
 
@@ -214,7 +212,7 @@ class TapToCountScreen extends React.Component {
             multiline
             value={newText}
             maxLength={40}
-            onChangeText={(value) => this.setState({newText: value})}
+            onChangeText={value => this.setState({newText: value})}
           />
         </MCCard>
         <MCView
@@ -242,7 +240,7 @@ class TapToCountScreen extends React.Component {
         <MCHeader
           title={t('add_reflection_tapToCount_header')}
           hasRight
-          rightIcon="ios-refresh"
+          rightIcon="trash-alt"
           onPressBack={() => this.onSaveAndGoBack()}
           onPressRight={() => this.onPressReset()}
         />
@@ -252,7 +250,7 @@ class TapToCountScreen extends React.Component {
             data={tapToCounts.concat({})}
             numColumns={2}
             renderItem={this._renderListItem}
-            keyExtractor={(item) => item._id}
+            keyExtractor={item => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
@@ -262,7 +260,7 @@ class TapToCountScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   tapToCounts: selector.reflections.getMySpecialReflections(state, 'Tap'),
 });
 
@@ -271,5 +269,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(TapToCountScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(TapToCountScreen),
 );

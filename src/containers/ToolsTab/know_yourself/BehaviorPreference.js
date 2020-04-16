@@ -24,7 +24,7 @@ class BehaviorPreferenceScreen extends React.Component {
     }
   }
 
-  onChangeSliderValue = (key) => (values) => {
+  onChangeSliderValue = key => values => {
     this.props.updateSelectedReflection({[key]: values[0]});
   };
 
@@ -36,7 +36,7 @@ class BehaviorPreferenceScreen extends React.Component {
         <MCHeader
           hasRight
           title={`${t('practice')} 2 - 2`}
-          rightText={t('done')}
+          righhtIcon="cloud-upload-alt"
           onPressRight={() => this.props.addOrUpdateReflection()}
         />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
@@ -47,11 +47,11 @@ class BehaviorPreferenceScreen extends React.Component {
           <H4 width={320} mb={20} color={theme.colors.border}>
             {t('tools_tab_behavior_explain')}
           </H4>
-          {BehaviorPreferences.map((preference) => (
+          {BehaviorPreferences.map(preference => (
             <MCCard width={320} bordered mb={10} p={10}>
               <H4>{t(`tools_tab_behavior_${preference}`)}</H4>
               <MultiSlider
-                customMarker={(e) => {
+                customMarker={e => {
                   return (
                     <MCView
                       width={20}
@@ -82,7 +82,7 @@ class BehaviorPreferenceScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
   myBehaviorPreference: selector.reflections.findMySpecialReflections(
@@ -99,5 +99,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(BehaviorPreferenceScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(BehaviorPreferenceScreen),
 );

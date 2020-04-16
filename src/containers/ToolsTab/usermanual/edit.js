@@ -9,14 +9,13 @@ import {
   MCTagInput,
   MCVulnerabilityPicker,
   MCPicker,
+  MCTextFormInput,
 } from 'components/common';
-import {MCView, MCRootView, MCContent} from 'components/styled/View';
+import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {H3, H4, MCTextInput} from 'components/styled/Text';
+import {H3, H4, ErrorText, MCTextInput, MCIcon} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
-import {MCIcon} from '../../../components/styled/Text';
-import {MCCard} from '../../../components/styled/View';
-import {getTitleByKey} from '../../../services/operators';
+import {getTitleByKey} from 'services/operators';
 
 class EditUserManualScreen extends React.PureComponent {
   constructor(props) {
@@ -24,10 +23,14 @@ class EditUserManualScreen extends React.PureComponent {
     this.state = {
       addingCustomTitle: false,
       customTitle: '',
+      submitted: false,
     };
   }
 
   onPressRight = () => {
+    this.setState({submitted: true});
+    if (!this.validateTitle()) return;
+    if (!this.validateDescription()) return;
     this.props.addOrUpdateReflection();
   };
 
@@ -75,6 +78,14 @@ class EditUserManualScreen extends React.PureComponent {
     }
   };
 
+  validateTitle = () => {
+    return this.props.selectedReflection.data.title.length > 0;
+  };
+
+  validateDescription = () => {
+    return this.props.selectedReflection.data.text.length > 0;
+  };
+
   render() {
     const {
       t,
@@ -83,16 +94,18 @@ class EditUserManualScreen extends React.PureComponent {
       updateSelectedReflection,
       reflectionSections,
     } = this.props;
-    const {addingCustomTitle, customTitle} = this.state;
+    const {addingCustomTitle, customTitle, submitted} = this.state;
     const {
       data: {title, text, image, vulnerability, tags},
     } = selectedReflection;
+    const isErrorTitle = !this.validateTitle();
+    const isErrorDescription = !this.validateDescription();
     return (
       <MCRootView>
         <MCHeader
           title={t('profile_Manual_title')}
-          hasRight={title.length * text.length > 0}
-          rightIcon={selectedReflection._id ? 'ios-cloud-upload' : 'ios-send'}
+          hasRight
+          rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
@@ -104,7 +117,11 @@ class EditUserManualScreen extends React.PureComponent {
               else updateSelectedReflection({title: ''});
             }}
             value={title}
+            height={30}
           />
+          {isErrorTitle && submitted && (
+            <ErrorText>{t('error_input_required')}</ErrorText>
+          )}
           <MCView row align="center" justify="flex-end" mb={20}>
             {addingCustomTitle && (
               <MCTextInput
@@ -131,14 +148,17 @@ class EditUserManualScreen extends React.PureComponent {
               <H4>{this.getLabelWithKey(title)}</H4>
             </MCCard>
             <MCView ph={10} pv={10}>
-              <MCTextInput
+              <MCTextFormInput
                 style={{width: dySize(333)}}
                 placeholder={t('motivation_description')}
                 multiline
                 textAlignVertical="top"
                 maxHeight={300}
                 value={text}
-                onChangeText={value => updateSelectedReflection({text: value})}
+                onChange={value => updateSelectedReflection({text: value})}
+                submitted={submitted}
+                errorText={t('error_input_required')}
+                isInvalid={isErrorDescription}
               />
               <MCView width={340} align="center" mt={50}>
                 <MCImagePicker
@@ -190,5 +210,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(EditUserManualScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditUserManualScreen),
 );

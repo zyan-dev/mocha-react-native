@@ -7,6 +7,7 @@ import BehaviorPreferenceScreen from './BehaviorPreference';
 import RiskToleranceScreen from './RiskTolerance';
 import AttachmentPatternScreen from './AattachmentPattern';
 import ApproachToConflictScreen from './ApproachToConflict';
+import DiscoverValueScreen from './DiscoverYourValues';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,7 @@ class KnowYourSelfStack extends React.Component {
           component={AttachmentPatternScreen}
         />
         <Stack.Screen name="KY_Approach" component={ApproachToConflictScreen} />
+        <Stack.Screen name="KY_DiscoverValue" component={DiscoverValueScreen} />
       </Stack.Navigator>
     );
   }

@@ -94,7 +94,7 @@ class UserManualScreen extends React.Component {
         <MCHeader
           title={t('profile_Manual_title')}
           hasRight={true}
-          rightIcon="ios-add"
+          rightIcon="plus"
           onPressRight={() => this.onPressNew()}
         />
         <MCContent>

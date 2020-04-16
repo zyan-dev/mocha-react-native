@@ -28,9 +28,10 @@ export const MCView = styled.View`
   margin-left: ${props => dySize(props.ml || 0)}px;
   display: flex;
   flex-direction: ${props => (props.row ? 'row' : 'column')};
-  border: 1px solid ${props => props.theme.colors.border};
   border-width: ${props => (props.bordered ? 1 : 0)}px;
   border-radius: ${props => dySize(props.br || 0)}px;
+  border-color: ${props =>
+    props.error ? props.theme.colors.danger : props.theme.colors.border};
   width: ${props => (props.width ? `${dySize(props.width)}px` : 'auto')};
   height: ${props => (props.height ? `${dySize(props.height)}px` : 'auto')};
   flex-wrap: ${props => (props.wrap ? 'wrap' : 'nowrap')};
@@ -69,7 +70,7 @@ export const NativeCard = styled(Card)`
     props.bordered ? props.theme.colors.text : 'transparent'};
   padding-horizontal: ${props => dySize(props.ph || 10)}px;
   padding-vertical: ${props => dySize(props.pv || 10)}px;
-  width: ${props => (props.width ? dySize(props.width) : '100%')};
+  width: ${props => (props.width ? `${dySize(props.width)}px` : '100%')};
   margin-top: ${props => dySize(props.mt || 10)}px;
   border-radius: ${props => dySize(props.mt || 10)}px;
   justify-content: ${props => props.justify || 'center'};

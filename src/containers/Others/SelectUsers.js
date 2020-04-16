@@ -20,21 +20,11 @@ class SelectUserScreen extends React.Component {
     };
   }
 
-  onPressUserAvatar = (user) => {
+  onPressUserAvatar = user => {
     NavigationService.navigate('UserProfile', {id: user._id});
   };
 
-  onPressBack = () => {
-    const {isMultiple, origin_selectedUsers, origin_selectedUser} = this.state;
-    if (isMultiple) {
-      this.props.setSeletedUsers(origin_selectedUsers);
-    } else {
-      this.props.selectSingleUser(origin_selectedUser);
-    }
-    NavigationService.goBack();
-  };
-
-  selectUser = (user) => {
+  selectUser = user => {
     const {isMultiple} = this.state;
     if (isMultiple) {
       this.props.selectUser(user);
@@ -43,7 +33,7 @@ class SelectUserScreen extends React.Component {
     }
   };
 
-  deselectUser = (user) => {
+  deselectUser = user => {
     const {isMultiple} = this.state;
     if (isMultiple) {
       this.props.deselectUser(user);
@@ -62,20 +52,14 @@ class SelectUserScreen extends React.Component {
     } = this.props;
     return (
       <MCRootView justify="flex-start">
-        <MCHeader
-          hasRight
-          rightIcon="md-checkmark"
-          onPressRight={() => NavigationService.goBack()}
-          onPressBack={() => this.onPressBack()}
-          title={t('add_reflection_feedback_header')}
-        />
+        <MCHeader title={t('add_reflection_feedback_header')} />
         <MCSearchInput
           width={350}
           text={searchText}
-          onChange={(text) => this.setState({searchText: text})}
+          onChange={text => this.setState({searchText: text})}
         />
         <MCContent contentContainerStyle={{paddingHorizontal: 10}}>
-          {allUsers.map((user) => {
+          {allUsers.map(user => {
             const userName = user.user_id;
             const fullName = user.name;
             const filterString = searchText.toLowerCase();
@@ -88,7 +72,7 @@ class SelectUserScreen extends React.Component {
               return;
             }
             const filtered = selectedUsers.filter(
-              (selected) => selected._id === user._id,
+              selected => selected._id === user._id,
             );
             const selected = isMultiple
               ? filtered.length > 0
@@ -106,9 +90,9 @@ class SelectUserScreen extends React.Component {
                 </MCButton>
                 <MCView style={{flex: 1}} ml={10} justify="center">
                   <H3>{user.name}</H3>
-                  <H4
-                    padding={0}
-                    color={theme.colors.border}>{`@${user.user_id}`}</H4>
+                  <H4 padding={0} color={theme.colors.border}>{`@${
+                    user.user_id
+                  }`}</H4>
                 </MCView>
                 {selected ? (
                   <MCButton onPress={() => this.deselectUser(user)}>
@@ -136,7 +120,7 @@ class SelectUserScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   selectedUsers: state.usersReducer.selectedUsers,
   selectedUser: state.usersReducer.selectedUser,
   allUsers: state.usersReducer.allUsers,
@@ -152,5 +136,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(SelectUserScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SelectUserScreen),
 );

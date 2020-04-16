@@ -20,7 +20,7 @@ class FeedbackRequestedScreen extends React.Component {
 
   _renderFeedbackItem = ({item}) => {
     const feedback = item;
-    const {theme, removeFeedbackRequest} = this.props;
+    const {t, theme, removeFeedbackRequest} = this.props;
     return (
       <MCView bordered br={10} mb={20}>
         <MCCard shadow br={1} style={{width: '100%'}}>
@@ -35,11 +35,12 @@ class FeedbackRequestedScreen extends React.Component {
                 image={{uri: feedback.receiver.avatar}}
                 width={30}
                 height={30}
+                type="avatar"
                 round
               />
             </MCButton>
             <H3 ml={10} style={{flex: 1}}>
-              {feedback.receiver.name}
+              {feedback.receiver.name || t('unknown_user')}
             </H3>
             <MCButton onPress={() => removeFeedbackRequest(feedback._id)}>
               <MCIcon name="ios-trash" />
@@ -90,5 +91,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(FeedbackRequestedScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FeedbackRequestedScreen),
 );

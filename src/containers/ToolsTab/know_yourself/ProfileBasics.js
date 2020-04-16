@@ -16,6 +16,8 @@ class ProfileBasicScreen extends React.Component {
       behaviorPreference,
       riskTolerance,
       attachment,
+      approach,
+      coreValues,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -50,14 +52,19 @@ class ProfileBasicScreen extends React.Component {
             />
             <ProfileBasicCard
               data={BasicProfileCards.approach}
+              completed={approach}
               locked={!attachment}
             />
           </MCView>
           <ProfileBasicCard
             data={BasicProfileCards.values_and_judgements}
-            locked
+            completed={coreValues}
+            locked={!approach}
           />
-          <ProfileBasicCard data={BasicProfileCards.body} locked />
+          <ProfileBasicCard
+            data={BasicProfileCards.body}
+            locked={!coreValues}
+          />
           <ProfileBasicCard data={BasicProfileCards.goal} locked />
         </MCContent>
       </MCRootView>
@@ -85,6 +92,11 @@ const mapStateToProps = state => ({
   attachment: selector.reflections.findMySpecialReflections(
     state,
     'Attachment',
+  ),
+  approach: selector.reflections.findMySpecialReflections(state, 'Approach'),
+  coreValues: selector.reflections.findMySpecialReflections(
+    state,
+    'CoreValues',
   ),
 });
 

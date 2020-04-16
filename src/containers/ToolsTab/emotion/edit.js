@@ -2,35 +2,43 @@ import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import {reflectionActions} from 'Redux/actions';
-import {MCHeader, MCPicker} from 'components/common';
+import {MCHeader, MCPicker, MCTextFormInput} from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
-import {MCButton} from 'components/styled/Button';
-import {H3, H4, MCTextInput, MCIcon} from 'components/styled/Text';
+import {H4} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
-import {EmotionHow} from 'utils/constants';
-import {EMOTIONS} from '../../../utils/constants';
+import {EmotionHow, EMOTIONS} from 'utils/constants';
 
 class EditEmotionScreen extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      submitted: false,
+    };
   }
 
   onPressRight = () => {
+    this.setState({submitted: true});
+    if (!this.validateStory()) return;
     this.props.addOrUpdateReflection();
   };
 
+  validateStory = () => {
+    return this.props.selectedReflection.data.story.length > 0;
+  };
+
   render() {
-    const {t, theme, selectedReflection, updateSelectedReflection} = this.props;
+    const {submitted} = this.state;
+    const {t, selectedReflection, updateSelectedReflection} = this.props;
     const {
       data: {emotion, how, story},
     } = selectedReflection;
+    console.log({selectedReflection});
     return (
       <MCRootView>
         <MCHeader
           title={t('edit_emotion_headerTitle')}
-          hasRight={story.length * emotion.length * how.length > 0}
-          rightIcon={selectedReflection._id ? 'ios-cloud-upload' : 'ios-send'}
+          hasRight
+          rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
@@ -38,11 +46,11 @@ class EditEmotionScreen extends React.PureComponent {
             {t('emotion_select')}
           </H4>
           <MCPicker
-            items={EMOTIONS.map((value) => ({
+            items={EMOTIONS.map(value => ({
               label: t(`mocha_emotion_${value.replace(/ /g, '_')}`),
               value,
             }))}
-            onChange={(itemValue) => {
+            onChange={itemValue => {
               if (itemValue) updateSelectedReflection({emotion: itemValue});
               else updateSelectedReflection({emotion: ''});
             }}
@@ -56,12 +64,12 @@ class EditEmotionScreen extends React.PureComponent {
                 })}
               </H4>
               <MCPicker
-                items={EmotionHow.map((value) => ({
+                items={EmotionHow.map(value => ({
                   label: t(`add_emotion_value_${value}`),
                   value,
                 }))}
                 value={how}
-                onChange={(itemValue) => {
+                onChange={itemValue => {
                   if (itemValue) updateSelectedReflection({how: itemValue});
                   else updateSelectedReflection({how: ''});
                 }}
@@ -83,7 +91,7 @@ class EditEmotionScreen extends React.PureComponent {
               </MCView>
             </MCCard>
             <MCView ph={10} pv={10}>
-              <MCTextInput
+              <MCTextFormInput
                 style={{width: dySize(333)}}
                 placeholder={t('add_emotion_story_placeholder')}
                 placeholderTextColor="gray"
@@ -91,7 +99,10 @@ class EditEmotionScreen extends React.PureComponent {
                 textAlignVertical="top"
                 maxHeight={300}
                 value={story}
-                onChangeText={(text) => updateSelectedReflection({story: text})}
+                onChange={text => updateSelectedReflection({story: text})}
+                submitted={submitted}
+                errorText={t('error_input_required')}
+                isInvalid={!this.validateStory()}
               />
             </MCView>
           </MCCard>
@@ -101,7 +112,7 @@ class EditEmotionScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
   reflectionSections: state.reflectionReducer.reflectionSections,
@@ -114,5 +125,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(EditEmotionScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditEmotionScreen),
 );

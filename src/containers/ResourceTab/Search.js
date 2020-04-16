@@ -31,7 +31,7 @@ class ResourceSearchScreen extends React.PureComponent {
     this.RBSheet && this.RBSheet.open();
   };
 
-  onPressFilterItem = (type) => {
+  onPressFilterItem = type => {
     const {filterTypes, viewAll} = this.state;
     const index = filterTypes.indexOf(type.type);
     if (index > -1) {
@@ -47,9 +47,9 @@ class ResourceSearchScreen extends React.PureComponent {
     this.forceUpdate();
   };
 
-  filterResource = (resources) => {
+  filterResource = resources => {
     const {searchText, viewAll, filterTypes} = this.state;
-    const filtered = resources.filter((resource) => {
+    const filtered = resources.filter(resource => {
       if (!viewAll && filterTypes.indexOf(resource.type) < 0) return false;
       if (
         getStringIndexOf(resource.title, searchText) < 0 &&
@@ -68,7 +68,7 @@ class ResourceSearchScreen extends React.PureComponent {
       <ResourceItem
         resource={item}
         bookmarked={bookmarked}
-        onPressBookmark={(id) => {
+        onPressBookmark={id => {
           this.props.bookmarkResource(id);
           this.forceUpdate();
         }}
@@ -90,17 +90,16 @@ class ResourceSearchScreen extends React.PureComponent {
       <MCRootView>
         <MCHeader
           title={t('resources')}
-          leftIconType="FontAwesome5"
           leftIcon="filter"
           onPressBack={() => this.onPressFilterOption()}
           hasRight
-          rightIcon="md-menu"
+          rightIcon="bars"
           onPressRight={() => showDrawer(true)}
         />
         <MCSearchInput
           placeholder={t('resource_search_placeholder')}
           text={searchText}
-          onChange={(searchText) => this.setState({searchText})}
+          onChange={searchText => this.setState({searchText})}
         />
         <MCContent>
           <FlatList
@@ -108,13 +107,13 @@ class ResourceSearchScreen extends React.PureComponent {
             contentContainerStyle={{alignItems: 'center'}}
             data={this.filterResource(allResources)}
             renderItem={this._renderListItem}
-            keyExtractor={(item) => item._id}
+            keyExtractor={item => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
         </MCContent>
         <RBSheet
-          ref={(ref) => {
+          ref={ref => {
             this.RBSheet = ref;
           }}
           height={dySize(400)}
@@ -125,36 +124,34 @@ class ResourceSearchScreen extends React.PureComponent {
             },
           }}>
           <MCView row wrap justify="center" align="center" mt={20}>
-            {[{type: 'all', icon: 'globe'}]
-              .concat(ResourceTypes)
-              .map((type) => {
-                let outlined = filterTypes.indexOf(type.type) > -1;
-                if (viewAll) outlined = false;
-                if (type.type === 'all') outlined = viewAll;
-                return (
-                  <MCButton
-                    key={type.type}
-                    onPress={() => this.onPressFilterItem(type)}
-                    bordered
-                    br={8}
-                    mr={10}
-                    ml={10}
-                    mb={10}
-                    width={100}
-                    height={100}
-                    style={{
-                      borderColor: outlined
-                        ? theme.colors.outline
-                        : theme.colors.border,
-                      borderWidth: outlined ? 3 : 1,
-                    }}
-                    justify="center"
-                    align="center">
-                    <MCIcon type="FontAwesome5" name={type.icon} size={30} />
-                    <H4>{t(`resource_type_${type.type}`)}</H4>
-                  </MCButton>
-                );
-              })}
+            {[{type: 'all', icon: 'globe'}].concat(ResourceTypes).map(type => {
+              let outlined = filterTypes.indexOf(type.type) > -1;
+              if (viewAll) outlined = false;
+              if (type.type === 'all') outlined = viewAll;
+              return (
+                <MCButton
+                  key={type.type}
+                  onPress={() => this.onPressFilterItem(type)}
+                  bordered
+                  br={8}
+                  mr={10}
+                  ml={10}
+                  mb={10}
+                  width={100}
+                  height={100}
+                  style={{
+                    borderColor: outlined
+                      ? theme.colors.outline
+                      : theme.colors.border,
+                    borderWidth: outlined ? 3 : 1,
+                  }}
+                  justify="center"
+                  align="center">
+                  <MCIcon type="FontAwesome5" name={type.icon} size={30} />
+                  <H4>{t(`resource_type_${type.type}`)}</H4>
+                </MCButton>
+              );
+            })}
           </MCView>
         </RBSheet>
       </MCRootView>
@@ -162,7 +159,7 @@ class ResourceSearchScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   bookmarkedResources: state.resourceReducer.bookmarkedResources,
   allResources: state.resourceReducer.allResources,
@@ -175,5 +172,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ResourceSearchScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ResourceSearchScreen),
 );

@@ -10,8 +10,8 @@ export const MCButton = styled(Ripple)`
   padding-bottom: ${props => dySize(props.pb || 5)}px;
   padding-left: ${props => dySize(props.pl || 5)}px;
   padding-right: ${props => dySize(props.pr || 5)}px;
-  width: ${props => dySize(props.width) || 'auto'};
-  height: ${props => dySize(props.height) || 'auto'};
+  width: ${props => (props.width ? `${dySize(props.width)}px` : 'auto')};
+  height: ${props => (props.height ? `${dySize(props.height)}px` : 'auto')};
   display: flex;
   flex-direction: ${props => (props.row ? 'row' : 'column')};
   justify-content: ${props => props.justify || 'flex-start'};

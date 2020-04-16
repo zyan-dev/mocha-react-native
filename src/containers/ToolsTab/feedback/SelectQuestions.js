@@ -57,7 +57,7 @@ class SelectQuestionScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight
-          rightIcon="ios-add"
+          rightIcon="plus"
           onPressRight={() => this.setState({showNewModal: true})}
           onPressBack={() => this.onPressBack()}
           title={t('add_feedback_select_title')}
@@ -131,5 +131,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(SelectQuestionScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SelectQuestionScreen),
 );

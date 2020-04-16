@@ -49,7 +49,7 @@ class GoalScreen extends React.Component {
         <MCHeader
           title={t('objective_headerTitle')}
           hasRight
-          rightIcon="ios-add"
+          rightIcon="plus"
           onPressRight={() => this.onPressNew()}
         />
         <ObjectiveTabView initialIndex={params ? params.tabIndex : 0} />
@@ -57,7 +57,7 @@ class GoalScreen extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   profile: state.profileReducer,
 });
 const mapDispatchToProps = {
@@ -69,5 +69,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(GoalScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(GoalScreen),
 );

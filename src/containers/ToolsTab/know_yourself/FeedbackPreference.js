@@ -87,7 +87,7 @@ class FeedbackPreferenceScreen extends React.Component {
         <MCHeader
           hasRight
           title={`${t('practice')} 2 - 1`}
-          rightText={step === 1 ? t('button_next') : t('done')}
+          rightIcon={step === 1 ? 'arrow-right' : 'cloud-upload-alt'}
           onPressBack={() => this.onPressBack()}
           onPressRight={() => this.onPressRight()}
         />

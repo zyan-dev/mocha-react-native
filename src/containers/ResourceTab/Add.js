@@ -4,19 +4,29 @@ import {connect} from 'react-redux';
 import {resourceActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {MCHeader, MCTagInput} from 'components/common';
-import {H3, H4, MCTextInput, MCIcon} from 'components/styled/Text';
+import {MCHeader, MCTagInput, MCTextFormInput} from 'components/common';
+import {H3, H4, MCIcon} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {ResourceTypes} from 'utils/constants';
 import {validURL} from 'services/operators';
 
 class AddResourceScreen extends React.PureComponent {
-  updateTagState = (state) => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      submitted: false,
+    };
+  }
+
+  updateTagState = state => {
     this.props.updateSelectedResource({tags: state.tagsArray});
   };
 
   onPressRight = () => {
     const {selectedResource, createResources, updateResources} = this.props;
+    this.setState({submitted: true});
+    if (!this.validateTitle()) return;
+    if (!this.validateLink()) return;
     if (selectedResource._id.length < 20) {
       // create resource
       createResources([selectedResource]);
@@ -25,9 +35,20 @@ class AddResourceScreen extends React.PureComponent {
     }
   };
 
+  validateTitle = () => {
+    return this.props.selectedResource.title.length > 0;
+  };
+
+  validateLink = () => {
+    return validURL(this.props.selectedResource.link);
+  };
+
   render() {
+    const {submitted} = this.state;
     const {t, selectedResource, updateSelectedResource} = this.props;
     const {title, link, type, tags} = selectedResource;
+    isErrorTitle = !this.validateTitle();
+    isErrorLink = !this.validateLink();
     return (
       <MCRootView>
         <MCHeader
@@ -36,30 +57,34 @@ class AddResourceScreen extends React.PureComponent {
               ? t('resources_edit_headerTitle')
               : t('resources_add_headerTitle')
           }
-          rightIcon={selectedResource._id ? 'ios-cloud-upload' : 'ios-send'}
-          hasRight={validURL(link) && tags.length > 0 && title.length > 0}
+          rightIcon="cloud-upload-alt"
+          hasRight
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(15)}}>
-          <H3 mb={5}>{t('resource_input_title')}</H3>
-          <MCTextInput
+          <MCTextFormInput
+            label={t('resource_input_title')}
             value={title}
             maxLength={60}
-            onChangeText={(text) => updateSelectedResource({title: text})}
+            onChange={text => updateSelectedResource({title: text})}
+            submitted={submitted}
+            errorText={t('error_input_required')}
+            isInvalid={isErrorTitle}
           />
-          <H3 mt={20} mb={5}>
-            {t('resource_input_link')}
-          </H3>
-          <MCTextInput
+          <MCTextFormInput
+            label={t('resource_input_link')}
             value={link}
             maxLength={1024}
-            onChangeText={(text) => updateSelectedResource({link: text})}
+            onChange={text => updateSelectedResource({link: text})}
+            submitted={submitted}
+            errorText={t('error_invalid_link')}
+            isInvalid={isErrorLink}
           />
           <H3 mt={20} mb={5}>
             {t('resource_select_type')}
           </H3>
           <MCView width={345} bordered row wrap br={4} ph={10} pv={10}>
-            {ResourceTypes.map((rt) => (
+            {ResourceTypes.map(rt => (
               <MCButton
                 onPress={() => updateSelectedResource({type: rt.type})}
                 width={160}
@@ -87,7 +112,7 @@ class AddResourceScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   selectedResource: state.resourceReducer.selectedResource,
 });
 
@@ -98,5 +123,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(AddResourceScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AddResourceScreen),
 );

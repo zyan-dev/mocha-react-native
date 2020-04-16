@@ -15,12 +15,12 @@ class MyResourceScreen extends React.PureComponent {
     NavigationService.navigate('AddResource');
   };
 
-  onPressEdit = (item) => {
+  onPressEdit = item => {
     this.props.selectResource(item);
     NavigationService.navigate('AddResource');
   };
 
-  onPressRemove = (item) => {
+  onPressRemove = item => {
     this.props.removeResources([item._id]);
   };
 
@@ -31,7 +31,7 @@ class MyResourceScreen extends React.PureComponent {
       <ResourceItem
         resource={item}
         bookmarked={bookmarked}
-        onPressBookmark={(id) => {
+        onPressBookmark={id => {
           this.props.bookmarkResource(id);
           this.forceUpdate();
         }}
@@ -41,9 +41,9 @@ class MyResourceScreen extends React.PureComponent {
     );
   };
 
-  getMyResources = (resources) => {
+  getMyResources = resources => {
     const {profile} = this.props;
-    return resources.filter((resource) => resource.owner === profile._id);
+    return resources.filter(resource => resource.owner === profile._id);
   };
 
   render() {
@@ -53,7 +53,7 @@ class MyResourceScreen extends React.PureComponent {
         <MCHeader
           title={t('resources_mylist_headerTitle')}
           hasRight={true}
-          rightIcon="ios-add"
+          rightIcon="plus"
           onPressRight={() => this.onPressNew()}
         />
         <MCContent>
@@ -61,7 +61,7 @@ class MyResourceScreen extends React.PureComponent {
             contentContainerStyle={{alignItems: 'center'}}
             data={this.getMyResources(allResources)}
             renderItem={this._renderListItem}
-            keyExtractor={(item) => item._id}
+            keyExtractor={item => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
@@ -71,7 +71,7 @@ class MyResourceScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   profile: state.profileReducer,
   bookmarkedResources: state.resourceReducer.bookmarkedResources,
   allResources: state.resourceReducer.allResources,
@@ -85,5 +85,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(MyResourceScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(MyResourceScreen),
 );

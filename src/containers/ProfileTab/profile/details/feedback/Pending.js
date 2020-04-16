@@ -50,7 +50,7 @@ class FeedbackPendingScreen extends React.Component {
 
   _renderFeedbackItem = ({item}) => {
     const feedback = item;
-    const {theme} = this.props;
+    const {t, theme} = this.props;
     const {editing} = this.state;
     return (
       <MCView bordered br={10} mb={20}>
@@ -66,11 +66,12 @@ class FeedbackPendingScreen extends React.Component {
                 image={{uri: feedback.sender.avatar}}
                 width={30}
                 height={30}
+                type="avatar"
                 round
               />
             </MCButton>
             <H3 ml={10} style={{flex: 1}}>
-              {feedback.sender.name}
+              {feedback.sender.name || t('unknown_user')}
             </H3>
             {editing.id === feedback._id && (
               <MCButton onPress={() => this.onPressCancelIcon()}>

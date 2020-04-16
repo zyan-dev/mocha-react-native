@@ -2,10 +2,11 @@ import React from 'react';
 import {Linking} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
-import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
-import {H3, H4, H5, MCIcon} from 'components/styled/Text';
+import {MCRootView, MCContent, MCView} from 'components/styled/View';
+import {H3, H4, ErrorText, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader} from 'components/common';
 import {dySize} from 'utils/responsive';
@@ -18,6 +19,7 @@ class AttachmentPatternScreen extends React.Component {
     super(props);
     this.state = {
       cardHeight: 'auto',
+      submitted: false,
     };
   }
   componentWillMount() {
@@ -60,18 +62,28 @@ class AttachmentPatternScreen extends React.Component {
     }
   };
 
+  onPressSubmit = () => {
+    this.setState({submitted: true});
+    if (!this.validateOptions()) return;
+    this.props.addOrUpdateReflection();
+  };
+
+  validateOptions = () => {
+    return this.props.selectedReflection.data.options.length > 0;
+  };
+
   render() {
-    const {cardHeight} = this.state;
+    const {cardHeight, submitted} = this.state;
     const {t, theme, selectedReflection} = this.props;
-    if (!selectedReflection || !selectedReflection.data) return null;
-    const {options} = selectedReflection.data;
+    const options = _.get(selectedReflection, ['data', 'options'], undefined);
+    if (!options) return null;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight
           title={`${t('practice')} 4 - 1`}
-          rightText={t('done')}
-          onPressRight={() => this.props.addOrUpdateReflection()}
+          rightIcon="cloud-upload-alt"
+          onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
           <MCView row justify="center" align="center" mb={20}>
@@ -86,8 +98,11 @@ class AttachmentPatternScreen extends React.Component {
               {EmbededLink}
             </H4>
           </MCButton>
-          <H4 mb={20}>{t(`select_all_that_apply`)}</H4>
-          <MCView row wrap justify="center" width={335}>
+          <H4>{t(`select_all_that_apply`)}</H4>
+          {!this.validateOptions() && submitted && (
+            <ErrorText>{t('error_input_select_empty')}</ErrorText>
+          )}
+          <MCView row wrap justify="center" mt={20} width={335}>
             {AttachmentOptions.map((option, index) => {
               const vColor =
                 options.indexOf(option) < 0
