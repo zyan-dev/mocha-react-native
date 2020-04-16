@@ -4,8 +4,8 @@ import {withTranslation} from 'react-i18next';
 import {FlatList} from 'react-native-gesture-handler';
 import {networkActions, userActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCCard, MCView} from 'components/styled/View';
-import {MCHeader, MCImage} from 'components/common';
-import {H3, H4, MCIcon, MCTextInput} from 'components/styled/Text';
+import {MCHeader, MCImage, MCTextFormInput} from 'components/common';
+import {H3, H4, MCIcon, ErrorText} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
@@ -17,8 +17,8 @@ class ManageTrustNetworkScreen extends React.Component {
     super(props);
     this.state = {
       isNew: props.route.params.new, // true: create network, false: edit network
-      permissions: props.selectedNetwork.permissions,
       tags: props.selectedNetwork.tags,
+      submitted: false,
     };
   }
 
@@ -30,6 +30,10 @@ class ManageTrustNetworkScreen extends React.Component {
       updateNetwork,
       updateSelectedTrustNetwork,
     } = this.props;
+    this.setState({submitted: true});
+    if (!this.validateName()) return;
+    if (!this.validateMembers()) return;
+    if (!this.validatePermissions()) return;
     const members = selectedUsers.map(user => user._id);
     updateSelectedTrustNetwork({members});
     if (isNew) {
@@ -66,14 +70,17 @@ class ManageTrustNetworkScreen extends React.Component {
   };
 
   onToggleCheck = key => {
-    const {permissions} = this.state;
+    const {
+      updateSelectedTrustNetwork,
+      selectedNetwork: {permissions},
+    } = this.props;
     const index = permissions.indexOf(key);
     if (index < 0) {
       permissions.push(key);
     } else {
       permissions.splice(index, 1);
     }
-    this.setState({permissions});
+    updateSelectedTrustNetwork({permissions});
   };
 
   _renderMemberItem = ({item}) => {
@@ -90,30 +97,46 @@ class ManageTrustNetworkScreen extends React.Component {
     );
   };
 
+  validateName = () => {
+    return this.props.selectedNetwork.name.length > 0;
+  };
+
+  validateMembers = () => {
+    return this.props.selectedUsers.length > 0;
+  };
+
+  validatePermissions = () => {
+    return this.props.selectedNetwork.permissions.length > 0;
+  };
+
+  _onChangeValue = key => text => {
+    this.props.updateSelectedTrustNetwork({[key]: text});
+  };
+
   render() {
-    const {isNew, permissions} = this.state;
-    const {
-      t,
-      theme,
-      selectedNetwork,
-      selectedUsers,
-      updateSelectedTrustNetwork,
-    } = this.props;
+    const {isNew, submitted} = this.state;
+    const {t, theme, selectedNetwork, selectedUsers} = this.props;
+    const isErrorName = !this.validateName();
+    const isErrorMember = !this.validateMembers();
+    const isErrorPermission = !this.validatePermissions();
     return (
       <MCRootView justify="flex-start">
         <MCHeader
           title={
             isNew ? t('create_network') : t('feed_network_edit_headerTitle')
           }
-          hasRight={selectedNetwork.name.length * selectedUsers.length > 0}
-          rightIcon={isNew ? 'ios-send' : 'ios-cloud-upload'}
+          hasRight
+          rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressDone()}
         />
         <MCContent contentContainerStyle={{padding: dySize(15)}}>
-          <H3>{t('feed_network_edit_nameofgroup')}*</H3>
-          <MCTextInput
+          <MCTextFormInput
+            label={t('feed_network_edit_nameofgroup')}
+            onChange={this._onChangeValue('name')}
             value={selectedNetwork.name}
-            onChangeText={text => updateSelectedTrustNetwork({name: text})}
+            submitted={submitted}
+            errorText={t('error_input_required')}
+            isInvalid={isErrorName}
           />
           <MCView mt={20} row justify="space-between" align="center">
             <H3>{`${t('mocha_value_Members')}* - ${selectedUsers.length}`}</H3>
@@ -121,7 +144,13 @@ class ManageTrustNetworkScreen extends React.Component {
               <MCIcon name="ios-add-circle-outline" />
             </MCButton>
           </MCView>
-          <MCCard>
+          <MCCard
+            style={{
+              borderColor:
+                isErrorMember && submitted
+                  ? theme.colors.danger
+                  : theme.colors.border,
+            }}>
             <FlatList
               horizontal
               style={{width: '100%', height: dySize(200)}}
@@ -130,24 +159,18 @@ class ManageTrustNetworkScreen extends React.Component {
               keyExtractor={item => item}
             />
           </MCCard>
+          {isErrorMember && submitted && (
+            <ErrorText>{t('error_input_trustnetwork_members')}</ErrorText>
+          )}
           <H3 mt={20}>{t('feed_network_edit_viewpermission')}</H3>
           <H4 color={theme.colors.border}>
             {t('feed_network_edit_viewpermission_displayText')}
           </H4>
+          {isErrorPermission && submitted && (
+            <ErrorText>{t('error_trustnetwork_permissions')}</ErrorText>
+          )}
           <MCView align="center" mt={40}>
             {NetworkPermissions.map(item => (
-              // <CheckBox
-              //   style={{width: dySize(150), marginTop: 10}}
-              //   onClick={() => this.onToggleCheck(item.key)}
-              //   isChecked={permissions.indexOf(item.key) > -1}
-              //   rightText={t(`trustnetwork_permissions_${item.data}`)}
-              //   rightTextStyle={{
-              //     color: theme.colors.text,
-              //     fontSize: theme.base.FONT_SIZE_LARGE,
-              //     fontFamily: 'Raleway-Regular',
-              //   }}
-              //   checkBoxColor={theme.colors.text}
-              // />
               <MCButton
                 row
                 width={300}
@@ -156,7 +179,7 @@ class ManageTrustNetworkScreen extends React.Component {
                   <MCIcon
                     type="FontAwesome"
                     name={
-                      permissions.indexOf(item.key) > -1
+                      selectedNetwork.permissions.indexOf(item.key) > -1
                         ? 'check-square'
                         : 'square'
                     }
@@ -171,6 +194,7 @@ class ManageTrustNetworkScreen extends React.Component {
               </MCButton>
             ))}
           </MCView>
+
           {!isNew && (
             <MCView mt={50} mb={30} align="center">
               <MCButton

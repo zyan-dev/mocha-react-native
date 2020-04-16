@@ -37,7 +37,7 @@ class MCTagInput extends React.Component {
     this.setState({text: ''});
   };
 
-  updateState = (param) => {
+  updateState = param => {
     this.props.updateState(param);
     console.log(param.tag);
     this.setState({text: param.tag});
@@ -49,8 +49,8 @@ class MCTagInput extends React.Component {
     if (tags)
       return (
         <TagInput
-          ref={(ref) => (this.input = ref)}
-          updateState={(param) => this.updateState(param)}
+          ref={ref => (this.input = ref)}
+          updateState={param => this.updateState(param)}
           tags={{
             tag: text,
             tagsArray: tags,
@@ -64,7 +64,8 @@ class MCTagInput extends React.Component {
           containerStyle={{
             borderWidth: 1,
             borderColor: theme.colors.text,
-            borderRadius: dySize(10),
+            borderRadius: dySize(4),
+            padding: 10,
           }}
           tagStyle={{
             height: dySize(30),
@@ -79,14 +80,14 @@ class MCTagInput extends React.Component {
           }}
           keysForTag={','}
           onSubmitEditing={() => this.onPressEnterOrBlur()}
-          onChange={(e) => this.setState({text: e.nativeEvent.text})}
+          onChange={e => this.setState({text: e.nativeEvent.text})}
           blurOnSubmit={false}
         />
       );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
 });
 

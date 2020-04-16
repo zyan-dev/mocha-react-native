@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
-import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
-import {H3, H4, H5, MCIcon} from 'components/styled/Text';
+import {MCRootView, MCContent, MCView} from 'components/styled/View';
+import {H3, H4, ErrorText, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader} from 'components/common';
 import {RiskTolerances} from 'utils/constants';
@@ -13,7 +13,13 @@ import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 
 class RiskToleranceScreen extends React.Component {
-  isNew = false;
+  constructor(props) {
+    super(props);
+    this.state = {
+      submitted: false,
+    };
+  }
+isNew = false;
   componentWillMount() {
     const {
       riskTolerance,
@@ -54,20 +60,30 @@ class RiskToleranceScreen extends React.Component {
       });
     }
     NavigationService.goBack();
+    }
+  onPressSubmit = () => {
+    this.setState({submitted: true});
+    if (!this.validateOptions()) return;
+    this.props.addOrUpdateReflection();
+  };
+
+  validateOptions = () => {
+    return this.props.selectedReflection.data.options.length > 0;
   };
 
   render() {
+    const {submitted} = this.state;
     const {t, theme, selectedReflection} = this.props;
-    if (!selectedReflection || !selectedReflection.data) return null;
-    const {options} = selectedReflection.data;
+    const options = _.get(selectedReflection, ['data', 'options'], undefined);
+    if (!options) return null;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight
           title={`${t('practice')} 2 - 2`}
-          rightText={t('done')}
           onPressBack={() => this.onPressBack()}
-          onPressRight={() => this.props.addOrUpdateReflection()}
+          rightIcon="cloud-upload-alt"
+          onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
           <MCView row justify="center" align="center" mb={20}>
@@ -75,10 +91,11 @@ class RiskToleranceScreen extends React.Component {
             <MCIcon type="FontAwesome5" name="skiing" size={30} />
           </MCView>
           <H4>{t('tools_tab_risk_explain')}</H4>
-          <H4 weight="italic" mb={20}>
-            {t(`select_all_that_apply`)}
-          </H4>
-          <MCView row wrap justify="space-between">
+          <H4 weight="italic">{t(`select_all_that_apply`)}</H4>
+          {!this.validateOptions() && submitted && (
+            <ErrorText>{t('error_input_select_empty')}</ErrorText>
+          )}
+          <MCView row wrap justify="space-between" mt={20}>
             {RiskTolerances.map(key => (
               <MCButton
                 bordered

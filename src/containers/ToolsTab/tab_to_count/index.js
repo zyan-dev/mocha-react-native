@@ -240,7 +240,7 @@ class TapToCountScreen extends React.Component {
         <MCHeader
           title={t('add_reflection_tapToCount_header')}
           hasRight
-          rightIcon="ios-refresh"
+          rightIcon="trash-alt"
           onPressBack={() => this.onSaveAndGoBack()}
           onPressRight={() => this.onPressReset()}
         />

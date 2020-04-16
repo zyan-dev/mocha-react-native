@@ -19,7 +19,7 @@ class FeedScreen extends React.Component {
     };
   }
 
-  onPressUserAvatar = (user) => {
+  onPressUserAvatar = user => {
     NavigationService.navigate('UserProfile', {id: user._id});
   };
 
@@ -58,7 +58,7 @@ class FeedScreen extends React.Component {
     const {allUsers} = this.props;
     if (searchText.length === 0) return [];
     else {
-      return allUsers.filter((user) => {
+      return allUsers.filter(user => {
         if (user.name && getStringIndexOf(user.name, searchText) > -1)
           return true;
         else if (
@@ -80,14 +80,14 @@ class FeedScreen extends React.Component {
           hasRight
           hasBack={false}
           title={t('feed_headerTitle')}
-          rightIcon="md-menu"
+          rightIcon="bars"
           onPressRight={() => showDrawer(true)}
         />
         <MCView style={{position: 'relative', zIndex: 10}} overflow="visible">
           <MCSearchInput
             width={350}
             text={searchText}
-            onChange={(text) => this.setState({searchText: text})}
+            onChange={text => this.setState({searchText: text})}
             // onBlur={() => this.setState({searchText: ''})}
           />
           {searchText.length > 0 && (
@@ -110,7 +110,7 @@ class FeedScreen extends React.Component {
               data={this.getFilteredUsers()}
               renderItem={this._renderUserItem}
               ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-              keyExtractor={(item) => item._id}
+              keyExtractor={item => item._id}
             />
           )}
         </MCView>
@@ -129,7 +129,7 @@ class FeedScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   allUsers: state.usersReducer.allUsers,
   theme: state.routerReducer.theme,
 });
@@ -139,5 +139,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(FeedScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FeedScreen),
 );

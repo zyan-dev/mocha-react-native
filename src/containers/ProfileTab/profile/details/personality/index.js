@@ -33,7 +33,7 @@ class PersonalityScreen extends React.PureComponent {
   onChangeValue = (key, value) => {
     const {updateSelectedReflection} = this.props;
     if (Number(value) > 100) {
-      updateSelectedReflection({[key]: '100'});
+      updateSelectedReflection({[key]: 100});
     } else if (Number(value) < 0) {
       updateSelectedReflection({[key]: '0'});
     } else {
@@ -51,7 +51,7 @@ class PersonalityScreen extends React.PureComponent {
         <MCView width={50}>
           <MCEditableText
             text={text.toString()}
-            onChange={(value) => this.onChangeValue(key, value)}
+            onChange={value => this.onChangeValue(key, value)}
             keyboardType="numeric"
           />
         </MCView>
@@ -76,7 +76,7 @@ class PersonalityScreen extends React.PureComponent {
               contentContainerStyle={{padding: dySize(15)}}
               data={Object.keys(DefaultReflections.personality.data)}
               renderItem={this._renderPersonalityItem}
-              keyExtractor={(item) => item}
+              keyExtractor={item => item}
             />
           )}
         </MCContent>
@@ -85,7 +85,7 @@ class PersonalityScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   myPersonality: selector.reflections.findMySpecialReflections(
     state,
@@ -103,5 +103,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(PersonalityScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PersonalityScreen),
 );

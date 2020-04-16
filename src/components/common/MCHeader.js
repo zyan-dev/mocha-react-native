@@ -12,7 +12,7 @@ import {dySize} from 'utils/responsive';
 const HeaderWrapper = styled(Header)`
   width: ${dySize(375)};
   height: 80px;
-  background-color: ${(props) => props.theme.colors.background};
+  background-color: ${props => props.theme.colors.background};
   border-bottom-width: 0px;
   elevation: 0;
 `;
@@ -37,7 +37,7 @@ const HeaderBody = styled(Body)`
 
 const HeaderIcon = styled(Icon)`
   font-size: ${dySize(30)};
-  color: ${(props) => props.theme.colors.text};
+  color: ${props => props.theme.colors.text};
 `;
 
 class MCHeader extends React.PureComponent {
@@ -49,6 +49,7 @@ class MCHeader extends React.PureComponent {
     rightIcon: PropTypes.string,
     rightImage: PropTypes.node,
     rightIconType: PropTypes.string,
+    rightIconSize: PropTypes.number,
     leftIcon: PropTypes.string,
     leftIconSize: PropTypes.number,
     leftIconType: PropTypes.string,
@@ -61,11 +62,12 @@ class MCHeader extends React.PureComponent {
     hasRight: false,
     rightText: '',
     rightIcon: '',
-    leftIcon: 'ios-arrow-back',
+    leftIcon: 'arrow-left',
     leftIconSize: 20,
     rightImage: null,
-    rightIconType: 'Ionicon',
-    leftIconType: 'Ionicon',
+    rightIconType: 'FontAwesome5',
+    rightIconSize: 20,
+    leftIconType: 'FontAwesome5',
     onPressRight: () => undefined,
     onPressBack: () => {
       NavigationService.goBack();
@@ -84,6 +86,7 @@ class MCHeader extends React.PureComponent {
       rightImage,
       leftIconType,
       rightIconType,
+      rightIconSize,
       onPressRight,
       onPressBack,
       style,
@@ -117,7 +120,11 @@ class MCHeader extends React.PureComponent {
               rippleSize={40}
               align="flex-end"
               onPress={() => onPressRight()}>
-              <HeaderIcon type={rightIconType} name={rightIcon} />
+              <MCIcon
+                type={rightIconType}
+                name={rightIcon}
+                size={rightIconSize}
+              />
             </MCButton>
           )}
           {rightImage}
@@ -127,8 +134,13 @@ class MCHeader extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
 });
 
-export default withTranslation()(connect(mapStateToProps, undefined)(MCHeader));
+export default withTranslation()(
+  connect(
+    mapStateToProps,
+    undefined,
+  )(MCHeader),
+);

@@ -1,17 +1,14 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
-import {MCHeader, MCImagePicker, MCReadMoreText} from 'components/common';
-import {MCView, MCCard, MCRootView} from 'components/styled/View';
+import {FlatList} from 'react-native-gesture-handler';
+import {MCHeader, MCImage, MCReadMoreText} from 'components/common';
+import {MCView, MCCard, MCRootView, MCContent} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, MCEmptyText, MCIcon} from 'components/styled/Text';
-import {dySize} from 'utils/responsive';
 import {reflectionActions} from 'Redux/actions';
 import NavigationService from 'navigation/NavigationService';
-import {FlatList} from 'react-native-gesture-handler';
 import {selector} from 'Redux/selectors';
-import MCEditableText from '../../../../../components/common/MCEditableText';
-import {MCContent} from '../../../../../components/styled/View';
 
 class MotivationListScreen extends React.PureComponent {
   onPressNew = () => {
@@ -19,7 +16,7 @@ class MotivationListScreen extends React.PureComponent {
     NavigationService.navigate('AddMotivation');
   };
 
-  onPressEdit = (item) => {
+  onPressEdit = item => {
     const {
       selectedReflection,
       selectReflection,
@@ -31,19 +28,16 @@ class MotivationListScreen extends React.PureComponent {
     } else {
       // edit
       selectReflection(item);
+      NavigationService.navigate('AddMotivation');
     }
   };
 
-  onPressRemove = (item) => {
+  onPressRemove = item => {
     this.props.removeReflection(item);
   };
 
   _renderListItem = ({item}) => {
     const motivation = item.data;
-    const {selectedReflection, updateSelectedReflection} = this.props;
-
-    const editable =
-      item._id !== undefined && selectedReflection._id === item._id;
     return (
       <MCView
         key={item.key}
@@ -54,43 +48,20 @@ class MotivationListScreen extends React.PureComponent {
         mb={20}>
         <MCCard shadow br={1} width={340} align="center">
           <MCView width={320}>
-            {editable ? (
-              <MCEditableText
-                maxLength={200}
-                fontSize={18}
-                text={selectedReflection.data.title}
-                onChange={(text) => updateSelectedReflection({title: text})}
-              />
-            ) : (
-              <H3>{motivation.title}</H3>
-            )}
+            <H3>{motivation.title}</H3>
           </MCView>
         </MCCard>
         <MCView width={320} mt={10} mb={20}>
-          {editable ? (
-            <MCEditableText
-              fontSize={14}
-              multiline
-              maxLength={1024}
-              text={selectedReflection.data.description}
-              onChange={(text) => updateSelectedReflection({description: text})}
-            />
-          ) : (
-            <MCReadMoreText>
-              <H4 ml={20}>{motivation.description}</H4>
-            </MCReadMoreText>
-          )}
+          <MCReadMoreText>
+            <H4 ml={20}>{motivation.description}</H4>
+          </MCReadMoreText>
         </MCView>
         {motivation.image.length > 0 && (
-          <MCImagePicker
-            enabled={editable}
-            image={motivation.image}
-            type="picture"
-          />
+          <MCImage image={{uri: motivation.image}} type="picture" />
         )}
         <MCView row align="center" width={320} justify="flex-end">
           <MCButton onPress={() => this.onPressEdit(item)}>
-            <MCIcon name={editable ? 'ios-share' : 'ios-create'} />
+            <MCIcon name="ios-create" />
           </MCButton>
           <MCButton onPress={() => this.onPressRemove(item)}>
             <MCIcon name="ios-trash" />
@@ -106,15 +77,15 @@ class MotivationListScreen extends React.PureComponent {
       <MCRootView>
         <MCHeader
           title={t('motivation_headerTitle')}
-          hasRight={true}
-          rightIcon="ios-add"
+          hasRight
+          rightIcon="plus"
           onPressRight={() => this.onPressNew()}
         />
         <MCContent>
           <FlatList
             data={motivations}
             renderItem={this._renderListItem.bind(this)}
-            keyExtractor={(item) => item._id}
+            keyExtractor={item => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>No results</MCEmptyText>}
             contentContainerStyle={{alignItems: 'center'}}
@@ -125,7 +96,7 @@ class MotivationListScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   motivations: selector.reflections.getMySpecialReflections(
     state,
@@ -143,5 +114,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(MotivationListScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(MotivationListScreen),
 );

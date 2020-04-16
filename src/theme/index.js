@@ -1,7 +1,7 @@
 const commonTheme = {
   border: '#AAAAAA',
   card: 'rgba(0, 0, 0, 0.3)',
-  danger: '#6E1D12',
+  danger: '#AA3333',
   sidemenu_bg: 'rgba(240, 245, 245, 1)',
   sidemenu_border: 'rgba(0, 0, 0, 0.8)',
   sidemenu_color: '#283148',

@@ -19,7 +19,7 @@ class FeedbackReceivedScreen extends React.Component {
 
   _renderFeedbackItem = ({item}) => {
     const feedback = item;
-    const {theme} = this.props;
+    const {t, theme} = this.props;
     return (
       <MCView bordered br={10} mb={10}>
         <MCCard shadow br={1} style={{width: '100%'}}>
@@ -34,10 +34,11 @@ class FeedbackReceivedScreen extends React.Component {
                 image={{uri: feedback.receiver.avatar}}
                 width={30}
                 height={30}
+                type="avatar"
                 round
               />
             </MCButton>
-            <H3 ml={10}>{feedback.receiver.name}</H3>
+            <H3 ml={10}>{feedback.receiver.name || t('unknown_user')}</H3>
           </MCView>
         </MCCard>
         <H3 weight="bold" ph={10} mt={10}>
@@ -87,5 +88,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {};
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(FeedbackReceivedScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FeedbackReceivedScreen),
 );

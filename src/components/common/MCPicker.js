@@ -24,7 +24,7 @@ class MCPicker extends React.Component {
   render() {
     const {t, theme, value, height, placeholder, items, onChange} = this.props;
     return (
-      <MCCard bordered>
+      <MCCard bordered br={4}>
         <RNPickerSelect
           value={value}
           onValueChange={itemValue => onChange(itemValue)}

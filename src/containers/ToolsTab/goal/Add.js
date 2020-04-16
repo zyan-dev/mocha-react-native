@@ -11,15 +11,15 @@ import {
   MCEditableText,
   MCImage,
   MCDateTimePicker,
+  MCTextFormInput,
 } from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {H3, H4, MCIcon} from 'components/styled/Text';
-import {getAfterDate} from 'services/operators';
+import {H3, H4, MCIcon, ErrorText} from 'components/styled/Text';
+import {getAfterDate, getUpdatedMeasures} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {WeekDays} from 'utils/constants';
-import {getUpdatedMeasures} from '../../../services/operators';
 
 class EditObjectiveScreen extends React.PureComponent {
   constructor(props) {
@@ -28,6 +28,7 @@ class EditObjectiveScreen extends React.PureComponent {
       showTimePicker: false,
       newMeasureTitle: '',
       origin: {},
+      submitted: false,
     };
   }
 
@@ -49,6 +50,9 @@ class EditObjectiveScreen extends React.PureComponent {
       },
     } = this.props;
     const {newMeasureTitle} = this.state;
+    this.setState({submitted: true});
+    if (!this.validateTitle()) return;
+    if (!this.validateMeasures()) return;
     updateSelectedReflection({
       collaborators: selectedUsers.map(user =>
         _.pick(user, ['_id', 'avatar', 'pushToken', 'name']),
@@ -146,6 +150,17 @@ class EditObjectiveScreen extends React.PureComponent {
     NavigationService.goBack();
   };
 
+  validateTitle = () => {
+    return this.props.selectedReflection.data.title.length > 0;
+  };
+
+  validateMeasures = () => {
+    return (
+      this.props.selectedReflection.data.measures.length > 0 ||
+      this.state.newMeasureTitle.length > 0
+    );
+  };
+
   onPressBack = () => {
     const {selectedReflection} = this.props;
     if (this.state.newMeasureTitle.length > 0) {
@@ -195,7 +210,7 @@ class EditObjectiveScreen extends React.PureComponent {
   );
 
   render() {
-    const {showTimePicker, newMeasureTitle} = this.state;
+    const {showTimePicker, newMeasureTitle, submitted} = this.state;
     const {
       t,
       theme,
@@ -206,7 +221,8 @@ class EditObjectiveScreen extends React.PureComponent {
     const {
       data: {title, isDaily, measures, deadline},
     } = selectedReflection;
-    console.log('measures', selectedReflection);
+    const isErrorTitle = !this.validateTitle();
+    const isErrorMeasures = !this.validateMeasures();
     return (
       <MCRootView>
         <MCHeader
@@ -215,10 +231,8 @@ class EditObjectiveScreen extends React.PureComponent {
               ? t('objective_edit_title')
               : t('objective_add_title')
           }
-          hasRight={
-            title.length * (measures.length + newMeasureTitle.length) > 0
-          }
-          rightIcon={selectedReflection._id ? 'ios-cloud-upload' : 'ios-send'}
+          hasRight
+          rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
           onPressBack={() => this.onPressBack()}
         />
@@ -292,11 +306,14 @@ class EditObjectiveScreen extends React.PureComponent {
           <H4 color={theme.colors.border} mb={10}>
             {t('object_title_3')}
           </H4>
-          <MCEditableText
-            text={title}
+          <MCTextFormInput
+            label={t('object_title_3')}
             onChange={text => updateSelectedReflection({title: text})}
+            value={title}
+            submitted={submitted}
+            errorText={t('error_input_required')}
+            isInvalid={isErrorTitle}
           />
-
           <MCView row align="center" justify="space-between" mt={20}>
             <MCView row align="center">
               <MCIcon name="md-alarm" padding={1} />
@@ -371,6 +388,9 @@ class EditObjectiveScreen extends React.PureComponent {
               <MCIcon name="ios-add-circle-outline" padding={1} />
             </MCButton>
           </MCView>
+          {isErrorMeasures && submitted && (
+            <ErrorText>{t('error_input_measures')}</ErrorText>
+          )}
           <MCView row align="center" mt={20}>
             <MCIcon name="ios-person-add" padding={1} />
             <H3 ml={10} weight="bold">

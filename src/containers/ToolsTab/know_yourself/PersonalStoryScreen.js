@@ -6,7 +6,7 @@ import {reflectionActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
 import {H3, H4, MCIcon} from 'components/styled/Text';
-import {MCHeader} from 'components/common';
+import {MCHeader, MCTextFormInput, MCTagInput} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {MCTextInput} from '../../../components/styled/Text';
@@ -22,6 +22,7 @@ class PersonalStoryScreen extends React.Component {
     this.state = {
       recording: false,
       recorded: false,
+      submitted: false,
     };
   }
 
@@ -114,6 +115,25 @@ class PersonalStoryScreen extends React.Component {
       });
     }
     NavigationService.goBack();
+    }
+  validateTown = () => {
+    return this.props.selectedReflection.data.hometown.length > 0;
+  };
+
+  validateJob = () => {
+    return this.props.selectedReflection.data.first_job.length > 0;
+  };
+
+  validateChallenge = () => {
+    return this.props.selectedReflection.data.biggest_challenge.length > 0;
+  };
+
+  onPressSubmit = () => {
+    this.setState({submitted: true});
+    if (!this.validateTown()) return;
+    if (!this.validateJob()) return;
+    if (!this.validateChallenge()) return;
+    this.props.addOrUpdateReflection();
   };
 
   render() {
@@ -123,7 +143,7 @@ class PersonalStoryScreen extends React.Component {
       updateSelectedReflection,
       addOrUpdateReflection,
     } = this.props;
-    const {recording, recorded} = this.state;
+    const {recording, recorded, submitted} = this.state;
     const {
       hometown,
       number_of_kids,
@@ -132,22 +152,18 @@ class PersonalStoryScreen extends React.Component {
       biggest_challenge,
     } = selectedReflection.data;
     if (selectedReflection.type.toLowerCase() !== 'personalstory') return null;
+    const isErrorTown = !this.validateTown();
+    const isErrorJob = !this.validateJob();
+    const isErrorChallenge = !this.validateChallenge();
     return (
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight
           title={`${t('practice')} 1`}
-          rightIcon="ios-send"
-          hasRight={
-            hometown.length *
-              number_of_kids.length *
-              childhood_hobbies.length *
-              first_job.length *
-              biggest_challenge.length >
-            0
-          }
-          onPressRight={() => addOrUpdateReflection()}
           onPressBack={() => this.onPressBack()}
+          rightIcon="cloud-upload-alt"
+          hasRight
+          onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{paddingHorizontal: dySize(20)}}>
           <MCView row justify="center" align="center" mb={20}>
@@ -165,41 +181,47 @@ class PersonalStoryScreen extends React.Component {
               <MCIcon name="ios-volume-high" size={40} ml={30} />
             </MCButton>
           </MCView>
-          <H4>{t('tools_tab_hometown')}</H4>
-          <MCTextInput
-            br={10}
+          <MCTextFormInput
+            label={t('tools_tab_hometown')}
             value={hometown}
-            onChangeText={text => updateSelectedReflection({hometown: text})}
+            onChange={text => updateSelectedReflection({hometown: text})}
+            submitted={submitted}
+            errorText={t('error_input_required')}
+            isInvalid={isErrorTown}
           />
-          <H4 mt={20}>{t('tools_tab_number_of_kids')}</H4>
-          <MCTextInput
-            br={10}
+          <MCTextFormInput
+            label={t('tools_tab_number_of_kids')}
             value={number_of_kids}
             keyboardType="numeric"
-            onChangeText={value =>
+            onChange={value =>
               updateSelectedReflection({
                 number_of_kids: Math.floor(value).toString(),
               })
             }
           />
-          <H4 mt={20}>{t('tools_tab_childhood_hobby')}</H4>
+          <H4>{t('tools_tab_childhood_hobby')}</H4>
           <MCTagInput
             tags={childhood_hobbies}
             updateState={this.onUpdateChildhoodHobbies}
           />
-          <H4 mt={20}>{t('tools_tab_first_job')}</H4>
-          <MCTextInput
-            br={10}
+          <MCTextFormInput
+            mt={20}
+            label={t('tools_tab_first_job')}
             value={first_job}
             onChangeText={value => updateSelectedReflection({first_job: value})}
+            submitted={submitted}
+            errorText={t('error_input_required')}
+            isInvalid={isErrorJob}
           />
-          <H4 mt={20}>{t('tools_tab_biggest_challenge')}</H4>
-          <MCTextInput
-            br={10}
+          <MCTextFormInput
+            label={t('tools_tab_biggest_challenge')}
             value={biggest_challenge}
             onChangeText={value =>
               updateSelectedReflection({biggest_challenge: value})
             }
+            submitted={submitted}
+            errorText={t('error_input_required')}
+            isInvalid={isErrorChallenge}
           />
         </MCContent>
       </MCRootView>

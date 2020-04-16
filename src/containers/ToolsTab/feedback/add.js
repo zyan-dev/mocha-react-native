@@ -13,11 +13,14 @@ import {dySize} from 'utils/responsive';
 class AddFeedbackScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      submitted: false,
+    };
   }
 
   componentDidMount() {
     this.props.setSeletedUsers([]);
+    this.props.setSeletedQuestions([]);
   }
 
   onPressAddUser = () => {
@@ -28,22 +31,46 @@ class AddFeedbackScreen extends React.Component {
     NavigationService.navigate('SelectQuestion');
   };
 
+  onPressSend = () => {
+    this.setState({submitted: true});
+    if (!this.validateUsers()) return;
+    if (!this.validateQuestions()) return;
+    this.props.requestFeedback();
+  };
+
+  validateUsers = () => {
+    return this.props.selectedUsers.length > 0;
+  };
+
+  validateQuestions = () => {
+    return this.props.selectedQuestions.length > 0;
+  };
+
   render() {
+    const {submitted} = this.state;
     const {
       t,
+      theme,
       selectedUsers,
       deselectUser,
       selectedQuestions,
       deselectQuestion,
-      requestFeedback,
     } = this.props;
+    const userColor =
+      !this.validateUsers() && submitted
+        ? theme.colors.danger
+        : theme.colors.border;
+    const questionColor =
+      !this.validateQuestions() && submitted
+        ? theme.colors.danger
+        : theme.colors.border;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
           title={t('add_reflection_feedback_header')}
-          hasRight={selectedUsers.length * selectedQuestions.length > 0}
-          rightIcon="ios-send"
-          onPressRight={() => requestFeedback()}
+          hasRight
+          rightIcon="paper-plane"
+          onPressRight={() => this.onPressSend()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
           <H2 align="center">{t('add_feedback_heading')}</H2>
@@ -69,8 +96,9 @@ class AddFeedbackScreen extends React.Component {
                 height={60}
                 align="center"
                 br={30}
+                style={{borderColor: userColor}}
                 justify="center">
-                <MCIcon name="ios-add" size={40} />
+                <MCIcon name="ios-add" size={40} color={userColor} />
               </MCView>
             </TouchableOpacity>
           </MCView>
@@ -94,8 +122,9 @@ class AddFeedbackScreen extends React.Component {
               height={60}
               align="center"
               br={30}
+              style={{borderColor: questionColor}}
               justify="center">
-              <MCIcon name="ios-add" size={40} />
+              <MCIcon name="ios-add" size={40} color={questionColor} />
             </MCView>
           </TouchableOpacity>
         </MCContent>
@@ -105,6 +134,7 @@ class AddFeedbackScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
   selectedUsers: state.usersReducer.selectedUsers,
   selectedQuestions: state.feedbackReducer.selectedQuestions,
 });
@@ -113,6 +143,7 @@ const mapDispatchToProps = {
   deselectUser: userActions.deselectUser,
   deselectQuestion: feedbackActions.deselectQuestion,
   requestFeedback: feedbackActions.requestFeedback,
+  setSeletedQuestions: feedbackActions.setSeletedQuestions,
   setSeletedUsers: userActions.setSeletedUsers,
 };
 
