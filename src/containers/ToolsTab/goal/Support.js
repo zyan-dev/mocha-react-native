@@ -39,6 +39,7 @@ class SupportObjectiveScreen extends React.Component {
         ...item.data,
         [reaction]: item.data[reaction] ? item.data[reaction] + 1 : 1,
       },
+      reactionType: reaction,
     });
   };
 

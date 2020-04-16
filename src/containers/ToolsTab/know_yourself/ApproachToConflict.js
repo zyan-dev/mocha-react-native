@@ -9,14 +9,26 @@ import {MCButton} from 'components/styled/Button';
 import {MCHeader} from 'components/common';
 import {dySize} from 'utils/responsive';
 import {ApproachToConflictOptions} from '../../../utils/constants';
+import NavigationService from 'navigation/NavigationService';
 
 class ApproachToConflictScreen extends React.Component {
+  isNew = false;
   componentWillMount() {
-    const {approach, selectReflection, setInitialReflection} = this.props;
+    const {
+      approach,
+      selectReflection,
+      setInitialReflection,
+      reflectionDraft,
+    } = this.props;
     if (approach) {
       selectReflection(approach);
     } else {
-      setInitialReflection('approach');
+      this.isNew = true;
+      if (reflectionDraft['Approach']) {
+        selectReflection(reflectionDraft['Approach']);
+      } else {
+        setInitialReflection('approach');
+      }
     }
   }
 
@@ -33,6 +45,16 @@ class ApproachToConflictScreen extends React.Component {
     updateSelectedReflection({options});
   };
 
+  onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    if (this.isNew) {
+      saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+    NavigationService.goBack();
+  };
+
   render() {
     const {t, theme, selectedReflection} = this.props;
     if (!selectedReflection || !selectedReflection.data) return null;
@@ -43,6 +65,7 @@ class ApproachToConflictScreen extends React.Component {
           hasRight
           title={`${t('practice')} 4 - 2`}
           rightText={t('done')}
+          onPressBack={() => this.onPressBack()}
           onPressRight={() => this.props.addOrUpdateReflection()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
@@ -94,6 +117,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
   approach: selector.reflections.findMySpecialReflections(state, 'Approach'),
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -101,6 +125,7 @@ const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(

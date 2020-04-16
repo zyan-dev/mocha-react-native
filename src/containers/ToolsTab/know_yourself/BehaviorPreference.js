@@ -9,23 +9,41 @@ import {H3, H4, H5, MCIcon} from 'components/styled/Text';
 import {MCHeader} from 'components/common';
 import {BehaviorPreferences} from 'utils/constants';
 import {dySize} from 'utils/responsive';
+import NavigationService from 'navigation/NavigationService';
 
 class BehaviorPreferenceScreen extends React.Component {
+  isNew = false;
   componentWillMount() {
     const {
       myBehaviorPreference,
       selectReflection,
       setInitialReflection,
+      reflectionDraft,
     } = this.props;
     if (myBehaviorPreference) {
       selectReflection(myBehaviorPreference);
     } else {
-      setInitialReflection('behavior_preference');
+      this.isNew = true;
+      if (reflectionDraft['BehaviorPreference']) {
+        selectReflection(reflectionDraft['BehaviorPreference']);
+      } else {
+        setInitialReflection('behavior_preference');
+      }
     }
   }
 
-  onChangeSliderValue = (key) => (values) => {
+  onChangeSliderValue = key => values => {
     this.props.updateSelectedReflection({[key]: values[0]});
+  };
+
+  onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    if (this.isNew) {
+      saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+    NavigationService.goBack();
   };
 
   render() {
@@ -37,6 +55,7 @@ class BehaviorPreferenceScreen extends React.Component {
           hasRight
           title={`${t('practice')} 2 - 2`}
           rightText={t('done')}
+          onPressBack={() => this.onPressBack()}
           onPressRight={() => this.props.addOrUpdateReflection()}
         />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
@@ -47,11 +66,11 @@ class BehaviorPreferenceScreen extends React.Component {
           <H4 width={320} mb={20} color={theme.colors.border}>
             {t('tools_tab_behavior_explain')}
           </H4>
-          {BehaviorPreferences.map((preference) => (
+          {BehaviorPreferences.map(preference => (
             <MCCard width={320} bordered mb={10} p={10}>
               <H4>{t(`tools_tab_behavior_${preference}`)}</H4>
               <MultiSlider
-                customMarker={(e) => {
+                customMarker={e => {
                   return (
                     <MCView
                       width={20}
@@ -82,13 +101,14 @@ class BehaviorPreferenceScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
   myBehaviorPreference: selector.reflections.findMySpecialReflections(
     state,
     'BehaviorPreference',
   ),
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -96,8 +116,12 @@ const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(BehaviorPreferenceScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(BehaviorPreferenceScreen),
 );

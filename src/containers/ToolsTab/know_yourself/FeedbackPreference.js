@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import * as _ from 'lodash';
 import {reflectionActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
@@ -22,16 +23,24 @@ class FeedbackPreferenceScreen extends React.Component {
     };
   }
 
+  isNew = false;
+
   componentWillMount() {
     const {
       myFeedbackPreference,
       selectReflection,
+      reflectionDraft,
       setInitialReflection,
     } = this.props;
     if (myFeedbackPreference) {
       selectReflection(myFeedbackPreference);
     } else {
-      setInitialReflection('feedback_preference');
+      this.isNew = true;
+      if (reflectionDraft['FeedbackPreference']) {
+        selectReflection(reflectionDraft['FeedbackPreference']);
+      } else {
+        setInitialReflection('feedback_preference');
+      }
     }
   }
 
@@ -68,8 +77,14 @@ class FeedbackPreferenceScreen extends React.Component {
   };
 
   onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
     const {step} = this.state;
     if (step === 1) {
+      if (this.isNew) {
+        saveReflectionDraft({
+          [selectedReflection.type]: selectedReflection,
+        });
+      }
       NavigationService.goBack();
     } else {
       this.setState({step: 1});
@@ -215,6 +230,7 @@ const mapStateToProps = state => ({
     state,
     'FeedbackPreference',
   ),
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -222,6 +238,7 @@ const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(

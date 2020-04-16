@@ -11,6 +11,7 @@ import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {MCTextInput} from '../../../components/styled/Text';
 import {MCTagInput} from '../../../components/common';
+import NavigationService from 'navigation/NavigationService';
 
 var Sound = require('react-native-sound');
 Sound.setCategory('Playback');
@@ -24,17 +25,24 @@ class PersonalStoryScreen extends React.Component {
     };
   }
 
+  isNew = false;
+
   componentWillMount() {
     const {
       myPersonalStory,
       selectReflection,
+      reflectionDraft,
       setInitialReflection,
     } = this.props;
-    console.log({myPersonalStory});
     if (myPersonalStory) {
       selectReflection(myPersonalStory);
     } else {
-      setInitialReflection('personalStory');
+      this.isNew = true;
+      if (reflectionDraft['PersonalStory']) {
+        selectReflection(reflectionDraft['PersonalStory']);
+      } else {
+        setInitialReflection('personalStory');
+      }
     }
   }
 
@@ -63,7 +71,7 @@ class PersonalStoryScreen extends React.Component {
   onPressPlayback = () => {
     if (this.whoosh) {
       this.whoosh.stop();
-      this.whoosh.play((success) => {
+      this.whoosh.play(success => {
         if (success) {
           console.log('successfully finished playing');
         } else {
@@ -71,7 +79,7 @@ class PersonalStoryScreen extends React.Component {
         }
       });
     } else {
-      this.whoosh = new Sound('pronounce.wav', Sound.MAIN_BUNDLE, (error) => {
+      this.whoosh = new Sound('pronounce.wav', Sound.MAIN_BUNDLE, error => {
         if (error) {
           console.log('failed to load the sound', error);
           return;
@@ -84,7 +92,7 @@ class PersonalStoryScreen extends React.Component {
             this.whoosh.getNumberOfChannels(),
         );
       });
-      this.whoosh.play((success) => {
+      this.whoosh.play(success => {
         if (success) {
           console.log('successfully finished playing');
         } else {
@@ -94,8 +102,18 @@ class PersonalStoryScreen extends React.Component {
     }
   };
 
-  onUpdateChildhoodHobbies = (state) => {
+  onUpdateChildhoodHobbies = state => {
     this.props.updateSelectedReflection({childhood_hobbies: state.tagsArray});
+  };
+
+  onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    if (this.isNew) {
+      saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+    NavigationService.goBack();
   };
 
   render() {
@@ -129,6 +147,7 @@ class PersonalStoryScreen extends React.Component {
             0
           }
           onPressRight={() => addOrUpdateReflection()}
+          onPressBack={() => this.onPressBack()}
         />
         <MCContent contentContainerStyle={{paddingHorizontal: dySize(20)}}>
           <MCView row justify="center" align="center" mb={20}>
@@ -150,14 +169,14 @@ class PersonalStoryScreen extends React.Component {
           <MCTextInput
             br={10}
             value={hometown}
-            onChangeText={(text) => updateSelectedReflection({hometown: text})}
+            onChangeText={text => updateSelectedReflection({hometown: text})}
           />
           <H4 mt={20}>{t('tools_tab_number_of_kids')}</H4>
           <MCTextInput
             br={10}
             value={number_of_kids}
             keyboardType="numeric"
-            onChangeText={(value) =>
+            onChangeText={value =>
               updateSelectedReflection({
                 number_of_kids: Math.floor(value).toString(),
               })
@@ -172,15 +191,13 @@ class PersonalStoryScreen extends React.Component {
           <MCTextInput
             br={10}
             value={first_job}
-            onChangeText={(value) =>
-              updateSelectedReflection({first_job: value})
-            }
+            onChangeText={value => updateSelectedReflection({first_job: value})}
           />
           <H4 mt={20}>{t('tools_tab_biggest_challenge')}</H4>
           <MCTextInput
             br={10}
             value={biggest_challenge}
-            onChangeText={(value) =>
+            onChangeText={value =>
               updateSelectedReflection({biggest_challenge: value})
             }
           />
@@ -190,12 +207,13 @@ class PersonalStoryScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   selectedReflection: state.reflectionReducer.selectedReflection,
   myPersonalStory: selector.reflections.findMySpecialReflections(
     state,
     'PersonalStory',
   ),
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -203,8 +221,12 @@ const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(PersonalStoryScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PersonalStoryScreen),
 );

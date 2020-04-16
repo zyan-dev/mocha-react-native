@@ -32,7 +32,12 @@ class EditObjectiveScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.setState({origin: this.props.selectedReflection});
+    const {reflectionDraft, selectReflection, selectedReflection} = this.props;
+    this.setState({origin: selectedReflection});
+    // Don't load saved draft on edit screen
+    if (!selectedReflection._id && reflectionDraft['Objective']) {
+      selectReflection(reflectionDraft['Objective']);
+    }
   }
 
   onPressRight = () => {
@@ -56,6 +61,7 @@ class EditObjectiveScreen extends React.PureComponent {
     this.updateCommitHistory();
     setTimeout(() => {
       this.props.addOrUpdateReflection();
+      this.props.saveReflectionDraft({Objective: undefined});
     });
   };
 
@@ -141,10 +147,19 @@ class EditObjectiveScreen extends React.PureComponent {
   };
 
   onPressBack = () => {
-    // const {selectedReflection} = this.props;
-    // this.props.saveReflectionDraft({
-    //   [selectedReflection.type]: selectedReflection,
-    // });
+    const {selectedReflection} = this.props;
+    if (this.state.newMeasureTitle.length > 0) {
+      selectedReflection.data.measures.push({
+        title: this.state.newMeasureTitle,
+      });
+    }
+    // save draft for add new screens only(not edit screen)
+    if (!selectedReflection._id) {
+      this.props.saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+
     NavigationService.goBack();
   };
 
@@ -191,7 +206,7 @@ class EditObjectiveScreen extends React.PureComponent {
     const {
       data: {title, isDaily, measures, deadline},
     } = selectedReflection;
-    console.log('measures', measures);
+    console.log('measures', selectedReflection);
     return (
       <MCRootView>
         <MCHeader
@@ -397,6 +412,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
   selectedUsers: state.usersReducer.selectedUsers,
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -404,6 +420,7 @@ const mapDispatchToProps = {
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
   removeReflection: reflectionActions.removeReflection,
   saveReflectionDraft: reflectionActions.saveReflectionDraft,
+  selectReflection: reflectionActions.selectReflection,
   deselectUser: userActions.deselectUser,
   updateAnalyzeStatus: otherActions.updateAnalyzeStatus,
 };

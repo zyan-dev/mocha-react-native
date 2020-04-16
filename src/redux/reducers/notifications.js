@@ -1,7 +1,7 @@
 import * as types from '../actions/types';
 
 const INITIAL_STATE = {
-  dailyCheckIn: {
+  supportReminder: {
     daily_time: '00:00:00.000Z',
     enabled: true,
   },

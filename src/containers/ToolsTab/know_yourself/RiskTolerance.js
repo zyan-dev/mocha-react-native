@@ -10,18 +10,30 @@ import {MCButton} from 'components/styled/Button';
 import {MCHeader} from 'components/common';
 import {RiskTolerances} from 'utils/constants';
 import {dySize} from 'utils/responsive';
+import NavigationService from 'navigation/NavigationService';
 
 class RiskToleranceScreen extends React.Component {
+  isNew = false;
   componentWillMount() {
-    const {riskTolerance, selectReflection, setInitialReflection} = this.props;
+    const {
+      riskTolerance,
+      selectReflection,
+      setInitialReflection,
+      reflectionDraft,
+    } = this.props;
     if (riskTolerance) {
       selectReflection(riskTolerance);
     } else {
-      setInitialReflection('risk_tolerance');
+      this.isNew = true;
+      if (reflectionDraft['RiskTolerance']) {
+        selectReflection(reflectionDraft['RiskTolerance']);
+      } else {
+        setInitialReflection('risk_tolerance');
+      }
     }
   }
 
-  onPressItem = (key) => {
+  onPressItem = key => {
     const {
       selectedReflection: {
         data: {options},
@@ -34,6 +46,16 @@ class RiskToleranceScreen extends React.Component {
     updateSelectedReflection({options});
   };
 
+  onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    if (this.isNew) {
+      saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+    NavigationService.goBack();
+  };
+
   render() {
     const {t, theme, selectedReflection} = this.props;
     if (!selectedReflection || !selectedReflection.data) return null;
@@ -44,6 +66,7 @@ class RiskToleranceScreen extends React.Component {
           hasRight
           title={`${t('practice')} 2 - 2`}
           rightText={t('done')}
+          onPressBack={() => this.onPressBack()}
           onPressRight={() => this.props.addOrUpdateReflection()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
@@ -56,7 +79,7 @@ class RiskToleranceScreen extends React.Component {
             {t(`select_all_that_apply`)}
           </H4>
           <MCView row wrap justify="space-between">
-            {RiskTolerances.map((key) => (
+            {RiskTolerances.map(key => (
               <MCButton
                 bordered
                 width={key === 'template' ? 335 : 160}
@@ -93,13 +116,14 @@ class RiskToleranceScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
   riskTolerance: selector.reflections.findMySpecialReflections(
     state,
     'RiskTolerance',
   ),
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -107,8 +131,12 @@ const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(RiskToleranceScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(RiskToleranceScreen),
 );
