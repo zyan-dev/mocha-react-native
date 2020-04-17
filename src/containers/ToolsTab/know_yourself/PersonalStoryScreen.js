@@ -10,11 +10,12 @@ import {
 import {reflectionActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
-import {H3, H4, MCIcon} from 'components/styled/Text';
+import {H3, H4, MCIcon, MCTextInput} from 'components/styled/Text';
 import {MCHeader, MCTextFormInput, MCTagInput} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {s3_Options} from 'utils/config';
+import NavigationService from 'navigation/NavigationService';
 
 class PersonalStoryScreen extends React.Component {
   constructor(props) {
@@ -29,17 +30,24 @@ class PersonalStoryScreen extends React.Component {
     };
   }
 
+  isNew = false;
+
   componentWillMount() {
     const {
       myPersonalStory,
       selectReflection,
+      reflectionDraft,
       setInitialReflection,
     } = this.props;
-    console.log({myPersonalStory});
     if (myPersonalStory) {
       selectReflection(myPersonalStory);
     } else {
-      setInitialReflection('personalStory');
+      this.isNew = true;
+      if (reflectionDraft['PersonalStory']) {
+        selectReflection(reflectionDraft['PersonalStory']);
+      } else {
+        setInitialReflection('personalStory');
+      }
     }
   }
 
@@ -151,6 +159,15 @@ class PersonalStoryScreen extends React.Component {
     this.props.updateSelectedReflection({childhood_hobbies: state.tagsArray});
   };
 
+  onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    if (this.isNew) {
+      saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+    NavigationService.goBack();
+  };
   validateTown = () => {
     return this.props.selectedReflection.data.hometown.length > 0;
   };
@@ -190,6 +207,7 @@ class PersonalStoryScreen extends React.Component {
         <MCHeader
           hasRight
           title={`${t('practice')} 1`}
+          onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           hasRight
           onPressRight={() => this.onPressSubmit()}
@@ -272,6 +290,7 @@ const mapStateToProps = state => ({
     'PersonalStory',
   ),
   profile: state.profileReducer,
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -279,6 +298,7 @@ const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(

@@ -12,7 +12,7 @@ import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 
 const NotificationKeys = [
-  'dailyCheckIn',
+  'supportReminder',
   'dailyReflection',
   'feedbackReceived',
   'feedbackRequested',
@@ -38,7 +38,7 @@ class ManageNotifications extends React.Component {
     NavigationService.goBack();
   };
 
-  onPressTime = (key) => {
+  onPressTime = key => {
     this.setState({dateKey: key, showTimePicker: true});
   };
 
@@ -51,7 +51,7 @@ class ManageNotifications extends React.Component {
     this.props.setNotificationSettings(notifications);
   };
 
-  onChangeTime = (time) => {
+  onChangeTime = time => {
     const {dateKey} = this.state;
     const {notifications} = this.props;
     const daily_time = new Date(time).toISOString().split('T')[1];
@@ -80,52 +80,50 @@ class ManageNotifications extends React.Component {
           <MCView align="center">
             <MCView width={345}>
               <H4>{t('notification_topText')}</H4>
-              {Object.keys(_.pick(notifications, NotificationKeys)).map(
-                (key) => {
-                  const setting = notifications[key];
-                  return (
-                    <MCCard shadow mt={10}>
-                      <MCView row>
-                        <MCView style={{flex: 1}} p={5}>
-                          <H3>{t(`notification_${key}_title`)}</H3>
-                          <H4 color={theme.colors.border}>
-                            {t(`notification_${key}_description`)}
-                          </H4>
-                        </MCView>
-                        <MCView mt={10}>
-                          <ToggleSwitch
-                            isOn={setting.enabled}
-                            onColor={theme.colors.toggle_on}
-                            offColor={theme.colors.toggle_off}
-                            size="medium"
-                            onToggle={(isOn) => this.onToggle(key, isOn)}
-                          />
-                        </MCView>
+              {Object.keys(_.pick(notifications, NotificationKeys)).map(key => {
+                const setting = notifications[key];
+                return (
+                  <MCCard shadow mt={10}>
+                    <MCView row>
+                      <MCView style={{flex: 1}} p={5}>
+                        <H3>{t(`notification_${key}_title`)}</H3>
+                        <H4 color={theme.colors.border}>
+                          {t(`notification_${key}_description`)}
+                        </H4>
                       </MCView>
-                      {setting.enabled && setting.daily_time && (
-                        <MCButton
-                          row
-                          align="center"
-                          style={{
-                            borderTopColor: theme.colors.border,
-                            borderTopWidth: 1,
-                          }}
-                          mt={10}
-                          ph={-10}
-                          onPress={() => this.onPressTime(key)}>
-                          <MCIcon name="md-alarm" />
-                          <H4 style={{flex: 1}}>
-                            {moment(`2001-01-01T${setting.daily_time}`).format(
-                              'hh:mm A',
-                            )}
-                          </H4>
-                          <MCIcon name="ios-arrow-forward" />
-                        </MCButton>
-                      )}
-                    </MCCard>
-                  );
-                },
-              )}
+                      <MCView mt={10}>
+                        <ToggleSwitch
+                          isOn={setting.enabled}
+                          onColor={theme.colors.toggle_on}
+                          offColor={theme.colors.toggle_off}
+                          size="medium"
+                          onToggle={isOn => this.onToggle(key, isOn)}
+                        />
+                      </MCView>
+                    </MCView>
+                    {setting.enabled && setting.daily_time && (
+                      <MCButton
+                        row
+                        align="center"
+                        style={{
+                          borderTopColor: theme.colors.border,
+                          borderTopWidth: 1,
+                        }}
+                        mt={10}
+                        ph={-10}
+                        onPress={() => this.onPressTime(key)}>
+                        <MCIcon name="md-alarm" />
+                        <H4 style={{flex: 1}}>
+                          {moment(`2001-01-01T${setting.daily_time}`).format(
+                            'hh:mm A',
+                          )}
+                        </H4>
+                        <MCIcon name="ios-arrow-forward" />
+                      </MCButton>
+                    )}
+                  </MCCard>
+                );
+              })}
             </MCView>
           </MCView>
         </MCContent>
@@ -144,7 +142,7 @@ class ManageNotifications extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   notifications: state.notificationReducer,
 });
@@ -156,5 +154,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ManageNotifications),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ManageNotifications),
 );

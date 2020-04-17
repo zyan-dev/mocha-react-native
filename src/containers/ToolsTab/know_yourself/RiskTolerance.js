@@ -10,6 +10,7 @@ import {MCButton} from 'components/styled/Button';
 import {MCHeader} from 'components/common';
 import {RiskTolerances} from 'utils/constants';
 import {dySize} from 'utils/responsive';
+import NavigationService from 'navigation/NavigationService';
 
 class RiskToleranceScreen extends React.Component {
   constructor(props) {
@@ -18,12 +19,23 @@ class RiskToleranceScreen extends React.Component {
       submitted: false,
     };
   }
+isNew = false;
   componentWillMount() {
-    const {riskTolerance, selectReflection, setInitialReflection} = this.props;
+    const {
+      riskTolerance,
+      selectReflection,
+      setInitialReflection,
+      reflectionDraft,
+    } = this.props;
     if (riskTolerance) {
       selectReflection(riskTolerance);
     } else {
-      setInitialReflection('risk_tolerance');
+      this.isNew = true;
+      if (reflectionDraft['RiskTolerance']) {
+        selectReflection(reflectionDraft['RiskTolerance']);
+      } else {
+        setInitialReflection('risk_tolerance');
+      }
     }
   }
 
@@ -40,6 +52,15 @@ class RiskToleranceScreen extends React.Component {
     updateSelectedReflection({options});
   };
 
+  onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    if (this.isNew) {
+      saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+    NavigationService.goBack();
+    }
   onPressSubmit = () => {
     this.setState({submitted: true});
     if (!this.validateOptions()) return;
@@ -60,6 +81,7 @@ class RiskToleranceScreen extends React.Component {
         <MCHeader
           hasRight
           title={`${t('practice')} 2 - 2`}
+          onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}
         />
@@ -118,6 +140,7 @@ const mapStateToProps = state => ({
     state,
     'RiskTolerance',
   ),
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -125,6 +148,7 @@ const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(

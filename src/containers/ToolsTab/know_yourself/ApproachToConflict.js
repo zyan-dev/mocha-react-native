@@ -9,6 +9,7 @@ import {H3, H4, ErrorText, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader} from 'components/common';
 import {dySize} from 'utils/responsive';
+import NavigationService from 'navigation/NavigationService';
 import {ApproachToConflictOptions} from 'utils/constants';
 
 class ApproachToConflictScreen extends React.Component {
@@ -18,12 +19,23 @@ class ApproachToConflictScreen extends React.Component {
       submitted: false,
     };
   }
+  isNew = false;
   componentWillMount() {
-    const {approach, selectReflection, setInitialReflection} = this.props;
+    const {
+      approach,
+      selectReflection,
+      setInitialReflection,
+      reflectionDraft,
+    } = this.props;
     if (approach) {
       selectReflection(approach);
     } else {
-      setInitialReflection('approach');
+      this.isNew = true;
+      if (reflectionDraft['Approach']) {
+        selectReflection(reflectionDraft['Approach']);
+      } else {
+        setInitialReflection('approach');
+      }
     }
   }
 
@@ -40,6 +52,15 @@ class ApproachToConflictScreen extends React.Component {
     updateSelectedReflection({options});
   };
 
+  onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    if (this.isNew) {
+      saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+    NavigationService.goBack();
+    }
   onPressSubmit = () => {
     this.setState({submitted: true});
     if (!this.validateOptions()) return;
@@ -60,6 +81,7 @@ class ApproachToConflictScreen extends React.Component {
         <MCHeader
           hasRight
           title={`${t('practice')} 4 - 2`}
+          onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}
         />
@@ -113,6 +135,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
   approach: selector.reflections.findMySpecialReflections(state, 'Approach'),
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -120,6 +143,7 @@ const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(

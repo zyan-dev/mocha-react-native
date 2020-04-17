@@ -224,9 +224,11 @@ class TapToCountScreen extends React.Component {
           <MCButton onPress={() => this.setState({addingNew: false})}>
             <MCIcon name="ios-close-circle-outline" size={30} />
           </MCButton>
-          <MCButton onPress={() => this.onAddNew()}>
-            <MCIcon name="ios-add" size={40} />
-          </MCButton>
+          {newText.length > 0 && (
+            <MCButton onPress={() => this.onAddNew()}>
+              <MCIcon name="ios-add" size={40} />
+            </MCButton>
+          )}
         </MCView>
       </MCView>
     );

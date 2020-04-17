@@ -9,23 +9,41 @@ import {H3, H4, H5, MCIcon} from 'components/styled/Text';
 import {MCHeader} from 'components/common';
 import {BehaviorPreferences} from 'utils/constants';
 import {dySize} from 'utils/responsive';
+import NavigationService from 'navigation/NavigationService';
 
 class BehaviorPreferenceScreen extends React.Component {
+  isNew = false;
   componentWillMount() {
     const {
       myBehaviorPreference,
       selectReflection,
       setInitialReflection,
+      reflectionDraft,
     } = this.props;
     if (myBehaviorPreference) {
       selectReflection(myBehaviorPreference);
     } else {
-      setInitialReflection('behavior_preference');
+      this.isNew = true;
+      if (reflectionDraft['BehaviorPreference']) {
+        selectReflection(reflectionDraft['BehaviorPreference']);
+      } else {
+        setInitialReflection('behavior_preference');
+      }
     }
   }
 
   onChangeSliderValue = key => values => {
     this.props.updateSelectedReflection({[key]: values[0]});
+  };
+
+  onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    if (this.isNew) {
+      saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+    NavigationService.goBack();
   };
 
   render() {
@@ -36,6 +54,7 @@ class BehaviorPreferenceScreen extends React.Component {
         <MCHeader
           hasRight
           title={`${t('practice')} 2 - 2`}
+          onPressBack={() => this.onPressBack()}
           righhtIcon="cloud-upload-alt"
           onPressRight={() => this.props.addOrUpdateReflection()}
         />
@@ -89,6 +108,7 @@ const mapStateToProps = state => ({
     state,
     'BehaviorPreference',
   ),
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -96,6 +116,7 @@ const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(

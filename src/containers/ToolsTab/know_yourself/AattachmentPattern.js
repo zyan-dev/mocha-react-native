@@ -11,6 +11,7 @@ import {MCButton} from 'components/styled/Button';
 import {MCHeader} from 'components/common';
 import {dySize} from 'utils/responsive';
 import {AttachmentOptions} from '../../../utils/constants';
+import NavigationService from 'navigation/NavigationService';
 
 const EmbededLink = 'https://www.youtube.com/watch?v-2sgACDMcpjA';
 
@@ -22,12 +23,23 @@ class AttachmentPatternScreen extends React.Component {
       submitted: false,
     };
   }
+  isNew = false;
   componentWillMount() {
-    const {attachment, selectReflection, setInitialReflection} = this.props;
+    const {
+      attachment,
+      selectReflection,
+      setInitialReflection,
+      reflectionDraft,
+    } = this.props;
     if (attachment) {
       selectReflection(attachment);
     } else {
-      setInitialReflection('attachment');
+      this.isNew = true;
+      if (reflectionDraft['Attachment']) {
+        selectReflection(reflectionDraft['Attachment']);
+      } else {
+        setInitialReflection('attachment');
+      }
     }
   }
 
@@ -62,6 +74,15 @@ class AttachmentPatternScreen extends React.Component {
     }
   };
 
+  onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    if (this.isNew) {
+      saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+    NavigationService.goBack();
+    }
   onPressSubmit = () => {
     this.setState({submitted: true});
     if (!this.validateOptions()) return;
@@ -82,6 +103,7 @@ class AttachmentPatternScreen extends React.Component {
         <MCHeader
           hasRight
           title={`${t('practice')} 4 - 1`}
+          onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}
         />
@@ -148,6 +170,7 @@ const mapStateToProps = state => ({
     state,
     'Attachment',
   ),
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
@@ -155,6 +178,7 @@ const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(

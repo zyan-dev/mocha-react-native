@@ -39,6 +39,14 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
         ...state,
         selectedReflection: action.payload,
       };
+    case types.SAVE_REFLECTION_DRAFT:
+      return {
+        ...state,
+        draft: {
+          ...state.draft,
+          ...action.payload,
+        },
+      };
     case types.ADD_CUSTOM_REFLECTION_TITLE:
       return {
         ...state,

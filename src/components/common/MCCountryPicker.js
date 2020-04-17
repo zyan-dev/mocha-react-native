@@ -40,7 +40,7 @@ class MCCountryPicker extends React.Component {
     const {cca2} = this.state;
     const {width, onChangeInput} = this.props;
     return (
-      <MCView row align="center" width={width}>
+      <MCView row align="center" width={width} ph={2}>
         <View style={{width: 0, height: 0, overflow: 'hidden'}}>
           <PhoneInput
             ref={ref => {
