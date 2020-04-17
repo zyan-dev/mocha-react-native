@@ -357,11 +357,13 @@ export function* resetMyObjectives(action) {
       .filter(({data}) => !data.isDaily);
     weeklyObjectives.map(objective => {
       const weekNumber = _.get(objective, ['data', 'weekNum'], 0);
-      if (weekNumber < getWeekNumber(new Date())) {
+      const todayWeekNumber = getWeekNumber(new Date());
+      if (weekNumber < todayWeekNumber) {
         updateParam.push({
           _id: objective._id,
           data: {
             ...objective.data,
+            weekNum: todayWeekNumber,
             measures: objective.data.measures.map(measure => ({
               title: measure.title,
             })),
