@@ -2,20 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {RNS3} from 'react-native-aws3/lib/RNS3';
-import {
-  Player,
-  Recorder,
-  MediaStates,
-} from '@react-native-community/audio-toolkit';
+import {Player, Recorder} from '@react-native-community/audio-toolkit';
 import {reflectionActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
-import {H3, H4, MCIcon, MCTextInput} from 'components/styled/Text';
+import {H3, H4, MCIcon, ErrorText} from 'components/styled/Text';
 import {MCHeader, MCTextFormInput, MCTagInput} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {s3_Options} from 'utils/config';
 import NavigationService from 'navigation/NavigationService';
+import {showAlert} from 'services/operators';
 
 class PersonalStoryScreen extends React.Component {
   constructor(props) {
@@ -24,9 +21,8 @@ class PersonalStoryScreen extends React.Component {
       recording: false,
       saving: false,
       audioFilePath: '',
-      audioFileUrl: '',
       submitted: false,
-      error: '',
+      preparingPlayer: false,
     };
   }
 
@@ -52,22 +48,28 @@ class PersonalStoryScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.recorder = new Recorder(`pronounce_${this.props.profile._id}.wav`, {
+    this.checkRecordPermission();
+  }
+
+  prepareRecorder = () => {
+    const {profile} = this.props;
+    // Preparing record
+    this.recorder = new Recorder(`pronounce_${profile._id}.mp4`, {
       bitrate: 256000,
       channels: 2,
       sampleRate: 44100,
       quality: 'max',
     }).prepare((err, fsPath) => {
-      this.setState({audioFilePath: fsPath}); // for example
+      if (err) {
+        console.log('Recorder Prepare error: ', err);
+        this.prepareRecorder();
+      } else {
+        this.setState({audioFilePath: fsPath}); // for example
+      }
     });
-    this.checkRecordPermission();
-  }
+  };
 
   checkRecordPermission() {
-    if (this.player) {
-      this.player.destroy();
-    }
-
     let recordAudioRequest;
     if (Platform.OS == 'android') {
       recordAudioRequest = this._requestRecordAudioPermission();
@@ -76,14 +78,12 @@ class PersonalStoryScreen extends React.Component {
         resolve(true);
       });
     }
-
     recordAudioRequest.then(hasPermission => {
       if (!hasPermission) {
-        this.setState({
-          error: 'Record Audio Permission was denied',
-        });
+        showAlert('Record Audio Permission was denied');
         return;
       }
+      this.prepareRecorder();
     });
   }
 
@@ -115,27 +115,42 @@ class PersonalStoryScreen extends React.Component {
     const {recording} = this.state;
     if (!this.recorder) return;
     if (!recording) {
-      this.recorder.record();
-      this.setState({recording: true, saving: false, audioFileUrl: ''});
+      if (this.recorder) {
+        this.recorder.destroy();
+      }
+      this.recorder.record(error => {
+        console.log('record start error', error);
+      });
+      this.setState({
+        recording: true,
+        saving: false,
+      });
     } else {
-      const path = await this.recorder.stop();
-      console.log({path});
-      this.uploadAudioRecorded(path._path);
+      await this.recorder.stop();
+      this.uploadAudioRecorded();
     }
   };
 
   onPressPlayback = () => {
+    const {selectedReflection} = this.props;
     if (this.player) {
       this.player.destroy();
     }
-    this.player = new Player(this.state.audioFilePath).play();
+    this.setState({preparingPlayer: true});
+    this.player = new Player(selectedReflection.data.pronounce, {
+      autoDestroy: false,
+    }).prepare(err => {
+      this.setState({preparingPlayer: false});
+      if (err) showAlert('Player Prepare error: ' + err);
+      else this.player.play();
+    });
   };
 
-  uploadAudioRecorded = async path => {
+  uploadAudioRecorded = async () => {
     const file = {
       uri: this.state.audioFilePath,
-      name: `pronounce_${this.props.profile._id}`,
-      type: `audio/wav`,
+      name: `pronounce_${this.props.profile._id}.mp4`,
+      type: `audio/mp4`,
     };
     this.setState({recording: false, saving: true});
     const response = await RNS3.put(file, s3_Options);
@@ -144,14 +159,9 @@ class PersonalStoryScreen extends React.Component {
       this.setState({recording: false, saving: false});
       return 'error';
     } else {
-      console.log(
-        'Audio uploaded successfully!',
-        response.body.postResponse.location,
-      );
-      this.setState({
-        saving: false,
-        audioFileUrl: response.body.postResponse.location,
-      });
+      const audioURL = response.body.postResponse.location;
+      this.props.updateSelectedReflection({pronounce: audioURL});
+      this.setState({saving: false});
     }
   };
 
@@ -168,6 +178,11 @@ class PersonalStoryScreen extends React.Component {
     }
     NavigationService.goBack();
   };
+
+  validateAudio = () => {
+    return this.props.selectedReflection.data.pronounce.length > 0;
+  };
+
   validateTown = () => {
     return this.props.selectedReflection.data.hometown.length > 0;
   };
@@ -182,6 +197,7 @@ class PersonalStoryScreen extends React.Component {
 
   onPressSubmit = () => {
     this.setState({submitted: true});
+    if (!this.validateAudio()) return;
     if (!this.validateTown()) return;
     if (!this.validateJob()) return;
     if (!this.validateChallenge()) return;
@@ -190,7 +206,13 @@ class PersonalStoryScreen extends React.Component {
 
   render() {
     const {t, selectedReflection, updateSelectedReflection} = this.props;
-    const {recording, saving, audioFileUrl, submitted, error} = this.state;
+    const {
+      recording,
+      saving,
+      submitted,
+      audioFilePath,
+      preparingPlayer,
+    } = this.state;
     const {
       hometown,
       number_of_kids,
@@ -199,6 +221,7 @@ class PersonalStoryScreen extends React.Component {
       biggest_challenge,
     } = selectedReflection.data;
     if (selectedReflection.type.toLowerCase() !== 'personalstory') return null;
+    const isErrorAudio = !this.validateAudio();
     const isErrorTown = !this.validateTown();
     const isErrorJob = !this.validateJob();
     const isErrorChallenge = !this.validateChallenge();
@@ -218,23 +241,24 @@ class PersonalStoryScreen extends React.Component {
             <MCIcon type="FontAwesome5" name="baby" size={30} />
           </MCView>
           <H4>{t('tools_tab_how_pronounce')}</H4>
-          {error.length > 0 ? (
-            <H4 style={{flex: 1}}>{error}</H4>
-          ) : (
+          {isErrorAudio && submitted && (
+            <ErrorText>{t('error_input_audio')}</ErrorText>
+          )}
+          {audioFilePath !== undefined && audioFilePath.length > 0 && (
             <MCView row justify="space-between" align="center">
               <MCButton onPress={() => this.onPressRecord()}>
                 <MCIcon name={recording ? 'ios-square' : 'ios-mic'} size={40} />
               </MCButton>
-              {recording && <H4 style={{flex: 1}}>Recording...</H4>}
-              {saving && <H4 style={{flex: 1}}>Saving...</H4>}
-              <MCButton
-                onPress={() => this.onPressPlayback()}
-                disabled={audioFileUrl.length === 0}>
-                <MCIcon name="ios-volume-high" size={40} ml={30} />
-              </MCButton>
+              {recording && <H4 style={{flex: 1}}>{t('recording')}</H4>}
+              {saving && <H4 style={{flex: 1}}>{t('record_saving')}</H4>}
+              {!isErrorAudio && !recording && !saving && (
+                <MCButton bordered onPress={() => this.onPressPlayback()}>
+                  {/* <MCIcon name="ios-volume-high" size={40} ml={30} /> */}
+                  <H4>{preparingPlayer ? t('loading') : t('playback')}</H4>
+                </MCButton>
+              )}
             </MCView>
           )}
-
           <MCTextFormInput
             label={t('tools_tab_hometown')}
             value={hometown}
