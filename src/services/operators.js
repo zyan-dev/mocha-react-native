@@ -116,9 +116,7 @@ export const getTodayStartDateStamp = () => {
 };
 
 export const getWeekStartDateStamp = () => {
-  return (
-    getTodayStartDateStamp() - (getWeekNumber(new Date()) - 1) * 86400 * 1000
-  );
+  return getTodayStartDateStamp() - new Date().getDay() * 86400 * 1000;
 };
 
 export const getUpdatedMeasures = (measures, origin) => {

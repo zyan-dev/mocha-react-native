@@ -55,7 +55,7 @@ class BehaviorPreferenceScreen extends React.Component {
           hasRight
           title={`${t('practice')} 2 - 2`}
           onPressBack={() => this.onPressBack()}
-          righhtIcon="cloud-upload-alt"
+          rightIcon="cloud-upload-alt"
           onPressRight={() => this.props.addOrUpdateReflection()}
         />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
