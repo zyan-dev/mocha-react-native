@@ -3,20 +3,19 @@ import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import CheckBox from 'react-native-check-box';
 import {FlatList} from 'react-native-gesture-handler';
-import moment from 'moment';
 import * as _ from 'lodash';
 import {reflectionActions, userActions, otherActions} from 'Redux/actions';
 import {
   MCHeader,
   MCEditableText,
   MCImage,
-  MCDateTimePicker,
   MCTextFormInput,
+  MCPicker,
 } from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, MCIcon, ErrorText} from 'components/styled/Text';
-import {getAfterDate, getUpdatedMeasures} from 'services/operators';
+import {getUpdatedMeasures} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {WeekDays} from 'utils/constants';
@@ -25,7 +24,6 @@ class EditObjectiveScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      showTimePicker: false,
       newMeasureTitle: '',
       origin: {},
       submitted: false,
@@ -104,18 +102,6 @@ class EditObjectiveScreen extends React.PureComponent {
       }
     });
     updateSelectedReflection({measures: updated});
-  };
-
-  onChangeTime = time => {
-    const {updateSelectedReflection} = this.props;
-    updateSelectedReflection({
-      deadline: new Date(time).getTime() + 86400 + 1000,
-    }); // set deadline to end of the day
-    this.hideDatePicker();
-  };
-
-  hideDatePicker = () => {
-    this.setState({showTimePicker: false});
   };
 
   onRemoveMeasure = measure => {
@@ -210,7 +196,7 @@ class EditObjectiveScreen extends React.PureComponent {
   );
 
   render() {
-    const {showTimePicker, newMeasureTitle, submitted} = this.state;
+    const {newMeasureTitle, submitted} = this.state;
     const {
       t,
       theme,
@@ -221,6 +207,7 @@ class EditObjectiveScreen extends React.PureComponent {
     const {
       data: {title, isDaily, measures, deadline},
     } = selectedReflection;
+    console.log({deadline});
     const isErrorTitle = !this.validateTitle();
     const isErrorMeasures = !this.validateMeasures();
     return (
@@ -284,9 +271,9 @@ class EditObjectiveScreen extends React.PureComponent {
               ) : (
                 <MCView row align="center" mr={10}>
                   <MCIcon name="md-alarm" />
-                  <H4>{`${t('by')} ${
-                    WeekDays[new Date(deadline).getDay()].long
-                  }`}</H4>
+                  <H4>{`${t('by')} ${t(
+                    `week_${WeekDays[deadline].long.toLowerCase()}`,
+                  )}`}</H4>
                 </MCView>
               )}
             </MCView>
@@ -314,23 +301,35 @@ class EditObjectiveScreen extends React.PureComponent {
             errorText={t('error_input_required')}
             isInvalid={isErrorTitle}
           />
-          <MCView row align="center" justify="space-between" mt={20}>
-            <MCView row align="center">
-              <MCIcon name="md-alarm" padding={1} />
-              <H3 ml={10} weight="bold">
-                {'By when?'}
-              </H3>
-            </MCView>
+          <MCView row align="center" mb={20}>
+            <MCIcon name="md-alarm" padding={1} />
+            <H3 ml={10} weight="bold">
+              {'By when?'}
+            </H3>
+          </MCView>
+          <MCView row align="center" mb={10}>
             <CheckBox
-              style={{width: 150}}
-              onClick={() => updateSelectedReflection({isDaily: !isDaily})}
-              isChecked={isDaily}
-              leftText={t('objective_daily_checkmark_title')}
-              leftTextStyle={{
+              style={{flex: 1}}
+              onClick={() => updateSelectedReflection({isDaily: false})}
+              isChecked={!isDaily}
+              rightText={t('objective_weekly_checkmark_title')}
+              rightTextStyle={{
                 color: theme.colors.text,
                 fontSize: theme.base.FONT_SIZE_LARGE,
                 fontFamily: 'Raleway-Regular',
-                textAlign: 'right',
+                paddingRight: 10,
+              }}
+              checkBoxColor={theme.colors.text}
+            />
+            <CheckBox
+              style={{flex: 1}}
+              onClick={() => updateSelectedReflection({isDaily: true})}
+              isChecked={isDaily}
+              rightText={t('objective_daily_checkmark_title')}
+              rightTextStyle={{
+                color: theme.colors.text,
+                fontSize: theme.base.FONT_SIZE_LARGE,
+                fontFamily: 'Raleway-Regular',
                 paddingRight: 10,
               }}
               checkBoxColor={theme.colors.text}
@@ -338,21 +337,18 @@ class EditObjectiveScreen extends React.PureComponent {
           </MCView>
           <H4 color={theme.colors.border}>{t('objective_deadline_title')}</H4>
           {!isDaily && (
-            <MCButton
-              bordered
-              onPress={() => this.setState({showTimePicker: !showTimePicker})}>
-              <H4>{moment(new Date(deadline)).format('MMMM D YYYY')}</H4>
-            </MCButton>
+            <MCPicker
+              items={WeekDays.map((value, index) => ({
+                label: t(`week_${value.long.toLowerCase()}`),
+                value: index,
+              }))}
+              onChange={itemValue => {
+                updateSelectedReflection({deadline: itemValue});
+              }}
+              value={deadline}
+              height={30}
+            />
           )}
-          <MCDateTimePicker
-            isVisible={showTimePicker}
-            mode="date"
-            minimumDate={new Date()}
-            maximumDate={getAfterDate(7)}
-            date={new Date(deadline)}
-            onConfirm={this.onChangeTime}
-            onCancel={this.hideDatePicker}
-          />
 
           <MCView row align="center" mt={20}>
             <MCIcon name="ruler" type="Entypo" padding={1} size={16} />

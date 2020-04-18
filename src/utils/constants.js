@@ -8,6 +8,7 @@ import {
   AddTapToCountIcon,
   AddValueIcon,
 } from '../assets/images';
+import {getWeekStartDateStamp, getWeekNumber} from '../services/operators';
 
 // Constants used for testing
 
@@ -1313,7 +1314,8 @@ export const DefaultReflections = {
       title: '',
       measures: [],
       isDaily: false,
-      deadline: new Date().getTime(),
+      deadline: 6,
+      weekNum: getWeekNumber(new Date()),
       collaborators: [],
       love: 0,
       nudge: 0,

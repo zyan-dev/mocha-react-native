@@ -1,26 +1,28 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import AudioRecord from 'react-native-audio-record';
+import {RNS3} from 'react-native-aws3/lib/RNS3';
+import {Player, Recorder} from '@react-native-community/audio-toolkit';
 import {reflectionActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
-import {H3, H4, MCIcon, MCTextInput} from 'components/styled/Text';
+import {H3, H4, MCIcon, ErrorText} from 'components/styled/Text';
 import {MCHeader, MCTextFormInput, MCTagInput} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
+import {s3_Options} from 'utils/config';
 import NavigationService from 'navigation/NavigationService';
-
-var Sound = require('react-native-sound');
-Sound.setCategory('Playback');
+import {showAlert} from 'services/operators';
 
 class PersonalStoryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       recording: false,
-      recorded: false,
+      saving: false,
+      audioFilePath: '',
       submitted: false,
+      preparingPlayer: false,
     };
   }
 
@@ -46,58 +48,120 @@ class PersonalStoryScreen extends React.Component {
   }
 
   componentDidMount() {
-    const options = {
-      sampleRate: 16000, // default 44100
-      channels: 1, // 1 or 2, default 1
-      bitsPerSample: 16, // 8 or 16, default 16
-      audioSource: 6, // android only (see below)
-      wavFile: 'pronounce.wav', // default 'audio.wav'
-    };
-    AudioRecord.init(options);
+    this.checkRecordPermission();
   }
 
-  onPressRecord = () => {
-    const {recording} = this.state;
-    if (!recording) {
-      AudioRecord.start();
-      this.setState({recording: true, recorded: false});
+  prepareRecorder = () => {
+    const {profile} = this.props;
+    // Preparing record
+    this.recorder = new Recorder(`pronounce_${profile._id}.mp4`, {
+      bitrate: 256000,
+      channels: 2,
+      sampleRate: 44100,
+      quality: 'max',
+    }).prepare((err, fsPath) => {
+      if (err) {
+        console.log('Recorder Prepare error: ', err);
+        this.prepareRecorder();
+      } else {
+        this.setState({audioFilePath: fsPath}); // for example
+      }
+    });
+  };
+
+  checkRecordPermission() {
+    let recordAudioRequest;
+    if (Platform.OS == 'android') {
+      recordAudioRequest = this._requestRecordAudioPermission();
     } else {
-      AudioRecord.stop();
-      this.setState({recording: false, recorded: true});
+      recordAudioRequest = new Promise(function(resolve, reject) {
+        resolve(true);
+      });
+    }
+    recordAudioRequest.then(hasPermission => {
+      if (!hasPermission) {
+        showAlert('Record Audio Permission was denied');
+        return;
+      }
+      this.prepareRecorder();
+    });
+  }
+
+  async _requestRecordAudioPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        {
+          title: 'Microphone Permission',
+          message:
+            'Mocha App needs access to your microphone to record your name pronounciation',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }
+
+  onPressRecord = async () => {
+    const {recording} = this.state;
+    if (!this.recorder) return;
+    if (!recording) {
+      if (this.recorder) {
+        this.recorder.destroy();
+      }
+      this.recorder.record(error => {
+        console.log('record start error', error);
+      });
+      this.setState({
+        recording: true,
+        saving: false,
+      });
+    } else {
+      await this.recorder.stop();
+      this.uploadAudioRecorded();
     }
   };
 
   onPressPlayback = () => {
-    if (this.whoosh) {
-      this.whoosh.stop();
-      this.whoosh.play(success => {
-        if (success) {
-          console.log('successfully finished playing');
-        } else {
-          console.log('playback failed due to audio decoding errors');
-        }
-      });
+    const {selectedReflection} = this.props;
+    if (this.player) {
+      this.player.destroy();
+    }
+    this.setState({preparingPlayer: true});
+    this.player = new Player(selectedReflection.data.pronounce, {
+      autoDestroy: false,
+    }).prepare(err => {
+      this.setState({preparingPlayer: false});
+      if (err) showAlert('Player Prepare error: ' + err);
+      else this.player.play();
+    });
+  };
+
+  uploadAudioRecorded = async () => {
+    const file = {
+      uri: this.state.audioFilePath,
+      name: `pronounce_${this.props.profile._id}.mp4`,
+      type: `audio/mp4`,
+    };
+    this.setState({recording: false, saving: true});
+    const response = await RNS3.put(file, s3_Options);
+    if (response.status !== 201) {
+      showAlert('Failed to upload audio file to S3');
+      this.setState({recording: false, saving: false});
+      return 'error';
     } else {
-      this.whoosh = new Sound('pronounce.wav', Sound.MAIN_BUNDLE, error => {
-        if (error) {
-          console.log('failed to load the sound', error);
-          return;
-        }
-        // loaded successfully
-        console.log(
-          'duration in seconds: ' +
-            this.whoosh.getDuration() +
-            'number of channels: ' +
-            this.whoosh.getNumberOfChannels(),
-        );
-      });
-      this.whoosh.play(success => {
-        if (success) {
-          console.log('successfully finished playing');
-        } else {
-          console.log('playback failed due to audio decoding errors');
-        }
-      });
+      const audioURL = response.body.postResponse.location;
+      this.props.updateSelectedReflection({pronounce: audioURL});
+      this.setState({saving: false});
     }
   };
 
@@ -114,6 +178,11 @@ class PersonalStoryScreen extends React.Component {
     }
     NavigationService.goBack();
   };
+
+  validateAudio = () => {
+    return this.props.selectedReflection.data.pronounce.length > 0;
+  };
+
   validateTown = () => {
     return this.props.selectedReflection.data.hometown.length > 0;
   };
@@ -128,6 +197,7 @@ class PersonalStoryScreen extends React.Component {
 
   onPressSubmit = () => {
     this.setState({submitted: true});
+    if (!this.validateAudio()) return;
     if (!this.validateTown()) return;
     if (!this.validateJob()) return;
     if (!this.validateChallenge()) return;
@@ -135,13 +205,14 @@ class PersonalStoryScreen extends React.Component {
   };
 
   render() {
+    const {t, selectedReflection, updateSelectedReflection} = this.props;
     const {
-      t,
-      selectedReflection,
-      updateSelectedReflection,
-      addOrUpdateReflection,
-    } = this.props;
-    const {recording, recorded, submitted} = this.state;
+      recording,
+      saving,
+      submitted,
+      audioFilePath,
+      preparingPlayer,
+    } = this.state;
     const {
       hometown,
       number_of_kids,
@@ -150,6 +221,7 @@ class PersonalStoryScreen extends React.Component {
       biggest_challenge,
     } = selectedReflection.data;
     if (selectedReflection.type.toLowerCase() !== 'personalstory') return null;
+    const isErrorAudio = !this.validateAudio();
     const isErrorTown = !this.validateTown();
     const isErrorJob = !this.validateJob();
     const isErrorChallenge = !this.validateChallenge();
@@ -169,16 +241,24 @@ class PersonalStoryScreen extends React.Component {
             <MCIcon type="FontAwesome5" name="baby" size={30} />
           </MCView>
           <H4>{t('tools_tab_how_pronounce')}</H4>
-          <MCView row justify="center" align="center">
-            <MCButton onPress={() => this.onPressRecord()}>
-              <MCIcon name={recording ? 'ios-square' : 'ios-mic'} size={40} />
-            </MCButton>
-            <MCButton
-              onPress={() => this.onPressPlayback()}
-              disabled={!recorded}>
-              <MCIcon name="ios-volume-high" size={40} ml={30} />
-            </MCButton>
-          </MCView>
+          {isErrorAudio && submitted && (
+            <ErrorText>{t('error_input_audio')}</ErrorText>
+          )}
+          {audioFilePath !== undefined && audioFilePath.length > 0 && (
+            <MCView row justify="space-between" align="center">
+              <MCButton onPress={() => this.onPressRecord()}>
+                <MCIcon name={recording ? 'ios-square' : 'ios-mic'} size={40} />
+              </MCButton>
+              {recording && <H4 style={{flex: 1}}>{t('recording')}</H4>}
+              {saving && <H4 style={{flex: 1}}>{t('record_saving')}</H4>}
+              {!isErrorAudio && !recording && !saving && (
+                <MCButton bordered onPress={() => this.onPressPlayback()}>
+                  {/* <MCIcon name="ios-volume-high" size={40} ml={30} /> */}
+                  <H4>{preparingPlayer ? t('loading') : t('playback')}</H4>
+                </MCButton>
+              )}
+            </MCView>
+          )}
           <MCTextFormInput
             label={t('tools_tab_hometown')}
             value={hometown}
@@ -233,6 +313,7 @@ const mapStateToProps = state => ({
     state,
     'PersonalStory',
   ),
+  profile: state.profileReducer,
   reflectionDraft: state.reflectionReducer.draft,
 });
 

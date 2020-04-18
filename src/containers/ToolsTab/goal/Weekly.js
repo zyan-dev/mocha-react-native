@@ -30,7 +30,7 @@ class WeeklyObjectiveScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showCompletedOnly: false,
+      filterOption: 'all',
     };
   }
 
@@ -65,8 +65,22 @@ class WeeklyObjectiveScreen extends React.Component {
     });
   };
 
+  filterObjectives = objectives => {
+    const {filterOption} = this.state;
+    if (filterOption === 'all') return objectives;
+    if (filterOption === 'completed')
+      return objectives.filter(({data: {measures}}) => {
+        const incompleted = measures.filter(measure => !measure.completed);
+        return incompleted.length === 0;
+      });
+    if (filterOption === 'expired')
+      return objectives.filter(({data: {measures, deadline}}) => {
+        const incompleted = measures.filter(measure => !measure.completed);
+        return new Date().getDay() > deadline && incompleted.length > 0;
+      });
+  };
+
   _renderItem = ({item}) => {
-    const {showCompletedOnly} = this.state;
     const {t, theme, isShowingUserObjective} = this.props;
     const {
       title,
@@ -81,9 +95,16 @@ class WeeklyObjectiveScreen extends React.Component {
       crown,
     } = item.data;
     const incompleted = measures.filter(measure => !measure.completed);
-    if (showCompletedOnly && incompleted.length > 0) return null;
+    const expired = new Date().getDay() > deadline && incompleted.length > 0;
+    const deadlineColor = expired ? theme.colors.danger : theme.colors.text;
     return (
-      <MCView width={350} bordered br={10} align="center" mb={10}>
+      <MCView
+        width={350}
+        bordered
+        br={10}
+        align="center"
+        mb={10}
+        error={expired}>
         <MCCard shadow br={1} row align="center">
           <H4 style={{flex: 1}} align="center">
             {title}
@@ -121,10 +142,10 @@ class WeeklyObjectiveScreen extends React.Component {
             ))}
           </MCView>
           <MCView row align="center" mr={10}>
-            <MCIcon name="md-alarm" />
-            <H4>{`${t('by')} ${
-              WeekDays[new Date(deadline).getDay()].long
-            }`}</H4>
+            <MCIcon name="md-alarm" color={deadlineColor} />
+            <H4 color={deadlineColor}>{`${t('by')} ${t(
+              `week_${WeekDays[deadline].long.toLowerCase()}`,
+            )}`}</H4>
           </MCView>
         </MCView>
         {!isShowingUserObjective && (
@@ -184,25 +205,49 @@ class WeeklyObjectiveScreen extends React.Component {
       weeklyObjectives,
       userWeeklyObjectives,
     } = this.props;
-    const {showCompletedOnly} = this.state;
+    const {filterOption} = this.state;
     return (
-      <MCRootView justify="flex-start" align="flex-start">
-        <CheckBox
-          style={{width: dySize(250), margin: dySize(10)}}
-          onClick={() => this.setState({showCompletedOnly: !showCompletedOnly})}
-          isChecked={showCompletedOnly}
-          rightText={'Completed'}
-          rightTextStyle={{
-            color: theme.colors.text,
-            fontSize: theme.base.FONT_SIZE_LARGE,
-            fontFamily: 'Raleway-Regular',
-          }}
-          checkBoxColor={theme.colors.text}
-        />
+      <MCRootView justify="flex-start" align="center">
+        <MCView
+          bordered
+          br={10}
+          row
+          justify="space-between"
+          width={300}
+          mt={10}
+          mb={10}>
+          <MCButton
+            style={{flex: 1}}
+            onPress={() => this.setState({filterOption: 'all'})}
+            background={filterOption === 'all' ? theme.colors.card : undefined}
+            align="center">
+            <H4>All</H4>
+          </MCButton>
+          <MCButton
+            style={{flex: 1}}
+            onPress={() => this.setState({filterOption: 'completed'})}
+            background={
+              filterOption === 'completed' ? theme.colors.card : undefined
+            }
+            align="center">
+            <H4 color={theme.colors.outline}>Completed</H4>
+          </MCButton>
+          <MCButton
+            style={{flex: 1}}
+            onPress={() => this.setState({filterOption: 'expired'})}
+            background={
+              filterOption === 'expired' ? theme.colors.card : undefined
+            }
+            align="center">
+            <H4 color={theme.colors.danger}>Expired</H4>
+          </MCButton>
+        </MCView>
         <FlatList
           contentContainerStyle={{alignItems: 'center', width: dySize(375)}}
           data={
-            isShowingUserObjective ? userWeeklyObjectives : weeklyObjectives
+            isShowingUserObjective
+              ? this.filterObjectives(userWeeklyObjectives)
+              : this.filterObjectives(weeklyObjectives)
           }
           renderItem={this._renderItem}
           keyExtractor={item => item._id}

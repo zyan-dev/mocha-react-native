@@ -12,9 +12,6 @@ import {dySize} from 'utils/responsive';
 import {FeedbackPreferences} from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
 
-var Sound = require('react-native-sound');
-Sound.setCategory('Playback');
-
 class FeedbackPreferenceScreen extends React.Component {
   constructor(props) {
     super(props);

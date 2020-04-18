@@ -21,4 +21,5 @@ export const MCButton = styled(Ripple)`
   margin-left: ${props => dySize(props.ml || 0)}px;
   margin-right: ${props => dySize(props.mr || 0)}px;
   background-color: ${props => props.background || 'transparent'};
+  opacity: ${props => (props.disabled ? 0.5 : 1)};
 `;
