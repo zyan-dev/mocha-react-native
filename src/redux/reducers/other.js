@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   loadingProducts: false,
   commits: [],
   isShowingUserObjective: false,
+  favoriteTools: [],
 };
 
 const otherReducer = (state = INITIAL_STATE, action) => {
@@ -28,6 +29,11 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isShowingUserObjective: action.payload,
+      };
+    case types.SET_FAVORITE_TOOLS:
+      return {
+        ...state,
+        favoriteTools: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

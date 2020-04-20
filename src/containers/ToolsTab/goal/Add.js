@@ -19,6 +19,7 @@ import {getUpdatedMeasures} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {WeekDays} from 'utils/constants';
+import {getWeekDay} from '../../../services/operators';
 
 class EditObjectiveScreen extends React.PureComponent {
   constructor(props) {
@@ -207,7 +208,6 @@ class EditObjectiveScreen extends React.PureComponent {
     const {
       data: {title, isDaily, measures, deadline},
     } = selectedReflection;
-    console.log({deadline});
     const isErrorTitle = !this.validateTitle();
     const isErrorMeasures = !this.validateMeasures();
     return (
@@ -271,9 +271,7 @@ class EditObjectiveScreen extends React.PureComponent {
               ) : (
                 <MCView row align="center" mr={10}>
                   <MCIcon name="md-alarm" />
-                  <H4>{`${t('by')} ${t(
-                    `week_${WeekDays[deadline].long.toLowerCase()}`,
-                  )}`}</H4>
+                  <H4>{`${t('by')} ${t(`week_${getWeekDay(deadline)}`)}`}</H4>
                 </MCView>
               )}
             </MCView>

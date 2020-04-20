@@ -1748,3 +1748,97 @@ export const DiscoverValues = [
     icon: 'korvue',
   },
 ];
+
+export const ToolsSideTabs = [
+  {
+    key: 'favorites',
+    iconType: 'FontAwesome5',
+    icon: 'star',
+  },
+  {
+    key: 'body',
+    iconType: 'Ionicon',
+    icon: 'ios-body',
+  },
+  {
+    key: 'mind',
+    iconType: 'FontAwesome5',
+    icon: 'brain',
+  },
+  {
+    key: 'social',
+    iconType: 'FontAwesome5',
+    icon: 'user-friends',
+  },
+  {
+    key: 'search',
+    iconType: 'FontAwesome5',
+    icon: 'search',
+  },
+];
+
+export const ToolsBodyCards = [
+  {
+    key: 'profile',
+    title: i18next.t('tools_card_title_profile', {
+      bold: i18next.t('tools_card_bold_profile_preview'),
+    }),
+    boldWordKeys: ['profile_preview'],
+    duration: '15~30',
+    iconType: 'Ionicon',
+    icon: 'ios-body',
+    redirectTo: 'KnowYourSelf',
+  },
+  {
+    key: 'body1',
+    title: i18next.t('tools_card_title_body1'),
+    duration: '2',
+    iconType: 'Ionicon',
+    icon: 'ios-body',
+  },
+  {
+    key: 'body2',
+    title: i18next.t('tools_card_title_body2'),
+    duration: '6',
+    iconType: 'Ionicon',
+    icon: 'ios-body',
+  },
+  {
+    key: 'body3',
+    title: i18next.t('tools_card_title_body3'),
+    duration: '8',
+    iconType: 'Ionicon',
+    icon: 'ios-body',
+  },
+];
+
+export const ToolsMindCards = [
+  {
+    key: 'mind1',
+    title: i18next.t('tools_card_title_mind1'),
+    duration: '3',
+    iconType: 'FontAwesome5',
+    icon: 'brain',
+  },
+  {
+    key: 'mind2',
+    title: i18next.t('tools_card_title_mind2'),
+    duration: '4',
+    iconType: 'FontAwesome5',
+    icon: 'brain',
+  },
+  {
+    key: 'mind3',
+    title: i18next.t('tools_card_title_mind3'),
+    duration: '5',
+    iconType: 'FontAwesome5',
+    icon: 'brain',
+  },
+  {
+    key: 'mind4',
+    title: i18next.t('tools_card_title_mind4'),
+    duration: '6',
+    iconType: 'FontAwesome5',
+    icon: 'brain',
+  },
+];

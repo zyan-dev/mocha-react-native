@@ -13,7 +13,7 @@ import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {WeekDays} from 'utils/constants';
-import {getCommitKey} from '../../../services/operators';
+import {getCommitKey, getWeekDay} from 'services/operators';
 
 const ReactionView = styled(MCView)`
   display: flex;
@@ -97,6 +97,7 @@ class WeeklyObjectiveScreen extends React.Component {
     const incompleted = measures.filter(measure => !measure.completed);
     const expired = new Date().getDay() > deadline && incompleted.length > 0;
     const deadlineColor = expired ? theme.colors.danger : theme.colors.text;
+    let when = t(`week_${getWeekDay(deadline)}`);
     return (
       <MCView
         width={350}
@@ -143,9 +144,7 @@ class WeeklyObjectiveScreen extends React.Component {
           </MCView>
           <MCView row align="center" mr={10}>
             <MCIcon name="md-alarm" color={deadlineColor} />
-            <H4 color={deadlineColor}>{`${t('by')} ${t(
-              `week_${WeekDays[deadline].long.toLowerCase()}`,
-            )}`}</H4>
+            <H4 color={deadlineColor}>{`${t('by')} ${when}`}</H4>
           </MCView>
         </MCView>
         {!isShowingUserObjective && (

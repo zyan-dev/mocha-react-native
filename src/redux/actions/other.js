@@ -33,3 +33,18 @@ export const trackEvent = param => ({
   type: types.TRACK_MIXPANEL_EVENT,
   payload: param,
 });
+
+export const addFavoriteTool = card => ({
+  type: types.ADD_FAVORITE_TOOL,
+  payload: card,
+});
+
+export const removeFavoriteTool = card => ({
+  type: types.REMOVE_FAVORITE_TOOL,
+  payload: card,
+});
+
+export const setFavoriteTools = cards => ({
+  type: types.SET_FAVORITE_TOOLS,
+  payload: cards,
+});

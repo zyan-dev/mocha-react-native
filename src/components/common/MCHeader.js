@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {Header, Left, Body, Right, Icon} from 'native-base';
+import {ToolsSvg} from 'assets/svgs';
 import {H4, H3, MCIcon} from '../styled/Text';
 import {MCButton} from '../styled/Button';
 import NavigationService from 'navigation/NavigationService';
@@ -33,6 +34,7 @@ const HeaderBody = styled(Body)`
   flex: 4;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
 `;
 
 const HeaderIcon = styled(Icon)`
@@ -45,6 +47,7 @@ class MCHeader extends React.PureComponent {
     hasBack: PropTypes.bool,
     title: PropTypes.string.isRequired,
     hasRight: PropTypes.bool,
+    headerIcon: PropTypes.node,
     rightText: PropTypes.string,
     rightIcon: PropTypes.string,
     rightImage: PropTypes.node,
@@ -60,6 +63,7 @@ class MCHeader extends React.PureComponent {
   static defaultProps = {
     hasBack: true,
     hasRight: false,
+    headerIcon: undefined,
     rightText: '',
     rightIcon: '',
     leftIcon: 'arrow-left',
@@ -79,6 +83,7 @@ class MCHeader extends React.PureComponent {
       hasBack,
       title,
       hasRight,
+      headerIcon,
       rightText,
       rightIcon,
       leftIcon,
@@ -104,6 +109,7 @@ class MCHeader extends React.PureComponent {
         </HeaderLeft>
         <HeaderBody>
           <H3>{title}</H3>
+          {headerIcon}
         </HeaderBody>
         <HeaderRight>
           {hasRight && rightText.length > 0 && (

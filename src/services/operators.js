@@ -3,6 +3,7 @@ import Toast from 'react-native-root-toast';
 import {dySize} from 'utils/responsive';
 import moment from 'moment';
 import i18next from 'i18next';
+import {WeekDays} from '../utils/constants';
 
 export const showAlert = text => {
   Toast.show(text, {
@@ -166,4 +167,12 @@ export const getTitleByKey = (reflectionType, key) => {
   } else {
     return key.split(customAppendKeyArray[reflectionType])[1];
   }
+};
+
+export const getWeekDay = t => {
+  // t can be 0~6 or timestamp
+  let weekDay = 0;
+  if (t > 7) weekDay = new Date(t).getDay();
+  else weekDay = t;
+  return WeekDays[weekDay].long.toLowerCase();
 };

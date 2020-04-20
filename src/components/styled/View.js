@@ -37,6 +37,7 @@ export const MCView = styled.View`
   flex-wrap: ${props => (props.wrap ? 'wrap' : 'nowrap')};
   overflow: ${props => props.overflow || 'hidden'};
   background-color: ${props => props.background || 'transparent'};
+  position: ${props => (props.absolute ? 'absolute' : 'relative')};
 `;
 
 export const MCCard = styled(MCView)`

@@ -276,3 +276,23 @@ export function* trackMixpanelEvent(action) {
     userId: profileReducer._id,
   });
 }
+
+export function* addFavoriteTool(action) {
+  const {
+    otherReducer: {favoriteTools},
+  } = yield select();
+  if (favoriteTools) {
+    favoriteTools.push(action.payload);
+    yield put({type: types.SET_FAVORITE_TOOLS, payload: favoriteTools});
+  } else {
+    yield put({type: types.SET_FAVORITE_TOOLS, payload: [action.payload]});
+  }
+}
+
+export function* removeFavoriteTool(action) {
+  const {
+    otherReducer: {favoriteTools},
+  } = yield select();
+  const filtered = favoriteTools.filter(i => i.key !== action.payload.key);
+  yield put({type: types.SET_FAVORITE_TOOLS, payload: filtered});
+}
