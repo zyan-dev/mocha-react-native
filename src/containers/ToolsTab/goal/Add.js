@@ -52,6 +52,7 @@ class EditObjectiveScreen extends React.PureComponent {
     this.setState({submitted: true});
     if (!this.validateTitle()) return;
     if (!this.validateMeasures()) return;
+    this.setState({newMeasureTitle: ''});
     updateSelectedReflection({
       collaborators: selectedUsers.map(user =>
         _.pick(user, ['_id', 'avatar', 'pushToken', 'name']),
@@ -113,6 +114,19 @@ class EditObjectiveScreen extends React.PureComponent {
     } = this.props;
     const filtered = measures.filter(item => item.title !== measure.title);
     this.props.updateSelectedReflection({measures: filtered});
+  };
+
+  onChangeMeasure = (index, text) => {
+    const {
+      selectedReflection: {
+        data: {measures},
+      },
+    } = this.props;
+    measures[index] = {
+      ...measures[index],
+      title: text,
+    };
+    this.props.updateSelectedReflection({measures});
   };
 
   addNewMeasure = title => {
@@ -357,19 +371,26 @@ class EditObjectiveScreen extends React.PureComponent {
           </MCView>
           <H4 color={theme.colors.border}>{t('object_title_1')}</H4>
           {measures.map((measure, index) => (
-            <MCView row align="center">
+            <MCView row align="center" mb={6}>
               <H4 width={30} align="center">
                 {index + 1}.
               </H4>
-              <H4 style={{flex: 1}} pv={1}>
-                {measure.title}
-              </H4>
+              <MCView style={{flex: 1}}>
+                <MCEditableText
+                  maxLength={60}
+                  text={measure.title}
+                  onChange={text => this.onChangeMeasure(index, text)}
+                />
+              </MCView>
               <MCButton onPress={() => this.onRemoveMeasure(measure)}>
                 <MCIcon name="ios-remove-circle-outline" padding={1} />
               </MCButton>
             </MCView>
           ))}
-          <MCView row align="center" mt={10}>
+          <MCView row align="center">
+            <H4 width={30} align="center">
+              {measures.length + 1}.
+            </H4>
             <MCView style={{flex: 1}}>
               <MCEditableText
                 maxLength={60}
