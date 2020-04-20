@@ -35,7 +35,7 @@ class ObjectivesCard extends React.Component {
     };
   }
 
-  onPressItem = (objective) => {
+  onPressItem = objective => {
     this.setState({selectedObjective: objective, showModal: true});
   };
 
@@ -51,8 +51,9 @@ class ObjectivesCard extends React.Component {
             {objective.title}
           </H4>
           <MCView row align="center" ml={30} overflow="visible">
-            {objective.collaborators.map((user) => (
+            {objective.collaborators.map(user => (
               <MCImage
+                key={user._id}
                 image={{uri: user.avatar}}
                 round
                 width={30}
@@ -102,7 +103,7 @@ class ObjectivesCard extends React.Component {
         <FlatList
           data={dailyObjectives.slice(0, 4)}
           renderItem={this._renderObjectiveItem}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           style={{width: dySize(300)}}
           ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
         />
@@ -119,7 +120,7 @@ class ObjectivesCard extends React.Component {
         <FlatList
           data={weeklyObjectives.slice(0, 4)}
           renderItem={this._renderObjectiveItem}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           numColumns={2}
           style={{width: dySize(300)}}
           ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
@@ -132,8 +133,8 @@ class ObjectivesCard extends React.Component {
               <H3 weight="bold" align="center" mt={10} mb={10}>
                 {selectedObjective.title}
               </H3>
-              {selectedObjective.measures.map((measure) => (
-                <MCView row align="center" width={300}>
+              {selectedObjective.measures.map((measure, index) => (
+                <MCView key={index} row align="center" width={300}>
                   <H4 mr={5}>🔹</H4>
                   <H4 weight="italic" style={{flex: 1}} mr={20}>
                     {measure.title}

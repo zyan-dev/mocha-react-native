@@ -172,6 +172,7 @@ class ManageTrustNetworkScreen extends React.Component {
           <MCView align="center" mt={40}>
             {NetworkPermissions.map(item => (
               <MCButton
+                key={item.key}
                 row
                 width={300}
                 onPress={() => this.onToggleCheck(item.key)}>

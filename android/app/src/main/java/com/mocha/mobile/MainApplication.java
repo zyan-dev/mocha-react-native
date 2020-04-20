@@ -35,10 +35,15 @@ public class MainApplication extends Application implements ReactApplication {
           return packages;
         }
 
-        @Override
-        protected String getJSMainModuleName() {
-           return CodePush.getJSBundleFile();
-        }
+          @Override
+          protected String getJSMainModuleName() {
+              return "index";
+          }
+
+          @Override
+          protected String getJSBundleFile() {
+            return CodePush.getJSBundleFile();
+          }
       };
 
   @Override

@@ -60,7 +60,7 @@ class ApproachToConflictScreen extends React.Component {
       });
     }
     NavigationService.goBack();
-    }
+  };
   onPressSubmit = () => {
     this.setState({submitted: true});
     if (!this.validateOptions()) return;
@@ -98,6 +98,7 @@ class ApproachToConflictScreen extends React.Component {
           <MCView row wrap justify="space-between" mt={20}>
             {ApproachToConflictOptions.map(key => (
               <MCButton
+                key={key}
                 bordered
                 width={key === 'template' ? 335 : 160}
                 height={100}

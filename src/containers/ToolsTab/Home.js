@@ -318,6 +318,7 @@ class AddReflectionScreen extends React.Component {
                   tabIndex === index ? theme.colors.outline : theme.colors.text;
                 return (
                   <MCButton
+                    key={index}
                     mb={20}
                     align="center"
                     onPress={() => this.onPressTab(index)}>

@@ -10,7 +10,7 @@ import NavigationService from 'navigation/NavigationService';
 import {routerActions, otherActions} from 'Redux/actions';
 
 class WelcomePickTheme extends React.PureComponent {
-  onPressTheme = (index) => {
+  onPressTheme = index => {
     this.props.setThemeIndex(index);
     this.props.trackEvent({
       event: 'Select Theme',
@@ -29,6 +29,7 @@ class WelcomePickTheme extends React.PureComponent {
             {colorThemes.map((theme, index) => {
               return (
                 <MCButton
+                  key={index}
                   bordered
                   align="center"
                   width={120}
@@ -57,7 +58,7 @@ class WelcomePickTheme extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
 });
 
@@ -67,5 +68,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(WelcomePickTheme),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(WelcomePickTheme),
 );

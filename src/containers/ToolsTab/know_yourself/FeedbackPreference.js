@@ -117,6 +117,7 @@ class FeedbackPreferenceScreen extends React.Component {
               <MCView row wrap justify="space-between">
                 {FeedbackPreferences.map(key => (
                   <MCButton
+                    key={key}
                     bordered
                     width={key === 'template' ? 335 : 160}
                     height={100}
@@ -168,6 +169,7 @@ class FeedbackPreferenceScreen extends React.Component {
                 {FeedbackPreferences.map(key => {
                   return (
                     <MCButton
+                      key={key}
                       bordered
                       width={key === 'template' ? 335 : 160}
                       height={100}

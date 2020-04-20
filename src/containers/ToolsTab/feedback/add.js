@@ -77,7 +77,7 @@ class AddFeedbackScreen extends React.Component {
           <H3 mt={20}>{t('add_feedback_who')}</H3>
           <MCView row wrap mt={10}>
             {selectedUsers.map(user => (
-              <MCView mr={10} align="center">
+              <MCView key={user._id} mr={10} align="center">
                 <MCImage
                   round
                   width={60}
@@ -105,8 +105,8 @@ class AddFeedbackScreen extends React.Component {
           <H3 mt={20} mb={10}>
             {t('add_feedback_questionTitle')}
           </H3>
-          {selectedQuestions.map(question => (
-            <MCCard mb={10} row shadow align="center">
+          {selectedQuestions.map((question, index) => (
+            <MCCard key={index} mb={10} row shadow align="center">
               <H3 ml={10} style={{flex: 1}}>
                 {t(question)}
               </H3>

@@ -53,6 +53,7 @@ class SocialSideMenu extends React.Component {
         {sideMenuList.map(menu => {
           return (
             <MCButton
+              key={menu.index}
               style={{width: '100%'}}
               align="flex-start"
               row
@@ -74,5 +75,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(undefined, mapDispatchToProps)(SocialSideMenu),
+  connect(
+    undefined,
+    mapDispatchToProps,
+  )(SocialSideMenu),
 );

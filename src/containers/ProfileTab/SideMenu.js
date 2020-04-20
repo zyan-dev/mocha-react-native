@@ -92,6 +92,7 @@ class ProfileSideMenu extends React.Component {
               {colorThemes.map((theme, index) => {
                 return (
                   <MCButton
+                    key={index}
                     bordered
                     align="center"
                     width={110}

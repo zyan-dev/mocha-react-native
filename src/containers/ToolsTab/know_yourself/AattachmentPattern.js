@@ -82,7 +82,7 @@ class AttachmentPatternScreen extends React.Component {
       });
     }
     NavigationService.goBack();
-    }
+  };
   onPressSubmit = () => {
     this.setState({submitted: true});
     if (!this.validateOptions()) return;
@@ -132,6 +132,7 @@ class AttachmentPatternScreen extends React.Component {
                   : theme.colors.outline;
               return (
                 <MCButton
+                  key={index}
                   onLayout={event =>
                     this.setCardWidth(event.nativeEvent.layout, index)
                   }

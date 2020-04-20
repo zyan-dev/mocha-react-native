@@ -83,7 +83,7 @@ class ManageNotifications extends React.Component {
               {Object.keys(_.pick(notifications, NotificationKeys)).map(key => {
                 const setting = notifications[key];
                 return (
-                  <MCCard shadow mt={10}>
+                  <MCCard key={key} shadow mt={10}>
                     <MCView row>
                       <MCView style={{flex: 1}} p={5}>
                         <H3>{t(`notification_${key}_title`)}</H3>

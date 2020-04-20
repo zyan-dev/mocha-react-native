@@ -86,6 +86,7 @@ class AddResourceScreen extends React.PureComponent {
           <MCView width={345} bordered row wrap br={4} ph={10} pv={10}>
             {ResourceTypes.map(rt => (
               <MCButton
+                key={rt.type}
                 onPress={() => updateSelectedResource({type: rt.type})}
                 width={160}
                 row

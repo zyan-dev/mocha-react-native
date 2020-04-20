@@ -19,7 +19,7 @@ class RiskToleranceScreen extends React.Component {
       submitted: false,
     };
   }
-isNew = false;
+  isNew = false;
   componentWillMount() {
     const {
       riskTolerance,
@@ -60,7 +60,7 @@ isNew = false;
       });
     }
     NavigationService.goBack();
-    }
+  };
   onPressSubmit = () => {
     this.setState({submitted: true});
     if (!this.validateOptions()) return;
@@ -98,6 +98,7 @@ isNew = false;
           <MCView row wrap justify="space-between" mt={20}>
             {RiskTolerances.map(key => (
               <MCButton
+                key={key}
                 bordered
                 width={key === 'template' ? 335 : 160}
                 height={100}

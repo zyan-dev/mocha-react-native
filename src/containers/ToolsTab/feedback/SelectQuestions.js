@@ -63,10 +63,10 @@ class SelectQuestionScreen extends React.Component {
           title={t('add_feedback_select_title')}
         />
         <MCContent contentContainerStyle={{paddingHorizontal: 10}}>
-          {questions.map(question => {
+          {questions.map((question, index) => {
             const filtered = selectedQuestions.filter(q => q === question);
             return (
-              <MCCard row align="center" shadow mt={10} p={0}>
+              <MCCard key={index} row align="center" shadow mt={10} p={0}>
                 <H3 ml={10} style={{flex: 1}}>
                   {t(question)}
                 </H3>

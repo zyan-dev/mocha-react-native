@@ -12,6 +12,7 @@ import {dySize} from 'utils/responsive';
 import {ResourceTypes} from 'utils/constants';
 import {getStringIndexOf} from 'services/operators';
 import ResourceItem from './ResourceItem';
+import NavigationService from '../../navigation/NavigationService';
 
 class ResourceSearchScreen extends React.PureComponent {
   constructor(props) {
@@ -24,7 +25,9 @@ class ResourceSearchScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.props.getAllResources();
+    if (this.props.profile.userToken.length) {
+      this.props.getAllResources();
+    }
   }
 
   onPressFilterOption = () => {
@@ -85,7 +88,20 @@ class ResourceSearchScreen extends React.PureComponent {
       showDrawer,
       allResources,
       bookmarkedResources,
+      profile,
     } = this.props;
+    if (!profile.userToken.length) {
+      return (
+        <MCRootView>
+          <H4 mb={10}>{t('sign_up_required')}</H4>
+          <MCButton
+            bordered
+            onPress={() => NavigationService.navigate('TabFeed')}>
+            <H4>{t('sign_up_button')}</H4>
+          </MCButton>
+        </MCRootView>
+      );
+    }
     return (
       <MCRootView>
         <MCHeader
@@ -163,6 +179,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   bookmarkedResources: state.resourceReducer.bookmarkedResources,
   allResources: state.resourceReducer.allResources,
+  profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {

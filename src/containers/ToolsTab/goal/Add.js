@@ -52,7 +52,6 @@ class EditObjectiveScreen extends React.PureComponent {
     this.setState({submitted: true});
     if (!this.validateTitle()) return;
     if (!this.validateMeasures()) return;
-    this.setState({newMeasureTitle: ''});
     updateSelectedReflection({
       collaborators: selectedUsers.map(user =>
         _.pick(user, ['_id', 'avatar', 'pushToken', 'name']),
@@ -62,6 +61,7 @@ class EditObjectiveScreen extends React.PureComponent {
           ? measures.concat([{title: newMeasureTitle}])
           : measures,
     });
+    this.setState({newMeasureTitle: ''});
     this.updateCommitHistory();
     setTimeout(() => {
       this.props.addOrUpdateReflection();
@@ -250,8 +250,9 @@ class EditObjectiveScreen extends React.PureComponent {
                 {title}
               </H4>
             </MCCard>
-            {measures.map(measure => (
+            {measures.map((measure, index) => (
               <CheckBox
+                key={index}
                 style={{width: dySize(330), marginTop: 10}}
                 onClick={() => this.onToggleCheck(measure)}
                 isChecked={measure.completed}
@@ -273,6 +274,7 @@ class EditObjectiveScreen extends React.PureComponent {
                 overflow="visible">
                 {selectedUsers.map(user => (
                   <MCImage
+                    key={user._id}
                     image={{uri: user.avatar}}
                     round
                     width={30}
@@ -371,7 +373,7 @@ class EditObjectiveScreen extends React.PureComponent {
           </MCView>
           <H4 color={theme.colors.border}>{t('object_title_1')}</H4>
           {measures.map((measure, index) => (
-            <MCView row align="center" mb={6}>
+            <MCView key={index} row align="center" mb={5}>
               <H4 width={30} align="center">
                 {index + 1}.
               </H4>

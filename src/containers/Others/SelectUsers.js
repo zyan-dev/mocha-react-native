@@ -78,7 +78,13 @@ class SelectUserScreen extends React.Component {
               ? filtered.length > 0
               : selectedUser._id === user._id;
             return (
-              <MCCard row align="center" shadow mt={10} p={0}>
+              <MCCard
+                key={user.user_id}
+                row
+                align="center"
+                shadow
+                mt={10}
+                p={0}>
                 <MCButton onPress={() => this.onPressUserAvatar(user)}>
                   <MCImage
                     width={80}

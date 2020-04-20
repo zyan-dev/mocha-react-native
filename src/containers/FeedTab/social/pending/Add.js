@@ -22,7 +22,7 @@ class AddPendingUserScreen extends React.Component {
     NavigationService.navigate('ManageTrustNetwork', {new: true});
   };
 
-  onAdd = (network) => {
+  onAdd = network => {
     const {selectTrustNetwork, updateNetwork} = this.props;
     try {
       const pendingUserId = this.props.route.params.pendingUser._id;
@@ -39,14 +39,15 @@ class AddPendingUserScreen extends React.Component {
     }
   };
 
-  renderAvatars = (network) => {
+  renderAvatars = network => {
     const {allUsers} = this.props;
     return (
       <MCView width={80} height={70} style={{position: 'relative'}}>
         {network.members.slice(0, 3).map((memberId, index) => {
-          const find = allUsers.find((user) => user._id === memberId);
+          const find = allUsers.find(user => user._id === memberId);
           return (
             <MCImage
+              key={memberId}
               width={40}
               height={40}
               round
@@ -77,9 +78,9 @@ class AddPendingUserScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader title={t('feed_network_add_headerTitle')} />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          {myNetworks.map((network) => {
+          {myNetworks.map(network => {
             return (
-              <MCCard row mb={10} height={70} align="center">
+              <MCCard key={network._id} row mb={10} height={70} align="center">
                 {this.renderAvatars(network)}
                 <MCView style={{flex: 1}}>
                   <H3>{network.name}</H3>
@@ -127,7 +128,7 @@ class AddPendingUserScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   myNetworks: state.networkReducer.myNetworks,
   allUsers: state.usersReducer.allUsers,
   theme: state.routerReducer.theme,
@@ -144,5 +145,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(AddPendingUserScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AddPendingUserScreen),
 );

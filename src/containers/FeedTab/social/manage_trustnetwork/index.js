@@ -41,6 +41,7 @@ class MyTrustNetworkScreen extends React.Component {
           const find = allUsers.find(user => user._id === memberId);
           return (
             <MCImage
+              key={index}
               width={40}
               height={40}
               round
@@ -130,5 +131,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(MyTrustNetworkScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(MyTrustNetworkScreen),
 );

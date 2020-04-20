@@ -218,6 +218,7 @@ class ProfileScreen extends React.Component {
                   return null;
                 return (
                   <MCButton
+                    key={icon.key}
                     width={50}
                     align="center"
                     onPress={() => this.onPressProfileIcon(icon)}>

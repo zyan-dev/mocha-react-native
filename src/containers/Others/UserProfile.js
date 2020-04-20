@@ -50,7 +50,7 @@ class UserProfileScreen extends React.Component {
       getUserReflections,
       getUserFeedbacks,
     } = this.props;
-    const find = allUsers.find((user) => user._id === id);
+    const find = allUsers.find(user => user._id === id);
     if (find) {
       getUserProfile(id);
       getUserReflections(id);
@@ -60,11 +60,11 @@ class UserProfileScreen extends React.Component {
     }
   }
 
-  onPressProfileIcon = (icon) => {
+  onPressProfileIcon = icon => {
     this.setState({selected: icon.key});
   };
 
-  onPressAllObjectives = (tabIndex) => {
+  onPressAllObjectives = tabIndex => {
     NavigationService.navigate('TabTools');
     setTimeout(() => {
       NavigationService.navigate('UserObjective', {
@@ -160,8 +160,9 @@ class UserProfileScreen extends React.Component {
             width={50}
             style={{borderLeftWidth: 1, borderColor: theme.colors.border}}>
             <MCContent>
-              {profileIcons.map((icon) => (
+              {profileIcons.map(icon => (
                 <MCButton
+                  key={icon.key}
                   width={50}
                   align="center"
                   onPress={() => this.onPressProfileIcon(icon)}>
@@ -185,7 +186,7 @@ class UserProfileScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.usersReducer.userProfile,
   allUsers: state.usersReducer.allUsers,
@@ -220,5 +221,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(UserProfileScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(UserProfileScreen),
 );

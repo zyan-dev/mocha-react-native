@@ -78,8 +78,9 @@ class DailyObjectiveScreen extends React.Component {
             {title}
           </H4>
         </MCCard>
-        {measures.map(measure => (
+        {measures.map((measure, index) => (
           <CheckBox
+            key={index}
             style={{width: dySize(330), marginTop: 10}}
             onClick={() => this.onToggleCheck(item, measure)}
             isChecked={measure.completed}
@@ -101,6 +102,7 @@ class DailyObjectiveScreen extends React.Component {
             overflow="visible">
             {collaborators.map(user => (
               <MCImage
+                key={user._id}
                 image={{uri: user.avatar}}
                 round
                 width={30}

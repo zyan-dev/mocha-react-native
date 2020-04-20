@@ -1531,6 +1531,8 @@
   "select": "Select",
   "send": "Send",
   "send_request_success_modal_text": "A request has been sent to {{name}}!",
+  "sign_up_required": "You must sign up to unlock this",
+  "sign_up_button": "Go to sign up",
   "successful_reaction": "Thanks for your reaction!",
   "syncing": "Synchronization in progress...",
   "tab_feedback_received": "Received",

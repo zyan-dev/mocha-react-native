@@ -290,6 +290,7 @@ class DiscoverValueScreen extends React.Component {
                 const value = item.value;
                 return (
                   <MCButton
+                    key={value}
                     bordered
                     width={160}
                     height={100}

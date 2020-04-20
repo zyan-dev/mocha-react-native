@@ -106,7 +106,7 @@ class BehaviorPreferenceScreen extends React.Component {
               </H4>
 
               {BehaviorPreferences.map(preference => (
-                <MCCard width={320} bordered mb={10} p={10}>
+                <MCCard key={preference} width={320} bordered mb={10} p={10}>
                   <H4>{t(`tools_tab_behavior_${preference}`)}</H4>
                   <MultiSlider
                     customMarker={e => {
@@ -151,7 +151,7 @@ class BehaviorPreferenceScreen extends React.Component {
                 ?
               </H4>
               {BehaviorPreferenceNegatives.map(preference => (
-                <MCCard width={320} bordered mb={10} p={10}>
+                <MCCard key={preference} width={320} bordered mb={10} p={10}>
                   <H4>{t(`tools_tab_behavior_${preference}`)}</H4>
                   <MultiSlider
                     customMarker={e => {

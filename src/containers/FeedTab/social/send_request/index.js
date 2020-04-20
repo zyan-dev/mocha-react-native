@@ -21,7 +21,7 @@ class SendRequestScreen extends React.Component {
     };
   }
 
-  onPressUser = (user) => {
+  onPressUser = user => {
     if (user.networkState > -1) {
       return;
     }
@@ -34,7 +34,7 @@ class SendRequestScreen extends React.Component {
     this.setState({showModal: false});
   };
 
-  onPressUserAvatar = (user) => {
+  onPressUserAvatar = user => {
     NavigationService.navigate('UserProfile', {id: user._id});
   };
 
@@ -47,10 +47,10 @@ class SendRequestScreen extends React.Component {
         <MCSearchInput
           width={350}
           text={searchText}
-          onChange={(text) => this.setState({searchText: text})}
+          onChange={text => this.setState({searchText: text})}
         />
         <MCContent contentContainerStyle={{paddingHorizontal: dySize(10)}}>
-          {allUsers.map((user) => {
+          {allUsers.map(user => {
             const userName = user.user_id;
             const fullName = user.name;
             const filterString = searchText.toLowerCase();
@@ -63,7 +63,13 @@ class SendRequestScreen extends React.Component {
               return;
             }
             return (
-              <MCCard row align="center" shadow mt={10} p={0}>
+              <MCCard
+                key={user.user_id}
+                row
+                align="center"
+                shadow
+                mt={10}
+                p={0}>
                 <MCButton onPress={() => this.onPressUserAvatar(user)}>
                   <MCImage
                     width={80}
@@ -75,9 +81,9 @@ class SendRequestScreen extends React.Component {
                 </MCButton>
                 <MCView style={{flex: 1}} ml={10} justify="center">
                   <H3>{user.name}</H3>
-                  <H4
-                    padding={0}
-                    color={theme.colors.border}>{`@${user.user_id}`}</H4>
+                  <H4 padding={0} color={theme.colors.border}>{`@${
+                    user.user_id
+                  }`}</H4>
                 </MCView>
                 {user.networkState === -1 && (
                   <MCButton onPress={() => this.onPressUser(user)}>
@@ -138,7 +144,7 @@ class SendRequestScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   myProfile: state.profileReducer,
   allUsers: selector.users.getAllMembersWithNetworkState(state),
@@ -149,5 +155,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(SendRequestScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SendRequestScreen),
 );

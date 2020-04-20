@@ -26,8 +26,8 @@ export default class MCTagsView extends React.PureComponent {
         {!tags.length ? (
           <H4>No tags</H4>
         ) : (
-          tags.map(tag => (
-            <TagView ph={5} mb={5} mr={5}>
+          tags.map((tag, index) => (
+            <TagView key={index} ph={5} mb={5} mr={5}>
               {tag}
             </TagView>
           ))

@@ -99,8 +99,8 @@ class SupportObjectiveScreen extends React.Component {
           </H3>
         </MCCard>
 
-        {objective.measures.map(measure => (
-          <MCView width={350} align="center">
+        {objective.measures.map((measure, index) => (
+          <MCView key={index} width={350} align="center">
             <CheckBox
               style={{width: dySize(330), marginTop: 10}}
               isChecked={measure.completed}
