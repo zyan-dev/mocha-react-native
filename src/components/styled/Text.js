@@ -48,11 +48,6 @@ export const H6 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_TINY)}px;
 `;
 
-export const Bold = styled(MCText)`
-  font-weight: bold;
-  text-decoration-line: underline;
-`;
-
 export const MCEmptyText = styled(H4)`
   color: ${props => props.theme.colors.border};
   text-align: center;

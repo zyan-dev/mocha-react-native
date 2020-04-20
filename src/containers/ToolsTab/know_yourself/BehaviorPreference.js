@@ -1,26 +1,30 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { withTranslation } from 'react-i18next';
+import {connect} from 'react-redux';
+import {withTranslation} from 'react-i18next';
+import * as _ from 'lodash';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { selector } from 'Redux/selectors';
-import { reflectionActions } from 'Redux/actions';
+import {selector} from 'Redux/selectors';
+import {reflectionActions} from 'Redux/actions';
 
-import { MCRootView, MCContent, MCView, MCCard } from 'components/styled/View';
-import { H3, H4, H5, MCIcon, Bold } from 'components/styled/Text';
-import { MCHeader } from 'components/common';
-import { BehaviorPreferences, BehaviorPreferenceNegatives } from 'utils/constants';
-import { dySize } from 'utils/responsive';
+import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
+import {H3, H4, H5, MCIcon, Bold} from 'components/styled/Text';
+import {MCHeader} from 'components/common';
+import {
+  BehaviorPreferences,
+  BehaviorPreferenceNegatives,
+} from 'utils/constants';
+import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 
 class BehaviorPreferenceScreen extends React.Component {
   isNew = false;
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      step: 1
-    }
+      step: 1,
+    };
   }
 
   componentWillMount() {
@@ -43,14 +47,14 @@ class BehaviorPreferenceScreen extends React.Component {
   }
 
   onChangeSliderValue = key => values => {
-    this.props.updateSelectedReflection({ [key]: values[0] });
+    this.props.updateSelectedReflection({[key]: values[0]});
   };
 
   onPressBack = () => {
-    const { selectedReflection, saveReflectionDraft } = this.props;
-    const { step } = this.state;
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    const {step} = this.state;
     if (step === 2) {
-      this.setState({ step: 1 })
+      this.setState({step: 1});
     } else {
       if (this.isNew) {
         saveReflectionDraft({
@@ -63,15 +67,15 @@ class BehaviorPreferenceScreen extends React.Component {
 
   onPressRight = () => {
     if (this.state.step == 1) {
-      this.setState({ step: 2 })
+      this.setState({step: 2});
     } else {
-      this.props.addOrUpdateReflection()
+      this.props.addOrUpdateReflection();
     }
-  }
+  };
 
   render() {
-    const { t, theme, selectedReflection } = this.props;
-    const { step } = this.state;
+    const {t, theme, selectedReflection} = this.props;
+    const {step} = this.state;
     if (!selectedReflection || !selectedReflection.data) return null;
     return (
       <MCRootView justify="flex-start">
@@ -82,7 +86,7 @@ class BehaviorPreferenceScreen extends React.Component {
           rightIcon={step === 1 ? 'arrow-right' : 'cloud-upload-alt'}
           onPressRight={() => this.onPressRight()}
         />
-        <MCContent contentContainerStyle={{ alignItems: 'center' }}>
+        <MCContent contentContainerStyle={{alignItems: 'center'}}>
           <MCView row justify="center" align="center" mb={20}>
             <H3>{t('tools_tab_behavior_preferences')}</H3>
             <MCIcon type="FontAwesome5" name="thumbs-up" size={30} />
@@ -91,9 +95,14 @@ class BehaviorPreferenceScreen extends React.Component {
             <>
               <H4 width={320} mb={20} color={theme.colors.border}>
                 {t('tools_tab_behavior_explain')}
-                <Bold>{t('valuable')}</Bold>
+                <H4 weight="bold" underline>
+                  {t('valuable')}
+                </H4>
                 {t('tools_tab_behavior_explain_following')}
-                <Bold>{t('traits')}</Bold>?
+                <H4 weight="bold" underline>
+                  {t('traits')}
+                </H4>
+                ?
               </H4>
 
               {BehaviorPreferences.map(preference => (
@@ -117,7 +126,7 @@ class BehaviorPreferenceScreen extends React.Component {
                     values={[selectedReflection.data[preference]]}
                     onValuesChange={this.onChangeSliderValue(preference)}
                     snapped
-                    containerStyle={{ marginLeft: dySize(10) }}
+                    containerStyle={{marginLeft: dySize(10)}}
                   />
                   <MCView width={300} row justify="space-between" mt={-10}>
                     <H5 weight="italic">Not at all</H5>
@@ -132,9 +141,14 @@ class BehaviorPreferenceScreen extends React.Component {
             <>
               <H4 width={320} mb={20} color={theme.colors.border}>
                 {t('tools_tab_behavior_negative_explain')}
-                <Bold>{t('unacceptable')}</Bold>
+                <H4 weight="bold" underline>
+                  {t('unacceptable')}
+                </H4>
                 {t('tools_tab_behavior_explain_following')}
-                <Bold>{t('traits')}</Bold>?
+                <H4 weight="bold" underline>
+                  {t('traits')}
+                </H4>
+                ?
               </H4>
               {BehaviorPreferenceNegatives.map(preference => (
                 <MCCard width={320} bordered mb={10} p={10}>
@@ -154,10 +168,12 @@ class BehaviorPreferenceScreen extends React.Component {
                     max={100}
                     step={1}
                     sliderLength={dySize(280)}
-                    values={[selectedReflection.data[preference]]}
+                    values={[
+                      _.get(selectedReflection, ['data', preference], 50), // if undefined, set to 50 by default
+                    ]}
                     onValuesChange={this.onChangeSliderValue(preference)}
                     snapped
-                    containerStyle={{ marginLeft: dySize(10) }}
+                    containerStyle={{marginLeft: dySize(10)}}
                   />
                   <MCView width={300} row justify="space-between" mt={-10}>
                     <H5 weight="italic">I don't mind</H5>
