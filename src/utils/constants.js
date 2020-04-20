@@ -1377,6 +1377,18 @@ export const DefaultReflections = {
       emotional_intelligence: 50,
       integrity: 50,
       conscientiousness: 50,
+      negative_pleasing: 50,
+      negative_optimistic: 50,
+      negative_defensive: 50,
+      negative_high_emotionality: 50,
+      negative_cynical: 50,
+      negative_procrasinators: 50,
+      negative_immature: 50,
+      negative_teachers: 50,
+      negative_naysayers: 50,
+      negative_paranoid: 50,
+      negative_charmless: 50,
+      negative_frank: 50
     },
   },
   risk_tolerance: {
@@ -1565,6 +1577,21 @@ export const BehaviorPreferences = [
   'emotional_intelligence',
   'integrity',
   'conscientiousness',
+];
+
+export const BehaviorPreferenceNegatives = [
+  'negative_pleasing',
+  'negative_optimistic',
+  'negative_defensive',
+  'negative_high_emotionality',
+  'negative_cynical',
+  'negative_procrasinators',
+  'negative_immature',
+  'negative_teachers',
+  'negative_naysayers',
+  'negative_paranoid',
+  'negative_charmless',
+  'negative_frank'
 ];
 
 export const RiskTolerances = [
