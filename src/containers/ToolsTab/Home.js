@@ -282,7 +282,7 @@ class AddReflectionScreen extends React.Component {
           <MCButton onPress={() => this.onToggleBookmark(card, exist)}>
             <MCIcon
               padding={1}
-              name="ios-star-outline"
+              name={exist ? 'ios-star' : 'ios-star-outline'}
               color={exist ? theme.colors.outline : theme.colors.text}
               size={15}
             />

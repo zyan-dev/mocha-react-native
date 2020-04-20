@@ -13,13 +13,13 @@ const findMySpecialReflections = (state, reflectionType) => {
 
 // User Reflections
 const getUserSpecialReflections = (state, reflectionType) => {
-  const userReflections = _.cloneDeep(state.reflectionReducer.myReflections);
+  const userReflections = _.cloneDeep(state.reflectionReducer.userReflections);
   const filtered = userReflections.filter(({type}) => type === reflectionType);
   return filtered || [];
 };
 
 const findUserSpecialReflections = (state, reflectionType) => {
-  const userReflections = _.cloneDeep(state.reflectionReducer.myReflections);
+  const userReflections = _.cloneDeep(state.reflectionReducer.userReflections);
   return userReflections.find(({type}) => type === reflectionType);
 };
 

@@ -225,6 +225,7 @@ class EditObjectiveScreen extends React.PureComponent {
         />
         <MCContent
           ref={ref => (this.scrollView = ref)}
+          keyboardShouldPersistTaps="always"
           contentContainerStyle={{padding: dySize(10), paddingBottom: 200}}>
           <H3 width={350} align="left" underline>
             {t('objective_preview')}
@@ -399,6 +400,7 @@ class EditObjectiveScreen extends React.PureComponent {
               horizontal
               style={{width: '100%', height: dySize(200)}}
               data={selectedUsers}
+              keyboardShouldPersistTaps="always"
               renderItem={this._renderMemberItem}
               keyExtractor={item => item}
               ListFooterComponent={this._renderSocialListFooter}
