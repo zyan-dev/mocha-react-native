@@ -7,9 +7,9 @@ import {
   feedbackActions,
 } from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H2, MCIcon} from 'components/styled/Text';
+import {H2, H4, H5, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCHeader} from 'components/common';
+import {MCHeader, MCImage, MCModal} from 'components/common';
 import {selector} from 'Redux/selectors';
 import OverviewCard from '../ProfileTab/profile/components/Overview';
 import ContactCard from '../ProfileTab/profile/components/Contact';
@@ -39,6 +39,7 @@ class UserProfileScreen extends React.Component {
     this.state = {
       unknownUser: false,
       selected: 'overview',
+      showAvatarModal: false,
     };
   }
 
@@ -74,8 +75,12 @@ class UserProfileScreen extends React.Component {
     });
   };
 
+  onPressHeaderAvatar = () => {
+    this.setState({showAvatarModal: true});
+  };
+
   render() {
-    const {selected, unknownUser} = this.state;
+    const {selected, unknownUser, showAvatarModal} = this.state;
     const {
       t,
       theme,
@@ -104,7 +109,19 @@ class UserProfileScreen extends React.Component {
     }
     return (
       <MCRootView justify="flex-start">
-        <MCHeader title={t('other_profile_page_headerText')} />
+        <MCHeader
+          title={t('other_profile_page_headerText')}
+          hasRight={selected !== 'overview'}
+          rightImage={
+            <MCImage
+              image={{uri: profile.avatar}}
+              round
+              width={40}
+              height={40}
+            />
+          }
+          onPressRight={() => this.onPressHeaderAvatar()}
+        />
         <MCView row style={{flex: 1}}>
           <MCView width={325}>
             <MCContent
@@ -181,6 +198,20 @@ class UserProfileScreen extends React.Component {
             </MCContent>
           </MCView>
         </MCView>
+        <MCModal
+          isVisible={showAvatarModal}
+          onClose={() => this.setState({showAvatarModal: false})}>
+          <MCView align="center" width={280} mt={20}>
+            <MCImage
+              image={{uri: profile.avatar}}
+              round
+              width={200}
+              height={200}
+            />
+            <H4>{profile.name}</H4>
+            <H5 color={theme.colors.border}>{`@${profile.user_id}`}</H5>
+          </MCView>
+        </MCModal>
       </MCRootView>
     );
   }

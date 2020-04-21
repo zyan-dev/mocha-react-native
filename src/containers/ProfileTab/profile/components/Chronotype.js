@@ -61,8 +61,18 @@ class ChronotypeCard extends React.Component {
             align="center"
             bordered
             onPress={() => onPressEdit()}>
-            <MCEmptyText>{t('profile_card_empty_chronotype')}</MCEmptyText>
-            <MCEmptyText>{t('profile_card_empty_chronotype_1')}</MCEmptyText>
+            {editable ? (
+              <>
+                <MCEmptyText>{t('profile_card_empty_chronotype')}</MCEmptyText>
+                <MCEmptyText>
+                  {t('profile_card_empty_chronotype_1')}
+                </MCEmptyText>
+              </>
+            ) : (
+              <MCEmptyText>
+                {t('profile_card_empty_user_chronotype')}
+              </MCEmptyText>
+            )}
           </MCButton>
         ) : (
           <>

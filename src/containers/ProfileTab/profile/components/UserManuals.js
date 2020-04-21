@@ -32,7 +32,7 @@ class UserManualsCard extends React.Component {
     };
   }
 
-  onPressItem = (manual) => {
+  onPressItem = manual => {
     this.setState({selectedManual: manual, showModal: true});
   };
 
@@ -71,14 +71,18 @@ class UserManualsCard extends React.Component {
         <FlatList
           data={manuals.slice(0, 4)}
           renderItem={this._renderItem}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           numColumns={2}
           style={{width: dySize(300)}}
           ListEmptyComponent={
-            <MCButton bordered align="center" onPress={() => onPressNew()}>
-              <MCEmptyText>{t('profile_card_empty_belief')}</MCEmptyText>
-              <MCEmptyText>{t('profile_card_empty_belief_1')}</MCEmptyText>
-            </MCButton>
+            editable ? (
+              <MCButton bordered align="center" onPress={() => onPressNew()}>
+                <MCEmptyText>{t('profile_card_empty_belief')}</MCEmptyText>
+                <MCEmptyText>{t('profile_card_empty_belief_1')}</MCEmptyText>
+              </MCButton>
+            ) : (
+              <MCEmptyText>{t('profile_card_empty_user_belief')}</MCEmptyText>
+            )
           }
         />
         {selectedManual && (

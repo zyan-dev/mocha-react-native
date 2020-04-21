@@ -110,6 +110,7 @@ class ProfileScreen extends React.Component {
 
   render() {
     const {
+      t,
       theme,
       profile,
       values,
@@ -125,7 +126,11 @@ class ProfileScreen extends React.Component {
     const {selected} = this.state;
     return (
       <MCRootView justify="flex-start">
-        <MCHeader leftIcon="bars" onPressBack={() => showDrawer(true)} />
+        <MCHeader
+          leftIcon="bars"
+          title={t('profile_title')}
+          onPressBack={() => showDrawer(true)}
+        />
         <MCView row style={{flex: 1}}>
           <MCView width={325}>
             <MCContent

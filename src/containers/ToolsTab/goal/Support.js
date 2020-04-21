@@ -111,6 +111,7 @@ class SupportObjectiveScreen extends React.Component {
                 fontFamily: 'Raleway-Regular',
               }}
               checkBoxColor={theme.colors.text}
+              onClick={() => {}}
             />
           </MCView>
         ))}
@@ -169,19 +170,19 @@ class SupportObjectiveScreen extends React.Component {
       <MCRootView justify="flex-start" align="center">
         {owners.length > 0 && (
           <>
-            <FlatList
-              style={{marginTop: 20}}
-              contentContainerStyle={{
-                width: dySize(350),
-                alignItems: 'center',
-                paddingVertical: 10,
-              }}
-              data={owners}
-              horizontal
-              renderItem={this._renderOwnerItem}
-              keyExtractor={item => item._id}
-              ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-            />
+            <MCView justify="center" height={50} mt={10}>
+              <FlatList
+                contentContainerStyle={{
+                  width: dySize(350),
+                  alignItems: 'center',
+                }}
+                data={owners}
+                horizontal
+                renderItem={this._renderOwnerItem}
+                keyExtractor={item => item._id}
+                ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+              />
+            </MCView>
             <MCView row width={350} mt={20} mb={10} align="center">
               <MCView bordered br={15}>
                 <MCImage
@@ -197,22 +198,22 @@ class SupportObjectiveScreen extends React.Component {
             </MCView>
           </>
         )}
-
-        <FlatList
-          contentContainerStyle={{
-            width: dySize(375),
-            alignItems: 'center',
-            flex: 1,
-          }}
-          data={supportedObjectives.filter(
-            objective => objective.owner === selectedOwner._id,
-          )}
-          renderItem={this._renderObjectiveItem}
-          keyExtractor={item => item._id}
-          ListEmptyComponent={
-            <MCEmptyText mt={30}>{t('no_result')}</MCEmptyText>
-          }
-        />
+        <MCView style={{flex: 1}}>
+          <FlatList
+            contentContainerStyle={{
+              width: dySize(375),
+              alignItems: 'center',
+            }}
+            data={supportedObjectives.filter(
+              objective => objective.owner === selectedOwner._id,
+            )}
+            renderItem={this._renderObjectiveItem}
+            keyExtractor={item => item._id}
+            ListEmptyComponent={
+              <MCEmptyText mt={30}>{t('no_result')}</MCEmptyText>
+            }
+          />
+        </MCView>
       </MCRootView>
     );
   }

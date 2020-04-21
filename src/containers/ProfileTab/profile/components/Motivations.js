@@ -31,7 +31,7 @@ class MotivationCard extends React.Component {
     };
   }
 
-  onPressItem = (motivation) => {
+  onPressItem = motivation => {
     this.setState({selectedMotivation: motivation, showModal: true});
   };
 
@@ -70,14 +70,22 @@ class MotivationCard extends React.Component {
         <FlatList
           data={motivations.slice(0, 4)}
           renderItem={this._renderMotivationItem}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           numColumns={2}
           style={{width: dySize(300)}}
           ListEmptyComponent={
-            <MCButton bordered align="center" onPress={() => onPressNew()}>
-              <MCEmptyText>{t('profile_card_empty_motivation')}</MCEmptyText>
-              <MCEmptyText>{t('profile_card_empty_motivation_1')}</MCEmptyText>
-            </MCButton>
+            editable ? (
+              <MCButton bordered align="center" onPress={() => onPressNew()}>
+                <MCEmptyText>{t('profile_card_empty_motivation')}</MCEmptyText>
+                <MCEmptyText>
+                  {t('profile_card_empty_motivation_1')}
+                </MCEmptyText>
+              </MCButton>
+            ) : (
+              <MCEmptyText>
+                {t('profile_card_empty_user_motivation')}
+              </MCEmptyText>
+            )
           }
         />
         {selectedMotivation && (

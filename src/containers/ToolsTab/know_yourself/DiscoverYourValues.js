@@ -29,6 +29,7 @@ class DiscoverValueScreen extends React.Component {
       selectedValues: [], // important values
       step: 0,
       submitted: false,
+      scrollEnabled: true,
     };
   }
 
@@ -86,8 +87,12 @@ class DiscoverValueScreen extends React.Component {
     this.setState({swiped: []});
   };
 
+  _onSwipe = x => {
+    this.setState({swipeXOffset: x, scrollEnabled: false});
+  };
+
   _onSwipeEnd = () => {
-    this.setState({swipeXOffset: 0});
+    this.setState({swipeXOffset: 0, scrollEnabled: true});
   };
 
   onPressHeaderNext = () => {
@@ -144,7 +149,7 @@ class DiscoverValueScreen extends React.Component {
   };
 
   render() {
-    const {swiped, step, coreValues, submitted} = this.state;
+    const {swiped, step, coreValues, submitted, scrollEnabled} = this.state;
     const {t, theme} = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -155,174 +160,173 @@ class DiscoverValueScreen extends React.Component {
           onPressBack={() => this.onPressHeaderBack()}
           onPressRight={() => this.onPressSubmit()}
         />
-        <MCView row justify="center" align="center">
-          <H3>{t('tools_tab_discover_your_values')}</H3>
-          <MCIcon type="FontAwesome5" name="key" size={30} />
-        </MCView>
-        {step === 0 ? (
-          <>
-            <H4>{t('tools_tab_discover_your_values_question')}</H4>
-            <MCView row align="center" width={375} height={80}>
-              {/* <H3
-                style={{
-                  textAlign: 'center',
-                  flex: 1,
-                  fontSize: this.getLessFontSize(),
-                }}>
-                {t('tools_tab_discover_your_values_less')}
-              </H3> */}
-              <MCView style={{flex: 1}} align="center">
-                <MCIcon
-                  type="FontAwesome"
-                  name="thumbs-down"
-                  size={this.getLessFontSize()}
-                />
+        <MCContent
+          scrollEnabled={scrollEnabled}
+          contentContainerStyle={{alignItems: 'center'}}>
+          <MCView row justify="center" align="center">
+            <H3>{t('tools_tab_discover_your_values')}</H3>
+            <MCIcon type="FontAwesome5" name="key" size={30} />
+          </MCView>
+          {step === 0 ? (
+            <>
+              <H4>{t('tools_tab_discover_your_values_question')}</H4>
+              <MCView row align="center" width={375} height={80}>
+                <MCView style={{flex: 1}} align="center">
+                  <MCIcon
+                    type="FontAwesome"
+                    name="thumbs-down"
+                    size={this.getLessFontSize()}
+                  />
+                </MCView>
+                <MCIcon type="FontAwesome" name="arrows-h" size={40} />
+                <MCView style={{flex: 1}} align="center">
+                  <MCIcon
+                    type="FontAwesome"
+                    name="thumbs-up"
+                    size={this.getVeryFontSize()}
+                  />
+                </MCView>
               </MCView>
-              <MCIcon type="FontAwesome" name="arrows-h" size={40} />
-              <MCView style={{flex: 1}} align="center">
-                <MCIcon
-                  type="FontAwesome"
-                  name="thumbs-up"
-                  size={this.getVeryFontSize()}
-                />
+              <MCView align="center">
+                <CardStack
+                  style={{
+                    width: dySize(375),
+                    height: dySize(350),
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  ref={swiper => (this.swiper = swiper)}
+                  secondCardZoom={0.9}
+                  onSwipe={x => this._onSwipe(x)}
+                  onSwiped={this._onSwiped}
+                  onSwipedLeft={this._onSwipedLeft}
+                  onSwipedRight={this._onSwipedRight}
+                  onSwipeEnd={this._onSwipeEnd}
+                  renderNoMoreCards={() => (
+                    <>
+                      <MCEmptyText>
+                        {t('tools_tab_discover_your_values_no_more_cards')}
+                      </MCEmptyText>
+                      <MCButton
+                        bordered
+                        pl={20}
+                        pr={20}
+                        onPress={() => this._onPressRefresh()}>
+                        <MCEmptyText>
+                          {t('tools_tab_discover_your_values_refresh')}
+                        </MCEmptyText>
+                      </MCButton>
+                      <MCEmptyText>{t('add_goal_manage_or')}</MCEmptyText>
+                      <MCButton
+                        bordered
+                        pl={20}
+                        pr={20}
+                        onPress={() => this.onPressNext()}>
+                        <MCEmptyText>
+                          {t('tools_tab_discover_your_values_go_next')}
+                        </MCEmptyText>
+                      </MCButton>
+                    </>
+                  )}
+                  verticalSwipe={false}
+                  disableBottomSwipe
+                  disableTopSwipe>
+                  {DiscoverValues.map(value => (
+                    <Card
+                      key={value.value}
+                      style={{
+                        width: dySize(200),
+                        height: dySize(300),
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderWidth: 1,
+                        borderColor: 'white',
+                        backgroundColor: theme.colors.background,
+                        borderRadius: 10,
+                        padding: dySize(10),
+                      }}>
+                      <H5>
+                        {t(`value_category_${value.category}`).toUpperCase()}
+                      </H5>
+                      <H4 weight="bold">
+                        {t(`tools_tab_value_${value.value}`)}
+                      </H4>
+                      <MCView style={{flex: 1}} align="center" justify="center">
+                        <MCIcon
+                          type="FontAwesome5"
+                          name={value.icon}
+                          size={60}
+                        />
+                      </MCView>
+                      <H5>{t(`value_name_${value.name}`).toUpperCase()}</H5>
+                      <H5 weight="italic" align="center">
+                        {t(`value_name_${value.name}_description`)}
+                      </H5>
+                    </Card>
+                  ))}
+                </CardStack>
               </MCView>
-              {/* <H3
-                style={{
-                  textAlign: 'center',
-                  flex: 1,
-                  fontSize: this.getVeryFontSize(),
-                }}>
-                {t('tools_tab_discover_your_values_very')}
-              </H3> */}
-            </MCView>
-            <MCView align="center">
-              <CardStack
-                style={{
-                  width: dySize(375),
-                  height: dySize(350),
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                ref={swiper => (this.swiper = swiper)}
-                secondCardZoom={0.6}
-                onSwipe={x => this.setState({swipeXOffset: x})}
-                onSwiped={this._onSwiped}
-                onSwipedLeft={this._onSwipedLeft}
-                onSwipedRight={this._onSwipedRight}
-                onSwipeEnd={this._onSwipeEnd}
-                renderNoMoreCards={() => (
-                  <>
-                    <MCEmptyText>
-                      {t('tools_tab_discover_your_values_no_more_cards')}
-                    </MCEmptyText>
+              {swiped.length > 0 && (
+                <MCButton
+                  row
+                  align="center"
+                  bordered
+                  pl={20}
+                  pr={20}
+                  onPress={() => this._onPressBack()}>
+                  <MCIcon type="FontAwesome5" name="undo" />
+                  <H4 ml={10}>
+                    {t('tools_tab_discover_your_values_swipe_undo')}
+                  </H4>
+                </MCButton>
+              )}
+            </>
+          ) : (
+            <MCContent contentContainerStyle={{padding: dySize(20)}}>
+              <H4>{t('tools_tab_core_values_explain')}</H4>
+              {!this.validateOptions() && submitted && (
+                <ErrorText>{t('error_input_select_empty')}</ErrorText>
+              )}
+              <MCView row wrap justify="space-between" mt={20}>
+                {swiped.map(item => {
+                  if (item.isLess) return null;
+                  const value = item.value;
+                  return (
                     <MCButton
+                      key={value}
                       bordered
-                      pl={20}
-                      pr={20}
-                      onPress={() => this._onPressRefresh()}>
-                      <MCEmptyText>
-                        {t('tools_tab_discover_your_values_refresh')}
-                      </MCEmptyText>
-                    </MCButton>
-                    <MCEmptyText>{t('add_goal_manage_or')}</MCEmptyText>
-                    <MCButton
-                      bordered
-                      pl={20}
-                      pr={20}
-                      onPress={() => this.onPressNext()}>
-                      <MCEmptyText>
-                        {t('tools_tab_discover_your_values_go_next')}
-                      </MCEmptyText>
-                    </MCButton>
-                  </>
-                )}
-                verticalSwipe={false}
-                disableBottomSwipe
-                disableTopSwipe>
-                {DiscoverValues.map(value => (
-                  <Card
-                    key={value.value}
-                    style={{
-                      width: dySize(200),
-                      height: dySize(300),
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderWidth: 1,
-                      borderColor: 'white',
-                      backgroundColor: theme.colors.background,
-                      borderRadius: 10,
-                      padding: dySize(10),
-                    }}>
-                    <H5>
-                      {t(`value_category_${value.category}`).toUpperCase()}
-                    </H5>
-                    <H4 weight="bold">{t(`tools_tab_value_${value.value}`)}</H4>
-                    <MCView style={{flex: 1}} align="center" justify="center">
-                      <MCIcon type="FontAwesome5" name={value.icon} size={60} />
-                    </MCView>
-                    <H5>{t(`value_name_${value.name}`).toUpperCase()}</H5>
-                    <H5 weight="italic" align="center">
-                      {t(`value_name_${value.name}_description`)}
-                    </H5>
-                  </Card>
-                ))}
-              </CardStack>
-            </MCView>
-            {swiped.length > 0 && (
-              <MCButton
-                bordered
-                pl={20}
-                pr={20}
-                onPress={() => this._onPressBack()}>
-                <H3>{t('tools_tab_discover_your_values_swipe_undo')}</H3>
-              </MCButton>
-            )}
-          </>
-        ) : (
-          <MCContent contentContainerStyle={{padding: dySize(20)}}>
-            <H4>{t('tools_tab_core_values_explain')}</H4>
-            {!this.validateOptions() && submitted && (
-              <ErrorText>{t('error_input_select_empty')}</ErrorText>
-            )}
-            <MCView row wrap justify="space-between" mt={20}>
-              {swiped.map(item => {
-                if (item.isLess) return null;
-                const value = item.value;
-                return (
-                  <MCButton
-                    key={value}
-                    bordered
-                    width={160}
-                    height={100}
-                    br={6}
-                    mb={10}
-                    align="center"
-                    justify="center"
-                    style={{
-                      borderColor:
-                        coreValues.indexOf(value) < 0
-                          ? theme.colors.border
-                          : theme.colors.outline,
-                    }}
-                    onPress={() => this.onPressCoreItem(value)}>
-                    <H3
-                      weight={
-                        coreValues.indexOf(value) < 0 ? 'regular' : 'bold'
-                      }
+                      width={160}
+                      height={100}
+                      br={6}
+                      mb={10}
                       align="center"
-                      color={
-                        coreValues.indexOf(value) < 0
-                          ? theme.colors.text
-                          : theme.colors.outline
-                      }>
-                      {t(`tools_tab_value_${value.value}`)}
-                    </H3>
-                  </MCButton>
-                );
-              })}
-            </MCView>
-          </MCContent>
-        )}
+                      justify="center"
+                      style={{
+                        borderColor:
+                          coreValues.indexOf(value) < 0
+                            ? theme.colors.border
+                            : theme.colors.outline,
+                      }}
+                      onPress={() => this.onPressCoreItem(value)}>
+                      <H3
+                        weight={
+                          coreValues.indexOf(value) < 0 ? 'regular' : 'bold'
+                        }
+                        align="center"
+                        color={
+                          coreValues.indexOf(value) < 0
+                            ? theme.colors.text
+                            : theme.colors.outline
+                        }>
+                        {t(`tools_tab_value_${value.value}`)}
+                      </H3>
+                    </MCButton>
+                  );
+                })}
+              </MCView>
+            </MCContent>
+          )}
+        </MCContent>
       </MCRootView>
     );
   }

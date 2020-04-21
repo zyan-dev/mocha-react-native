@@ -20,6 +20,7 @@ class ValuesCard extends React.Component {
   static defaultProps = {
     values: [],
     onPressDetails: () => undefined,
+    onPressNew: () => undefined,
     editable: true,
   };
 
@@ -31,7 +32,7 @@ class ValuesCard extends React.Component {
     };
   }
 
-  onPressItem = (value) => {
+  onPressItem = value => {
     this.setState({selectedValue: value, showModal: true});
   };
 
@@ -67,14 +68,18 @@ class ValuesCard extends React.Component {
         <FlatList
           data={values.slice(0, 4)}
           renderItem={this._renderValueItem}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           numColumns={2}
           style={{width: dySize(300)}}
           ListEmptyComponent={
-            <MCButton bordered align="center" onPress={() => onPressNew()}>
-              <MCEmptyText>{t('profile_card_empty_value')}</MCEmptyText>
-              <MCEmptyText>{t('profile_card_empty_value_1')}</MCEmptyText>
-            </MCButton>
+            editable ? (
+              <MCButton bordered align="center" onPress={() => onPressNew()}>
+                <MCEmptyText>{t('profile_card_empty_value')}</MCEmptyText>
+                <MCEmptyText>{t('profile_card_empty_value_1')}</MCEmptyText>
+              </MCButton>
+            ) : (
+              <MCEmptyText>{t('profile_card_empty_user_value')}</MCEmptyText>
+            )
           }
         />
         {selectedValue && (

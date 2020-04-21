@@ -39,8 +39,18 @@ class PersonalityCard extends React.Component {
             align="center"
             bordered
             onPress={() => onPressEdit()}>
-            <MCEmptyText>{t('profile_card_empty_personality')}</MCEmptyText>
-            <MCEmptyText>{t('profile_card_empty_personality_1')}</MCEmptyText>
+            {editable ? (
+              <>
+                <MCEmptyText>{t('profile_card_empty_personality')}</MCEmptyText>
+                <MCEmptyText>
+                  {t('profile_card_empty_personality_1')}
+                </MCEmptyText>
+              </>
+            ) : (
+              <MCEmptyText>
+                {t('profile_card_empty_user_personality')}
+              </MCEmptyText>
+            )}
           </MCButton>
         ) : (
           <MCView width={300}>

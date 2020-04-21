@@ -7,7 +7,12 @@ import {profileActions} from 'Redux/actions';
 import {MCCard, MCView} from 'components/styled/View';
 import {H3, H4, H5, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCEditableText, MCImagePicker} from 'components/common';
+import {
+  MCEditableText,
+  MCImagePicker,
+  MCModal,
+  MCImage,
+} from 'components/common';
 import {dySize} from 'utils/responsive';
 
 class OverviewCard extends React.Component {
@@ -24,6 +29,7 @@ class OverviewCard extends React.Component {
     super(props);
     this.state = {
       editing: false,
+      expandAvatar: false,
     };
   }
 
@@ -39,7 +45,7 @@ class OverviewCard extends React.Component {
     this.setState({editing: !editing});
   };
 
-  onChangedAvatar = (image) => {
+  onChangedAvatar = image => {
     const {updateProfile} = this.props;
     updateProfile({
       avatar: image.path,
@@ -48,32 +54,32 @@ class OverviewCard extends React.Component {
   };
 
   render() {
-    const {t, theme, editable, profile, myProfile} = this.props;
-    const {editing} = this.state;
+    const {t, theme, editable, profile} = this.props;
+    const {editing, expandAvatar} = this.state;
     return (
       <MCView>
-        <MCView row align="center">
-          <H3 weight="bold" style={{flex: 1}}>
-            {t('profile_card_overview')}
-          </H3>
-          {editable && (
+        {editable && (
+          <MCView row align="center">
+            <H3 weight="bold" style={{flex: 1}}>
+              {t('profile_card_overview')}
+            </H3>
             <MCButton onPress={() => this.toggleEdit()}>
               <MCIcon
                 type="FontAwesome5"
                 name={editing ? 'cloud-upload-alt' : 'edit'}
               />
             </MCButton>
-          )}
-        </MCView>
+          </MCView>
+        )}
         <MCView width={300} align="center">
           <MCImagePicker
             round
-            width={100}
-            height={100}
+            width={150}
+            height={150}
             image={profile.avatar}
             type="avatar"
             enabled={editing}
-            onSelectImage={(image) => this.onChangedAvatar(image)}
+            onSelectImage={image => this.onChangedAvatar(image)}
           />
           <MCView mt={10} width={300}>
             <MCEditableText
@@ -83,7 +89,7 @@ class OverviewCard extends React.Component {
               fontSize={16}
               textAlign="center"
               placeholder={t('profile_name_placeholder')}
-              onChange={(value) => this.onUpdateProfile('name', value)}
+              onChange={value => this.onUpdateProfile('name', value)}
             />
           </MCView>
           <H5 color={theme.colors.border}>{`@${profile.user_id}`}</H5>
@@ -93,20 +99,30 @@ class OverviewCard extends React.Component {
             multiline
             text={profile.bio}
             maxLength={1024}
-            placeholder={t(`profile_card_overview_placeholder`)}
+            placeholder={
+              editable
+                ? t(`profile_card_overview_placeholder`)
+                : t('profile_card_user_overview_placeholder')
+            }
             editable={editing}
-            onChange={(value) => this.onUpdateProfile('bio', value)}
+            onChange={value => this.onUpdateProfile('bio', value)}
             style={{lineHeight: dySize(24), fontStyle: 'italic'}}
           />
         </MCView>
+        <MCModal
+          isVisible={expandAvatar}
+          onClose={() => this.setState({showModal: false})}>
+          <MCView align="center" width={280} mt={20}>
+            <MCImage image={{uri: profile.avatar}} width={280} height={280} />
+          </MCView>
+        </MCModal>
       </MCView>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  myProfile: state.profileReducer,
 });
 
 const mapDispatchToProps = {
@@ -115,5 +131,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(OverviewCard),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(OverviewCard),
 );

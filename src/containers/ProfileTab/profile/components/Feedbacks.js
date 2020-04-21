@@ -31,14 +31,14 @@ class FeedbacksCard extends React.Component {
     };
   }
 
-  onPressItem = (feedback) => {
+  onPressItem = feedback => {
     this.setState({selectedFeedback: feedback, showModal: true});
   };
 
   _renderItem = ({item}) => {
     const feedback = item;
     return (
-      <MCCard width={140} mr={15} align="center">
+      <MCCard width={140} mr={15} align="center" mb={10}>
         <MCButton
           key={feedback._id}
           align="center"
@@ -48,6 +48,7 @@ class FeedbacksCard extends React.Component {
             width={100}
             height={100}
             image={{uri: feedback.receiver.avatar}}
+            type="avatar"
           />
           <H4 align="center" numberOfLines={3} width={120}>
             {feedback.question}
@@ -75,14 +76,18 @@ class FeedbacksCard extends React.Component {
         <FlatList
           data={feedbacks.slice(0, 4)}
           renderItem={this._renderItem}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           numColumns={2}
           style={{width: dySize(300)}}
           ListEmptyComponent={
-            <MCButton align="center" bordered onPress={() => onPressNew()}>
-              <MCEmptyText>{t('profile_card_empty_feedback')}</MCEmptyText>
-              <MCEmptyText>{t('profile_card_empty_feedback_1')}</MCEmptyText>
-            </MCButton>
+            editable ? (
+              <MCButton align="center" bordered onPress={() => onPressNew()}>
+                <MCEmptyText>{t('profile_card_empty_feedback')}</MCEmptyText>
+                <MCEmptyText>{t('profile_card_empty_feedback_1')}</MCEmptyText>
+              </MCButton>
+            ) : (
+              <MCEmptyText>{t('profile_card_empty_user_feedback')}</MCEmptyText>
+            )
           }
         />
         {selectedFeedback && (
@@ -94,6 +99,7 @@ class FeedbacksCard extends React.Component {
                 round
                 image={{uri: selectedFeedback.receiver.avatar}}
                 br={6}
+                type="avatar"
               />
               <H3 weight="bold" mt={10}>
                 {selectedFeedback.question}

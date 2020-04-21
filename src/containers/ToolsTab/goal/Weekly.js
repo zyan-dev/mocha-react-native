@@ -21,7 +21,7 @@ const ReactionView = styled(MCView)`
   height: 40px;
   border-radius: 20px;
   margin-right: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-horizontal: 10px;
   background-color: ${props => props.theme.colors.card};
 `;

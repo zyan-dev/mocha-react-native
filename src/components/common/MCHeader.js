@@ -133,7 +133,15 @@ class MCHeader extends React.PureComponent {
               />
             </MCButton>
           )}
-          {rightImage}
+          {hasRight && (
+            <MCButton
+              width={80}
+              rippleSize={40}
+              align="flex-end"
+              onPress={() => onPressRight()}>
+              {rightImage}
+            </MCButton>
+          )}
         </HeaderRight>
       </HeaderWrapper>
     );
