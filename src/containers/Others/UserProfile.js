@@ -66,12 +66,9 @@ class UserProfileScreen extends React.Component {
   };
 
   onPressAllObjectives = tabIndex => {
-    NavigationService.navigate('TabTools');
-    setTimeout(() => {
-      NavigationService.navigate('UserObjective', {
-        id: this.props.profile._id,
-        tabIndex,
-      });
+    NavigationService.navigate('UserObjective', {
+      id: this.props.profile._id,
+      tabIndex,
     });
   };
 

@@ -3,7 +3,7 @@ import {AsyncStorage, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import codePush from 'react-native-code-push';
-import VersionNumber from 'react-native-version-number';
+import DeviceInfo from 'react-native-device-info';
 import {routerActions, profileActions, otherActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {colorThemes} from 'theme';
@@ -102,7 +102,7 @@ class ProfileSideMenu extends React.Component {
               color={systemTheme.colors.border}
               mb={5}
               align="left">
-              {t('version', {version: VersionNumber.appVersion})}
+              {t('version', {version: DeviceInfo.getVersion()})}
             </H3>
             <MCButton
               bordered

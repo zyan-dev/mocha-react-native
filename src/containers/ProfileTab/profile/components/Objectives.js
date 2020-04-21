@@ -94,11 +94,9 @@ class ObjectivesCard extends React.Component {
           <H3 weight="italic" style={{flex: 1}}>
             {t('objective_daily_tabTitle')}
           </H3>
-          {editable && (
-            <MCButton onPress={() => onPressAllDaily()}>
-              <H5 underline>{t('view_all')}</H5>
-            </MCButton>
-          )}
+          <MCButton onPress={() => onPressAllDaily()}>
+            <H5 underline>{t('view_all')}</H5>
+          </MCButton>
         </MCView>
         <FlatList
           data={dailyObjectives.slice(0, 4)}
@@ -111,11 +109,9 @@ class ObjectivesCard extends React.Component {
           <H3 weight="italic" style={{flex: 1}}>
             {t('objective_weekly_tabTitle')}
           </H3>
-          {editable && (
-            <MCButton onPress={() => onPressAllWeekly()}>
-              <H5 underline>{t('view_all')}</H5>
-            </MCButton>
-          )}
+          <MCButton onPress={() => onPressAllWeekly()}>
+            <H5 underline>{t('view_all')}</H5>
+          </MCButton>
         </MCView>
         <FlatList
           data={weeklyObjectives.slice(0, 4)}
