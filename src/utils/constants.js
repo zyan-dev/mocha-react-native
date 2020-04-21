@@ -1422,6 +1422,12 @@ export const DefaultReflections = {
       options: [],
     },
   },
+  stress: {
+    type: 'Stress',
+    data: {
+      parts: [],
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1544,10 +1550,19 @@ export const BasicProfileCards = {
     icon: 'ios-body',
     minutes: 20,
     width: 250,
-    redirectTo: '',
+    redirectTo: 'KY_BodyAwareness',
+  },
+  chronotype: {
+    practice: '7',
+    title: 'sleep_chronotype',
+    iconType: 'Ionicon',
+    icon: 'ios-hourglass',
+    minutes: 20,
+    width: 250,
+    redirectTo: 'KY_SleepChronotype',
   },
   goal: {
-    practice: '7',
+    practice: '8',
     title: 'goal_setting',
     iconType: 'Ionicon',
     icon: 'ios-compass',

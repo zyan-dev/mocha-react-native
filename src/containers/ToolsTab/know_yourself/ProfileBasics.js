@@ -18,6 +18,8 @@ class ProfileBasicScreen extends React.Component {
       attachment,
       approach,
       coreValues,
+      stress,
+      chronotype,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -64,8 +66,17 @@ class ProfileBasicScreen extends React.Component {
           <ProfileBasicCard
             data={BasicProfileCards.body}
             locked={!coreValues}
+            completed={stress}
           />
-          <ProfileBasicCard data={BasicProfileCards.goal} locked />
+          <ProfileBasicCard
+            data={BasicProfileCards.chronotype}
+            locked={!stress}
+            completed={chronotype}
+          />
+          <ProfileBasicCard
+            data={BasicProfileCards.goal}
+            locked={!chronotype}
+          />
         </MCContent>
       </MCRootView>
     );
@@ -97,6 +108,11 @@ const mapStateToProps = state => ({
   coreValues: selector.reflections.findMySpecialReflections(
     state,
     'CoreValues',
+  ),
+  stress: selector.reflections.findMySpecialReflections(state, 'Stress'),
+  chronotype: selector.reflections.findMySpecialReflections(
+    state,
+    'Chronotype',
   ),
 });
 

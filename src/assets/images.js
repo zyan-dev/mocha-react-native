@@ -20,3 +20,6 @@ export const NightOwlIcon = require('./images/profile/chronotype_night_owl.png')
 export const DaytimeIcon = require('./images/profile/icon_daytime.png');
 export const NightimeIcon = require('./images/profile/icon_nightime.png');
 export const SpeedoMeterImage = require('./images/profile/speedometer.png');
+
+export const BodyStress = require('./images/tools/body_stress.png');
+export const BodyStressWhite = require('./images/tools/body_stress_white_theme.png');

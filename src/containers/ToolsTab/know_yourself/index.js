@@ -8,6 +8,8 @@ import RiskToleranceScreen from './RiskTolerance';
 import AttachmentPatternScreen from './AattachmentPattern';
 import ApproachToConflictScreen from './ApproachToConflict';
 import DiscoverValueScreen from './DiscoverYourValues';
+import BodyAwarenessScreen from './BodyAwareness';
+import ChronotypeScreen from '../../ProfileTab/profile/details/chronotype';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +34,8 @@ class KnowYourSelfStack extends React.Component {
         />
         <Stack.Screen name="KY_Approach" component={ApproachToConflictScreen} />
         <Stack.Screen name="KY_DiscoverValue" component={DiscoverValueScreen} />
+        <Stack.Screen name="KY_BodyAwareness" component={BodyAwarenessScreen} />
+        <Stack.Screen name="KY_SleepChronotype" component={ChronotypeScreen} />
       </Stack.Navigator>
     );
   }
