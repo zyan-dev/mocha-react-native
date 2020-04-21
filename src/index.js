@@ -14,6 +14,7 @@ YellowBox.ignoreWarnings([
   'Module RCTImageLoader',
 ]);
 console.disableYellowBox = true;
+let codePushOptions = {checkFrequency: codePush.CheckFrequency.MANUAL};
 
 class MochaApp extends React.Component {
   render() {
@@ -29,4 +30,4 @@ class MochaApp extends React.Component {
   }
 }
 
-export default codePush(MochaApp);
+export default codePush(codePushOptions)(MochaApp);

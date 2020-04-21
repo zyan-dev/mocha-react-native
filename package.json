@@ -72,6 +72,7 @@
     "react-native-svg": "^11.0.1",
     "react-native-tab-view": "^2.13.0",
     "react-native-tags-input": "^1.0.7",
+    "react-native-version-number": "^0.3.6",
     "react-navigation": "^4.2.2",
     "react-navigation-stack": "^2.2.2",
     "react-navigation-tabs": "^2.8.2",

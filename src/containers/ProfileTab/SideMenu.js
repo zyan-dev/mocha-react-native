@@ -2,10 +2,12 @@ import React from 'react';
 import {AsyncStorage, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import codePush from 'react-native-code-push';
+import VersionNumber from 'react-native-version-number';
 import {routerActions, profileActions, otherActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {colorThemes} from 'theme';
-import {H3, H5, MCIcon} from 'components/styled/Text';
+import {H3, H4, H5, MCIcon} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -16,6 +18,7 @@ class ProfileSideMenu extends React.Component {
     super(props);
     this.state = {
       index: '',
+      cp_status: '',
     };
   }
 
@@ -46,6 +49,34 @@ class ProfileSideMenu extends React.Component {
     }
   };
 
+  updateFromCodePush = () => {
+    codePush.sync(
+      {
+        updateDialog: true,
+        installMode: codePush.InstallMode.IMMEDIATE,
+      },
+      status => {
+        switch (status) {
+          case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+            this.setState({cp_status: 'codepush_checking_for_update'});
+            break;
+          case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+            this.setState({cp_status: 'codepush_downloading_package'});
+            break;
+          case codePush.SyncStatus.INSTALLING_UPDATE:
+            this.setState({cp_status: 'codepush_installing_update'});
+            break;
+          case codePush.SyncStatus.UP_TO_DATE:
+            this.setState({cp_status: 'codepush_up_to_date'});
+            break;
+          case codePush.SyncStatus.UPDATE_INSTALLED:
+            this.setState({cp_status: 'codepush_update_installed'});
+            break;
+        }
+      },
+    );
+  };
+
   onPressTheme = index => {
     this.props.setThemeIndex(index);
     this.props.trackEvent({
@@ -55,11 +86,38 @@ class ProfileSideMenu extends React.Component {
   };
 
   render() {
+    const {cp_status} = this.state;
     const {systemTheme, profile, t} = this.props;
     return (
       <MCRootView justify="flex-start" align="flex-start">
         <ScrollView>
-          <MCView height={80} />
+          <MCView
+            mt={50}
+            mb={20}
+            justify="space-between"
+            ph={10}
+            align="flex-start">
+            <H3
+              style={{width: '100%'}}
+              color={systemTheme.colors.border}
+              mb={5}
+              align="left">
+              {t('version', {version: VersionNumber.appVersion})}
+            </H3>
+            <MCButton
+              bordered
+              onPress={() => this.updateFromCodePush()}
+              pt={2}
+              pb={2}>
+              <H4>{t('codepush_check_for_update')}</H4>
+            </MCButton>
+            {cp_status.length > 0 && (
+              <H4 mt={10} color={systemTheme.colors.border}>
+                {t(cp_status)}
+              </H4>
+            )}
+          </MCView>
+          <MCView height={0.5} mr={10} ml={10} mb={30} mt={10} bordered />
           {ProfileSideMenuList.map(menu => {
             if (profile.userToken.length && !menu.registerRequired) return;
             else if (!profile.userToken.length && menu.registerRequired) return;

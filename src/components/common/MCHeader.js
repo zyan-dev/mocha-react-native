@@ -133,7 +133,7 @@ class MCHeader extends React.PureComponent {
               />
             </MCButton>
           )}
-          {hasRight && (
+          {hasRight && rightImage && (
             <MCButton
               width={80}
               rippleSize={40}
