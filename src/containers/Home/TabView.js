@@ -124,7 +124,10 @@ class TabView extends React.PureComponent {
         break;
       case 1: // user clicked Add Tab
         break;
-      case 2: // user clicked Profile Tab
+      case 2: // user clicked Tools Tab
+        userToken.length > 0 && getMyReflections();
+        break;
+      case 3: // user clicked Profile Tab
         // get profile data
         userToken.length > 0 && getMyProfile();
         userToken.length > 0 && getMyReflections();

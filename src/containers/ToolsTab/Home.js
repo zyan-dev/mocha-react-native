@@ -24,7 +24,8 @@ class AddReflectionScreen extends React.Component {
 
   componentWillReceiveProps(props) {
     const {params} = props.route;
-    if (params) this.setState({selected: params.tabIndex});
+    if (params && params.tabIndex !== undefined)
+      this.setState({tabIndex: params.tabIndex});
   }
 
   ToolsBodyCards = [

@@ -46,7 +46,7 @@ class ProfileScreen extends React.Component {
 
   componentWillReceiveProps(props) {
     const {params} = props.route;
-    if (params) this.setState({selected: params.selected});
+    if (params && params.selected) this.setState({selected: params.selected});
   }
 
   onPressAllValues = () => {
