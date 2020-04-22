@@ -193,7 +193,6 @@ export function* syncData(action) {
           API.updateNotificationSettings,
           notificationReducer,
         );
-        console.log(response);
         if (response.data.status !== 'success') {
           yield put({
             type: types.API_FINISHED,
@@ -208,7 +207,6 @@ export function* syncData(action) {
           API.createNotificationSettings,
           notificationReducer,
         );
-        console.log(response);
         if (response.data.status !== 'success') {
           yield put({
             type: types.API_FINISHED,

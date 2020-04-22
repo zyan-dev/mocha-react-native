@@ -32,7 +32,6 @@ class EditEmotionScreen extends React.PureComponent {
     const {
       data: {emotion, how, story},
     } = selectedReflection;
-    console.log({selectedReflection});
     return (
       <MCRootView>
         <MCHeader

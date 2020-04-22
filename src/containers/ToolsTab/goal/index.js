@@ -17,11 +17,13 @@ class GoalScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.props.showUserObjectives(false);
-  }
-
-  componentDidMount() {
-    const {profile, getUserCommits, resetMyObjectives} = this.props;
+    const {
+      profile,
+      showUserObjectives,
+      getUserCommits,
+      resetMyObjectives,
+    } = this.props;
+    showUserObjectives(false);
     getUserCommits(profile._id);
 
     // reset current object and set time for the next reset

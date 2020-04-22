@@ -39,7 +39,6 @@ class MCTagInput extends React.Component {
 
   updateState = param => {
     this.props.updateState(param);
-    console.log(param.tag);
     this.setState({text: param.tag});
   };
 

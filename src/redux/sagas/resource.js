@@ -9,7 +9,6 @@ export function* getAllResources(action) {
     yield put({type: types.API_CALLING});
     const response = yield call(API.getAllResources);
     if (response.data.status === 'success') {
-      console.log(response.data.data.resources);
       yield put({
         type: types.SET_ALL_RESOURCES,
         payload: response.data.data.resources,

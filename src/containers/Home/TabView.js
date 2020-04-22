@@ -23,7 +23,7 @@ const TabIconSmallSize = dySize(25);
 const TabWrapper = styled(Footer)`
   height: ${TabBarHeight};
   border-top-width: 0px;
-  background-color: ${(props) => props.theme.colors.background};
+  background-color: ${props => props.theme.colors.background};
   border-top-width: 0px;
   elevation: 0;
 `;
@@ -35,6 +35,9 @@ class TabView extends React.PureComponent {
       tabIndex: 2,
     };
   }
+
+  tabIndex = 2;
+  lastTime = 0;
 
   componentDidMount() {
     this.mounted = true;
@@ -71,7 +74,7 @@ class TabView extends React.PureComponent {
     }
   }
 
-  onClickTab = (index) => {
+  onClickTab = index => {
     const {
       userToken,
       getAllUsers,
@@ -81,8 +84,39 @@ class TabView extends React.PureComponent {
       getMyFeedbacks,
     } = this.props;
     const TabScreens = ['TabFeed', 'TabResource', 'TabTools', 'TabProfile'];
+    const TabHomeScreens = [
+      {
+        name: userToken.length > 0 ? 'Feed' : 'Auth_SendSMS',
+        param: null,
+      },
+      {
+        name: 'ResourceSearch',
+        param: null,
+      },
+      {
+        name: 'ToolsTabHome',
+        param: {tabIndex: 0},
+      },
+      {
+        name: 'Profile',
+        param: {selected: 'overview'},
+      },
+    ];
     this.setState({tabIndex: index});
-    NavigationService.navigate(TabScreens[index]);
+    if (this.tabIndex === index && new Date().getTime() - this.lastTime < 800) {
+      // double clicked
+      NavigationService.navigate(
+        TabHomeScreens[index].name,
+        TabHomeScreens[index].param,
+      );
+    } else {
+      // one time clicked
+      NavigationService.navigate(TabScreens[index]);
+    }
+    this.tabIndex = index;
+    this.lastTime = new Date().getTime();
+
+    // call APIs
     switch (index) {
       case 0: // user clicked Social Tab
         userToken.length > 0 && getAllUsers();
@@ -180,7 +214,7 @@ class TabView extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   userToken: state.profileReducer.userToken,
 });
@@ -195,5 +229,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(TabView),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(TabView),
 );

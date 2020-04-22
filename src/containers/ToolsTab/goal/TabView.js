@@ -22,7 +22,7 @@ class ObjectiveTabView extends React.Component {
   onChangeTabIndex = i => {
     this.setState({index: i});
     switch (i) {
-      case 3:
+      case 2:
         this.props.getSupportedObjectives();
         break;
       default:

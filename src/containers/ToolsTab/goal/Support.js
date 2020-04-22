@@ -53,7 +53,6 @@ class SupportObjectiveScreen extends React.Component {
         if (owner) owners.push(owner);
       }
     });
-    console.log({supportedObjectives});
     return owners;
   };
 

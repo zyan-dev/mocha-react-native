@@ -22,6 +22,11 @@ class AddReflectionScreen extends React.Component {
     };
   }
 
+  componentWillReceiveProps(props) {
+    const {params} = props.route;
+    if (params) this.setState({selected: params.tabIndex});
+  }
+
   ToolsBodyCards = [
     {
       key: 'profile',
@@ -295,7 +300,6 @@ class AddReflectionScreen extends React.Component {
   render() {
     const {tabIndex, searchText} = this.state;
     const {t, theme, favoriteTools} = this.props;
-    console.log({favoriteTools});
     return (
       <MCRootView justify="flex-start">
         <MCHeader

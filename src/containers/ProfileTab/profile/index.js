@@ -44,6 +44,11 @@ class ProfileScreen extends React.Component {
     }
   }
 
+  componentWillReceiveProps(props) {
+    const {params} = props.route;
+    if (params) this.setState({selected: params.selected});
+  }
+
   onPressAllValues = () => {
     NavigationService.navigate('Values');
   };
