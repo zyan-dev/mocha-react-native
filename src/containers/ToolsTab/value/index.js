@@ -5,8 +5,8 @@ import {FlatList} from 'react-native-gesture-handler';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
-import {MCHeader, MCImage, MCReadMoreText, MCTagsView} from 'components/common';
-import {H3, H4, MCEmptyText, MCIcon} from 'components/styled/Text';
+import {MCHeader, MCImage, MCReadMoreText, MCIcon} from 'components/common';
+import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 

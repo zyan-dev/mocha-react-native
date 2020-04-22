@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 import {withTranslation} from 'react-i18next';
-import {MCIcon} from '../styled/Text';
+import {MCIcon} from '.';
 import {MCCard} from '../styled/View';
-import i18next from 'i18next';
 
 class MCPicker extends React.Component {
   static propTypes = {

@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
 import styled from 'styled-components';
 import {MCButton} from 'components/styled/Button';
+import {MCIcon} from 'components/common';
 import {MCView} from 'components/styled/View';
-import {MCIcon, H4, H3} from 'components/styled/Text';
+import {H4, H3} from 'components/styled/Text';
 import NavigationService from 'navigation/NavigationService';
 
 const LockIcon = styled(MCIcon)`

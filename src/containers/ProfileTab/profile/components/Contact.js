@@ -5,9 +5,9 @@ import {withTranslation} from 'react-i18next';
 import Collapsible from 'react-native-collapsible';
 import {profileActions} from 'Redux/actions';
 import {MCCard, MCView} from 'components/styled/View';
-import {H3, H4, MCIcon} from 'components/styled/Text';
+import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCEditableText} from 'components/common';
+import {MCEditableText, MCIcon} from 'components/common';
 import {ContactProfileKeys} from 'utils/constants';
 
 class ContactCard extends React.Component {
@@ -57,7 +57,7 @@ class ContactCard extends React.Component {
             </MCButton>
           )}
         </MCView>
-        {ContactProfileKeys.map((key) => {
+        {ContactProfileKeys.map(key => {
           if (key === 'phone' && !profile.user_id.length) {
             return null; // If user didn't sign up, user can't edit his phone number on profile screen
           }
@@ -69,7 +69,7 @@ class ContactCard extends React.Component {
                   text={profile[key]}
                   placeholder={t(`profile_card_${key}_placeholder`)}
                   editable={key === 'phone' ? false : editing}
-                  onChange={(value) => this.onUpdateProfile(key, value)}
+                  onChange={value => this.onUpdateProfile(key, value)}
                   style={{flex: 1, fontStyle: 'italic'}}
                   keyboardType={key === 'email' ? 'email-address' : 'default'}
                 />
@@ -88,5 +88,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(undefined, mapDispatchToProps)(ContactCard),
+  connect(
+    undefined,
+    mapDispatchToProps,
+  )(ContactCard),
 );

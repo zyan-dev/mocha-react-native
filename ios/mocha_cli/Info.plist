@@ -73,6 +73,9 @@
 		<string>Raleway-Regular.ttf</string>
 		<string>Raleway-SemiBold.ttf</string>
 		<string>Raleway-Thin.ttf</string>
+		<string>FontAwesome5Pro-Light.ttf</string>
+		<string>FontAwesome5Pro-Regular.ttf</string>
+		<string>FontAwesome5Pro-Solid.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

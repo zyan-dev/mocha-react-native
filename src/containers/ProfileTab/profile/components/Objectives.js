@@ -3,9 +3,9 @@ import {FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
 import {MCCard, MCView} from 'components/styled/View';
-import {H3, H4, H5, MCIcon, MCEmptyText} from 'components/styled/Text';
+import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCImage, MCModal} from 'components/common';
+import {MCImage, MCModal, MCIcon} from 'components/common';
 import {dySize} from 'utils/responsive';
 
 class ObjectivesCard extends React.Component {

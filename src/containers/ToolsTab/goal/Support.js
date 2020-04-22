@@ -6,7 +6,7 @@ import CheckBox from 'react-native-check-box';
 import {reflectionActions} from 'Redux/actions';
 import {MCImage} from 'components/common';
 import {MCRootView, MCView, MCCard} from 'components/styled/View';
-import {MCEmptyText, H3, H4, H6, MCIcon} from 'components/styled/Text';
+import {MCEmptyText, H3, H4, H6} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 

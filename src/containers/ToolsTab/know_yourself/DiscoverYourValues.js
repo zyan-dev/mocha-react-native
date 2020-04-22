@@ -6,16 +6,9 @@ import {isIphoneX} from 'react-native-iphone-x-helper';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {
-  H3,
-  H4,
-  H5,
-  ErrorText,
-  MCEmptyText,
-  MCIcon,
-} from 'components/styled/Text';
+import {H3, H4, H5, ErrorText, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCHeader, MCImage, MCModal} from 'components/common';
+import {MCHeader, MCImage, MCModal, MCIcon} from 'components/common';
 import {dySize, CURRENT_HEIGHT} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {DiscoverValues} from 'utils/constants';

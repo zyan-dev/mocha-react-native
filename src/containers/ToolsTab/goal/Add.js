@@ -11,10 +11,11 @@ import {
   MCImage,
   MCTextFormInput,
   MCPicker,
+  MCIcon,
 } from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {H3, H4, MCIcon, ErrorText} from 'components/styled/Text';
+import {H3, H4, ErrorText} from 'components/styled/Text';
 import {getUpdatedMeasures} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';

@@ -2,8 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {userActions} from 'Redux/actions';
-import {MCHeader, MCSearchInput, MCImage, MCModal} from 'components/common';
-import {H3, H4, MCIcon} from 'components/styled/Text';
+import {
+  MCHeader,
+  MCSearchInput,
+  MCImage,
+  MCModal,
+  MCIcon,
+} from 'components/common';
+import {H3, H4} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {selector} from 'Redux/selectors';
 import NavigationService from 'navigation/NavigationService';

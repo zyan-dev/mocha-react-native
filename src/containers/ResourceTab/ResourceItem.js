@@ -5,8 +5,8 @@ import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import {resourceActions} from 'Redux/actions';
 import {MCView, MCCard} from 'components/styled/View';
-import {MCReadMoreText, MCTagsView} from 'components/common';
-import {H3, H4, MCIcon} from 'components/styled/Text';
+import {MCReadMoreText, MCTagsView, MCIcon} from 'components/common';
+import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {showAlert} from '../../services/operators';
 
@@ -27,8 +27,8 @@ class ResourceItem extends React.Component {
     editable: true,
   };
 
-  onPressBrowser = (link) => {
-    Linking.canOpenURL(link).then((supported) => {
+  onPressBrowser = link => {
+    Linking.canOpenURL(link).then(supported => {
       if (supported) {
         Linking.openURL(link);
       } else {
@@ -37,13 +37,13 @@ class ResourceItem extends React.Component {
     });
   };
 
-  onPressCopyLink = (link) => {
+  onPressCopyLink = link => {
     const {t} = this.props;
     Clipboard.setString(link);
     showAlert(t('clipboard_link_saved'));
   };
 
-  onPressBookmark = (resource) => {
+  onPressBookmark = resource => {
     this.props.onPressBookmark(resource._id);
   };
 
@@ -69,7 +69,7 @@ class ResourceItem extends React.Component {
             <MCIcon type="FontAwesome5" name="copy" />
           </MCButton>
           <MCButton onPress={() => this.onPressBookmark(resource)}>
-            <MCIcon name={bookmarked ? 'ios-star' : 'star-outline'} />
+            <MCIcon name={bookmarked ? 'ios-star' : 'ios-star-outline'} />
           </MCButton>
         </MCCard>
         <MCView width={320}>

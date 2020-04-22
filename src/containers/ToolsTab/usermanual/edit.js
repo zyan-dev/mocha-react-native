@@ -10,10 +10,11 @@ import {
   MCVulnerabilityPicker,
   MCPicker,
   MCTextFormInput,
+  MCIcon,
 } from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {H3, H4, ErrorText, MCTextInput, MCIcon} from 'components/styled/Text';
+import {H3, H4, ErrorText, MCTextInput} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {getTitleByKey} from 'services/operators';
 

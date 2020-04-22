@@ -5,13 +5,14 @@ import {withTranslation} from 'react-i18next';
 import {otherActions} from 'Redux/actions';
 import i18next from 'i18next';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
-import {H4, H5, MCIcon, MCEmptyText} from 'components/styled/Text';
-import {MCHeader, MCSearchInput} from 'components/common';
+import {H4, H5, MCEmptyText} from 'components/styled/Text';
+import {MCHeader, MCSearchInput, MCIcon} from 'components/common';
 import {ToolsSideTabs} from 'utils/constants';
 import {ToolsSvg} from 'assets/svgs';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
+import {getStringWithOutline} from 'services/operators';
 
 class AddReflectionScreen extends React.Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class AddReflectionScreen extends React.Component {
     {
       key: 'profile',
       title: i18next.t('tools_card_title_profile', {
-        bold: i18next.t('tools_card_bold_profile_preview'),
+        bold: i18next.t('outline_profile_preview'),
       }),
       boldWordKeys: ['profile_preview'],
       duration: '15~30',
@@ -99,7 +100,7 @@ class AddReflectionScreen extends React.Component {
       key: 'manual',
       duration: '5-10',
       title: i18next.t('tools_card_title_manual', {
-        bold: i18next.t('tools_card_bold_manual'),
+        bold: i18next.t('outline_manual'),
       }),
       boldWordKeys: ['manual'],
       iconType: 'Ionicon',
@@ -111,7 +112,7 @@ class AddReflectionScreen extends React.Component {
       key: 'value',
       duration: '5',
       title: i18next.t('tools_card_title_value', {
-        bold: i18next.t('tools_card_bold_value'),
+        bold: i18next.t('outline_value'),
       }),
       boldWordKeys: ['value'],
       iconType: 'Ionicon',
@@ -123,7 +124,7 @@ class AddReflectionScreen extends React.Component {
       key: 'feedback',
       duration: '2 min',
       title: i18next.t('tools_card_title_request_feedback', {
-        bold: i18next.t('tools_card_bold_request_feedback'),
+        bold: i18next.t('outline_request_feedback'),
       }),
       boldWordKeys: ['request_feedback'],
       iconType: 'Ionicon',
@@ -135,7 +136,7 @@ class AddReflectionScreen extends React.Component {
       key: 'goal',
       duration: '4-6',
       title: i18next.t('tools_card_title_goal', {
-        bold: i18next.t('tools_card_bold_goal'),
+        bold: i18next.t('outline_goal'),
       }),
       boldWordKeys: ['goal'],
       iconType: 'Ionicon',
@@ -147,8 +148,8 @@ class AddReflectionScreen extends React.Component {
       key: 'mood_and_emotion',
       duration: '2-4',
       title: i18next.t('tools_card_title_mood_and_emotion', {
-        bold1: i18next.t('tools_card_bold_mood'),
-        bold2: i18next.t('tools_card_bold_emotions'),
+        bold1: i18next.t('outline_mood'),
+        bold2: i18next.t('outline_emotions'),
       }),
       boldWordKeys: ['mood', 'emotions'],
       iconType: 'FontAwesome5',
@@ -160,7 +161,7 @@ class AddReflectionScreen extends React.Component {
       key: 'need',
       duration: '2-4',
       title: i18next.t('tools_card_title_need', {
-        bold: i18next.t('tools_card_bold_needs'),
+        bold: i18next.t('outline_needs'),
       }),
       boldWordKeys: ['needs'],
       iconType: 'FontAwesome5',
@@ -172,7 +173,7 @@ class AddReflectionScreen extends React.Component {
       key: 'tapToCount',
       duration: '<1',
       title: i18next.t('tools_card_title_tap', {
-        bold: i18next.t('tools_card_bold_tap'),
+        bold: i18next.t('outline_tap'),
       }),
       boldWordKeys: ['tap'],
       iconType: 'FontAwesome5',
@@ -195,37 +196,6 @@ class AddReflectionScreen extends React.Component {
     if (exist) removeFavoriteTool(card);
     else addFavoriteTool(card);
     this.forceUpdate();
-  };
-
-  renderCardTitle = card => {
-    const {t} = this.props;
-    let str = card.title;
-    const snippets = [];
-    let boldWord = '';
-    let boldIndex = 0;
-    if (!str) return;
-    if (card.boldWordKeys) {
-      card.boldWordKeys.map(key => {
-        boldWord = t(`tools_card_bold_${key}`);
-        boldIndex = str.indexOf(boldWord);
-        if (boldIndex > 0) {
-          snippets.push(str.substr(0, boldIndex));
-        }
-        snippets.push(
-          <H4 weight="bold" align="center">
-            {str.substr(boldIndex, boldWord.length)}
-          </H4>,
-        );
-        str = str.substr(boldIndex + boldWord.length);
-      });
-    }
-
-    snippets.push(str);
-    return (
-      <MCView row>
-        <H4 align="center">{snippets.map(snippet => snippet)}</H4>
-      </MCView>
-    );
   };
 
   getCards = () => {
@@ -271,7 +241,7 @@ class AddReflectionScreen extends React.Component {
           align="center"
           pt={20}
           onPress={() => this.onPressCard(card)}>
-          <MCView height={70}>{this.renderCardTitle(card)}</MCView>
+          <MCView height={70}>{getStringWithOutline(card)}</MCView>
           <MCIcon type={card.iconType} name={card.icon} size={40} />
           <MCView row align="center" mt={20}>
             <MCIcon type="FontAwesome" name="clock-o" />

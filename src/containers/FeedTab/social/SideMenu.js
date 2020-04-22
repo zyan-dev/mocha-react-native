@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {routerActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
-import {H3, MCIcon} from 'components/styled/Text';
+import {MCIcon} from 'components/common';
+import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 

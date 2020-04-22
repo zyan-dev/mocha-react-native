@@ -1,5 +1,7 @@
-import {Alert} from 'react-native';
+import React from 'react';
 import Toast from 'react-native-root-toast';
+import {MCView} from 'components/styled/View';
+import {H4} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import moment from 'moment';
 import i18next from 'i18next';
@@ -175,4 +177,44 @@ export const getWeekDay = t => {
   if (t > 7) weekDay = new Date(t).getDay();
   else weekDay = t;
   return WeekDays[weekDay].long.toLowerCase();
+};
+
+export const getStringWithOutline = (
+  textData,
+  center = 'center',
+  bold = true,
+  underline = false,
+) => {
+  console.log({textData});
+  // outline can be bold or underline
+  let str = textData.title;
+  const snippets = [];
+  let boldWord = '';
+  let boldIndex = 0;
+  if (!str) return;
+  if (textData.boldWordKeys) {
+    textData.boldWordKeys.map(key => {
+      boldWord = i18next.t(`outline_${key}`);
+      boldIndex = str.indexOf(boldWord);
+      if (boldIndex > 0) {
+        snippets.push(str.substr(0, boldIndex));
+      }
+      snippets.push(
+        <H4
+          weight={bold ? 'bold' : 'regular'}
+          underline={underline}
+          align="center">
+          {str.substr(boldIndex, boldWord.length)}
+        </H4>,
+      );
+      str = str.substr(boldIndex + boldWord.length);
+    });
+  }
+
+  snippets.push(str);
+  return (
+    <MCView row>
+      <H4 align={center}>{snippets.map(snippet => snippet)}</H4>
+    </MCView>
+  );
 };

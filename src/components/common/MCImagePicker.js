@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import MCImage from './MCImage';
 import {dySize} from 'utils/responsive';
-import {MCIcon} from '../styled/Text';
+import {MCIcon} from '.';
 
 class MCImagePicker extends React.PureComponent {
   static propTypes = {
@@ -77,4 +77,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
 });
 
-export default connect(mapStateToProps, undefined)(MCImagePicker);
+export default connect(
+  mapStateToProps,
+  undefined,
+)(MCImagePicker);

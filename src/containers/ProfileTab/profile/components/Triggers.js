@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
+import {MCIcon} from 'components/common';
 import {MCView} from 'components/styled/View';
-import {H3, H4, H5, MCIcon} from 'components/styled/Text';
+import {H3, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 
 class TriggersCard extends React.Component {

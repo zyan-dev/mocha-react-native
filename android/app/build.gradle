@@ -217,3 +217,9 @@ apply plugin: 'com.google.gms.google-services'
 googleServices {
     disableVersionCheck = true
 }
+
+project.ext.vectoricons = [
+    iconFontNames: [ 'FontAwesome5Pro-Light.ttf', 'FontAwesome5Pro-Regular.ttf', 'FontAwesome5Pro-Solid.ttf' ] // Name of the font files you want to copy
+]
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"

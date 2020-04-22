@@ -13,6 +13,7 @@ import MCTimeSlider from './MCTimeSlider';
 import MCPicker from './MCPicker';
 import MCDateTimePicker from './MCDateTimePicker';
 import MCSpeedoMeter from './MCSpeedoMeter';
+import MCIcon from './MCIcon';
 
 export {
   MCEditableText,
@@ -30,4 +31,5 @@ export {
   MCPicker,
   MCDateTimePicker,
   MCSpeedoMeter,
+  MCIcon,
 };

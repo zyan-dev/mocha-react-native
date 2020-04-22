@@ -6,15 +6,15 @@ import {dySize} from 'utils/responsive';
 import MCEditableText from './MCEditableText';
 import {MCView} from '../styled/View';
 import {MCButton} from '../styled/Button';
-import {MCIcon} from '../styled/Text';
+import {MCIcon} from '.';
 
 const Wrapper = styled(MCView)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: ${(props) => dySize(props.width) || dySize(350)};
+  width: ${props => dySize(props.width) || dySize(350)};
   border-radius: 4px;
-  border: 1px solid ${(props) => props.theme.colors.text};
+  border: 1px solid ${props => props.theme.colors.text};
   background-color: rgba(0, 0, 0, 0.3);
   margin-top: 10px;
   margin-bottom: 10px;
@@ -23,7 +23,7 @@ const Wrapper = styled(MCView)`
 const SearchIcon = styled(Icon)`
   margin-horizontal: 10px;
   font-size: 24px;
-  color: ${(props) => props.theme.colors.text};
+  color: ${props => props.theme.colors.text};
 `;
 
 export default class MCSearchInput extends React.PureComponent {

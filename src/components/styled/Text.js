@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import {dySize} from 'utils/responsive';
 import {FontFamilies} from 'utils/constants';
 import {Icon} from 'native-base';
+import FontAwesome5Pro from 'react-native-vector-icons/FontAwesome5Pro';
 
 export const MCText = styled.Text`
   font-family: ${props =>
@@ -21,7 +22,15 @@ export const MCText = styled.Text`
   width: ${props => (props.width ? `${dySize(props.width)}px` : 'auto')};
 `;
 
-export const MCIcon = styled(Icon)`
+export const NBIcon = styled(Icon)`
+  font-size: ${props => dySize(props.size || 20)}px;
+  color: ${props => props.color || props.theme.colors.text};
+  padding: ${props => dySize(props.padding || 5)}px;
+  margin: ${props => dySize(props.margin || 0)}px;
+  text-align: ${props => props.align || 'left'};
+`;
+
+export const FAProIcon = styled(FontAwesome5Pro)`
   font-size: ${props => dySize(props.size || 20)}px;
   color: ${props => props.color || props.theme.colors.text};
   padding: ${props => dySize(props.padding || 5)}px;

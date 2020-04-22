@@ -1536,8 +1536,8 @@ export const BasicProfileCards = {
   approach: {
     practice: '4-2',
     title: 'approach_to_conflict',
-    iconType: 'FontAwesome5',
-    icon: 'hand-middle-finger',
+    iconType: 'FontAwesome5Pro',
+    icon: 'boxing-glove',
     minutes: 4,
     width: 150,
     redirectTo: 'KY_Approach',
@@ -1580,24 +1580,41 @@ export const BasicProfileCards = {
   },
 };
 
-export const FeedbackPreferences = [
+export const NegativeFeedbackPreferences = [
   'private',
   'public',
   'written_or_email',
-  'person',
+  'face',
   'immediately',
   'closed_door_meeting',
-  'data',
-  'directly',
+  'detailed_explanation',
   'clear_and_specific',
-  'detailed',
-  'quickly',
+  'facts_and_data',
+  'do_not_give',
+  'reassuringly',
   'soften_the_blow',
   'empathatically',
   'supportively',
-  'reassuringly',
-  'do_not_give',
   'template',
+];
+
+export const PositiveFeedbackPreferences = [
+  'private',
+  'public',
+  'written_or_email',
+  'face',
+  'facts_and_data',
+  'immediately',
+  'explaning_impact',
+  'clear_and_specific',
+  'focus_on_effort',
+  'focus_on_impact',
+  'once_a_week',
+  'once_a_month',
+  'individual_focused',
+  'team_focused',
+  'hard_skills_focused',
+  'soft_skills_focused',
 ];
 
 export const BehaviorPreferences = [

@@ -8,10 +8,11 @@ import {
   MCImagePicker,
   MCPicker,
   MCTextFormInput,
+  MCIcon,
 } from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {H3, H4, MCTextInput, MCIcon, ErrorText} from 'components/styled/Text';
+import {H3, H4, MCTextInput, ErrorText} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 
 class EditValueScreen extends React.PureComponent {

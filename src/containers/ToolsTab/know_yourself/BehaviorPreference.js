@@ -7,8 +7,8 @@ import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 
 import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
-import {H3, H4, H5, MCIcon, Bold} from 'components/styled/Text';
-import {MCHeader} from 'components/common';
+import {H3, H4, H5, Bold} from 'components/styled/Text';
+import {MCHeader, MCIcon} from 'components/common';
 import {
   BehaviorPreferences,
   BehaviorPreferenceNegatives,

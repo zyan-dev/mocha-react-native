@@ -4,7 +4,7 @@ import {ScrollView} from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components';
 import {MCCard} from '../styled/View';
-import {MCIcon} from '../styled/Text';
+import {MCIcon} from '.';
 import {MCButton} from '../styled/Button';
 import {dySize} from 'utils/responsive';
 
