@@ -17,7 +17,7 @@ class AddReflectionScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabIndex: 1,
+      tabIndex: 0,
       searchText: '',
     };
   }
