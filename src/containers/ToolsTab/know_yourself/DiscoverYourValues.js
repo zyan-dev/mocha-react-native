@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import CardStack, {Card} from 'react-native-card-stack-swiper';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
@@ -19,7 +20,8 @@ import {dySize, CURRENT_HEIGHT} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {DiscoverValues} from 'utils/constants';
 
-const cardViewHeight = CURRENT_HEIGHT - dySize(400);
+const cardViewHeight =
+  CURRENT_HEIGHT - dySize(180) - 160 - (isIphoneX() ? 60 : 0);
 
 class DiscoverValueScreen extends React.Component {
   constructor(props) {
@@ -59,7 +61,6 @@ class DiscoverValueScreen extends React.Component {
 
   _onSwiped = index => {
     const {swipeXOffset} = this.state;
-    console.log({index, swipeXOffset});
     // this.setState({swipeXOffset: 0});
   };
 
@@ -133,7 +134,6 @@ class DiscoverValueScreen extends React.Component {
   onPressNext = () => {
     this.setState({step: 1});
     const {swiped} = this.state;
-    console.log({swiped});
     const selectedValues = swiped.filter(value => value.how > 0);
     const coreValues = swiped.filter(value => value.how > 1);
     this.setState({selectedValues: selectedValues.map(value => value.value)});
@@ -180,7 +180,6 @@ class DiscoverValueScreen extends React.Component {
       selectedReflection,
     } = this.state;
     const {t, theme} = this.props;
-    console.log({selectedReflection});
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -290,7 +289,7 @@ class DiscoverValueScreen extends React.Component {
                 ))}
               </CardStack>
             </MCView>
-            <MCView row align="center" width={375} height={120}>
+            <MCView row align="center" width={375} height={100}>
               <MCView style={{flex: 1}} align="center">
                 <MCView
                   align="center"
