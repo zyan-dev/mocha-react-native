@@ -12,6 +12,8 @@ export const LOGOUT = 'LOGOUT';
 export const API_CALLING = 'API_CALLING';
 export const API_FINISHED = 'API_FINISHED';
 export const TRACK_MIXPANEL_EVENT = 'TRACK_MIXPANEL_EVENT';
+export const VISIT_TOOLS_TAB = 'VISIT_TOOLS_TAB';
+export const VISIT_PROFILE_TAB = 'VISIT_PROFILE_TAB';
 
 // authentication
 export const SET_SMS_VERIFY_STATUS = 'SET_SMS_VERIFY_STATUS';

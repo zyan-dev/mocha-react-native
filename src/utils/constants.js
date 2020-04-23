@@ -1403,6 +1403,7 @@ export const DefaultReflections = {
       negative_paranoid: 50,
       negative_charmless: 50,
       negative_frank: 50,
+      bookmarked: [],
     },
   },
   risk_tolerance: {
@@ -1434,6 +1435,14 @@ export const DefaultReflections = {
     type: 'Stress',
     data: {
       parts: [],
+    },
+  },
+  habit: {
+    type: 'Habit',
+    data: {
+      title: '',
+      habits: [],
+      isDaily: true,
     },
   },
 };
@@ -1576,7 +1585,7 @@ export const BasicProfileCards = {
     icon: 'ios-compass',
     minutes: 10,
     width: 250,
-    redirectTo: '',
+    redirectTo: 'KY_SetHabit',
   },
 };
 

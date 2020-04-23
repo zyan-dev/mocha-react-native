@@ -185,7 +185,6 @@ export const getStringWithOutline = (
   bold = true,
   underline = false,
 ) => {
-  console.log({textData});
   // outline can be bold or underline
   let str = textData.title;
   const snippets = [];
@@ -213,7 +212,7 @@ export const getStringWithOutline = (
 
   snippets.push(str);
   return (
-    <MCView row>
+    <MCView row style={{width: '100%'}}>
       <H4 align={center}>{snippets.map(snippet => snippet)}</H4>
     </MCView>
   );

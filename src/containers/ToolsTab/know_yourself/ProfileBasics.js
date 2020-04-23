@@ -20,6 +20,7 @@ class ProfileBasicScreen extends React.Component {
       coreValues,
       stress,
       chronotype,
+      habit,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -74,6 +75,7 @@ class ProfileBasicScreen extends React.Component {
             completed={chronotype}
           />
           <ProfileBasicCard
+            completed={habit}
             data={BasicProfileCards.goal}
             locked={!chronotype}
           />
@@ -114,6 +116,7 @@ const mapStateToProps = state => ({
     state,
     'Chronotype',
   ),
+  habit: selector.reflections.findMySpecialReflections(state, 'Habit'),
 });
 
 const mapDispatchToProps = {};

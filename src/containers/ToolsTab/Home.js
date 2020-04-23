@@ -2,13 +2,19 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {otherActions} from 'Redux/actions';
+import {otherActions, routerActions} from 'Redux/actions';
 import i18next from 'i18next';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
-import {H4, H5, MCEmptyText} from 'components/styled/Text';
-import {MCHeader, MCSearchInput, MCIcon} from 'components/common';
-import {ToolsSideTabs} from 'utils/constants';
+import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
+import {
+  MCHeader,
+  MCSearchInput,
+  MCIcon,
+  MCModal,
+  MCImage,
+} from 'components/common';
 import {ToolsSvg} from 'assets/svgs';
+import {ToolsSideTabs} from 'utils/constants';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
@@ -20,7 +26,14 @@ class AddReflectionScreen extends React.Component {
     this.state = {
       tabIndex: 0,
       searchText: '',
+      showWelcomeModal: false,
     };
+  }
+
+  componentDidMount() {
+    if (!this.props.visitedTools) {
+      this.setState({showWelcomeModal: true});
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -28,6 +41,13 @@ class AddReflectionScreen extends React.Component {
     if (params && params.tabIndex !== undefined)
       this.setState({tabIndex: params.tabIndex});
   }
+
+  WelcomeToolsDescription = {
+    title: i18next.t('welcome_tools_description', {
+      bold: i18next.t('outline_profile_basics'),
+    }),
+    boldWordKeys: ['profile_basics'],
+  };
 
   ToolsBodyCards = [
     {
@@ -230,6 +250,11 @@ class AddReflectionScreen extends React.Component {
     NavigationService.navigate(card.navigateTo);
   };
 
+  onCloseWelcomeModal = () => {
+    this.props.visitToolsTab();
+    this.setState({showWelcomeModal: false});
+  };
+
   _renderCardItem = ({item}) => {
     const {t, theme, favoriteTools} = this.props;
     const card = item;
@@ -269,7 +294,7 @@ class AddReflectionScreen extends React.Component {
   };
 
   render() {
-    const {tabIndex, searchText} = this.state;
+    const {tabIndex, searchText, showWelcomeModal} = this.state;
     const {t, theme, favoriteTools} = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -330,6 +355,29 @@ class AddReflectionScreen extends React.Component {
             />
           </MCView>
         </MCView>
+        <MCModal
+          hasCloseButton={false}
+          isVisible={showWelcomeModal}
+          onClose={() => this.setState({showModal: false})}>
+          <MCView align="center" width={280} mt={20}>
+            <H3 mb={10} underline>
+              {t('welcome_tools_title')}
+            </H3>
+            <ToolsSvg size={30} color={theme.colors.text} />
+            <H4 mt={20} pv={1}>
+              {t('welcome_tools_take_a_look')}
+            </H4>
+            {getStringWithOutline(this.WelcomeToolsDescription)}
+            <MCButton
+              bordered
+              mt={20}
+              width={80}
+              align="center"
+              onPress={() => this.onCloseWelcomeModal()}>
+              <H3>{t('modal_ok')}</H3>
+            </MCButton>
+          </MCView>
+        </MCModal>
       </MCRootView>
     );
   }
@@ -339,11 +387,13 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
   favoriteTools: state.otherReducer.favoriteTools,
+  visitedTools: state.routerReducer.visitedTools,
 });
 
 const mapDispatchToProps = {
   addFavoriteTool: otherActions.addFavoriteTool,
   removeFavoriteTool: otherActions.removeFavoriteTool,
+  visitToolsTab: routerActions.visitToolsTab,
 };
 
 export default withTranslation()(

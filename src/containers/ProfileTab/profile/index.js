@@ -3,8 +3,10 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {feedbackActions, routerActions, reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
+import {UserSvg} from 'assets/svgs';
+import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCHeader, MCIcon} from 'components/common';
+import {MCHeader, MCIcon, MCModal} from 'components/common';
 import {selector} from 'Redux/selectors';
 import OverviewCard from './components/Overview';
 import ContactCard from './components/Contact';
@@ -28,18 +30,32 @@ import NavigationService from 'navigation/NavigationService';
 import {showAlert} from 'services/operators';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
+import {getStringWithOutline} from '../../../services/operators';
+import i18next from 'i18next';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selected: 'overview',
+      showWelcomeModal: false,
     };
   }
 
+  WelcomeProfileDescription = {
+    title: i18next.t('welcome_profile_description', {
+      bold: i18next.t('outline_profile_basics'),
+    }),
+    boldWordKeys: ['profile_basics'],
+  };
+
   componentDidMount() {
-    if (this.props.profile.userToken.length > 0) {
-      this.props.getMyFeedbacks();
+    const {visitedProfile, profile, getMyFeedbacks} = this.props;
+    if (profile.userToken.length > 0) {
+      getMyFeedbacks();
+    }
+    if (!visitedProfile) {
+      this.setState({showWelcomeModal: true});
     }
   }
 
@@ -112,6 +128,11 @@ class ProfileScreen extends React.Component {
     this.setState({selected: icon.key});
   };
 
+  onCloseWelcomeModal = () => {
+    this.props.visitProfileTab();
+    this.setState({showWelcomeModal: false});
+  };
+
   render() {
     const {
       t,
@@ -127,7 +148,7 @@ class ProfileScreen extends React.Component {
       dailyObjectives,
       weeklyObjectives,
     } = this.props;
-    const {selected} = this.state;
+    const {selected, showWelcomeModal} = this.state;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -247,6 +268,29 @@ class ProfileScreen extends React.Component {
             </MCContent>
           </MCView>
         </MCView>
+        <MCModal
+          hasCloseButton={false}
+          isVisible={showWelcomeModal}
+          onClose={() => this.setState({showModal: false})}>
+          <MCView align="center" width={280} mt={20}>
+            <H3 mb={10} underline>
+              {t('welcome_profile_title')}
+            </H3>
+            <UserSvg size={30} color={theme.colors.text} />
+            <H4 mt={20} pv={1}>
+              {t('welcome_tools_take_a_look')}
+            </H4>
+            {getStringWithOutline(this.WelcomeProfileDescription)}
+            <MCButton
+              bordered
+              mt={20}
+              width={80}
+              align="center"
+              onPress={() => this.onCloseWelcomeModal()}>
+              <H3>{t('modal_ok')}</H3>
+            </MCButton>
+          </MCView>
+        </MCModal>
       </MCRootView>
     );
   }
@@ -255,6 +299,7 @@ class ProfileScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
+  visitedProfile: state.routerReducer.visitedProfile,
   manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   values: selector.reflections.getMySpecialReflections(state, 'Value'),
   dailyObjectives: selector.reflections
@@ -283,6 +328,7 @@ const mapDispatchToProps = {
   getMyFeedbacks: feedbackActions.getMyFeedbacks,
   showDrawer: routerActions.setProfileDrawerOpened,
   setInitialReflection: reflectionActions.setInitialReflection,
+  visitProfileTab: routerActions.visitProfileTab,
 };
 
 export default withTranslation()(
