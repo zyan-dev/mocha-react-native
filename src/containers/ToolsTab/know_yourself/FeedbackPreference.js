@@ -17,6 +17,20 @@ import NavigationService from 'navigation/NavigationService';
 import {getStringWithOutline} from 'services/operators';
 import i18next from 'i18next';
 
+const negativeTitle = {
+  title: i18next.t('tools_tab_feedback_preferences_negative_question', {
+    bold: i18next.t('outline_constructive_criticism'),
+  }),
+  boldWordKeys: ['constructive_criticism'],
+};
+
+const positiveTitle = {
+  title: i18next.t('tools_tab_feedback_preferences_positive_question', {
+    bold: i18next.t('outline_praise'),
+  }),
+  boldWordKeys: ['praise'],
+};
+
 class FeedbackPreferenceScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -26,19 +40,6 @@ class FeedbackPreferenceScreen extends React.Component {
   }
 
   isNew = false;
-  negativeTitle = {
-    title: i18next.t('tools_tab_feedback_preferences_negative_question', {
-      bold: i18next.t('outline_constructive_criticism'),
-    }),
-    boldWordKeys: ['constructive_criticism'],
-  };
-  positiveTitle = {
-    title: i18next.t('tools_tab_feedback_preferences_positive_question', {
-      bold: i18next.t('outline_praise'),
-    }),
-    boldWordKeys: ['praise'],
-  };
-
   componentWillMount() {
     const {
       myFeedbackPreference,
@@ -132,7 +133,7 @@ class FeedbackPreferenceScreen extends React.Component {
           </MCView>
           {step === 1 && (
             <>
-              {getStringWithOutline(this.negativeTitle, 'left')}
+              {getStringWithOutline(negativeTitle, 'left')}
               <H4 mb={20}>{t(`select_all_that_apply`)}</H4>
               <MCView row wrap justify="space-between">
                 {NegativeFeedbackPreferences.map((key, index) => {
@@ -189,7 +190,7 @@ class FeedbackPreferenceScreen extends React.Component {
           )}
           {step === 2 && (
             <>
-              {getStringWithOutline(this.positiveTitle, 'left')}
+              {getStringWithOutline(positiveTitle, 'left')}
               <H4 weight="italic" mb={20}>
                 {t(`select_all_that_apply`)}
               </H4>

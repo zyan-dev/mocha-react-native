@@ -212,7 +212,7 @@ export const getStringWithOutline = (
 
   snippets.push(str);
   return (
-    <MCView row>
+    <MCView row style={{width: '100%'}}>
       <H4 align={center}>{snippets.map(snippet => snippet)}</H4>
     </MCView>
   );

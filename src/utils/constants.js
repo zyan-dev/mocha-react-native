@@ -1403,6 +1403,7 @@ export const DefaultReflections = {
       negative_paranoid: 50,
       negative_charmless: 50,
       negative_frank: 50,
+      bookmarked: [],
     },
   },
   risk_tolerance: {
