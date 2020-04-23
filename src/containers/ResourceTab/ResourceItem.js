@@ -56,7 +56,8 @@ class ResourceItem extends React.Component {
         bordered
         align="center"
         br={10}
-        mb={10}>
+        mb={10}
+        mt={30}>
         <MCCard shadow br={1} width={350} row align="center" mb={10}>
           <MCView bordered br={10} ml={10} ph={5}>
             <H3>{t(`resource_type_${resource.type}`)}</H3>
