@@ -3,16 +3,17 @@ import {View} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {reflectionActions, otherActions, userActions} from 'Redux/actions';
-import {MCHeader} from 'components/common';
-import {getTodayStartDateStamp} from 'services/operators';
+import {MCView} from 'components/styled/View';
+import {H4, H5} from 'components/styled/Text';
+import {MCHeader, MCImage, MCModal} from 'components/common';
 import ObjectiveTabView from '../ToolsTab/goal/TabView';
-import {MCImage} from '../../components/common';
 
 class UserObjectiveScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       index: 0,
+      showAvatarModal: false,
     };
   }
 
@@ -30,8 +31,13 @@ class UserObjectiveScreen extends React.Component {
     getUserCommits(id);
   }
 
+  onPressHeaderAvatar = () => {
+    this.setState({showAvatarModal: true});
+  };
+
   render() {
-    const {t, user} = this.props;
+    const {showAvatarModal} = this.state;
+    const {t, user, theme} = this.props;
     const {tabIndex} = this.props.route.params;
     return (
       <View style={{flex: 1}}>
@@ -41,14 +47,28 @@ class UserObjectiveScreen extends React.Component {
           rightImage={
             <MCImage image={{uri: user.avatar}} round width={30} height={30} />
           }
-          onPressRight={() => this.onPressNew()}
+          onPressRight={() => this.onPressHeaderAvatar()}
         />
         <ObjectiveTabView initialIndex={tabIndex} />
+        <MCModal
+          isVisible={showAvatarModal}
+          onClose={() => this.setState({showAvatarModal: false})}>
+          <MCView align="center" width={280} mt={20}>
+            <MCImage
+              image={{uri: user.avatar}}
+              round
+              width={200}
+              height={200}
+            />
+            <H4>{user.name}</H4>
+            <H5 color={theme.colors.border}>{`@${user.user_id}`}</H5>
+          </MCView>
+        </MCModal>
       </View>
     );
   }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   user: state.usersReducer.userProfile,
 });
@@ -61,5 +81,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(UserObjectiveScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(UserObjectiveScreen),
 );

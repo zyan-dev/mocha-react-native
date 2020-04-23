@@ -39,7 +39,7 @@ class SetHabitScreen extends React.Component {
       selectReflection(habit);
     } else {
       this.isNew = true;
-      if (reflectionDraft['Habit'] && 0) {
+      if (reflectionDraft['Habit']) {
         selectReflection(reflectionDraft['Habit']);
       } else {
         setInitialReflection('habit');
@@ -135,9 +135,9 @@ class SetHabitScreen extends React.Component {
   render() {
     const {submitted, newHabitTitle} = this.state;
     const {t, selectedReflection, updateSelectedReflection} = this.props;
-    if (!selectedReflection.data) return null;
-    console.log('TTT', selectedReflection.data);
-    const {title, habits, isDaily} = selectedReflection.data;
+    const title = _.get(selectedReflection, ['data', 'title'], undefined);
+    if (title === undefined) return null;
+    const {habits, isDaily} = selectedReflection.data;
     const isErrorTitle = !this.validateTitle();
     const isErrorHabits = !this.validateHabits();
     return (
