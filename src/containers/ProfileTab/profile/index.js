@@ -234,7 +234,7 @@ class ProfileScreen extends React.Component {
               {profileTab === 'approach' && (
                 <ApproachCard onPressEdit={() => {}} />
               )}
-              {selected === 'feedback_preference' && (
+              {profileTab === 'feedback_preference' && (
                 <FeedbackPreferenceCard
                   feedbackPreference={feedbackPreference}
                   onPressEdit={() =>
@@ -242,7 +242,7 @@ class ProfileScreen extends React.Component {
                   }
                 />
               )}
-              {selected === 'behavior_preference' && (
+              {profileTab === 'behavior_preference' && (
                 <BehaviorPreferenceCard
                   behaviorPreference={behaviorPreference}
                   onPressEdit={() =>
