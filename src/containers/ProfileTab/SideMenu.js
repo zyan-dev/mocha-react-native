@@ -62,6 +62,7 @@ class ProfileSideMenu extends React.Component {
             this.setState({cp_status: 'codepush_checking_for_update'});
             break;
           case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+            this.props.resetAllReducer();
             this.setState({cp_status: 'codepush_downloading_package'});
             break;
           case codePush.SyncStatus.INSTALLING_UPDATE:

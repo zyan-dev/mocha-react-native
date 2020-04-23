@@ -6,13 +6,7 @@ import {otherActions, routerActions} from 'Redux/actions';
 import i18next from 'i18next';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
-import {
-  MCHeader,
-  MCSearchInput,
-  MCIcon,
-  MCModal,
-  MCImage,
-} from 'components/common';
+import {MCHeader, MCSearchInput, MCIcon, MCModal} from 'components/common';
 import {ToolsSvg} from 'assets/svgs';
 import {ToolsSideTabs} from 'utils/constants';
 import {MCButton} from 'components/styled/Button';
@@ -33,6 +27,7 @@ class AddReflectionScreen extends React.Component {
   componentDidMount() {
     if (!this.props.visitedTools) {
       this.setState({showWelcomeModal: true});
+      this.props.addFavoriteTool(this.ToolsBodyCards[0]);
     }
   }
 
