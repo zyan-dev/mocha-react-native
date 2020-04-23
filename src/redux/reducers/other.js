@@ -6,6 +6,8 @@ const INITIAL_STATE = {
   commits: [],
   isShowingUserObjective: false,
   favoriteTools: [],
+  profileTab: 'overview',
+  toolsTab: 0,
 };
 
 const otherReducer = (state = INITIAL_STATE, action) => {
@@ -34,6 +36,16 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         favoriteTools: action.payload,
+      };
+    case types.SET_PROFILE_TAB:
+      return {
+        ...state,
+        profileTab: action.payload,
+      };
+    case types.SET_TOOLS_TAB:
+      return {
+        ...state,
+        toolsTab: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

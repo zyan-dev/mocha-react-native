@@ -48,3 +48,13 @@ export const setFavoriteTools = cards => ({
   type: types.SET_FAVORITE_TOOLS,
   payload: cards,
 });
+
+export const changeProfileTab = key => ({
+  type: types.SET_PROFILE_TAB,
+  payload: key,
+});
+
+export const changeToolsTab = key => ({
+  type: types.SET_TOOLS_TAB,
+  payload: key,
+});

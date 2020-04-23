@@ -15,6 +15,7 @@ import {
   userActions,
   feedbackActions,
   routerActions,
+  otherActions,
 } from 'Redux/actions';
 
 const TabBarHeight = 80;
@@ -87,22 +88,10 @@ class TabView extends React.PureComponent {
     } = this.props;
     const TabScreens = ['TabFeed', 'TabResource', 'TabTools', 'TabProfile'];
     const TabHomeScreens = [
-      {
-        name: userToken.length > 0 ? 'Feed' : 'Auth_SendSMS',
-        param: null,
-      },
-      {
-        name: 'ResourceSearch',
-        param: null,
-      },
-      {
-        name: 'ToolsTabHome',
-        param: {tabIndex: 0},
-      },
-      {
-        name: 'Profile',
-        param: {selected: 'overview'},
-      },
+      {name: userToken.length > 0 ? 'Feed' : 'Auth_SendSMS'},
+      {name: 'ResourceSearch'},
+      {name: 'ToolsTabHome'},
+      {name: 'Profile'},
     ];
 
     // hide drawer on all tabs
@@ -113,10 +102,9 @@ class TabView extends React.PureComponent {
     // detect double clicking
     if (this.tabIndex === index && new Date().getTime() - this.lastTime < 800) {
       // double clicked
-      NavigationService.navigate(
-        TabHomeScreens[index].name,
-        TabHomeScreens[index].param,
-      );
+      NavigationService.navigate(TabHomeScreens[index].name);
+      if (index === 2) this.props.changeToolsTab(0);
+      else if (index === 3) this.props.changeProfileTab('overview');
     } else {
       // one time clicked
       NavigationService.navigate(TabScreens[index]);
@@ -243,6 +231,8 @@ const mapDispatchToProps = {
   getUserReflections: reflectionActions.getUserReflections,
   getMyFeedbacks: feedbackActions.getMyFeedbacks,
   showDrawer: routerActions.setProfileDrawerOpened,
+  changeProfileTab: otherActions.changeProfileTab,
+  changeToolsTab: otherActions.changeToolsTab,
 };
 
 export default withTranslation()(

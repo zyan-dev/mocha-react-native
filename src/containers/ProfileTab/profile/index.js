@@ -1,7 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {feedbackActions, routerActions, reflectionActions} from 'Redux/actions';
+import {
+  feedbackActions,
+  routerActions,
+  reflectionActions,
+  otherActions,
+} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
 import {UserSvg} from 'assets/svgs';
 import {H3, H4} from 'components/styled/Text';
@@ -37,7 +42,6 @@ class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: 'overview',
       showWelcomeModal: false,
     };
   }
@@ -48,21 +52,6 @@ class ProfileScreen extends React.Component {
     }),
     boldWordKeys: ['profile_basics'],
   };
-
-  componentDidMount() {
-    const {visitedProfile, profile, getMyFeedbacks} = this.props;
-    if (profile.userToken.length > 0) {
-      getMyFeedbacks();
-    }
-    if (!visitedProfile) {
-      this.setState({showWelcomeModal: true});
-    }
-  }
-
-  componentWillReceiveProps(props) {
-    const {params} = props.route;
-    if (params && params.selected) this.setState({selected: params.selected});
-  }
 
   onPressAllValues = () => {
     NavigationService.navigate('Values');
@@ -125,7 +114,8 @@ class ProfileScreen extends React.Component {
   onPressAllRisks = () => {};
   onPressAllAnswers = () => {};
   onPressProfileIcon = icon => {
-    this.setState({selected: icon.key});
+    console.log({icon});
+    this.props.changeProfileTab(icon.key);
   };
 
   onCloseWelcomeModal = () => {
@@ -138,6 +128,7 @@ class ProfileScreen extends React.Component {
       t,
       theme,
       profile,
+      profileTab,
       values,
       showDrawer,
       feedbacks,
@@ -148,7 +139,7 @@ class ProfileScreen extends React.Component {
       dailyObjectives,
       weeklyObjectives,
     } = this.props;
-    const {selected, showWelcomeModal} = this.state;
+    const {showWelcomeModal} = this.state;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -161,39 +152,41 @@ class ProfileScreen extends React.Component {
             <MCContent
               style={{width: dySize(325)}}
               contentContainerStyle={{padding: dySize(10)}}>
-              {selected === 'overview' && <OverviewCard profile={profile} />}
-              {selected === 'contact' && <ContactCard profile={profile} />}
-              {selected === 'value' && (
+              {profileTab === 'overview' && <OverviewCard profile={profile} />}
+              {profileTab === 'contact' && <ContactCard profile={profile} />}
+              {profileTab === 'value' && (
                 <ValuesCard
                   values={values}
                   onPressDetails={() => this.onPressAllValues()}
                   onPressNew={() => this.onPressNewValue()}
                 />
               )}
-              {selected === 'purpose' && (
+              {profileTab === 'purpose' && (
                 <PurposesCard
                   onPressDetails={() => this.onPressAllPurposes()}
                 />
               )}
-              {selected === 'motivation' && (
+              {profileTab === 'motivation' && (
                 <MotivationCard
                   motivations={motivations}
                   onPressDetails={() => this.onPressAllMotivations()}
                   onPressNew={() => this.onPressNewMotivation()}
                 />
               )}
-              {selected === 'languages' && (
+              {profileTab === 'languages' && (
                 <LanguagesCard onPressDetails={() => {}} />
               )}
-              {selected === 'skill' && <SkillsCard onPressDetails={() => {}} />}
-              {selected === 'belief' && (
+              {profileTab === 'skill' && (
+                <SkillsCard onPressDetails={() => {}} />
+              )}
+              {profileTab === 'belief' && (
                 <UserManualsCard
                   manuals={manuals}
                   onPressDetails={() => this.onPressAllUserManuals()}
                   onPressNew={() => this.onPressNewUserManual()}
                 />
               )}
-              {selected === 'objective' && (
+              {profileTab === 'objective' && (
                 <ObjectivesCard
                   dailyObjectives={dailyObjectives}
                   weeklyObjectives={weeklyObjectives}
@@ -202,39 +195,39 @@ class ProfileScreen extends React.Component {
                   onPressNew={() => this.onPressNewObjective()}
                 />
               )}
-              {selected === 'chronotype' && (
+              {profileTab === 'chronotype' && (
                 <ChronotypeCard
                   chronotype={chronotype}
                   onPressEdit={() => NavigationService.navigate('Chronotype')}
                 />
               )}
-              {selected === 'personality' && (
+              {profileTab === 'personality' && (
                 <PersonalityCard
                   personality={personality}
                   onPressEdit={() => NavigationService.navigate('Personality')}
                 />
               )}
-              {selected === 'stress' && (
+              {profileTab === 'stress' && (
                 <StressAndComfortCard onPressEdit={() => {}} />
               )}
-              {selected === 'risk' && (
+              {profileTab === 'risk' && (
                 <RiskToleranceCard onPressEdit={() => {}} />
               )}
-              {selected === 'feedback' && (
+              {profileTab === 'feedback' && (
                 <FeedbacksCard
                   feedbacks={feedbacks}
                   onPressDetails={() => NavigationService.navigate('Feedbacks')}
                   onPressNew={() => this.onPressNewFeedback()}
                 />
               )}
-              {selected === 'quirk' && <QuirksCard onPressEdit={() => {}} />}
-              {selected === 'trigger' && (
+              {profileTab === 'quirk' && <QuirksCard onPressEdit={() => {}} />}
+              {profileTab === 'trigger' && (
                 <TriggersCard onPressEdit={() => {}} />
               )}
-              {selected === 'attachment' && (
+              {profileTab === 'attachment' && (
                 <AttachmentCard onPressEdit={() => {}} />
               )}
-              {selected === 'approach' && (
+              {profileTab === 'approach' && (
                 <ApproachCard onPressEdit={() => {}} />
               )}
             </MCContent>
@@ -255,9 +248,9 @@ class ProfileScreen extends React.Component {
                     <MCIcon
                       type={icon.iconType}
                       name={icon.icon}
-                      size={selected === icon.key ? 30 : 20}
+                      size={profileTab === icon.key ? 30 : 20}
                       color={
-                        selected === icon.key
+                        profileTab === icon.key
                           ? theme.colors.outline
                           : theme.colors.text
                       }
@@ -299,6 +292,7 @@ class ProfileScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
+  profileTab: state.otherReducer.profileTab,
   visitedProfile: state.routerReducer.visitedProfile,
   manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   values: selector.reflections.getMySpecialReflections(state, 'Value'),
@@ -329,6 +323,7 @@ const mapDispatchToProps = {
   showDrawer: routerActions.setProfileDrawerOpened,
   setInitialReflection: reflectionActions.setInitialReflection,
   visitProfileTab: routerActions.visitProfileTab,
+  changeProfileTab: otherActions.changeProfileTab,
 };
 
 export default withTranslation()(
