@@ -31,6 +31,14 @@
 		526040672450D55B002245A2 /* FontAwesome5Pro-Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 526040632450D55A002245A2 /* FontAwesome5Pro-Solid.ttf */; };
 		526040682450D55B002245A2 /* FontAwesome5Pro-Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 526040642450D55A002245A2 /* FontAwesome5Pro-Brands.ttf */; };
 		526040692450D55B002245A2 /* FontAwesome5Pro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 526040652450D55A002245A2 /* FontAwesome5Pro-Light.ttf */; };
+		52604072245240AF002245A2 /* icon40_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 5260406A245240AE002245A2 /* icon40_white.png */; };
+		52604073245240AF002245A2 /* icon87_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 5260406B245240AE002245A2 /* icon87_white.png */; };
+		52604074245240AF002245A2 /* icon60_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 5260406C245240AE002245A2 /* icon60_white.png */; };
+		52604075245240AF002245A2 /* icon1024_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 5260406D245240AE002245A2 /* icon1024_white.png */; };
+		52604076245240AF002245A2 /* icon180_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 5260406E245240AE002245A2 /* icon180_white.png */; };
+		52604077245240AF002245A2 /* icon120_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 5260406F245240AE002245A2 /* icon120_white.png */; };
+		52604078245240AF002245A2 /* icon58_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 52604070245240AE002245A2 /* icon58_white.png */; };
+		52604079245240AF002245A2 /* icon80_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 52604071245240AF002245A2 /* icon80_white.png */; };
 		52B0DC9D24203ADF00FF7626 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52B0DC9C24203ADE00FF7626 /* GoogleService-Info.plist */; };
 		52CD16AC24348278009BEEDB /* icon60.png in Resources */ = {isa = PBXBuildFile; fileRef = 52CD16A424348276009BEEDB /* icon60.png */; };
 		52CD16AD24348278009BEEDB /* icon80.png in Resources */ = {isa = PBXBuildFile; fileRef = 52CD16A524348276009BEEDB /* icon80.png */; };
@@ -114,6 +122,14 @@
 		526040632450D55A002245A2 /* FontAwesome5Pro-Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FontAwesome5Pro-Solid.ttf"; path = "../src/assets/fonts/FontAwesome5Pro-Solid.ttf"; sourceTree = "<group>"; };
 		526040642450D55A002245A2 /* FontAwesome5Pro-Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FontAwesome5Pro-Brands.ttf"; path = "../src/assets/fonts/FontAwesome5Pro-Brands.ttf"; sourceTree = "<group>"; };
 		526040652450D55A002245A2 /* FontAwesome5Pro-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FontAwesome5Pro-Light.ttf"; path = "../src/assets/fonts/FontAwesome5Pro-Light.ttf"; sourceTree = "<group>"; };
+		5260406A245240AE002245A2 /* icon40_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon40_white.png; path = ../src/assets/images/appIcons/icon40_white.png; sourceTree = "<group>"; };
+		5260406B245240AE002245A2 /* icon87_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon87_white.png; path = ../src/assets/images/appIcons/icon87_white.png; sourceTree = "<group>"; };
+		5260406C245240AE002245A2 /* icon60_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon60_white.png; path = ../src/assets/images/appIcons/icon60_white.png; sourceTree = "<group>"; };
+		5260406D245240AE002245A2 /* icon1024_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon1024_white.png; path = ../src/assets/images/appIcons/icon1024_white.png; sourceTree = "<group>"; };
+		5260406E245240AE002245A2 /* icon180_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon180_white.png; path = ../src/assets/images/appIcons/icon180_white.png; sourceTree = "<group>"; };
+		5260406F245240AE002245A2 /* icon120_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon120_white.png; path = ../src/assets/images/appIcons/icon120_white.png; sourceTree = "<group>"; };
+		52604070245240AE002245A2 /* icon58_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon58_white.png; path = ../src/assets/images/appIcons/icon58_white.png; sourceTree = "<group>"; };
+		52604071245240AF002245A2 /* icon80_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon80_white.png; path = ../src/assets/images/appIcons/icon80_white.png; sourceTree = "<group>"; };
 		52B0DC9B2415881600FF7626 /* mocha_cli.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mocha_cli.entitlements; path = mocha_cli/mocha_cli.entitlements; sourceTree = "<group>"; };
 		52B0DC9C24203ADE00FF7626 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "mocha_cli/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		52CD16A424348276009BEEDB /* icon60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon60.png; path = ../src/assets/images/appIcons/icon60.png; sourceTree = "<group>"; };
@@ -261,6 +277,14 @@
 		52EE8A832412E0E700BB3728 /* AppIcon */ = {
 			isa = PBXGroup;
 			children = (
+				5260406A245240AE002245A2 /* icon40_white.png */,
+				52604070245240AE002245A2 /* icon58_white.png */,
+				5260406C245240AE002245A2 /* icon60_white.png */,
+				52604071245240AF002245A2 /* icon80_white.png */,
+				5260406B245240AE002245A2 /* icon87_white.png */,
+				5260406F245240AE002245A2 /* icon120_white.png */,
+				5260406E245240AE002245A2 /* icon180_white.png */,
+				5260406D245240AE002245A2 /* icon1024_white.png */,
 				52CD16A924348277009BEEDB /* icon40.png */,
 				52CD16A824348277009BEEDB /* icon58.png */,
 				52CD16A424348276009BEEDB /* icon60.png */,
@@ -474,24 +498,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52604077245240AF002245A2 /* icon120_white.png in Resources */,
 				52FAD459242B466A00E8D1B2 /* splash-2048-2048.png in Resources */,
 				52FAD456242B466A00E8D1B2 /* splash-2688-1242.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				52FAD452242B466A00E8D1B2 /* splash-1792-828.png in Resources */,
 				7C9B6D35D46B4F3C8F79772B /* AntDesign.ttf in Resources */,
 				52FAD454242B466A00E8D1B2 /* splash-2436-1125.png in Resources */,
+				52604078245240AF002245A2 /* icon58_white.png in Resources */,
 				D9846C34A5884CF595F63518 /* Entypo.ttf in Resources */,
+				52604075245240AF002245A2 /* icon1024_white.png in Resources */,
 				B6A3CD6BE8F64AE1A59BBB59 /* EvilIcons.ttf in Resources */,
 				526040682450D55B002245A2 /* FontAwesome5Pro-Brands.ttf in Resources */,
 				59E80DEA20884423A659F2BF /* Feather.ttf in Resources */,
 				52CD16AE24348278009BEEDB /* icon87.png in Resources */,
 				F909732E3E494D4F823E1175 /* FontAwesome.ttf in Resources */,
+				52604072245240AF002245A2 /* icon40_white.png in Resources */,
 				52FAD451242B466A00E8D1B2 /* splash-1242-2688.png in Resources */,
 				9CD91A9DAD6E4C57B7C8C927 /* FontAwesome5_Brands.ttf in Resources */,
 				52CD16AF24348278009BEEDB /* icon1024.png in Resources */,
 				42FDE4924362481D9340631C /* FontAwesome5_Regular.ttf in Resources */,
 				52CD16B124348278009BEEDB /* icon40.png in Resources */,
 				E5C28F38A44D4F649C389261 /* FontAwesome5_Solid.ttf in Resources */,
+				52604073245240AF002245A2 /* icon87_white.png in Resources */,
 				52FAD45C242B466A00E8D1B2 /* splash-640-1136.png in Resources */,
 				5A735D9D74C74B82BB200222 /* Fontisto.ttf in Resources */,
 				3B54A5978EF34F68BB385BAE /* Foundation.ttf in Resources */,
@@ -525,8 +554,11 @@
 				542E119B63444CE4B72B22EF /* Raleway-Regular.ttf in Resources */,
 				52FAD453242B466A00E8D1B2 /* splash-640-960.png in Resources */,
 				18202DE967A74DD890CA6241 /* Raleway-SemiBold.ttf in Resources */,
+				52604076245240AF002245A2 /* icon180_white.png in Resources */,
+				52604074245240AF002245A2 /* icon60_white.png in Resources */,
 				3832422D7FAC440AA01AE197 /* Raleway-Thin.ttf in Resources */,
 				526040692450D55B002245A2 /* FontAwesome5Pro-Light.ttf in Resources */,
+				52604079245240AF002245A2 /* icon80_white.png in Resources */,
 				52B0DC9D24203ADF00FF7626 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
