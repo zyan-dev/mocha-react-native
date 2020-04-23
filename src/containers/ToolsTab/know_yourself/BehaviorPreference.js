@@ -18,31 +18,30 @@ import {
   BehaviorPreferenceNegatives,
 } from 'utils/constants';
 
-const NegativeBehaviorQuestion = {
-  title: i18next.t('tools_tab_behavior_preferences_negative_question', {
-    bold1: i18next.t('outline_traits'),
-    bold2: i18next.t('outline_strain_or_dysfunction'),
-  }),
-  boldWordKeys: ['traits', 'strain_or_dysfunction'],
-};
-
-const PositiveBehaviorQuestion = {
-  title: i18next.t('tools_tab_behavior_preferences_positive_question', {
-    bold1: i18next.t('outline_traits'),
-    bold2: i18next.t('outline_admire'),
-  }),
-  boldWordKeys: ['traits', 'admire'],
-};
-
 class BehaviorPreferenceScreen extends React.Component {
-  isNew = false;
-
   constructor(props) {
     super(props);
     this.state = {
       step: 1,
     };
   }
+  isNew = false;
+
+  NegativeBehaviorQuestion = {
+    title: i18next.t('tools_tab_behavior_preferences_negative_question', {
+      bold1: i18next.t('outline_traits'),
+      bold2: i18next.t('outline_strain_or_dysfunction'),
+    }),
+    boldWordKeys: ['traits', 'strain_or_dysfunction'],
+  };
+
+  PositiveBehaviorQuestion = {
+    title: i18next.t('tools_tab_behavior_preferences_positive_question', {
+      bold1: i18next.t('outline_traits'),
+      bold2: i18next.t('outline_admire'),
+    }),
+    boldWordKeys: ['traits', 'admire'],
+  };
 
   componentWillMount() {
     const {
@@ -127,7 +126,7 @@ class BehaviorPreferenceScreen extends React.Component {
           {step == 1 && (
             <MCView width={350} align="center">
               {getStringWithOutline(
-                NegativeBehaviorQuestion,
+                this.NegativeBehaviorQuestion,
                 'left',
                 true,
                 true,
@@ -197,7 +196,7 @@ class BehaviorPreferenceScreen extends React.Component {
           {step == 2 && (
             <MCView width={350} align="center">
               {getStringWithOutline(
-                PositiveBehaviorQuestion,
+                this.PositiveBehaviorQuestion,
                 'left',
                 true,
                 true,

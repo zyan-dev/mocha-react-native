@@ -1,4 +1,5 @@
 import * as types from '../actions/types';
+import i18next from 'i18next';
 
 const INITIAL_STATE = {
   purchaseProducts: [], // pending, checking, incorrect, passed

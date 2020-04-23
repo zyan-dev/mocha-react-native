@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
+import i18next from 'i18next';
 import {reflectionActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
@@ -15,21 +16,6 @@ import {
 } from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
 import {getStringWithOutline} from 'services/operators';
-import i18next from 'i18next';
-
-const negativeTitle = {
-  title: i18next.t('tools_tab_feedback_preferences_negative_question', {
-    bold: i18next.t('outline_constructive_criticism'),
-  }),
-  boldWordKeys: ['constructive_criticism'],
-};
-
-const positiveTitle = {
-  title: i18next.t('tools_tab_feedback_preferences_positive_question', {
-    bold: i18next.t('outline_praise'),
-  }),
-  boldWordKeys: ['praise'],
-};
 
 class FeedbackPreferenceScreen extends React.Component {
   constructor(props) {
@@ -40,6 +26,19 @@ class FeedbackPreferenceScreen extends React.Component {
   }
 
   isNew = false;
+  negativeTitle = {
+    title: i18next.t('tools_tab_feedback_preferences_negative_question', {
+      bold: i18next.t('outline_constructive_criticism'),
+    }),
+    boldWordKeys: ['constructive_criticism'],
+  };
+
+  positiveTitle = {
+    title: i18next.t('tools_tab_feedback_preferences_positive_question', {
+      bold: i18next.t('outline_praise'),
+    }),
+    boldWordKeys: ['praise'],
+  };
   componentWillMount() {
     const {
       myFeedbackPreference,
@@ -133,7 +132,7 @@ class FeedbackPreferenceScreen extends React.Component {
           </MCView>
           {step === 1 && (
             <>
-              {getStringWithOutline(negativeTitle, 'left')}
+              {getStringWithOutline(this.negativeTitle, 'left')}
               <H4 mb={20}>{t(`select_all_that_apply`)}</H4>
               <MCView row wrap justify="space-between">
                 {NegativeFeedbackPreferences.map((key, index) => {
@@ -190,7 +189,7 @@ class FeedbackPreferenceScreen extends React.Component {
           )}
           {step === 2 && (
             <>
-              {getStringWithOutline(positiveTitle, 'left')}
+              {getStringWithOutline(this.positiveTitle, 'left')}
               <H4 weight="italic" mb={20}>
                 {t(`select_all_that_apply`)}
               </H4>
