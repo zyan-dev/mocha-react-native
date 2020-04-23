@@ -31,6 +31,8 @@ import QuirksCard from './components/Quirks';
 import TriggersCard from './components/Triggers';
 import AttachmentCard from './components/Attachment';
 import ApproachCard from './components/Approach';
+import FeedbackPreferenceCard from './components/FeedbackPreference';
+import BehaviorPreferenceCard from './components/BehaviorPreference';
 import NavigationService from 'navigation/NavigationService';
 import {showAlert} from 'services/operators';
 import {profileIcons} from 'utils/constants';
@@ -138,6 +140,8 @@ class ProfileScreen extends React.Component {
       personality,
       dailyObjectives,
       weeklyObjectives,
+      feedbackPreference,
+      behaviorPreference,
     } = this.props;
     const {showWelcomeModal} = this.state;
     return (
@@ -230,6 +234,22 @@ class ProfileScreen extends React.Component {
               {profileTab === 'approach' && (
                 <ApproachCard onPressEdit={() => {}} />
               )}
+              {selected === 'feedback_preference' && (
+                <FeedbackPreferenceCard
+                  feedbackPreference={feedbackPreference}
+                  onPressEdit={() =>
+                    NavigationService.navigate('FeedbackPreference')
+                  }
+                />
+              )}
+              {selected === 'behavior_preference' && (
+                <BehaviorPreferenceCard
+                  behaviorPreference={behaviorPreference}
+                  onPressEdit={() =>
+                    NavigationService.navigate('BehaviorPreference')
+                  }
+                />
+              )}
             </MCContent>
           </MCView>
           <MCView
@@ -315,6 +335,14 @@ const mapStateToProps = state => ({
   personality: selector.reflections.findMySpecialReflections(
     state,
     'Personality',
+  ),
+  feedbackPreference: selector.reflections.findMySpecialReflections(
+    state,
+    'FeedbackPreference',
+  ),
+  behaviorPreference: selector.reflections.findMySpecialReflections(
+    state,
+    'BehaviorPreference',
   ),
 });
 

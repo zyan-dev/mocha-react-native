@@ -1403,6 +1403,7 @@ export const DefaultReflections = {
       negative_paranoid: 50,
       negative_charmless: 50,
       negative_frank: 50,
+      bookmarked: [],
     },
   },
   risk_tolerance: {
@@ -1781,9 +1782,21 @@ export const profileIcons = [
   },
   {
     key: 'approach',
+    iconType: 'FontAwesome5Pro',
+    icon: 'boxing-glove',
+    signinRequired: false,
+  },
+  {
+    key: 'feedback_preference',
     iconType: 'Ionicon',
     icon: 'ios-git-compare',
-    signinRequired: true,
+    signinRequired: false,
+  },
+  {
+    key: 'behavior_preference',
+    iconType: 'FontAwesome5',
+    icon: 'thumbs-up',
+    signinRequired: false,
   },
 ];
 

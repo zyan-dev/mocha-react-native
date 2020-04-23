@@ -29,6 +29,8 @@ import QuirksCard from '../ProfileTab/profile/components/Quirks';
 import TriggersCard from '../ProfileTab/profile/components/Triggers';
 import AttachmentCard from '../ProfileTab/profile/components/Attachment';
 import ApproachCard from '../ProfileTab/profile/components/Approach';
+import FeedbackPreferenceCard from '../ProfileTab/profile/components/FeedbackPreference';
+import BehaviorPreferenceCard from '../ProfileTab/profile/components/BehaviorPreference';
 import NavigationService from 'navigation/NavigationService';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
@@ -90,6 +92,8 @@ class UserProfileScreen extends React.Component {
       personality,
       dailyObjectives,
       weeklyObjectives,
+      feedbackPreference,
+      behaviorPreference,
     } = this.props;
     if (unknownUser) {
       return (
@@ -168,6 +172,18 @@ class UserProfileScreen extends React.Component {
               {selected === 'trigger' && <TriggersCard editable={false} />}
               {selected === 'attachment' && <AttachmentCard editable={false} />}
               {selected === 'approach' && <ApproachCard editable={false} />}
+              {selected === 'feedback_preference' && (
+                <FeedbackPreferenceCard
+                  feedbackPreference={feedbackPreference}
+                  editable={false}
+                />
+              )}
+              {selected === 'behavior_preference' && (
+                <BehaviorPreferenceCard
+                  behaviorPreference={behaviorPreference}
+                  editable={false}
+                />
+              )}
             </MCContent>
           </MCView>
           <MCView
@@ -240,6 +256,14 @@ const mapStateToProps = state => ({
   weeklyObjectives: selector.reflections
     .getUserSpecialReflections(state, 'Objective')
     .filter(({data}) => !data.isDaily),
+  feedbackPreference: selector.reflections.findUserSpecialReflections(
+    state,
+    'FeedbackPreference',
+  ),
+  behaviorPreference: selector.reflections.findUserSpecialReflections(
+    state,
+    'BehaviorPreference',
+  ),
 });
 
 const mapDispatchToProps = {
