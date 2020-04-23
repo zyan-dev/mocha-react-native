@@ -35,6 +35,7 @@ class ChronotypeCard extends React.Component {
 
   render() {
     const {t, chronotype, onPressEdit, editable} = this.props;
+    if (!chronotype || !chronotype.data) return null;
     return (
       <MCView align="center">
         <MCView row align="center" mb={20}>
