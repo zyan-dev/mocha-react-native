@@ -14,6 +14,7 @@ import {
   reflectionActions,
   userActions,
   feedbackActions,
+  routerActions,
 } from 'Redux/actions';
 
 const TabBarHeight = 80;
@@ -82,6 +83,7 @@ class TabView extends React.PureComponent {
       getMyProfile,
       getMyReflections,
       getMyFeedbacks,
+      showDrawer,
     } = this.props;
     const TabScreens = ['TabFeed', 'TabResource', 'TabTools', 'TabProfile'];
     const TabHomeScreens = [
@@ -102,7 +104,13 @@ class TabView extends React.PureComponent {
         param: {selected: 'overview'},
       },
     ];
+
+    // hide drawer on all tabs
+    showDrawer(false);
+
     this.setState({tabIndex: index});
+
+    // detect double clicking
     if (this.tabIndex === index && new Date().getTime() - this.lastTime < 800) {
       // double clicked
       NavigationService.navigate(
@@ -113,22 +121,27 @@ class TabView extends React.PureComponent {
       // one time clicked
       NavigationService.navigate(TabScreens[index]);
     }
+
+    // set values to detect the next double click
     this.tabIndex = index;
     this.lastTime = new Date().getTime();
 
     // call APIs
     switch (index) {
-      case 0: // user clicked Social Tab
+      case 0:
+        // user clicked Social Tab
         userToken.length > 0 && getAllUsers();
         userToken.length > 0 && getAllTrustMembers();
         break;
-      case 1: // user clicked Add Tab
+      case 1:
+        // user clicked Add Tab
         break;
-      case 2: // user clicked Tools Tab
+      case 2:
+        // user clicked Tools Tab
         userToken.length > 0 && getMyReflections();
         break;
-      case 3: // user clicked Profile Tab
-        // get profile data
+      case 3:
+        // user clicked Profile Tab
         userToken.length > 0 && getMyProfile();
         userToken.length > 0 && getMyReflections();
         userToken.length > 0 && getMyFeedbacks();
@@ -229,6 +242,7 @@ const mapDispatchToProps = {
   getMyReflections: reflectionActions.getMyReflections,
   getUserReflections: reflectionActions.getUserReflections,
   getMyFeedbacks: feedbackActions.getMyFeedbacks,
+  showDrawer: routerActions.setProfileDrawerOpened,
 };
 
 export default withTranslation()(

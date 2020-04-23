@@ -185,7 +185,6 @@ export const getStringWithOutline = (
   bold = true,
   underline = false,
 ) => {
-  console.log({textData});
   // outline can be bold or underline
   let str = textData.title;
   const snippets = [];

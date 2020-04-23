@@ -4,13 +4,13 @@ import styled from 'styled-components';
 import {withTranslation} from 'react-i18next';
 import {MCRootView, MCView} from 'components/styled/View';
 import {MCImage} from 'components/common';
-import {H2, H3} from 'components/styled/Text';
+import {H2, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {MochaLogo} from 'assets/images';
+import {WelcomeOnboardImage2} from 'assets/images';
 
-class WelcomeToMocha extends React.PureComponent {
+class WelcomeOnboardSecond extends React.PureComponent {
   render() {
     const {t} = this.props;
     return (
@@ -20,40 +20,32 @@ class WelcomeToMocha extends React.PureComponent {
           bordered
           br={60}
           ph={20}
-          pv={20}
+          pv={40}
           mt={60}
           mb={60}
           justify="center"
           align="center"
           width={dySize(300)}>
           <MCImage
-            image={MochaLogo}
+            image={WelcomeOnboardImage2}
             width={200}
             height={200}
-            resizeMode="contain"
+            br={10}
           />
-          <H2 mt={40}>{t('welcome_title')}</H2>
-          <MCButton
-            bordered
-            mt={30}
-            width={240}
-            align="center"
-            onPress={() => NavigationService.navigate('WelcomeOnboard')}>
-            <H3>{t('welcome_reflectionpoints_buttons_continue')}</H3>
-          </MCButton>
+          <H4 mt={30} align="center">
+            {t('welcome_onboard_second_text_1')}
+          </H4>
+          <H4 mt={15} align="center">
+            {t('welcome_onboard_second_text_2')}
+          </H4>
+          <MCView style={{flex: 1}} justify="center">
+            <H2>{t('welcome_onboard_second_core_text')}</H2>
+          </MCView>
+          <MCView height={2} bordered mb={60} width={150} />
         </MCView>
       </MCRootView>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  theme: state.routerReducer.theme,
-});
-
-export default withTranslation()(
-  connect(
-    mapStateToProps,
-    undefined,
-  )(WelcomeToMocha),
-);
+export default withTranslation()(WelcomeOnboardSecond);

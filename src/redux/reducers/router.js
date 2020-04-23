@@ -14,6 +14,8 @@ const INITIAL_STATE = {
   isSocialDrawerOpened: false,
   isProfileDrawerOpened: false,
   isInternetReachable: true,
+  visitedTools: false,
+  visitedProfile: false,
 };
 
 const routerReducer = (state = INITIAL_STATE, action) => {
@@ -73,6 +75,16 @@ const routerReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isInternetReachable: action.payload ? true : false,
+      };
+    case types.VISIT_TOOLS_TAB:
+      return {
+        ...state,
+        visitedTools: true,
+      };
+    case types.VISIT_PROFILE_TAB:
+      return {
+        ...state,
+        visitedProfile: true,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

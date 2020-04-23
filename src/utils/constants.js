@@ -1436,6 +1436,14 @@ export const DefaultReflections = {
       parts: [],
     },
   },
+  habit: {
+    type: 'Habit',
+    data: {
+      title: '',
+      habits: [],
+      isDaily: true,
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1576,7 +1584,7 @@ export const BasicProfileCards = {
     icon: 'ios-compass',
     minutes: 10,
     width: 250,
-    redirectTo: '',
+    redirectTo: 'KY_SetHabit',
   },
 };
 

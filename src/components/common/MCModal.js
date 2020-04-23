@@ -35,6 +35,7 @@ export default class MCModal extends React.PureComponent {
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
+    hasCloseButton: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     width: PropTypes.number,
     animationIn: PropTypes.string,
@@ -45,6 +46,7 @@ export default class MCModal extends React.PureComponent {
     width: 320,
     animationIn: 'slideInLeft',
     animationOut: 'slideOutRight',
+    hasCloseButton: true,
   };
 
   render() {
@@ -55,6 +57,7 @@ export default class MCModal extends React.PureComponent {
       width,
       animationIn,
       animationOut,
+      hasCloseButton,
     } = this.props;
     return (
       <ModalContainer
@@ -68,9 +71,11 @@ export default class MCModal extends React.PureComponent {
             }}>
             {children}
           </ModalContent>
-          <ModalCloseView onPress={() => onClose()}>
-            <MCIcon name="md-close" />
-          </ModalCloseView>
+          {hasCloseButton && (
+            <ModalCloseView onPress={() => onClose()}>
+              <MCIcon name="md-close" />
+            </ModalCloseView>
+          )}
         </ModalWrapper>
       </ModalContainer>
     );
