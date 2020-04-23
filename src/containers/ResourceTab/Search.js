@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import {routerActions, resourceActions} from 'Redux/actions';
@@ -13,7 +13,7 @@ import {ResourceTypes} from 'utils/constants';
 import {getStringIndexOf} from 'services/operators';
 import ResourceItem from './ResourceItem';
 import NavigationService from '../../navigation/NavigationService';
-
+import ResourceTabView from './TabView';
 class ResourceSearchScreen extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -103,7 +103,7 @@ class ResourceSearchScreen extends React.PureComponent {
       );
     }
     return (
-      <MCRootView>
+      <View style={{flex: 1}}>
         <MCHeader
           title={t('resources')}
           leftIcon="filter"
@@ -111,13 +111,20 @@ class ResourceSearchScreen extends React.PureComponent {
           hasRight
           rightIcon="bars"
           onPressRight={() => showDrawer(true)}
+          hasBack={false}
+          headerIcon={
+            <MCView ml={10}>
+              <MCIcon type="FontAwesome5" name="book-reader" size={30} />
+            </MCView>
+          }
         />
-        <MCSearchInput
+        {/* <MCSearchInput
           placeholder={t('resource_search_placeholder')}
           text={searchText}
           onChange={searchText => this.setState({searchText})}
-        />
-        <MCContent>
+        /> */}
+        <ResourceTabView initialIndex={2} />
+        {/* <MCContent>
           <FlatList
             extraData={bookmarkedResources}
             contentContainerStyle={{alignItems: 'center'}}
@@ -127,7 +134,7 @@ class ResourceSearchScreen extends React.PureComponent {
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
-        </MCContent>
+        </MCContent> */}
         <RBSheet
           ref={ref => {
             this.RBSheet = ref;
@@ -170,7 +177,7 @@ class ResourceSearchScreen extends React.PureComponent {
             })}
           </MCView>
         </RBSheet>
-      </MCRootView>
+      </View>
     );
   }
 }
