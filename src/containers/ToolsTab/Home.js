@@ -6,13 +6,7 @@ import {otherActions, routerActions} from 'Redux/actions';
 import i18next from 'i18next';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
-import {
-  MCHeader,
-  MCSearchInput,
-  MCIcon,
-  MCModal,
-  MCImage,
-} from 'components/common';
+import {MCHeader, MCSearchInput, MCIcon, MCModal} from 'components/common';
 import {ToolsSvg} from 'assets/svgs';
 import {ToolsSideTabs} from 'utils/constants';
 import {MCButton} from 'components/styled/Button';
@@ -24,7 +18,6 @@ class AddReflectionScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabIndex: 0,
       searchText: '',
       showWelcomeModal: false,
     };
@@ -33,13 +26,8 @@ class AddReflectionScreen extends React.Component {
   componentDidMount() {
     if (!this.props.visitedTools) {
       this.setState({showWelcomeModal: true});
+      this.props.addFavoriteTool(this.ToolsBodyCards[0]);
     }
-  }
-
-  componentWillReceiveProps(props) {
-    const {params} = props.route;
-    if (params && params.tabIndex !== undefined)
-      this.setState({tabIndex: params.tabIndex});
   }
 
   WelcomeToolsDescription = {
@@ -204,7 +192,7 @@ class AddReflectionScreen extends React.Component {
   ];
 
   onPressTab = index => {
-    this.setState({tabIndex: index});
+    this.props.changeToolsTab(index);
   };
 
   onPressCard = section => {
@@ -219,9 +207,9 @@ class AddReflectionScreen extends React.Component {
   };
 
   getCards = () => {
-    const {t, favoriteTools} = this.props;
-    const {tabIndex, searchText} = this.state;
-    switch (tabIndex) {
+    const {t, favoriteTools, toolsTab} = this.props;
+    const {searchText} = this.state;
+    switch (toolsTab) {
       case 0:
         return favoriteTools;
         break;
@@ -294,8 +282,8 @@ class AddReflectionScreen extends React.Component {
   };
 
   render() {
-    const {tabIndex, searchText, showWelcomeModal} = this.state;
-    const {t, theme, favoriteTools} = this.props;
+    const {searchText, showWelcomeModal} = this.state;
+    const {t, theme, favoriteTools, toolsTab} = this.props;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -315,7 +303,7 @@ class AddReflectionScreen extends React.Component {
               contentContainerStyle={{width: dySize(80), alignItems: 'center'}}>
               {ToolsSideTabs.map((tab, index) => {
                 const tabColor =
-                  tabIndex === index ? theme.colors.outline : theme.colors.text;
+                  toolsTab === index ? theme.colors.outline : theme.colors.text;
                 return (
                   <MCButton
                     key={index}
@@ -335,7 +323,7 @@ class AddReflectionScreen extends React.Component {
             </MCContent>
           </MCView>
           <MCView style={{flex: 1, alignItems: 'center'}}>
-            {tabIndex === 4 && (
+            {toolsTab === 4 && (
               <MCSearchInput
                 width={280}
                 text={searchText}
@@ -387,12 +375,14 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
   favoriteTools: state.otherReducer.favoriteTools,
+  toolsTab: state.otherReducer.toolsTab,
   visitedTools: state.routerReducer.visitedTools,
 });
 
 const mapDispatchToProps = {
   addFavoriteTool: otherActions.addFavoriteTool,
   removeFavoriteTool: otherActions.removeFavoriteTool,
+  changeToolsTab: otherActions.changeToolsTab,
   visitToolsTab: routerActions.visitToolsTab,
 };
 

@@ -47,7 +47,7 @@ class ChronotypeCard extends React.Component {
             </MCButton>
           )}
         </MCView>
-        {!chronotype || !chronotype.data ? (
+        {!chronotype ? (
           <MCButton
             width={300}
             align="center"

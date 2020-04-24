@@ -280,7 +280,8 @@ export function* addFavoriteTool(action) {
     otherReducer: {favoriteTools},
   } = yield select();
   if (favoriteTools) {
-    favoriteTools.push(action.payload);
+    const find = favoriteTools.find(i => i.key === action.payload.key);
+    if (!find) favoriteTools.push(action.payload);
     yield put({type: types.SET_FAVORITE_TOOLS, payload: favoriteTools});
   } else {
     yield put({type: types.SET_FAVORITE_TOOLS, payload: [action.payload]});

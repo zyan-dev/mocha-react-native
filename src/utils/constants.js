@@ -1782,9 +1782,21 @@ export const profileIcons = [
   },
   {
     key: 'approach',
+    iconType: 'FontAwesome5Pro',
+    icon: 'boxing-glove',
+    signinRequired: false,
+  },
+  {
+    key: 'feedback_preference',
     iconType: 'Ionicon',
     icon: 'ios-git-compare',
-    signinRequired: true,
+    signinRequired: false,
+  },
+  {
+    key: 'behavior_preference',
+    iconType: 'FontAwesome5',
+    icon: 'thumbs-up',
+    signinRequired: false,
   },
 ];
 
