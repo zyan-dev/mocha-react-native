@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 import {resourceActions} from 'Redux/actions';
 import {getStringIndexOf} from 'services/operators';
 import {MCEmptyText} from 'components/styled/Text';
-import {MCContent, MCRootView} from 'components/styled/View';
-import BookItem from '../BookItem';
+import {MCRootView} from 'components/styled/View';
+import BookItem from '../Books/BookItem';
 import {dySize} from 'utils/responsive';
 
 const books = [
@@ -16,18 +16,9 @@ const books = [
     pages: 200,
     length: '5h 20',
     released: new Date(),
-    impact: [
-      'must read',
-      'strongly',
-      'impectful'
-    ],
-    skills: [
-      'react',
-      'react native',
-      'node',
-      'express'
-    ],
-    url: ''
+    impact: ['must read', 'strongly', 'impectful'],
+    skills: ['react', 'react native', 'node', 'express'],
+    url: '',
   },
   {
     title: 'Thinking Fast and Slow',
@@ -35,32 +26,9 @@ const books = [
     pages: 200,
     length: '5h 20',
     released: new Date(),
-    impact: [
-      'must read',
-      'strongly',
-      'impectful'
-    ],
-    skills: [
-      'react',
-      'react native',
-      'node',
-      'express'
-    ],
-    url: ''
-  },
-  {
-    title: 'The Power of Habit',
-    author: 'Nassim Taleb',
-    pages: 200,
-    length: '5h 20',
-    released: new Date(),
-    impact: [
-      'must read',
-      'strongly',
-      'impectful'
-    ],
+    impact: ['must read', 'strongly', 'impectful'],
+    skills: ['react', 'react native', 'node', 'express'],
     url: '',
-    skills: []
   },
   {
     title: 'The Power of Habit',
@@ -68,18 +36,23 @@ const books = [
     pages: 200,
     length: '5h 20',
     released: new Date(),
-    impact: [
-      'must read',
-      'strongly',
-      'impectful'
-    ],
+    impact: ['must read', 'strongly', 'impectful'],
+    url: '',
     skills: [],
-    url: ''
   },
-]
+  {
+    title: 'The Power of Habit',
+    author: 'Nassim Taleb',
+    pages: 200,
+    length: '5h 20',
+    released: new Date(),
+    impact: ['must read', 'strongly', 'impectful'],
+    skills: [],
+    url: '',
+  },
+];
 
 class BookResourceScreen extends React.PureComponent {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -127,7 +100,7 @@ class BookResourceScreen extends React.PureComponent {
   };
 
   render() {
-    const { t, bookmarkedResources, allResources } = this.props;
+    const {t, bookmarkedResources, allResources} = this.props;
 
     return (
       <MCRootView align="center">
@@ -143,7 +116,7 @@ class BookResourceScreen extends React.PureComponent {
           style={{width: dySize(350)}}
         />
       </MCRootView>
-    )
+    );
   }
 }
 

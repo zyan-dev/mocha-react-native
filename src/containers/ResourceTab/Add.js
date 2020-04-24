@@ -4,10 +4,16 @@ import {connect} from 'react-redux';
 import {resourceActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {MCHeader, MCTagInput, MCTextFormInput, MCIcon} from 'components/common';
-import {H3, H4} from 'components/styled/Text';
+import {
+  MCHeader,
+  MCTagInput,
+  MCTextFormInput,
+  MCIcon,
+  MCReadMoreText,
+} from 'components/common';
+import {H3, H4, H5} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
-import {ResourceTypes} from 'utils/constants';
+import {ResourceTypes, skills, impacts} from 'utils/constants';
 import {validURL} from 'services/operators';
 
 class AddResourceScreen extends React.PureComponent {
@@ -15,6 +21,7 @@ class AddResourceScreen extends React.PureComponent {
     super(props);
     this.state = {
       submitted: false,
+      flagMore: false,
     };
   }
 
@@ -36,7 +43,10 @@ class AddResourceScreen extends React.PureComponent {
   };
 
   validateTitle = () => {
-    return this.props.selectedResource.title.length > 0;
+    return (
+      this.props.selectedResource.title &&
+      this.props.selectedResource.title.length > 0
+    );
   };
 
   validateLink = () => {
@@ -44,7 +54,7 @@ class AddResourceScreen extends React.PureComponent {
   };
 
   render() {
-    const {submitted} = this.state;
+    const {submitted, flagMore} = this.state;
     const {t, selectedResource, updateSelectedResource} = this.props;
     const {title, link, type, tags} = selectedResource;
     isErrorTitle = !this.validateTitle();
@@ -103,10 +113,68 @@ class AddResourceScreen extends React.PureComponent {
               </MCButton>
             ))}
           </MCView>
-          <H3 mt={20} mb={5}>
-            {t('resource_input_tag')}
-          </H3>
-          <MCTagInput tags={tags} updateState={this.updateTagState} />
+          <MCView>
+            <MCView row wrap>
+              <H3 mt={20} mb={5}>
+                {t('resources_how')}
+              </H3>
+              <H3 mt={20} mb={5} underline>
+                {t('resource_type_book_impact')}
+              </H3>
+              <H3 mt={20} mb={5}>
+                {t('resources_to_you')}?
+              </H3>
+            </MCView>
+            <MCView row wrap>
+              {impacts.map((impact, index) => (
+                <MCButton
+                  key={index}
+                  onPress={() => updateSelectedResource(impact)}
+                  row
+                  align="center"
+                  background="#6f4c4b"
+                  mr={5}
+                  mb={5}>
+                  <H4>{impact}</H4>
+                </MCButton>
+              ))}
+            </MCView>
+          </MCView>
+          <MCView>
+            <MCView row wrap>
+              <H3>{t('resources_personal_development')}</H3>
+              <H3 underline>{t('resource_type_book_skills').toLowerCase()}</H3>
+              <H3>{t('resources_focuses_on')}:</H3>
+            </MCView>
+            <MCView row wrap>
+              {skills.map((skill, index) => (
+                <MCButton
+                  key={index}
+                  onPress={() => updateSelectedResource(skill)}
+                  row
+                  align="center"
+                  background="#3d5164"
+                  mr={5}
+                  mb={5}>
+                  <H4>{skill}</H4>
+                </MCButton>
+              ))}
+            </MCView>
+
+            <MCButton
+              onPress={() => this.setState({flagMore: !flagMore})}
+              row
+              align="center"
+              mr={5}
+              mb={5}>
+              <MCReadMoreText>
+                <H5>{t('button_more')}...</H5>
+              </MCReadMoreText>
+            </MCButton>
+          </MCView>
+          {flagMore && (
+            <MCTagInput tags={tags} updateState={this.updateTagState} />
+          )}
         </MCContent>
       </MCRootView>
     );

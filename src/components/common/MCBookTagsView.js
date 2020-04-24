@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {MCView} from '../styled/View';
-import {H4} from '../styled/Text';
+import {H4, H6} from '../styled/Text';
 import {dySize} from 'utils/responsive';
+import {MCImage} from 'components/common';
 
 const TagView = styled(H4)`
   border: 1px solid ${props => props.theme.colors.border};
@@ -22,16 +23,50 @@ export default class MCBookTagsView extends React.PureComponent {
   };
 
   render() {
-    const {tags, impact} = this.props;
+    const {tags, impact, collaborators} = this.props;
     return (
       <MCView column align="center">
         {!tags.length ? (
           <H4>No tags</H4>
         ) : (
           tags.map((tag, index) => (
-            <TagView key={index} ph={5} mb={15} align="center" type={impact}>
-              {tag}
-            </TagView>
+            <MCView
+              style={{
+                postion: 'relative',
+              }}>
+              <TagView key={index} ph={5} mb={25} align="center" type={impact}>
+                {tag}
+              </TagView>
+              {collaborators && (
+                <MCView
+                  row
+                  align="flex-start"
+                  absolute
+                  style={{
+                    top: 28,
+                    left: 30,
+                  }}>
+                  <H6 ml={30}>+12</H6>
+                  <MCView
+                    row
+                    align="center"
+                    style={{flex: 1}}
+                    ml={15}
+                    overflow="visible">
+                    {collaborators.map(user => (
+                      <MCImage
+                        key={user._id}
+                        image={{uri: user.avatar}}
+                        round
+                        width={20}
+                        height={20}
+                        style={{marginLeft: dySize(-15)}}
+                      />
+                    ))}
+                  </MCView>
+                </MCView>
+              )}
+            </MCView>
           ))
         )}
       </MCView>
