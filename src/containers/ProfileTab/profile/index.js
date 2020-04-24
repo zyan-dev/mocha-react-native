@@ -55,6 +55,16 @@ class ProfileScreen extends React.Component {
     boldWordKeys: ['profile_basics'],
   };
 
+  componentDidMount() {
+    const {visitedProfile, profile, getMyFeedbacks} = this.props;
+    if (profile.userToken.length > 0) {
+      getMyFeedbacks();
+    }
+    if (!visitedProfile) {
+      this.setState({showWelcomeModal: true});
+    }
+  }
+
   onPressAllValues = () => {
     NavigationService.navigate('Values');
   };

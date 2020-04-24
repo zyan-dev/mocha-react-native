@@ -47,7 +47,7 @@ class AddReflectionScreen extends React.Component {
       duration: '15~30',
       iconType: 'Ionicon',
       icon: 'ios-body',
-      navigateTo: 'KnowYourSelf',
+      navigateTo: 'ProfileBasic',
     },
     {
       key: 'body1',

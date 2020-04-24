@@ -49,7 +49,10 @@ const otherReducer = (state = INITIAL_STATE, action) => {
         toolsTab: action.payload,
       };
     case types.RESET_ALL_REDUCER:
-      return INITIAL_STATE;
+      return {
+        ...INITIAL_STATE,
+        favoriteTools: state.favoriteTools,
+      };
     default:
       return state;
   }

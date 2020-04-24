@@ -8,8 +8,10 @@ import RiskToleranceScreen from './RiskTolerance';
 import AttachmentPatternScreen from './AattachmentPattern';
 import ApproachToConflictScreen from './ApproachToConflict';
 import DiscoverValueScreen from './DiscoverYourValues';
-import BodyAwarenessScreen from './BodyAwareness';
+import StressResponseScreen from './StressResponse';
 import SetHabitScreen from './SetHabit';
+import NutritionScreen from './Nutrition';
+import HydrationScreen from './Hydration';
 import ChronotypeScreen from '../../ProfileTab/profile/details/chronotype';
 
 const Stack = createStackNavigator();
@@ -18,26 +20,31 @@ class KnowYourSelfStack extends React.Component {
   render() {
     return (
       <Stack.Navigator headerMode="none">
-        <Stack.Screen name="KY_ProfileBasics" component={ProfileBasicScreen} />
-        <Stack.Screen name="KY_PersonalStory" component={PersonalStoryScreen} />
+        <Stack.Screen name="ProfileBasics" component={ProfileBasicScreen} />
+        <Stack.Screen name="PA_PersonalStory" component={PersonalStoryScreen} />
         <Stack.Screen
-          name="KY_FeedbackPreference"
+          name="PA_FeedbackPreference"
           component={FeedbackPreferenceScreen}
         />
         <Stack.Screen
-          name="KY_BehaviorPreference"
+          name="PA_BehaviorPreference"
           component={BehaviorPreferenceScreen}
         />
-        <Stack.Screen name="KY_RiskTolerance" component={RiskToleranceScreen} />
+        <Stack.Screen name="PA_RiskTolerance" component={RiskToleranceScreen} />
         <Stack.Screen
-          name="KY_Attachment"
+          name="PA_Attachment"
           component={AttachmentPatternScreen}
         />
-        <Stack.Screen name="KY_Approach" component={ApproachToConflictScreen} />
-        <Stack.Screen name="KY_DiscoverValue" component={DiscoverValueScreen} />
-        <Stack.Screen name="KY_BodyAwareness" component={BodyAwarenessScreen} />
-        <Stack.Screen name="KY_SleepChronotype" component={ChronotypeScreen} />
-        <Stack.Screen name="KY_SetHabit" component={SetHabitScreen} />
+        <Stack.Screen name="PA_Approach" component={ApproachToConflictScreen} />
+        <Stack.Screen name="PB_DiscoverValue" component={DiscoverValueScreen} />
+        <Stack.Screen
+          name="PB_StressResponse"
+          component={StressResponseScreen}
+        />
+        <Stack.Screen name="PB_SleepChronotype" component={ChronotypeScreen} />
+        <Stack.Screen name="PB_SetHabit" component={SetHabitScreen} />
+        <Stack.Screen name="PB_Nutrition" component={NutritionScreen} />
+        <Stack.Screen name="PB_Hydration" component={HydrationScreen} />
       </Stack.Navigator>
     );
   }

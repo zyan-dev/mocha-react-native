@@ -87,7 +87,10 @@ const routerReducer = (state = INITIAL_STATE, action) => {
         visitedProfile: true,
       };
     case types.RESET_ALL_REDUCER:
-      return INITIAL_STATE;
+      return {
+        ...INITIAL_STATE,
+        theme: state.theme,
+      };
     default:
       return state;
   }
