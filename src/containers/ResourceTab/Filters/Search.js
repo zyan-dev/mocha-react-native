@@ -2,11 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {routerActions, resourceActions} from 'Redux/actions';
 import {withTranslation} from 'react-i18next';
-import {MCRootView} from 'components/styled/View';
+import {MCRootView, MCContent} from 'components/styled/View';
 import {MCSearchInput} from 'components/common';
 
 class SearchResourceScreen extends React.PureComponent {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -15,17 +14,19 @@ class SearchResourceScreen extends React.PureComponent {
   }
 
   render() {
-    const { searchText } = this.state;
-    const { t } = this.props;
+    const {searchText} = this.state;
+    const {t} = this.props;
     return (
       <MCRootView>
-        <MCSearchInput
-          placeholder={t('resource_search_placeholder')}
-          text={searchText}
-          onChange={searchText => this.setState({searchText})}
-        />
+        <MCContent>
+          <MCSearchInput
+            placeholder={t('resource_search_placeholder')}
+            text={searchText}
+            onChange={searchText => this.setState({searchText})}
+          />
+        </MCContent>
       </MCRootView>
-    )
+    );
   }
 }
 

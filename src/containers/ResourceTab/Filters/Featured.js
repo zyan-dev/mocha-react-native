@@ -9,9 +9,9 @@ import {MCEmptyText} from 'components/styled/Text';
 import ResourceItem from '../ResourceItem';
 
 class FeatureResourceScreen extends React.PureComponent {
-  filter = (resources) => {
+  filter = resources => {
     const {bookmarkedResources} = this.props;
-    const filtered = resources.filter((resource) => {
+    const filtered = resources.filter(resource => {
       return bookmarkedResources.indexOf(resource._id) > -1;
     });
     return filtered;
@@ -22,7 +22,7 @@ class FeatureResourceScreen extends React.PureComponent {
       <ResourceItem
         resource={item}
         bookmarked
-        onPressBookmark={(id) => {
+        onPressBookmark={id => {
           this.props.bookmarkResource(id);
           this.forceUpdate();
         }}
@@ -42,7 +42,7 @@ class FeatureResourceScreen extends React.PureComponent {
             contentContainerStyle={{alignItems: 'center'}}
             data={this.filter(allResources)}
             renderItem={this._renderListItem}
-            keyExtractor={(item) => item._id}
+            keyExtractor={item => item._id}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           />
@@ -52,7 +52,7 @@ class FeatureResourceScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   bookmarkedResources: state.resourceReducer.bookmarkedResources,
   allResources: state.resourceReducer.allResources,
 });
@@ -62,5 +62,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(FeatureResourceScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FeatureResourceScreen),
 );

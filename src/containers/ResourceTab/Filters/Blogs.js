@@ -10,7 +10,7 @@ class BlogResourceScreen extends React.PureComponent {
       <MCRootView>
         <H3>Blogs Page</H3>
       </MCRootView>
-    )
+    );
   }
 }
 

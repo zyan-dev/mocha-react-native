@@ -10,7 +10,7 @@ class PodcastResourceScreen extends React.PureComponent {
       <MCRootView>
         <H3>Podcasts Page</H3>
       </MCRootView>
-    )
+    );
   }
 }
 
