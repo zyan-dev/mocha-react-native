@@ -14,6 +14,7 @@ import MCPicker from './MCPicker';
 import MCDateTimePicker from './MCDateTimePicker';
 import MCSpeedoMeter from './MCSpeedoMeter';
 import MCIcon from './MCIcon';
+import MCBookTagsView from './MCBookTagsView';
 
 export {
   MCEditableText,
@@ -32,4 +33,5 @@ export {
   MCDateTimePicker,
   MCSpeedoMeter,
   MCIcon,
+  MCBookTagsView
 };

@@ -6,7 +6,77 @@ import {resourceActions} from 'Redux/actions';
 import {getStringIndexOf} from 'services/operators';
 import {MCEmptyText} from 'components/styled/Text';
 import {MCContent, MCRootView} from 'components/styled/View';
-import ResourceItem from '../ResourceItem';
+import BookItem from '../BookItem';
+import {dySize} from 'utils/responsive';
+
+const books = [
+  {
+    title: 'Fooled by Randomness',
+    author: 'Nassim Taleb',
+    pages: 200,
+    length: '5h 20',
+    released: new Date(),
+    impact: [
+      'must read',
+      'strongly',
+      'impectful'
+    ],
+    skills: [
+      'react',
+      'react native',
+      'node',
+      'express'
+    ],
+    url: ''
+  },
+  {
+    title: 'Thinking Fast and Slow',
+    author: 'Nassim Taleb',
+    pages: 200,
+    length: '5h 20',
+    released: new Date(),
+    impact: [
+      'must read',
+      'strongly',
+      'impectful'
+    ],
+    skills: [
+      'react',
+      'react native',
+      'node',
+      'express'
+    ],
+    url: ''
+  },
+  {
+    title: 'The Power of Habit',
+    author: 'Nassim Taleb',
+    pages: 200,
+    length: '5h 20',
+    released: new Date(),
+    impact: [
+      'must read',
+      'strongly',
+      'impectful'
+    ],
+    url: '',
+    skills: []
+  },
+  {
+    title: 'The Power of Habit',
+    author: 'Nassim Taleb',
+    pages: 200,
+    length: '5h 20',
+    released: new Date(),
+    impact: [
+      'must read',
+      'strongly',
+      'impectful'
+    ],
+    skills: [],
+    url: ''
+  },
+]
 
 class BookResourceScreen extends React.PureComponent {
 
@@ -44,7 +114,7 @@ class BookResourceScreen extends React.PureComponent {
 
     const bookmarked = bookmarkedResources.indexOf(item._id) > -1;
     return (
-      <ResourceItem
+      <BookItem
         resource={item}
         bookmarked={bookmarked}
         onPressBookmark={id => {
@@ -60,18 +130,18 @@ class BookResourceScreen extends React.PureComponent {
     const { t, bookmarkedResources, allResources } = this.props;
 
     return (
-      <MCRootView>
-        <MCContent>
-          <FlatList
-            extraData={bookmarkedResources}
-            contentContainerStyle={{alignItems: 'center'}}
-            data={this.filterResource(allResources)}
-            renderItem={this._renderListItem}
-            keyExtractor={item => item._id}
-            keyboardShouldPersistTaps="always"
-            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-          />
-        </MCContent>
+      <MCRootView align="center">
+        <FlatList
+          extraData={bookmarkedResources}
+          contentContainerStyle={{alignItems: 'center'}}
+          data={books}
+          renderItem={this._renderListItem}
+          keyExtractor={item => item._id}
+          keyboardShouldPersistTaps="always"
+          ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+          numColumns={2}
+          style={{width: dySize(350)}}
+        />
       </MCRootView>
     )
   }
