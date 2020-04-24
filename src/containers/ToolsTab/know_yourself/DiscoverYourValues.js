@@ -241,7 +241,7 @@ class DiscoverValueScreen extends React.Component {
                 disableBottomSwipe>
                 {DiscoverValues.map(value => (
                   <Card
-                    key={value.value}
+                    key={value.value + theme.colors.theme_name}
                     style={{
                       width: cardViewHeight * 0.6,
                       height: cardViewHeight * 0.9,

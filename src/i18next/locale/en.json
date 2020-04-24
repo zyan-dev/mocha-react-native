@@ -1415,7 +1415,7 @@
   "object_title_3": "What are you intending to accomplish?",
   "objective_weekly_tabTitle": "Weekly",
   "other_profile_page_headerText": "User Profile",
-  "outline_profile_preview": "Profile Preview",
+  "outline_profile_basic": "Profile Basics",
   "outline_manual": "User Manual",
   "outline_value": "Value",
   "outline_request_feedback": "Request Feedback",
@@ -1593,8 +1593,7 @@
   "timeline_headerTitle": "Timeline",
   "timeline_title": "Timeline",
   "title": "Title",
-  "tools_card_title_profile": "{{bold}} Know Yourself",
-
+  "tools_card_title_profile_basic": "{{bold}} Know Yourself",
   "tools_card_title_body1": "Body1",
   "tools_card_title_body2": "Body2",
   "tools_card_title_body3": "Body3",

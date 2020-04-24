@@ -64,16 +64,18 @@ class ProfileBasicScreen extends React.Component {
             completed={coreValues}
             locked={!approach}
           />
-          <ProfileBasicCard
-            data={BasicProfileCards.body}
-            locked={!coreValues}
-            completed={stress}
-          />
-          <ProfileBasicCard
-            data={BasicProfileCards.chronotype}
-            locked={!stress}
-            completed={chronotype}
-          />
+          <MCView row justify="space-between" width={320} overflow="visible">
+            <ProfileBasicCard
+              data={BasicProfileCards.body}
+              locked={!coreValues}
+              completed={stress}
+            />
+            <ProfileBasicCard
+              data={BasicProfileCards.chronotype}
+              locked={!stress}
+              completed={chronotype}
+            />
+          </MCView>
           <ProfileBasicCard
             completed={habit}
             data={BasicProfileCards.goal}

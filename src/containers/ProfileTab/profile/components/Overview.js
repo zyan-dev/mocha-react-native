@@ -107,7 +107,11 @@ class OverviewCard extends React.Component {
             }
             editable={editing}
             onChange={value => this.onUpdateProfile('bio', value)}
-            style={{lineHeight: dySize(24), fontStyle: 'italic'}}
+            style={{
+              lineHeight: dySize(24),
+              fontStyle: 'italic',
+              color: theme.colors.text,
+            }}
           />
         </MCView>
         <MCModal

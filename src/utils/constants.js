@@ -1565,8 +1565,8 @@ export const BasicProfileCards = {
     title: 'body_awareness',
     iconType: 'Ionicon',
     icon: 'ios-body',
-    minutes: 20,
-    width: 250,
+    minutes: 8,
+    width: 150,
     redirectTo: 'KY_BodyAwareness',
   },
   chronotype: {
@@ -1574,8 +1574,8 @@ export const BasicProfileCards = {
     title: 'sleep_chronotype',
     iconType: 'Ionicon',
     icon: 'ios-hourglass',
-    minutes: 20,
-    width: 250,
+    minutes: 4,
+    width: 150,
     redirectTo: 'KY_SleepChronotype',
   },
   goal: {
