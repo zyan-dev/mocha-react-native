@@ -18,7 +18,7 @@ class SearchResourceScreen extends React.PureComponent {
     const {t} = this.props;
     return (
       <MCRootView>
-        <MCContent>
+        <MCContent width={350}>
           <MCSearchInput
             placeholder={t('resource_search_placeholder')}
             text={searchText}
