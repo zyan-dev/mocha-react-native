@@ -34,7 +34,7 @@ class ResourceTabView extends React.Component {
       {
         key: 'featured',
         title: 'featured',
-        icon: 'book'
+        icon: 'hand-holding-seedling'
       },
       {
         key: 'search',
@@ -49,12 +49,12 @@ class ResourceTabView extends React.Component {
       {
         key: 'blogs',
         title: 'blog',
-        icon: 'blog'
+        icon: 'rss-square'
       },
       {
         key: 'podcasts',
         title: 'podcast',
-        icon: 'book'
+        icon: 'podcast'
       }
     ];
 
@@ -80,7 +80,7 @@ class ResourceTabView extends React.Component {
           return (
             <MCButton align='center'>
               <MCIcon
-                type="FontAwesome5"
+                type="FontAwesome5Pro"
                 name={route.icon}
                 size={20}
                 color={focused &&  theme.colors.outline}/>
