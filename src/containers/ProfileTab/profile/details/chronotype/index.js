@@ -37,18 +37,18 @@ class ChronotypeScreen extends React.PureComponent {
     this.props.addOrUpdateReflection();
   };
 
-  onSelectType = (type) => {
+  onSelectType = type => {
     this.props.updateSelectedReflection({type});
   };
 
-  onChangeNightTimeRange = (range) => {
+  onChangeNightTimeRange = range => {
     this.props.updateSelectedReflection({
       night_sleep_offset_start: range.start,
       night_sleep_offset_end: range.end,
     });
   };
 
-  onChangeDayTimeRange = (range) => {
+  onChangeDayTimeRange = range => {
     this.props.updateSelectedReflection({
       day_sleep_offset_start: range.start,
       day_sleep_offset_end: range.end,
@@ -72,7 +72,9 @@ class ChronotypeScreen extends React.PureComponent {
       <MCRootView>
         <MCHeader
           title={t('profile_card_chronotype')}
-          onPressBack={() => this.onSaveMyChronotype()}
+          hasRight
+          rightIcon="cloud-upload-alt"
+          onPressRight={() => this.onSaveMyChronotype()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
           <H3 underline>{t('profile_card_chronotype')}</H3>
@@ -130,7 +132,7 @@ class ChronotypeScreen extends React.PureComponent {
                 start: night_sleep_offset_start,
                 end: night_sleep_offset_end,
               }}
-              onChange={(range) => this.onChangeNightTimeRange(range)}
+              onChange={range => this.onChangeNightTimeRange(range)}
               values={NightSliderValues}
             />
             <MCText weight="bold" style={{fontSize: dySize(80)}}>
@@ -151,7 +153,7 @@ class ChronotypeScreen extends React.PureComponent {
                 start: day_sleep_offset_start,
                 end: day_sleep_offset_end,
               }}
-              onChange={(range) => this.onChangeDayTimeRange(range)}
+              onChange={range => this.onChangeDayTimeRange(range)}
               values={DaySliderValues}
             />
             <MCText weight="bold" style={{fontSize: dySize(80)}}>
@@ -165,7 +167,7 @@ class ChronotypeScreen extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   myChronotype: selector.reflections.findMySpecialReflections(
     state,
     'Chronotype',
@@ -182,5 +184,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(ChronotypeScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ChronotypeScreen),
 );

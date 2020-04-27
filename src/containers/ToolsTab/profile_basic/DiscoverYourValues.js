@@ -14,7 +14,7 @@ import NavigationService from 'navigation/NavigationService';
 import {DiscoverValues} from 'utils/constants';
 
 const cardViewHeight =
-  CURRENT_HEIGHT - dySize(180) - 160 - (isIphoneX() ? 60 : 0);
+  CURRENT_HEIGHT - dySize(180) - 120 - (isIphoneX() ? 60 : 0);
 
 class DiscoverValueScreen extends React.Component {
   constructor(props) {
@@ -177,15 +177,12 @@ class DiscoverValueScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight={step === 1}
-          title={`${t('practice')} 5`}
+          title={t('tools_tab_discover_your_values')}
+          headerIcon={<MCIcon type="FontAwesome5Pro" name="key" size={30} />}
           rightIcon={step ? 'cloud-upload-alt' : 'arrow-right'}
           onPressBack={() => this.onPressHeaderBack()}
           onPressRight={() => this.onPressSubmit()}
         />
-        <MCView row justify="center" align="center">
-          <H3>{t('tools_tab_discover_your_values')}</H3>
-          <MCIcon type="FontAwesome5" name="key" size={30} />
-        </MCView>
         {step === 0 ? (
           <>
             <MCView row align="center">

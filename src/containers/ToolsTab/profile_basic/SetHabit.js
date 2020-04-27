@@ -144,23 +144,25 @@ class SetHabitScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight
-          title={`${t('practice')} 7`}
-          onPressBack={() => this.onPressBack()}
-          rightIcon="cloud-upload-alt"
-          onPressRight={() => this.onPressSubmit()}
-        />
-        <MCContent
-          ref={ref => (this.scrollView = ref)}
-          contentContainerStyle={{padding: dySize(20), paddingBottom: 200}}>
-          <MCView row justify="center" align="center" mb={20}>
-            <H3 mr={10}>{t('tools_tab_set_a_habit')}</H3>
+          title={t('tools_tab_set_a_habit')}
+          headerIcon={
             <MCImage
               image={AppleImage}
               width={30}
               height={30}
               resizeMode="contain"
             />
-          </MCView>
+          }
+          onPressBack={() => this.onPressBack()}
+          rightIcon="cloud-upload-alt"
+          onPressRight={() => this.onPressSubmit()}
+        />
+        <MCContent
+          ref={ref => (this.scrollView = ref)}
+          contentContainerStyle={{
+            paddingHorizontal: dySize(20),
+            paddingBottom: 200,
+          }}>
           <H4 align="center">Excellence is a habit.</H4>
           <H3 underline mt={10}>
             Start small

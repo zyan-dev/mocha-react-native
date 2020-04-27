@@ -104,6 +104,7 @@ class HydrationScreen extends React.Component {
   render() {
     const {submitted} = this.state;
     const {t, theme, selectedReflection} = this.props;
+    console.log({selectedReflection});
     const cupsRange = _.get(
       selectedReflection,
       ['data', 'cups_range'],
