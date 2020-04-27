@@ -12,12 +12,6 @@ class ProfileBasicScreen extends React.Component {
   render() {
     const {
       t,
-      myPersonalStory,
-      feedbackPreference,
-      behaviorPreference,
-      riskTolerance,
-      attachment,
-      approach,
       coreValues,
       stress,
       chronotype,
@@ -25,7 +19,7 @@ class ProfileBasicScreen extends React.Component {
       nutrition,
       hydration,
       strength,
-      future,
+      dream,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -114,9 +108,9 @@ class ProfileBasicScreen extends React.Component {
             <MCIcon type="FontAwesome5Pro" name="bullseye-arrow" />
           </MCView>
           <ProfileBasicCard
-            data={ProfileBasicCards.future}
+            data={ProfileBasicCards.dream}
             locked={!coreValues}
-            completed={future}
+            completed={dream}
           />
 
           <H3 underline mt={40}>
@@ -128,48 +122,9 @@ class ProfileBasicScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileBasicCards.habit}
-            locked={!future}
+            locked={!dream}
             completed={habit}
           />
-          {/* <ProfileBasicCard
-            data={BasicProfileCards.risk}
-            locked={!behaviorPreference}
-            completed={riskTolerance}
-          />
-          <MCView row justify="space-between" width={320} overflow="visible">
-            <ProfileBasicCard
-              data={BasicProfileCards.attach}
-              locked={!riskTolerance}
-              completed={attachment}
-            />
-            <ProfileBasicCard
-              data={BasicProfileCards.approach}
-              completed={approach}
-              locked={!attachment}
-            />
-          </MCView>
-          <ProfileBasicCard
-            data={BasicProfileCards.values_and_judgements}
-            completed={coreValues}
-            locked={!approach}
-          />
-          <MCView row justify="space-between" width={320} overflow="visible">
-            <ProfileBasicCard
-              data={BasicProfileCards.body}
-              locked={!coreValues}
-              completed={stress}
-            />
-            <ProfileBasicCard
-              data={BasicProfileCards.chronotype}
-              locked={!stress}
-              completed={chronotype}
-            />
-          </MCView>
-          <ProfileBasicCard
-            completed={habit}
-            data={BasicProfileCards.goal}
-            locked={!chronotype}
-          /> */}
         </MCContent>
       </MCRootView>
     );
@@ -211,7 +166,7 @@ const mapStateToProps = state => ({
   nutrition: selector.reflections.findMySpecialReflections(state, 'Nutrition'),
   hydration: selector.reflections.findMySpecialReflections(state, 'Hydration'),
   strength: selector.reflections.findMySpecialReflections(state, 'Strength'),
-  future: selector.reflections.findMySpecialReflections(state, 'Future'),
+  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
 });
 
 const mapDispatchToProps = {};

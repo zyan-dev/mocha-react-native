@@ -53,7 +53,10 @@ class SetHabitScreen extends React.Component {
         data: {habits},
       },
     } = this.props;
-    habits[index] = text;
+    habits[index] = {
+      ...habits[index],
+      title: text,
+    };
     this.props.updateSelectedReflection({habits});
   };
 
@@ -63,7 +66,7 @@ class SetHabitScreen extends React.Component {
         data: {habits},
       },
     } = this.props;
-    const filtered = habits.filter(item => item !== habit);
+    const filtered = habits.filter(item => item.title !== habit.title);
     this.props.updateSelectedReflection({habits: filtered});
   };
 
@@ -74,7 +77,7 @@ class SetHabitScreen extends React.Component {
       },
     } = this.props;
     if (title.length === 0) return;
-    habits.push(title);
+    habits.push({title});
     this.props.updateSelectedReflection({habits});
     this.setState({newHabitTitle: ''});
 
@@ -115,7 +118,9 @@ class SetHabitScreen extends React.Component {
     if (!this.validateHabits()) return;
     updateSelectedReflection({
       habits:
-        newHabitTitle.length > 0 ? habits.concat([newHabitTitle]) : habits,
+        newHabitTitle.length > 0
+          ? habits.concat([{title: newHabitTitle}])
+          : habits,
     });
     this.setState({newHabitTitle: ''});
     this.props.addOrUpdateReflection();
@@ -204,7 +209,7 @@ class SetHabitScreen extends React.Component {
               <MCView style={{flex: 1}}>
                 <MCEditableText
                   maxLength={60}
-                  text={habit}
+                  text={habit.title}
                   onChange={text => this.onChangeHabit(index, text)}
                 />
               </MCView>

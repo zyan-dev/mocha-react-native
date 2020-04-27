@@ -1467,6 +1467,13 @@ export const DefaultReflections = {
       options: [],
     },
   },
+  dream: {
+    type: 'Dream',
+    data: {
+      main: '',
+      others: [],
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1567,13 +1574,13 @@ export const ProfileBasicCards = {
     width: 250,
     redirectTo: 'PB_DiscoverValue',
   },
-  future: {
+  dream: {
     title: 'dreams',
     iconType: 'FontAwesome5Pro',
     icon: 'city',
     minutes: 5,
     width: 250,
-    redirectTo: 'PB_Future',
+    redirectTo: 'PB_Dream',
   },
   habit: {
     title: 'habits',
