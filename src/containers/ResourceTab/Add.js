@@ -1,9 +1,14 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
+import FastImage from 'react-native-fast-image';
+import styled from 'styled-components';
+import moment from 'moment';
+
 import {resourceActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
+import {H3, H4, H5} from 'components/styled/Text';
 import {
   MCHeader,
   MCTagInput,
@@ -11,10 +16,16 @@ import {
   MCIcon,
   MCReadMoreText,
 } from 'components/common';
-import {H3, H4, H5} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {ResourceTypes, skills, impacts} from 'utils/constants';
 import {validURL} from 'services/operators';
+import {BookImgage} from 'assets/images';
+
+const BookIcon = styled(FastImage)`
+  width: ${dySize(100)}px;
+  height: ${dySize(130)}px;
+  resize-mode: contain;
+`;
 
 class AddResourceScreen extends React.PureComponent {
   constructor(props) {
@@ -22,7 +33,16 @@ class AddResourceScreen extends React.PureComponent {
     this.state = {
       submitted: false,
       flagMore: false,
+      resource: null,
     };
+  }
+
+  componentDidMount() {
+    if (this.props.route.params) {
+      const resource = this.props.route.params.resource;
+      console.log(resource);
+      this.setState({resource: resource});
+    }
   }
 
   updateTagState = state => {
@@ -54,16 +74,17 @@ class AddResourceScreen extends React.PureComponent {
   };
 
   render() {
-    const {submitted, flagMore} = this.state;
+    const {submitted, flagMore, resource} = this.state;
     const {t, selectedResource, updateSelectedResource} = this.props;
     const {title, link, type, tags} = selectedResource;
     isErrorTitle = !this.validateTitle();
     isErrorLink = !this.validateLink();
+
     return (
       <MCRootView>
         <MCHeader
           title={
-            selectedResource._id
+            resource && resource._id
               ? t('resources_edit_headerTitle')
               : t('resources_add_headerTitle')
           }
@@ -72,47 +93,72 @@ class AddResourceScreen extends React.PureComponent {
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(15)}}>
-          <MCTextFormInput
-            label={t('resource_input_title')}
-            value={title}
-            maxLength={60}
-            onChange={text => updateSelectedResource({title: text})}
-            submitted={submitted}
-            errorText={t('error_input_required')}
-            isInvalid={isErrorTitle}
-          />
-          <MCTextFormInput
-            label={t('resource_input_link')}
-            value={link}
-            maxLength={1024}
-            onChange={text => updateSelectedResource({link: text})}
-            submitted={submitted}
-            errorText={t('error_invalid_link')}
-            isInvalid={isErrorLink}
-          />
-          <H3 mt={20} mb={5}>
-            {t('resource_select_type')}
-          </H3>
-          <MCView width={345} bordered row wrap br={4} ph={10} pv={10}>
-            {ResourceTypes.map(rt => (
-              <MCButton
-                key={rt.type}
-                onPress={() => updateSelectedResource({type: rt.type})}
-                width={160}
-                row
-                align="center"
-                pv={5}>
-                <MCIcon
-                  name={
-                    type === rt.type
-                      ? 'ios-radio-button-on'
-                      : 'ios-radio-button-off'
-                  }
-                />
-                <H4 ml={10}>{t(`resource_type_${rt.type}`)}</H4>
-              </MCButton>
-            ))}
-          </MCView>
+          {resource ? (
+            <MCView width={350} row justify="center" mb={30}>
+              <MCView mr={20}>
+                <BookIcon source={BookImgage} />
+              </MCView>
+
+              <MCView width={210}>
+                <H3 weight="bold">{resource.title}</H3>
+                <H5>
+                  {t('resource_type_book_released')}:{' '}
+                  {moment(resource.released).format('MM/DD/YYYY')}
+                </H5>
+                <H5>
+                  {t('resource_type_book_length')}: {resource.length}
+                </H5>
+                <H5>
+                  {t('resource_type_book_page')}: {resource.pages} pg
+                </H5>
+              </MCView>
+            </MCView>
+          ) : (
+            <>
+              <MCTextFormInput
+                label={t('resource_input_title')}
+                value={title}
+                maxLength={60}
+                onChange={text => updateSelectedResource({title: text})}
+                submitted={submitted}
+                errorText={t('error_input_required')}
+                isInvalid={isErrorTitle}
+              />
+              <MCTextFormInput
+                label={t('resource_input_link')}
+                value={link}
+                maxLength={1024}
+                onChange={text => updateSelectedResource({link: text})}
+                submitted={submitted}
+                errorText={t('error_invalid_link')}
+                isInvalid={isErrorLink}
+              />
+              <H3 mt={20} mb={5}>
+                {t('resource_select_type')}
+              </H3>
+              <MCView width={345} bordered row wrap br={4} ph={10} pv={10}>
+                {ResourceTypes.map(rt => (
+                  <MCButton
+                    key={rt.type}
+                    onPress={() => updateSelectedResource({type: rt.type})}
+                    width={160}
+                    row
+                    align="center"
+                    pv={5}>
+                    <MCIcon
+                      name={
+                        type === rt.type
+                          ? 'ios-radio-button-on'
+                          : 'ios-radio-button-off'
+                      }
+                    />
+                    <H4 ml={10}>{t(`resource_type_${rt.type}`)}</H4>
+                  </MCButton>
+                ))}
+              </MCView>
+            </>
+          )}
+
           <MCView>
             <MCView row wrap>
               <H3 mt={20} mb={5}>

@@ -11,6 +11,7 @@ import {dySize} from 'utils/responsive';
 
 const books = [
   {
+    _id: 123123123,
     title: 'Fooled by Randomness',
     author: 'Nassim Taleb',
     pages: 200,
@@ -21,6 +22,7 @@ const books = [
     url: '',
   },
   {
+    _id: 123123125,
     title: 'Thinking Fast and Slow',
     author: 'Nassim Taleb',
     pages: 200,
@@ -31,6 +33,7 @@ const books = [
     url: '',
   },
   {
+    _id: 123123126,
     title: 'The Power of Habit',
     author: 'Nassim Taleb',
     pages: 200,
@@ -41,6 +44,7 @@ const books = [
     skills: [],
   },
   {
+    _id: 123123128,
     title: 'The Power of Habit',
     author: 'Nassim Taleb',
     pages: 200,

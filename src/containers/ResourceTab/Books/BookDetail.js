@@ -83,8 +83,8 @@ class BookDetailScreen extends React.PureComponent {
     };
   }
 
-  onPressRight = () => {
-    NavigationService.navigate('AddResource');
+  onPressRight = resource => {
+    NavigationService.navigate('AddResource', {resource: resource});
   };
 
   render() {
@@ -100,7 +100,7 @@ class BookDetailScreen extends React.PureComponent {
           leftIcon="arrow-left"
           hasRight
           rightIcon="edit"
-          onPressRight={() => this.onPressRight()}
+          onPressRight={() => this.onPressRight(resource)}
         />
         <MCContent>
           <MCView ph={10} pv={10} align="center">
