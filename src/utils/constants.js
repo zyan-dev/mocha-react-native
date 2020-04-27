@@ -339,6 +339,8 @@ export const DaySliderValues = [
   '07:00 PM',
 ];
 
+export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8 or more'];
+
 export const SampleReflectionSections = {
   values: [
     'Above and Beyond',
@@ -1455,8 +1457,14 @@ export const DefaultReflections = {
   hydration: {
     type: 'Hydration',
     data: {
-      cups: 2,
+      cups_range: [1, 4],
       practices: [],
+    },
+  },
+  strength: {
+    type: 'Strength',
+    data: {
+      options: [],
     },
   },
 };
@@ -1632,7 +1640,6 @@ export const ProfileAdvancedCards = {
     width: 150,
     redirectTo: 'KY_Approach',
   },
-
   body: {
     practice: '6',
     title: 'body_awareness',
@@ -1948,5 +1955,73 @@ export const ToolsSideTabs = [
     key: 'search',
     iconType: 'FontAwesome5',
     icon: 'search',
+  },
+];
+
+export const HydrationPracticeOptions = [
+  'thirsty',
+  'regular',
+  'electrolyte',
+  'hot',
+  'cold',
+  'clear',
+  'forgetful',
+  'bliss',
+];
+
+export const StrengthOptions = [
+  {
+    key: 'interpersonal',
+    iconType: 'FontAwesome5Pro',
+    icon: 'handshake',
+    width: 250,
+  },
+  {
+    key: 'linguistic',
+    iconType: 'FontAwesome5Pro',
+    icon: 'podium',
+    width: 150,
+  },
+  {
+    key: 'bodily',
+    iconType: 'FontAwesome5Pro',
+    icon: 'skiing',
+    width: 150,
+  },
+  {
+    key: 'spatial',
+    iconType: 'FontAwesome5Pro',
+    icon: 'map-marked-alt',
+    width: 150,
+  },
+  {
+    key: 'intra-personal',
+    iconType: 'FontAwesome5Pro',
+    icon: 'mind-share',
+    width: 150,
+  },
+  {
+    key: 'musical',
+    iconType: 'FontAwesome5Pro',
+    icon: 'guitar',
+    width: 150,
+  },
+  {
+    key: 'naturalist',
+    iconType: 'FontAwesome5Pro',
+    icon: 'seedling',
+    width: 150,
+  },
+  {
+    key: 'logical',
+    iconType: 'FontAwesome5Pro',
+    icon: 'function',
+    width: 150,
+  },
+  {
+    key: 'existential',
+    iconType: 'FontAwesome5Pro',
+    icon: 'books',
+    width: 150,
   },
 ];
