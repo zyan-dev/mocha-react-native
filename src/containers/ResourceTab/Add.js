@@ -30,31 +30,72 @@ const BookIcon = styled(FastImage)`
 class AddResourceScreen extends React.PureComponent {
   constructor(props) {
     super(props);
+
     this.state = {
       submitted: false,
       flagMore: false,
       resource: null,
+      selectedImpacts: [],
+      selectedSkills: [],
+      tags: [],
     };
   }
 
   componentDidMount() {
     if (this.props.route.params) {
       const resource = this.props.route.params.resource;
-      console.log(resource);
       this.setState({resource: resource});
     }
   }
 
   updateTagState = state => {
-    this.props.updateSelectedResource({tags: state.tagsArray});
+    const {selectedSkills} = this.state;
+    const newSkills = [...selectedSkills];
+    state.tagsArray.forEach((tag, index) => {
+      if (newSkills.indexOf(tag) > -1) {
+        state.tagsArray.splice(index, 1);
+      } else {
+        newSkills.push(tag);
+      }
+    });
+    const newTags = [...state.tagsArray];
+    this.setState({tags: newTags});
+    this.props.updateSelectedResource({tags: newTags});
+  };
+
+  updateSelectedImpacts = impact => {
+    const {selectedImpacts} = this.state;
+    const newImpacts = [...selectedImpacts];
+    const index = newImpacts.indexOf(impact);
+    if (index >= 0) {
+      newImpacts.splice(index, 1);
+    } else {
+      newImpacts.push(impact);
+    }
+    this.setState({selectedImpacts: newImpacts});
+    this.props.updateSelectedResource({impacts: newImpacts});
+  };
+
+  updateSelectedSkills = skill => {
+    const {selectedSkills} = this.state;
+    const newSkills = Object.assign([], selectedSkills);
+    const index = newSkills.indexOf(skill);
+    if (index >= 0) {
+      newSkills.splice(index, 1);
+    } else {
+      newSkills.push(skill);
+    }
+    this.setState({selectedSkills: newSkills});
+    this.props.updateSelectedResource({skills: newSkills});
   };
 
   onPressRight = () => {
     const {selectedResource, createResources, updateResources} = this.props;
+    console.log(selectedResource);
     this.setState({submitted: true});
     if (!this.validateTitle()) return;
     if (!this.validateLink()) return;
-    if (selectedResource._id.length < 20) {
+    if (selectedResource._id && selectedResource._id.length < 20) {
       // create resource
       createResources([selectedResource]);
     } else {
@@ -74,7 +115,13 @@ class AddResourceScreen extends React.PureComponent {
   };
 
   render() {
-    const {submitted, flagMore, resource} = this.state;
+    const {
+      submitted,
+      flagMore,
+      resource,
+      selectedImpacts,
+      selectedSkills,
+    } = this.state;
     const {t, selectedResource, updateSelectedResource} = this.props;
     const {title, link, type, tags} = selectedResource;
     isErrorTitle = !this.validateTitle();
@@ -175,12 +222,15 @@ class AddResourceScreen extends React.PureComponent {
               {impacts.map((impact, index) => (
                 <MCButton
                   key={index}
-                  onPress={() => updateSelectedResource(impact)}
+                  onPress={() => this.updateSelectedImpacts(impact)}
                   row
                   align="center"
                   background="#6f4c4b"
                   mr={5}
-                  mb={5}>
+                  mb={5}
+                  style={{
+                    opacity: selectedImpacts.indexOf(impact) > -1 ? 1 : 0.5,
+                  }}>
                   <H4>{impact}</H4>
                 </MCButton>
               ))}
@@ -196,12 +246,15 @@ class AddResourceScreen extends React.PureComponent {
               {skills.map((skill, index) => (
                 <MCButton
                   key={index}
-                  onPress={() => updateSelectedResource(skill)}
+                  onPress={() => this.updateSelectedSkills(skill)}
                   row
                   align="center"
                   background="#3d5164"
                   mr={5}
-                  mb={5}>
+                  mb={5}
+                  style={{
+                    opacity: selectedSkills.indexOf(skill) > -1 ? 1 : 0.5,
+                  }}>
                   <H4>{skill}</H4>
                 </MCButton>
               ))}
