@@ -144,10 +144,6 @@ class WeeklyObjectiveScreen extends React.Component {
               />
             ))}
           </MCView>
-          <MCView row align="center" mr={10}>
-            <MCIcon name="md-alarm" color={deadlineColor} />
-            <H4 color={deadlineColor}>{`${t('by')} ${when}`}</H4>
-          </MCView>
         </MCView>
         {!isShowingUserObjective && (
           <MCView row align="center" justify="flex-end" width={350}>
@@ -206,45 +202,15 @@ class WeeklyObjectiveScreen extends React.Component {
       weeklyObjectives,
       userWeeklyObjectives,
     } = this.props;
-    const {filterOption} = this.state;
+
     return (
       <MCRootView justify="flex-start" align="center">
-        <MCView
-          bordered
-          br={10}
-          row
-          justify="space-between"
-          width={300}
-          mt={10}
-          mb={10}>
-          <MCButton
-            style={{flex: 1}}
-            onPress={() => this.setState({filterOption: 'all'})}
-            background={filterOption === 'all' ? theme.colors.card : undefined}
-            align="center">
-            <H4>All</H4>
-          </MCButton>
-          <MCButton
-            style={{flex: 1}}
-            onPress={() => this.setState({filterOption: 'completed'})}
-            background={
-              filterOption === 'completed' ? theme.colors.card : undefined
-            }
-            align="center">
-            <H4 color={theme.colors.outline}>Completed</H4>
-          </MCButton>
-          <MCButton
-            style={{flex: 1}}
-            onPress={() => this.setState({filterOption: 'expired'})}
-            background={
-              filterOption === 'expired' ? theme.colors.card : undefined
-            }
-            align="center">
-            <H4 color={theme.colors.danger}>Expired</H4>
-          </MCButton>
-        </MCView>
         <FlatList
-          contentContainerStyle={{alignItems: 'center', width: dySize(375)}}
+          contentContainerStyle={{
+            alignItems: 'center',
+            width: dySize(375),
+            paddingVertical: 20,
+          }}
           data={
             isShowingUserObjective
               ? this.filterObjectives(userWeeklyObjectives)
