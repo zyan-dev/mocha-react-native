@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   favoriteTools: [],
   profileTab: 'overview',
   toolsTab: 0,
+  completedBasicProfile: false,
 };
 
 const otherReducer = (state = INITIAL_STATE, action) => {
@@ -47,6 +48,11 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         toolsTab: action.payload,
+      };
+    case types.CHECKED_COMPLETED_BASIC_PROFILE:
+      return {
+        ...INITIAL_STATE,
+        completedBasicProfile: true,
       };
     case types.RESET_ALL_REDUCER:
       return {

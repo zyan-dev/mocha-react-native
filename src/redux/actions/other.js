@@ -58,3 +58,7 @@ export const changeToolsTab = key => ({
   type: types.SET_TOOLS_TAB,
   payload: key,
 });
+
+export const checkedCompletedBasicProfile = () => ({
+  type: types.CHECKED_COMPLETED_BASIC_PROFILE,
+});
