@@ -40,14 +40,14 @@ class AddReflectionScreen extends React.Component {
   ToolsBodyCards = [
     {
       key: 'profile',
-      title: i18next.t('tools_card_title_profile', {
-        bold: i18next.t('outline_profile_preview'),
+      title: i18next.t('tools_card_title_profile_basic', {
+        bold: i18next.t('outline_profile_basic'),
       }),
-      boldWordKeys: ['profile_preview'],
+      boldWordKeys: ['profile_basic'],
       duration: '15~30',
       iconType: 'Ionicon',
       icon: 'ios-body',
-      navigateTo: 'KnowYourSelf',
+      navigateTo: 'ProfileBasic',
     },
     {
       key: 'body1',
@@ -254,7 +254,9 @@ class AddReflectionScreen extends React.Component {
           align="center"
           pt={20}
           onPress={() => this.onPressCard(card)}>
-          <MCView height={70}>{getStringWithOutline(card)}</MCView>
+          <MCView height={60} justify="center">
+            {getStringWithOutline(card)}
+          </MCView>
           <MCIcon type={card.iconType} name={card.icon} size={40} />
           <MCView row align="center" mt={20}>
             <MCIcon type="FontAwesome" name="clock-o" />

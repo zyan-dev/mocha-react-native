@@ -62,7 +62,6 @@ class ProfileBasicCard extends React.Component {
         opacity={locked ? 0.5 : 1}
         onPress={() => this.onPressCard()}>
         {locked && <LockIcon type="FontAwesome5" name="lock" size={30} />}
-        <H3 underline>{`${t('practice')} ${practice}`}</H3>
         <MCView
           width={80}
           height={80}

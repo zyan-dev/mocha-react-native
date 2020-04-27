@@ -60,27 +60,36 @@ class MCTagInput extends React.Component {
             color: theme.colors.border,
             fontSize: theme.base.FONT_SIZE_MEDIUM,
           }}
+          inputContainerStyle={{
+            padding: 0,
+            margin: 0,
+          }}
           containerStyle={{
             borderWidth: 1,
             borderColor: theme.colors.text,
             borderRadius: dySize(4),
-            padding: 10,
+            paddingLeft: 0,
+            paddingRight: 0,
           }}
           tagStyle={{
             height: dySize(30),
             borderRadius: dySize(8),
+            maxWidth: 'auto',
           }}
           tagTextStyle={{
             color: theme.colors.background,
+            maxWidth: dySize(300),
           }}
           inputStyle={{
             color: theme.colors.text,
             margin: 0,
+            padding: 0,
           }}
           keysForTag={','}
           onSubmitEditing={() => this.onPressEnterOrBlur()}
           onChange={e => this.setState({text: e.nativeEvent.text})}
           blurOnSubmit={false}
+          maxLength={30}
         />
       );
   }

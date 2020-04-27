@@ -1445,6 +1445,20 @@ export const DefaultReflections = {
       isDaily: true,
     },
   },
+  nutrition: {
+    type: 'Nutrition',
+    data: {
+      best: [],
+      worst: [],
+    },
+  },
+  hydration: {
+    type: 'Hydration',
+    data: {
+      cups: 2,
+      practices: [],
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1496,7 +1510,74 @@ export const AnalyzeDummyData = {
   '20200325': 5,
 };
 
-export const BasicProfileCards = {
+export const ProfileBasicCards = {
+  chronotype: {
+    title: 'sleep_chronotype',
+    iconType: 'FontAwesome5Pro',
+    icon: 'sheep',
+    minutes: 2,
+    width: 250,
+    redirectTo: 'PB_SleepChronotype',
+  },
+  nutrition: {
+    title: 'nutrition',
+    iconType: 'FontAwesome5Pro',
+    icon: 'carrot',
+    minutes: 3,
+    width: 150,
+    redirectTo: 'PB_Nutrition',
+  },
+  hydration: {
+    title: 'hydration',
+    iconType: 'FontAwesome5Pro',
+    icon: 'dewpoint',
+    minutes: 2,
+    width: 150,
+    redirectTo: 'PB_Hydration',
+  },
+  stress: {
+    title: 'stress_response',
+    iconType: 'FontAwesome5Pro',
+    icon: 'fragile',
+    minutes: 6,
+    width: 250,
+    redirectTo: 'PB_StressResponse',
+  },
+  strength: {
+    title: 'strengths',
+    iconType: 'FontAwesome5Pro',
+    icon: 'hammer',
+    minutes: 3,
+    width: 250,
+    redirectTo: 'PB_Strengths',
+  },
+  values: {
+    title: 'core_values',
+    iconType: 'FontAwesome5Pro',
+    icon: 'key',
+    minutes: 15,
+    width: 250,
+    redirectTo: 'PB_DiscoverValue',
+  },
+  future: {
+    title: 'dreams',
+    iconType: 'FontAwesome5Pro',
+    icon: 'city',
+    minutes: 5,
+    width: 250,
+    redirectTo: 'PB_Future',
+  },
+  habit: {
+    title: 'habits',
+    iconType: 'FontAwesome5Pro',
+    icon: 'apple-alt',
+    minutes: 5,
+    width: 250,
+    redirectTo: 'PB_SetHabit',
+  },
+};
+
+export const ProfileAdvancedCards = {
   personal: {
     practice: '1',
     title: 'personal_story',
@@ -1551,22 +1632,14 @@ export const BasicProfileCards = {
     width: 150,
     redirectTo: 'KY_Approach',
   },
-  values_and_judgements: {
-    practice: '5',
-    title: 'values_and_judgements',
-    iconType: 'FontAwesome5',
-    icon: 'key',
-    minutes: 20,
-    width: 250,
-    redirectTo: 'KY_DiscoverValue',
-  },
+
   body: {
     practice: '6',
     title: 'body_awareness',
     iconType: 'Ionicon',
     icon: 'ios-body',
-    minutes: 20,
-    width: 250,
+    minutes: 8,
+    width: 150,
     redirectTo: 'KY_BodyAwareness',
   },
   chronotype: {
@@ -1574,8 +1647,8 @@ export const BasicProfileCards = {
     title: 'sleep_chronotype',
     iconType: 'Ionicon',
     icon: 'ios-hourglass',
-    minutes: 20,
-    width: 250,
+    minutes: 4,
+    width: 150,
     redirectTo: 'KY_SleepChronotype',
   },
   goal: {

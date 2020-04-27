@@ -22,8 +22,8 @@ import UserManualScreen from '../ToolsTab/usermanual';
 import EditUserManualScreen from '../ToolsTab/usermanual/edit';
 import ObjectiveScreen from '../ToolsTab/goal';
 import EditObjectiveScreen from '../ToolsTab/goal/Add';
-import FeedbackPreferenceScreen from '../ToolsTab/know_yourself/FeedbackPreference';
-import BehaviorPreferenceScreen from '../ToolsTab/know_yourself/BehaviorPreference';
+import FeedbackPreferenceScreen from '../ToolsTab/profile_basic/FeedbackPreference';
+import BehaviorPreferenceScreen from '../ToolsTab/profile_basic/BehaviorPreference';
 
 const Stack = createStackNavigator();
 

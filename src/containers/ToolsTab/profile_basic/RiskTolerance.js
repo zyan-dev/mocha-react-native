@@ -80,7 +80,7 @@ class RiskToleranceScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight
-          title={`${t('practice')} 2 - 2`}
+          title={`${t('practice')} 3`}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}

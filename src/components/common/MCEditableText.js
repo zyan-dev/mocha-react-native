@@ -68,9 +68,10 @@ class MCEditableText extends React.Component {
     } = this.props;
     return (
       <TextInput
+        key={theme.colors.theme_name}
         value={text}
         editable={editable}
-        onChangeText={(value) => onChange(value)}
+        onChangeText={value => onChange(value)}
         multiline={multiline}
         placeholder={placeholder}
         placeholderTextColor={theme.colors.border}
@@ -98,10 +99,13 @@ class MCEditableText extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
 });
 
 export default withTranslation()(
-  connect(mapStateToProps, undefined)(MCEditableText),
+  connect(
+    mapStateToProps,
+    undefined,
+  )(MCEditableText),
 );

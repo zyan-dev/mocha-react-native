@@ -13,7 +13,7 @@ import NeedScreen from './need';
 import EditNeedScreen from './need/edit';
 import TapToCountScreen from './tab_to_count';
 import EditEmotionScreen from './emotion/edit';
-import KnowYourSelfStack from './know_yourself';
+import KnowYourSelfStack from './profile_basic';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +22,7 @@ class ToolsTabStack extends React.Component {
     return (
       <Stack.Navigator headerMode="none">
         <Stack.Screen name="ToolsTabHome" component={ReflectionScreen} />
-        <Stack.Screen name="KnowYourSelf" component={KnowYourSelfStack} />
+        <Stack.Screen name="ProfileBasic" component={KnowYourSelfStack} />
         <Stack.Screen name="UserManuals" component={UserManualScreen} />
         <Stack.Screen name="EditUserManual" component={EditUserManualScreen} />
         <Stack.Screen name="Values" component={ValueScreen} />

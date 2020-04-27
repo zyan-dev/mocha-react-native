@@ -111,7 +111,7 @@ class UserProfileScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          title={t('other_profile_page_headerText')}
+          title={profile.name}
           hasRight={selected !== 'overview'}
           rightImage={
             <MCImage
