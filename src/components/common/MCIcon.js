@@ -22,7 +22,7 @@ export default class MCIcon extends React.PureComponent {
     margin: 0,
     color: undefined,
     align: 'left',
-    type: 'Ionicon',
+    type: 'Ionicons',
     light: false,
     solid: false,
     regular: false,

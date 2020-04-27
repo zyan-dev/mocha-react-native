@@ -7,10 +7,12 @@ import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
 import {H3, H4, ErrorText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCHeader, MCIcon, MCTagInput} from 'components/common';
+import {MCHeader, MCIcon, MCTimeSlider} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {ApproachToConflictOptions} from 'utils/constants';
+import {HydrationValues} from 'utils/constants';
+import {FlatList} from 'react-native-gesture-handler';
+import {HydrationPracticeOptions} from '../../../utils/constants';
 
 class HydrationScreen extends React.Component {
   constructor(props) {
@@ -50,38 +52,70 @@ class HydrationScreen extends React.Component {
   };
 
   onPressSubmit = () => {
-    // this.setState({submitted: true});
-    // if (!this.validateBest()) return;
-    // if (!this.validateWorst()) return;
-    // this.props.addOrUpdateReflection();
+    this.setState({submitted: true});
+    if (!this.validateOptions()) return;
+    this.props.addOrUpdateReflection();
   };
 
-  validateBest = () => {
-    return this.props.selectedReflection.data.best.length > 0;
+  validateOptions = () => {
+    return this.props.selectedReflection.data.practices.length > 0;
   };
 
-  validateWorst = () => {
-    return this.props.selectedReflection.data.worst.length > 0;
+  onChangeHydrationRange = range => {
+    this.props.updateSelectedReflection({cups_range: [range.start, range.end]});
   };
 
-  onUpdateBestFoods = state => {
-    this.props.updateSelectedReflection({best: state.tagsArray});
+  onToggleOption = option => {
+    const {practices} = this.props.selectedReflection.data;
+    const index = practices.indexOf(option);
+    if (index < 0) practices.push(option);
+    else practices.splice(index, 1);
+    this.props.updateSelectedReflection({practices});
   };
 
-  onUpdateWorstFoods = state => {
-    this.props.updateSelectedReflection({worst: state.tagsArray});
+  _renderItem = ({index, item}) => {
+    const {t, theme} = this.props;
+    const {practices} = this.props.selectedReflection.data;
+    const option = item;
+    const color =
+      practices.indexOf(option) > -1 ? theme.colors.outline : theme.colors.text;
+
+    return (
+      <MCButton
+        bordered
+        ml={index % 2 === 1 ? 15 : 0}
+        mr={index % 2 === 0 ? 15 : 0}
+        mt={15}
+        width={150}
+        height={90}
+        align="center"
+        justify="center"
+        onPress={() => this.onToggleOption(option)}
+        style={{
+          borderColor: color,
+        }}>
+        <H4 color={color} align="center">
+          {t(`tools_tab_hydration_${option}`)}
+        </H4>
+      </MCButton>
+    );
   };
 
   render() {
     const {submitted} = this.state;
     const {t, theme, selectedReflection} = this.props;
-    const cups = _.get(selectedReflection, ['data', 'cups'], undefined);
+    const cupsRange = _.get(
+      selectedReflection,
+      ['data', 'cups_range'],
+      undefined,
+    );
     const practices = _.get(
       selectedReflection,
       ['data', 'practices'],
       undefined,
     );
-    if (!cups || !practices) return null;
+    if (!cupsRange || !practices) return null;
+    const isErrorOption = !this.validateOptions();
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -93,7 +127,29 @@ class HydrationScreen extends React.Component {
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          <H4>{t('coming soon')}</H4>
+          <H4>{t('tools_tab_hydration_question')}</H4>
+          <MCView align="center">
+            <MCTimeSlider
+              width={300}
+              onChange={range => this.onChangeHydrationRange(range)}
+              range={{
+                start: cupsRange[0],
+                end: cupsRange[1],
+              }}
+              values={HydrationValues}
+              showBottomLabel={false}
+            />
+          </MCView>
+          <H4>{t('tools_tab_hydration_practice_title')}</H4>
+          {submitted && isErrorOption && (
+            <ErrorText>{t('error_input_select_empty')}</ErrorText>
+          )}
+          <FlatList
+            data={HydrationPracticeOptions}
+            renderItem={this._renderItem}
+            keyExtractor={item => item}
+            numColumns={2}
+          />
         </MCContent>
       </MCRootView>
     );

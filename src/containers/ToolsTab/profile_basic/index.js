@@ -12,6 +12,7 @@ import StressResponseScreen from './StressResponse';
 import SetHabitScreen from './SetHabit';
 import NutritionScreen from './Nutrition';
 import HydrationScreen from './Hydration';
+import StrengthScreen from './Strength';
 import ChronotypeScreen from '../../ProfileTab/profile/details/chronotype';
 
 const Stack = createStackNavigator();
@@ -45,6 +46,7 @@ class KnowYourSelfStack extends React.Component {
         <Stack.Screen name="PB_SetHabit" component={SetHabitScreen} />
         <Stack.Screen name="PB_Nutrition" component={NutritionScreen} />
         <Stack.Screen name="PB_Hydration" component={HydrationScreen} />
+        <Stack.Screen name="PB_Strengths" component={StrengthScreen} />
       </Stack.Navigator>
     );
   }

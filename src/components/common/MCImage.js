@@ -25,7 +25,7 @@ export default class MCImage extends React.PureComponent {
     image: PropTypes.object,
     type: PropTypes.string,
     style: PropTypes.object,
-    resizeMode: PropTypes.oneOfType(['cover', 'contain', 'stretch']),
+    resizeMode: PropTypes.oneOf(['cover', 'contain', 'stretch']),
     br: PropTypes.number,
   };
   static defaultProps = {

@@ -41,6 +41,7 @@ class MCTimeSlider extends React.PureComponent {
     range: PropTypes.object.isRequired, // {start: 0, end: 10}
     onChange: PropTypes.func,
     enabled: PropTypes.bool,
+    showBottomLabel: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -49,6 +50,7 @@ class MCTimeSlider extends React.PureComponent {
     animationOut: 'slideOutRight',
     onChange: () => undefined,
     enabled: true,
+    showBottomLabel: true,
   };
 
   multiSliderValuesChange = values => {
@@ -64,6 +66,7 @@ class MCTimeSlider extends React.PureComponent {
       range: {start, end},
       values,
       enabled,
+      showBottomLabel,
     } = this.props;
     const offset = end - start;
     return (
@@ -120,15 +123,17 @@ class MCTimeSlider extends React.PureComponent {
           snapped
           containerStyle={{marginTop: dySize(-36)}}
         />
-        <MCView
-          row
-          justify="space-between"
-          width={width + 30}
-          ml={-15}
-          mt={-20}>
-          <H4>{values[0]}</H4>
-          <H4>{values[values.length - 1]}</H4>
-        </MCView>
+        {showBottomLabel && (
+          <MCView
+            row
+            justify="space-between"
+            width={width + 30}
+            ml={-15}
+            mt={-20}>
+            <H4>{values[0]}</H4>
+            <H4>{values[values.length - 1]}</H4>
+          </MCView>
+        )}
       </MCView>
     );
   }

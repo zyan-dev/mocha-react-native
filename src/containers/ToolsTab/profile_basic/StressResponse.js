@@ -2,6 +2,7 @@ import React from 'react';
 import {Linking} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import YouTube from 'react-native-youtube';
 import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
@@ -76,6 +77,7 @@ class BodyAwarenessScreen extends React.Component {
     super(props);
     this.state = {
       submitted: false,
+      errorVideo: '',
     };
   }
   isNew = false;
@@ -141,8 +143,16 @@ class BodyAwarenessScreen extends React.Component {
     return this.props.selectedReflection.data.parts.length > 0;
   };
 
+  onBuffer = ({isBuffering}) => {
+    console.log({isBuffering});
+  };
+
+  videoError = error => {
+    console.log({error});
+  };
+
   render() {
-    const {submitted} = this.state;
+    const {submitted, errorVideo} = this.state;
     const {t, theme, selectedReflection} = this.props;
     const parts = _.get(selectedReflection, ['data', 'parts'], undefined);
     if (!parts) return null;
@@ -167,11 +177,26 @@ class BodyAwarenessScreen extends React.Component {
           <MCButton onPress={() => this.onPressEmbedLink()}>
             <H4 underline>{embedLink}</H4>
           </MCButton>
+          <YouTube
+            videoId="q7OAlcyE5M8" // The YouTube video ID
+            play // control playback of video with true/false
+            loop // control whether the video should loop when ended
+            onError={e => this.setState({errorVideo: e.error})}
+            style={{
+              alignSelf: 'center',
+              width: dySize(320),
+              height: dySize(200),
+              backgroundColor: 'white',
+            }}
+          />
+          {errorVideo.length > 0 && (
+            <ErrorText>{t('error_input_select_empty')}</ErrorText>
+          )}
           <MCView row justify="center" align="center" mt={20}>
             <H3 weight="bold" mr={10}>
               {t('tools_tab_body_stress_title')}
             </H3>
-            <MCIcon type="FontAwesome5" name="thumbtack" size={30} />
+            <MCIcon type="FontAwesome5Pro" name="fragile" size={30} />
           </MCView>
           <H4>{t('tools_tab_body_stress_question')}</H4>
           <H4 mt={10}>{t('select_all_that_apply')}</H4>
