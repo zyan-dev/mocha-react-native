@@ -7,6 +7,7 @@ import MyResourceScreen from './MyResources';
 import AddResourceScreen from './Add';
 import FavouriteResourceScreen from './MyFavourites';
 import ResourceSideMenu from './SideMenu';
+import BookDetailScreen from './Books/BookDetail';
 import {routerActions} from 'Redux/actions';
 import {dySize} from 'utils/responsive';
 
@@ -17,7 +18,7 @@ class AddResourceTabStack extends React.Component {
     const {isDrawerOpened, showDrawer} = this.props;
     return (
       <Drawer
-        ref={(ref) => (this._drawer = ref)}
+        ref={ref => (this._drawer = ref)}
         content={<ResourceSideMenu />}
         type="overlay"
         acceptDoubleTap
@@ -31,7 +32,7 @@ class AddResourceTabStack extends React.Component {
         openDrawerOffset={dySize(100)}
         negotiatePan
         side="left"
-        tweenHandler={(ratio) => ({main: {opacity: (2 - ratio) / 2}})}>
+        tweenHandler={ratio => ({main: {opacity: (2 - ratio) / 2}})}>
         <Stack.Navigator headerMode="none">
           <Stack.Screen
             name="ResourceSearch"
@@ -39,6 +40,7 @@ class AddResourceTabStack extends React.Component {
           />
           <Stack.Screen name="MyResources" component={MyResourceScreen} />
           <Stack.Screen name="AddResource" component={AddResourceScreen} />
+          <Stack.Screen name="BookDetail" component={BookDetailScreen} />
           <Stack.Screen
             name="ResourceBookmarked"
             component={FavouriteResourceScreen}
@@ -49,7 +51,7 @@ class AddResourceTabStack extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isDrawerOpened: state.routerReducer.isProfileDrawerOpened,
 });
 

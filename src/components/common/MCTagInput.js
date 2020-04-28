@@ -29,7 +29,10 @@ class MCTagInput extends React.Component {
     if (text.length === 0) {
       return;
     }
-    temp.push(text);
+
+    if (temp.indexOf(text) == -1) {
+      temp.push(text);
+    }
     updateState({
       tag: this.state.text,
       tagsArray: temp,

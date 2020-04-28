@@ -7,6 +7,7 @@ export const MochaLogo = require('./images/common/mocha_logo.png');
 export const WelcomeOnboardImage1 = require('./images/common/welcome_onboard_1.jpg');
 export const WelcomeOnboardImage2 = require('./images/common/welcome_onboard_2.jpg');
 export const WelcomeOnboardImage3 = require('./images/common/welcome_onboard_3.jpg');
+export const BookImgage = require('./images/common/book.jpg');
 
 // Add Reflection Icons
 export const AddEmotionIcon = require('./images/add/icon_emotion.png');
