@@ -171,6 +171,7 @@ class UserProfileScreen extends React.Component {
               )}
               {selected === 'nutrition' && (
                 <NutritionCard
+                  editable={false}
                   nutrition={nutrition}
                   onPressEdit={() =>
                     NavigationService.navigate('EditNutrition')
@@ -180,6 +181,7 @@ class UserProfileScreen extends React.Component {
               {selected === 'hydration' && (
                 <HydrationCard
                   theme={theme}
+                  editable={false}
                   hydration={hydration}
                   onPressEdit={() =>
                     NavigationService.navigate('EditHydration')
