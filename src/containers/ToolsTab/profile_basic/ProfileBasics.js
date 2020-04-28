@@ -9,11 +9,13 @@ import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
 import {ProfileBasicCards} from 'utils/constants';
 import ProfileBasicCard from './components/ProfileBasicCard';
+import {IceCreamSvg} from 'assets/svgs';
 
 class ProfileBasicScreen extends React.Component {
   render() {
     const {
       t,
+      theme,
       chronotype,
       nutrition,
       hydration,
@@ -52,6 +54,7 @@ class ProfileBasicScreen extends React.Component {
           <ProfileBasicCard
             data={ProfileBasicCards.chronotype}
             completed={chronotype}
+            theme={theme}
           />
           <MCView row justify="space-between" width={320} overflow="visible">
             <ProfileBasicCard
@@ -103,6 +106,7 @@ class ProfileBasicScreen extends React.Component {
             data={ProfileBasicCards.values}
             locked={!stress}
             completed={coreValues}
+            theme={theme}
           />
 
           <H3 underline mt={40}>
@@ -146,33 +150,33 @@ class ProfileBasicScreen extends React.Component {
           }>
           <MCView width={280} mt={20}>
             <MCView bordered br={15} align="center" pv={20} ph={20}>
-              <MCIcon type="FontAwesome5Pro" name="ice-cream" size={50} />
-              <H4>Excellent.</H4>
+              <IceCreamSvg theme={theme} size={70} />
+              <H2 weight="bold">Excellent 👍</H2>
               <MCView row wrap align="center" justify="center">
-                <H4 align="center" style={{lineHeight: 30}}>
+                <H3 align="center" style={{lineHeight: 30}}>
                   You've completed your
-                  <H4 weight="bold"> Basic Profile </H4>
+                  <H3 weight="bold"> Basic Profile </H3>
                   <MCIcon type="FontAwesome5Pro" name="chess-pawn" />
-                  <H4> set up.</H4>
-                </H4>
+                  <H3> set up.</H3>
+                </H3>
               </MCView>
               <MCView mt={20} row wrap align="center" justify="center">
-                <H4 align="center" style={{lineHeight: 30}}>
+                <H3 align="center" style={{lineHeight: 30}}>
                   Check out the
-                  <H4 weight="bold"> Profile Tab </H4>
+                  <H3 weight="bold"> Profile Tab </H3>
                   <MCIcon type="FontAwesome5Pro" name="user-alt" />
-                  <H4> to see all your data.</H4>
-                </H4>
+                  <H3> to see all your data.</H3>
+                </H3>
               </MCView>
               <MCView mt={20} row wrap align="center" justify="center">
-                <H4 align="center" style={{lineHeight: 30}}>
+                <H3 align="center" style={{lineHeight: 30}}>
                   Next you can meet some other Mocha Community Members on the
-                  <H4 weight="bold"> Social Tab </H4>
+                  <H3 weight="bold"> Social Tab </H3>
                   <MCIcon type="FontAwesome5Pro" name="users" />
-                  <H4> or check out </H4>
-                  <H4 weight="bold">Profile Advanced </H4>
+                  <H3> or check out </H3>
+                  <H3 weight="bold">Profile Advanced </H3>
                   <MCIcon type="FontAwesome5Pro" name="chess-knight" />
-                </H4>
+                </H3>
               </MCView>
               <MCButton
                 bordered
@@ -180,7 +184,7 @@ class ProfileBasicScreen extends React.Component {
                 width={80}
                 align="center"
                 onPress={() => checkedCompletedBasicProfile()}>
-                <H3>{t('modal_ok')}</H3>
+                <H3>{t('I Got It')}</H3>
               </MCButton>
             </MCView>
           </MCView>
@@ -191,6 +195,7 @@ class ProfileBasicScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
   myPersonalStory: selector.reflections.findMySpecialReflections(
     state,
     'PersonalStory',

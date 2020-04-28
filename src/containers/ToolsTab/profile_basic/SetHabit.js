@@ -18,6 +18,7 @@ import {dySize} from 'utils/responsive';
 import {AttachmentOptions} from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
 import {AppleImage} from 'assets/images';
+import {AppleSvg} from 'assets/svgs';
 
 class SetHabitScreen extends React.Component {
   constructor(props) {
@@ -150,14 +151,7 @@ class SetHabitScreen extends React.Component {
         <MCHeader
           hasRight
           title={t('tools_tab_set_a_habit')}
-          headerIcon={
-            <MCImage
-              image={AppleImage}
-              width={30}
-              height={30}
-              resizeMode="contain"
-            />
-          }
+          headerIcon={<AppleSvg size={30} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}
