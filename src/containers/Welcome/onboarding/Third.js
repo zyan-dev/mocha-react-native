@@ -9,7 +9,7 @@ import {H2, H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {WelcomeOnboardImage3} from 'assets/images';
+import {WelcomeOnboardImage2} from 'assets/images';
 
 class WelcomeOnboardThird extends React.PureComponent {
   onPressBegin = () => {
@@ -33,7 +33,7 @@ class WelcomeOnboardThird extends React.PureComponent {
           align="center"
           width={dySize(300)}>
           <MCImage
-            image={WelcomeOnboardImage3}
+            image={WelcomeOnboardImage2}
             width={200}
             height={200}
             br={10}
