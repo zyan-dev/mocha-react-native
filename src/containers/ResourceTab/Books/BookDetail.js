@@ -166,17 +166,9 @@ class BookDetailScreen extends React.PureComponent {
               </MCView>
             </MCView>
             <MCView height={1} bordered mb={10} width={350} />
-            <MCView width={300} justify="center" align="flex-end">
-              <H5 align="center">
-                Humans are social creatures: In this simple and obvious fact
-                lies both the problem and the solution to the current crisis of
-                loneliness. In his groundbreaking book, the 19th surgeon general
-                of the United States Dr. Vivek Murthy makes a case for
-                loneliness as a public health concern: a root cause and
-                contributor to
-              </H5>
+            <MCView ph={10} pv={10}>
               <MCReadMoreText>
-                <H5>{t('button_read_more')}...</H5>
+                <H5>{resource.description}</H5>
               </MCReadMoreText>
             </MCView>
           </MCView>

@@ -20,6 +20,8 @@ const books = [
     impact: ['must read', 'strongly', 'impectful'],
     skills: ['react', 'react native', 'node', 'express'],
     url: '',
+    description:
+      'Humans are social creatures: In this simple and obvious fact lies both the problem and the solution to the current crisis of loneliness. In his groundbreaking book, the 19th surgeon general of the United States Dr. Vivek Murthy makes a case for loneliness as a public health concern: a root cause and contributor to',
   },
   {
     _id: 123123125,
@@ -31,6 +33,8 @@ const books = [
     impact: ['must read', 'strongly', 'impectful'],
     skills: ['react', 'react native', 'node', 'express'],
     url: '',
+    description:
+      'Humans are social creatures: In this simple and obvious fact lies both the problem and the solution to the current crisis of loneliness. In his groundbreaking book, the 19th surgeon general of the United States Dr. Vivek Murthy makes a case for loneliness as a public health concern: a root cause and contributor to',
   },
   {
     _id: 123123126,
@@ -42,6 +46,8 @@ const books = [
     impact: ['must read', 'strongly', 'impectful'],
     url: '',
     skills: [],
+    description:
+      'Humans are social creatures: In this simple and obvious fact lies both the problem and the solution to the current crisis of loneliness. In his groundbreaking book, the 19th surgeon general of the United States Dr. Vivek Murthy makes a case for loneliness as a public health concern: a root cause and contributor to',
   },
   {
     _id: 123123128,
@@ -53,6 +59,8 @@ const books = [
     impact: ['must read', 'strongly', 'impectful'],
     skills: [],
     url: '',
+    description:
+      'Humans are social creatures: In this simple and obvious fact lies both the problem and the solution to the current crisis of loneliness. In his groundbreaking book, the 19th surgeon general of the United States Dr. Vivek Murthy makes a case for loneliness as a public health concern: a root cause and contributor to',
   },
 ];
 
