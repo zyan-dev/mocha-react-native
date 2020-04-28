@@ -1,18 +1,14 @@
 import React from 'react';
-import {FlatList} from 'react-native';
+import {View} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import {routerActions, resourceActions} from 'Redux/actions';
-import {MCContent, MCRootView, MCView} from 'components/styled/View';
-import {MCHeader, MCSearchInput, MCIcon} from 'components/common';
-import RBSheet from 'react-native-raw-bottom-sheet';
-import {H4, MCEmptyText} from 'components/styled/Text';
+import {MCRootView, MCView} from 'components/styled/View';
+import {MCHeader, MCIcon} from 'components/common';
+import {H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {dySize} from 'utils/responsive';
-import {ResourceTypes} from 'utils/constants';
-import {getStringIndexOf} from 'services/operators';
-import ResourceItem from './ResourceItem';
 import NavigationService from '../../navigation/NavigationService';
+import ResourceTabView from './TabView';
 
 class ResourceSearchScreen extends React.PureComponent {
   constructor(props) {
@@ -22,12 +18,6 @@ class ResourceSearchScreen extends React.PureComponent {
       viewAll: true,
       filterTypes: [],
     };
-  }
-
-  componentDidMount() {
-    if (this.props.profile.userToken.length) {
-      this.props.getAllResources();
-    }
   }
 
   onPressFilterOption = () => {
@@ -50,46 +40,13 @@ class ResourceSearchScreen extends React.PureComponent {
     this.forceUpdate();
   };
 
-  filterResource = resources => {
-    const {searchText, viewAll, filterTypes} = this.state;
-    const filtered = resources.filter(resource => {
-      if (!viewAll && filterTypes.indexOf(resource.type) < 0) return false;
-      if (
-        getStringIndexOf(resource.title, searchText) < 0 &&
-        getStringIndexOf(JSON.stringify(resource.tags), searchText) < 0
-      )
-        return false;
-      return true;
-    });
-    return filtered;
-  };
-
-  _renderListItem = ({item}) => {
-    const {bookmarkedResources} = this.props;
-    const bookmarked = bookmarkedResources.indexOf(item._id) > -1;
-    return (
-      <ResourceItem
-        resource={item}
-        bookmarked={bookmarked}
-        onPressBookmark={id => {
-          this.props.bookmarkResource(id);
-          this.forceUpdate();
-        }}
-        editable={false}
-      />
-    );
-  };
+  onPressRight = () => {
+    NavigationService.navigate('AddResource');
+  }
 
   render() {
-    const {searchText, filterTypes, viewAll} = this.state;
-    const {
-      t,
-      theme,
-      showDrawer,
-      allResources,
-      bookmarkedResources,
-      profile,
-    } = this.props;
+    const {t, profile} = this.props;
+
     if (!profile.userToken.length) {
       return (
         <MCRootView>
@@ -103,32 +60,22 @@ class ResourceSearchScreen extends React.PureComponent {
       );
     }
     return (
-      <MCRootView>
+      <View style={{flex: 1}}>
         <MCHeader
           title={t('resources')}
-          leftIcon="filter"
           onPressBack={() => this.onPressFilterOption()}
           hasRight
           rightIcon="bars"
-          onPressRight={() => showDrawer(true)}
+          onPressRight={() => this.onPressRight()}
+          hasBack={false}
+          headerIcon={
+            <MCView ml={10}>
+              <MCIcon type="FontAwesome5" name="book-reader" size={30} />
+            </MCView>
+          }
         />
-        <MCSearchInput
-          placeholder={t('resource_search_placeholder')}
-          text={searchText}
-          onChange={searchText => this.setState({searchText})}
-        />
-        <MCContent>
-          <FlatList
-            extraData={bookmarkedResources}
-            contentContainerStyle={{alignItems: 'center'}}
-            data={this.filterResource(allResources)}
-            renderItem={this._renderListItem}
-            keyExtractor={item => item._id}
-            keyboardShouldPersistTaps="always"
-            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-          />
-        </MCContent>
-        <RBSheet
+        <ResourceTabView initialIndex={2} />
+        {/* <RBSheet
           ref={ref => {
             this.RBSheet = ref;
           }}
@@ -169,8 +116,8 @@ class ResourceSearchScreen extends React.PureComponent {
               );
             })}
           </MCView>
-        </RBSheet>
-      </MCRootView>
+        </RBSheet> */}
+      </View>
     );
   }
 }
