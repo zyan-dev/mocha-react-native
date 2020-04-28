@@ -197,7 +197,12 @@ class ProfileScreen extends React.Component {
                 <LanguagesCard onPressDetails={() => {}} />
               )}
               {profileTab === 'skill' && (
-                <SkillsCard strength={strength} onPressDetails={() => {}} />
+                <SkillsCard
+                  strength={strength}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditStrengths')
+                  }
+                />
               )}
               {profileTab === 'belief' && (
                 <UserManualsCard
@@ -240,19 +245,10 @@ class ProfileScreen extends React.Component {
                 />
               )}
               {profileTab === 'personality' && (
-                <PersonalityCard
-                  personality={personality}
-                  onPressEdit={() => NavigationService.navigate('Personality')}
-                />
+                <PersonalityCard personality={personality} />
               )}
               {profileTab === 'stress' && (
-                <StressAndComfortCard
-                  theme={theme}
-                  stress={stress}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditBodyStress')
-                  }
-                />
+                <StressAndComfortCard theme={theme} stress={stress} />
               )}
               {profileTab === 'risk' && (
                 <RiskToleranceCard onPressEdit={() => {}} />

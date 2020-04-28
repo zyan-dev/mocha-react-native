@@ -13,18 +13,14 @@ import {StrengthOptions} from '../../../../utils/constants';
 class SkillsCard extends React.Component {
   static propTypes = {
     strength: PropTypes.object,
-    onPressDetails: PropTypes.func,
+    onPressEdit: PropTypes.func,
     editable: PropTypes.bool,
   };
 
   static defaultProps = {
     editable: true,
     strength: {},
-    onPressDetails: () => undefined,
-  };
-
-  onPressItem = language => {
-    this.setState({selectedLanguage: language, showModal: true});
+    onPressEdit: () => undefined,
   };
 
   _renderItem = ({item}) => {
@@ -59,16 +55,17 @@ class SkillsCard extends React.Component {
   };
 
   render() {
-    const {t, strength, editable} = this.props;
+    const {t, strength, editable, onPressEdit} = this.props;
     const skills = _.get(strength, ['data', 'options'], []);
     return (
       <MCView align="center">
         <MCView row align="center" mb={20}>
-          <H3 weight="bold" style={{flex: 1}}>
-            {t('profile_card_skill')}
-          </H3>
+          <MCView row align="center" style={{flex: 1}}>
+            <H3 weight="bold">{t('profile_card_skill')}</H3>
+            <MCIcon type="FontAwesome5Pro" name="hammer" />
+          </MCView>
           {editable && (
-            <MCButton onPress={() => this.props.onPressDetails()}>
+            <MCButton onPress={() => onPressEdit()}>
               <MCIcon type="FontAwesome5" name="edit" />
             </MCButton>
           )}
