@@ -7,6 +7,7 @@ import {MCHeader, MCIcon} from 'components/common';
 import NavigationService from 'navigation/NavigationService';
 import {getTodayStartDateStamp} from 'services/operators';
 import ObjectiveTabView from './TabView';
+import {AppleSvg} from 'assets/svgs';
 
 class GoalScreen extends React.Component {
   constructor(props) {
@@ -53,9 +54,7 @@ class GoalScreen extends React.Component {
           hasRight
           rightIcon="plus"
           onPressRight={() => this.onPressNew()}
-          headerIcon={
-            <MCIcon type="FontAwesome5Pro" name="apple-alt" size={30} />
-          }
+          headerIcon={<AppleSvg size={25} />}
         />
         <ObjectiveTabView initialIndex={params ? params.tabIndex : 0} />
       </View>
