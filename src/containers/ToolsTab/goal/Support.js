@@ -24,6 +24,12 @@ class SupportObjectiveScreen extends React.Component {
     this.initialize();
   }
 
+  componentDidUpdate(preProps, prevState) {
+    if (preProps.supportedObjectives !== this.props.supportedObjectives) {
+      this.initialize();
+    }
+  }
+
   initialize = () => {
     const {selectedOwner} = this.state;
     const owners = this.getObjectiveOwners();
