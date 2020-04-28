@@ -141,9 +141,11 @@ class SetHabitScreen extends React.Component {
   render() {
     const {submitted, newHabitTitle} = this.state;
     const {t, selectedReflection, updateSelectedReflection} = this.props;
+    console.log({selectedReflection});
     const title = _.get(selectedReflection, ['data', 'title'], undefined);
-    if (title === undefined) return null;
-    const {habits, isDaily} = selectedReflection.data;
+    const habits = _.get(selectedReflection, ['data', 'habits'], []);
+    const isDaily = _.get(selectedReflection, ['data', 'isDaily'], true);
+    if (selectedReflection.type !== 'Habit') return null;
     const isErrorTitle = !this.validateTitle();
     const isErrorHabits = !this.validateHabits();
     return (

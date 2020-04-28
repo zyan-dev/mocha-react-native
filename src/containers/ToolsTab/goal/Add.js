@@ -19,8 +19,7 @@ import {H3, H4, ErrorText} from 'components/styled/Text';
 import {getUpdatedMeasures} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
-import {WeekDays} from 'utils/constants';
-import {getWeekDay} from '../../../services/operators';
+import {AppleSvg} from 'assets/svgs';
 
 class EditObjectiveScreen extends React.PureComponent {
   constructor(props) {
@@ -237,9 +236,7 @@ class EditObjectiveScreen extends React.PureComponent {
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
           onPressBack={() => this.onPressBack()}
-          headerIcon={
-            <MCIcon type="FontAwesome5Pro" name="apple-alt" size={30} />
-          }
+          headerIcon={<AppleSvg size={25} />}
         />
         <MCContent
           ref={ref => (this.scrollView = ref)}
