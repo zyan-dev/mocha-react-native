@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import i18next from 'i18next';
 import {withTranslation} from 'react-i18next';
 import {
   feedbackActions,
@@ -33,12 +34,13 @@ import AttachmentCard from './components/Attachment';
 import ApproachCard from './components/Approach';
 import FeedbackPreferenceCard from './components/FeedbackPreference';
 import BehaviorPreferenceCard from './components/BehaviorPreference';
+import NutritionCard from './components/Nutrition';
+import HydrationCard from './components/Hydration';
 import NavigationService from 'navigation/NavigationService';
-import {showAlert} from 'services/operators';
+import {showAlert, getStringWithOutline} from 'services/operators';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
-import {getStringWithOutline} from '../../../services/operators';
-import i18next from 'i18next';
+import {FaucetWhiteSvg} from 'assets/svgs';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -148,11 +150,14 @@ class ProfileScreen extends React.Component {
       manuals,
       chronotype,
       nutrition,
+      hydration,
       personality,
       dailyObjectives,
       weeklyObjectives,
       feedbackPreference,
       behaviorPreference,
+      strength,
+      stress,
     } = this.props;
     const {showWelcomeModal} = this.state;
     return (
@@ -192,7 +197,7 @@ class ProfileScreen extends React.Component {
                 <LanguagesCard onPressDetails={() => {}} />
               )}
               {profileTab === 'skill' && (
-                <SkillsCard onPressDetails={() => {}} />
+                <SkillsCard strength={strength} onPressDetails={() => {}} />
               )}
               {profileTab === 'belief' && (
                 <UserManualsCard
@@ -212,14 +217,26 @@ class ProfileScreen extends React.Component {
               )}
               {profileTab === 'chronotype' && (
                 <ChronotypeCard
+                  theme={theme}
                   chronotype={chronotype}
                   onPressEdit={() => NavigationService.navigate('Chronotype')}
                 />
               )}
               {profileTab === 'nutrition' && (
-                <ChronotypeCard
+                <NutritionCard
                   nutrition={nutrition}
-                  onPressEdit={() => NavigationService.navigate('Chronotype')}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditNutrition')
+                  }
+                />
+              )}
+              {profileTab === 'hydration' && (
+                <HydrationCard
+                  theme={theme}
+                  hydration={hydration}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditHydration')
+                  }
                 />
               )}
               {profileTab === 'personality' && (
@@ -229,7 +246,13 @@ class ProfileScreen extends React.Component {
                 />
               )}
               {profileTab === 'stress' && (
-                <StressAndComfortCard onPressEdit={() => {}} />
+                <StressAndComfortCard
+                  theme={theme}
+                  stress={stress}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditBodyStress')
+                  }
+                />
               )}
               {profileTab === 'risk' && (
                 <RiskToleranceCard onPressEdit={() => {}} />
@@ -282,16 +305,27 @@ class ProfileScreen extends React.Component {
                     width={50}
                     align="center"
                     onPress={() => this.onPressProfileIcon(icon)}>
-                    <MCIcon
-                      type={icon.iconType}
-                      name={icon.icon}
-                      size={profileTab === icon.key ? 30 : 20}
-                      color={
-                        profileTab === icon.key
-                          ? theme.colors.outline
-                          : theme.colors.text
-                      }
-                    />
+                    {icon.key === 'hydration' ? (
+                      <FaucetWhiteSvg
+                        size={profileTab === icon.key ? 30 : 20}
+                        color={
+                          profileTab === icon.key
+                            ? theme.colors.outline
+                            : theme.colors.text
+                        }
+                      />
+                    ) : (
+                      <MCIcon
+                        type={icon.iconType}
+                        name={icon.icon}
+                        size={profileTab === icon.key ? 30 : 20}
+                        color={
+                          profileTab === icon.key
+                            ? theme.colors.outline
+                            : theme.colors.text
+                        }
+                      />
+                    )}
                   </MCButton>
                 );
               })}
@@ -350,6 +384,7 @@ const mapStateToProps = state => ({
     'Chronotype',
   ),
   nutrition: selector.reflections.findMySpecialReflections(state, 'Nutrition'),
+  hydration: selector.reflections.findMySpecialReflections(state, 'Hydration'),
   personality: selector.reflections.findMySpecialReflections(
     state,
     'Personality',
@@ -362,6 +397,8 @@ const mapStateToProps = state => ({
     state,
     'BehaviorPreference',
   ),
+  strength: selector.reflections.findMySpecialReflections(state, 'Strength'),
+  stress: selector.reflections.findMySpecialReflections(state, 'Stress'),
 });
 
 const mapDispatchToProps = {

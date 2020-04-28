@@ -13,6 +13,7 @@ import {
 } from 'assets/images';
 import {dySize} from 'utils/responsive';
 import {NightSliderValues, DaySliderValues} from 'utils/constants';
+import {SheepSvg} from 'assets/svgs';
 
 const chronotypeIcons = {
   morning: MorningLarkIcon,
@@ -34,13 +35,16 @@ class ChronotypeCard extends React.Component {
   };
 
   render() {
-    const {t, chronotype, onPressEdit, editable} = this.props;
+    const {t, theme, chronotype, onPressEdit, editable} = this.props;
     return (
       <MCView align="center">
         <MCView row align="center" mb={20}>
-          <H3 weight="bold" style={{flex: 1}}>
-            {t('profile_card_chronotype')}
-          </H3>
+          <MCView row align="center" style={{flex: 1}}>
+            <H3 weight="bold" mr={10}>
+              {t('profile_card_chronotype')}
+            </H3>
+            <SheepSvg theme={theme} size={30} />
+          </MCView>
           {editable && (
             <MCButton onPress={() => onPressEdit()}>
               <MCIcon type="FontAwesome5" name="edit" />

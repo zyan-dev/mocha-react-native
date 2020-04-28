@@ -339,7 +339,7 @@ export const DaySliderValues = [
   '07:00 PM',
 ];
 
-export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8 or more'];
+export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8+'];
 
 export const SampleReflectionSections = {
   values: [
@@ -1790,9 +1790,9 @@ export const profileIcons = [
     signinRequired: false,
   },
   {
-    key: 'dydration',
+    key: 'hydration',
     iconType: 'FontAwesome5Pro',
-    icon: 'dewpoint',
+    icon: 'drip',
     signinRequired: false,
   },
   {
