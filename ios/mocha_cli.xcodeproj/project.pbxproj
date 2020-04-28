@@ -828,7 +828,7 @@
 				CODE_SIGN_ENTITLEMENTS = mocha_cli/mocha_cli.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 44;
+				CURRENT_PROJECT_VERSION = 45;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 2JXLU2C7H5;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -888,7 +888,7 @@
 				);
 				INFOPLIST_FILE = mocha_cli/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.4.4;
+				MARKETING_VERSION = 1.4.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -910,7 +910,7 @@
 				CODE_SIGN_ENTITLEMENTS = mocha_cli/mocha_cli.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 44;
+				CURRENT_PROJECT_VERSION = 45;
 				DEVELOPMENT_TEAM = 2JXLU2C7H5;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
@@ -969,7 +969,7 @@
 				);
 				INFOPLIST_FILE = mocha_cli/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.4.4;
+				MARKETING_VERSION = 1.4.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
