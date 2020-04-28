@@ -12,6 +12,7 @@ import {MCHeader, MCImage, MCModal, MCIcon} from 'components/common';
 import {dySize, CURRENT_HEIGHT} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {DiscoverValues} from 'utils/constants';
+import {KeySvg} from 'assets/svgs';
 
 const cardViewHeight =
   CURRENT_HEIGHT - dySize(180) - 120 - (isIphoneX() ? 60 : 0);
@@ -178,7 +179,7 @@ class DiscoverValueScreen extends React.Component {
         <MCHeader
           hasRight={step === 1}
           title={t('tools_tab_discover_your_values')}
-          headerIcon={<MCIcon type="FontAwesome5Pro" name="key" size={30} />}
+          headerIcon={<KeySvg theme={theme} size={30} />}
           rightIcon={step ? 'cloud-upload-alt' : 'arrow-right'}
           onPressBack={() => this.onPressHeaderBack()}
           onPressRight={() => this.onPressSubmit()}

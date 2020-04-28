@@ -13,6 +13,7 @@ import {MCHeader, MCImage, MCIcon} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {BodyStress, BodyStressWhite} from 'assets/images';
+import {FragileSvg} from 'assets/svgs';
 
 const embedLink = 'https://www.youtube.com/watch?v=q7OAlcyE5M8';
 const bodyPartButtons = [
@@ -166,7 +167,7 @@ class BodyAwarenessScreen extends React.Component {
         <MCHeader
           hasRight
           title={t('tools_tab_stress_response')}
-          headerIcon={<MCIcon type="FontAwesome5Pro" name="fragile" />}
+          headerIcon={<FragileSvg size={30} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}
@@ -194,11 +195,8 @@ class BodyAwarenessScreen extends React.Component {
           {errorVideo.length > 0 && (
             <ErrorText>{t('error_input_select_empty')}</ErrorText>
           )}
-          <MCView row justify="center" align="center" mt={20}>
-            <H3 weight="bold" mr={10}>
-              {t('tools_tab_body_stress_title')}
-            </H3>
-            <MCIcon type="FontAwesome5Pro" name="fragile" size={30} />
+          <MCView row justify="center" align="center" mt={40} mb={20}>
+            <H3 weight="bold">{t('tools_tab_body_stress_title')}</H3>
           </MCView>
           <H4>{t('tools_tab_body_stress_question')}</H4>
           <H4 mt={10}>{t('select_all_that_apply')}</H4>

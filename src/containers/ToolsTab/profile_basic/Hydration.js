@@ -10,9 +10,9 @@ import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCTimeSlider} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {HydrationValues} from 'utils/constants';
+import {HydrationValues, HydrationPracticeOptions} from 'utils/constants';
 import {FlatList} from 'react-native-gesture-handler';
-import {HydrationPracticeOptions} from '../../../utils/constants';
+import {FaucetSvg} from 'assets/svgs';
 
 class HydrationScreen extends React.Component {
   constructor(props) {
@@ -122,7 +122,7 @@ class HydrationScreen extends React.Component {
         <MCHeader
           hasRight
           title={t('tools_tab_hydration')}
-          headerIcon={<MCIcon type="FontAwesome5Pro" name="dewpoint" />}
+          headerIcon={<FaucetSvg size={30} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}

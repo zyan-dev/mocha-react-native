@@ -11,12 +11,15 @@ import {MCHeader, MCIcon, MCTagInput} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {ApproachToConflictOptions} from 'utils/constants';
+import {CarrotSvg} from 'assets/svgs';
 
 class NutritionScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       submitted: false,
+      bestFood: '',
+      worstFood: '',
     };
   }
   isNew = false;
@@ -53,22 +56,42 @@ class NutritionScreen extends React.Component {
     this.setState({submitted: true});
     if (!this.validateBest()) return;
     if (!this.validateWorst()) return;
-    this.props.addOrUpdateReflection();
+    const {bestFood, worstFood} = this.state;
+    const {addOrUpdateReflection, updateSelectedReflection} = this.props;
+    const {best, worst} = this.props.selectedReflection.data;
+    if (bestFood.length > 0 && best.indexOf(bestFood) < 0) {
+      best.push(bestFood);
+    }
+    if (worstFood.length > 0 && worst.indexOf(worstFood) < 0) {
+      worst.push(worstFood);
+    }
+    updateSelectedReflection({worst, best});
+    setTimeout(() => {
+      addOrUpdateReflection();
+    });
   };
 
   validateBest = () => {
-    return this.props.selectedReflection.data.best.length > 0;
+    return (
+      this.props.selectedReflection.data.best.length > 0 ||
+      this.state.bestFood.length > 0
+    );
   };
 
   validateWorst = () => {
-    return this.props.selectedReflection.data.worst.length > 0;
+    return (
+      this.props.selectedReflection.data.worst.length > 0 ||
+      this.state.worstFood.length > 0
+    );
   };
 
   onUpdateBestFoods = state => {
+    this.setState({bestFood: state.tag});
     this.props.updateSelectedReflection({best: state.tagsArray});
   };
 
   onUpdateWorstFoods = state => {
+    this.setState({worstFood: state.tag});
     this.props.updateSelectedReflection({worst: state.tagsArray});
   };
 
@@ -83,7 +106,7 @@ class NutritionScreen extends React.Component {
         <MCHeader
           hasRight
           title={t('tools_tab_nutrition')}
-          headerIcon={<MCIcon type="FontAwesome5Pro" name="carrot" />}
+          headerIcon={<CarrotSvg size={30} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}

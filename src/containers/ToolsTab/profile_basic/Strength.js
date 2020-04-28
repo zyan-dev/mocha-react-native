@@ -7,11 +7,11 @@ import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
 import {H3, H4, ErrorText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCHeader, MCIcon, MCTagInput} from 'components/common';
+import {MCHeader, MCIcon} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {ApproachToConflictOptions} from 'utils/constants';
 import {StrengthOptions} from '../../../utils/constants';
+import {showAlert} from 'services/operators';
 
 class StrengthScreen extends React.Component {
   constructor(props) {
@@ -62,10 +62,16 @@ class StrengthScreen extends React.Component {
   };
 
   onToggleOption = option => {
+    const {t} = this.props;
     const {options} = this.props.selectedReflection.data;
     const index = options.indexOf(option);
-    if (index < 0) options.push(option);
-    else options.splice(index, 1);
+    if (index < 0 && options.length < 4) {
+      options.push(option);
+    } else if (index > -1) {
+      options.splice(index, 1);
+    } else {
+      showAlert(t('error_selected_max_strengths'));
+    }
     this.props.updateSelectedReflection({options});
   };
 

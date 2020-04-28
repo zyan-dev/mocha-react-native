@@ -219,6 +219,7 @@
   "error_input_habit": "You must add 1 habit at least.",
   "error_input_trustnetwork_members": "You must add 1 member at least",
   "error_input_select_empty": "You must select one at least",
+  "error_selected_max_strengths": "You have already selected 4 strengths",
   "error_trustnetwork_permissions": "You must select 1 category at least",
   "feed_contact_create_title": "Create Request",
   "feed_contact_displayText": "Would you like to send these people requests?",

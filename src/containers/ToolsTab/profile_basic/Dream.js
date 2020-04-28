@@ -5,13 +5,12 @@ import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H3, H4, ErrorText} from 'components/styled/Text';
+import {H3, H4, ErrorText, MCTextInput} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCHeader, MCIcon, MCTagInput} from 'components/common';
+import {MCHeader, MCIcon} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {ApproachToConflictOptions} from 'utils/constants';
-import {MCTextInput} from '../../../components/styled/Text';
+import {FutureSvg} from 'assets/svgs';
 
 class DreamScreen extends React.Component {
   constructor(props) {
@@ -83,7 +82,17 @@ class DreamScreen extends React.Component {
     this.setState({submitted: true});
     if (!this.validateMain()) return;
     if (!this.validateOthers()) return;
-    this.props.addOrUpdateReflection();
+    const {newItem} = this.state;
+    const {addOrUpdateReflection, updateSelectedReflection} = this.props;
+    const {others} = this.props.selectedReflection.data;
+    if (newItem.length > 0) {
+      others.push(newItem);
+      updateSelectedReflection({others});
+      this.setState({newItem: false});
+    }
+    setTimeout(() => {
+      addOrUpdateReflection();
+    });
   };
 
   validateMain = () => {
@@ -91,7 +100,10 @@ class DreamScreen extends React.Component {
   };
 
   validateOthers = () => {
-    return this.props.selectedReflection.data.others.length > 0;
+    return (
+      this.props.selectedReflection.data.others.length > 0 ||
+      this.state.newItem.length > 0
+    );
   };
 
   render() {
@@ -106,7 +118,7 @@ class DreamScreen extends React.Component {
         <MCHeader
           hasRight
           title={t('tools_tab_dreams')}
-          headerIcon={<MCIcon type="FontAwesome5Pro" name="city" />}
+          headerIcon={<FutureSvg size={25} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}

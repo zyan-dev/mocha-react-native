@@ -20,6 +20,7 @@ import {
   DaytimeIcon,
   NightimeIcon,
 } from 'assets/images';
+import {SheepSvg} from 'assets/svgs';
 import {MCTimeSlider} from 'components/common';
 import {NightSliderValues, DaySliderValues} from 'utils/constants';
 
@@ -58,6 +59,7 @@ class ChronotypeScreen extends React.PureComponent {
   render() {
     const {
       t,
+      theme,
       selectedReflection: {
         data: {
           type,
@@ -72,6 +74,7 @@ class ChronotypeScreen extends React.PureComponent {
       <MCRootView>
         <MCHeader
           title={t('profile_card_chronotype')}
+          headerIcon={<SheepSvg theme={theme} size={30} />}
           hasRight
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onSaveMyChronotype()}
@@ -168,6 +171,7 @@ class ChronotypeScreen extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
   myChronotype: selector.reflections.findMySpecialReflections(
     state,
     'Chronotype',
