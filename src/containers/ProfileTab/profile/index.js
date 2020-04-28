@@ -248,7 +248,13 @@ class ProfileScreen extends React.Component {
                 <PersonalityCard personality={personality} />
               )}
               {profileTab === 'stress' && (
-                <StressAndComfortCard theme={theme} stress={stress} />
+                <StressAndComfortCard
+                  theme={theme}
+                  stress={stress}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditBodyStress')
+                  }
+                />
               )}
               {profileTab === 'risk' && (
                 <RiskToleranceCard onPressEdit={() => {}} />
