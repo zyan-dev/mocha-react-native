@@ -7,6 +7,15 @@ import {MCIcon} from 'components/common';
 import {MCView} from 'components/styled/View';
 import {H4, H3} from 'components/styled/Text';
 import NavigationService from 'navigation/NavigationService';
+import {
+  AppleSvg,
+  SheepSvg,
+  CarrotSvg,
+  FaucetSvg,
+  FragileSvg,
+  KeySvg,
+  FutureSvg,
+} from 'assets/svgs';
 
 const LockIcon = styled(MCIcon)`
   position: absolute;
@@ -32,11 +41,13 @@ class ProfileBasicCard extends React.Component {
     onPress: PropTypes.func.isRequired,
     locked: PropTypes.bool,
     completed: PropTypes.bool,
+    theme: PropTypes.object,
   };
 
   static defaultProps = {
     locked: false,
     completed: false,
+    theme: {},
   };
 
   onPressCard = () => {
@@ -49,9 +60,10 @@ class ProfileBasicCard extends React.Component {
   render() {
     const {
       t,
+      theme,
       locked,
       completed,
-      data: {practice, title, iconType, icon, minutes, width},
+      data: {title, iconType, icon, minutes, width},
     } = this.props;
     return (
       <MCButton
@@ -72,7 +84,18 @@ class ProfileBasicCard extends React.Component {
           overflow="visible"
           align="center"
           justify="center">
-          <MCIcon type={iconType} name={icon} size={40} />
+          {title === 'habits' && <AppleSvg size={30} />}
+          {title === 'sleep_chronotype' && <SheepSvg theme={theme} size={50} />}
+          {title === 'nutrition' && <CarrotSvg theme={theme} size={50} />}
+          {title === 'hydration' && <FaucetSvg theme={theme} size={50} />}
+          {title === 'stress_response' && (
+            <FragileSvg theme={theme} size={50} />
+          )}
+          {title === 'strengths' && (
+            <MCIcon type="FontAwesome5Pro" name="hammer" size={40} />
+          )}
+          {title === 'core_values' && <KeySvg theme={theme} size={50} />}
+          {title === 'dreams' && <FutureSvg theme={theme} size={50} />}
           {completed && (
             <CompletedView>
               <MCIcon name="ios-checkmark" size={20} color="white" />
