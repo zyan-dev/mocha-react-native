@@ -147,6 +147,7 @@ class ProfileScreen extends React.Component {
       motivations,
       manuals,
       chronotype,
+      nutrition,
       personality,
       dailyObjectives,
       weeklyObjectives,
@@ -212,6 +213,12 @@ class ProfileScreen extends React.Component {
               {profileTab === 'chronotype' && (
                 <ChronotypeCard
                   chronotype={chronotype}
+                  onPressEdit={() => NavigationService.navigate('Chronotype')}
+                />
+              )}
+              {profileTab === 'nutrition' && (
+                <ChronotypeCard
+                  nutrition={nutrition}
                   onPressEdit={() => NavigationService.navigate('Chronotype')}
                 />
               )}
@@ -342,6 +349,7 @@ const mapStateToProps = state => ({
     state,
     'Chronotype',
   ),
+  nutrition: selector.reflections.findMySpecialReflections(state, 'Nutrition'),
   personality: selector.reflections.findMySpecialReflections(
     state,
     'Personality',

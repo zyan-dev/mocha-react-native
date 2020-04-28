@@ -78,6 +78,7 @@ class BodyAwarenessScreen extends React.Component {
     this.state = {
       submitted: false,
       errorVideo: '',
+      playVideo: false,
     };
   }
   isNew = false;
@@ -98,6 +99,10 @@ class BodyAwarenessScreen extends React.Component {
         setInitialReflection('stress');
       }
     }
+  }
+
+  componentDidMount() {
+    this.setState({playVideo: true});
   }
 
   onPressBodyItem = key => {
@@ -152,7 +157,7 @@ class BodyAwarenessScreen extends React.Component {
   };
 
   render() {
-    const {submitted, errorVideo} = this.state;
+    const {submitted, errorVideo, playVideo} = this.state;
     const {t, theme, selectedReflection} = this.props;
     const parts = _.get(selectedReflection, ['data', 'parts'], undefined);
     if (!parts) return null;
@@ -160,16 +165,13 @@ class BodyAwarenessScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight
-          title={`${t('practice')} 6`}
+          title={t('tools_tab_stress_response')}
+          headerIcon={<MCIcon type="FontAwesome5Pro" name="fragile" />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          <MCView row justify="center" align="center" mb={20}>
-            <H3>{t('tools_tab_body_scan_and_stress')}</H3>
-            <MCIcon name="ios-body" size={30} />
-          </MCView>
           <H3 align="center" weight="bold">
             {t('tools_tab_body_scan_title')}
           </H3>
@@ -179,7 +181,7 @@ class BodyAwarenessScreen extends React.Component {
           </MCButton>
           <YouTube
             videoId="q7OAlcyE5M8" // The YouTube video ID
-            play // control playback of video with true/false
+            play={playVideo} // control playback of video with true/false
             loop // control whether the video should loop when ended
             onError={e => this.setState({errorVideo: e.error})}
             style={{

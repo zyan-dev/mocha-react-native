@@ -2,9 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {selector} from 'Redux/selectors';
+import {otherActions} from 'Redux/actions';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
-import {H3, H4} from 'components/styled/Text';
-import {MCHeader, MCIcon} from 'components/common';
+import {H2, H3, H4, MCText} from 'components/styled/Text';
+import {MCButton} from 'components/styled/Button';
+import {MCHeader, MCIcon, MCModal} from 'components/common';
 import {ProfileBasicCards} from 'utils/constants';
 import ProfileBasicCard from './components/ProfileBasicCard';
 
@@ -12,21 +14,18 @@ class ProfileBasicScreen extends React.Component {
   render() {
     const {
       t,
-      myPersonalStory,
-      feedbackPreference,
-      behaviorPreference,
-      riskTolerance,
-      attachment,
-      approach,
-      coreValues,
-      stress,
       chronotype,
-      habit,
       nutrition,
       hydration,
+      stress,
       strength,
-      future,
+      coreValues,
+      dream,
+      habit,
+      completedBasicProfile,
+      checkedCompletedBasicProfile,
     } = this.props;
+    console.log({completedBasicProfile});
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -114,9 +113,9 @@ class ProfileBasicScreen extends React.Component {
             <MCIcon type="FontAwesome5Pro" name="bullseye-arrow" />
           </MCView>
           <ProfileBasicCard
-            data={ProfileBasicCards.future}
+            data={ProfileBasicCards.dream}
             locked={!coreValues}
-            completed={future}
+            completed={dream}
           />
 
           <H3 underline mt={40}>
@@ -128,49 +127,64 @@ class ProfileBasicScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileBasicCards.habit}
-            locked={!future}
+            locked={!dream}
             completed={habit}
           />
-          {/* <ProfileBasicCard
-            data={BasicProfileCards.risk}
-            locked={!behaviorPreference}
-            completed={riskTolerance}
-          />
-          <MCView row justify="space-between" width={320} overflow="visible">
-            <ProfileBasicCard
-              data={BasicProfileCards.attach}
-              locked={!riskTolerance}
-              completed={attachment}
-            />
-            <ProfileBasicCard
-              data={BasicProfileCards.approach}
-              completed={approach}
-              locked={!attachment}
-            />
-          </MCView>
-          <ProfileBasicCard
-            data={BasicProfileCards.values_and_judgements}
-            completed={coreValues}
-            locked={!approach}
-          />
-          <MCView row justify="space-between" width={320} overflow="visible">
-            <ProfileBasicCard
-              data={BasicProfileCards.body}
-              locked={!coreValues}
-              completed={stress}
-            />
-            <ProfileBasicCard
-              data={BasicProfileCards.chronotype}
-              locked={!stress}
-              completed={chronotype}
-            />
-          </MCView>
-          <ProfileBasicCard
-            completed={habit}
-            data={BasicProfileCards.goal}
-            locked={!chronotype}
-          /> */}
         </MCContent>
+        <MCModal
+          hasCloseButton={false}
+          isVisible={
+            !completedBasicProfile &&
+            chronotype &&
+            nutrition &&
+            hydration &&
+            stress &&
+            strength &&
+            coreValues &&
+            dream &&
+            habit
+          }>
+          <MCView width={280} mt={20}>
+            <MCView bordered br={15} align="center" pv={20} ph={20}>
+              <MCIcon type="FontAwesome5Pro" name="ice-cream" size={50} />
+              <H4>Excellent.</H4>
+              <MCView row wrap align="center" justify="center">
+                <H4 align="center" style={{lineHeight: 30}}>
+                  You've completed your
+                  <H4 weight="bold"> Basic Profile </H4>
+                  <MCIcon type="FontAwesome5Pro" name="chess-pawn" />
+                  <H4> set up.</H4>
+                </H4>
+              </MCView>
+              <MCView mt={20} row wrap align="center" justify="center">
+                <H4 align="center" style={{lineHeight: 30}}>
+                  Check out the
+                  <H4 weight="bold"> Profile Tab </H4>
+                  <MCIcon type="FontAwesome5Pro" name="user-alt" />
+                  <H4> to see all your data.</H4>
+                </H4>
+              </MCView>
+              <MCView mt={20} row wrap align="center" justify="center">
+                <H4 align="center" style={{lineHeight: 30}}>
+                  Next you can meet some other Mocha Community Members on the
+                  <H4 weight="bold"> Social Tab </H4>
+                  <MCIcon type="FontAwesome5Pro" name="users" />
+                  <H4> or check out </H4>
+                  <H4 weight="bold">Profile Advanced </H4>
+                  <MCIcon type="FontAwesome5Pro" name="chess-knight" />
+                </H4>
+              </MCView>
+              <MCButton
+                bordered
+                mt={20}
+                width={80}
+                align="center"
+                onPress={() => checkedCompletedBasicProfile()}>
+                <H3>{t('modal_ok')}</H3>
+              </MCButton>
+            </MCView>
+          </MCView>
+        </MCModal>
       </MCRootView>
     );
   }
@@ -211,10 +225,13 @@ const mapStateToProps = state => ({
   nutrition: selector.reflections.findMySpecialReflections(state, 'Nutrition'),
   hydration: selector.reflections.findMySpecialReflections(state, 'Hydration'),
   strength: selector.reflections.findMySpecialReflections(state, 'Strength'),
-  future: selector.reflections.findMySpecialReflections(state, 'Future'),
+  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
+  completedBasicProfile: state.otherReducer.completedBasicProfile,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  checkedCompletedBasicProfile: otherActions.checkedCompletedBasicProfile,
+};
 
 export default withTranslation()(
   connect(
