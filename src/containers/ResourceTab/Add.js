@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 import moment from 'moment';
+import i18next from 'i18next';
 
 import {resourceActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
@@ -20,6 +21,7 @@ import {dySize} from 'utils/responsive';
 import {ResourceTypes, skills, impacts} from 'utils/constants';
 import {validURL} from 'services/operators';
 import {BookImgage} from 'assets/images';
+import {getStringWithOutline} from '../../services/operators';
 
 const BookIcon = styled(FastImage)`
   width: ${dySize(100)}px;
@@ -40,6 +42,20 @@ class AddResourceScreen extends React.PureComponent {
       tags: [],
     };
   }
+
+  ResourceTypeQuestion = {
+    title: i18next.t('resources_type_impact', {
+      bold: i18next.t('resource_type_book_impact'),
+    }),
+    boldWordKeys: ['impact'],
+  };
+
+  PersonalDevelopmentQuestion = {
+    title: i18next.t('resources_personal_development', {
+      bold: i18next.t('resource_type_book_skills'),
+    }),
+    boldWordKeys: ['skills'],
+  };
 
   componentDidMount() {
     if (this.props.route.params) {
@@ -206,17 +222,15 @@ class AddResourceScreen extends React.PureComponent {
             </>
           )}
 
-          <MCView>
-            <MCView row wrap>
-              <H3 mt={20} mb={5}>
-                {t('resources_how')}
-              </H3>
-              <H3 mt={20} mb={5} underline>
-                {t('resource_type_book_impact')}
-              </H3>
-              <H3 mt={20} mb={5}>
-                {t('resources_to_you')}?
-              </H3>
+          <MCView mt={10}>
+            <MCView width={350} align="center" pv={5}>
+              {getStringWithOutline(
+                this.ResourceTypeQuestion,
+                'left',
+                true,
+                true,
+                true,
+              )}
             </MCView>
             <MCView row wrap>
               {impacts.map((impact, index) => (
@@ -236,11 +250,15 @@ class AddResourceScreen extends React.PureComponent {
               ))}
             </MCView>
           </MCView>
-          <MCView>
-            <MCView row wrap>
-              <H3>{t('resources_personal_development')}</H3>
-              <H3 underline>{t('resource_type_book_skills').toLowerCase()}</H3>
-              <H3>{t('resources_focuses_on')}:</H3>
+          <MCView mt={5}>
+            <MCView width={350} align="center" pv={5}>
+              {getStringWithOutline(
+                this.PersonalDevelopmentQuestion,
+                'left',
+                true,
+                true,
+                true,
+              )}
             </MCView>
             <MCView row wrap>
               {skills.map((skill, index) => (
