@@ -93,9 +93,7 @@ class SupportObjectiveScreen extends React.Component {
     return (
       <MCView width={350} bordered br={8} mt={10}>
         <MCCard shadow row align="center" justify="center" width={350} br={1}>
-          <H3 ml={5} weight="bold">
-            {objective.title}
-          </H3>
+          <H4 align="center">{objective.title}</H4>
         </MCCard>
 
         {objective.measures.map((measure, index) => (

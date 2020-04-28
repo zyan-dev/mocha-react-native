@@ -8,7 +8,7 @@ import {H2, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {WelcomeOnboardImage2} from 'assets/images';
+import {WelcomeOnboardImage3} from 'assets/images';
 
 class WelcomeOnboardSecond extends React.PureComponent {
   render() {
@@ -27,7 +27,7 @@ class WelcomeOnboardSecond extends React.PureComponent {
           align="center"
           width={dySize(300)}>
           <MCImage
-            image={WelcomeOnboardImage2}
+            image={WelcomeOnboardImage3}
             width={200}
             height={200}
             br={10}

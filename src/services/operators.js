@@ -184,7 +184,7 @@ export const getStringWithOutline = (
   center = 'center',
   bold = true,
   underline = false,
-  tag = false,
+  bigSize = false,
 ) => {
   // outline can be bold or underline
   let str = textData.title;
@@ -199,7 +199,7 @@ export const getStringWithOutline = (
       if (boldIndex > 0) {
         snippets.push(str.substr(0, boldIndex));
       }
-      if (tag) {
+      if (bigSize) {
         snippets.push(
           <H3
             weight={bold ? 'bold' : 'regular'}
@@ -223,7 +223,7 @@ export const getStringWithOutline = (
   }
 
   snippets.push(str);
-  if (tag) {
+  if (bigSize) {
     return (
       <MCView row style={{width: '100%'}}>
         <H3 align={center}>{snippets.map(snippet => snippet)}</H3>
