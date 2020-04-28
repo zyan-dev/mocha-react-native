@@ -86,16 +86,14 @@ class ProfileBasicCard extends React.Component {
           justify="center">
           {title === 'habits' && <AppleSvg size={30} />}
           {title === 'sleep_chronotype' && <SheepSvg theme={theme} size={50} />}
-          {title === 'nutrition' && <CarrotSvg theme={theme} size={50} />}
-          {title === 'hydration' && <FaucetSvg theme={theme} size={50} />}
-          {title === 'stress_response' && (
-            <FragileSvg theme={theme} size={50} />
-          )}
+          {title === 'nutrition' && <CarrotSvg size={50} />}
+          {title === 'hydration' && <FaucetSvg size={50} />}
+          {title === 'stress_response' && <FragileSvg size={50} />}
           {title === 'strengths' && (
             <MCIcon type="FontAwesome5Pro" name="hammer" size={40} />
           )}
           {title === 'core_values' && <KeySvg theme={theme} size={50} />}
-          {title === 'dreams' && <FutureSvg theme={theme} size={50} />}
+          {title === 'dreams' && <FutureSvg size={50} />}
           {completed && (
             <CompletedView>
               <MCIcon name="ios-checkmark" size={20} color="white" />

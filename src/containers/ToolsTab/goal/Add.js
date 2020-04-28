@@ -237,80 +237,22 @@ class EditObjectiveScreen extends React.PureComponent {
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
           onPressBack={() => this.onPressBack()}
+          headerIcon={
+            <MCIcon type="FontAwesome5Pro" name="apple-alt" size={30} />
+          }
         />
         <MCContent
           ref={ref => (this.scrollView = ref)}
           keyboardShouldPersistTaps="always"
           contentContainerStyle={{padding: dySize(10), paddingBottom: 200}}>
-          <H3 width={350} align="left" underline>
-            {t('objective_preview')}
-          </H3>
-          <MCView bordered br={10} align="center">
-            <MCCard shadow br={1}>
-              <H4 width={350} align="center">
-                {title}
-              </H4>
-            </MCCard>
-            {measures.map((measure, index) => (
-              <CheckBox
-                key={index}
-                style={{width: dySize(330), marginTop: 10}}
-                onClick={() => this.onToggleCheck(measure)}
-                isChecked={measure.completed}
-                leftText={measure.title}
-                leftTextStyle={{
-                  color: theme.colors.text,
-                  fontSize: theme.base.FONT_SIZE_LARGE,
-                  fontFamily: 'Raleway-Regular',
-                }}
-                checkBoxColor={theme.colors.text}
-              />
-            ))}
-            <MCView row align="center" mt={10} mb={10}>
-              <MCView
-                row
-                align="center"
-                style={{flex: 1}}
-                ml={30}
-                overflow="visible">
-                {selectedUsers.map(user => (
-                  <MCImage
-                    key={user._id}
-                    image={{uri: user.avatar}}
-                    round
-                    width={30}
-                    height={30}
-                    style={{marginLeft: dySize(-20)}}
-                  />
-                ))}
-              </MCView>
-              {isDaily ? (
-                <H4 mr={10}>{t('objective_daily_tabTitle')}</H4>
-              ) : (
-                <MCView row align="center" mr={10}>
-                  <MCIcon name="md-alarm" />
-                  <H4>{`${t('by')} ${t(`week_${getWeekDay(deadline)}`)}`}</H4>
-                </MCView>
-              )}
-            </MCView>
-          </MCView>
-
-          <H3 width={350} align="left" underline mt={20} mb={20}>
-            {t('objective_settings')}
-          </H3>
           <MCView row align="center">
             <MCIcon name="ios-information-circle-outline" padding={1} />
             <H3 ml={10} weight="bold">
               {t('objective_header_title')}
             </H3>
           </MCView>
-          <H4 color={theme.colors.border}>{t('object_title_1')}</H4>
-          <H4 color={theme.colors.border}>{t('object_title_2')}</H4>
-          <H4 color={theme.colors.border} mb={10}>
-            {t('object_title_3')}
-          </H4>
           <MCTextFormInput
-            label={t('object_title_3')}
+            label=""
             onChange={text => updateSelectedReflection({title: text})}
             value={title}
             submitted={submitted}
@@ -320,7 +262,7 @@ class EditObjectiveScreen extends React.PureComponent {
           <MCView row align="center" mb={20}>
             <MCIcon name="md-alarm" padding={1} />
             <H3 ml={10} weight="bold">
-              {'By when?'}
+              {t('objective_period')}
             </H3>
           </MCView>
           <MCView row align="center" mb={10}>
@@ -351,20 +293,6 @@ class EditObjectiveScreen extends React.PureComponent {
               checkBoxColor={theme.colors.text}
             />
           </MCView>
-          <H4 color={theme.colors.border}>{t('objective_deadline_title')}</H4>
-          {!isDaily && (
-            <MCPicker
-              items={WeekDays.map((value, index) => ({
-                label: t(`week_${value.long.toLowerCase()}`),
-                value: index,
-              }))}
-              onChange={itemValue => {
-                updateSelectedReflection({deadline: itemValue});
-              }}
-              value={deadline}
-              height={30}
-            />
-          )}
 
           <MCView row align="center" mt={20}>
             <MCIcon name="ruler" type="Entypo" padding={1} size={16} />
@@ -372,7 +300,6 @@ class EditObjectiveScreen extends React.PureComponent {
               {t('objective_measure_title')}
             </H3>
           </MCView>
-          <H4 color={theme.colors.border}>{t('object_title_1')}</H4>
           {measures.map((measure, index) => (
             <MCView key={index} row align="center" mb={5}>
               <H4 width={30} align="center">

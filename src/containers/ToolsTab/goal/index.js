@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {reflectionActions, otherActions, userActions} from 'Redux/actions';
-import {MCHeader} from 'components/common';
+import {MCHeader, MCIcon} from 'components/common';
 import NavigationService from 'navigation/NavigationService';
 import {getTodayStartDateStamp} from 'services/operators';
 import ObjectiveTabView from './TabView';
@@ -53,6 +53,9 @@ class GoalScreen extends React.Component {
           hasRight
           rightIcon="plus"
           onPressRight={() => this.onPressNew()}
+          headerIcon={
+            <MCIcon type="FontAwesome5Pro" name="apple-alt" size={30} />
+          }
         />
         <ObjectiveTabView initialIndex={params ? params.tabIndex : 0} />
       </View>
