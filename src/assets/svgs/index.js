@@ -6,6 +6,7 @@ import AppleSvg from './Apple';
 import SheepSvg from './Sheep';
 import CarrotSvg from './Carrot';
 import FaucetSvg from './Faucet';
+import FaucetWhiteSvg from './FaucetWhite';
 import FragileSvg from './Fragile';
 import KeySvg from './Key';
 import FutureSvg from './Future';
@@ -24,4 +25,5 @@ export {
   KeySvg,
   FutureSvg,
   IceCreamSvg,
+  FaucetWhiteSvg,
 };

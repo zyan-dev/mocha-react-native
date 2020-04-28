@@ -76,7 +76,7 @@ class MCTimeSlider extends React.PureComponent {
         height={80}
         mt={50}
         justify="center">
-        <MCView height={24} width={width} row justify="space-between">
+        <MCView height={25} width={width} row justify="space-between">
           {values.map(value => (
             <Scale key={value} />
           ))}

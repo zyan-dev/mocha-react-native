@@ -24,6 +24,10 @@ import ObjectiveScreen from '../ToolsTab/goal';
 import EditObjectiveScreen from '../ToolsTab/goal/Add';
 import FeedbackPreferenceScreen from '../ToolsTab/profile_basic/FeedbackPreference';
 import BehaviorPreferenceScreen from '../ToolsTab/profile_basic/BehaviorPreference';
+import EditNutritionScreen from '../ToolsTab/profile_basic/Nutrition';
+import EditHydrationScreen from '../ToolsTab/profile_basic/Hydration';
+import EditStrengthScreen from '../ToolsTab/profile_basic/Strength';
+import EditBodyStressScreen from '../ToolsTab/profile_basic/StressResponse';
 
 const Stack = createStackNavigator();
 
@@ -82,6 +86,13 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen
             name="AddMotivation"
             component={CreateMotivationScreen}
+          />
+          <Stack.Screen name="EditNutrition" component={EditNutritionScreen} />
+          <Stack.Screen name="EditHydration" component={EditHydrationScreen} />
+          <Stack.Screen name="EditStrengths" component={EditStrengthScreen} />
+          <Stack.Screen
+            name="EditBodyStress"
+            component={EditBodyStressScreen}
           />
         </Stack.Navigator>
       </Drawer>
