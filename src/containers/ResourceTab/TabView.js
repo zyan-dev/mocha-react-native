@@ -28,34 +28,34 @@ class ResourceTabView extends React.Component {
   };
 
   render() {
-    const {t, theme, isShowingUserObjective} = this.props;
+    const {t, theme, isShowingUserHabit} = this.props;
     const {index} = this.state;
     const routes = [
       {
         key: 'featured',
         title: 'featured',
-        icon: 'hand-holding-seedling'
+        icon: 'hand-holding-seedling',
       },
       {
         key: 'search',
         title: 'search',
-        icon: 'search'
+        icon: 'search',
       },
       {
         key: 'books',
         title: 'book',
-        icon: 'book'
+        icon: 'book',
       },
       {
         key: 'blogs',
         title: 'blog',
-        icon: 'rss-square'
+        icon: 'rss-square',
       },
       {
         key: 'podcasts',
         title: 'podcast',
-        icon: 'podcast'
-      }
+        icon: 'podcast',
+      },
     ];
 
     const renderScene = SceneMap({
@@ -63,8 +63,8 @@ class ResourceTabView extends React.Component {
       search: SearchResourceScreen,
       books: BookResourceScreen,
       blogs: BlogResourceScreen,
-      podcasts: PodcastResourceScreen
-    })
+      podcasts: PodcastResourceScreen,
+    });
 
     const renderTabBar = props => (
       <TabBar
@@ -78,12 +78,13 @@ class ResourceTabView extends React.Component {
         tabStyle={{width: dySize(80)}}
         renderLabel={({route, focused, color}) => {
           return (
-            <MCButton align='center'>
+            <MCButton align="center">
               <MCIcon
                 type="FontAwesome5Pro"
                 name={route.icon}
                 size={20}
-                color={focused &&  theme.colors.outline}/>
+                color={focused && theme.colors.outline}
+              />
               <H5 color={focused ? theme.colors.outline : theme.colors.text}>
                 {t(`resource_type_${route.title}`)}
               </H5>
@@ -106,7 +107,7 @@ class ResourceTabView extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  theme: state.routerReducer.theme
+  theme: state.routerReducer.theme,
 });
 
 const mapDispatchToProps = {};

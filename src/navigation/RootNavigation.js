@@ -10,7 +10,7 @@ import MainHomeStack from '../containers/Home';
 import NavigationService from './NavigationService';
 import UserProfile from '../containers/Others/UserProfile';
 import SelectUserScreen from '../containers/Others/SelectUsers';
-import UserObjectiveScreen from '../containers/Others/UserObjectives';
+import UserHabitScreen from '../containers/Others/UserHabits';
 import {MixpanelToken} from 'utils/config';
 
 import Mixpanel from 'react-native-mixpanel';
@@ -26,14 +26,14 @@ class RootNavigator extends React.Component {
   render() {
     const {isNewUser, isLoading} = this.props;
     return (
-      <NavigationContainer ref={(ref) => NavigationService.setNavigator(ref)}>
+      <NavigationContainer ref={ref => NavigationService.setNavigator(ref)}>
         <Stack.Navigator headerMode="none">
           {isNewUser && (
             <Stack.Screen name="welcomeStack" component={WelcomeStack} />
           )}
           <Stack.Screen name="mainStack" component={MainHomeStack} />
           <Stack.Screen name="UserProfile" component={UserProfile} />
-          <Stack.Screen name="UserObjective" component={UserObjectiveScreen} />
+          <Stack.Screen name="UserHabit" component={UserHabitScreen} />
           <Stack.Screen name="SelectUser" component={SelectUserScreen} />
         </Stack.Navigator>
         {isLoading && (
@@ -46,7 +46,7 @@ class RootNavigator extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isNewUser: state.routerReducer.isNewUser,
   isLoading: state.routerReducer.isLoading,
   profile: state.profileReducer,
@@ -56,4 +56,7 @@ const mapDispatchToProps = {
   setLoading: routerActions.setLoading,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RootNavigator);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RootNavigator);

@@ -24,8 +24,8 @@ export const getUserCommits = userId => ({
   payload: userId,
 });
 
-export const showUserObjectives = show => ({
-  type: types.SHOW_USER_OBJECTIVES,
+export const showUserHabits = show => ({
+  type: types.SHOW_USER_HABITS,
   payload: show,
 });
 

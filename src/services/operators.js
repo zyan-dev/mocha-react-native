@@ -122,28 +122,28 @@ export const getWeekStartDateStamp = () => {
   return getTodayStartDateStamp() - new Date().getDay() * 86400 * 1000;
 };
 
-export const getUpdatedMeasures = (measures, origin) => {
+export const getUpdatedHabits = (habits, origin) => {
   const todayKey = getCommitKey(new Date());
   let temp = {};
-  measures.map(measure => {
-    const find = origin.data.measures.find(i => i.title === measure.title);
+  habits.map(habit => {
+    const find = origin.data.habits.find(i => i.title === habit.title);
     if (find) {
-      // existing measure
-      if (find.completed && !measure.completed) {
+      // existing habit
+      if (find.completed && !habit.completed) {
         const findKey = getCommitKey(new Date(find.completed));
         temp = {
           ...temp,
           [findKey]: temp[findKey] ? temp[todayKey] - 1 : -1,
         };
-      } else if (!find.completed && measure.completed) {
+      } else if (!find.completed && habit.completed) {
         temp = {
           ...temp,
           [todayKey]: temp[todayKey] ? temp[todayKey] + 1 : 1,
         };
       }
     } else {
-      // new measure
-      if (measure.completed) {
+      // new habit
+      if (habit.completed) {
         temp = {
           ...temp,
           [todayKey]: temp[todayKey] ? temp[todayKey] + 1 : 1,

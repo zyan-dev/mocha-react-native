@@ -19,7 +19,7 @@ import MotivationCard from '../ProfileTab/profile/components/Motivations';
 import LanguagesCard from '../ProfileTab/profile/components/Languages';
 import SkillsCard from '../ProfileTab/profile/components/Skills';
 import UserManualsCard from '../ProfileTab/profile/components/UserManuals';
-import ObjectivesCard from '../ProfileTab/profile/components/Objectives';
+import HabitCard from '../ProfileTab/profile/components/Habits';
 import ChronotypeCard from '../ProfileTab/profile/components/Chronotype';
 import PersonalityCard from '../ProfileTab/profile/components/Personality';
 import StressAndComfortCard from '../ProfileTab/profile/components/StressAndComfort';
@@ -70,8 +70,8 @@ class UserProfileScreen extends React.Component {
     this.setState({selected: icon.key});
   };
 
-  onPressAllObjectives = tabIndex => {
-    NavigationService.navigate('UserObjective', {
+  onPressAllHabits = tabIndex => {
+    NavigationService.navigate('UserHabit', {
       id: this.props.profile._id,
       tabIndex,
     });
@@ -95,8 +95,8 @@ class UserProfileScreen extends React.Component {
       nutrition,
       hydration,
       personality,
-      dailyObjectives,
-      weeklyObjectives,
+      dailyHabits,
+      weeklyHabits,
       feedbackPreference,
       behaviorPreference,
       strength,
@@ -153,13 +153,12 @@ class UserProfileScreen extends React.Component {
               {selected === 'belief' && (
                 <UserManualsCard manuals={manuals} editable={false} />
               )}
-              {selected === 'objective' && (
-                <ObjectivesCard
+              {selected === 'habit' && (
+                <HabitCard
                   editable={false}
-                  dailyObjectives={dailyObjectives}
-                  weeklyObjectives={weeklyObjectives}
-                  onPressAllDaily={() => this.onPressAllObjectives(0)}
-                  onPressAllWeekly={() => this.onPressAllObjectives(1)}
+                  dailyHabits={dailyHabits}
+                  weeklyHabits={weeklyHabits}
+                  onPressAll={() => this.onPressAllHabits(0)}
                 />
               )}
               {selected === 'chronotype' && (
@@ -299,11 +298,11 @@ const mapStateToProps = state => ({
     state,
     'Personality',
   ),
-  dailyObjectives: selector.reflections
-    .getUserSpecialReflections(state, 'Objective')
+  dailyHabits: selector.reflections
+    .getUserSpecialReflections(state, 'Habit')
     .filter(({data}) => data.isDaily),
-  weeklyObjectives: selector.reflections
-    .getUserSpecialReflections(state, 'Objective')
+  weeklyHabits: selector.reflections
+    .getUserSpecialReflections(state, 'Habit')
     .filter(({data}) => !data.isDaily),
   feedbackPreference: selector.reflections.findUserSpecialReflections(
     state,

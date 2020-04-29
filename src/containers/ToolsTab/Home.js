@@ -153,7 +153,7 @@ class AddReflectionScreen extends React.Component {
       registerRequired: true,
     },
     {
-      key: 'goal',
+      key: 'habit',
       duration: '4-6',
       title: i18next.t('tools_card_title_goal', {
         bold: i18next.t('outline_goal'),
@@ -161,7 +161,7 @@ class AddReflectionScreen extends React.Component {
       boldWordKeys: ['goal'],
       iconType: 'FontAwesome5Pro',
       icon: 'apple-alt',
-      navigateTo: 'Objectives',
+      navigateTo: 'Habits',
       registerRequired: true,
     },
     {

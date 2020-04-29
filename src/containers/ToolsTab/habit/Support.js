@@ -10,7 +10,7 @@ import {MCEmptyText, H3, H4, H6} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 
-class SupportObjectiveScreen extends React.Component {
+class SupportHabitScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,21 +25,21 @@ class SupportObjectiveScreen extends React.Component {
   }
 
   componentDidUpdate(preProps, prevState) {
-    if (preProps.supportedObjectives !== this.props.supportedObjectives) {
+    if (preProps.supportedHabits !== this.props.supportedHabits) {
       this.initialize();
     }
   }
 
   initialize = () => {
     const {selectedOwner} = this.state;
-    const owners = this.getObjectiveOwners();
+    const owners = this.getHabitOwners();
     this.setState({owners});
     if (owners.length > 0 && !selectedOwner.length)
       this.setState({selectedOwner: owners[0]});
   };
 
   onPressEmoji = (item, reaction) => {
-    this.props.reactToObjective({
+    this.props.reactToHabit({
       ...item,
       data: {
         ...item.data,
@@ -49,13 +49,13 @@ class SupportObjectiveScreen extends React.Component {
     });
   };
 
-  getObjectiveOwners = () => {
-    const {supportedObjectives, allUsers} = this.props;
+  getHabitOwners = () => {
+    const {supportedHabits, allUsers} = this.props;
     let owners = [];
-    supportedObjectives.map(objective => {
-      const find = owners.find(user => user._id === objective.owner);
+    supportedHabits.map(habit => {
+      const find = owners.find(user => user._id === habit.owner);
       if (!find) {
-        const owner = allUsers.find(user => user._id === objective.owner);
+        const owner = allUsers.find(user => user._id === habit.owner);
         if (owner) owners.push(owner);
       }
     });
@@ -91,23 +91,24 @@ class SupportObjectiveScreen extends React.Component {
     );
   };
 
-  _renderObjectiveItem = ({item}) => {
-    const objective = item.data;
+  _renderHabitItem = ({item}) => {
+    const habit = item.data;
+    console.log({habit});
     const {allUsers, theme} = this.props;
     const owner = allUsers.find(user => user._id === item.owner);
     if (!owner) return null;
     return (
       <MCView width={350} bordered br={8} mt={10}>
         <MCCard shadow row align="center" justify="center" width={350} br={1}>
-          <H4 align="center">{objective.title}</H4>
+          <H4 align="center">{habit.title}</H4>
         </MCCard>
 
-        {objective.measures.map((measure, index) => (
+        {habit.habits.map((item, index) => (
           <MCView key={index} width={350} align="center">
             <CheckBox
               style={{width: dySize(330), marginTop: 10}}
-              isChecked={measure.completed}
-              leftText={measure.title}
+              isChecked={item.completed}
+              leftText={item.title}
               leftTextStyle={{
                 color: theme.colors.text,
                 fontSize: theme.base.FONT_SIZE_LARGE,
@@ -168,7 +169,7 @@ class SupportObjectiveScreen extends React.Component {
 
   render() {
     const {owners, selectedOwner} = this.state;
-    const {t, theme, supportedObjectives} = this.props;
+    const {t, theme, supportedHabits} = this.props;
     return (
       <MCRootView justify="flex-start" align="center">
         {owners.length > 0 && (
@@ -196,7 +197,7 @@ class SupportObjectiveScreen extends React.Component {
                 />
               </MCView>
               <H3 ml={10}>
-                {t('objective_supporting_on', {name: selectedOwner.name})}
+                {t('habit_supporting_on', {name: selectedOwner.name})}
               </H3>
             </MCView>
           </>
@@ -207,10 +208,10 @@ class SupportObjectiveScreen extends React.Component {
               width: dySize(375),
               alignItems: 'center',
             }}
-            data={supportedObjectives.filter(
-              objective => objective.owner === selectedOwner._id,
+            data={supportedHabits.filter(
+              habit => habit.owner === selectedOwner._id,
             )}
-            renderItem={this._renderObjectiveItem}
+            renderItem={this._renderHabitItem}
             keyExtractor={item => item._id}
             ListEmptyComponent={
               <MCEmptyText mt={30}>{t('no_result')}</MCEmptyText>
@@ -223,17 +224,17 @@ class SupportObjectiveScreen extends React.Component {
 }
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  supportedObjectives: state.reflectionReducer.supportedObjectives,
+  supportedHabits: state.reflectionReducer.supportedHabits,
   allUsers: state.usersReducer.allUsers,
 });
 
 const mapDispatchToProps = {
-  reactToObjective: reflectionActions.reactToObjective,
+  reactToHabit: reflectionActions.reactToHabit,
 };
 
 export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(SupportObjectiveScreen),
+  )(SupportHabitScreen),
 );

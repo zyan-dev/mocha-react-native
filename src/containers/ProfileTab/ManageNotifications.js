@@ -17,7 +17,7 @@ const NotificationKeys = [
   'feedbackReceived',
   'feedbackRequested',
   'addTrustMember',
-  'objective',
+  'habit',
   'reaction',
 ];
 

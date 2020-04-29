@@ -105,8 +105,8 @@ const updateResources = param =>
   apiCall('patch', `${URL_RESOURCE}`, param, true);
 const removeResources = param =>
   apiCall('post', `${URL_RESOURCE}/remove`, param, true);
-const getSupportedObjectives = () =>
-  apiCall('get', `${URL_REFLECTION}/objective-shared`, {}, true);
+const getSupportedHabits = () =>
+  apiCall('get', `${URL_REFLECTION}/habit-shared`, {}, true);
 
 const fileUploadToS3 = async ({image, name, type}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
@@ -162,5 +162,5 @@ export default {
   createResources,
   updateResources,
   removeResources,
-  getSupportedObjectives,
+  getSupportedHabits,
 };

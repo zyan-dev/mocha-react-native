@@ -22,7 +22,7 @@ import MotivationCard from './components/Motivations';
 import LanguagesCard from './components/Languages';
 import SkillsCard from './components/Skills';
 import UserManualsCard from './components/UserManuals';
-import ObjectivesCard from './components/Objectives';
+import HabitCard from './components/Habits';
 import ChronotypeCard from './components/Chronotype';
 import PersonalityCard from './components/Personality';
 import StressAndComfortCard from './components/StressAndComfort';
@@ -36,11 +36,12 @@ import FeedbackPreferenceCard from './components/FeedbackPreference';
 import BehaviorPreferenceCard from './components/BehaviorPreference';
 import NutritionCard from './components/Nutrition';
 import HydrationCard from './components/Hydration';
+import DreamCard from './components/Dream';
 import NavigationService from 'navigation/NavigationService';
 import {showAlert, getStringWithOutline} from 'services/operators';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
-import {FaucetWhiteSvg} from 'assets/svgs';
+import {FaucetWhiteSvg, FutureSvg} from 'assets/svgs';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -86,17 +87,12 @@ class ProfileScreen extends React.Component {
 
   onPressAllPurposes = () => {};
 
-  onPressAllObjectives = tabIndex => {
+  onPressAllHabits = tabIndex => {
     if (!this.props.profile.userToken) {
       showAlert('You need to sign up');
     } else {
-      NavigationService.navigate('Objectives', {tabIndex});
+      NavigationService.navigate('Habits', {tabIndex});
     }
-  };
-
-  onPressNewObjective = () => {
-    this.props.setInitialReflection('objective');
-    NavigationService.navigate('EditObjective');
   };
 
   onPressAllUserManuals = () => {
@@ -137,6 +133,34 @@ class ProfileScreen extends React.Component {
     this.setState({showWelcomeModal: false});
   };
 
+  renderProfileIcon = icon => {
+    const {theme, profile, profileTab} = this.props;
+    if (icon.signinRequired && !profile.userToken.length) return null;
+    const selected = profileTab === icon.key;
+    const size = selected ? 30 : 20;
+    const color = selected ? theme.colors.outline : theme.colors.text;
+    return (
+      <MCButton
+        key={icon.key}
+        width={50}
+        align="center"
+        onPress={() => this.onPressProfileIcon(icon)}>
+        {icon.key === 'hydration' ? (
+          <FaucetWhiteSvg size={size} color={color} />
+        ) : icon.key === 'dream' ? (
+          <FutureSvg size={size} color={color} />
+        ) : (
+          <MCIcon
+            type={icon.iconType}
+            name={icon.icon}
+            size={size}
+            color={color}
+          />
+        )}
+      </MCButton>
+    );
+  };
+
   render() {
     const {
       t,
@@ -152,12 +176,13 @@ class ProfileScreen extends React.Component {
       nutrition,
       hydration,
       personality,
-      dailyObjectives,
-      weeklyObjectives,
+      dailyHabits,
+      weeklyHabits,
       feedbackPreference,
       behaviorPreference,
       strength,
       stress,
+      dream,
     } = this.props;
     const {showWelcomeModal} = this.state;
     return (
@@ -211,13 +236,11 @@ class ProfileScreen extends React.Component {
                   onPressNew={() => this.onPressNewUserManual()}
                 />
               )}
-              {profileTab === 'objective' && (
-                <ObjectivesCard
-                  dailyObjectives={dailyObjectives}
-                  weeklyObjectives={weeklyObjectives}
-                  onPressAllDaily={() => this.onPressAllObjectives(0)}
-                  onPressAllWeekly={() => this.onPressAllObjectives(1)}
-                  onPressNew={() => this.onPressNewObjective()}
+              {profileTab === 'habit' && (
+                <HabitCard
+                  dailyHabits={dailyHabits}
+                  weeklyHabits={weeklyHabits}
+                  onPressAll={() => this.onPressAllHabits(0)}
                 />
               )}
               {profileTab === 'chronotype' && (
@@ -246,6 +269,12 @@ class ProfileScreen extends React.Component {
               )}
               {profileTab === 'personality' && (
                 <PersonalityCard personality={personality} />
+              )}
+              {profileTab === 'dream' && (
+                <DreamCard
+                  dream={dream}
+                  onPressEdit={() => NavigationService.navigate('EditDreams')}
+                />
               )}
               {profileTab === 'stress' && (
                 <StressAndComfortCard
@@ -298,39 +327,7 @@ class ProfileScreen extends React.Component {
             width={50}
             style={{borderLeftWidth: 1, borderColor: theme.colors.border}}>
             <MCContent>
-              {profileIcons.map(icon => {
-                if (icon.signinRequired && !profile.userToken.length)
-                  return null;
-                return (
-                  <MCButton
-                    key={icon.key}
-                    width={50}
-                    align="center"
-                    onPress={() => this.onPressProfileIcon(icon)}>
-                    {icon.key === 'hydration' ? (
-                      <FaucetWhiteSvg
-                        size={profileTab === icon.key ? 30 : 20}
-                        color={
-                          profileTab === icon.key
-                            ? theme.colors.outline
-                            : theme.colors.text
-                        }
-                      />
-                    ) : (
-                      <MCIcon
-                        type={icon.iconType}
-                        name={icon.icon}
-                        size={profileTab === icon.key ? 30 : 20}
-                        color={
-                          profileTab === icon.key
-                            ? theme.colors.outline
-                            : theme.colors.text
-                        }
-                      />
-                    )}
-                  </MCButton>
-                );
-              })}
+              {profileIcons.map(icon => this.renderProfileIcon(icon))}
             </MCContent>
           </MCView>
         </MCView>
@@ -369,11 +366,11 @@ const mapStateToProps = state => ({
   visitedProfile: state.routerReducer.visitedProfile,
   manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   values: selector.reflections.getMySpecialReflections(state, 'Value'),
-  dailyObjectives: selector.reflections
-    .getMySpecialReflections(state, 'Objective')
+  dailyHabits: selector.reflections
+    .getMySpecialReflections(state, 'Habit')
     .filter(({data}) => data.isDaily),
-  weeklyObjectives: selector.reflections
-    .getMySpecialReflections(state, 'Objective')
+  weeklyHabits: selector.reflections
+    .getMySpecialReflections(state, 'Habit')
     .filter(({data}) => !data.isDaily),
   manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   motivations: selector.reflections.getMySpecialReflections(
@@ -401,6 +398,7 @@ const mapStateToProps = state => ({
   ),
   strength: selector.reflections.findMySpecialReflections(state, 'Strength'),
   stress: selector.reflections.findMySpecialReflections(state, 'Stress'),
+  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
 });
 
 const mapDispatchToProps = {

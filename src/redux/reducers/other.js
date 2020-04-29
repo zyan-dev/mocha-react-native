@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   purchaseProducts: [], // pending, checking, incorrect, passed
   loadingProducts: false,
   commits: [],
-  isShowingUserObjective: false,
+  isShowingUserHabit: false,
   favoriteTools: [],
   profileTab: 'overview',
   toolsTab: 0,
@@ -29,10 +29,10 @@ const otherReducer = (state = INITIAL_STATE, action) => {
         ...state,
         commits: action.payload,
       };
-    case types.SHOW_USER_OBJECTIVES:
+    case types.SHOW_USER_HABITS:
       return {
         ...state,
-        isShowingUserObjective: action.payload,
+        isShowingUserHabit: action.payload,
       };
     case types.SET_FAVORITE_TOOLS:
       return {

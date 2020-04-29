@@ -114,7 +114,7 @@ export const AddReflectionSections = [
     duration: '4-6',
     boldWordKeys: ['goal'],
     icon: AddGoalIcon,
-    navigateTo: 'Objectives',
+    navigateTo: 'Habits',
     registerRequired: true,
   },
   {
@@ -304,8 +304,8 @@ export const NetworkPermissions = [
     icon: 'ios-body',
   },
   {
-    key: 'Objective',
-    label: 'objective',
+    key: 'Habit',
+    label: 'habit',
     iconType: 'Ionicon',
     icon: 'ios-compass',
   },
@@ -1327,11 +1327,11 @@ export const DefaultReflections = {
       story: '',
     },
   },
-  objective: {
-    type: 'Objective',
+  habit: {
+    type: 'Habit',
     data: {
       title: '',
-      measures: [],
+      habits: [],
       isDaily: false,
       deadline: 6,
       weekNum: getWeekNumber(new Date()),
@@ -1440,14 +1440,6 @@ export const DefaultReflections = {
     type: 'Stress',
     data: {
       parts: [],
-    },
-  },
-  habit: {
-    type: 'Habit',
-    data: {
-      title: '',
-      habits: [],
-      isDaily: true,
     },
   },
   nutrition: {
@@ -1794,8 +1786,6 @@ export const profileIcons = [
   },
   {
     key: 'hydration',
-    iconType: 'FontAwesome5Pro',
-    icon: 'drip',
     signinRequired: false,
   },
   {
@@ -1815,6 +1805,16 @@ export const profileIcons = [
     iconType: 'FontAwesome5Pro',
     icon: 'key',
     signinRequired: false,
+  },
+  {
+    key: 'dream',
+    signinRequired: false,
+  },
+  {
+    key: 'habit',
+    iconType: 'FontAwesome5Pro',
+    icon: 'apple-alt',
+    signinRequired: true,
   },
   {
     key: 'feedback',
@@ -1864,13 +1864,6 @@ export const profileIcons = [
     icon: 'ios-cloud-upload',
     signinRequired: false,
   },
-  {
-    key: 'objective',
-    iconType: 'Ionicon',
-    icon: 'ios-compass',
-    signinRequired: true,
-  },
-
   {
     key: 'personality',
     iconType: 'Ionicon',

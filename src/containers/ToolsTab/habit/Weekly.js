@@ -1,8 +1,8 @@
 import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
-import styled from 'styled-components';
 import {withTranslation} from 'react-i18next';
+import styled from 'styled-components';
 import CheckBox from 'react-native-check-box';
 import {reflectionActions, userActions, otherActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
@@ -12,7 +12,8 @@ import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {getCommitKey} from '../../../services/operators';
+import {WeekDays} from 'utils/constants';
+import {getCommitKey, getWeekDay} from 'services/operators';
 
 const ReactionView = styled(MCView)`
   display: flex;
@@ -25,44 +26,52 @@ const ReactionView = styled(MCView)`
   background-color: ${props => props.theme.colors.card};
 `;
 
-class DailyObjectiveScreen extends React.Component {
+class WeeklyHabitScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterOption: 'all',
+    };
+  }
+
   onPressEdit = item => {
     this.props.selectReflection(item);
     this.props.setSeletedUsers(item.data.collaborators);
-    NavigationService.navigate('EditObjective');
+    NavigationService.navigate('EditHabit');
   };
 
-  onToggleCheck = (objective, measure) => {
-    if (this.props.isShowingUserObjective) return;
-    this.props.selectReflection(objective);
-    const updated = objective.data.measures.map(i => {
-      if (i.title === measure.title) {
+  onToggleCheck = (habit, habitItem) => {
+    if (this.props.isShowingUserHabit) return;
+    this.props.selectReflection(habit);
+    const updated = habit.data.habits.map(i => {
+      if (i.title === habitItem.title) {
         return {
-          title: measure.title,
-          completed: measure.completed ? undefined : new Date().getTime(),
+          title: habitItem.title,
+          completed: habitItem.completed ? undefined : new Date().getTime(),
         };
       } else {
         return i;
       }
     });
-    this.props.updateSelectedReflection({measures: updated});
+    this.props.updateSelectedReflection({habits: updated});
     this.props.addOrUpdateReflection('');
     this.props.updateAnalyzeStatus({
       data: [
         {
-          date: getCommitKey(measure.completed || new Date().getTime()),
-          amount: measure.completed ? -1 : 1,
+          date: getCommitKey(habitItem.completed || new Date().getTime()),
+          amount: habitItem.completed ? -1 : 1,
         },
       ],
     });
   };
 
   _renderItem = ({item}) => {
-    const {theme, isShowingUserObjective} = this.props;
+    const {t, theme, isShowingUserHabit} = this.props;
     const {
       title,
-      measures,
+      habits,
       collaborators,
+      deadline,
       love,
       nudge,
       strong,
@@ -70,7 +79,7 @@ class DailyObjectiveScreen extends React.Component {
       congrats,
       crown,
     } = item.data;
-    const incompleted = measures.filter(measure => !measure.completed);
+    const incompleted = habits.filter(habit => !habit.completed);
     return (
       <MCView width={350} bordered br={10} align="center" mb={10}>
         <MCCard shadow br={1} row align="center">
@@ -78,13 +87,13 @@ class DailyObjectiveScreen extends React.Component {
             {title}
           </H4>
         </MCCard>
-        {measures.map((measure, index) => (
+        {habits.map((habit, index) => (
           <CheckBox
             key={index}
             style={{width: dySize(330), marginTop: 10}}
-            onClick={() => this.onToggleCheck(item, measure)}
-            isChecked={measure.completed}
-            leftText={measure.title}
+            onClick={() => this.onToggleCheck(item, habit)}
+            isChecked={habit.completed}
+            leftText={habit.title}
             leftTextStyle={{
               color: theme.colors.text,
               fontSize: theme.base.FONT_SIZE_LARGE,
@@ -93,32 +102,33 @@ class DailyObjectiveScreen extends React.Component {
             checkBoxColor={theme.colors.text}
           />
         ))}
-        <MCView row align="center" mt={10} mb={10}>
+        <MCView row align="center" mt={10} mb={isShowingUserHabit ? 10 : 0}>
           <MCView
             row
             align="center"
             style={{flex: 1}}
             ml={30}
             overflow="visible">
-            {collaborators.map(user => (
-              <MCImage
-                key={user._id}
-                image={{uri: user.avatar}}
-                round
-                width={30}
-                height={30}
-                style={{marginLeft: dySize(-20)}}
-              />
-            ))}
+            {collaborators &&
+              collaborators.map(user => (
+                <MCImage
+                  key={user._id}
+                  image={{uri: user.avatar}}
+                  round
+                  width={30}
+                  height={30}
+                  style={{marginLeft: dySize(-20)}}
+                />
+              ))}
           </MCView>
-          {!isShowingUserObjective && (
-            <MCView row align="center" justify="flex-end" style={{flex: 1}}>
-              <MCButton onPress={() => this.onPressEdit(item)}>
-                <MCIcon name="ios-create" />
-              </MCButton>
-            </MCView>
-          )}
         </MCView>
+        {!isShowingUserHabit && (
+          <MCView row align="center" justify="flex-end" width={350}>
+            <MCButton onPress={() => this.onPressEdit(item)}>
+              <MCIcon name="ios-create" />
+            </MCButton>
+          </MCView>
+        )}
         <MCView row wrap align="center" width={330}>
           {love > 0 && (
             <ReactionView>
@@ -165,21 +175,19 @@ class DailyObjectiveScreen extends React.Component {
     const {
       t,
       theme,
-      isShowingUserObjective,
-      myDailyObjectives,
-      userDailyObjectives,
+      isShowingUserHabit,
+      weeklyHabits,
+      userWeeklyHabits,
     } = this.props;
     return (
-      <MCRootView justify="flex-start" align="flex-start">
+      <MCRootView justify="flex-start" align="center">
         <FlatList
           contentContainerStyle={{
-            width: dySize(375),
             alignItems: 'center',
+            width: dySize(375),
             paddingVertical: 20,
           }}
-          data={
-            isShowingUserObjective ? userDailyObjectives : myDailyObjectives
-          }
+          data={isShowingUserHabit ? userWeeklyHabits : weeklyHabits}
           renderItem={this._renderItem}
           keyExtractor={item => item._id}
           ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
@@ -191,13 +199,13 @@ class DailyObjectiveScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  isShowingUserObjective: state.otherReducer.isShowingUserObjective,
-  myDailyObjectives: selector.reflections
-    .getMySpecialReflections(state, 'Objective')
-    .filter(({data}) => data.isDaily),
-  userDailyObjectives: selector.reflections
-    .getUserSpecialReflections(state, 'Objective')
-    .filter(({data}) => data.isDaily),
+  isShowingUserHabit: state.otherReducer.isShowingUserHabit,
+  weeklyHabits: selector.reflections
+    .getMySpecialReflections(state, 'Habit')
+    .filter(({data}) => !data.isDaily),
+  userWeeklyHabits: selector.reflections
+    .getUserSpecialReflections(state, 'Habit')
+    .filter(({data}) => !data.isDaily),
 });
 
 const mapDispatchToProps = {
@@ -205,13 +213,13 @@ const mapDispatchToProps = {
   selectReflection: reflectionActions.selectReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
-  setSeletedUsers: userActions.setSeletedUsers,
   updateAnalyzeStatus: otherActions.updateAnalyzeStatus,
+  setSeletedUsers: userActions.setSeletedUsers,
 };
 
 export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(DailyObjectiveScreen),
+  )(WeeklyHabitScreen),
 );

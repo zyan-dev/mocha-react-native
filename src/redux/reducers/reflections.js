@@ -10,8 +10,8 @@ const INITIAL_STATE = {
     data: {},
   },
   reflectionSections: SampleReflectionSections,
-  objectiveResetTime: 0,
-  supportedObjectives: [],
+  habitResetTime: 0,
+  supportedHabits: [],
   draft: {},
 };
 
@@ -56,10 +56,10 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
           ].concat(action.payload.title),
         },
       };
-    case types.SET_SUPPORTED_OJBECTIVES:
+    case types.SET_SUPPORTED_HABITS:
       return {
         ...state,
-        supportedObjectives: action.payload,
+        supportedHabits: action.payload,
       };
     case types.UPDATE_SELECTED_REFLECTION:
       return {
@@ -73,10 +73,10 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
           updated: new Date().toISOString(),
         },
       };
-    case types.SET_OBJECTIVE_RESET_TIME:
+    case types.SET_HABIT_RESET_TIME:
       return {
         ...state,
-        objectiveResetTime: action.payload,
+        habitResetTime: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

@@ -282,13 +282,13 @@ export function* updateTapToCounts(action) {
   }
 }
 
-export function* getSupportedObjectives(action) {
+export function* getSupportedHabits(action) {
   try {
     yield put({type: types.API_CALLING});
-    const response = yield call(API.getSupportedObjectives);
+    const response = yield call(API.getSupportedHabits);
     if (response.data.status === 'success') {
       yield put({
-        type: types.SET_SUPPORTED_OJBECTIVES,
+        type: types.SET_SUPPORTED_HABITS,
         payload: response.data.data.reflections,
       });
       yield put({type: types.API_FINISHED});
@@ -306,7 +306,7 @@ export function* getSupportedObjectives(action) {
   }
 }
 
-export function* reactToObjective(action) {
+export function* reactToHabit(action) {
   try {
     yield put({type: types.API_CALLING});
     const response = yield call(API.updateReflections, {
@@ -314,7 +314,7 @@ export function* reactToObjective(action) {
     });
     if (response.data.status === 'success') {
       showAlert(i18next.t('successful_reaction'));
-      yield put({type: types.GET_SUPPORTED_OJBECTIVES});
+      yield put({type: types.GET_SUPPORTED_HABITS});
     } else {
       yield put({
         type: types.API_FINISHED,
@@ -329,43 +329,43 @@ export function* reactToObjective(action) {
   }
 }
 
-export function* resetMyObjectives(action) {
+export function* resetMyHabits(action) {
   try {
     const state = yield select();
     const todayStartTS = getTodayStartDateStamp();
-    if (todayStartTS === state.reflectionReducer.objectiveResetTime) return;
+    if (todayStartTS === state.reflectionReducer.habitResetTime) return;
     yield put({type: types.API_CALLING});
-    const dailyObjectives = selector.reflections
-      .getMySpecialReflections(state, 'Objective')
+    const dailyHabits = selector.reflections
+      .getMySpecialReflections(state, 'Habit')
       .filter(({data}) => data.isDaily);
     let updateParam = [];
-    dailyObjectives.map(objective => {
-      if (new Date(objective.updated).getTime() < todayStartTS) {
+    dailyHabits.map(habit => {
+      if (new Date(habit.updated).getTime() < todayStartTS) {
         updateParam.push({
-          _id: objective._id,
+          _id: habit._id,
           data: {
-            ...objective.data,
-            measures: objective.data.measures.map(measure => ({
-              title: measure.title,
+            ...habit.data,
+            habits: habit.data.habits.map(item => ({
+              title: item.title,
             })),
           },
         });
       }
     });
-    const weeklyObjectives = selector.reflections
-      .getUserSpecialReflections(state, 'Objective')
+    const weeklyHabits = selector.reflections
+      .getUserSpecialReflections(state, 'Habit')
       .filter(({data}) => !data.isDaily);
-    weeklyObjectives.map(objective => {
-      const weekNumber = _.get(objective, ['data', 'weekNum'], 0);
+    weeklyHabits.map(habit => {
+      const weekNumber = _.get(habit, ['data', 'weekNum'], 0);
       const todayWeekNumber = getWeekNumber(new Date());
       if (weekNumber < todayWeekNumber) {
         updateParam.push({
-          _id: objective._id,
+          _id: habit._id,
           data: {
-            ...objective.data,
+            ...habit.data,
             weekNum: todayWeekNumber,
-            measures: objective.data.measures.map(measure => ({
-              title: measure.title,
+            habits: habit.data.habits.map(item => ({
+              title: item.title,
             })),
           },
         });
@@ -373,7 +373,7 @@ export function* resetMyObjectives(action) {
     });
     let response;
     if (updateParam.length > 0) {
-      console.log('Reseting objectives: ', updateParam);
+      console.log('Reseting habits: ', updateParam);
       response = yield call(API.updateReflections, {
         data: updateParam,
       });
@@ -386,13 +386,13 @@ export function* resetMyObjectives(action) {
       }
     }
     yield put({
-      type: types.SET_OBJECTIVE_RESET_TIME,
+      type: types.SET_HABIT_RESET_TIME,
       payload: getTodayStartDateStamp(),
     });
     yield put({type: types.GET_MY_REFLECTIONS});
     yield put({
       type: types.API_FINISHED,
-      payload: i18next.t('objective_reset_success'),
+      payload: i18next.t('habit_reset_success'),
     });
   } catch (e) {
     yield put({

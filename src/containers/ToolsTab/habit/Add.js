@@ -16,16 +16,16 @@ import {
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, ErrorText} from 'components/styled/Text';
-import {getUpdatedMeasures} from 'services/operators';
+import {getUpdatedHabits} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {AppleSvg} from 'assets/svgs';
 
-class EditObjectiveScreen extends React.PureComponent {
+class EditHabitScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      newMeasureTitle: '',
+      newHabitTitle: '',
       origin: {},
       submitted: false,
     };
@@ -35,8 +35,8 @@ class EditObjectiveScreen extends React.PureComponent {
     const {reflectionDraft, selectReflection, selectedReflection} = this.props;
     this.setState({origin: selectedReflection});
     // Don't load saved draft on edit screen
-    if (!selectedReflection._id && reflectionDraft['Objective']) {
-      selectReflection(reflectionDraft['Objective']);
+    if (!selectedReflection._id && reflectionDraft['Habit']) {
+      selectReflection(reflectionDraft['Habit']);
     }
   }
 
@@ -45,102 +45,102 @@ class EditObjectiveScreen extends React.PureComponent {
       selectedUsers,
       updateSelectedReflection,
       selectedReflection: {
-        data: {measures},
+        data: {habits},
       },
     } = this.props;
-    const {newMeasureTitle} = this.state;
+    const {newHabitTitle} = this.state;
     this.setState({submitted: true});
     if (!this.validateTitle()) return;
-    if (!this.validateMeasures()) return;
+    if (!this.validateHabits()) return;
     updateSelectedReflection({
       collaborators: selectedUsers.map(user =>
         _.pick(user, ['_id', 'avatar', 'pushToken', 'name']),
       ),
-      measures:
-        newMeasureTitle.length > 0
-          ? measures.concat([{title: newMeasureTitle}])
-          : measures,
+      habits:
+        newHabitTitle.length > 0
+          ? habits.concat([{title: newHabitTitle}])
+          : habits,
     });
-    this.setState({newMeasureTitle: ''});
+    this.setState({newHabitTitle: ''});
     this.updateCommitHistory();
     setTimeout(() => {
       this.props.addOrUpdateReflection();
-      this.props.saveReflectionDraft({Objective: undefined});
+      this.props.saveReflectionDraft({Habit: undefined});
     });
   };
 
   updateCommitHistory = () => {
     const {
       selectedReflection: {
-        data: {measures},
+        data: {habits},
       },
     } = this.props;
     const {origin} = this.state;
-    const updatedMeasures = getUpdatedMeasures(measures, origin);
-    if (Object.keys(updatedMeasures).length > 0) {
-      const param = Object.keys(updatedMeasures).map(key => ({
+    const updatedHabits = getUpdatedHabits(habits, origin);
+    if (Object.keys(updatedHabits).length > 0) {
+      const param = Object.keys(updatedHabits).map(key => ({
         date: key,
-        amount: updatedMeasures[key],
+        amount: updatedHabits[key],
       }));
       this.props.updateAnalyzeStatus({data: param});
     }
   };
 
-  onToggleCheck = measure => {
+  onToggleCheck = habit => {
     const {
       updateSelectedReflection,
       selectedReflection: {
-        data: {measures},
+        data: {habits},
       },
     } = this.props;
-    const updated = measures.map(item => {
-      if (item.title === measure.title) {
+    const updated = habits.map(item => {
+      if (item.title === habit.title) {
         return {
-          ...measure,
-          completed: measure.completed ? undefined : new Date().getTime(),
+          ...habit,
+          completed: habit.completed ? undefined : new Date().getTime(),
         };
       } else {
         return item;
       }
     });
-    updateSelectedReflection({measures: updated});
+    updateSelectedReflection({habits: updated});
   };
 
-  onRemoveMeasure = measure => {
+  onRemoveHabit = habit => {
     const {
       selectedReflection: {
-        data: {measures},
+        data: {habits},
       },
     } = this.props;
-    const filtered = measures.filter(item => item.title !== measure.title);
-    this.props.updateSelectedReflection({measures: filtered});
+    const filtered = habits.filter(item => item.title !== habit.title);
+    this.props.updateSelectedReflection({habits: filtered});
   };
 
-  onChangeMeasure = (index, text) => {
+  onChangeHabit = (index, text) => {
     const {
       selectedReflection: {
-        data: {measures},
+        data: {habits},
       },
     } = this.props;
-    measures[index] = {
-      ...measures[index],
+    habits[index] = {
+      ...habits[index],
       title: text,
     };
-    this.props.updateSelectedReflection({measures});
+    this.props.updateSelectedReflection({habits});
   };
 
-  addNewMeasure = title => {
+  addNewHabit = title => {
     const {
       selectedReflection: {
-        data: {measures},
+        data: {habits},
       },
     } = this.props;
     if (title.length === 0) return;
-    measures.push({title, completed: undefined});
-    this.props.updateSelectedReflection({measures});
-    this.setState({newMeasureTitle: ''});
+    habits.push({title, completed: undefined});
+    this.props.updateSelectedReflection({habits});
+    this.setState({newHabitTitle: ''});
 
-    // scroll up content after adding new measure to avoid hiding keyboard
+    // scroll up content after adding new habit to avoid hiding keyboard
     const position = this.scrollView._root.position;
     this.scrollView &&
       this.scrollView._root.scrollToPosition(0, position.y + dySize(65), true);
@@ -155,18 +155,18 @@ class EditObjectiveScreen extends React.PureComponent {
     return this.props.selectedReflection.data.title.length > 0;
   };
 
-  validateMeasures = () => {
+  validateHabits = () => {
     return (
-      this.props.selectedReflection.data.measures.length > 0 ||
-      this.state.newMeasureTitle.length > 0
+      this.props.selectedReflection.data.habits.length > 0 ||
+      this.state.newHabitTitle.length > 0
     );
   };
 
   onPressBack = () => {
     const {selectedReflection} = this.props;
-    if (this.state.newMeasureTitle.length > 0) {
-      selectedReflection.data.measures.push({
-        title: this.state.newMeasureTitle,
+    if (this.state.newHabitTitle.length > 0) {
+      selectedReflection.data.habits.push({
+        title: this.state.newHabitTitle,
       });
     }
     // save draft for add new screens only(not edit screen)
@@ -211,7 +211,7 @@ class EditObjectiveScreen extends React.PureComponent {
   );
 
   render() {
-    const {newMeasureTitle, submitted} = this.state;
+    const {newHabitTitle, submitted} = this.state;
     const {
       t,
       theme,
@@ -220,17 +220,17 @@ class EditObjectiveScreen extends React.PureComponent {
       selectedUsers,
     } = this.props;
     const {
-      data: {title, isDaily, measures, deadline},
+      data: {title, isDaily, habits},
     } = selectedReflection;
     const isErrorTitle = !this.validateTitle();
-    const isErrorMeasures = !this.validateMeasures();
+    const isErrorHabits = !this.validateHabits();
     return (
       <MCRootView>
         <MCHeader
           title={
             selectedReflection._id
-              ? t('objective_edit_title')
-              : t('objective_add_title')
+              ? t('habit_edit_title')
+              : t('habit_add_title')
           }
           hasRight
           rightIcon="cloud-upload-alt"
@@ -245,7 +245,7 @@ class EditObjectiveScreen extends React.PureComponent {
           <MCView row align="center">
             <MCIcon name="ios-information-circle-outline" padding={1} />
             <H3 ml={10} weight="bold">
-              {t('objective_header_title')}
+              {t('habit_header_title')}
             </H3>
           </MCView>
           <MCTextFormInput
@@ -259,7 +259,7 @@ class EditObjectiveScreen extends React.PureComponent {
           <MCView row align="center" mb={20}>
             <MCIcon name="md-alarm" padding={1} />
             <H3 ml={10} weight="bold">
-              {t('objective_period')}
+              {t('habit_period')}
             </H3>
           </MCView>
           <MCView row align="center" mb={10}>
@@ -267,7 +267,7 @@ class EditObjectiveScreen extends React.PureComponent {
               style={{flex: 1}}
               onClick={() => updateSelectedReflection({isDaily: false})}
               isChecked={!isDaily}
-              rightText={t('objective_weekly_checkmark_title')}
+              rightText={t('habit_weekly_checkmark_title')}
               rightTextStyle={{
                 color: theme.colors.text,
                 fontSize: theme.base.FONT_SIZE_LARGE,
@@ -280,7 +280,7 @@ class EditObjectiveScreen extends React.PureComponent {
               style={{flex: 1}}
               onClick={() => updateSelectedReflection({isDaily: true})}
               isChecked={isDaily}
-              rightText={t('objective_daily_checkmark_title')}
+              rightText={t('habit_daily_checkmark_title')}
               rightTextStyle={{
                 color: theme.colors.text,
                 fontSize: theme.base.FONT_SIZE_LARGE,
@@ -294,10 +294,10 @@ class EditObjectiveScreen extends React.PureComponent {
           <MCView row align="center" mt={20}>
             <MCIcon name="ruler" type="Entypo" padding={1} size={16} />
             <H3 ml={10} weight="bold">
-              {t('objective_measure_title')}
+              {t('habit_item_title')}
             </H3>
           </MCView>
-          {measures.map((measure, index) => (
+          {habits.map((habit, index) => (
             <MCView key={index} row align="center" mb={5}>
               <H4 width={30} align="center">
                 {index + 1}.
@@ -305,43 +305,43 @@ class EditObjectiveScreen extends React.PureComponent {
               <MCView style={{flex: 1}}>
                 <MCEditableText
                   maxLength={60}
-                  text={measure.title}
-                  onChange={text => this.onChangeMeasure(index, text)}
+                  text={habit.title}
+                  onChange={text => this.onChangeHabit(index, text)}
                 />
               </MCView>
-              <MCButton onPress={() => this.onRemoveMeasure(measure)}>
+              <MCButton onPress={() => this.onRemoveHabit(habit)}>
                 <MCIcon name="ios-remove-circle-outline" padding={1} />
               </MCButton>
             </MCView>
           ))}
           <MCView row align="center">
             <H4 width={30} align="center">
-              {measures.length + 1}.
+              {habits.length + 1}.
             </H4>
             <MCView style={{flex: 1}}>
               <MCEditableText
                 maxLength={60}
-                text={newMeasureTitle}
+                text={newHabitTitle}
                 blurOnSubmit={false}
-                onChange={text => this.setState({newMeasureTitle: text})}
-                onSubmit={() => this.addNewMeasure(newMeasureTitle)}
+                onChange={text => this.setState({newHabitTitle: text})}
+                onSubmit={() => this.addNewHabit(newHabitTitle)}
               />
             </MCView>
-            <MCButton onPress={() => this.addNewMeasure(newMeasureTitle)}>
+            <MCButton onPress={() => this.addNewHabit(newHabitTitle)}>
               <MCIcon name="ios-add-circle-outline" padding={1} />
             </MCButton>
           </MCView>
-          {isErrorMeasures && submitted && (
-            <ErrorText>{t('error_input_measures')}</ErrorText>
+          {isErrorHabits && submitted && (
+            <ErrorText>{t('error_input_habits')}</ErrorText>
           )}
           <MCView row align="center" mt={20}>
             <MCIcon name="ios-person-add" padding={1} />
             <H3 ml={10} weight="bold">
-              {t('objective_social_accountability_title')}
+              {t('habit_social_accountability_title')}
             </H3>
           </MCView>
           <H4 color={theme.colors.border}>
-            {t('objective_social_accountability_bottom')}
+            {t('habit_social_accountability_bottom')}
           </H4>
           <MCCard>
             <FlatList
@@ -362,7 +362,7 @@ class EditObjectiveScreen extends React.PureComponent {
                 width={250}
                 bordered
                 background={theme.colors.danger}>
-                <H3>{t('button_remove_objective')}</H3>
+                <H3>{t('button_remove_habit')}</H3>
               </MCButton>
             </MCView>
           )}
@@ -393,5 +393,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(EditObjectiveScreen),
+  )(EditHabitScreen),
 );

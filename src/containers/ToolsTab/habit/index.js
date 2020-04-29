@@ -6,7 +6,7 @@ import {reflectionActions, otherActions, userActions} from 'Redux/actions';
 import {MCHeader, MCIcon} from 'components/common';
 import NavigationService from 'navigation/NavigationService';
 import {getTodayStartDateStamp} from 'services/operators';
-import ObjectiveTabView from './TabView';
+import HabitTabView from './TabView';
 import {AppleSvg} from 'assets/svgs';
 
 class GoalScreen extends React.Component {
@@ -18,28 +18,23 @@ class GoalScreen extends React.Component {
   }
 
   componentWillMount() {
-    const {
-      profile,
-      showUserObjectives,
-      getUserCommits,
-      resetMyObjectives,
-    } = this.props;
-    showUserObjectives(false);
+    const {profile, showUserHabits, getUserCommits, resetMyHabits} = this.props;
+    showUserHabits(false);
     getUserCommits(profile._id);
 
     // reset current object and set time for the next reset
-    resetMyObjectives();
+    resetMyHabits();
     const resetTimeIn =
       getTodayStartDateStamp() + 86400 * 1000 - new Date().getTime();
     setTimeout(() => {
-      resetMyObjectives();
+      resetMyHabits();
     }, resetTimeIn);
   }
 
   onPressNew = () => {
     this.props.setSeletedUsers([]);
-    this.props.setInitialReflection('objective');
-    NavigationService.navigate('EditObjective');
+    this.props.setInitialReflection('habit');
+    NavigationService.navigate('EditHabit');
   };
 
   render() {
@@ -50,13 +45,13 @@ class GoalScreen extends React.Component {
     return (
       <View style={{flex: 1}}>
         <MCHeader
-          title={t('objective_headerTitle')}
+          title={t('habit_headerTitle')}
           hasRight
           rightIcon="plus"
           onPressRight={() => this.onPressNew()}
           headerIcon={<AppleSvg size={25} />}
         />
-        <ObjectiveTabView initialIndex={params ? params.tabIndex : 0} />
+        <HabitTabView initialIndex={params ? params.tabIndex : 0} />
       </View>
     );
   }
@@ -66,9 +61,9 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
-  resetMyObjectives: reflectionActions.resetMyObjectives,
+  resetMyHabits: reflectionActions.resetMyHabits,
   getUserCommits: otherActions.getUserCommits,
-  showUserObjectives: otherActions.showUserObjectives,
+  showUserHabits: otherActions.showUserHabits,
   setSeletedUsers: userActions.setSeletedUsers,
 };
 
