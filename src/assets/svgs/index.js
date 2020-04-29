@@ -11,6 +11,7 @@ import FragileSvg from './Fragile';
 import KeySvg from './Key';
 import FutureSvg from './Future';
 import IceCreamSvg from './IceCream';
+import HeadPhoneSvg from './HeadSideHeadPhone';
 
 export {
   UsersSvg,
@@ -26,4 +27,5 @@ export {
   FutureSvg,
   IceCreamSvg,
   FaucetWhiteSvg,
+  HeadPhoneSvg,
 };
