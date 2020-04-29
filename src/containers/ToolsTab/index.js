@@ -14,6 +14,7 @@ import EditNeedScreen from './need/edit';
 import TapToCountScreen from './tab_to_count';
 import EditEmotionScreen from './emotion/edit';
 import KnowYourSelfStack from './profile_basic';
+import EditPersonalityScreen from '../ProfileTab/profile/details/personality';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,10 @@ class ToolsTabStack extends React.Component {
         <Stack.Screen name="Needs" component={NeedScreen} />
         <Stack.Screen name="EditNeed" component={EditNeedScreen} />
         <Stack.Screen name="TapToCounts" component={TapToCountScreen} />
+        <Stack.Screen
+          name="EditPersonality"
+          component={EditPersonalityScreen}
+        />
       </Stack.Navigator>
     );
   }

@@ -8,6 +8,9 @@ import {
   AddTapToCountIcon,
   AddValueIcon,
   SparrowImage,
+  PeafowlImage,
+  RockhopperImage,
+  AlbatrossImage,
 } from '../assets/images';
 
 // Constants used for testing
@@ -1928,7 +1931,19 @@ export const DiscoverValues = [
     value: 'beauty',
     category: 'universalism',
     name: 'indian_peafowl',
-    icon: 'grin-beam',
+    image: PeafowlImage,
+  },
+  {
+    value: 'daring',
+    category: 'simulation',
+    name: 'rockhopper',
+    image: RockhopperImage,
+  },
+  {
+    value: 'freedom',
+    category: 'self-direction',
+    name: 'albatross',
+    image: AlbatrossImage,
   },
   {
     value: 'creativity',

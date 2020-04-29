@@ -30,4 +30,7 @@ export const SpeedoMeterImage = require('./images/profile/speedometer.png');
 export const BodyStress = require('./images/tools/body_stress.png');
 export const BodyStressWhite = require('./images/tools/body_stress_white_theme.png');
 export const SparrowImage = require('./images/tools/sparrow-large.png');
+export const AlbatrossImage = require('./images/tools/albatross.png');
+export const PeafowlImage = require('./images/tools/peafowl.png');
+export const RockhopperImage = require('./images/tools/rockhopper.png');
 export const AppleImage = require('./images/tools/apple.png');

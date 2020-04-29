@@ -30,8 +30,16 @@ export default class MCIcon extends React.PureComponent {
 
   render() {
     const {type} = this.props;
-    if (type === 'FontAwesome5Pro') {
-      return <FAProIcon {...this.props} light />;
+    if (type.indexOf('FontAwesome5Pro') > -1) {
+      const fontType = type.split('-')[1];
+      return (
+        <FAProIcon
+          {...this.props}
+          light={fontType === 'Light'}
+          regular={fontType === 'Regular'}
+          solid={fontType === 'Solid'}
+        />
+      );
     } else {
       return <NBIcon {...this.props} />;
     }

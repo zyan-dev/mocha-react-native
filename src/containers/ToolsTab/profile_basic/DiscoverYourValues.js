@@ -251,10 +251,10 @@ class DiscoverValueScreen extends React.Component {
                       borderRadius: 10,
                       padding: dySize(10),
                     }}>
-                    <H5>
+                    <H5 style={{letterSpacing: 5}}>
                       {t(`value_category_${value.category}`).toUpperCase()}
                     </H5>
-                    <H4 weight="bold">{t(`tools_tab_value_${value.value}`)}</H4>
+                    <H3 weight="bold">{t(`tools_tab_value_${value.value}`)}</H3>
                     <MCView style={{flex: 1}} align="center" justify="center">
                       {value.image && (
                         <MCImage
@@ -272,7 +272,9 @@ class DiscoverValueScreen extends React.Component {
                         />
                       )}
                     </MCView>
-                    <H5>{t(`value_name_${value.name}`).toUpperCase()}</H5>
+                    <H5 style={{letterSpacing: 5}}>
+                      {t(`value_name_${value.name}`).toUpperCase()}
+                    </H5>
                     <H5 weight="italic" align="center">
                       {t(`value_name_${value.name}_description`)}
                     </H5>

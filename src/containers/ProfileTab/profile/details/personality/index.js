@@ -26,7 +26,7 @@ class PersonalityScreen extends React.PureComponent {
     }
   }
 
-  onSaveMyPersonality = () => {
+  onSubmit = () => {
     this.props.addOrUpdateReflection();
   };
 
@@ -34,7 +34,7 @@ class PersonalityScreen extends React.PureComponent {
     const {updateSelectedReflection} = this.props;
     if (Number(value) > 100) {
       updateSelectedReflection({[key]: 100});
-    } else if (Number(value) < 0) {
+    } else if (Number(value) < 0 || value.length === 0) {
       updateSelectedReflection({[key]: '0'});
     } else {
       updateSelectedReflection({[key]: Number(value)});
@@ -67,8 +67,10 @@ class PersonalityScreen extends React.PureComponent {
     return (
       <MCRootView>
         <MCHeader
+          hasRight
           title={t('profile_card_personality')}
-          onPressBack={() => this.onSaveMyPersonality()}
+          rightIcon="cloud-upload-alt"
+          onPressRight={() => this.onSubmit()}
         />
         <MCContent>
           {selectedReflection.data && (
