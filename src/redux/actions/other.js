@@ -62,3 +62,8 @@ export const changeToolsTab = key => ({
 export const checkedCompletedBasicProfile = () => ({
   type: types.CHECKED_COMPLETED_BASIC_PROFILE,
 });
+
+export const sendEmail = data => ({
+  type: types.SEND_EMAIL,
+  payload: data,
+});

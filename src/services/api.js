@@ -125,6 +125,8 @@ const fileUploadToS3 = async ({image, name, type}) => {
   }
 };
 
+const sendEmail = param => apiCall('post', `${URL_RESOURCE}/contact-us`, param);
+
 export default {
   sendSMS,
   verifySMS,
@@ -163,4 +165,5 @@ export default {
   updateResources,
   removeResources,
   getSupportedObjectives,
+  sendEmail,
 };

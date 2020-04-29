@@ -295,3 +295,17 @@ export function* removeFavoriteTool(action) {
   const filtered = favoriteTools.filter(i => i.key !== action.payload.key);
   yield put({type: types.SET_FAVORITE_TOOLS, payload: filtered});
 }
+
+export function* sendEmail(action) {
+  console.log(action.payload);
+  try {
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.sendEmail, action.payload);
+    console.log(response);
+    yield put({type: types.API_FINISHED});
+    showAlert(response.data.data.message);
+  } catch (e) {
+    yield put({type: types.API_FINISHED});
+    showAlert(e.toString());
+  }
+}
