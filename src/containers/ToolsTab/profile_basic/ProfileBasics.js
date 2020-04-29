@@ -33,7 +33,11 @@ class ProfileBasicScreen extends React.Component {
         <MCHeader
           title={t('tools_tab_profile_basic')}
           headerIcon={
-            <MCIcon type="FontAwesome5Pro" name="chess-pawn" size={30} />
+            <MCIcon
+              type="FontAwesome5Pro-Solid"
+              name="chess-pawn-alt"
+              size={50}
+            />
           }
         />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
