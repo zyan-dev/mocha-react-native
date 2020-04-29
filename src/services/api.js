@@ -24,6 +24,7 @@ const URL_USER_PROFILE = '/user/profile/';
 const URL_NETWORK = '/network';
 const URL_COMMIT = '/commit';
 const URL_RESOURCE = '/resource';
+const URL_CONTACT_US = '/contact-us';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -125,7 +126,7 @@ const fileUploadToS3 = async ({image, name, type}) => {
   }
 };
 
-const sendEmail = param => apiCall('post', `${URL_RESOURCE}/contact-us`, param);
+const sendEmail = param => apiCall('post', `${URL_CONTACT_US}`, param);
 
 export default {
   sendSMS,

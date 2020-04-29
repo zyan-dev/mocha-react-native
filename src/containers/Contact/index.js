@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 
 import {MCHeader, MCTextFormInput} from 'components/common';
-import {MCView, MCRootView, MCContent} from 'components/styled/View';
+import {MCRootView, MCContent} from 'components/styled/View';
 import {otherActions} from 'Redux/actions';
 import {dySize} from 'utils/responsive';
 import {validateEmail} from 'services/operators';
@@ -59,6 +59,7 @@ class ContactusScreen extends React.Component {
       isErrorEmail,
     } = this.state;
     const {t} = this.props;
+
     return (
       <MCRootView>
         <MCHeader
