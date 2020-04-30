@@ -2,78 +2,86 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FlatList} from 'react-native';
 import {withTranslation} from 'react-i18next';
+import * as _ from 'lodash';
 import {MCCard, MCView} from 'components/styled/View';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCImage, MCModal} from 'components/common';
+import {MCIcon, MCModal} from 'components/common';
 import {dySize} from 'utils/responsive';
+import {StrengthOptions} from '../../../../utils/constants';
 
 class SkillsCard extends React.Component {
   static propTypes = {
-    skills: PropTypes.arrayOf(Object),
-    onPressDetails: PropTypes.func,
+    strength: PropTypes.object,
+    onPressEdit: PropTypes.func,
     editable: PropTypes.bool,
   };
 
   static defaultProps = {
     editable: true,
-    skills: [],
-    onPressDetails: () => undefined,
+    strength: {},
+    onPressEdit: () => undefined,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedSkill: null,
-      showModal: false,
-    };
-  }
-
-  onPressItem = (language) => {
-    this.setState({selectedLanguage: language, showModal: true});
-  };
-
-  _renderItem = (item) => {
-    const skill = item.data;
+  _renderItem = ({item}) => {
+    const {t} = this.props;
+    const option = item;
+    const strength = StrengthOptions.find(i => i.key === option);
+    if (!strength) return null;
     return (
-      <MCCard width={140} key={item._id} mr={15} align="center">
-        <MCButton
-          align="center"
-          onPress={() => this.onPressItem(item)}></MCButton>
-      </MCCard>
+      <MCView
+        bordered
+        br={10}
+        width={140}
+        align="center"
+        pt={1}
+        ph={10}
+        mt={10}
+        ml={5}
+        mr={5}>
+        <MCView height={50} justify="center" align="center">
+          <H4 weight="bold" align="center">
+            {t(`tools_tab_strength_${strength.key}`)}
+          </H4>
+        </MCView>
+        <MCView height={100} justify="center" align="center">
+          <H4 justify="center" align="center">
+            {t(`tools_tab_strength_${strength.key}_description`)}
+          </H4>
+        </MCView>
+        <MCIcon type={strength.iconType} name={strength.icon} size={30} />
+      </MCView>
     );
   };
 
   render() {
-    const {t, skills, editable} = this.props;
-    const {selectedSkill, showModal} = this.state;
+    const {t, strength, editable, onPressEdit} = this.props;
+    const skills = _.get(strength, ['data', 'options'], []);
     return (
       <MCView align="center">
         <MCView row align="center" mb={20}>
-          <H3 weight="bold" style={{flex: 1}}>
-            {t('profile_card_skill')}
-          </H3>
+          <MCView row align="center" style={{flex: 1}}>
+            <H3 weight="bold">{t('profile_card_skill')}</H3>
+            <MCIcon type="FontAwesome5Pro" name="hammer" />
+          </MCView>
           {editable && (
-            <MCButton onPress={() => this.props.onPressDetails()}>
-              <H5 underline>{t('view_all')}</H5>
+            <MCButton onPress={() => onPressEdit()}>
+              <MCIcon type="FontAwesome5" name="edit" />
             </MCButton>
           )}
         </MCView>
         <FlatList
-          data={skills.slice(0, 4)}
+          data={skills}
           renderItem={this._renderItem}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item}
           numColumns={2}
           style={{width: dySize(300)}}
-          ListEmptyComponent={<MCEmptyText>{t('coming soon')}</MCEmptyText>}
+          ListEmptyComponent={
+            <MCEmptyText>
+              {editable ? t('no_result') : t('profile_card_empty_strength')}
+            </MCEmptyText>
+          }
         />
-        {selectedSkill && (
-          <MCModal
-            isVisible={showModal}
-            onClose={() => this.setState({showModal: false})}>
-            <MCView align="center" width={300} mt={20}></MCView>
-          </MCModal>
-        )}
       </MCView>
     );
   }

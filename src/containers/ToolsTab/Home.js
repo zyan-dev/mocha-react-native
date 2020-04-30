@@ -26,80 +26,92 @@ class AddReflectionScreen extends React.Component {
   componentDidMount() {
     if (!this.props.visitedTools) {
       this.setState({showWelcomeModal: true});
-      this.props.addFavoriteTool(this.ToolsBodyCards[0]);
+      this.props.setFavoriteTools(this.ToolsMindCards);
     }
   }
 
   WelcomeToolsDescription = {
     title: i18next.t('welcome_tools_description', {
-      bold: i18next.t('outline_profile_basics'),
+      bold: i18next.t('outline_profile_basic'),
     }),
-    boldWordKeys: ['profile_basics'],
+    boldWordKeys: ['profile_basic'],
   };
 
-  ToolsBodyCards = [
+  ToolsMindCards = [
     {
-      key: 'profile',
-      title: i18next.t('tools_card_title_profile_basic', {
+      key: 'profile_basic',
+      title: i18next.t('tools_card_title_profile', {
         bold: i18next.t('outline_profile_basic'),
       }),
       boldWordKeys: ['profile_basic'],
       duration: '15~30',
-      iconType: 'Ionicon',
-      icon: 'ios-body',
+      iconType: 'FontAwesome5Pro-Solid',
+      icon: 'chess-pawn-alt',
       navigateTo: 'ProfileBasic',
     },
     {
+      key: 'profile_advanced',
+      title: i18next.t('tools_card_title_profile', {
+        bold: i18next.t('outline_profile_advanced'),
+      }),
+      boldWordKeys: ['profile_advanced'],
+      duration: '15~30',
+      iconType: 'FontAwesome5Pro-Solid',
+      icon: 'chess-knight-alt',
+      navigateTo: '',
+    },
+    {
+      key: 'profile_expert',
+      title: i18next.t('tools_card_title_profile', {
+        bold: i18next.t('outline_profile_expert'),
+      }),
+      boldWordKeys: ['profile_expert'],
+      duration: '15~30',
+      iconType: 'FontAwesome5Pro-Solid',
+      icon: 'chess-queen-alt',
+      navigateTo: '',
+    },
+    {
+      key: 'personality',
+      title: i18next.t('tools_card_title_profile', {
+        bold: i18next.t('outline_personality'),
+      }),
+      boldWordKeys: ['personality'],
+      duration: '15~30',
+      iconType: 'FontAwesome5Pro',
+      icon: 'fingerprint',
+      navigateTo: 'EditPersonality',
+    },
+  ];
+
+  ToolsBodyCards = [
+    {
       key: 'body1',
       title: i18next.t('tools_card_title_body1'),
-      duration: '15~30',
-      iconType: 'Ionicon',
+      duration: '3',
+      iconType: 'Ionicons',
       icon: 'ios-body',
     },
     {
       key: 'body2',
       title: i18next.t('tools_card_title_body2'),
-      duration: '15~30',
-      iconType: 'Ionicon',
+      duration: '4',
+      iconType: 'Ionicons',
       icon: 'ios-body',
     },
     {
       key: 'body3',
       title: i18next.t('tools_card_title_body3'),
-      duration: '15~30',
-      iconType: 'Ionicon',
+      duration: '5',
+      iconType: 'Ionicons',
       icon: 'ios-body',
     },
-  ];
-
-  ToolsMindCards = [
     {
-      key: 'mind1',
-      title: i18next.t('tools_card_title_mind1'),
-      duration: '3',
-      iconType: 'FontAwesome5',
-      icon: 'brain',
-    },
-    {
-      key: 'mind2',
-      title: i18next.t('tools_card_title_mind2'),
-      duration: '4',
-      iconType: 'FontAwesome5',
-      icon: 'brain',
-    },
-    {
-      key: 'mind3',
-      title: i18next.t('tools_card_title_mind3'),
-      duration: '5',
-      iconType: 'FontAwesome5',
-      icon: 'brain',
-    },
-    {
-      key: 'mind4',
-      title: i18next.t('tools_card_title_mind4'),
+      key: 'body4',
+      title: i18next.t('tools_card_title_body4'),
       duration: '6',
-      iconType: 'FontAwesome5',
-      icon: 'brain',
+      iconType: 'Ionicons',
+      icon: 'ios-body',
     },
   ];
 
@@ -141,15 +153,15 @@ class AddReflectionScreen extends React.Component {
       registerRequired: true,
     },
     {
-      key: 'goal',
+      key: 'habit',
       duration: '4-6',
       title: i18next.t('tools_card_title_goal', {
         bold: i18next.t('outline_goal'),
       }),
       boldWordKeys: ['goal'],
-      iconType: 'Ionicon',
-      icon: 'ios-compass',
-      navigateTo: 'Objectives',
+      iconType: 'FontAwesome5Pro',
+      icon: 'apple-alt',
+      navigateTo: 'Habits',
       registerRequired: true,
     },
     {
@@ -254,7 +266,7 @@ class AddReflectionScreen extends React.Component {
           align="center"
           pt={20}
           onPress={() => this.onPressCard(card)}>
-          <MCView height={60} justify="center">
+          <MCView height={60} justify="center" ph={10}>
             {getStringWithOutline(card)}
           </MCView>
           <MCIcon type={card.iconType} name={card.icon} size={40} />
@@ -383,6 +395,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   addFavoriteTool: otherActions.addFavoriteTool,
+  setFavoriteTools: otherActions.setFavoriteTools,
   removeFavoriteTool: otherActions.removeFavoriteTool,
   changeToolsTab: otherActions.changeToolsTab,
   visitToolsTab: routerActions.visitToolsTab,

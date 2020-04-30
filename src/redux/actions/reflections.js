@@ -49,15 +49,15 @@ export const updateTapToCounts = tapToCounts => ({
   payload: tapToCounts,
 });
 
-export const resetMyObjectives = () => ({
-  type: types.RESET_MY_OBJECTIVES,
+export const resetMyHabits = () => ({
+  type: types.RESET_MY_HABITS,
 });
 
-export const getSupportedObjectives = () => ({
-  type: types.GET_SUPPORTED_OJBECTIVES,
+export const getSupportedHabits = () => ({
+  type: types.GET_SUPPORTED_HABITS,
 });
 
-export const reactToObjective = reflection => ({
+export const reactToHabit = reflection => ({
   type: types.UPDATE_SPECIFIC_REFLECTION,
   payload: reflection,
 });

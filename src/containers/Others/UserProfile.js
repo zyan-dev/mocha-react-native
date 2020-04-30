@@ -19,7 +19,7 @@ import MotivationCard from '../ProfileTab/profile/components/Motivations';
 import LanguagesCard from '../ProfileTab/profile/components/Languages';
 import SkillsCard from '../ProfileTab/profile/components/Skills';
 import UserManualsCard from '../ProfileTab/profile/components/UserManuals';
-import ObjectivesCard from '../ProfileTab/profile/components/Objectives';
+import HabitCard from '../ProfileTab/profile/components/Habits';
 import ChronotypeCard from '../ProfileTab/profile/components/Chronotype';
 import PersonalityCard from '../ProfileTab/profile/components/Personality';
 import StressAndComfortCard from '../ProfileTab/profile/components/StressAndComfort';
@@ -31,9 +31,12 @@ import AttachmentCard from '../ProfileTab/profile/components/Attachment';
 import ApproachCard from '../ProfileTab/profile/components/Approach';
 import FeedbackPreferenceCard from '../ProfileTab/profile/components/FeedbackPreference';
 import BehaviorPreferenceCard from '../ProfileTab/profile/components/BehaviorPreference';
+import NutritionCard from '../ProfileTab/profile/components/Nutrition';
+import HydrationCard from '../ProfileTab/profile/components/Hydration';
 import NavigationService from 'navigation/NavigationService';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
+import {FaucetWhiteSvg} from 'assets/svgs';
 
 class UserProfileScreen extends React.Component {
   constructor(props) {
@@ -67,8 +70,8 @@ class UserProfileScreen extends React.Component {
     this.setState({selected: icon.key});
   };
 
-  onPressAllObjectives = tabIndex => {
-    NavigationService.navigate('UserObjective', {
+  onPressAllHabits = tabIndex => {
+    NavigationService.navigate('UserHabit', {
       id: this.props.profile._id,
       tabIndex,
     });
@@ -89,11 +92,15 @@ class UserProfileScreen extends React.Component {
       feedbacks,
       motivations,
       chronotype,
+      nutrition,
+      hydration,
       personality,
-      dailyObjectives,
-      weeklyObjectives,
+      dailyHabits,
+      weeklyHabits,
       feedbackPreference,
       behaviorPreference,
+      strength,
+      stress,
     } = this.props;
     if (unknownUser) {
       return (
@@ -146,17 +153,39 @@ class UserProfileScreen extends React.Component {
               {selected === 'belief' && (
                 <UserManualsCard manuals={manuals} editable={false} />
               )}
-              {selected === 'objective' && (
-                <ObjectivesCard
+              {selected === 'habit' && (
+                <HabitCard
                   editable={false}
-                  dailyObjectives={dailyObjectives}
-                  weeklyObjectives={weeklyObjectives}
-                  onPressAllDaily={() => this.onPressAllObjectives(0)}
-                  onPressAllWeekly={() => this.onPressAllObjectives(1)}
+                  dailyHabits={dailyHabits}
+                  weeklyHabits={weeklyHabits}
+                  onPressAll={() => this.onPressAllHabits(0)}
                 />
               )}
               {selected === 'chronotype' && (
-                <ChronotypeCard chronotype={chronotype} editable={false} />
+                <ChronotypeCard
+                  theme={theme}
+                  chronotype={chronotype}
+                  editable={false}
+                />
+              )}
+              {selected === 'nutrition' && (
+                <NutritionCard
+                  editable={false}
+                  nutrition={nutrition}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditNutrition')
+                  }
+                />
+              )}
+              {selected === 'hydration' && (
+                <HydrationCard
+                  theme={theme}
+                  editable={false}
+                  hydration={hydration}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditHydration')
+                  }
+                />
               )}
               {selected === 'personality' && (
                 <PersonalityCard personality={personality} editable={false} />
@@ -196,16 +225,27 @@ class UserProfileScreen extends React.Component {
                   width={50}
                   align="center"
                   onPress={() => this.onPressProfileIcon(icon)}>
-                  <MCIcon
-                    type={icon.iconType}
-                    name={icon.icon}
-                    size={selected === icon.key ? 30 : 20}
-                    color={
-                      selected === icon.key
-                        ? theme.colors.outline
-                        : theme.colors.text
-                    }
-                  />
+                  {icon.key === 'hydration' ? (
+                    <FaucetWhiteSvg
+                      size={selected === icon.key ? 30 : 20}
+                      color={
+                        selected === icon.key
+                          ? theme.colors.outline
+                          : theme.colors.text
+                      }
+                    />
+                  ) : (
+                    <MCIcon
+                      type={icon.iconType}
+                      name={icon.icon}
+                      size={selected === icon.key ? 30 : 20}
+                      color={
+                        selected === icon.key
+                          ? theme.colors.outline
+                          : theme.colors.text
+                      }
+                    />
+                  )}
                 </MCButton>
               ))}
             </MCContent>
@@ -246,15 +286,23 @@ const mapStateToProps = state => ({
     state,
     'Chronotype',
   ),
+  nutrition: selector.reflections.findUserSpecialReflections(
+    state,
+    'Nutrition',
+  ),
+  hydration: selector.reflections.findUserSpecialReflections(
+    state,
+    'Hydration',
+  ),
   personality: selector.reflections.findUserSpecialReflections(
     state,
     'Personality',
   ),
-  dailyObjectives: selector.reflections
-    .getUserSpecialReflections(state, 'Objective')
+  dailyHabits: selector.reflections
+    .getUserSpecialReflections(state, 'Habit')
     .filter(({data}) => data.isDaily),
-  weeklyObjectives: selector.reflections
-    .getUserSpecialReflections(state, 'Objective')
+  weeklyHabits: selector.reflections
+    .getUserSpecialReflections(state, 'Habit')
     .filter(({data}) => !data.isDaily),
   feedbackPreference: selector.reflections.findUserSpecialReflections(
     state,
@@ -264,6 +312,8 @@ const mapStateToProps = state => ({
     state,
     'BehaviorPreference',
   ),
+  strength: selector.reflections.findUserSpecialReflections(state, 'Strength'),
+  stress: selector.reflections.findUserSpecialReflections(state, 'Stress'),
 });
 
 const mapDispatchToProps = {

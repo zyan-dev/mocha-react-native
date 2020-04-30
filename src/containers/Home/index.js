@@ -29,13 +29,13 @@ class MainHomeStack extends React.Component {
     } = this.props;
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
-      onRegister: async function (token) {
+      onRegister: async function(token) {
         const fcmToken = await messaging().getToken();
         console.log('FCM PushToken: ', fcmToken); // used FCM token instead of APNs token on iOS
         setProfileData({pushToken: fcmToken});
       },
       // (required) Called when a remote or local notification is opened or received
-      onNotification: function (notification) {
+      onNotification: function(notification) {
         console.log('NOTIFICATION:', notification);
         // process the notification here
         // Sample notification data
@@ -85,12 +85,12 @@ class MainHomeStack extends React.Component {
               NavigationService.navigate('MyTrustNetwork');
             });
             break;
-          case 'complete.objective':
+          case 'complete.habit':
             const userId = notification.data.userId;
             getUserProfile(userId);
             getUserReflections(userId);
             setTimeout(() => {
-              NavigationService.navigate('UserObjective', {id: userId});
+              NavigationService.navigate('UserHabit', {id: userId});
             });
             break;
           default:
@@ -113,7 +113,7 @@ class MainHomeStack extends React.Component {
   render() {
     return (
       <Tab.Navigator
-        tabBar={(props) => <TabView {...props} />}
+        tabBar={props => <TabView {...props} />}
         initialRouteName="TabTools"
         backBehavior="none" // not handle back button
         headerMode="none">
@@ -134,4 +134,7 @@ const mapDispatchToProps = {
   getUserReflections: reflectionActions.getUserReflections,
 };
 
-export default connect(undefined, mapDispatchToProps)(MainHomeStack);
+export default connect(
+  undefined,
+  mapDispatchToProps,
+)(MainHomeStack);

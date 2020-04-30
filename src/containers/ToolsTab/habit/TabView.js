@@ -5,13 +5,13 @@ import {withTranslation} from 'react-i18next';
 import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
 import {reflectionActions, otherActions, userActions} from 'Redux/actions';
 import {H5} from 'components/styled/Text';
-import WeeklyObjectiveScreen from './Weekly';
-import AnalyzeObjectiveScreen from './Analyze';
-import DailyObjectiveScreen from './Daily';
-import SupportObjectiveScreen from './Support';
+import WeeklyHabitScreen from './Weekly';
+import AnalyzeHabitScreen from './Analyze';
+import DailyHabitScreen from './Daily';
+import SupportHabitScreen from './Support';
 import {dySize} from 'utils/responsive';
 
-class ObjectiveTabView extends React.Component {
+class HabitTabView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,33 +23,33 @@ class ObjectiveTabView extends React.Component {
     this.setState({index: i});
     switch (i) {
       case 2:
-        this.props.getSupportedObjectives();
+        this.props.getSupportedHabits();
         break;
       default:
     }
   };
 
   render() {
-    const {t, theme, isShowingUserObjective} = this.props;
+    const {t, theme, isShowingUserHabit} = this.props;
     const {index} = this.state;
     let routes = [
       {
         key: 'daily',
-        title: t('objective_daily_tabTitle'),
+        title: t('habit_daily_tabTitle'),
       },
       {
         key: 'weekly',
-        title: t('objective_weekly_tabTitle'),
+        title: t('habit_weekly_tabTitle'),
       },
       {
         key: 'analyze',
-        title: t('objective_analyze_tabTitle'),
+        title: t('habit_analyze_tabTitle'),
       },
     ];
-    if (!isShowingUserObjective) {
+    if (!isShowingUserHabit) {
       routes.splice(2, 0, {
         key: 'support',
-        title: t('objective_support_tabTitle'),
+        title: t('habit_support_tabTitle'),
       });
     }
     const renderTabBar = props => (
@@ -61,7 +61,7 @@ class ObjectiveTabView extends React.Component {
           borderBottomWidth: 0,
         }}
         scrollEnabled
-        tabStyle={{width: isShowingUserObjective ? dySize(125) : dySize(100)}}
+        tabStyle={{width: isShowingUserHabit ? dySize(125) : dySize(100)}}
         renderLabel={({route, focused, color}) => {
           return (
             <H5
@@ -78,10 +78,10 @@ class ObjectiveTabView extends React.Component {
         <TabView
           navigationState={{index, routes}}
           renderScene={SceneMap({
-            daily: DailyObjectiveScreen,
-            weekly: WeeklyObjectiveScreen,
-            analyze: AnalyzeObjectiveScreen,
-            support: SupportObjectiveScreen,
+            daily: DailyHabitScreen,
+            weekly: WeeklyHabitScreen,
+            analyze: AnalyzeHabitScreen,
+            support: SupportHabitScreen,
           })}
           onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}
@@ -93,16 +93,16 @@ class ObjectiveTabView extends React.Component {
 }
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  isShowingUserObjective: state.otherReducer.isShowingUserObjective,
+  isShowingUserHabit: state.otherReducer.isShowingUserHabit,
 });
 
 const mapDispatchToProps = {
-  getSupportedObjectives: reflectionActions.getSupportedObjectives,
+  getSupportedHabits: reflectionActions.getSupportedHabits,
 };
 
 export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(ObjectiveTabView),
+  )(HabitTabView),
 );

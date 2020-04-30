@@ -42,14 +42,14 @@ function* mySaga() {
     types.ADD_OR_UPDATE_REFLECTION,
     reflectionSaga.addOrUpdateReflection,
   );
-  yield takeEvery(types.RESET_MY_OBJECTIVES, reflectionSaga.resetMyObjectives);
+  yield takeEvery(types.RESET_MY_HABITS, reflectionSaga.resetMyHabits);
   yield takeEvery(
-    types.GET_SUPPORTED_OJBECTIVES,
-    reflectionSaga.getSupportedObjectives,
+    types.GET_SUPPORTED_HABITS,
+    reflectionSaga.getSupportedHabits,
   );
   yield takeEvery(
     types.UPDATE_SPECIFIC_REFLECTION,
-    reflectionSaga.reactToObjective,
+    reflectionSaga.reactToHabit,
   );
 
   // feedback

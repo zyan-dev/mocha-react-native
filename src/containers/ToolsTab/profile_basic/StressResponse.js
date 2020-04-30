@@ -1,5 +1,4 @@
 import React from 'react';
-import {Linking} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import YouTube from 'react-native-youtube';
@@ -13,6 +12,7 @@ import {MCHeader, MCImage, MCIcon} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {BodyStress, BodyStressWhite} from 'assets/images';
+import {HeadPhoneSvg} from 'assets/svgs';
 
 const embedLink = 'https://www.youtube.com/watch?v=q7OAlcyE5M8';
 const bodyPartButtons = [
@@ -134,16 +134,6 @@ class BodyAwarenessScreen extends React.Component {
     this.props.addOrUpdateReflection();
   };
 
-  onPressEmbedLink = () => {
-    Linking.canOpenURL(embedLink).then(supported => {
-      if (supported) {
-        Linking.openURL(embedLink);
-      } else {
-        console.log("Don't know how to open URI: " + embedLink);
-      }
-    });
-  };
-
   validateParts = () => {
     return this.props.selectedReflection.data.parts.length > 0;
   };
@@ -166,7 +156,7 @@ class BodyAwarenessScreen extends React.Component {
         <MCHeader
           hasRight
           title={t('tools_tab_stress_response')}
-          headerIcon={<MCIcon type="FontAwesome5Pro" name="fragile" />}
+          headerIcon={<HeadPhoneSvg theme={theme} size={30} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}
@@ -175,14 +165,10 @@ class BodyAwarenessScreen extends React.Component {
           <H3 align="center" weight="bold">
             {t('tools_tab_body_scan_title')}
           </H3>
-          <H4 mt={20}>{t('tools_tab_attachment_link_explain')}</H4>
-          <MCButton onPress={() => this.onPressEmbedLink()}>
-            <H4 underline>{embedLink}</H4>
-          </MCButton>
+          <H4 mt={20}>{t('tools_tab_body_scan_description1')}</H4>
+          <H4 mt={20}>{t('tools_tab_body_scan_description2')}</H4>
           <YouTube
             videoId="q7OAlcyE5M8" // The YouTube video ID
-            play={playVideo} // control playback of video with true/false
-            loop // control whether the video should loop when ended
             onError={e => this.setState({errorVideo: e.error})}
             style={{
               alignSelf: 'center',
@@ -194,11 +180,9 @@ class BodyAwarenessScreen extends React.Component {
           {errorVideo.length > 0 && (
             <ErrorText>{t('error_input_select_empty')}</ErrorText>
           )}
-          <MCView row justify="center" align="center" mt={20}>
-            <H3 weight="bold" mr={10}>
-              {t('tools_tab_body_stress_title')}
-            </H3>
-            <MCIcon type="FontAwesome5Pro" name="fragile" size={30} />
+          <MCView row justify="center" align="center" mt={40} mb={20}>
+            <H3 weight="bold">{t('tools_tab_body_stress_title')}</H3>
+            <MCIcon type="FontAwesome5Pro-light" name="fragile" size={30} />
           </MCView>
           <H4>{t('tools_tab_body_stress_question')}</H4>
           <H4 mt={10}>{t('select_all_that_apply')}</H4>

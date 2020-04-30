@@ -1,7 +1,7 @@
 import React from 'react';
 import Toast from 'react-native-root-toast';
 import {MCView} from 'components/styled/View';
-import {H4} from 'components/styled/Text';
+import {H3, H4} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import moment from 'moment';
 import i18next from 'i18next';
@@ -122,28 +122,28 @@ export const getWeekStartDateStamp = () => {
   return getTodayStartDateStamp() - new Date().getDay() * 86400 * 1000;
 };
 
-export const getUpdatedMeasures = (measures, origin) => {
+export const getUpdatedHabits = (habits, origin) => {
   const todayKey = getCommitKey(new Date());
   let temp = {};
-  measures.map(measure => {
-    const find = origin.data.measures.find(i => i.title === measure.title);
+  habits.map(habit => {
+    const find = origin.data.habits.find(i => i.title === habit.title);
     if (find) {
-      // existing measure
-      if (find.completed && !measure.completed) {
+      // existing habit
+      if (find.completed && !habit.completed) {
         const findKey = getCommitKey(new Date(find.completed));
         temp = {
           ...temp,
           [findKey]: temp[findKey] ? temp[todayKey] - 1 : -1,
         };
-      } else if (!find.completed && measure.completed) {
+      } else if (!find.completed && habit.completed) {
         temp = {
           ...temp,
           [todayKey]: temp[todayKey] ? temp[todayKey] + 1 : 1,
         };
       }
     } else {
-      // new measure
-      if (measure.completed) {
+      // new habit
+      if (habit.completed) {
         temp = {
           ...temp,
           [todayKey]: temp[todayKey] ? temp[todayKey] + 1 : 1,
@@ -184,6 +184,7 @@ export const getStringWithOutline = (
   center = 'center',
   bold = true,
   underline = false,
+  bigSize = false,
 ) => {
   // outline can be bold or underline
   let str = textData.title;
@@ -198,22 +199,41 @@ export const getStringWithOutline = (
       if (boldIndex > 0) {
         snippets.push(str.substr(0, boldIndex));
       }
-      snippets.push(
-        <H4
-          weight={bold ? 'bold' : 'regular'}
-          underline={underline}
-          align="center">
-          {str.substr(boldIndex, boldWord.length)}
-        </H4>,
-      );
+      if (bigSize) {
+        snippets.push(
+          <H3
+            weight={bold ? 'bold' : 'regular'}
+            underline={underline}
+            align="center">
+            {str.substr(boldIndex, boldWord.length)}
+          </H3>,
+        );
+      } else {
+        snippets.push(
+          <H4
+            weight={bold ? 'bold' : 'regular'}
+            underline={underline}
+            align="center">
+            {str.substr(boldIndex, boldWord.length)}
+          </H4>,
+        );
+      }
       str = str.substr(boldIndex + boldWord.length);
     });
   }
 
   snippets.push(str);
-  return (
-    <MCView row style={{width: '100%'}}>
-      <H4 align={center}>{snippets.map(snippet => snippet)}</H4>
-    </MCView>
-  );
+  if (bigSize) {
+    return (
+      <MCView row style={{width: '100%'}}>
+        <H3 align={center}>{snippets.map(snippet => snippet)}</H3>
+      </MCView>
+    );
+  } else {
+    return (
+      <MCView row style={{width: '100%'}}>
+        <H4 align={center}>{snippets.map(snippet => snippet)}</H4>
+      </MCView>
+    );
+  }
 };

@@ -14,7 +14,7 @@ import {
 
 const colors = ['#99AA99', '#669966', '#11BB11', '#00FF00'];
 
-class AnalyzeObjectiveScreen extends React.Component {
+class AnalyzeHabitScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -223,5 +223,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(AnalyzeObjectiveScreen),
+  )(AnalyzeHabitScreen),
 );

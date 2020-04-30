@@ -18,6 +18,7 @@ import {dySize} from 'utils/responsive';
 import {AttachmentOptions} from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
 import {AppleImage} from 'assets/images';
+import {AppleSvg} from 'assets/svgs';
 
 class SetHabitScreen extends React.Component {
   constructor(props) {
@@ -53,7 +54,10 @@ class SetHabitScreen extends React.Component {
         data: {habits},
       },
     } = this.props;
-    habits[index] = text;
+    habits[index] = {
+      ...habits[index],
+      title: text,
+    };
     this.props.updateSelectedReflection({habits});
   };
 
@@ -63,7 +67,7 @@ class SetHabitScreen extends React.Component {
         data: {habits},
       },
     } = this.props;
-    const filtered = habits.filter(item => item !== habit);
+    const filtered = habits.filter(item => item.title !== habit.title);
     this.props.updateSelectedReflection({habits: filtered});
   };
 
@@ -74,7 +78,7 @@ class SetHabitScreen extends React.Component {
       },
     } = this.props;
     if (title.length === 0) return;
-    habits.push(title);
+    habits.push({title});
     this.props.updateSelectedReflection({habits});
     this.setState({newHabitTitle: ''});
 
@@ -115,7 +119,9 @@ class SetHabitScreen extends React.Component {
     if (!this.validateHabits()) return;
     updateSelectedReflection({
       habits:
-        newHabitTitle.length > 0 ? habits.concat([newHabitTitle]) : habits,
+        newHabitTitle.length > 0
+          ? habits.concat([{title: newHabitTitle}])
+          : habits,
     });
     this.setState({newHabitTitle: ''});
     this.props.addOrUpdateReflection();
@@ -135,9 +141,11 @@ class SetHabitScreen extends React.Component {
   render() {
     const {submitted, newHabitTitle} = this.state;
     const {t, selectedReflection, updateSelectedReflection} = this.props;
+    console.log({selectedReflection});
     const title = _.get(selectedReflection, ['data', 'title'], undefined);
-    if (title === undefined) return null;
-    const {habits, isDaily} = selectedReflection.data;
+    const habits = _.get(selectedReflection, ['data', 'habits'], []);
+    const isDaily = _.get(selectedReflection, ['data', 'isDaily'], true);
+    if (selectedReflection.type !== 'Habit') return null;
     const isErrorTitle = !this.validateTitle();
     const isErrorHabits = !this.validateHabits();
     return (
@@ -145,14 +153,7 @@ class SetHabitScreen extends React.Component {
         <MCHeader
           hasRight
           title={t('tools_tab_set_a_habit')}
-          headerIcon={
-            <MCImage
-              image={AppleImage}
-              width={30}
-              height={30}
-              resizeMode="contain"
-            />
-          }
+          headerIcon={<AppleSvg size={30} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressSubmit()}
@@ -204,7 +205,7 @@ class SetHabitScreen extends React.Component {
               <MCView style={{flex: 1}}>
                 <MCEditableText
                   maxLength={60}
-                  text={habit}
+                  text={habit.title}
                   onChange={text => this.onChangeHabit(index, text)}
                 />
               </MCView>

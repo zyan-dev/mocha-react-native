@@ -20,10 +20,15 @@ import ValueScreen from '../ToolsTab/value';
 import EditValueScreen from '../ToolsTab/value/edit';
 import UserManualScreen from '../ToolsTab/usermanual';
 import EditUserManualScreen from '../ToolsTab/usermanual/edit';
-import ObjectiveScreen from '../ToolsTab/goal';
-import EditObjectiveScreen from '../ToolsTab/goal/Add';
+import HabitScreen from '../ToolsTab/habit';
+import EditHabitScreen from '../ToolsTab/habit/Add';
 import FeedbackPreferenceScreen from '../ToolsTab/profile_basic/FeedbackPreference';
 import BehaviorPreferenceScreen from '../ToolsTab/profile_basic/BehaviorPreference';
+import EditNutritionScreen from '../ToolsTab/profile_basic/Nutrition';
+import EditHydrationScreen from '../ToolsTab/profile_basic/Hydration';
+import EditStrengthScreen from '../ToolsTab/profile_basic/Strength';
+import EditBodyStressScreen from '../ToolsTab/profile_basic/StressResponse';
+import EditDreamScreen from '../ToolsTab/profile_basic/Dream';
 
 const Stack = createStackNavigator();
 
@@ -56,8 +61,8 @@ class ProfileTabStack extends React.Component {
             name="EditUserManual"
             component={EditUserManualScreen}
           />
-          <Stack.Screen name="Objectives" component={ObjectiveScreen} />
-          <Stack.Screen name="EditObjective" component={EditObjectiveScreen} />
+          <Stack.Screen name="Habits" component={HabitScreen} />
+          <Stack.Screen name="EditHabit" component={EditHabitScreen} />
 
           <Stack.Screen name="TimeLine" component={TimeLineScreen} />
           <Stack.Screen name="Analyze" component={AnalyzeScreen} />
@@ -82,6 +87,14 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen
             name="AddMotivation"
             component={CreateMotivationScreen}
+          />
+          <Stack.Screen name="EditNutrition" component={EditNutritionScreen} />
+          <Stack.Screen name="EditHydration" component={EditHydrationScreen} />
+          <Stack.Screen name="EditStrengths" component={EditStrengthScreen} />
+          <Stack.Screen name="EditDreams" component={EditDreamScreen} />
+          <Stack.Screen
+            name="EditBodyStress"
+            component={EditBodyStressScreen}
           />
         </Stack.Navigator>
       </Drawer>

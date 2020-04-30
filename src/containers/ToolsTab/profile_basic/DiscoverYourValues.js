@@ -12,6 +12,7 @@ import {MCHeader, MCImage, MCModal, MCIcon} from 'components/common';
 import {dySize, CURRENT_HEIGHT} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {DiscoverValues} from 'utils/constants';
+import {KeySvg} from 'assets/svgs';
 
 const cardViewHeight =
   CURRENT_HEIGHT - dySize(180) - 120 - (isIphoneX() ? 60 : 0);
@@ -178,7 +179,7 @@ class DiscoverValueScreen extends React.Component {
         <MCHeader
           hasRight={step === 1}
           title={t('tools_tab_discover_your_values')}
-          headerIcon={<MCIcon type="FontAwesome5Pro" name="key" size={30} />}
+          headerIcon={<KeySvg theme={theme} size={30} />}
           rightIcon={step ? 'cloud-upload-alt' : 'arrow-right'}
           onPressBack={() => this.onPressHeaderBack()}
           onPressRight={() => this.onPressSubmit()}
@@ -250,10 +251,10 @@ class DiscoverValueScreen extends React.Component {
                       borderRadius: 10,
                       padding: dySize(10),
                     }}>
-                    <H5>
+                    <H5 style={{letterSpacing: 5}}>
                       {t(`value_category_${value.category}`).toUpperCase()}
                     </H5>
-                    <H4 weight="bold">{t(`tools_tab_value_${value.value}`)}</H4>
+                    <H3 weight="bold">{t(`tools_tab_value_${value.value}`)}</H3>
                     <MCView style={{flex: 1}} align="center" justify="center">
                       {value.image && (
                         <MCImage
@@ -271,7 +272,9 @@ class DiscoverValueScreen extends React.Component {
                         />
                       )}
                     </MCView>
-                    <H5>{t(`value_name_${value.name}`).toUpperCase()}</H5>
+                    <H5 style={{letterSpacing: 5}}>
+                      {t(`value_name_${value.name}`).toUpperCase()}
+                    </H5>
                     <H5 weight="italic" align="center">
                       {t(`value_name_${value.name}_description`)}
                     </H5>

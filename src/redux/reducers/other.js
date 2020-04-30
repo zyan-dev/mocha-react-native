@@ -5,10 +5,11 @@ const INITIAL_STATE = {
   purchaseProducts: [], // pending, checking, incorrect, passed
   loadingProducts: false,
   commits: [],
-  isShowingUserObjective: false,
+  isShowingUserHabit: false,
   favoriteTools: [],
   profileTab: 'overview',
   toolsTab: 0,
+  completedBasicProfile: false,
 };
 
 const otherReducer = (state = INITIAL_STATE, action) => {
@@ -28,10 +29,10 @@ const otherReducer = (state = INITIAL_STATE, action) => {
         ...state,
         commits: action.payload,
       };
-    case types.SHOW_USER_OBJECTIVES:
+    case types.SHOW_USER_HABITS:
       return {
         ...state,
-        isShowingUserObjective: action.payload,
+        isShowingUserHabit: action.payload,
       };
     case types.SET_FAVORITE_TOOLS:
       return {
@@ -47,6 +48,11 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         toolsTab: action.payload,
+      };
+    case types.CHECKED_COMPLETED_BASIC_PROFILE:
+      return {
+        ...INITIAL_STATE,
+        completedBasicProfile: true,
       };
     case types.RESET_ALL_REDUCER:
       return {

@@ -6,14 +6,15 @@ import EditUserManualScreen from './usermanual/edit';
 import ValueScreen from './value';
 import EditValueScreen from './value/edit';
 import FeedbackStack from './feedback';
-import ObjectiveScreen from './goal';
-import EditObjectiveScreen from './goal/Add';
+import HabitScreen from './habit';
+import EditHabitScreen from './habit/Add';
 import EmotionScreen from './emotion';
 import NeedScreen from './need';
 import EditNeedScreen from './need/edit';
 import TapToCountScreen from './tab_to_count';
 import EditEmotionScreen from './emotion/edit';
 import KnowYourSelfStack from './profile_basic';
+import EditPersonalityScreen from '../ProfileTab/profile/details/personality';
 
 const Stack = createStackNavigator();
 
@@ -28,13 +29,17 @@ class ToolsTabStack extends React.Component {
         <Stack.Screen name="Values" component={ValueScreen} />
         <Stack.Screen name="EditValue" component={EditValueScreen} />
         <Stack.Screen name="Feedbacks" component={FeedbackStack} />
-        <Stack.Screen name="Objectives" component={ObjectiveScreen} />
-        <Stack.Screen name="EditObjective" component={EditObjectiveScreen} />
+        <Stack.Screen name="Habits" component={HabitScreen} />
+        <Stack.Screen name="EditHabit" component={EditHabitScreen} />
         <Stack.Screen name="Emotions" component={EmotionScreen} />
         <Stack.Screen name="EditEmotion" component={EditEmotionScreen} />
         <Stack.Screen name="Needs" component={NeedScreen} />
         <Stack.Screen name="EditNeed" component={EditNeedScreen} />
         <Stack.Screen name="TapToCounts" component={TapToCountScreen} />
+        <Stack.Screen
+          name="EditPersonality"
+          component={EditPersonalityScreen}
+        />
       </Stack.Navigator>
     );
   }

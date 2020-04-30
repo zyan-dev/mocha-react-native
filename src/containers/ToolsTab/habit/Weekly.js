@@ -26,7 +26,7 @@ const ReactionView = styled(MCView)`
   background-color: ${props => props.theme.colors.card};
 `;
 
-class WeeklyObjectiveScreen extends React.Component {
+class WeeklyHabitScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,54 +37,39 @@ class WeeklyObjectiveScreen extends React.Component {
   onPressEdit = item => {
     this.props.selectReflection(item);
     this.props.setSeletedUsers(item.data.collaborators);
-    NavigationService.navigate('EditObjective');
+    NavigationService.navigate('EditHabit');
   };
 
-  onToggleCheck = (objective, measure) => {
-    if (this.props.isShowingUserObjective) return;
-    this.props.selectReflection(objective);
-    const updated = objective.data.measures.map(i => {
-      if (i.title === measure.title) {
+  onToggleCheck = (habit, habitItem) => {
+    if (this.props.isShowingUserHabit) return;
+    this.props.selectReflection(habit);
+    const updated = habit.data.habits.map(i => {
+      if (i.title === habitItem.title) {
         return {
-          title: measure.title,
-          completed: measure.completed ? undefined : new Date().getTime(),
+          title: habitItem.title,
+          completed: habitItem.completed ? undefined : new Date().getTime(),
         };
       } else {
         return i;
       }
     });
-    this.props.updateSelectedReflection({measures: updated});
+    this.props.updateSelectedReflection({habits: updated});
     this.props.addOrUpdateReflection('');
     this.props.updateAnalyzeStatus({
       data: [
         {
-          date: getCommitKey(measure.completed || new Date().getTime()),
-          amount: measure.completed ? -1 : 1,
+          date: getCommitKey(habitItem.completed || new Date().getTime()),
+          amount: habitItem.completed ? -1 : 1,
         },
       ],
     });
   };
 
-  filterObjectives = objectives => {
-    const {filterOption} = this.state;
-    if (filterOption === 'all') return objectives;
-    if (filterOption === 'completed')
-      return objectives.filter(({data: {measures}}) => {
-        const incompleted = measures.filter(measure => !measure.completed);
-        return incompleted.length === 0;
-      });
-    if (filterOption === 'expired')
-      return objectives.filter(({data: {measures, deadline}}) => {
-        const incompleted = measures.filter(measure => !measure.completed);
-        return new Date().getDay() > deadline && incompleted.length > 0;
-      });
-  };
-
   _renderItem = ({item}) => {
-    const {t, theme, isShowingUserObjective} = this.props;
+    const {t, theme, isShowingUserHabit} = this.props;
     const {
       title,
-      measures,
+      habits,
       collaborators,
       deadline,
       love,
@@ -94,30 +79,21 @@ class WeeklyObjectiveScreen extends React.Component {
       congrats,
       crown,
     } = item.data;
-    const incompleted = measures.filter(measure => !measure.completed);
-    const expired = new Date().getDay() > deadline && incompleted.length > 0;
-    const deadlineColor = expired ? theme.colors.danger : theme.colors.text;
-    let when = t(`week_${getWeekDay(deadline)}`);
+    const incompleted = habits.filter(habit => !habit.completed);
     return (
-      <MCView
-        width={350}
-        bordered
-        br={10}
-        align="center"
-        mb={10}
-        error={expired}>
+      <MCView width={350} bordered br={10} align="center" mb={10}>
         <MCCard shadow br={1} row align="center">
           <H4 style={{flex: 1}} align="center">
             {title}
           </H4>
         </MCCard>
-        {measures.map((measure, index) => (
+        {habits.map((habit, index) => (
           <CheckBox
             key={index}
             style={{width: dySize(330), marginTop: 10}}
-            onClick={() => this.onToggleCheck(item, measure)}
-            isChecked={measure.completed}
-            leftText={measure.title}
+            onClick={() => this.onToggleCheck(item, habit)}
+            isChecked={habit.completed}
+            leftText={habit.title}
             leftTextStyle={{
               color: theme.colors.text,
               fontSize: theme.base.FONT_SIZE_LARGE,
@@ -126,30 +102,27 @@ class WeeklyObjectiveScreen extends React.Component {
             checkBoxColor={theme.colors.text}
           />
         ))}
-        <MCView row align="center" mt={10} mb={isShowingUserObjective ? 10 : 0}>
+        <MCView row align="center" mt={10} mb={isShowingUserHabit ? 10 : 0}>
           <MCView
             row
             align="center"
             style={{flex: 1}}
             ml={30}
             overflow="visible">
-            {collaborators.map(user => (
-              <MCImage
-                key={user._id}
-                image={{uri: user.avatar}}
-                round
-                width={30}
-                height={30}
-                style={{marginLeft: dySize(-20)}}
-              />
-            ))}
-          </MCView>
-          <MCView row align="center" mr={10}>
-            <MCIcon name="md-alarm" color={deadlineColor} />
-            <H4 color={deadlineColor}>{`${t('by')} ${when}`}</H4>
+            {collaborators &&
+              collaborators.map(user => (
+                <MCImage
+                  key={user._id}
+                  image={{uri: user.avatar}}
+                  round
+                  width={30}
+                  height={30}
+                  style={{marginLeft: dySize(-20)}}
+                />
+              ))}
           </MCView>
         </MCView>
-        {!isShowingUserObjective && (
+        {!isShowingUserHabit && (
           <MCView row align="center" justify="flex-end" width={350}>
             <MCButton onPress={() => this.onPressEdit(item)}>
               <MCIcon name="ios-create" />
@@ -202,54 +175,19 @@ class WeeklyObjectiveScreen extends React.Component {
     const {
       t,
       theme,
-      isShowingUserObjective,
-      weeklyObjectives,
-      userWeeklyObjectives,
+      isShowingUserHabit,
+      weeklyHabits,
+      userWeeklyHabits,
     } = this.props;
-    const {filterOption} = this.state;
     return (
       <MCRootView justify="flex-start" align="center">
-        <MCView
-          bordered
-          br={10}
-          row
-          justify="space-between"
-          width={300}
-          mt={10}
-          mb={10}>
-          <MCButton
-            style={{flex: 1}}
-            onPress={() => this.setState({filterOption: 'all'})}
-            background={filterOption === 'all' ? theme.colors.card : undefined}
-            align="center">
-            <H4>All</H4>
-          </MCButton>
-          <MCButton
-            style={{flex: 1}}
-            onPress={() => this.setState({filterOption: 'completed'})}
-            background={
-              filterOption === 'completed' ? theme.colors.card : undefined
-            }
-            align="center">
-            <H4 color={theme.colors.outline}>Completed</H4>
-          </MCButton>
-          <MCButton
-            style={{flex: 1}}
-            onPress={() => this.setState({filterOption: 'expired'})}
-            background={
-              filterOption === 'expired' ? theme.colors.card : undefined
-            }
-            align="center">
-            <H4 color={theme.colors.danger}>Expired</H4>
-          </MCButton>
-        </MCView>
         <FlatList
-          contentContainerStyle={{alignItems: 'center', width: dySize(375)}}
-          data={
-            isShowingUserObjective
-              ? this.filterObjectives(userWeeklyObjectives)
-              : this.filterObjectives(weeklyObjectives)
-          }
+          contentContainerStyle={{
+            alignItems: 'center',
+            width: dySize(375),
+            paddingVertical: 20,
+          }}
+          data={isShowingUserHabit ? userWeeklyHabits : weeklyHabits}
           renderItem={this._renderItem}
           keyExtractor={item => item._id}
           ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
@@ -261,12 +199,12 @@ class WeeklyObjectiveScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  isShowingUserObjective: state.otherReducer.isShowingUserObjective,
-  weeklyObjectives: selector.reflections
-    .getMySpecialReflections(state, 'Objective')
+  isShowingUserHabit: state.otherReducer.isShowingUserHabit,
+  weeklyHabits: selector.reflections
+    .getMySpecialReflections(state, 'Habit')
     .filter(({data}) => !data.isDaily),
-  userWeeklyObjectives: selector.reflections
-    .getUserSpecialReflections(state, 'Objective')
+  userWeeklyHabits: selector.reflections
+    .getUserSpecialReflections(state, 'Habit')
     .filter(({data}) => !data.isDaily),
 });
 
@@ -283,5 +221,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(WeeklyObjectiveScreen),
+  )(WeeklyHabitScreen),
 );

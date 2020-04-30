@@ -24,8 +24,8 @@ export const getUserCommits = userId => ({
   payload: userId,
 });
 
-export const showUserObjectives = show => ({
-  type: types.SHOW_USER_OBJECTIVES,
+export const showUserHabits = show => ({
+  type: types.SHOW_USER_HABITS,
   payload: show,
 });
 
@@ -57,4 +57,8 @@ export const changeProfileTab = key => ({
 export const changeToolsTab = key => ({
   type: types.SET_TOOLS_TAB,
   payload: key,
+});
+
+export const checkedCompletedBasicProfile = () => ({
+  type: types.CHECKED_COMPLETED_BASIC_PROFILE,
 });

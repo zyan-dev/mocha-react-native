@@ -6,9 +6,9 @@ import {reflectionActions, otherActions, userActions} from 'Redux/actions';
 import {MCView} from 'components/styled/View';
 import {H4, H5} from 'components/styled/Text';
 import {MCHeader, MCImage, MCModal} from 'components/common';
-import ObjectiveTabView from '../ToolsTab/goal/TabView';
+import HabitTabView from '../ToolsTab/habit/TabView';
 
-class UserObjectiveScreen extends React.Component {
+class UserHabitScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,11 +18,11 @@ class UserObjectiveScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.props.showUserObjectives(true);
+    this.props.showUserHabits(true);
   }
 
   componentWillUnmount() {
-    this.props.showUserObjectives(false);
+    this.props.showUserHabits(false);
   }
 
   componentDidMount() {
@@ -42,14 +42,14 @@ class UserObjectiveScreen extends React.Component {
     return (
       <View style={{flex: 1}}>
         <MCHeader
-          title={t('whos_objective', {who: user.name.split(' ')[0]})}
+          title={t('whos_habit', {who: user.name.split(' ')[0]})}
           hasRight
           rightImage={
             <MCImage image={{uri: user.avatar}} round width={30} height={30} />
           }
           onPressRight={() => this.onPressHeaderAvatar()}
         />
-        <ObjectiveTabView initialIndex={tabIndex} />
+        <HabitTabView initialIndex={tabIndex} />
         <MCModal
           isVisible={showAvatarModal}
           onClose={() => this.setState({showAvatarModal: false})}>
@@ -74,15 +74,15 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
-  resetMyObjectives: reflectionActions.resetMyObjectives,
+  resetMyHabits: reflectionActions.resetMyHabits,
   getUserCommits: otherActions.getUserCommits,
   setSeletedUsers: userActions.setSeletedUsers,
-  showUserObjectives: otherActions.showUserObjectives,
+  showUserHabits: otherActions.showUserHabits,
 };
 
 export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(UserObjectiveScreen),
+  )(UserHabitScreen),
 );

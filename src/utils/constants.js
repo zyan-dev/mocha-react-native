@@ -8,6 +8,9 @@ import {
   AddTapToCountIcon,
   AddValueIcon,
   SparrowImage,
+  PeafowlImage,
+  RockhopperImage,
+  AlbatrossImage,
 } from '../assets/images';
 
 // Constants used for testing
@@ -111,7 +114,7 @@ export const AddReflectionSections = [
     duration: '4-6',
     boldWordKeys: ['goal'],
     icon: AddGoalIcon,
-    navigateTo: 'Objectives',
+    navigateTo: 'Habits',
     registerRequired: true,
   },
   {
@@ -301,8 +304,8 @@ export const NetworkPermissions = [
     icon: 'ios-body',
   },
   {
-    key: 'Objective',
-    label: 'objective',
+    key: 'Habit',
+    label: 'habit',
     iconType: 'Ionicon',
     icon: 'ios-compass',
   },
@@ -339,7 +342,7 @@ export const DaySliderValues = [
   '07:00 PM',
 ];
 
-export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8 or more'];
+export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8+'];
 
 export const SampleReflectionSections = {
   values: [
@@ -1324,11 +1327,11 @@ export const DefaultReflections = {
       story: '',
     },
   },
-  objective: {
-    type: 'Objective',
+  habit: {
+    type: 'Habit',
     data: {
       title: '',
-      measures: [],
+      habits: [],
       isDaily: false,
       deadline: 6,
       weekNum: getWeekNumber(new Date()),
@@ -1439,14 +1442,6 @@ export const DefaultReflections = {
       parts: [],
     },
   },
-  habit: {
-    type: 'Habit',
-    data: {
-      title: '',
-      habits: [],
-      isDaily: true,
-    },
-  },
   nutrition: {
     type: 'Nutrition',
     data: {
@@ -1465,6 +1460,13 @@ export const DefaultReflections = {
     type: 'Strength',
     data: {
       options: [],
+    },
+  },
+  dream: {
+    type: 'Dream',
+    data: {
+      main: '',
+      others: [],
     },
   },
 };
@@ -1567,13 +1569,13 @@ export const ProfileBasicCards = {
     width: 250,
     redirectTo: 'PB_DiscoverValue',
   },
-  future: {
+  dream: {
     title: 'dreams',
     iconType: 'FontAwesome5Pro',
     icon: 'city',
     minutes: 5,
     width: 250,
-    redirectTo: 'PB_Future',
+    redirectTo: 'PB_Dream',
   },
   habit: {
     title: 'habits',
@@ -1783,9 +1785,7 @@ export const profileIcons = [
     signinRequired: false,
   },
   {
-    key: 'dydration',
-    iconType: 'FontAwesome5Pro',
-    icon: 'dewpoint',
+    key: 'hydration',
     signinRequired: false,
   },
   {
@@ -1806,85 +1806,22 @@ export const profileIcons = [
     icon: 'key',
     signinRequired: false,
   },
-  // {
-  //   key: 'value',
-  //   iconType: 'Ionicon',
-  //   icon: 'ios-key',
-  //   signinRequired: false,
-  // },
-  // {
-  //   key: 'purpose',
-  //   iconType: 'Ionicon',
-  //   icon: 'ios-body',
-  //   signinRequired: true,
-  // },
-  // {
-  //   key: 'motivation',
-  //   iconType: 'Ionicon',
-  //   icon: 'ios-fitness',
-  //   signinRequired: false,
-  // },
-  // {
-  //   key: 'languages',
-  //   iconType: 'Ionicon',
-  //   icon: 'ios-heart',
-  //   signinRequired: true,
-  // },
-  // {
-  //   key: 'belief',
-  //   iconType: 'Ionicon',
-  //   icon: 'ios-cloud-upload',
-  //   signinRequired: false,
-  // },
-  // {
-  //   key: 'objective',
-  //   iconType: 'Ionicon',
-  //   icon: 'ios-compass',
-  //   signinRequired: true,
-  // },
-
-  // {
-  //   key: 'personality',
-  //   iconType: 'Ionicon',
-  //   icon: 'ios-finger-print',
-  //   signinRequired: false,
-  // },
-  // {
-  //   key: 'risk',
-  //   iconType: 'FontAwesome5',
-  //   icon: 'skiing',
-  //   signinRequired: true,
-  // },
+  {
+    key: 'dream',
+    signinRequired: false,
+  },
+  {
+    key: 'habit',
+    iconType: 'FontAwesome5Pro',
+    icon: 'apple-alt',
+    signinRequired: true,
+  },
   {
     key: 'feedback',
     iconType: 'Ionicon',
     icon: 'ios-people',
     signinRequired: true,
   },
-  // {
-  //   key: 'quirk',
-  //   iconType: 'Ionicon',
-  //   icon: 'ios-bowtie',
-  //   signinRequired: true,
-  // },
-  // {
-  //   key: 'trigger',
-  //   iconType: 'Ionicon',
-  //   icon: 'ios-warning',
-  //   signinRequired: true,
-  // },
-  // {
-  //   key: 'attachment',
-  //   iconType: 'Ionicon',
-  //   icon: 'ios-attach',
-  //   signinRequired: false,
-  // },
-  // {
-  //   key: 'approach',
-  //   iconType: 'FontAwesome5Pro',
-  //   icon: 'boxing-glove',
-  //   signinRequired: false,
-  // },
   {
     key: 'feedback_preference',
     iconType: 'Ionicon',
@@ -1895,6 +1832,72 @@ export const profileIcons = [
     key: 'behavior_preference',
     iconType: 'FontAwesome5',
     icon: 'thumbs-up',
+    signinRequired: false,
+  },
+  {
+    key: 'value',
+    iconType: 'Ionicon',
+    icon: 'ios-key',
+    signinRequired: false,
+  },
+  {
+    key: 'purpose',
+    iconType: 'Ionicon',
+    icon: 'ios-body',
+    signinRequired: true,
+  },
+  {
+    key: 'motivation',
+    iconType: 'Ionicon',
+    icon: 'ios-fitness',
+    signinRequired: false,
+  },
+  {
+    key: 'languages',
+    iconType: 'Ionicon',
+    icon: 'ios-heart',
+    signinRequired: true,
+  },
+  {
+    key: 'belief',
+    iconType: 'Ionicon',
+    icon: 'ios-cloud-upload',
+    signinRequired: false,
+  },
+  {
+    key: 'personality',
+    iconType: 'Ionicon',
+    icon: 'ios-finger-print',
+    signinRequired: false,
+  },
+  {
+    key: 'risk',
+    iconType: 'FontAwesome5',
+    icon: 'skiing',
+    signinRequired: true,
+  },
+  {
+    key: 'quirk',
+    iconType: 'Ionicon',
+    icon: 'ios-bowtie',
+    signinRequired: true,
+  },
+  {
+    key: 'trigger',
+    iconType: 'Ionicon',
+    icon: 'ios-warning',
+    signinRequired: true,
+  },
+  {
+    key: 'attachment',
+    iconType: 'Ionicon',
+    icon: 'ios-attach',
+    signinRequired: false,
+  },
+  {
+    key: 'approach',
+    iconType: 'FontAwesome5Pro',
+    icon: 'boxing-glove',
     signinRequired: false,
   },
 ];
@@ -1921,7 +1924,19 @@ export const DiscoverValues = [
     value: 'beauty',
     category: 'universalism',
     name: 'indian_peafowl',
-    icon: 'grin-beam',
+    image: PeafowlImage,
+  },
+  {
+    value: 'daring',
+    category: 'simulation',
+    name: 'rockhopper',
+    image: RockhopperImage,
+  },
+  {
+    value: 'freedom',
+    category: 'self-direction',
+    name: 'albatross',
+    image: AlbatrossImage,
   },
   {
     value: 'creativity',
@@ -2043,4 +2058,57 @@ export const StrengthOptions = [
     icon: 'books',
     width: 150,
   },
+];
+
+export const skills = [
+  'empathy',
+  'service',
+  'curiousity',
+  'leadership',
+  'character development',
+  'transcendence',
+  'humility',
+  'courage',
+  'perspective-taking',
+  'forgiveness',
+  'community',
+  'belonging',
+  'citizenship',
+  'optimism',
+  'spirituality',
+  'self-control',
+  'appreciation of beauty',
+  'social intelligence',
+  'kindness',
+  'gratitude',
+  'integrity',
+  'prudence',
+  'humor',
+  'perseverance',
+  'humility',
+  'love of learning',
+  'influence',
+  'persuasion',
+  'confidence',
+  'psychology',
+  'public speaking',
+  'thinking',
+  'critical thinking',
+];
+
+export const impacts = [
+  'impactful',
+  'theraputic',
+  'self-discovery',
+  'cathartic',
+  'life-changing',
+  'explanatory',
+  'important',
+  'helpful',
+  'life saving',
+  'must read',
+  're-read it every year',
+  'very important',
+  'essential',
+  'remarkable',
 ];

@@ -18,7 +18,7 @@ const INITIAL_STATE = {
   addTrustMember: {
     enabled: true,
   },
-  objective: {
+  habit: {
     enabled: true,
   },
   reaction: {
