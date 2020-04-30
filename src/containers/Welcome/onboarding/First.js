@@ -2,7 +2,7 @@ import React from 'react';
 import {withTranslation} from 'react-i18next';
 import i18next from 'i18next';
 
-import {MCRootView, MCView} from 'components/styled/View';
+import {MCRootView, MCView, MCContent} from 'components/styled/View';
 import {MCImage} from 'components/common';
 import {H2, H3, H4} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
@@ -33,39 +33,52 @@ class WelcomeOnboardFirst extends React.PureComponent {
           bordered
           br={60}
           ph={20}
-          pv={40}
-          mt={60}
-          mb={60}
+          mt={40}
+          mb={40}
           justify="center"
           align="center"
-          width={dySize(300)}>
+          width={320}>
           <MCImage
             image={WelcomeOnboardImage2}
             width={200}
             height={200}
             br={10}
+            style={{marginTop: dySize(30), marginBottom: dySize(20)}}
           />
-          <MCView align="center" mt={30}>
-            {getStringWithOutline(
-              this.MochaMeanQuestion,
-              'center',
-              true,
-              false,
-            )}
-          </MCView>
-          <MCView align="center" mt={15}>
-            {getStringWithOutline(this.MochaMeanAnswer, 'center', true, false)}
-          </MCView>
-          <H4 mt={30} align="center">
-            {t('welcome_onboard_first_text_3')}
-          </H4>
-          <H4 mt={30} align="center">
-            {t('welcome_onboard_first_text_4')}
-          </H4>
-          <MCView style={{flex: 1}} justify="center">
+          <MCContent
+            width={320}
+            contentContainerStyle={{
+              alignItems: 'center',
+              paddingHorizontal: 15,
+            }}>
+            <MCView align="center">
+              {getStringWithOutline(
+                this.MochaMeanQuestion,
+                'center',
+                true,
+                false,
+              )}
+            </MCView>
+            <MCView align="center" mt={15}>
+              {getStringWithOutline(
+                this.MochaMeanAnswer,
+                'center',
+                true,
+                false,
+              )}
+            </MCView>
+            <H4 mt={30} align="center">
+              {t('welcome_onboard_first_text_3')}
+            </H4>
+            <H4 mt={30} align="center">
+              {t('welcome_onboard_first_text_4')}
+            </H4>
+          </MCContent>
+          <MCView justify="center" mt={10} mb={20}>
             <H2>{t('welcome_onboard_first_core_text')}</H2>
           </MCView>
-          <MCView height={2} bordered mb={20} width={150} />
+          <MCView height={2} bordered width={150} />
+          <MCView height={80} />
         </MCView>
       </MCRootView>
     );
