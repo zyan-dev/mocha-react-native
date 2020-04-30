@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {withTranslation} from 'react-i18next';
 import {MCRootView, MCView} from 'components/styled/View';
 import {MCImage} from 'components/common';
-import {H2, H3} from 'components/styled/Text';
+import {H2, H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
@@ -33,6 +33,9 @@ class WelcomeToMocha extends React.PureComponent {
             resizeMode="contain"
           />
           <H2 mt={40}>{t('welcome_title')}</H2>
+          <H4 weight="italic" align="center">
+            {t('welcome_title_description')}
+          </H4>
           <MCButton
             bordered
             mt={30}
