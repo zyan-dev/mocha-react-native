@@ -47,7 +47,11 @@ class NetworkBasicPermissions extends React.Component {
         {BasicPermissions.map(p => {
           const selected = permissions.indexOf(p) > -1;
           return (
-            <MCButton row align="center" onPress={() => onToggleCheck(p)}>
+            <MCButton
+              key={p}
+              row
+              align="center"
+              onPress={() => onToggleCheck(p)}>
               <MCIcon
                 type="FontAwesome"
                 name={selected ? 'check-square' : 'square'}

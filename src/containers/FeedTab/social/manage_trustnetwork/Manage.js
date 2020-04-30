@@ -193,10 +193,11 @@ class ManageTrustNetworkScreen extends React.Component {
           )}
           <MCView mt={30}>
             <Swiper
+              loadMinimal
               loop={false}
               showsButtons={false}
               dot={<MCView width={8} height={8} mr={5} bordered br={4} />}
-              style={{height: dySize(500)}}
+              height={dySize(500)}
               paginationStyle={{
                 position: 'absolute',
                 top: 0,
