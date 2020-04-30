@@ -12,6 +12,15 @@ import KeySvg from './Key';
 import FutureSvg from './Future';
 import IceCreamSvg from './IceCream';
 import HeadPhoneSvg from './HeadSideHeadPhone';
+import BullhornSvg from './Bullhorn';
+import PointDownSvg from './PointDown';
+import AwardSvg from './Award';
+import MedalSvg from './Medal';
+import ExclamationSvg from './Exclamation';
+import BoxingSvg from './Boxing';
+import AttachmentSvg from './Attachment';
+import HandheartSvg from './Handheart';
+import TeaSvg from './Tea';
 
 export {
   UsersSvg,
@@ -28,4 +37,13 @@ export {
   IceCreamSvg,
   FaucetWhiteSvg,
   HeadPhoneSvg,
+  BullhornSvg,
+  PointDownSvg,
+  AwardSvg,
+  MedalSvg,
+  ExclamationSvg,
+  BoxingSvg,
+  AttachmentSvg,
+  HandheartSvg,
+  TeaSvg,
 };
