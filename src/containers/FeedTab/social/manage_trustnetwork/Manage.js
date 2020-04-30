@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Alert} from 'react-native';
 import {withTranslation} from 'react-i18next';
+import Swiper from 'react-native-swiper';
 import {FlatList} from 'react-native-gesture-handler';
 import {networkActions, userActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCCard, MCView} from 'components/styled/View';
@@ -9,8 +11,9 @@ import {H3, H4, ErrorText} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
-import {NetworkPermissions} from 'utils/constants';
-import {Alert} from 'react-native';
+import NetworkBasicPermissions from './BasicPermissions';
+import NetworkAdvancedPermissions from './AdvancedPermissions';
+import {BasicPermissions, AdvancedPermissions} from 'utils/constants';
 
 class ManageTrustNetworkScreen extends React.Component {
   constructor(props) {
@@ -81,6 +84,25 @@ class ManageTrustNetworkScreen extends React.Component {
       permissions.splice(index, 1);
     }
     updateSelectedTrustNetwork({permissions});
+  };
+
+  onToggleSelectAll = () => {
+    const {
+      updateSelectedTrustNetwork,
+      selectedNetwork: {permissions},
+    } = this.props;
+    if (
+      permissions.length ===
+      BasicPermissions.length + AdvancedPermissions.length
+    ) {
+      // if it was selected all, unset all
+      updateSelectedTrustNetwork({permissions: []});
+    } else {
+      // set all permissions
+      updateSelectedTrustNetwork({
+        permissions: BasicPermissions.concat(AdvancedPermissions),
+      });
+    }
   };
 
   _renderMemberItem = ({item}) => {
@@ -169,33 +191,39 @@ class ManageTrustNetworkScreen extends React.Component {
           {isErrorPermission && submitted && (
             <ErrorText>{t('error_trustnetwork_permissions')}</ErrorText>
           )}
-          <MCView align="center" mt={40}>
-            {NetworkPermissions.map(item => (
-              <MCButton
-                key={item.key}
-                row
-                width={300}
-                onPress={() => this.onToggleCheck(item.key)}>
-                {
-                  <MCIcon
-                    type="FontAwesome"
-                    name={
-                      selectedNetwork.permissions.indexOf(item.key) > -1
-                        ? 'check-square'
-                        : 'square'
-                    }
-                  />
-                }
-                <H3 style={{flex: 1}} ml={10}>
-                  {t(`trustnetwork_permissions_${item.label}`)}
-                </H3>
-                <MCView width={40} align="center">
-                  <MCIcon type={item.iconType} name={item.icon} />
-                </MCView>
-              </MCButton>
-            ))}
+          <MCView mt={30}>
+            <Swiper
+              loop={false}
+              showsButtons={false}
+              dot={<MCView width={8} height={8} mr={5} bordered br={4} />}
+              style={{height: dySize(500)}}
+              paginationStyle={{
+                position: 'absolute',
+                top: 0,
+                bottom: undefined,
+              }}
+              containerStyle={{paddingTop: 20}}
+              activeDot={
+                <MCView
+                  width={8}
+                  height={8}
+                  bordered
+                  br={4}
+                  mr={5}
+                  background={theme.colors.text}
+                />
+              }>
+              <NetworkBasicPermissions
+                permissions={selectedNetwork.permissions}
+                onToggleCheck={key => this.onToggleCheck(key)}
+                onSelectAll={() => this.onToggleSelectAll()}
+              />
+              <NetworkAdvancedPermissions
+                permissions={selectedNetwork.permissions}
+                onToggleCheck={key => this.onToggleCheck(key)}
+              />
+            </Swiper>
           </MCView>
-
           {!isNew && (
             <MCView mt={50} mb={30} align="center">
               <MCButton
@@ -204,7 +232,9 @@ class ManageTrustNetworkScreen extends React.Component {
                 width={250}
                 bordered
                 background={theme.colors.danger}>
-                <H3>{t('button_remove_trust_network')}</H3>
+                <H3 color={theme.colors.background}>
+                  {t('button_remove_trust_network')}
+                </H3>
               </MCButton>
             </MCView>
           )}

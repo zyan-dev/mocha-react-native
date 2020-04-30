@@ -260,55 +260,29 @@ export const SampleFeedbackQuestions = [
   'mocha_feedback_working-with-me',
 ];
 
-export const NetworkPermissions = [
-  {
-    key: 'Personal',
-    label: 'personal',
-    iconType: 'FontAwesome5',
-    icon: 'baby',
-  },
-  {
-    key: 'Feedback',
-    label: 'feedback',
-    iconType: 'Ionicon',
-    icon: 'ios-git-compare',
-  },
-  {
-    key: 'Risk',
-    label: 'risk',
-    iconType: 'Ionicon',
-    icon: 'ios-warning',
-  },
-  {
-    key: 'Attachment',
-    label: 'attachment',
-    iconType: 'Ionicon',
-    icon: 'ios-attach',
-  },
-  {
-    key: 'Approach',
-    label: 'approach',
-    iconType: 'FontAwesome5',
-    icon: 'hand-middle-finger',
-  },
-  {
-    key: 'Value',
-    label: 'value',
-    iconType: 'FontAwesome',
-    icon: 'key',
-  },
-  {
-    key: 'Body',
-    label: 'body-awareness',
-    iconType: 'Ionicon',
-    icon: 'ios-body',
-  },
-  {
-    key: 'Habit',
-    label: 'habit',
-    iconType: 'Ionicon',
-    icon: 'ios-compass',
-  },
+export const BasicPermissions = [
+  'contact',
+  'chronotype',
+  'nutrition',
+  'hydration',
+  'stress_response',
+  'strengths',
+  'core_values',
+  'dreams',
+  'habits',
+];
+
+export const AdvancedPermissions = [
+  'coach',
+  'criticism',
+  'praise',
+  'challenges_concerns',
+  'qualities_character',
+  'approach',
+  'attachment',
+  'comfort',
+  'stress_recovery',
+  'personality',
 ];
 
 export const NightSliderValues = [
