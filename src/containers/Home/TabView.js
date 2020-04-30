@@ -84,7 +84,8 @@ class TabView extends React.PureComponent {
       getMyProfile,
       getMyReflections,
       getMyFeedbacks,
-      showDrawer,
+      showProfileDrawer,
+      showSocialDrawer,
     } = this.props;
     const TabScreens = ['TabFeed', 'TabResource', 'TabTools', 'TabProfile'];
     const TabHomeScreens = [
@@ -93,9 +94,6 @@ class TabView extends React.PureComponent {
       {name: 'ToolsTabHome'},
       {name: 'Profile'},
     ];
-
-    // hide drawer on all tabs
-    showDrawer(false);
 
     this.setState({tabIndex: index});
 
@@ -120,6 +118,7 @@ class TabView extends React.PureComponent {
         // user clicked Social Tab
         userToken.length > 0 && getAllUsers();
         userToken.length > 0 && getAllTrustMembers();
+        showSocialDrawer(false);
         break;
       case 1:
         // user clicked Add Tab
@@ -133,6 +132,7 @@ class TabView extends React.PureComponent {
         userToken.length > 0 && getMyProfile();
         userToken.length > 0 && getMyReflections();
         userToken.length > 0 && getMyFeedbacks();
+        showProfileDrawer(false);
         break;
       default:
         break;
@@ -230,9 +230,10 @@ const mapDispatchToProps = {
   getMyReflections: reflectionActions.getMyReflections,
   getUserReflections: reflectionActions.getUserReflections,
   getMyFeedbacks: feedbackActions.getMyFeedbacks,
-  showDrawer: routerActions.setProfileDrawerOpened,
   changeProfileTab: otherActions.changeProfileTab,
   changeToolsTab: otherActions.changeToolsTab,
+  showSocialDrawer: routerActions.setSocialDrawerOpened,
+  showProfileDrawer: routerActions.setProfileDrawerOpened,
 };
 
 export default withTranslation()(

@@ -23,6 +23,13 @@ const MarkerTextView = styled.View`
   width: 50px;
 `;
 
+const MarkerBottomView = styled.View`
+  position: absolute;
+  margin-bottom: -45px;
+  width: 50px;
+  height: 50px;
+`;
+
 const MarkerContainer = styled.View`
   align-items: center;
   position: relative;
@@ -81,6 +88,17 @@ class MCTimeSlider extends React.PureComponent {
             <Scale key={value} />
           ))}
         </MCView>
+        {showBottomLabel && (
+          <MCView
+            row
+            justify="space-between"
+            width={width + 30}
+            ml={-15}
+            mb={-20}>
+            <H4>{values[0]}</H4>
+            <H4>{values[values.length - 1]}</H4>
+          </MCView>
+        )}
         <MultiSlider
           isMarkersSeparated={true}
           enabledOne={enabled}
@@ -95,6 +113,7 @@ class MCTimeSlider extends React.PureComponent {
                   <H4 align="center">{values[e.currentValue]}</H4>
                 </MarkerTextView>
                 <MarkerWrapper />
+                <MarkerBottomView />
               </MarkerContainer>
             );
           }}
@@ -111,6 +130,7 @@ class MCTimeSlider extends React.PureComponent {
                   <H4 align="center">{values[e.currentValue]}</H4>
                 </MarkerTextView>
                 <MarkerWrapper />
+                <MarkerBottomView />
               </MarkerContainer>
             );
           }}
@@ -121,19 +141,8 @@ class MCTimeSlider extends React.PureComponent {
           values={[start, end]}
           onValuesChange={this.multiSliderValuesChange}
           snapped
-          containerStyle={{marginTop: dySize(-36)}}
+          containerStyle={{marginTop: dySize(-46)}}
         />
-        {showBottomLabel && (
-          <MCView
-            row
-            justify="space-between"
-            width={width + 30}
-            ml={-15}
-            mt={-20}>
-            <H4>{values[0]}</H4>
-            <H4>{values[values.length - 1]}</H4>
-          </MCView>
-        )}
       </MCView>
     );
   }
