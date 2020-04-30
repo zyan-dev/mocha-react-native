@@ -7,10 +7,20 @@ import {
   AddNeedIcon,
   AddTapToCountIcon,
   AddValueIcon,
-  SparrowImage,
-  PeafowlImage,
-  RockhopperImage,
-  AlbatrossImage,
+  AnimalSparrow,
+  AnimalPeafowl,
+  AnimalRockhopper,
+  AnimalAlbatross,
+  AnimalChamois,
+  AnimalBat,
+  AnimalPolarBear,
+  AnimalSloth,
+  AnimalSalmon,
+  AnimalVulture,
+  AnimalBear,
+  AnimalWoodcock,
+  AnimalBuffalo,
+  AnimalTortoise,
 } from '../assets/images';
 
 // Constants used for testing
@@ -1887,30 +1897,93 @@ export const ApproachToConflictOptions = [
   'collaborating',
 ];
 
+export const ValueCardTextColor = '#222222';
+export const ValueCardBackgrounds = ['#FBE9E6', '#E9F6F9', '#E5E6E8'];
+
 export const DiscoverValues = [
   {
     value: 'social',
     category: 'power',
     name: 'sparrow',
-    image: SparrowImage,
+    image: AnimalSparrow,
   },
   {
     value: 'beauty',
     category: 'universalism',
     name: 'indian_peafowl',
-    image: PeafowlImage,
+    image: AnimalPeafowl,
   },
   {
     value: 'daring',
     category: 'simulation',
     name: 'rockhopper',
-    image: RockhopperImage,
+    image: AnimalRockhopper,
   },
   {
     value: 'freedom',
     category: 'self-direction',
     name: 'albatross',
-    image: AlbatrossImage,
+    image: AnimalAlbatross,
+  },
+  {
+    value: 'exciting_life',
+    category: 'stimulation',
+    name: 'chamois',
+    image: AnimalChamois,
+  },
+  {
+    value: 'reciprocation',
+    category: 'security',
+    name: 'bat',
+    image: AnimalBat,
+  },
+  {
+    value: 'family_security',
+    category: 'security',
+    name: 'polar_bear',
+    image: AnimalPolarBear,
+  },
+  {
+    value: 'unity_with_nature',
+    category: 'universalism',
+    name: 'sloth',
+    image: AnimalSloth,
+  },
+  {
+    value: 'meaning_in_life',
+    category: 'benevolence',
+    name: 'salmon',
+    image: AnimalSalmon,
+  },
+  {
+    value: 'spiritual_life',
+    category: 'benevolence',
+    name: 'vulture',
+    image: AnimalVulture,
+  },
+  {
+    value: 'self_indulgence',
+    category: 'hedonism',
+    name: 'grizzly_bear',
+    image: AnimalBear,
+  },
+  {
+    value: 'humility',
+    category: 'tradition',
+    name: 'woodcock',
+    image: AnimalWoodcock,
+  },
+  {
+    value: 'respect_for_tradition',
+    category: 'tradition',
+    name: 'american_bison',
+    image: AnimalBuffalo,
+  },
+  {
+    value: 'wisdom',
+    category: 'universalism',
+    name: 'tortoise',
+    image: AnimalTortoise,
   },
   {
     value: 'creativity',

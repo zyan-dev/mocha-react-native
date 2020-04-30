@@ -11,7 +11,11 @@ import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCImage, MCModal, MCIcon} from 'components/common';
 import {dySize, CURRENT_HEIGHT} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {DiscoverValues} from 'utils/constants';
+import {
+  DiscoverValues,
+  ValueCardBackgrounds,
+  ValueCardTextColor,
+} from 'utils/constants';
 import {KeySvg} from 'assets/svgs';
 
 const cardViewHeight =
@@ -237,7 +241,7 @@ class DiscoverValueScreen extends React.Component {
                   </>
                 )}
                 disableBottomSwipe>
-                {DiscoverValues.map(value => (
+                {DiscoverValues.map((value, index) => (
                   <Card
                     key={value.value + theme.colors.theme_name}
                     style={{
@@ -247,20 +251,24 @@ class DiscoverValueScreen extends React.Component {
                       justifyContent: 'center',
                       borderWidth: 1,
                       borderColor: theme.colors.border,
-                      backgroundColor: theme.colors.background,
+                      backgroundColor: ValueCardBackgrounds[index % 3],
                       borderRadius: 10,
+                      borderWidth: 12,
+                      borderColor: 'white',
                       padding: dySize(10),
                     }}>
-                    <H5 style={{letterSpacing: 5}}>
+                    <H5 style={{letterSpacing: 5}} color={ValueCardTextColor}>
                       {t(`value_category_${value.category}`).toUpperCase()}
                     </H5>
-                    <H3 weight="bold">{t(`tools_tab_value_${value.value}`)}</H3>
+                    <H3 weight="bold" color={ValueCardTextColor}>
+                      {t(`tools_tab_value_${value.value}`)}
+                    </H3>
                     <MCView style={{flex: 1}} align="center" justify="center">
                       {value.image && (
                         <MCImage
                           image={value.image}
-                          width={180}
-                          height={200}
+                          width={cardViewHeight * 0.5}
+                          height={250}
                           resizeMode="contain"
                         />
                       )}
@@ -269,13 +277,17 @@ class DiscoverValueScreen extends React.Component {
                           type="FontAwesome5"
                           name={value.icon}
                           size={60}
+                          color={ValueCardTextColor}
                         />
                       )}
                     </MCView>
-                    <H5 style={{letterSpacing: 5}}>
+                    <H5 style={{letterSpacing: 5}} color={ValueCardTextColor}>
                       {t(`value_name_${value.name}`).toUpperCase()}
                     </H5>
-                    <H5 weight="italic" align="center">
+                    <H5
+                      weight="italic"
+                      align="center"
+                      color={ValueCardTextColor}>
                       {t(`value_name_${value.name}_description`)}
                     </H5>
                   </Card>
