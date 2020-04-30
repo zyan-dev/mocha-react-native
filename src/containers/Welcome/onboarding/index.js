@@ -16,7 +16,7 @@ class WelcomeToMocha extends React.PureComponent {
       <Swiper
         loop={false}
         showsButtons={false}
-        paginationStyle={{marginBottom: dySize(50)}}
+        paginationStyle={{marginBottom: dySize(110)}}
         dot={<MCView width={8} height={8} mr={5} bordered br={4} />}
         activeDot={
           <MCView

@@ -295,3 +295,20 @@ export function* removeFavoriteTool(action) {
   const filtered = favoriteTools.filter(i => i.key !== action.payload.key);
   yield put({type: types.SET_FAVORITE_TOOLS, payload: filtered});
 }
+
+export function* sendEmail(action) {
+  try {
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.sendEmail, action.payload);
+    yield put({type: types.API_FINISHED});
+    if (response.data.status == 'success') {
+      showAlert('Your message has been sent correctly.');
+      NavigationService.goBack();
+    } else {
+      showAlert(response.data.data.message);
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED});
+    showAlert(e.toString());
+  }
+}

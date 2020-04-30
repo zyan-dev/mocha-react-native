@@ -3,17 +3,18 @@ import {connect} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {WaveIndicator} from 'react-native-indicators';
-import {routerActions} from 'Redux/actions';
+import Mixpanel from 'react-native-mixpanel';
+
 import {ABSView} from 'components/styled/View';
 import WelcomeStack from '../containers/Welcome';
 import MainHomeStack from '../containers/Home';
-import NavigationService from './NavigationService';
 import UserProfile from '../containers/Others/UserProfile';
 import SelectUserScreen from '../containers/Others/SelectUsers';
 import UserHabitScreen from '../containers/Others/UserHabits';
+import ContactScreen from '../containers/Contact';
+import NavigationService from './NavigationService';
 import {MixpanelToken} from 'utils/config';
-
-import Mixpanel from 'react-native-mixpanel';
+import {routerActions} from 'Redux/actions';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ class RootNavigator extends React.Component {
           <Stack.Screen name="UserProfile" component={UserProfile} />
           <Stack.Screen name="UserHabit" component={UserHabitScreen} />
           <Stack.Screen name="SelectUser" component={SelectUserScreen} />
+          <Stack.Screen name="Contact" component={ContactScreen} />
         </Stack.Navigator>
         {isLoading && (
           <ABSView>

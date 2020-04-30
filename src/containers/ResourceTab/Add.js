@@ -245,7 +245,7 @@ class AddResourceScreen extends React.PureComponent {
                   style={{
                     opacity: selectedImpacts.indexOf(impact) > -1 ? 1 : 0.5,
                   }}>
-                  <H4>{impact}</H4>
+                  <H4>{t(`resource_book_impact_${impact}`)}</H4>
                 </MCButton>
               ))}
             </MCView>
@@ -273,7 +273,7 @@ class AddResourceScreen extends React.PureComponent {
                   style={{
                     opacity: selectedSkills.indexOf(skill) > -1 ? 1 : 0.5,
                   }}>
-                  <H4>{skill}</H4>
+                  <H4>{t(`resource_book_skills_${skill}`)}</H4>
                 </MCButton>
               ))}
             </MCView>

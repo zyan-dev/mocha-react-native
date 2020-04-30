@@ -102,6 +102,7 @@ function* mySaga() {
   yield takeEvery(types.TRACK_MIXPANEL_EVENT, otherSaga.trackMixpanelEvent);
   yield takeEvery(types.ADD_FAVORITE_TOOL, otherSaga.addFavoriteTool);
   yield takeEvery(types.REMOVE_FAVORITE_TOOL, otherSaga.removeFavoriteTool);
+  yield takeEvery(types.SEND_EMAIL, otherSaga.sendEmail);
 }
 
 export default mySaga;
