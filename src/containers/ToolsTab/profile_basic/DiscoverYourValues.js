@@ -268,7 +268,7 @@ class DiscoverValueScreen extends React.Component {
                         <MCImage
                           image={value.image}
                           width={cardViewHeight * 0.5}
-                          height={250}
+                          height={cardViewHeight * 0.4}
                           resizeMode="contain"
                         />
                       )}
