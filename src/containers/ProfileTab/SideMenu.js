@@ -167,6 +167,21 @@ class ProfileSideMenu extends React.Component {
               })}
             </MCView>
           </MCView>
+          <MCView align="center" mb={30}>
+            <MCButton
+              bordered
+              align="center"
+              width={110}
+              mt={12}
+              onPress={() =>
+                this.onPressItem({
+                  index: 8,
+                  redirectTo: 'Contact',
+                })
+              }>
+              <H3>{t('contact_us')}</H3>
+            </MCButton>
+          </MCView>
         </ScrollView>
       </MCRootView>
     );
