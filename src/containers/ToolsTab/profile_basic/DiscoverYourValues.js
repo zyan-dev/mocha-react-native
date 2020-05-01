@@ -245,22 +245,22 @@ class DiscoverValueScreen extends React.Component {
                   <Card
                     key={value.value + theme.colors.theme_name}
                     style={{
-                      width: cardViewHeight * 0.6,
-                      height: cardViewHeight * 0.9,
+                      width: cardViewHeight * 0.65,
+                      height: cardViewHeight * 1,
                       alignItems: 'center',
                       justifyContent: 'center',
                       borderWidth: 1,
                       borderColor: theme.colors.border,
                       backgroundColor: ValueCardBackgrounds[index % 3],
                       borderRadius: 10,
-                      borderWidth: 12,
+                      borderWidth: dySize(12),
                       borderColor: 'white',
-                      padding: dySize(10),
+                      padding: dySize(5),
                     }}>
                     <H5 style={{letterSpacing: 5}} color={ValueCardTextColor}>
                       {t(`value_category_${value.category}`).toUpperCase()}
                     </H5>
-                    <H3 weight="bold" color={ValueCardTextColor}>
+                    <H3 weight="bold" align="center" color={ValueCardTextColor}>
                       {t(`tools_tab_value_${value.value}`)}
                     </H3>
                     <MCView style={{flex: 1}} align="center" justify="center">
@@ -281,7 +281,10 @@ class DiscoverValueScreen extends React.Component {
                         />
                       )}
                     </MCView>
-                    <H5 style={{letterSpacing: 5}} color={ValueCardTextColor}>
+                    <H5
+                      align="center"
+                      style={{letterSpacing: 5}}
+                      color={ValueCardTextColor}>
                       {t(`value_name_${value.name}`).toUpperCase()}
                     </H5>
                     <H5
