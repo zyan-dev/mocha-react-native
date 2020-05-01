@@ -12,7 +12,7 @@ import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {getCommitKey} from '../../../services/operators';
+import {getCommitKey} from 'services/operators';
 
 const ReactionView = styled(MCView)`
   display: flex;
@@ -70,7 +70,6 @@ class DailyHabitScreen extends React.Component {
       congrats,
       crown,
     } = item.data;
-    console.log({habits});
     return (
       <MCView width={350} bordered br={10} align="center" mb={10}>
         <MCCard shadow br={1} row align="center">

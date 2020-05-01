@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
 import {MCView, NativeCard} from 'components/styled/View';
-import {H2, H3, H4, H5, MCText, MCEmptyText} from 'components/styled/Text';
+import {H3, H4, MCText, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCImage, MCTimeSlider, MCIcon} from 'components/common';
 import {

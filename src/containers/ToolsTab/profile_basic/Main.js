@@ -27,7 +27,6 @@ class ProfileBasicScreen extends React.Component {
       completedBasicProfile,
       checkCompletedBasicProfile,
     } = this.props;
-    console.log({completedBasicProfile});
     return (
       <MCRootView justify="flex-start">
         <MCHeader

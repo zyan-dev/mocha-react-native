@@ -78,6 +78,7 @@ class TabView extends React.PureComponent {
 
   onClickTab = index => {
     const {
+      profile,
       userToken,
       getAllUsers,
       getAllTrustMembers,
@@ -86,6 +87,7 @@ class TabView extends React.PureComponent {
       getMyFeedbacks,
       showProfileDrawer,
       showSocialDrawer,
+      getUserCommits,
     } = this.props;
     const TabScreens = ['TabFeed', 'TabResource', 'TabTools', 'TabProfile'];
     const TabHomeScreens = [
@@ -132,6 +134,7 @@ class TabView extends React.PureComponent {
         userToken.length > 0 && getMyProfile();
         userToken.length > 0 && getMyReflections();
         userToken.length > 0 && getMyFeedbacks();
+        userToken.length > 0 && getUserCommits(profile._id);
         showProfileDrawer(false);
         break;
       default:
@@ -220,6 +223,7 @@ class TabView extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
+  profile: state.profileReducer,
   userToken: state.profileReducer.userToken,
 });
 
@@ -230,6 +234,7 @@ const mapDispatchToProps = {
   getMyReflections: reflectionActions.getMyReflections,
   getUserReflections: reflectionActions.getUserReflections,
   getMyFeedbacks: feedbackActions.getMyFeedbacks,
+  getUserCommits: otherActions.getUserCommits,
   changeProfileTab: otherActions.changeProfileTab,
   changeToolsTab: otherActions.changeToolsTab,
   showSocialDrawer: routerActions.setSocialDrawerOpened,

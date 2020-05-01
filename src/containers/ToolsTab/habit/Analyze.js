@@ -6,13 +6,12 @@ import {MCRootView} from 'components/styled/View';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCView, MCContent} from 'components/styled/View';
+import {CommitColors} from 'utils/constants';
 import {
   showAlert,
   getCommitKey,
   getTodayStartDateStamp,
 } from 'services/operators';
-
-const colors = ['#99AA99', '#669966', '#11BB11', '#00FF00'];
 
 class AnalyzeHabitScreen extends React.Component {
   constructor(props) {
@@ -47,10 +46,10 @@ class AnalyzeHabitScreen extends React.Component {
     const commitNum = find ? find.amount : undefined;
     if (commitNum) {
       let color = 'transparent';
-      if (commitNum > 15) color = colors[3];
-      else if (commitNum > 10) color = colors[2];
-      else if (commitNum > 4) color = colors[1];
-      else if (commitNum > 0) color = colors[0];
+      if (commitNum > 15) color = CommitColors[3];
+      else if (commitNum > 10) color = CommitColors[2];
+      else if (commitNum > 4) color = CommitColors[1];
+      else if (commitNum > 0) color = CommitColors[0];
       return {
         date: commitDate,
         color,
@@ -96,10 +95,34 @@ class AnalyzeHabitScreen extends React.Component {
           {t('commits_last_week', {commits: this.getLastWeekCommitCount()})}
         </H3>
         <MCView mt={10} row align="center">
-          <MCView mr={5} width={10} height={10} br={5} background={colors[0]} />
-          <MCView mr={5} width={10} height={10} br={5} background={colors[1]} />
-          <MCView mr={5} width={10} height={10} br={5} background={colors[2]} />
-          <MCView mr={5} width={10} height={10} br={5} background={colors[3]} />
+          <MCView
+            mr={5}
+            width={10}
+            height={10}
+            br={5}
+            background={CommitColors[0]}
+          />
+          <MCView
+            mr={5}
+            width={10}
+            height={10}
+            br={5}
+            background={CommitColors[1]}
+          />
+          <MCView
+            mr={5}
+            width={10}
+            height={10}
+            br={5}
+            background={CommitColors[2]}
+          />
+          <MCView
+            mr={5}
+            width={10}
+            height={10}
+            br={5}
+            background={CommitColors[3]}
+          />
         </MCView>
         <MCView width={250} mt={10} mb={15} row wrap justify="center">
           <MCView ml={5} mr={5} width={24} height={30} />

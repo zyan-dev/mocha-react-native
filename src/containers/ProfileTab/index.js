@@ -29,6 +29,7 @@ import EditHydrationScreen from '../ToolsTab/profile_basic/Hydration';
 import EditStrengthScreen from '../ToolsTab/profile_basic/Strength';
 import EditBodyStressScreen from '../ToolsTab/profile_basic/StressResponse';
 import EditDreamScreen from '../ToolsTab/profile_basic/Dream';
+import EditCoreValuesScreen from '../ToolsTab/profile_basic/DiscoverYourValues';
 
 const Stack = createStackNavigator();
 
@@ -92,6 +93,10 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen name="EditHydration" component={EditHydrationScreen} />
           <Stack.Screen name="EditStrengths" component={EditStrengthScreen} />
           <Stack.Screen name="EditDreams" component={EditDreamScreen} />
+          <Stack.Screen
+            name="EditCoreValues"
+            component={EditCoreValuesScreen}
+          />
           <Stack.Screen
             name="EditBodyStress"
             component={EditBodyStressScreen}

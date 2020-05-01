@@ -14,7 +14,6 @@ import NavigationService from 'navigation/NavigationService';
 import {BodyStress, BodyStressWhite} from 'assets/images';
 import {HeadPhoneSvg} from 'assets/svgs';
 
-const embedLink = 'https://www.youtube.com/watch?v=q7OAlcyE5M8';
 const bodyPartButtons = [
   {
     key: 'head',
@@ -138,9 +137,7 @@ class BodyAwarenessScreen extends React.Component {
     return this.props.selectedReflection.data.parts.length > 0;
   };
 
-  onBuffer = ({isBuffering}) => {
-    console.log({isBuffering});
-  };
+  onBuffer = ({isBuffering}) => {};
 
   videoError = error => {
     console.log({error});

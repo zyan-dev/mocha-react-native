@@ -17,12 +17,13 @@ import {selector} from 'Redux/selectors';
 import OverviewCard from './components/Overview';
 import ContactCard from './components/Contact';
 import ValuesCard from './components/Values';
+import CoreValuesCard from './components/CoreValues';
 import PurposesCard from './components/Purposes';
 import MotivationCard from './components/Motivations';
 import LanguagesCard from './components/Languages';
 import SkillsCard from './components/Skills';
 import UserManualsCard from './components/UserManuals';
-import HabitCard from './components/Habits';
+import HabitCard from './components/habits';
 import ChronotypeCard from './components/Chronotype';
 import PersonalityCard from './components/Personality';
 import StressAndComfortCard from './components/StressAndComfort';
@@ -167,22 +168,23 @@ class ProfileScreen extends React.Component {
       theme,
       profile,
       profileTab,
-      values,
-      showDrawer,
-      feedbacks,
-      motivations,
-      manuals,
       chronotype,
       nutrition,
       hydration,
-      personality,
+      stress,
+      strength,
+      coreValues,
+      dream,
       dailyHabits,
       weeklyHabits,
+      values,
+      feedbacks,
+      motivations,
+      manuals,
+      personality,
       feedbackPreference,
       behaviorPreference,
-      strength,
-      stress,
-      dream,
+      commits,
     } = this.props;
     const {showWelcomeModal} = this.state;
     return (
@@ -199,50 +201,6 @@ class ProfileScreen extends React.Component {
               contentContainerStyle={{padding: dySize(10)}}>
               {profileTab === 'overview' && <OverviewCard profile={profile} />}
               {profileTab === 'contact' && <ContactCard profile={profile} />}
-              {profileTab === 'value' && (
-                <ValuesCard
-                  values={values}
-                  onPressDetails={() => this.onPressAllValues()}
-                  onPressNew={() => this.onPressNewValue()}
-                />
-              )}
-              {profileTab === 'purpose' && (
-                <PurposesCard
-                  onPressDetails={() => this.onPressAllPurposes()}
-                />
-              )}
-              {profileTab === 'motivation' && (
-                <MotivationCard
-                  motivations={motivations}
-                  onPressDetails={() => this.onPressAllMotivations()}
-                  onPressNew={() => this.onPressNewMotivation()}
-                />
-              )}
-              {profileTab === 'languages' && (
-                <LanguagesCard onPressDetails={() => {}} />
-              )}
-              {profileTab === 'skill' && (
-                <SkillsCard
-                  strength={strength}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditStrengths')
-                  }
-                />
-              )}
-              {profileTab === 'belief' && (
-                <UserManualsCard
-                  manuals={manuals}
-                  onPressDetails={() => this.onPressAllUserManuals()}
-                  onPressNew={() => this.onPressNewUserManual()}
-                />
-              )}
-              {profileTab === 'habit' && (
-                <HabitCard
-                  dailyHabits={dailyHabits}
-                  weeklyHabits={weeklyHabits}
-                  onPressAll={() => this.onPressAllHabits(0)}
-                />
-              )}
               {profileTab === 'chronotype' && (
                 <ChronotypeCard
                   theme={theme}
@@ -267,15 +225,6 @@ class ProfileScreen extends React.Component {
                   }
                 />
               )}
-              {profileTab === 'personality' && (
-                <PersonalityCard personality={personality} />
-              )}
-              {profileTab === 'dream' && (
-                <DreamCard
-                  dream={dream}
-                  onPressEdit={() => NavigationService.navigate('EditDreams')}
-                />
-              )}
               {profileTab === 'stress' && (
                 <StressAndComfortCard
                   theme={theme}
@@ -284,6 +233,70 @@ class ProfileScreen extends React.Component {
                     NavigationService.navigate('EditBodyStress')
                   }
                 />
+              )}
+              {profileTab === 'skill' && (
+                <SkillsCard
+                  strength={strength}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditStrengths')
+                  }
+                />
+              )}
+              {profileTab === 'value' && (
+                <ValuesCard
+                  values={values}
+                  onPressDetails={() => this.onPressAllValues()}
+                  onPressNew={() => this.onPressNewValue()}
+                />
+              )}
+              {profileTab === 'core_values' && (
+                <CoreValuesCard
+                  theme={theme}
+                  coreValues={coreValues}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditCoreValues')
+                  }
+                />
+              )}
+              {profileTab === 'dream' && (
+                <DreamCard
+                  dream={dream}
+                  onPressEdit={() => NavigationService.navigate('EditDreams')}
+                />
+              )}
+              {profileTab === 'habit' && (
+                <HabitCard
+                  commits={commits}
+                  dailyHabits={dailyHabits}
+                  weeklyHabits={weeklyHabits}
+                  onPressAll={() => this.onPressAllHabits(0)}
+                  theme={theme}
+                />
+              )}
+              {profileTab === 'purpose' && (
+                <PurposesCard
+                  onPressDetails={() => this.onPressAllPurposes()}
+                />
+              )}
+              {profileTab === 'motivation' && (
+                <MotivationCard
+                  motivations={motivations}
+                  onPressDetails={() => this.onPressAllMotivations()}
+                  onPressNew={() => this.onPressNewMotivation()}
+                />
+              )}
+              {profileTab === 'languages' && (
+                <LanguagesCard onPressDetails={() => {}} />
+              )}
+              {profileTab === 'belief' && (
+                <UserManualsCard
+                  manuals={manuals}
+                  onPressDetails={() => this.onPressAllUserManuals()}
+                  onPressNew={() => this.onPressNewUserManual()}
+                />
+              )}
+              {profileTab === 'personality' && (
+                <PersonalityCard personality={personality} />
               )}
               {profileTab === 'risk' && (
                 <RiskToleranceCard onPressEdit={() => {}} />
@@ -364,8 +377,19 @@ const mapStateToProps = state => ({
   profile: state.profileReducer,
   profileTab: state.otherReducer.profileTab,
   visitedProfile: state.routerReducer.visitedProfile,
-  manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
-  values: selector.reflections.getMySpecialReflections(state, 'Value'),
+  chronotype: selector.reflections.findMySpecialReflections(
+    state,
+    'Chronotype',
+  ),
+  nutrition: selector.reflections.findMySpecialReflections(state, 'Nutrition'),
+  hydration: selector.reflections.findMySpecialReflections(state, 'Hydration'),
+  stress: selector.reflections.findMySpecialReflections(state, 'Stress'),
+  strength: selector.reflections.findMySpecialReflections(state, 'Strength'),
+  coreValues: selector.reflections.findMySpecialReflections(
+    state,
+    'CoreValues',
+  ),
+  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
   dailyHabits: selector.reflections
     .getMySpecialReflections(state, 'Habit')
     .filter(({data}) => data.isDaily),
@@ -373,17 +397,13 @@ const mapStateToProps = state => ({
     .getMySpecialReflections(state, 'Habit')
     .filter(({data}) => !data.isDaily),
   manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
+  values: selector.reflections.getMySpecialReflections(state, 'Value'),
+  manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   motivations: selector.reflections.getMySpecialReflections(
     state,
     'Motivation',
   ),
   feedbacks: selector.feedbacks.getMyFeedbacks(state).received,
-  chronotype: selector.reflections.findMySpecialReflections(
-    state,
-    'Chronotype',
-  ),
-  nutrition: selector.reflections.findMySpecialReflections(state, 'Nutrition'),
-  hydration: selector.reflections.findMySpecialReflections(state, 'Hydration'),
   personality: selector.reflections.findMySpecialReflections(
     state,
     'Personality',
@@ -396,9 +416,7 @@ const mapStateToProps = state => ({
     state,
     'BehaviorPreference',
   ),
-  strength: selector.reflections.findMySpecialReflections(state, 'Strength'),
-  stress: selector.reflections.findMySpecialReflections(state, 'Stress'),
-  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
+  commits: state.otherReducer.commits,
 });
 
 const mapDispatchToProps = {

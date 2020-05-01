@@ -2004,6 +2004,7 @@ export const ApproachToConflictOptions = [
   'collaborating',
 ];
 
+export const CommitColors = ['#99AA99', '#669966', '#11BB11', '#00FF00'];
 export const ValueCardTextColor = '#222222';
 export const ValueCardBackgrounds = ['#FBE9E6', '#E9F6F9', '#E5E6E8'];
 

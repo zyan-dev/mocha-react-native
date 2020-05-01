@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FlatList} from 'react-native';
 import * as _ from 'lodash';
 import {withTranslation} from 'react-i18next';
 import {MCCard, MCView} from 'components/styled/View';
-import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
+import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCModal, MCImage, MCIcon} from 'components/common';
-import {dySize} from 'utils/responsive';
+import {MCImage, MCIcon} from 'components/common';
 import {
   PositiveFeedbackPreferences,
   NegativeFeedbackPreferences,

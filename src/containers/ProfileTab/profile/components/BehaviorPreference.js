@@ -5,9 +5,9 @@ import * as _ from 'lodash';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import {withTranslation} from 'react-i18next';
 import {MCCard, MCView} from 'components/styled/View';
-import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
+import {H3, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCModal, MCImage, MCIcon} from 'components/common';
+import {MCIcon} from 'components/common';
 import {dySize} from 'utils/responsive';
 import {
   BehaviorPreferenceNegatives,
