@@ -5,6 +5,7 @@ import {
   profileActions,
   reflectionActions,
   feedbackActions,
+  otherActions,
 } from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
 import {H2, H4, H5} from 'components/styled/Text';
@@ -19,7 +20,9 @@ import MotivationCard from '../ProfileTab/profile/components/Motivations';
 import LanguagesCard from '../ProfileTab/profile/components/Languages';
 import SkillsCard from '../ProfileTab/profile/components/Skills';
 import UserManualsCard from '../ProfileTab/profile/components/UserManuals';
-import HabitCard from '../ProfileTab/profile/components/Habits';
+import HabitCard from '../ProfileTab/profile/components/habits';
+import DreamCard from '../ProfileTab/profile/components/Dream';
+import CoreValuesCard from '../ProfileTab/profile/components/CoreValues';
 import ChronotypeCard from '../ProfileTab/profile/components/Chronotype';
 import PersonalityCard from '../ProfileTab/profile/components/Personality';
 import StressAndComfortCard from '../ProfileTab/profile/components/StressAndComfort';
@@ -36,7 +39,7 @@ import HydrationCard from '../ProfileTab/profile/components/Hydration';
 import NavigationService from 'navigation/NavigationService';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
-import {FaucetWhiteSvg} from 'assets/svgs';
+import {FaucetWhiteSvg, FutureSvg} from 'assets/svgs';
 
 class UserProfileScreen extends React.Component {
   constructor(props) {
@@ -55,12 +58,14 @@ class UserProfileScreen extends React.Component {
       getUserProfile,
       getUserReflections,
       getUserFeedbacks,
+      getUserCommits,
     } = this.props;
     const find = allUsers.find(user => user._id === id);
     if (find) {
       getUserProfile(id);
       getUserReflections(id);
       getUserFeedbacks(id);
+      getUserCommits(id);
     } else {
       this.setState({unknownUser: true});
     }
@@ -81,27 +86,59 @@ class UserProfileScreen extends React.Component {
     this.setState({showAvatarModal: true});
   };
 
+  renderProfileIcon = icon => {
+    const {selected} = this.state;
+    const {theme} = this.props;
+    const focused = selected === icon.key;
+    const size = focused ? 30 : 20;
+    const color = focused ? theme.colors.outline : theme.colors.text;
+    return (
+      <MCButton
+        key={icon.key}
+        width={50}
+        align="center"
+        onPress={() => this.onPressProfileIcon(icon)}>
+        {icon.key === 'hydration' ? (
+          <FaucetWhiteSvg size={size} color={color} />
+        ) : icon.key === 'dream' ? (
+          <FutureSvg size={size} color={color} />
+        ) : (
+          <MCIcon
+            type={icon.iconType}
+            name={icon.icon}
+            size={size}
+            color={color}
+          />
+        )}
+      </MCButton>
+    );
+  };
+
   render() {
     const {selected, unknownUser, showAvatarModal} = this.state;
     const {
       t,
       theme,
       profile,
-      manuals,
-      values,
-      feedbacks,
-      motivations,
       chronotype,
       nutrition,
       hydration,
-      personality,
+      stress,
+      strength,
+      coreValues,
+      dream,
       dailyHabits,
       weeklyHabits,
+      values,
+      feedbacks,
+      motivations,
+      manuals,
+      personality,
       feedbackPreference,
       behaviorPreference,
-      strength,
-      stress,
+      commits,
     } = this.props;
+    console.log({dailyHabits});
     if (unknownUser) {
       return (
         <MCRootView justify="flex-start">
@@ -141,26 +178,6 @@ class UserProfileScreen extends React.Component {
               {selected === 'contact' && (
                 <ContactCard profile={profile} editable={false} />
               )}
-              {selected === 'value' && (
-                <ValuesCard values={values} editable={false} />
-              )}
-              {selected === 'purpose' && <PurposesCard editable={false} />}
-              {selected === 'motivation' && (
-                <MotivationCard motivations={motivations} editable={false} />
-              )}
-              {selected === 'languages' && <LanguagesCard editable={false} />}
-              {selected === 'skill' && <SkillsCard editable={false} />}
-              {selected === 'belief' && (
-                <UserManualsCard manuals={manuals} editable={false} />
-              )}
-              {selected === 'habit' && (
-                <HabitCard
-                  editable={false}
-                  dailyHabits={dailyHabits}
-                  weeklyHabits={weeklyHabits}
-                  onPressAll={() => this.onPressAllHabits(0)}
-                />
-              )}
               {selected === 'chronotype' && (
                 <ChronotypeCard
                   theme={theme}
@@ -169,30 +186,55 @@ class UserProfileScreen extends React.Component {
                 />
               )}
               {selected === 'nutrition' && (
-                <NutritionCard
-                  editable={false}
-                  nutrition={nutrition}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditNutrition')
-                  }
-                />
+                <NutritionCard editable={false} nutrition={nutrition} />
               )}
               {selected === 'hydration' && (
                 <HydrationCard
                   theme={theme}
                   editable={false}
                   hydration={hydration}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditHydration')
-                  }
                 />
               )}
+              {selected === 'stress' && (
+                <StressAndComfortCard
+                  stress={stress}
+                  theme={theme}
+                  editable={false}
+                />
+              )}
+              {selected === 'skill' && (
+                <SkillsCard strength={strength} editable={false} />
+              )}
+              {selected === 'core_values' && (
+                <CoreValuesCard theme={theme} coreValues={coreValues} />
+              )}
+              {selected === 'dream' && <DreamCard dream={dream} />}
+              {selected === 'habit' && (
+                <HabitCard
+                  commits={commits}
+                  editable={false}
+                  dailyHabits={dailyHabits}
+                  weeklyHabits={weeklyHabits}
+                  theme={theme}
+                />
+              )}
+              {selected === 'value' && (
+                <ValuesCard values={values} editable={false} />
+              )}
+              {selected === 'purpose' && <PurposesCard editable={false} />}
+              {selected === 'motivation' && (
+                <MotivationCard motivations={motivations} editable={false} />
+              )}
+              {selected === 'languages' && <LanguagesCard editable={false} />}
+
+              {selected === 'belief' && (
+                <UserManualsCard manuals={manuals} editable={false} />
+              )}
+
               {selected === 'personality' && (
                 <PersonalityCard personality={personality} editable={false} />
               )}
-              {selected === 'stress' && (
-                <StressAndComfortCard editable={false} />
-              )}
+
               {selected === 'risk' && <RiskToleranceCard editable={false} />}
               {selected === 'feedback' && (
                 <FeedbacksCard feedbacks={feedbacks} editable={false} />
@@ -219,35 +261,7 @@ class UserProfileScreen extends React.Component {
             width={50}
             style={{borderLeftWidth: 1, borderColor: theme.colors.border}}>
             <MCContent>
-              {profileIcons.map(icon => (
-                <MCButton
-                  key={icon.key}
-                  width={50}
-                  align="center"
-                  onPress={() => this.onPressProfileIcon(icon)}>
-                  {icon.key === 'hydration' ? (
-                    <FaucetWhiteSvg
-                      size={selected === icon.key ? 30 : 20}
-                      color={
-                        selected === icon.key
-                          ? theme.colors.outline
-                          : theme.colors.text
-                      }
-                    />
-                  ) : (
-                    <MCIcon
-                      type={icon.iconType}
-                      name={icon.icon}
-                      size={selected === icon.key ? 30 : 20}
-                      color={
-                        selected === icon.key
-                          ? theme.colors.outline
-                          : theme.colors.text
-                      }
-                    />
-                  )}
-                </MCButton>
-              ))}
+              {profileIcons.map(icon => this.renderProfileIcon(icon))}
             </MCContent>
           </MCView>
         </MCView>
@@ -274,14 +288,6 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.usersReducer.userProfile,
   allUsers: state.usersReducer.allUsers,
-  goals: selector.reflections.getUserSpecialReflections(state, 'Goal'),
-  manuals: selector.reflections.getUserSpecialReflections(state, 'Manual'),
-  values: selector.reflections.getUserSpecialReflections(state, 'Value'),
-  feedbacks: selector.feedbacks.getUserFeedbacks(state).received,
-  motivations: selector.reflections.getUserSpecialReflections(
-    state,
-    'Motivation',
-  ),
   chronotype: selector.reflections.findUserSpecialReflections(
     state,
     'Chronotype',
@@ -294,16 +300,31 @@ const mapStateToProps = state => ({
     state,
     'Hydration',
   ),
-  personality: selector.reflections.findUserSpecialReflections(
+  stress: selector.reflections.findUserSpecialReflections(state, 'Stress'),
+  strength: selector.reflections.findUserSpecialReflections(state, 'Strength'),
+  coreValues: selector.reflections.findUserSpecialReflections(
     state,
-    'Personality',
+    'CoreValues',
   ),
+  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
   dailyHabits: selector.reflections
     .getUserSpecialReflections(state, 'Habit')
     .filter(({data}) => data.isDaily),
   weeklyHabits: selector.reflections
     .getUserSpecialReflections(state, 'Habit')
     .filter(({data}) => !data.isDaily),
+  goals: selector.reflections.getUserSpecialReflections(state, 'Goal'),
+  manuals: selector.reflections.getUserSpecialReflections(state, 'Manual'),
+  values: selector.reflections.getUserSpecialReflections(state, 'Value'),
+  feedbacks: selector.feedbacks.getUserFeedbacks(state).received,
+  motivations: selector.reflections.getUserSpecialReflections(
+    state,
+    'Motivation',
+  ),
+  personality: selector.reflections.findUserSpecialReflections(
+    state,
+    'Personality',
+  ),
   feedbackPreference: selector.reflections.findUserSpecialReflections(
     state,
     'FeedbackPreference',
@@ -312,14 +333,14 @@ const mapStateToProps = state => ({
     state,
     'BehaviorPreference',
   ),
-  strength: selector.reflections.findUserSpecialReflections(state, 'Strength'),
-  stress: selector.reflections.findUserSpecialReflections(state, 'Stress'),
+  commits: state.otherReducer.commits,
 });
 
 const mapDispatchToProps = {
   getUserProfile: profileActions.getUserProfile,
   getUserReflections: reflectionActions.getUserReflections,
   getUserFeedbacks: feedbackActions.getUserFeedbacks,
+  getUserCommits: otherActions.getUserCommits,
 };
 
 export default withTranslation()(

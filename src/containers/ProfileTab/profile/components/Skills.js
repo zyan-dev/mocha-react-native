@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import {FlatList} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
-import {MCCard, MCView} from 'components/styled/View';
-import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
+import {MCView} from 'components/styled/View';
+import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCIcon, MCModal} from 'components/common';
+import {MCIcon} from 'components/common';
 import {dySize} from 'utils/responsive';
-import {StrengthOptions} from '../../../../utils/constants';
+import {StrengthOptions} from 'utils/constants';
 
 class SkillsCard extends React.Component {
   static propTypes = {

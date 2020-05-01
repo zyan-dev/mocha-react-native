@@ -5,9 +5,9 @@ import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H3, H4, ErrorText} from 'components/styled/Text';
+import {H4, ErrorText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCHeader, MCIcon, MCTimeSlider} from 'components/common';
+import {MCHeader, MCTimeSlider} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {HydrationValues, HydrationPracticeOptions} from 'utils/constants';
@@ -104,7 +104,6 @@ class HydrationScreen extends React.Component {
   render() {
     const {submitted} = this.state;
     const {t, theme, selectedReflection} = this.props;
-    console.log({selectedReflection});
     const cupsRange = _.get(
       selectedReflection,
       ['data', 'cups_range'],

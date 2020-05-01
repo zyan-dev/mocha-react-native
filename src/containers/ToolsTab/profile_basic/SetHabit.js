@@ -10,14 +10,11 @@ import {MCButton} from 'components/styled/Button';
 import {
   MCHeader,
   MCIcon,
-  MCImage,
   MCTextFormInput,
   MCEditableText,
 } from 'components/common';
 import {dySize} from 'utils/responsive';
-import {AttachmentOptions} from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
-import {AppleImage} from 'assets/images';
 import {AppleSvg} from 'assets/svgs';
 
 class SetHabitScreen extends React.Component {
@@ -141,7 +138,6 @@ class SetHabitScreen extends React.Component {
   render() {
     const {submitted, newHabitTitle} = this.state;
     const {t, selectedReflection, updateSelectedReflection} = this.props;
-    console.log({selectedReflection});
     const title = _.get(selectedReflection, ['data', 'title'], undefined);
     const habits = _.get(selectedReflection, ['data', 'habits'], []);
     const isDaily = _.get(selectedReflection, ['data', 'isDaily'], true);

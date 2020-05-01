@@ -93,7 +93,6 @@ class SupportHabitScreen extends React.Component {
 
   _renderHabitItem = ({item}) => {
     const habit = item.data;
-    console.log({habit});
     const {allUsers, theme} = this.props;
     const owner = allUsers.find(user => user._id === item.owner);
     if (!owner) return null;

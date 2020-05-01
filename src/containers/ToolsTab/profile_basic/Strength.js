@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H3, H4, ErrorText} from 'components/styled/Text';
+import {H4, ErrorText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon} from 'components/common';
 import {dySize} from 'utils/responsive';

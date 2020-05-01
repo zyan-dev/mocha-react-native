@@ -111,7 +111,6 @@ class DreamScreen extends React.Component {
     const {t, theme, selectedReflection, updateSelectedReflection} = this.props;
     const main = _.get(selectedReflection, ['data', 'main'], '');
     const others = _.get(selectedReflection, ['data', 'others'], []);
-    console.log({others});
     // if (!main.length || !others.length) return null;
     return (
       <MCRootView justify="flex-start">

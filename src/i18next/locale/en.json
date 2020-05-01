@@ -1508,6 +1508,8 @@
   "profile_card_empty_user_stress": "This user didn't set up body response yet.",
   "profile_card_empty_hydration": "You didn't set up hydration yet.",
   "profile_card_empty_user_hydration": "This user didn't set up hydration yet.",
+  "profile_card_empty_core_value": "You didn't set up your core values.",
+  "profile_card_empty_user_core_value": "This user didn't set up his core values yet.",
   "profile_card_empty_user_feedback": "This user has no feedback received",
   "profile_card_empty_strength": "This user didn't set up his strengths.",
   "profile_card_empty_chronotype": "You didn't set up your chronotype yet",

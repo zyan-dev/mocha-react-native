@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {FlatList} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {MCCard, MCView} from 'components/styled/View';
-import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
+import {H3, H5, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCImage, MCModal} from 'components/common';
+import {MCModal} from 'components/common';
 import {dySize} from 'utils/responsive';
 
 class PurposesCard extends React.Component {
@@ -29,17 +29,15 @@ class PurposesCard extends React.Component {
     };
   }
 
-  onPressItem = (purpose) => {
+  onPressItem = purpose => {
     this.setState({selectedPurpose: purpose, showModal: true});
   };
 
-  _renderItem = (item) => {
+  _renderItem = item => {
     const purpose = item.data;
     return (
       <MCCard width={140} key={item._id} mr={15} align="center">
-        <MCButton
-          align="center"
-          onPress={() => this.onPressItem(item)}></MCButton>
+        <MCButton align="center" onPress={() => this.onPressItem(item)} />
       </MCCard>
     );
   };
@@ -62,7 +60,7 @@ class PurposesCard extends React.Component {
         <FlatList
           data={purposes.slice(0, 4)}
           renderItem={this._renderItem}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           numColumns={2}
           style={{width: dySize(300)}}
           ListEmptyComponent={<MCEmptyText>{t('coming soon')}</MCEmptyText>}
@@ -71,7 +69,7 @@ class PurposesCard extends React.Component {
           <MCModal
             isVisible={showModal}
             onClose={() => this.setState({showModal: false})}>
-            <MCView align="center" width={300} mt={20}></MCView>
+            <MCView align="center" width={300} mt={20} />
           </MCModal>
         )}
       </MCView>
