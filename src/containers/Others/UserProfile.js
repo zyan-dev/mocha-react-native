@@ -205,9 +205,15 @@ class UserProfileScreen extends React.Component {
                 <SkillsCard strength={strength} editable={false} />
               )}
               {selected === 'core_values' && (
-                <CoreValuesCard theme={theme} coreValues={coreValues} />
+                <CoreValuesCard
+                  theme={theme}
+                  coreValues={coreValues}
+                  editable={false}
+                />
               )}
-              {selected === 'dream' && <DreamCard dream={dream} />}
+              {selected === 'dream' && (
+                <DreamCard dream={dream} editable={false} />
+              )}
               {selected === 'habit' && (
                 <HabitCard
                   commits={commits}
