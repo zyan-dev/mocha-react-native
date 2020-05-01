@@ -15,6 +15,14 @@ import {
   FragileSvg,
   KeySvg,
   FutureSvg,
+  BullhornSvg,
+  PointDownSvg,
+  AwardSvg,
+  MedalSvg,
+  ExclamationSvg,
+  BoxingSvg,
+  HandheartSvg,
+  TeaSvg,
 } from 'assets/svgs';
 
 const LockIcon = styled(MCIcon)`
@@ -94,6 +102,28 @@ class ProfileBasicCard extends React.Component {
           )}
           {title === 'core_values' && <KeySvg theme={theme} size={50} />}
           {title === 'dreams' && <FutureSvg size={50} />}
+          {title === 'coaching_feedback' && (
+            <BullhornSvg theme={theme} size={30} />
+          )}
+          {title === 'criticism_feedback' && (
+            <PointDownSvg theme={theme} size={30} />
+          )}
+          {title === 'praise_feedback' && <AwardSvg size={30} />}
+          {title === 'qualities_character' && (
+            <MedalSvg theme={theme} size={30} />
+          )}
+          {title === 'challenges_concerns' && <ExclamationSvg size={30} />}
+          {title === 'approach_to_conflict' && <BoxingSvg size={30} />}
+          {title === 'attachment_pattern' && (
+            <MCIcon
+              type="FontAwesome5Pro"
+              name="paperclip"
+              color="#DC3E3E"
+              size={25}
+            />
+          )}
+          {title === 'comfort' && <HandheartSvg theme={theme} size={30} />}
+          {title === 'stress_recovery' && <TeaSvg theme={theme} size={30} />}
           {completed && (
             <CompletedView>
               <MCIcon name="ios-checkmark" size={20} color="white" />

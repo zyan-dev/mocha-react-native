@@ -33,10 +33,10 @@ class DreamScreen extends React.Component {
       selectReflection(dream);
     } else {
       this.isNew = true;
-      if (reflectionDraft['Dream']) {
-        selectReflection(reflectionDraft['Dream']);
+      if (reflectionDraft['Dreams']) {
+        selectReflection(reflectionDraft['Dreams']);
       } else {
-        setInitialReflection('dream');
+        setInitialReflection('dreams');
       }
     }
   }

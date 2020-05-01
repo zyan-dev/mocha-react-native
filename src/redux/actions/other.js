@@ -59,8 +59,8 @@ export const changeToolsTab = key => ({
   payload: key,
 });
 
-export const checkedCompletedBasicProfile = () => ({
-  type: types.CHECKED_COMPLETED_BASIC_PROFILE,
+export const checkCompletedBasicProfile = () => ({
+  type: types.CHECK_COMPLETED_BASIC_PROFILE,
 });
 
 export const sendEmail = data => ({

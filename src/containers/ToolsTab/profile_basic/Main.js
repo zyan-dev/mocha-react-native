@@ -25,7 +25,7 @@ class ProfileBasicScreen extends React.Component {
       dream,
       habit,
       completedBasicProfile,
-      checkedCompletedBasicProfile,
+      checkCompletedBasicProfile,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -186,7 +186,7 @@ class ProfileBasicScreen extends React.Component {
                 mt={20}
                 width={80}
                 align="center"
-                onPress={() => checkedCompletedBasicProfile()}>
+                onPress={() => checkCompletedBasicProfile()}>
                 <H3>{t('I Got It')}</H3>
               </MCButton>
             </MCView>
@@ -238,7 +238,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  checkedCompletedBasicProfile: otherActions.checkedCompletedBasicProfile,
+  checkCompletedBasicProfile: otherActions.checkCompletedBasicProfile,
 };
 
 export default withTranslation()(

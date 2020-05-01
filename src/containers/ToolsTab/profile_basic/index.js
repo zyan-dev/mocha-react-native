@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import ProfileBasicScreen from './ProfileBasics';
+import ProfileBasicScreen from './Main';
 import PersonalStoryScreen from './PersonalStoryScreen';
 import FeedbackPreferenceScreen from './FeedbackPreference';
 import BehaviorPreferenceScreen from './BehaviorPreference';
@@ -18,7 +18,7 @@ import ChronotypeScreen from '../../ProfileTab/profile/details/chronotype';
 
 const Stack = createStackNavigator();
 
-class KnowYourSelfStack extends React.Component {
+class ProfileBasicStack extends React.Component {
   render() {
     return (
       <Stack.Navigator headerMode="none">
@@ -54,4 +54,4 @@ class KnowYourSelfStack extends React.Component {
   }
 }
 
-export default KnowYourSelfStack;
+export default ProfileBasicStack;

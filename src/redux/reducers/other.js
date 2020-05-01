@@ -49,7 +49,7 @@ const otherReducer = (state = INITIAL_STATE, action) => {
         ...state,
         toolsTab: action.payload,
       };
-    case types.CHECKED_COMPLETED_BASIC_PROFILE:
+    case types.CHECK_COMPLETED_BASIC_PROFILE:
       return {
         ...INITIAL_STATE,
         completedBasicProfile: true,
