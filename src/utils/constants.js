@@ -283,13 +283,13 @@ export const BasicPermissions = [
 ];
 
 export const AdvancedPermissions = [
-  'coach',
-  'criticism',
-  'praise',
+  'coaching_feedback',
+  'criticism_feedback',
+  'praise_feedback',
   'challenges_concerns',
   'qualities_character',
-  'approach',
-  'attachment',
+  'approach_to_conflict',
+  'attachment_pattern',
   'comfort',
   'stress_recovery',
   'personality',
@@ -1420,8 +1420,8 @@ export const DefaultReflections = {
       options: [],
     },
   },
-  stress: {
-    type: 'Stress',
+  stress_response: {
+    type: 'StressResponse',
     data: {
       parts: [],
     },
@@ -1440,17 +1440,83 @@ export const DefaultReflections = {
       practices: [],
     },
   },
-  strength: {
-    type: 'Strength',
+  strengths: {
+    type: 'Strengths',
     data: {
       options: [],
     },
   },
-  dream: {
-    type: 'Dream',
+  dreams: {
+    type: 'Dreams',
     data: {
       main: '',
       others: [],
+    },
+  },
+  challenges: {
+    type: 'Challenges',
+    data: {
+      pleasing: 50,
+      optimistic: 50,
+      defensive: 50,
+      high_emotionality: 50,
+      cynical: 50,
+      procrasinators: 50,
+      immature: 50,
+      teachers: 50,
+      naysayers: 50,
+      paranoid: 50,
+      charmless: 50,
+      frank: 50,
+      bookmarked: [],
+    },
+  },
+  qualities: {
+    type: 'Qualities',
+    data: {
+      ownership: 50,
+      flexible: 50,
+      punctual: 50,
+      optimistic: 50,
+      criticism: 50,
+      creative: 50,
+      sense_of_humor: 50,
+      listener: 50,
+      storyteller: 50,
+      emotional_intelligence: 50,
+      integrity: 50,
+      conscientiousness: 50,
+      bookmarked: [],
+    },
+  },
+  coaching_feedback: {
+    type: 'CoachingFeedback',
+    data: {
+      options: [],
+    },
+  },
+  criticism_feedback: {
+    type: 'CriticismFeedback',
+    data: {
+      options: [],
+    },
+  },
+  praise_feedback: {
+    type: 'PraiseFeedback',
+    data: {
+      options: [],
+    },
+  },
+  comfort: {
+    type: 'Comfort',
+    data: {
+      options: [],
+    },
+  },
+  stress_recovery: {
+    type: 'StressRecovery',
+    data: {
+      method: '',
     },
   },
 };
@@ -1507,67 +1573,108 @@ export const AnalyzeDummyData = {
 export const ProfileBasicCards = {
   chronotype: {
     title: 'sleep_chronotype',
-    iconType: 'FontAwesome5Pro',
-    icon: 'sheep',
     minutes: 2,
     width: 250,
     redirectTo: 'PB_SleepChronotype',
   },
   nutrition: {
     title: 'nutrition',
-    iconType: 'FontAwesome5Pro',
-    icon: 'carrot',
     minutes: 3,
     width: 150,
     redirectTo: 'PB_Nutrition',
   },
   hydration: {
     title: 'hydration',
-    iconType: 'FontAwesome5Pro',
-    icon: 'dewpoint',
     minutes: 2,
     width: 150,
     redirectTo: 'PB_Hydration',
   },
   stress: {
     title: 'stress_response',
-    iconType: 'FontAwesome5Pro',
-    icon: 'fragile',
     minutes: 6,
     width: 250,
     redirectTo: 'PB_StressResponse',
   },
   strength: {
     title: 'strengths',
-    iconType: 'FontAwesome5Pro',
-    icon: 'hammer',
     minutes: 3,
     width: 250,
     redirectTo: 'PB_Strengths',
   },
   values: {
     title: 'core_values',
-    iconType: 'FontAwesome5Pro',
-    icon: 'key',
     minutes: 15,
     width: 250,
     redirectTo: 'PB_DiscoverValue',
   },
   dream: {
     title: 'dreams',
-    iconType: 'FontAwesome5Pro',
-    icon: 'city',
     minutes: 5,
     width: 250,
     redirectTo: 'PB_Dream',
   },
   habit: {
     title: 'habits',
-    iconType: 'FontAwesome5Pro',
-    icon: 'apple-alt',
     minutes: 5,
     width: 250,
     redirectTo: 'PB_SetHabit',
+  },
+};
+
+export const ProfileAdvanceCards = {
+  coaching_feedback: {
+    title: 'coaching_feedback',
+    minutes: 2,
+    width: 250,
+    redirectTo: 'PA_Coaching',
+  },
+  criticism_feedback: {
+    title: 'criticism_feedback',
+    minutes: 4,
+    width: 150,
+    redirectTo: 'PA_Criticism',
+  },
+  praise_feedback: {
+    title: 'praise_feedback',
+    minutes: 4,
+    width: 150,
+    redirectTo: 'PA_Praise',
+  },
+  qualities_character: {
+    title: 'qualities_character',
+    minutes: '4~6',
+    width: 250,
+    redirectTo: 'PA_Qualities_Character',
+  },
+  challenges_concerns: {
+    title: 'challenges_concerns',
+    minutes: '4~6',
+    width: 250,
+    redirectTo: 'PA_Challenges_Concerns',
+  },
+  approach: {
+    title: 'approach_to_conflict',
+    minutes: 2,
+    width: 250,
+    redirectTo: 'PA_Approach',
+  },
+  attachment: {
+    title: 'attachment_pattern',
+    minutes: 2,
+    width: 150,
+    redirectTo: 'PA_Attachment',
+  },
+  comforting: {
+    title: 'comfort',
+    minutes: 2,
+    width: 150,
+    redirectTo: 'PA_Comforting',
+  },
+  stress_recovery: {
+    title: 'stress_recovery',
+    minutes: 4,
+    width: 250,
+    redirectTo: 'PA_StressRecovery',
   },
 };
 

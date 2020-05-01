@@ -58,7 +58,7 @@ class AddReflectionScreen extends React.Component {
       duration: '15~30',
       iconType: 'FontAwesome5Pro-Solid',
       icon: 'chess-knight-alt',
-      navigateTo: '',
+      navigateTo: 'ProfileAdvance',
     },
     {
       key: 'profile_expert',

@@ -33,10 +33,10 @@ class StrengthScreen extends React.Component {
       selectReflection(strength);
     } else {
       this.isNew = true;
-      if (reflectionDraft['Strength']) {
-        selectReflection(reflectionDraft['Strength']);
+      if (reflectionDraft['Strengths']) {
+        selectReflection(reflectionDraft['Strengths']);
       } else {
-        setInitialReflection('strength');
+        setInitialReflection('strengths');
       }
     }
   }

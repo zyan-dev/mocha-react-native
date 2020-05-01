@@ -48,15 +48,19 @@ class NetworkAdvancedPermissions extends React.Component {
                 {t(`trustnetwork_permissions_${p}`)}
               </H3>
               <MCView width={60} align="center">
-                {p === 'coach' && <BullhornSvg theme={theme} size={30} />}
-                {p === 'criticism' && <PointDownSvg theme={theme} size={30} />}
-                {p === 'praise' && <AwardSvg size={30} />}
+                {p === 'coaching_feedback' && (
+                  <BullhornSvg theme={theme} size={30} />
+                )}
+                {p === 'criticism_feedback' && (
+                  <PointDownSvg theme={theme} size={30} />
+                )}
+                {p === 'praise_feedback' && <AwardSvg size={30} />}
                 {p === 'challenges_concerns' && (
                   <MedalSvg theme={theme} size={30} />
                 )}
                 {p === 'qualities_character' && <ExclamationSvg size={30} />}
-                {p === 'approach' && <BoxingSvg size={30} />}
-                {p === 'attachment' && (
+                {p === 'approach_to_conflict' && <BoxingSvg size={30} />}
+                {p === 'attachment_pattern' && (
                   <MCIcon
                     type="FontAwesome5Pro"
                     name="paperclip"

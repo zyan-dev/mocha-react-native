@@ -21,6 +21,8 @@ import BoxingSvg from './Boxing';
 import AttachmentSvg from './Attachment';
 import HandheartSvg from './Handheart';
 import TeaSvg from './Tea';
+import ShieldSvg from './Shield';
+import PeopleArrowSvg from './PeopleArrows';
 
 export {
   UsersSvg,
@@ -46,4 +48,6 @@ export {
   AttachmentSvg,
   HandheartSvg,
   TeaSvg,
+  ShieldSvg,
+  PeopleArrowSvg,
 };

@@ -93,10 +93,10 @@ class BodyAwarenessScreen extends React.Component {
       selectReflection(stress);
     } else {
       this.isNew = true;
-      if (reflectionDraft['Stress']) {
-        selectReflection(reflectionDraft['Stress']);
+      if (reflectionDraft['StressResponse']) {
+        selectReflection(reflectionDraft['StressResponse']);
       } else {
-        setInitialReflection('stress');
+        setInitialReflection('stress_response');
       }
     }
   }
