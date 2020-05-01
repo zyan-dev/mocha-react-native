@@ -17,6 +17,7 @@ import {
   ValueCardTextColor,
 } from 'utils/constants';
 import {KeySvg} from 'assets/svgs';
+import {showAlert} from 'services/operators';
 
 const cardViewHeight =
   CURRENT_HEIGHT - dySize(180) - 120 - (isIphoneX() ? 60 : 0);
@@ -139,10 +140,14 @@ class DiscoverValueScreen extends React.Component {
   };
 
   onPressCoreItem = value => {
+    const {t} = this.props;
     const {coreValues} = this.state;
     const index = coreValues.indexOf(value);
-    if (index < 0) coreValues.push(value);
-    else coreValues.splice(index, 1);
+    if (index < 0 && coreValues.length < 6) coreValues.push(value);
+    else if (index > -1) coreValues.splice(index, 1);
+    else {
+      showAlert(t('error_selected_max_core_values'));
+    }
     this.setState({coreValues});
   };
 
