@@ -305,7 +305,7 @@ const mapStateToProps = state => ({
     state,
     'CoreValues',
   ),
-  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
+  dream: selector.reflections.findUserSpecialReflections(state, 'Dream'),
   dailyHabits: selector.reflections
     .getUserSpecialReflections(state, 'Habit')
     .filter(({data}) => data.isDaily),
