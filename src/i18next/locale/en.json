@@ -310,6 +310,7 @@
   "header_save": "Save",
   "header_select": "Select",
   "header_skip": "Skip",
+  "here_are_some_example": "Here are some examples:",
   "hours_sleep": "Hours Sleep",
   "tag_input_placeholder": "Type here...",
   "input_required_alert": "{{type}} is required field since it is being shared by other users on network.",
@@ -1796,6 +1797,11 @@
   "tools_tab_challenges_concerns": "Challenges & Concerns",
   "tools_tab_comfort": "Comforting Preference",
   "tools_tab_stress_recovery": "Self-Care & Stress-Recovery",
+  "tools_tab_stress_recovery_description": "There are different methods people use for self-soothing and stress recovery. What are yours?",
+  "tools_tab_stress_methods_tea": "Food or tea",
+  "tools_tab_stress_methods_exercise": "Exercise",
+  "tools_tab_stress_methods_meditating": "Meditating, journaling",
+  "tools_tab_stress_methods_music": "Music, creative work, dancing",
   "tools_tab_hydration_question": "How may cups of water do you guess you drink per day?",
   "tools_tab_hydration_practice_title": "Select your hydration practices all that apply",
   "tools_tab_question_best_nutrition": "What foods make you feel the best?",
@@ -2036,5 +2042,6 @@
   "welcome_tools_title": "Welcome to Tools",
   "welcome_tools_take_a_look": "Take a look around.",
   "whos_habit": "{{who}}'s habits",
+  "write_methods": "Write our your methods",
   "yes": "Yes"
 }

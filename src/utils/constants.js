@@ -2266,3 +2266,5 @@ export const impacts = [
   'essential',
   'remarkable',
 ];
+
+export const stressRecoveries = ['tea', 'exercise', 'meditating', 'music'];
