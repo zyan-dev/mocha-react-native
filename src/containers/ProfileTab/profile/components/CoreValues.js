@@ -59,8 +59,8 @@ class CoreValuesCard extends React.Component {
               mt={20}
               key={value.value + theme.colors.theme_name}
               style={{
-                width: 140,
-                height: 200,
+                width: dySize(140),
+                height: dySize(200),
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,

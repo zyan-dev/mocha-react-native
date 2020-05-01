@@ -125,7 +125,6 @@ class ProfileScreen extends React.Component {
   onPressAllRisks = () => {};
   onPressAllAnswers = () => {};
   onPressProfileIcon = icon => {
-    console.log({icon});
     this.props.changeProfileTab(icon.key);
   };
 

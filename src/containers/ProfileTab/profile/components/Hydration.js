@@ -55,7 +55,6 @@ class HydrationCard extends React.Component {
   render() {
     const {t, hydration, editable, onPressEdit} = this.props;
     const cups = _.get(hydration, ['data', 'cups_range'], []);
-    console.log({cups});
     return (
       <MCView>
         <MCView row align="center" mb={20}>

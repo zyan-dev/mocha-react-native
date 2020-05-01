@@ -107,7 +107,6 @@ class AddResourceScreen extends React.PureComponent {
 
   onPressRight = () => {
     const {selectedResource, createResources, updateResources} = this.props;
-    console.log(selectedResource);
     this.setState({submitted: true});
     if (!this.validateTitle()) return;
     if (!this.validateLink()) return;

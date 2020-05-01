@@ -138,7 +138,6 @@ class UserProfileScreen extends React.Component {
       behaviorPreference,
       commits,
     } = this.props;
-    console.log({dailyHabits});
     if (unknownUser) {
       return (
         <MCRootView justify="flex-start">
