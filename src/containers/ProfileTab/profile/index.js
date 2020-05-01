@@ -184,6 +184,7 @@ class ProfileScreen extends React.Component {
       feedbackPreference,
       behaviorPreference,
       commits,
+      showDrawer,
     } = this.props;
     const {showWelcomeModal} = this.state;
     return (
