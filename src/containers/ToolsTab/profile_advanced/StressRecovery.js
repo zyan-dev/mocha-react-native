@@ -78,7 +78,7 @@ class StressRecoveryScreen extends React.Component {
         <MCHeader
           hasRight
           title={t('tools_tab_stress_recovery')}
-          headerIcon={<TeaSvg theme={theme} size={30} />}
+          headerIcon={<TeaSvg theme={theme} size={25} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
           onPressRight={() => {
