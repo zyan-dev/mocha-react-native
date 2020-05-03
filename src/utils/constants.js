@@ -1815,18 +1815,18 @@ export const BehaviorPreferences = [
 ];
 
 export const BehaviorPreferenceNegatives = [
-  'negative_pleasing',
-  'negative_optimistic',
-  'negative_defensive',
-  'negative_high_emotionality',
-  'negative_cynical',
-  'negative_procrasinators',
-  'negative_immature',
-  'negative_teachers',
-  'negative_naysayers',
-  'negative_paranoid',
-  'negative_charmless',
-  'negative_frank',
+  'pleasing',
+  'optimistic',
+  'defensive',
+  'high_emotionality',
+  'cynical',
+  'procrasinators',
+  'immature',
+  'teachers',
+  'naysayers',
+  'paranoid',
+  'charmless',
+  'frank',
 ];
 
 export const RiskTolerances = [
@@ -1996,12 +1996,18 @@ export const profileIcons = [
 export const ApproachToConflictOptions = [
   'peace_keeping',
   'avoid_withdraw',
-  'hostile',
-  'volitile',
-  'validator',
+  'learning_embracing',
+  'high_emotion',
+  'direct_aggression',
   'compromising',
-  'competing',
+  'indirect_aggression',
   'collaborating',
+  'competing',
+  'yeild',
+  'stand_my_ground',
+  'curious',
+  'self_assertive',
+  'self_blaming',
 ];
 
 export const CommitColors = ['#99AA99', '#669966', '#11BB11', '#00FF00'];
@@ -2265,4 +2271,42 @@ export const impacts = [
   'very_important',
   'essential',
   'remarkable',
+];
+
+export const CoachingFeedbackOptions = [
+  {
+    key: 'guide',
+    icon: 'directions',
+    width: 150,
+  },
+  {
+    key: 'task',
+    icon: 'tasks',
+    width: 150,
+  },
+  {
+    key: 'hardass',
+    icon: 'stopwatch',
+    width: 150,
+  },
+  {
+    key: 'cheerleader',
+    icon: 'megaphone',
+    width: 150,
+  },
+  {
+    key: 'handshake',
+    icon: 'handshake',
+    width: 150,
+  },
+  {
+    key: 'accountability',
+    icon: 'people-arrows',
+    width: 150,
+  },
+  {
+    key: 'contract',
+    icon: 'pen-nib',
+    width: 250,
+  },
 ];

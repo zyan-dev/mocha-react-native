@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import YouTube from 'react-native-youtube';
 import * as _ from 'lodash';
-
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';

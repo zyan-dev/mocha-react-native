@@ -201,19 +201,13 @@ export const getStringWithOutline = (
       }
       if (bigSize) {
         snippets.push(
-          <H3
-            weight={bold ? 'bold' : 'regular'}
-            underline={underline}
-            align="center">
+          <H3 weight={bold ? 'bold' : 'regular'} underline={underline}>
             {str.substr(boldIndex, boldWord.length)}
           </H3>,
         );
       } else {
         snippets.push(
-          <H4
-            weight={bold ? 'bold' : 'regular'}
-            underline={underline}
-            align="center">
+          <H4 weight={bold ? 'bold' : 'regular'} underline={underline}>
             {str.substr(boldIndex, boldWord.length)}
           </H4>,
         );

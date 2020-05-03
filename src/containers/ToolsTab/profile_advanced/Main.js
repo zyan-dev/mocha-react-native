@@ -4,7 +4,7 @@ import {withTranslation} from 'react-i18next';
 import {selector} from 'Redux/selectors';
 import {otherActions} from 'Redux/actions';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
-import {H2, H3, H4, MCText} from 'components/styled/Text';
+import {H2, H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
 import {ProfileAdvanceCards} from 'utils/constants';
@@ -210,11 +210,11 @@ const mapStateToProps = state => ({
   ),
   qualities_character: selector.reflections.findMySpecialReflections(
     state,
-    'Qualities_and_Character',
+    'Qualities',
   ),
   challenges_concerns: selector.reflections.findMySpecialReflections(
     state,
-    'Challenges_and_Concerns',
+    'Challenges',
   ),
   approach: selector.reflections.findMySpecialReflections(state, 'Approach'),
   attachment: selector.reflections.findMySpecialReflections(

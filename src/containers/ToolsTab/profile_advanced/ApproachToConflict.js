@@ -5,13 +5,13 @@ import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H3, H4, ErrorText, MCTextInput} from 'components/styled/Text';
+import {H3, H4, ErrorText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCHeader, MCIcon} from 'components/common';
+import {MCHeader} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {FutureSvg} from 'assets/svgs';
-import {BoxingSvg} from '../../../assets/svgs';
+import {BoxingSvg} from 'assets/svgs';
+import {ApproachToConflictOptions} from 'utils/constants';
 
 class ApproachToConflictScreen extends React.Component {
   constructor(props) {
@@ -51,9 +51,39 @@ class ApproachToConflictScreen extends React.Component {
     NavigationService.goBack();
   };
 
+  onPressItem = key => {
+    const {
+      selectedReflection: {
+        data: {options},
+      },
+      updateSelectedReflection,
+    } = this.props;
+    const index = options.indexOf(key);
+    if (index < 0) options.push(key);
+    else options.splice(index, 1);
+    updateSelectedReflection({options});
+  };
+
+  onPressSubmit = () => {
+    this.setState({submitted: true});
+    if (!this.validateOptions()) return;
+    this.props.addOrUpdateReflection();
+  };
+
+  validateOptions = () => {
+    const options = _.get(
+      this.props.selectedReflection,
+      ['data', 'options'],
+      [],
+    );
+    return options.length > 0;
+  };
+
   render() {
     const {submitted, newItem} = this.state;
     const {t, theme, selectedReflection, updateSelectedReflection} = this.props;
+    if (!selectedReflection || !selectedReflection.data) return null;
+    const options = _.get(selectedReflection, ['data', 'options'], []);
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -62,10 +92,45 @@ class ApproachToConflictScreen extends React.Component {
           headerIcon={<BoxingSvg size={25} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
-          onPressRight={() => {}}
+          onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          <H4>{t('coming soon')}</H4>
+          <H4>{t('tools_tab_approach_to_conflict_question')}</H4>
+          <H4 weight="italic">{t(`select_all_that_apply`)}</H4>
+          {!this.validateOptions() && submitted && (
+            <ErrorText>{t('error_input_select_empty')}</ErrorText>
+          )}
+          <MCView row wrap justify="space-between" mt={20}>
+            {ApproachToConflictOptions.map(key => {
+              const selected = options.indexOf(key) > -1;
+              return (
+                <MCButton
+                  key={key}
+                  bordered
+                  width={key === 'template' ? 335 : 160}
+                  height={100}
+                  br={6}
+                  mb={10}
+                  align="center"
+                  justify="center"
+                  style={{
+                    borderColor: !selected
+                      ? theme.colors.border
+                      : theme.colors.outline,
+                  }}
+                  onPress={() => this.onPressItem(key)}>
+                  <H3
+                    weight={!selected ? 'regular' : 'bold'}
+                    align="center"
+                    color={
+                      !selected ? theme.colors.text : theme.colors.outline
+                    }>
+                    {t(`tools_tab_approach_to_conflict_${key}`)}
+                  </H3>
+                </MCButton>
+              );
+            })}
+          </MCView>
         </MCContent>
       </MCRootView>
     );
