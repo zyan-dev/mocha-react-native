@@ -78,7 +78,6 @@ class ChallengesConcernScreen extends React.Component {
     const {t, theme, selectedReflection, addOrUpdateReflection} = this.props;
     if (!selectedReflection) return null;
     const bookmarked = _.get(selectedReflection, ['data', 'bookmarked'], []);
-    console.log({selectedReflection});
     return (
       <MCRootView justify="flex-start">
         <MCHeader

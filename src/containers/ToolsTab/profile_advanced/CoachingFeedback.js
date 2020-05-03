@@ -89,6 +89,7 @@ class CoachingFeedbackScreen extends React.Component {
   render() {
     const {submitted} = this.state;
     const {t, theme, selectedReflection} = this.props;
+    if (!selectedReflection) return null;
     const options = _.get(selectedReflection, ['data', 'options'], []);
     return (
       <MCRootView justify="flex-start" align="flex-start">
