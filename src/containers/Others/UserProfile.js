@@ -32,8 +32,11 @@ import QuirksCard from '../ProfileTab/profile/components/Quirks';
 import TriggersCard from '../ProfileTab/profile/components/Triggers';
 import AttachmentCard from '../ProfileTab/profile/components/Attachment';
 import ApproachCard from '../ProfileTab/profile/components/Approach';
-import FeedbackPreferenceCard from '../ProfileTab/profile/components/FeedbackPreference';
-import BehaviorPreferenceCard from '../ProfileTab/profile/components/BehaviorPreference';
+import CoachingFeedbackCard from '../ProfileTab/profile/components/FeedbackCoaching';
+import CriticismFeedbackCard from '../ProfileTab/profile/components/FeedbackCriticism';
+import PraiseFeedbackCard from '../ProfileTab/profile/components/FeedbackPraise';
+import QualitiesBehaviorCard from '../ProfileTab/profile/components/BehaviorQualities';
+import ChallengesBehaviorCard from '../ProfileTab/profile/components/BehaviorChallenges';
 import NutritionCard from '../ProfileTab/profile/components/Nutrition';
 import HydrationCard from '../ProfileTab/profile/components/Hydration';
 import NavigationService from 'navigation/NavigationService';
@@ -134,8 +137,11 @@ class UserProfileScreen extends React.Component {
       motivations,
       manuals,
       personality,
-      feedbackPreference,
-      behaviorPreference,
+      coaching,
+      criticism,
+      praise,
+      qualities,
+      challenges,
       commits,
     } = this.props;
     if (unknownUser) {
@@ -221,6 +227,40 @@ class UserProfileScreen extends React.Component {
                   dailyHabits={dailyHabits}
                   weeklyHabits={weeklyHabits}
                   theme={theme}
+                />
+              )}
+              {selected === 'coaching_feedback' && (
+                <CoachingFeedbackCard
+                  coaching={coaching}
+                  theme={theme}
+                  editable={false}
+                />
+              )}
+              {selected === 'criticism_feedback' && (
+                <CriticismFeedbackCard
+                  criticism={criticism}
+                  theme={theme}
+                  editable={false}
+                />
+              )}
+              {selected === 'praise_feedback' && (
+                <PraiseFeedbackCard
+                  praise={praise}
+                  theme={theme}
+                  editable={false}
+                />
+              )}
+              {selected === 'qualities_character' && (
+                <QualitiesBehaviorCard
+                  qualities={qualities}
+                  theme={theme}
+                  editable={false}
+                />
+              )}
+              {selected === 'challenges_concerns' && (
+                <ChallengesBehaviorCard
+                  challenges={challenges}
+                  editable={false}
                 />
               )}
               {selected === 'value' && (
@@ -330,13 +370,25 @@ const mapStateToProps = state => ({
     state,
     'Personality',
   ),
-  feedbackPreference: selector.reflections.findUserSpecialReflections(
+  coaching: selector.reflections.findUserSpecialReflections(
     state,
-    'FeedbackPreference',
+    'CoachingFeedback',
   ),
-  behaviorPreference: selector.reflections.findUserSpecialReflections(
+  criticism: selector.reflections.findUserSpecialReflections(
     state,
-    'BehaviorPreference',
+    'CriticismFeedback',
+  ),
+  praise: selector.reflections.findUserSpecialReflections(
+    state,
+    'PraiseFeedback',
+  ),
+  qualities: selector.reflections.findUserSpecialReflections(
+    state,
+    'Qualities',
+  ),
+  challenges: selector.reflections.findUserSpecialReflections(
+    state,
+    'Challenges',
   ),
   commits: state.otherReducer.commits,
 });

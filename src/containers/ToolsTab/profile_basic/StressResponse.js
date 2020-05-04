@@ -232,7 +232,10 @@ class BodyAwarenessScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
-  stress: selector.reflections.findMySpecialReflections(state, 'Stress'),
+  stress: selector.reflections.findMySpecialReflections(
+    state,
+    'StressResponse',
+  ),
   reflectionDraft: state.reflectionReducer.draft,
 });
 
