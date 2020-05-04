@@ -109,7 +109,9 @@ class MCHeader extends React.PureComponent {
           )}
         </HeaderLeft>
         <HeaderBody>
-          <H3 mr={6}>{title}</H3>
+          <H3 mr={6} align="center">
+            {title}
+          </H3>
           {headerIcon}
         </HeaderBody>
         <HeaderRight>
