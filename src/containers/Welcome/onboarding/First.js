@@ -52,20 +52,10 @@ class WelcomeOnboardFirst extends React.PureComponent {
               paddingHorizontal: 15,
             }}>
             <MCView align="center">
-              {getStringWithOutline(
-                this.MochaMeanQuestion,
-                'center',
-                true,
-                false,
-              )}
+              {getStringWithOutline(this.MochaMeanQuestion)}
             </MCView>
             <MCView align="center" mt={15}>
-              {getStringWithOutline(
-                this.MochaMeanAnswer,
-                'center',
-                true,
-                false,
-              )}
+              {getStringWithOutline(this.MochaMeanAnswer)}
             </MCView>
             <H4 mt={30} align="center">
               {t('welcome_onboard_first_text_3')}

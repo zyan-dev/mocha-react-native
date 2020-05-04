@@ -73,8 +73,8 @@ class ProfileBasicScreen extends React.Component {
             />
           }
           hasRight
-          rightIconType="FontAwesome5Pro-Regular"
-          rightIcon="exclamation-circle"
+          rightIconType="FontAwesome5Pro"
+          rightIcon="question-circle"
           onPressRight={() => this.setState({showWelcomeModal: true})}
         />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
@@ -224,13 +224,14 @@ class ProfileBasicScreen extends React.Component {
           </MCView>
         </MCModal>
         <MCModal
+          br={50}
           hasCloseButton={false}
           isVisible={
             (showWelcomeBasicProfile && !completedBasicProfile) ||
             showWelcomeModal
           }>
           <MCView width={280} mt={20} align="center">
-            <MCView bordered br={50} align="center" pv={40} ph={10} width={270}>
+            <MCView align="center" pv={40} ph={10} width={270}>
               <MCView row wrap align="center">
                 <H3 underline>{t('welcome_profile_basic')}</H3>
                 <MCIcon

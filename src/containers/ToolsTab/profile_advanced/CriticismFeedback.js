@@ -95,7 +95,7 @@ class CriticismFeedbackScreen extends React.Component {
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          {getStringWithOutline(this.title, 'left')}
+          {getStringWithOutline(this.title, {align: 'left'})}
           <H4 mb={20}>{t(`select_all_that_apply`)}</H4>
           {submitted && !this.validateOptions() && (
             <ErrorText>{t('error_input_habits')}</ErrorText>

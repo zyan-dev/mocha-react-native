@@ -2043,12 +2043,6 @@ export const ValueCardTextColor = '#222222';
 export const ValueCardBackgrounds = ['#FBE9E6', '#E9F6F9', '#E5E6E8'];
 
 export const DiscoverValues = [
-  // {
-  //   value: 'social',
-  //   category: 'power',
-  //   name: 'sparrow',
-  //   image: AnimalSparrow,
-  // },
   {
     value: 'beauty',
     category: 'universalism',

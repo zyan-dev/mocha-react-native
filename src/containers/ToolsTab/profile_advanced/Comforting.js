@@ -112,7 +112,7 @@ class ComfortingScreen extends React.Component {
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          {getStringWithOutline(this.description, 'left', true, false)}
+          {getStringWithOutline(this.description, {align: 'left'})}
           <H4>{t('select_all_that_apply')}</H4>
           {!this.validateOptions() && submitted && (
             <ErrorText>{t('error_input_select_empty')}</ErrorText>

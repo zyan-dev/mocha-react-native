@@ -89,7 +89,7 @@ class QualitiesCharacterScreen extends React.Component {
           onPressRight={() => addOrUpdateReflection()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          {getStringWithOutline(this.title, 'left', true, true)}
+          {getStringWithOutline(this.title, {align: 'left', underline: true})}
           {BehaviorPreferences.map(preference => {
             const liked = bookmarked.indexOf(preference) > -1;
             return (

@@ -102,8 +102,10 @@ class CoachingFeedbackScreen extends React.Component {
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(15)}}>
-          {getStringWithOutline(this.title)}
-          <MCView mt={20}>{getStringWithOutline(this.question)}</MCView>
+          {getStringWithOutline(this.title, {align: 'left'})}
+          <MCView mt={20}>
+            {getStringWithOutline(this.question, {align: 'left'})}
+          </MCView>
           <H4 mt={20}>{t('select_all_that_apply')}</H4>
           {submitted && !this.validateOptions() && (
             <ErrorText>{t('error_input_habits')}</ErrorText>

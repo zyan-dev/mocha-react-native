@@ -18,6 +18,8 @@ import {
 } from 'utils/constants';
 import {KeySvg} from 'assets/svgs';
 import {showAlert} from 'services/operators';
+import {getStringWithOutline} from '../../../services/operators';
+import i18next from 'i18next';
 
 const cardViewHeight =
   CURRENT_HEIGHT - dySize(180) - 120 - (isIphoneX() ? 60 : 0);
@@ -32,10 +34,37 @@ class DiscoverValueScreen extends React.Component {
       selectedValues: [], // important values
       step: 0,
       submitted: false,
-      scrollEnabled: true,
       showHowModal: false,
     };
   }
+
+  title = {
+    title: i18next.t('tools_tab_profile_basic_question_1', {
+      bold: i18next.t('outline_core_values'),
+    }),
+    boldWordKeys: ['core_values'],
+  };
+
+  subTitle1 = {
+    title: i18next.t('tools_tab_core_value_modal_subtitle_1', {
+      bold: i18next.t('outline_right'),
+    }),
+    boldWordKeys: ['right'],
+  };
+
+  subTitle2 = {
+    title: i18next.t('tools_tab_core_value_modal_subtitle_2', {
+      bold: i18next.t('outline_left'),
+    }),
+    boldWordKeys: ['left'],
+  };
+
+  subTitle3 = {
+    title: i18next.t('tools_tab_core_value_modal_subtitle_3', {
+      bold: i18next.t('outline_6_core_values'),
+    }),
+    boldWordKeys: ['6_core_values'],
+  };
 
   componentWillMount() {
     const {coreValues, selectReflection, setInitialReflection} = this.props;
@@ -110,11 +139,11 @@ class DiscoverValueScreen extends React.Component {
   };
 
   _onSwipe = x => {
-    this.setState({swipeXOffset: x, scrollEnabled: false});
+    this.setState({swipeXOffset: x});
   };
 
   _onSwipeEnd = () => {
-    this.setState({swipeXOffset: 0, scrollEnabled: true});
+    this.setState({swipeXOffset: 0});
   };
 
   onPressHeaderBack = () => {
@@ -171,16 +200,121 @@ class DiscoverValueScreen extends React.Component {
     return this.state.coreValues.length > 0;
   };
 
+  renderValueCard = (value, index) => {
+    const {t, theme} = this.props;
+    return (
+      <Card
+        key={value.value + theme.colors.theme_name}
+        style={{
+          width: cardViewHeight * 0.65,
+          height: cardViewHeight * 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderWidth: 1,
+          borderColor: theme.colors.border,
+          backgroundColor: ValueCardBackgrounds[index % 3],
+          borderRadius: 10,
+          borderWidth: dySize(12),
+          borderColor: 'white',
+          padding: dySize(5),
+        }}>
+        <H5 style={{letterSpacing: 5}} color={ValueCardTextColor}>
+          {t(`value_category_${value.category}`).toUpperCase()}
+        </H5>
+        <H3 weight="bold" align="center" color={ValueCardTextColor}>
+          {t(`tools_tab_value_${value.value}`)}
+        </H3>
+        <MCView style={{flex: 1}} align="center" justify="center">
+          {value.image && (
+            <MCImage
+              image={value.image}
+              width={cardViewHeight * 0.5}
+              height={cardViewHeight * 0.4}
+              resizeMode="contain"
+            />
+          )}
+          {value.icon && (
+            <MCIcon
+              type="FontAwesome5"
+              name={value.icon}
+              size={60}
+              color={ValueCardTextColor}
+            />
+          )}
+        </MCView>
+        <H5
+          align="center"
+          style={{letterSpacing: 5}}
+          color={ValueCardTextColor}>
+          {t(`value_name_${value.name}`).toUpperCase()}
+        </H5>
+        <H5 weight="italic" align="center" color={ValueCardTextColor}>
+          {t(`value_name_${value.name}_description`)}
+        </H5>
+      </Card>
+    );
+  };
+
+  renderSelectedValueCard = (value, index) => {
+    const {coreValues} = this.state;
+    const {t, theme} = this.props;
+    const selected = coreValues.indexOf(value) > -1;
+    return (
+      <MCButton
+        key={value.value + theme.colors.theme_name}
+        mb={15}
+        onPress={() => this.onPressCoreItem(value)}
+        style={{
+          width: dySize(160),
+          height: dySize(220),
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderWidth: 1,
+          borderColor: selected ? theme.colors.outline : 'white',
+          backgroundColor: ValueCardBackgrounds[index % 3],
+          borderRadius: 10,
+          borderWidth: dySize(6),
+          padding: dySize(5),
+        }}>
+        <H4 weight="bold" align="center" color={ValueCardTextColor}>
+          {t(`tools_tab_value_${value.value}`)}
+        </H4>
+        <MCView style={{flex: 1}} align="center" justify="center">
+          {value.image && (
+            <MCImage
+              image={value.image}
+              width={dySize(150)}
+              height={dySize(120)}
+              resizeMode="contain"
+            />
+          )}
+          {value.icon && (
+            <MCIcon
+              type="FontAwesome5"
+              name={value.icon}
+              size={50}
+              color={ValueCardTextColor}
+            />
+          )}
+        </MCView>
+        <H5
+          align="center"
+          style={{letterSpacing: 5}}
+          color={ValueCardTextColor}>
+          {t(`value_name_${value.name}`).toUpperCase()}
+        </H5>
+      </MCButton>
+    );
+  };
+
   render() {
     const {
       swiped,
       step,
       coreValues,
       submitted,
-      scrollEnabled,
       showHowModal,
       selectedValues,
-      selectedReflection,
     } = this.state;
     const {t, theme} = this.props;
     return (
@@ -246,60 +380,9 @@ class DiscoverValueScreen extends React.Component {
                   </>
                 )}
                 disableBottomSwipe>
-                {DiscoverValues.map((value, index) => (
-                  <Card
-                    key={value.value + theme.colors.theme_name}
-                    style={{
-                      width: cardViewHeight * 0.65,
-                      height: cardViewHeight * 1,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderWidth: 1,
-                      borderColor: theme.colors.border,
-                      backgroundColor: ValueCardBackgrounds[index % 3],
-                      borderRadius: 10,
-                      borderWidth: dySize(12),
-                      borderColor: 'white',
-                      padding: dySize(5),
-                    }}>
-                    <H5 style={{letterSpacing: 5}} color={ValueCardTextColor}>
-                      {t(`value_category_${value.category}`).toUpperCase()}
-                    </H5>
-                    <H3 weight="bold" align="center" color={ValueCardTextColor}>
-                      {t(`tools_tab_value_${value.value}`)}
-                    </H3>
-                    <MCView style={{flex: 1}} align="center" justify="center">
-                      {value.image && (
-                        <MCImage
-                          image={value.image}
-                          width={cardViewHeight * 0.5}
-                          height={cardViewHeight * 0.4}
-                          resizeMode="contain"
-                        />
-                      )}
-                      {value.icon && (
-                        <MCIcon
-                          type="FontAwesome5"
-                          name={value.icon}
-                          size={60}
-                          color={ValueCardTextColor}
-                        />
-                      )}
-                    </MCView>
-                    <H5
-                      align="center"
-                      style={{letterSpacing: 5}}
-                      color={ValueCardTextColor}>
-                      {t(`value_name_${value.name}`).toUpperCase()}
-                    </H5>
-                    <H5
-                      weight="italic"
-                      align="center"
-                      color={ValueCardTextColor}>
-                      {t(`value_name_${value.name}_description`)}
-                    </H5>
-                  </Card>
-                ))}
+                {DiscoverValues.map((value, index) => {
+                  return this.renderValueCard(value, index);
+                })}
               </CardStack>
             </MCView>
             <MCView row align="center" width={375} height={100}>
@@ -361,74 +444,36 @@ class DiscoverValueScreen extends React.Component {
               <ErrorText>{t('error_input_select_empty')}</ErrorText>
             )}
             <MCView row wrap justify="space-between" mt={20}>
-              {selectedValues.map(item => {
-                const value = item;
-                return (
-                  <MCButton
-                    key={value}
-                    bordered
-                    width={160}
-                    height={100}
-                    br={6}
-                    mb={10}
-                    align="center"
-                    justify="center"
-                    style={{
-                      borderColor:
-                        coreValues.indexOf(value) < 0
-                          ? theme.colors.border
-                          : theme.colors.outline,
-                    }}
-                    onPress={() => this.onPressCoreItem(value)}>
-                    <H3
-                      weight={
-                        coreValues.indexOf(value) < 0 ? 'regular' : 'bold'
-                      }
-                      align="center"
-                      color={
-                        coreValues.indexOf(value) < 0
-                          ? theme.colors.text
-                          : theme.colors.outline
-                      }>
-                      {t(`tools_tab_value_${value.value}`)}
-                    </H3>
-                  </MCButton>
-                );
+              {selectedValues.map((item, index) => {
+                return this.renderSelectedValueCard(item, index);
               })}
             </MCView>
           </MCContent>
         )}
         <MCModal
+          br={50}
           isVisible={showHowModal}
+          hasCloseButton={false}
           onClose={() => this.setState({showHowModal: false})}>
-          <MCView width={280} mt={20}>
-            <MCView row align="center" mt={10}>
-              <MCButton bordered align="center" width={100}>
-                <H5>{t('tools_tab_discover_your_values_swipe_left')}</H5>
-              </MCButton>
-              <MCIcon type="FontAwesome" name="long-arrow-right" padding={10} />
-              <H5 style={{flex: 1}}>
-                {t('tools_tab_discover_your_values_less_important')}
-              </H5>
+          <MCView width={250} align="center" mt={20}>
+            <KeySvg theme={theme} size={30} />
+            <MCView mt={20} mb={20}>
+              {getStringWithOutline(this.title, {
+                style: {underline: true},
+                bigSize: true,
+              })}
             </MCView>
-            <MCView row align="center" mt={10}>
-              <MCButton bordered align="center" width={100}>
-                <H5>{t('tools_tab_discover_your_values_swipe_right')}</H5>
-              </MCButton>
-              <MCIcon type="FontAwesome" name="long-arrow-right" padding={10} />
-              <H5 style={{flex: 1}}>
-                {t('tools_tab_discover_your_values_very_important')}
-              </H5>
-            </MCView>
-            <MCView row align="center" mt={10}>
-              <MCButton bordered align="center" width={100}>
-                <H5>{t('tools_tab_discover_your_values_swipe_top')}</H5>
-              </MCButton>
-              <MCIcon type="FontAwesome" name="long-arrow-right" padding={10} />
-              <H5 style={{flex: 1}}>
-                {t('tools_tab_discover_your_values_super_important')}
-              </H5>
-            </MCView>
+            <MCView mb={20}>{getStringWithOutline(this.subTitle1)}</MCView>
+            <MCView mb={20}>{getStringWithOutline(this.subTitle2)}</MCView>
+            <MCView mb={20}>{getStringWithOutline(this.subTitle3)}</MCView>
+            <MCButton
+              bordered
+              mt={20}
+              width={150}
+              align="center"
+              onPress={() => this.setState({showHowModal: false})}>
+              <H3>{t('welcome_reflectionpoints_buttons_continue')}</H3>
+            </MCButton>
           </MCView>
         </MCModal>
       </MCRootView>
