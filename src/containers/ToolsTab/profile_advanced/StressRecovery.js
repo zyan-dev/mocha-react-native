@@ -2,16 +2,16 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
+
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H3, H4, ErrorText, MCTextInput} from 'components/styled/Text';
-import {MCButton} from 'components/styled/Button';
-import {MCHeader, MCIcon} from 'components/common';
+import {H3, H4} from 'components/styled/Text';
+import {MCHeader, MCTextFormInput} from 'components/common';
 import {dySize} from 'utils/responsive';
+import {stressRecoveries} from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
-import {FutureSvg} from 'assets/svgs';
-import {BoxingSvg} from '../../../assets/svgs';
+import {TeaSvg} from 'assets/svgs';
 
 class StressRecoveryScreen extends React.Component {
   constructor(props) {
@@ -51,21 +51,66 @@ class StressRecoveryScreen extends React.Component {
     NavigationService.goBack();
   };
 
+  onPressSubmit = () => {
+    this.setState({submitted: true});
+    if (!this.validateMethod()) return;
+    this.props.addOrUpdateReflection();
+  };
+
+  validateMethod = () => {
+    return this.props.selectedReflection.data.method.length > 0;
+  };
+
   render() {
-    const {submitted, newItem} = this.state;
+    const {submitted} = this.state;
     const {t, theme, selectedReflection, updateSelectedReflection} = this.props;
+
+    if (
+      selectedReflection == undefined ||
+      selectedReflection.type !== 'StressRecovery'
+    )
+      return null;
+    const method = _.get(selectedReflection, ['data', 'method'], '');
+    const isErrorMethods = !this.validateMethod();
+
     return (
       <MCRootView justify="flex-start">
         <MCHeader
           hasRight
-          title={t('tools_tab_qualities_character')}
-          headerIcon={<BoxingSvg size={25} />}
+          title={t('tools_tab_stress_recovery')}
+          headerIcon={<TeaSvg theme={theme} size={25} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
-          onPressRight={() => {}}
+          onPressRight={() => {
+            this.onPressSubmit();
+          }}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          <H4>{t('coming soon')}</H4>
+          <H3>{t('tools_tab_stress_recovery_description')}</H3>
+          <MCView ph={20}>
+            <H4 underline mt={10}>
+              {t('here_are_some_example')}
+            </H4>
+            <MCView width={295} mb={50} mt={5} align="center">
+              <MCView width={255} bordered br={10} ph={10}>
+                {stressRecoveries.map((stress, index) => (
+                  <H4 key={index}>{t(`tools_tab_stress_methods_${stress}`)}</H4>
+                ))}
+              </MCView>
+            </MCView>
+
+            <MCTextFormInput
+              label={t('write_methods')}
+              value={method}
+              multiline
+              bordered
+              onChange={text => updateSelectedReflection({method: text})}
+              submitted={submitted}
+              errorText={t('error_input_required')}
+              isInvalid={isErrorMethods}
+              style={{width: dySize(295)}}
+            />
+          </MCView>
         </MCContent>
       </MCRootView>
     );
