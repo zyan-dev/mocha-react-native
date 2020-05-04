@@ -170,7 +170,7 @@ class DreamScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
-  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
+  dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
   reflectionDraft: state.reflectionReducer.draft,
 });
 

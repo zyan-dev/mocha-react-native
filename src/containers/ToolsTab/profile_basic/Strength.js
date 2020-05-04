@@ -140,7 +140,7 @@ class StrengthScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: state.reflectionReducer.selectedReflection,
-  strength: selector.reflections.findMySpecialReflections(state, 'Strength'),
+  strength: selector.reflections.findMySpecialReflections(state, 'Strengths'),
   reflectionDraft: state.reflectionReducer.draft,
 });
 
