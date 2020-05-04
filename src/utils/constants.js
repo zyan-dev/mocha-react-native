@@ -2310,3 +2310,17 @@ export const CoachingFeedbackOptions = [
     width: 250,
   },
 ];
+
+export const ComfortingPreferences = [
+  'listened_to',
+  'reassurance',
+  'my_feeling',
+  'solution',
+  'humor',
+  'hug',
+  'hearing_optimism',
+  'hearing_pessimism',
+  'conversation',
+  'other_people',
+  'template',
+];
