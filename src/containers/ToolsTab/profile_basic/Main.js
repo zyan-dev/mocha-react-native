@@ -224,7 +224,10 @@ const mapStateToProps = state => ({
     state,
     'CoreValues',
   ),
-  stress: selector.reflections.findMySpecialReflections(state, 'Stress'),
+  stress: selector.reflections.findMySpecialReflections(
+    state,
+    'StressResponse',
+  ),
   chronotype: selector.reflections.findMySpecialReflections(
     state,
     'Chronotype',
