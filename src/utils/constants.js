@@ -2429,3 +2429,5 @@ export const ComfortingPreferences = [
   'other_people',
   'template',
 ];
+
+export const stressRecoveries = ['tea', 'exercise', 'meditating', 'music'];
