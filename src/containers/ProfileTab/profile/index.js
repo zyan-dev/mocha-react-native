@@ -33,8 +33,11 @@ import QuirksCard from './components/Quirks';
 import TriggersCard from './components/Triggers';
 import AttachmentCard from './components/Attachment';
 import ApproachCard from './components/Approach';
-import FeedbackPreferenceCard from './components/FeedbackPreference';
-import BehaviorPreferenceCard from './components/BehaviorPreference';
+import CoachingFeedbackCard from './components/FeedbackCoaching';
+import CriticismFeedbackCard from './components/FeedbackCriticism';
+import PraiseFeedbackCard from './components/FeedbackPraise';
+import QualitiesBehaviorCard from './components/BehaviorQualities';
+import ChallengesBehaviorCard from './components/BehaviorChallenges';
 import NutritionCard from './components/Nutrition';
 import HydrationCard from './components/Hydration';
 import DreamCard from './components/Dream';
@@ -181,7 +184,11 @@ class ProfileScreen extends React.Component {
       motivations,
       manuals,
       personality,
-      feedbackPreference,
+      coaching,
+      criticism,
+      praise,
+      qualities,
+      challenges,
       behaviorPreference,
       commits,
       showDrawer,
@@ -273,6 +280,52 @@ class ProfileScreen extends React.Component {
                   theme={theme}
                 />
               )}
+              {profileTab === 'coaching_feedback' && (
+                <CoachingFeedbackCard
+                  coaching={coaching}
+                  theme={theme}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditCoachingFeedback')
+                  }
+                />
+              )}
+              {profileTab === 'criticism_feedback' && (
+                <CriticismFeedbackCard
+                  criticism={criticism}
+                  theme={theme}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditCriticismFeedback')
+                  }
+                />
+              )}
+              {profileTab === 'praise_feedback' && (
+                <PraiseFeedbackCard
+                  praise={praise}
+                  theme={theme}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditPraiseFeedback')
+                  }
+                />
+              )}
+              {profileTab === 'qualities_character' && (
+                <QualitiesBehaviorCard
+                  qualities={qualities}
+                  behaviorPreference={behaviorPreference}
+                  theme={theme}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditQualities')
+                  }
+                />
+              )}
+              {profileTab === 'challenges_concerns' && (
+                <ChallengesBehaviorCard
+                  challenges={challenges}
+                  behaviorPreference={behaviorPreference}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditChallenges')
+                  }
+                />
+              )}
               {profileTab === 'purpose' && (
                 <PurposesCard
                   onPressDetails={() => this.onPressAllPurposes()}
@@ -317,22 +370,6 @@ class ProfileScreen extends React.Component {
               )}
               {profileTab === 'approach' && (
                 <ApproachCard onPressEdit={() => {}} />
-              )}
-              {profileTab === 'feedback_preference' && (
-                <FeedbackPreferenceCard
-                  feedbackPreference={feedbackPreference}
-                  onPressEdit={() =>
-                    NavigationService.navigate('FeedbackPreference')
-                  }
-                />
-              )}
-              {profileTab === 'behavior_preference' && (
-                <BehaviorPreferenceCard
-                  behaviorPreference={behaviorPreference}
-                  onPressEdit={() =>
-                    NavigationService.navigate('BehaviorPreference')
-                  }
-                />
               )}
             </MCContent>
           </MCView>
@@ -408,13 +445,22 @@ const mapStateToProps = state => ({
     state,
     'Personality',
   ),
-  feedbackPreference: selector.reflections.findMySpecialReflections(
+  coaching: selector.reflections.findMySpecialReflections(
     state,
-    'FeedbackPreference',
+    'CoachingFeedback',
   ),
-  behaviorPreference: selector.reflections.findMySpecialReflections(
+  criticism: selector.reflections.findMySpecialReflections(
     state,
-    'BehaviorPreference',
+    'CriticismFeedback',
+  ),
+  praise: selector.reflections.findMySpecialReflections(
+    state,
+    'PraiseFeedback',
+  ),
+  qualities: selector.reflections.findMySpecialReflections(state, 'Qualities'),
+  challenges: selector.reflections.findMySpecialReflections(
+    state,
+    'Challenges',
   ),
   commits: state.otherReducer.commits,
 });

@@ -30,6 +30,11 @@ import EditStrengthScreen from '../ToolsTab/profile_basic/Strength';
 import EditBodyStressScreen from '../ToolsTab/profile_basic/StressResponse';
 import EditDreamScreen from '../ToolsTab/profile_basic/Dream';
 import EditCoreValuesScreen from '../ToolsTab/profile_basic/DiscoverYourValues';
+import EditCoachingFeedbackScreen from '../ToolsTab/profile_advanced/CoachingFeedback';
+import EditCriticismFeedbackScreen from '../ToolsTab/profile_advanced/CriticismFeedback';
+import EditPraiseFeedbackScreen from '../ToolsTab/profile_advanced/PriaseFeedback';
+import EditQualitiesScreen from '../ToolsTab/profile_advanced/QualitiesCharacter';
+import EditChallengesScreen from '../ToolsTab/profile_advanced/ChallengesConcerns';
 
 const Stack = createStackNavigator();
 
@@ -100,6 +105,23 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen
             name="EditBodyStress"
             component={EditBodyStressScreen}
+          />
+          <Stack.Screen
+            name="EditCoachingFeedback"
+            component={EditCoachingFeedbackScreen}
+          />
+          <Stack.Screen
+            name="EditCriticismFeedback"
+            component={EditCriticismFeedbackScreen}
+          />
+          <Stack.Screen
+            name="EditPraiseFeedback"
+            component={EditPraiseFeedbackScreen}
+          />
+          <Stack.Screen name="EditQualities" component={EditQualitiesScreen} />
+          <Stack.Screen
+            name="EditChallenges"
+            component={EditChallengesScreen}
           />
         </Stack.Navigator>
       </Drawer>
