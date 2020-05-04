@@ -86,7 +86,7 @@ class StressRecoveryScreen extends React.Component {
           }}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          <H3>{t('tools_tab_stress_recovery_description')}</H3>
+          <H4>{t('tools_tab_stress_recovery_description')}</H4>
           <MCView ph={20}>
             <H4 underline mt={10}>
               {t('here_are_some_example')}
