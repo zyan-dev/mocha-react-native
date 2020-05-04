@@ -9,8 +9,13 @@ import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
 import {ProfileAdvanceCards} from 'utils/constants';
 import ProfileBasicCard from '../profile_basic/components/ProfileBasicCard';
-import {IceCreamSvg, ShieldSvg} from 'assets/svgs';
-import {HeadPhoneSvg, PeopleArrowSvg} from '../../../assets/svgs';
+import {
+  IceCreamSvg,
+  ShieldSvg,
+  HeadPhoneSvg,
+  PeopleArrowSvg,
+  AppleSvg,
+} from 'assets/svgs';
 
 class ProfileAdvancedScreen extends React.Component {
   render() {
@@ -150,13 +155,20 @@ class ProfileAdvancedScreen extends React.Component {
           }>
           <MCView width={280} mt={20}>
             <MCView bordered br={15} align="center" pv={20} ph={20}>
-              <IceCreamSvg theme={theme} size={70} />
+              <MCView align="center" row>
+                <IceCreamSvg theme={theme} size={70} />
+                <IceCreamSvg theme={theme} size={70} />
+              </MCView>
               <H2 weight="bold">Excellent 👍</H2>
               <MCView row wrap align="center" justify="center">
                 <H3 align="center" style={{lineHeight: 30}}>
                   You've completed your
-                  <H3 weight="bold"> Basic Profile </H3>
-                  <MCIcon type="FontAwesome5Pro" name="chess-pawn" />
+                  <H3 weight="bold"> Advanced Profile </H3>
+                  <MCIcon
+                    type="FontAwesome5Pro-Solid"
+                    name="chess-knight-alt"
+                    size={30}
+                  />
                   <H3> set up.</H3>
                 </H3>
               </MCView>
@@ -168,14 +180,26 @@ class ProfileAdvancedScreen extends React.Component {
                   <H3> to see all your data.</H3>
                 </H3>
               </MCView>
-              <MCView mt={20} row wrap align="center" justify="center">
+              <MCView mt={20} row wrap align="center">
                 <H3 align="center" style={{lineHeight: 30}}>
-                  Next you can meet some other Mocha Community Members on the
-                  <H3 weight="bold"> Social Tab </H3>
-                  <MCIcon type="FontAwesome5Pro" name="users" />
-                  <H3> or check out </H3>
-                  <H3 weight="bold">Profile Advanced </H3>
-                  <MCIcon type="FontAwesome5Pro" name="chess-knight" />
+                  Next you can add some social accountability to one of your
+                  <H3 weight="bold" style={{alignItems: 'center'}}>
+                    {' '}
+                    Habits
+                  </H3>
+                  <MCView row mt={-5}>
+                    <AppleSvg size={20} />
+                  </MCView>
+                  <H3>, check out </H3>
+                  <H3 weight="bold">Profile Expert </H3>
+                  <MCIcon
+                    type="FontAwesome5Pro-Solid"
+                    name="chess-queen-alt"
+                    size={30}
+                  />
+                  <H3> or </H3>
+                  <H3 weight="bold">Personality </H3>
+                  <MCIcon type="FontAwesome5Pro" name="fingerprint" />
                 </H3>
               </MCView>
               <MCButton
