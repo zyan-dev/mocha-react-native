@@ -420,13 +420,16 @@ const mapStateToProps = state => ({
   ),
   nutrition: selector.reflections.findMySpecialReflections(state, 'Nutrition'),
   hydration: selector.reflections.findMySpecialReflections(state, 'Hydration'),
-  stress: selector.reflections.findMySpecialReflections(state, 'Stress'),
-  strength: selector.reflections.findMySpecialReflections(state, 'Strength'),
+  stress: selector.reflections.findMySpecialReflections(
+    state,
+    'StressResponse',
+  ),
+  strength: selector.reflections.findMySpecialReflections(state, 'Strengths'),
   coreValues: selector.reflections.findMySpecialReflections(
     state,
     'CoreValues',
   ),
-  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
+  dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
   dailyHabits: selector.reflections
     .getMySpecialReflections(state, 'Habit')
     .filter(({data}) => data.isDaily),
@@ -435,7 +438,6 @@ const mapStateToProps = state => ({
     .filter(({data}) => !data.isDaily),
   manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   values: selector.reflections.getMySpecialReflections(state, 'Value'),
-  manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   motivations: selector.reflections.getMySpecialReflections(
     state,
     'Motivation',
