@@ -52,12 +52,12 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       };
     case types.CHECK_COMPLETED_BASIC_PROFILE:
       return {
-        ...INITIAL_STATE,
+        ...state,
         completedBasicProfile: true,
       };
     case types.CHECK_COMPLETED_ADVANCE_PROFILE:
       return {
-        ...INITIAL_STATE,
+        ...state,
         completedAdvanceProfile: true,
       };
     case types.RESET_ALL_REDUCER:

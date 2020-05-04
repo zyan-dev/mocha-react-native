@@ -46,7 +46,7 @@ class CoreValuesCard extends React.Component {
             </MCButton>
           )}
         </MCView>
-        <MCView row wrap mb={30} justify="space-between">
+        <MCView row wrap mb={30} justify="space-between" width={300}>
           {core.length === 0 && (
             <MCEmptyText>
               {editable

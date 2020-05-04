@@ -21,6 +21,21 @@ import {
   AnimalWoodcock,
   AnimalBuffalo,
   AnimalTortoise,
+  AnimalArmadillo,
+  AnimalBee,
+  AnimalCoral,
+  AnimalElephant,
+  AnimalFrog,
+  AnimalGecko,
+  AnimalHeron,
+  AnimalHorse,
+  AnimalJaguar,
+  AnimalLemur,
+  AnimalPuffer,
+  AnimalSalamander,
+  AnimalSeaTurtle,
+  AnimalSparrowTwo,
+  AnimalViper,
 } from '../assets/images';
 
 // Constants used for testing
@@ -2028,12 +2043,12 @@ export const ValueCardTextColor = '#222222';
 export const ValueCardBackgrounds = ['#FBE9E6', '#E9F6F9', '#E5E6E8'];
 
 export const DiscoverValues = [
-  {
-    value: 'social',
-    category: 'power',
-    name: 'sparrow',
-    image: AnimalSparrow,
-  },
+  // {
+  //   value: 'social',
+  //   category: 'power',
+  //   name: 'sparrow',
+  //   image: AnimalSparrow,
+  // },
   {
     value: 'beauty',
     category: 'universalism',
@@ -2113,28 +2128,106 @@ export const DiscoverValues = [
     image: AnimalTortoise,
   },
   {
-    value: 'creativity',
-    category: 'self-direction',
-    name: 'puffer_fish',
-    icon: 'creative-commons-sampling-plus',
-  },
-  {
     value: 'sense',
     category: 'security',
     name: 'arctic_walrus',
     icon: 'brain',
   },
   {
-    value: 'influence',
-    category: 'achievement',
-    name: 'coral_snake',
-    icon: 'confluence',
-  },
-  {
     value: 'respect',
     category: 'achievement',
     name: 'domestic_cat',
     icon: 'korvue',
+  },
+  {
+    value: 'equality',
+    category: 'achievement',
+    name: 'armadillo',
+    image: AnimalArmadillo,
+  },
+  {
+    value: 'acceptance_life',
+    category: 'tradition',
+    name: 'bee',
+    image: AnimalBee,
+  },
+  {
+    value: 'influence',
+    category: 'achievement',
+    name: 'coral',
+    image: AnimalCoral,
+  },
+  {
+    value: 'social_justice',
+    category: 'universalism',
+    name: 'elephant',
+    image: AnimalElephant,
+  },
+  {
+    value: 'politeness',
+    category: 'conformity',
+    name: 'frog',
+    image: AnimalFrog,
+  },
+  {
+    value: 'cleanliness',
+    category: 'security',
+    name: 'gecko',
+    image: AnimalGecko,
+  },
+  {
+    value: 'inner_harmony',
+    category: 'universalism',
+    name: 'heron',
+    image: AnimalHeron,
+  },
+  {
+    value: 'honesty',
+    category: 'benevolence',
+    name: 'horse',
+    image: AnimalHorse,
+  },
+  {
+    value: 'privacy',
+    category: 'self-direction',
+    name: 'jaguar',
+    image: AnimalJaguar,
+  },
+  {
+    value: 'national_security',
+    category: 'security',
+    name: 'lemur',
+    image: AnimalLemur,
+  },
+  {
+    value: 'creativity',
+    category: 'self-direction',
+    name: 'puffer',
+    image: AnimalPuffer,
+  },
+  {
+    value: 'health',
+    category: 'security',
+    name: 'salamander',
+    image: AnimalSalamander,
+  },
+  {
+    value: 'devoutness',
+    category: 'tradition',
+    name: 'sea_turtle',
+    image: AnimalSeaTurtle,
+  },
+  {
+    value: 'social',
+    category: 'power',
+    name: 'sparrow_2',
+    image: AnimalSparrowTwo,
+  },
+  {
+    value: 'independence',
+    category: 'self-direction',
+    name: 'viper',
+    image: AnimalViper,
   },
 ];
 
