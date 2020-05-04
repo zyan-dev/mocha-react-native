@@ -221,10 +221,7 @@ const mapStateToProps = state => ({
     state,
     'Attachment',
   ),
-  comforting: selector.reflections.findMySpecialReflections(
-    state,
-    'Comforting',
-  ),
+  comforting: selector.reflections.findMySpecialReflections(state, 'Comfort'),
   stress_recovery: selector.reflections.findMySpecialReflections(
     state,
     'StressRecovery',
