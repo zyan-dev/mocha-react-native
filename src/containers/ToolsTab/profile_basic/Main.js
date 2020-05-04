@@ -232,8 +232,8 @@ const mapStateToProps = state => ({
   habit: selector.reflections.findMySpecialReflections(state, 'Habit'),
   nutrition: selector.reflections.findMySpecialReflections(state, 'Nutrition'),
   hydration: selector.reflections.findMySpecialReflections(state, 'Hydration'),
-  strength: selector.reflections.findMySpecialReflections(state, 'Strength'),
-  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
+  strength: selector.reflections.findMySpecialReflections(state, 'Strengths'),
+  dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
   completedBasicProfile: state.otherReducer.completedBasicProfile,
 });
 
