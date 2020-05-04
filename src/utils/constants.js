@@ -2030,12 +2030,12 @@ export const ValueCardTextColor = '#222222';
 export const ValueCardBackgrounds = ['#FBE9E6', '#E9F6F9', '#E5E6E8'];
 
 export const DiscoverValues = [
-  {
-    value: 'social',
-    category: 'power',
-    name: 'sparrow',
-    image: AnimalSparrow,
-  },
+  // {
+  //   value: 'social',
+  //   category: 'power',
+  //   name: 'sparrow',
+  //   image: AnimalSparrow,
+  // },
   {
     value: 'beauty',
     category: 'universalism',
@@ -2115,22 +2115,10 @@ export const DiscoverValues = [
     image: AnimalTortoise,
   },
   {
-    value: 'creativity',
-    category: 'self-direction',
-    name: 'puffer_fish',
-    icon: 'creative-commons-sampling-plus',
-  },
-  {
     value: 'sense',
     category: 'security',
     name: 'arctic_walrus',
     icon: 'brain',
-  },
-  {
-    value: 'influence',
-    category: 'achievement',
-    name: 'coral_snake',
-    icon: 'confluence',
   },
   {
     value: 'respect',
