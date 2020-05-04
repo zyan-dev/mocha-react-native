@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   profileTab: 'overview',
   toolsTab: 0,
   completedBasicProfile: false,
+  completedAdvanceProfile: false,
 };
 
 const otherReducer = (state = INITIAL_STATE, action) => {
@@ -53,6 +54,11 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       return {
         ...INITIAL_STATE,
         completedBasicProfile: true,
+      };
+    case types.CHECK_COMPLETED_ADVANCE_PROFILE:
+      return {
+        ...INITIAL_STATE,
+        completedAdvanceProfile: true,
       };
     case types.RESET_ALL_REDUCER:
       return {
