@@ -131,7 +131,10 @@ class DreamScreen extends React.Component {
             value={main}
             onChangeText={text => updateSelectedReflection({main: text})}
           />
-          <H4 mt={30}>{t('tools_tab_dreams_others_title')}</H4>
+          <MCView row align="center" mt={30}>
+            <H4>{t('tools_tab_dreams_others_title')}</H4>
+            <MCIcon type="FontAwesome5Pro" name="island-tropical" />
+          </MCView>
           {submitted && !this.validateOthers() && (
             <ErrorText>{t('error_input_select_empty')}</ErrorText>
           )}
