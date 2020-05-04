@@ -63,6 +63,10 @@ export const checkCompletedBasicProfile = () => ({
   type: types.CHECK_COMPLETED_BASIC_PROFILE,
 });
 
+export const checkWelcomeBasicProfile = () => ({
+  type: types.CHECK_WELCOME_BASIC_PROFILE,
+});
+
 export const checkCompletedAdvanceProfile = () => ({
   type: types.CHECK_COMPLETED_ADVANCE_PROFILE,
 });

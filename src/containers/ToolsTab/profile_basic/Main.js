@@ -1,17 +1,49 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import i18next from 'i18next';
 import {selector} from 'Redux/selectors';
 import {otherActions} from 'Redux/actions';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
-import {H2, H3, H4, MCText} from 'components/styled/Text';
+import {H2, H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
 import {ProfileBasicCards} from 'utils/constants';
 import ProfileBasicCard from './components/ProfileBasicCard';
-import {IceCreamSvg} from 'assets/svgs';
+import {IceCreamSvg, HeadPhoneSvg} from 'assets/svgs';
+import {getStringWithOutline} from 'services/operators';
 
 class ProfileBasicScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showWelcomeModal: false,
+    };
+  }
+  question1 = {
+    title: i18next.t('tools_tab_profile_basic_question_1', {
+      bold: i18next.t('outline_values'),
+    }),
+    boldWordKeys: ['values'],
+  };
+  question2 = {
+    title: i18next.t('tools_tab_profile_basic_question_2', {
+      bold: i18next.t('outline_strengths'),
+    }),
+    boldWordKeys: ['strengths'],
+  };
+  question3 = {
+    title: i18next.t('tools_tab_profile_basic_question_3', {
+      bold: i18next.t('outline_peak'),
+    }),
+    boldWordKeys: ['peak'],
+  };
+
+  onCloseWelcomeModal = () => {
+    this.props.checkWelcomeBasicProfile();
+    this.setState({showWelcomeModal: false});
+  };
+
   render() {
     const {
       t,
@@ -24,9 +56,11 @@ class ProfileBasicScreen extends React.Component {
       coreValues,
       dream,
       habit,
+      showWelcomeBasicProfile,
       completedBasicProfile,
       checkCompletedBasicProfile,
     } = this.props;
+    const {showWelcomeModal} = this.state;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -38,16 +72,53 @@ class ProfileBasicScreen extends React.Component {
               size={50}
             />
           }
+          hasRight
+          rightIconType="FontAwesome5Pro-Regular"
+          rightIcon="exclamation-circle"
+          onPressRight={() => this.setState({showWelcomeModal: true})}
         />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
-          <H4 width={340} align="center" weight="italic">
-            {t('profile_basic_title_top')}
-          </H4>
-          <H4 width={340} align="center">
-            {t('profile_basic_title_bottom')}
-          </H4>
+          <H3 underline mt={40}>
+            {t('tools_tab_discover_your_values')}
+          </H3>
+          <MCView row align="center">
+            <H3>{t('tools_tab_level_1')}</H3>
+            <MCIcon type="FontAwesome5Pro" name="key" />
+          </MCView>
+          <ProfileBasicCard
+            data={ProfileBasicCards.values}
+            locked={!stress}
+            completed={coreValues}
+            theme={theme}
+          />
 
           <H3 underline mt={40}>
+            {t('tools_tab_know_your_stregths')}
+          </H3>
+          <MCView row align="center">
+            <H3>{t('tools_tab_level_1')}</H3>
+            <MCIcon type="FontAwesome5Pro" name="hammer" />
+          </MCView>
+          <ProfileBasicCard
+            data={ProfileBasicCards.strength}
+            locked={!stress}
+            completed={strength}
+          />
+
+          <H3 underline mt={40}>
+            {t('tools_tab_your_future')}
+          </H3>
+          <MCView row align="center">
+            <H3>{t('tools_tab_level_1')}</H3>
+            <MCIcon type="FontAwesome5Pro" name="bullseye-arrow" />
+          </MCView>
+          <ProfileBasicCard
+            data={ProfileBasicCards.dream}
+            locked={!coreValues}
+            completed={dream}
+          />
+
+          <H3 underline mt={20}>
             {t('tools_tab_peak_performance')}
           </H3>
           <MCView row align="center">
@@ -76,8 +147,8 @@ class ProfileBasicScreen extends React.Component {
             {t('tools_tab_somatic_awareness')}
           </H3>
           <MCView row align="center">
-            <H3>{t('tools_tab_level_1')}</H3>
-            <MCIcon type="FontAwesome5Pro" name="bone" />
+            <H3 mr={10}>{t('tools_tab_level_1')}</H3>
+            <HeadPhoneSvg theme={theme} size={25} />
           </MCView>
           <ProfileBasicCard
             data={ProfileBasicCards.stress}
@@ -86,51 +157,11 @@ class ProfileBasicScreen extends React.Component {
           />
 
           <H3 underline mt={40}>
-            {t('tools_tab_know_your_stregths')}
-          </H3>
-          <MCView row align="center">
-            <H3>{t('tools_tab_level_1')}</H3>
-            <MCIcon type="FontAwesome5Pro" name="hammer" />
-          </MCView>
-          <ProfileBasicCard
-            data={ProfileBasicCards.strength}
-            locked={!stress}
-            completed={strength}
-          />
-
-          <H3 underline mt={40}>
-            {t('tools_tab_discover_your_values')}
-          </H3>
-          <MCView row align="center">
-            <H3>{t('tools_tab_level_1')}</H3>
-            <MCIcon type="FontAwesome5Pro" name="key" />
-          </MCView>
-          <ProfileBasicCard
-            data={ProfileBasicCards.values}
-            locked={!stress}
-            completed={coreValues}
-            theme={theme}
-          />
-
-          <H3 underline mt={40}>
-            {t('tools_tab_your_future')}
-          </H3>
-          <MCView row align="center">
-            <H3>{t('tools_tab_level_1')}</H3>
-            <MCIcon type="FontAwesome5Pro" name="bullseye-arrow" />
-          </MCView>
-          <ProfileBasicCard
-            data={ProfileBasicCards.dream}
-            locked={!coreValues}
-            completed={dream}
-          />
-
-          <H3 underline mt={40}>
             {t('tools_tab_personal_development')}
           </H3>
           <MCView row align="center">
             <H3>{t('tools_tab_level_1')}</H3>
-            <MCIcon name="ios-fitness" />
+            <MCIcon name="ios-fitness" size={30} />
           </MCView>
           <ProfileBasicCard
             data={ProfileBasicCards.habit}
@@ -192,6 +223,41 @@ class ProfileBasicScreen extends React.Component {
             </MCView>
           </MCView>
         </MCModal>
+        <MCModal
+          hasCloseButton={false}
+          isVisible={
+            (showWelcomeBasicProfile && !completedBasicProfile) ||
+            showWelcomeModal
+          }>
+          <MCView width={280} mt={20} align="center">
+            <MCView bordered br={50} align="center" pv={40} ph={10} width={270}>
+              <MCView row wrap align="center">
+                <H3 underline>{t('welcome_profile_basic')}</H3>
+                <MCIcon
+                  type="FontAwesome5Pro-Solid"
+                  name="chess-pawn-alt"
+                  size={20}
+                />
+              </MCView>
+              <H4 width={220} align="center" mt={20} mb={20}>
+                {t('profile_basic_modal_title')}
+              </H4>
+              <MCView align="center">
+                {getStringWithOutline(this.question1)}
+                {getStringWithOutline(this.question2)}
+                {getStringWithOutline(this.question3)}
+              </MCView>
+              <MCButton
+                bordered
+                mt={20}
+                width={150}
+                align="center"
+                onPress={() => this.onCloseWelcomeModal()}>
+                <H3>{t('welcome_reflectionpoints_buttons_continue')}</H3>
+              </MCButton>
+            </MCView>
+          </MCView>
+        </MCModal>
       </MCRootView>
     );
   }
@@ -235,10 +301,12 @@ const mapStateToProps = state => ({
   strength: selector.reflections.findMySpecialReflections(state, 'Strengths'),
   dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
   completedBasicProfile: state.otherReducer.completedBasicProfile,
+  showWelcomeBasicProfile: state.otherReducer.showWelcomeBasicProfile,
 });
 
 const mapDispatchToProps = {
   checkCompletedBasicProfile: otherActions.checkCompletedBasicProfile,
+  checkWelcomeBasicProfile: otherActions.checkWelcomeBasicProfile,
 };
 
 export default withTranslation()(
