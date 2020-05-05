@@ -72,17 +72,15 @@ class NutritionScreen extends React.Component {
   };
 
   validateBest = () => {
-    return (
-      this.props.selectedReflection.data.best.length > 0 ||
-      this.state.bestFood.length > 0
-    );
+    const {selectedReflection} = this.props;
+    const best = _.get(selectedReflection, ['data', 'best'], []);
+    return best.length > 0 || this.state.bestFood.length > 0;
   };
 
   validateWorst = () => {
-    return (
-      this.props.selectedReflection.data.worst.length > 0 ||
-      this.state.worstFood.length > 0
-    );
+    const {selectedReflection} = this.props;
+    const worst = _.get(selectedReflection, ['data', 'worst'], []);
+    return worst.length > 0 || this.state.worstFood.length > 0;
   };
 
   onUpdateBestFoods = state => {
@@ -130,7 +128,7 @@ class NutritionScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   nutrition: selector.reflections.findMySpecialReflections(state, 'Nutrition'),
   reflectionDraft: state.reflectionReducer.draft,
 });

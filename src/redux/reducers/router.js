@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   isInternetReachable: true,
   visitedTools: false,
   visitedProfile: false,
+  mainTabIndex: 2,
 };
 
 const routerReducer = (state = INITIAL_STATE, action) => {
@@ -85,6 +86,11 @@ const routerReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         visitedProfile: true,
+      };
+    case types.SET_MAIN_TAB_INDEX:
+      return {
+        ...state,
+        mainTabIndex: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return {

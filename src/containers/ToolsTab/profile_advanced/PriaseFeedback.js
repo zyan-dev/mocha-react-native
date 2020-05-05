@@ -76,7 +76,9 @@ class PraiseFeedbackScreen extends React.Component {
   };
 
   validateOptions = () => {
-    return this.props.selectedReflection.data.options.length > 0;
+    const {selectedReflection} = this.props;
+    const options = _.get(selectedReflection, ['data', 'options'], []);
+    return options.length > 0;
   };
 
   render() {
@@ -151,7 +153,7 @@ class PraiseFeedbackScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   praise: selector.reflections.findMySpecialReflections(
     state,
     'PraiseFeedback',

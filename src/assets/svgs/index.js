@@ -23,6 +23,7 @@ import HandheartSvg from './Handheart';
 import TeaSvg from './Tea';
 import ShieldSvg from './Shield';
 import PeopleArrowSvg from './PeopleArrows';
+import ManageTrustNetworkSvg from './ManageTrustNetwork'
 
 export {
   UsersSvg,
@@ -50,4 +51,5 @@ export {
   TeaSvg,
   ShieldSvg,
   PeopleArrowSvg,
+  ManageTrustNetworkSvg,
 };

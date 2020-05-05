@@ -39,6 +39,7 @@ const Scale = styled.View`
   width: 2px;
   height: 10px;
   background-color: ${props => props.theme.colors.text};
+  margin-top: -8px;
 `;
 
 class MCTimeSlider extends React.PureComponent {
@@ -83,7 +84,12 @@ class MCTimeSlider extends React.PureComponent {
         height={80}
         mt={50}
         justify="center">
-        <MCView height={25} width={width} row justify="space-between">
+        <MCView
+          height={25}
+          width={width}
+          row
+          justify="space-between"
+          overflow="visible">
           {values.map(value => (
             <Scale key={value} />
           ))}
@@ -141,7 +147,9 @@ class MCTimeSlider extends React.PureComponent {
           values={[start, end]}
           onValuesChange={this.multiSliderValuesChange}
           snapped
-          containerStyle={{marginTop: dySize(-46)}}
+          containerStyle={{
+            marginTop: showBottomLabel ? dySize(-52) : dySize(-46),
+          }}
         />
       </MCView>
     );

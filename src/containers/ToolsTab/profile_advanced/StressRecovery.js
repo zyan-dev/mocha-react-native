@@ -58,7 +58,9 @@ class StressRecoveryScreen extends React.Component {
   };
 
   validateMethod = () => {
-    return this.props.selectedReflection.data.method.length > 0;
+    const {selectedReflection} = this.props;
+    const method = _.get(selectedReflection, ['data', 'method'], []);
+    return method.length > 0;
   };
 
   render() {
@@ -119,7 +121,7 @@ class StressRecoveryScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   stress_recovery: selector.reflections.findMySpecialReflections(
     state,
     'StressRecovery',
