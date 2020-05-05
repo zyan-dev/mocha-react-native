@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import {mainTabKeys} from 'utils/constants';
 
 const getMySpecialReflections = (state, reflectionType) => {
   const myReflections = _.cloneDeep(state.reflectionReducer.myReflections);
@@ -23,9 +24,15 @@ const findUserSpecialReflections = (state, reflectionType) => {
   return userReflections.find(({type}) => type === reflectionType);
 };
 
+const getSelectedReflection = state => {
+  const mainTabIndex = state.routerReducer.mainTabIndex;
+  return state.reflectionReducer.selectedReflection[mainTabKeys[mainTabIndex]];
+};
+
 export {
   getMySpecialReflections,
   findMySpecialReflections,
   getUserSpecialReflections,
   findUserSpecialReflections,
+  getSelectedReflection,
 };

@@ -82,11 +82,8 @@ class ComfortingScreen extends React.Component {
   };
 
   validateOptions = () => {
-    const options = _.get(
-      this.props.selectedReflection,
-      ['data', 'options'],
-      [],
-    );
+    const {selectedReflection} = this.props;
+    const options = _.get(selectedReflection, ['data', 'options'], []);
     return options.length > 0;
   };
 
@@ -124,7 +121,7 @@ class ComfortingScreen extends React.Component {
                 <MCButton
                   key={key}
                   bordered
-                  width={key === 'template' ? 335 : 160}
+                  width={key === 'alone' ? 335 : 160}
                   height={100}
                   br={6}
                   mb={10}
@@ -156,7 +153,7 @@ class ComfortingScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   comfort: selector.reflections.findMySpecialReflections(state, 'Comfort'),
   reflectionDraft: state.reflectionReducer.draft,
 });

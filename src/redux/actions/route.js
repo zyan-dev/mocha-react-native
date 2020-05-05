@@ -51,3 +51,8 @@ export const visitToolsTab = () => ({
 export const visitProfileTab = () => ({
   type: types.VISIT_PROFILE_TAB,
 });
+
+export const setMainTabIndex = index => ({
+  type: types.SET_MAIN_TAB_INDEX,
+  payload: index,
+});

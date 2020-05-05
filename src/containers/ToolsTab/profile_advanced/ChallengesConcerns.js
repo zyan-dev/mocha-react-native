@@ -156,7 +156,7 @@ class ChallengesConcernScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   challenges: selector.reflections.findMySpecialReflections(
     state,
     'Challenges',

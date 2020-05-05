@@ -1,6 +1,8 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
+import * as _ from 'lodash';
+import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {showAlert, getTitleByKey} from 'services/operators';
 import {
@@ -93,11 +95,15 @@ class EditValueScreen extends React.PureComponent {
   };
 
   validateValue = () => {
-    return this.props.selectedReflection.data.value.length > 0;
+    const {selectedReflection} = this.props;
+    const value = _.get(selectedReflection, ['data', 'value'], '');
+    return value.length > 0;
   };
 
   validatePhrase = () => {
-    return this.props.selectedReflection.data.phrase.length > 0;
+    const {selectedReflection} = this.props;
+    const phrase = _.get(selectedReflection, ['data', 'phrase'], '');
+    return phrase.length > 0;
   };
 
   render() {
@@ -109,9 +115,10 @@ class EditValueScreen extends React.PureComponent {
       reflectionSections,
     } = this.props;
     const {addingCustomTitle, customTitle, submitted} = this.state;
-    const {
-      data: {value, phrase, image},
-    } = selectedReflection;
+    if (!selectedReflection) return null;
+    const value = _.get(selectedReflection, ['data', 'value'], '');
+    const phrase = _.get(selectedReflection, ['data', 'phrase'], '');
+    const image = _.get(selectedReflection, ['data', 'image'], '');
     const isErrorValue = !this.validateValue();
     const isErrorPhrase = !this.validatePhrase();
     return (
@@ -197,7 +204,7 @@ class EditValueScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   reflectionSections: state.reflectionReducer.reflectionSections,
 });
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
+import * as _ from 'lodash';
+import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCHeader, MCPicker, MCTextFormInput} from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
@@ -23,15 +25,18 @@ class EditEmotionScreen extends React.PureComponent {
   };
 
   validateStory = () => {
-    return this.props.selectedReflection.data.story.length > 0;
+    const {selectedReflection} = this.props;
+    const story = _.get(selectedReflection, ['data', 'story'], []);
+    return story.length > 0;
   };
 
   render() {
     const {submitted} = this.state;
     const {t, selectedReflection, updateSelectedReflection} = this.props;
-    const {
-      data: {emotion, how, story},
-    } = selectedReflection;
+    if (!selectedReflection) return null;
+    const emotion = _.get(selectedReflection, ['data', 'emotion'], '');
+    const how = _.get(selectedReflection, ['data', 'how'], '');
+    const story = _.get(selectedReflection, ['data', 'story'], '');
     return (
       <MCRootView>
         <MCHeader
@@ -113,7 +118,7 @@ class EditEmotionScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   reflectionSections: state.reflectionReducer.reflectionSections,
 });
 

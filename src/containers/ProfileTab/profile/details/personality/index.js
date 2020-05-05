@@ -93,7 +93,7 @@ const mapStateToProps = state => ({
     state,
     'Personality',
   ),
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
 });
 
 const mapDispatchToProps = {

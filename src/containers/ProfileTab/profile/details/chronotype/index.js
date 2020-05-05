@@ -176,7 +176,7 @@ const mapStateToProps = state => ({
     state,
     'Chronotype',
   ),
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
 });
 
 const mapDispatchToProps = {

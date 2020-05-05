@@ -1,7 +1,9 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
+import * as _ from 'lodash';
 import {reflectionActions} from 'Redux/actions';
+import {selector} from 'Redux/selectors';
 import {showAlert} from 'services/operators';
 import {
   MCHeader,
@@ -80,11 +82,15 @@ class EditUserManualScreen extends React.PureComponent {
   };
 
   validateTitle = () => {
-    return this.props.selectedReflection.data.title.length > 0;
+    const {selectedReflection} = this.props;
+    const title = _.get(selectedReflection, ['data', 'title'], '');
+    return title.length > 0;
   };
 
   validateDescription = () => {
-    return this.props.selectedReflection.data.text.length > 0;
+    const {selectedReflection} = this.props;
+    const text = _.get(selectedReflection, ['data', 'text'], '');
+    return text.length > 0;
   };
 
   render() {
@@ -96,9 +102,16 @@ class EditUserManualScreen extends React.PureComponent {
       reflectionSections,
     } = this.props;
     const {addingCustomTitle, customTitle, submitted} = this.state;
-    const {
-      data: {title, text, image, vulnerability, tags},
-    } = selectedReflection;
+    if (!selectedReflection) return null;
+    const title = _.get(selectedReflection, ['data', 'title'], '');
+    const text = _.get(selectedReflection, ['data', 'text'], '');
+    const image = _.get(selectedReflection, ['data', 'image'], '');
+    const vulnerability = _.get(
+      selectedReflection,
+      ['data', 'vulnerability'],
+      1,
+    );
+    const tags = _.get(selectedReflection, ['data', 'tags'], []);
     const isErrorTitle = !this.validateTitle();
     const isErrorDescription = !this.validateDescription();
     return (
@@ -200,7 +213,7 @@ class EditUserManualScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   reflectionSections: state.reflectionReducer.reflectionSections,
 });
 

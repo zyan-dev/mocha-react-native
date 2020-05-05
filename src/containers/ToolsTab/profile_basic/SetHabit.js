@@ -125,14 +125,15 @@ class SetHabitScreen extends React.Component {
   };
 
   validateTitle = () => {
-    return this.props.selectedReflection.data.title.length > 0;
+    const {selectedReflection} = this.props;
+    const title = _.get(selectedReflection, ['data', 'title'], '');
+    return title.length > 0;
   };
 
   validateHabits = () => {
-    return (
-      this.props.selectedReflection.data.habits.length > 0 ||
-      this.state.newHabitTitle.length > 0
-    );
+    const {selectedReflection} = this.props;
+    const habits = _.get(selectedReflection, ['data', 'habits'], []);
+    return habits.length > 0 || this.state.newHabitTitle.length > 0;
   };
 
   render() {
@@ -261,7 +262,7 @@ class SetHabitScreen extends React.Component {
 
 const mapStateToProps = state => ({
   habit: selector.reflections.findMySpecialReflections(state, 'Habit'),
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   reflectionDraft: state.reflectionReducer.draft,
 });
 

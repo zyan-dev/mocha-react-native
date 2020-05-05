@@ -1,18 +1,23 @@
 import * as _ from 'lodash';
 import * as types from '../actions/types';
-import {DefaultReflections, SampleReflectionSections} from 'utils/constants';
+import {
+  DefaultReflections,
+  SampleReflectionSections,
+  mainTabKeys,
+} from 'utils/constants';
 
 const INITIAL_STATE = {
   myReflections: [],
   userReflections: [],
-  selectedReflection: {
+  selectedReflection: mainTabKeys.map(key => ({
     type: '',
     data: {},
-  },
+  })),
   reflectionSections: SampleReflectionSections,
   habitResetTime: 0,
   supportedHabits: [],
   draft: {},
+  mainTabIndex: 2,
 };
 
 const reflectionReducer = (state = INITIAL_STATE, action) => {
@@ -31,12 +36,18 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
       const reflection = DefaultReflections[action.payload.toLowerCase()];
       return {
         ...state,
-        selectedReflection: _.cloneDeep(reflection),
+        selectedReflection: {
+          ...state.selectedReflection,
+          [mainTabKeys[state.mainTabIndex]]: _.cloneDeep(reflection),
+        },
       };
     case types.SELECT_REFLECTION:
       return {
         ...state,
-        selectedReflection: action.payload,
+        selectedReflection: {
+          ...state.selectedReflection,
+          [mainTabKeys[state.mainTabIndex]]: action.payload,
+        },
       };
     case types.SAVE_REFLECTION_DRAFT:
       return {
@@ -62,21 +73,30 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
         supportedHabits: action.payload,
       };
     case types.UPDATE_SELECTED_REFLECTION:
+      const key = [mainTabKeys[state.mainTabIndex]];
       return {
         ...state,
         selectedReflection: {
           ...state.selectedReflection,
-          data: {
-            ...state.selectedReflection.data,
-            ...action.payload,
+          [key]: {
+            ...state.selectedReflection[key],
+            data: {
+              ...state.selectedReflection[key].data,
+              ...action.payload,
+            },
+            updated: new Date().toISOString(),
           },
-          updated: new Date().toISOString(),
         },
       };
     case types.SET_HABIT_RESET_TIME:
       return {
         ...state,
         habitResetTime: action.payload,
+      };
+    case types.SET_MAIN_TAB_INDEX:
+      return {
+        ...state,
+        mainTabIndex: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

@@ -283,8 +283,8 @@ class DiscoverValueScreen extends React.Component {
           {value.image && (
             <MCImage
               image={value.image}
-              width={dySize(150)}
-              height={dySize(120)}
+              width={dySize(125)}
+              height={dySize(100)}
               resizeMode="contain"
             />
           )}
