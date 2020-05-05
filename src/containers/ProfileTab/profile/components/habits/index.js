@@ -147,7 +147,7 @@ class HabitsCard extends React.Component {
           )}
         </MCView>
         <MCView row style={{width: '100%'}} align="center">
-          <MCView width={70} row align="center">
+          <MCView width={78} row align="center">
             {Array.apply(null, Array(4)).map((i, index) => (
               <MCView
                 mr={5}
@@ -182,8 +182,7 @@ class HabitsCard extends React.Component {
                 </MCView>
                 {Array.apply(null, Array(7)).map((i, subIndex) => (
                   <MCButton
-                    ml={5}
-                    mr={5}
+                    ml={8}
                     width={24}
                     height={24}
                     br={5}
