@@ -10,6 +10,7 @@ import {MCEditableText, MCHeader} from 'components/common';
 import {reflectionActions} from 'Redux/actions';
 import {selector} from 'Redux/selectors';
 import {DefaultReflections} from 'utils/constants';
+import NavigationService from 'navigation/NavigationService';
 
 class PersonalityScreen extends React.PureComponent {
   constructor(props) {
@@ -17,14 +18,36 @@ class PersonalityScreen extends React.PureComponent {
     this.state = {};
   }
 
+  isNew = false;
+
   componentWillMount() {
-    const {myPersonality} = this.props;
+    const {
+      myPersonality,
+      selectReflection,
+      setInitialReflection,
+      reflectionDraft,
+    } = this.props;
     if (myPersonality) {
-      this.props.selectReflection(myPersonality);
+      selectReflection(myPersonality);
     } else {
-      this.props.setInitialReflection('personality');
+      this.isNew = true;
+      if (reflectionDraft['Personality']) {
+        selectReflection(reflectionDraft['Personality']);
+      } else {
+        setInitialReflection('personality');
+      }
     }
   }
+
+  onPressBack = () => {
+    const {selectedReflection, saveReflectionDraft} = this.props;
+    if (this.isNew) {
+      saveReflectionDraft({
+        [selectedReflection.type]: selectedReflection,
+      });
+    }
+    NavigationService.goBack();
+  };
 
   onSubmit = () => {
     this.props.addOrUpdateReflection();
@@ -64,6 +87,7 @@ class PersonalityScreen extends React.PureComponent {
 
   render() {
     const {t, selectedReflection} = this.props;
+    if (!selectedReflection) return null;
     return (
       <MCRootView>
         <MCHeader
@@ -71,6 +95,7 @@ class PersonalityScreen extends React.PureComponent {
           title={t('profile_card_personality')}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onSubmit()}
+          onPressBack={() => this.onPressBack()}
         />
         <MCContent>
           {selectedReflection.data && (
@@ -94,14 +119,15 @@ const mapStateToProps = state => ({
     'Personality',
   ),
   selectedReflection: selector.reflections.getSelectedReflection(state),
+  reflectionDraft: state.reflectionReducer.draft,
 });
 
 const mapDispatchToProps = {
-  saveMyChronotype: reflectionActions.saveMyChronotype,
   setInitialReflection: reflectionActions.setInitialReflection,
   updateSelectedReflection: reflectionActions.updateSelectedReflection,
   addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
   selectReflection: reflectionActions.selectReflection,
+  saveReflectionDraft: reflectionActions.saveReflectionDraft,
 };
 
 export default withTranslation()(

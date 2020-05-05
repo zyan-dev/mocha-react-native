@@ -349,7 +349,12 @@ class ProfileScreen extends React.Component {
                 />
               )}
               {profileTab === 'personality' && (
-                <PersonalityCard personality={personality} />
+                <PersonalityCard
+                  personality={personality}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditPersonality')
+                  }
+                />
               )}
               {profileTab === 'risk' && (
                 <RiskToleranceCard onPressEdit={() => {}} />
