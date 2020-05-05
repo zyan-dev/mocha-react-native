@@ -93,10 +93,6 @@ class FeedScreen extends React.Component {
           {searchText.length > 0 && (
             <FlatList
               style={{
-                position: 'absolute',
-                top: 60,
-                left: 0,
-                right: 0,
                 maxHeight: 300,
                 borderWidth: 1,
                 borderRadius: 4,
@@ -114,16 +110,18 @@ class FeedScreen extends React.Component {
             />
           )}
         </MCView>
-        <MCContent
-          style={{zIndex: 9}}
-          contentContainerStyle={{
-            paddingHorizontal: dySize(12),
-            paddingVertical: dySize(5),
-          }}>
-          <H4 align="center" color={theme.colors.border}>
-            No feeds
-          </H4>
-        </MCContent>
+        {searchText.length === 0 && (
+          <MCContent
+            style={{zIndex: 9}}
+            contentContainerStyle={{
+              paddingHorizontal: dySize(12),
+              paddingVertical: dySize(5),
+            }}>
+            <H4 align="center" color={theme.colors.border}>
+              No feeds
+            </H4>
+          </MCContent>
+        )}
       </MCRootView>
     );
   }
