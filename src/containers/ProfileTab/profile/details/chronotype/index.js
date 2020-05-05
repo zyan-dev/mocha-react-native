@@ -1,6 +1,7 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
+import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {MCHeader, MCImage} from 'components/common';
 import {
@@ -57,19 +58,29 @@ class ChronotypeScreen extends React.PureComponent {
   };
 
   render() {
-    const {
-      t,
-      theme,
-      selectedReflection: {
-        data: {
-          type,
-          night_sleep_offset_start,
-          night_sleep_offset_end,
-          day_sleep_offset_start,
-          day_sleep_offset_end,
-        },
-      },
-    } = this.props;
+    const {t, theme, selectedReflection} = this.props;
+    if (!selectedReflection) return null;
+    const type = _.get(selectedReflection, ['data', 'type'], '');
+    const night_sleep_offset_start = _.get(
+      selectedReflection,
+      ['data', 'night_sleep_offset_start'],
+      3,
+    );
+    const night_sleep_offset_end = _.get(
+      selectedReflection,
+      ['data', 'night_sleep_offset_end'],
+      10,
+    );
+    const day_sleep_offset_start = _.get(
+      selectedReflection,
+      ['data', 'day_sleep_offset_start'],
+      5,
+    );
+    const day_sleep_offset_end = _.get(
+      selectedReflection,
+      ['data', 'day_sleep_offset_end'],
+      7,
+    );
     return (
       <MCRootView>
         <MCHeader
