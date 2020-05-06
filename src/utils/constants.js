@@ -1536,6 +1536,12 @@ export const DefaultReflections = {
       method: '',
     },
   },
+  meaning_life: {
+    type: 'MeaningLife',
+    data: {
+      options: [],
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1695,87 +1701,24 @@ export const ProfileAdvanceCards = {
   },
 };
 
-export const ProfileAdvancedCards = {
-  personal: {
-    practice: '1',
-    title: 'personal_story',
-    iconType: 'FontAwesome5',
-    icon: 'baby',
+export const ProfileExpertCards = {
+  core_values: {
+    title: 'personalize_value',
+    minutes: '15~30',
+    width: 250,
+    redirectTo: 'PE_Personalize_CoreValue',
+  },
+  strength: {
+    title: 'best_self',
+    minutes: 30,
+    width: 250,
+    redirectTo: 'PE_BestSelf',
+  },
+  meaning: {
+    title: 'meaning_of_life',
     minutes: 5,
     width: 250,
-    redirectTo: 'KY_PersonalStory',
-  },
-  feedback: {
-    practice: '2-1',
-    title: 'feedback_preference',
-    iconType: 'Ionicon',
-    icon: 'ios-git-compare',
-    minutes: 2,
-    width: 150,
-    redirectTo: 'KY_FeedbackPreference',
-  },
-  behavior: {
-    practice: '2-2',
-    title: 'behavior_preference',
-    iconType: 'FontAwesome5',
-    icon: 'thumbs-up',
-    minutes: 2,
-    width: 150,
-    redirectTo: 'KY_BehaviorPreference',
-  },
-  risk: {
-    practice: '3',
-    title: 'risk_tolerance',
-    iconType: 'FontAwesome5',
-    icon: 'skiing',
-    minutes: 2,
-    width: 250,
-    redirectTo: 'KY_RiskTolerance',
-  },
-  attach: {
-    practice: '4-1',
-    title: 'attachment_style',
-    iconType: 'FontAwesome5',
-    icon: 'paperclip',
-    minutes: 2,
-    width: 150,
-    redirectTo: 'KY_Attachment',
-  },
-  approach: {
-    practice: '4-2',
-    title: 'approach_to_conflict',
-    iconType: 'FontAwesome5Pro',
-    icon: 'boxing-glove',
-    minutes: 4,
-    width: 150,
-    redirectTo: 'KY_Approach',
-  },
-  body: {
-    practice: '6',
-    title: 'body_awareness',
-    iconType: 'Ionicon',
-    icon: 'ios-body',
-    minutes: 8,
-    width: 150,
-    redirectTo: 'KY_BodyAwareness',
-  },
-  chronotype: {
-    practice: '7',
-    title: 'sleep_chronotype',
-    iconType: 'Ionicon',
-    icon: 'ios-hourglass',
-    minutes: 4,
-    width: 150,
-    redirectTo: 'KY_SleepChronotype',
-  },
-  goal: {
-    practice: '8',
-    title: 'goal_setting',
-    iconType: 'Ionicon',
-    icon: 'ios-compass',
-    minutes: 10,
-    width: 250,
-    redirectTo: 'KY_SetHabit',
+    redirectTo: 'PE_MeaningLife',
   },
 };
 

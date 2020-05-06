@@ -23,6 +23,7 @@ import {
   BoxingSvg,
   HandheartSvg,
   TeaSvg,
+  SkullCowSvg,
 } from 'assets/svgs';
 
 const LockIcon = styled(MCIcon)`
@@ -124,6 +125,13 @@ class ProfileBasicCard extends React.Component {
           )}
           {title === 'comfort' && <HandheartSvg theme={theme} size={30} />}
           {title === 'stress_recovery' && <TeaSvg theme={theme} size={30} />}
+          {title === 'personalize_value' && <KeySvg theme={theme} size={50} />}
+          {title === 'best_self' && (
+            <MCIcon type="FontAwesome5Pro-Light" name="hammer" size={40} />
+          )}
+          {title === 'meaning_of_life' && (
+            <SkullCowSvg color={theme.colors.text} size={40} />
+          )}
           {completed && (
             <CompletedView>
               <MCIcon name="ios-checkmark" size={20} color="white" />

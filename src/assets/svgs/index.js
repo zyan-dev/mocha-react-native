@@ -25,6 +25,7 @@ import ShieldSvg from './Shield';
 import PeopleArrowSvg from './PeopleArrows';
 import ManageTrustNetworkSvg from './ManageTrustNetwork';
 import CommunitySvg from './Community';
+import SkullCowSvg from './SkullCow';
 
 export {
   UsersSvg,
@@ -54,4 +55,5 @@ export {
   PeopleArrowSvg,
   ManageTrustNetworkSvg,
   CommunitySvg,
+  SkullCowSvg,
 };

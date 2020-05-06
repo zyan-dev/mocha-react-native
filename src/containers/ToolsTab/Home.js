@@ -69,7 +69,7 @@ class AddReflectionScreen extends React.Component {
       duration: '15~30',
       iconType: 'FontAwesome5Pro-Solid',
       icon: 'chess-queen-alt',
-      navigateTo: '',
+      navigateTo: 'ProfileExpert',
     },
     {
       key: 'personality',
