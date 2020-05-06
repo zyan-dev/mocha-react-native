@@ -183,13 +183,9 @@ class DiscoverValueScreen extends React.Component {
   onPressSubmit = () => {
     this.setState({submitted: true});
     if (!this.validateOptions()) return;
-    this.props.selectReflection({
-      ...this.props.selectedReflection,
-      data: {
-        ...this.props.selectedReflection.data,
-        selected: this.state.selectedValues,
-        core: this.state.coreValues,
-      },
+    this.props.updateSelectedReflection({
+      selected: this.state.selectedValues,
+      core: this.state.coreValues,
     });
     setTimeout(() => {
       this.props.addOrUpdateReflection();

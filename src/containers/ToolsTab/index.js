@@ -15,6 +15,7 @@ import TapToCountScreen from './tab_to_count';
 import EditEmotionScreen from './emotion/edit';
 import ProfileBasicStack from './profile_basic';
 import ProfileAdvanceStack from './profile_advanced';
+import ProfileExpertStack from './profile_expert';
 import EditPersonalityScreen from '../ProfileTab/profile/details/personality';
 
 const Stack = createStackNavigator();
@@ -26,6 +27,7 @@ class ToolsTabStack extends React.Component {
         <Stack.Screen name="ToolsTabHome" component={ReflectionScreen} />
         <Stack.Screen name="ProfileBasic" component={ProfileBasicStack} />
         <Stack.Screen name="ProfileAdvance" component={ProfileAdvanceStack} />
+        <Stack.Screen name="ProfileExpert" component={ProfileExpertStack} />
         <Stack.Screen name="UserManuals" component={UserManualScreen} />
         <Stack.Screen name="EditUserManual" component={EditUserManualScreen} />
         <Stack.Screen name="Values" component={ValueScreen} />

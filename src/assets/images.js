@@ -38,6 +38,7 @@ export const AnimalBat = require('./images/tools/bat.png');
 export const AnimalBear = require('./images/tools/bear.png');
 export const AnimalBuffalo = require('./images/tools/buffalo.png');
 export const AnimalChamois = require('./images/tools/chamois.png');
+export const AnimalChimpanzee = require('./images/tools/chimpanzee.png');
 export const AnimalPolarBear = require('./images/tools/polar-bear.png');
 export const AnimalSalmon = require('./images/tools/salmon.png');
 export const AnimalSloth = require('./images/tools/sloth.png');
