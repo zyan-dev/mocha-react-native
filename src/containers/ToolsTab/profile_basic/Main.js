@@ -87,7 +87,6 @@ class ProfileBasicScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileBasicCards.values}
-            locked={!stress}
             completed={coreValues}
             theme={theme}
           />
@@ -101,7 +100,7 @@ class ProfileBasicScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileBasicCards.strength}
-            locked={!stress}
+            locked={!coreValues}
             completed={strength}
           />
 
@@ -114,7 +113,7 @@ class ProfileBasicScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileBasicCards.dream}
-            locked={!coreValues}
+            locked={!strength}
             completed={dream}
           />
 
@@ -129,6 +128,7 @@ class ProfileBasicScreen extends React.Component {
             data={ProfileBasicCards.chronotype}
             completed={chronotype}
             theme={theme}
+            locked={!dream}
           />
           <MCView row justify="space-between" width={320} overflow="visible">
             <ProfileBasicCard
@@ -165,7 +165,7 @@ class ProfileBasicScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileBasicCards.habit}
-            locked={!dream}
+            locked={!stress}
             completed={habit}
           />
         </MCContent>
