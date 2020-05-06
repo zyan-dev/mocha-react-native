@@ -9,7 +9,6 @@ import {
   otherActions,
 } from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {UserSvg} from 'assets/svgs';
 import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
@@ -45,7 +44,7 @@ import NavigationService from 'navigation/NavigationService';
 import {showAlert, getStringWithOutline} from 'services/operators';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
-import {FaucetWhiteSvg, FutureSvg} from 'assets/svgs';
+import {FaucetWhiteSvg, FutureSvg, ProfileSvg} from 'assets/svgs';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -394,7 +393,7 @@ class ProfileScreen extends React.Component {
             <H3 mb={10} underline>
               {t('welcome_profile_title')}
             </H3>
-            <UserSvg size={30} color={theme.colors.text} />
+            <ProfileSvg size={30} theme={theme} />
             <H4 mt={20} pv={1}>
               {t('welcome_tools_take_a_look')}
             </H4>

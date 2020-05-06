@@ -159,7 +159,7 @@ class AddReflectionScreen extends React.Component {
         bold: i18next.t('outline_goal'),
       }),
       boldWordKeys: ['goal'],
-      iconType: 'FontAwesome5Pro',
+      iconType: 'FontAwesome5Pro-Regular',
       icon: 'apple-alt',
       navigateTo: 'Habits',
       registerRequired: true,

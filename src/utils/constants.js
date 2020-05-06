@@ -61,6 +61,8 @@ export const FontFamilies = {
   italic: 'Raleway-Italic',
 };
 
+export const mainTabKeys = ['social', 'resources', 'tools', 'profile'];
+
 export const ContactProfileKeys = [
   'preferredtobecalled',
   'namepronoun',
@@ -2422,7 +2424,7 @@ export const ComfortingPreferences = [
   'hearing_pessimism',
   'conversation',
   'other_people',
-  'template',
+  'alone',
 ];
 
 export const stressRecoveries = ['tea', 'exercise', 'meditating', 'music'];

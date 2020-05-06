@@ -1,7 +1,9 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
+import * as _ from 'lodash';
 import {reflectionActions} from 'Redux/actions';
+import {selector} from 'Redux/selectors';
 import {MCHeader, MCPicker, MCTextFormInput} from 'components/common';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
 import {H4, ErrorText} from 'components/styled/Text';
@@ -25,23 +27,30 @@ class EditNeedScreen extends React.PureComponent {
   };
 
   validateNeed = () => {
-    return this.props.selectedReflection.data.need.length > 0;
+    const {selectedReflection} = this.props;
+    const need = _.get(selectedReflection, ['data', 'need'], '');
+    return need.length > 0;
   };
 
   validateValue = () => {
-    return this.props.selectedReflection.data.value.length > 0;
+    const {selectedReflection} = this.props;
+    const value = _.get(selectedReflection, ['data', 'value'], '');
+    return value.length > 0;
   };
 
   validateReason = () => {
-    return this.props.selectedReflection.data.reason.length > 0;
+    const {selectedReflection} = this.props;
+    const reason = _.get(selectedReflection, ['data', 'reason'], '');
+    return reason.length > 0;
   };
 
   render() {
     const {submitted} = this.state;
     const {t, selectedReflection, updateSelectedReflection} = this.props;
-    const {
-      data: {need, value, reason},
-    } = selectedReflection;
+    if (!selectedReflection) return null;
+    const need = _.get(selectedReflection, ['data', 'need'], '');
+    const value = _.get(selectedReflection, ['data', 'value'], '');
+    const reason = _.get(selectedReflection, ['data', 'reason'], '');
     const isErrorNeed = !this.validateNeed();
     const isErrorValue = !this.validateValue();
     const isErrorReason = !this.validateReason();
@@ -120,7 +129,7 @@ class EditNeedScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   reflectionSections: state.reflectionReducer.reflectionSections,
 });
 

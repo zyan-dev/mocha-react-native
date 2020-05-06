@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {Header, Left, Body, Right, Icon} from 'native-base';
-import {ToolsSvg} from 'assets/svgs';
 import {H4, H3} from '../styled/Text';
 import {MCIcon} from '.';
 import {MCButton} from '../styled/Button';

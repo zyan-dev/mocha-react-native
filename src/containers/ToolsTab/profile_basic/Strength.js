@@ -58,7 +58,9 @@ class StrengthScreen extends React.Component {
   };
 
   validateOptions = () => {
-    return this.props.selectedReflection.data.options.length > 0;
+    const {selectedReflection} = this.props;
+    const options = _.get(selectedReflection, ['data', 'options'], []);
+    return options.length > 0;
   };
 
   onToggleOption = option => {
@@ -139,7 +141,7 @@ class StrengthScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   strength: selector.reflections.findMySpecialReflections(state, 'Strengths'),
   reflectionDraft: state.reflectionReducer.draft,
 });

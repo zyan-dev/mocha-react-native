@@ -152,7 +152,7 @@ class QualitiesCharacterScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   qualities: selector.reflections.findMySpecialReflections(state, 'Qualities'),
   reflectionDraft: state.reflectionReducer.draft,
 });
