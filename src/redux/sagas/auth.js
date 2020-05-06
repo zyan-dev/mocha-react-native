@@ -13,6 +13,7 @@ export function* sendSignUpSMS(action) {
     if (response.data.status === 'success') {
       // if success go to verify sms screen
       NavigationService.navigate('Auth_VerifySMS', {phone: action.payload});
+      showAlert('Verification has been sent successfully');
       yield put({type: types.API_FINISHED});
     } else {
       yield put({
