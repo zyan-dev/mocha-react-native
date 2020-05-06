@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import i18next from 'i18next';
 import {withTranslation} from 'react-i18next';
 import {selector} from 'Redux/selectors';
 import {otherActions} from 'Redux/actions';
@@ -9,6 +10,7 @@ import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
 import {ProfileAdvanceCards} from 'utils/constants';
 import ProfileBasicCard from '../profile_basic/components/ProfileBasicCard';
+import {getStringWithOutline} from 'services/operators';
 import {
   IceCreamSvg,
   ShieldSvg,
@@ -18,6 +20,41 @@ import {
 } from 'assets/svgs';
 
 class ProfileAdvancedScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showWelcomeModal: false,
+    };
+  }
+  question1 = {
+    title: i18next.t('tools_tab_profile_advance_question_1', {
+      bold: i18next.t('outline_pleasure'),
+    }),
+    boldWordKeys: ['pleasure'],
+  };
+  question2 = {
+    title: i18next.t('tools_tab_profile_advance_question_2', {
+      bold: i18next.t('outline_interolable'),
+    }),
+    boldWordKeys: ['interolable'],
+  };
+  question3 = {
+    title: i18next.t('tools_tab_profile_advance_question_3', {
+      bold: i18next.t('outline_conflict'),
+    }),
+    boldWordKeys: ['conflict'],
+  };
+  question4 = {
+    title: i18next.t('tools_tab_profile_advance_question_4', {
+      bold: i18next.t('outline_comfort'),
+    }),
+    boldWordKeys: ['comfort'],
+  };
+
+  onCloseWelcomeModal = () => {
+    this.props.checkWelcomeAdvanceProfile();
+    this.setState({showWelcomeModal: false});
+  };
   render() {
     const {
       t,
@@ -31,9 +68,11 @@ class ProfileAdvancedScreen extends React.Component {
       attachment,
       comforting,
       stress_recovery,
+      showWelcomeAdvanceProfile,
       completedAdvanceProfile,
       checkCompletedAdvanceProfile,
     } = this.props;
+    const {showWelcomeModal} = this.state;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -45,15 +84,12 @@ class ProfileAdvancedScreen extends React.Component {
               size={50}
             />
           }
+          hasRight
+          rightIconType="FontAwesome5Pro"
+          rightIcon="question-circle"
+          onPressRight={() => this.setState({showWelcomeModal: true})}
         />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
-          <H4 width={340} align="center" weight="italic">
-            {t('profile_basic_title_top')}
-          </H4>
-          <H4 width={340} align="center">
-            {t('profile_advance_title_bottom')}
-          </H4>
-
           <H3 underline mt={40}>
             {t('tools_tab_feedback_preferences')}
           </H3>
@@ -213,6 +249,46 @@ class ProfileAdvancedScreen extends React.Component {
             </MCView>
           </MCView>
         </MCModal>
+        <MCModal
+          br={50}
+          hasCloseButton={false}
+          isVisible={
+            (showWelcomeAdvanceProfile && !completedAdvanceProfile) ||
+            showWelcomeModal
+          }>
+          <MCView width={280} mt={20} align="center">
+            <MCView align="center" pv={40} ph={10} width={270}>
+              <MCView row wrap align="center">
+                <H4 underline>{t('welcome_profile_advance')}</H4>
+                <MCIcon
+                  type="FontAwesome5Pro-Solid"
+                  name="chess-knight-alt"
+                  size={20}
+                />
+              </MCView>
+              <H4 width={220} align="center" mt={20}>
+                {t('profile_advance_modal_title_1')}
+              </H4>
+              <H4 width={220} align="center" mb={20}>
+                {t('profile_advance_modal_title_2')}
+              </H4>
+              <MCView align="center">
+                {getStringWithOutline(this.question1)}
+                {getStringWithOutline(this.question2)}
+                {getStringWithOutline(this.question3)}
+                {getStringWithOutline(this.question4)}
+              </MCView>
+              <MCButton
+                bordered
+                mt={20}
+                width={150}
+                align="center"
+                onPress={() => this.onCloseWelcomeModal()}>
+                <H3>{t('welcome_reflectionpoints_buttons_continue')}</H3>
+              </MCButton>
+            </MCView>
+          </MCView>
+        </MCModal>
       </MCRootView>
     );
   }
@@ -251,10 +327,12 @@ const mapStateToProps = state => ({
     'StressRecovery',
   ),
   completedAdvanceProfile: state.otherReducer.completedAdvanceProfile,
+  showWelcomeAdvanceProfile: state.otherReducer.showWelcomeAdvanceProfile,
 });
 
 const mapDispatchToProps = {
   checkCompletedAdvanceProfile: otherActions.checkCompletedAdvanceProfile,
+  checkWelcomeAdvanceProfile: otherActions.checkWelcomeAdvanceProfile,
 };
 
 export default withTranslation()(

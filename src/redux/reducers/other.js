@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   completedBasicProfile: false,
   completedAdvanceProfile: false,
   showWelcomeBasicProfile: true,
+  showWelcomeAdvanceProfile: true,
 };
 
 const otherReducer = (state = INITIAL_STATE, action) => {
@@ -60,6 +61,11 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         showWelcomeBasicProfile: false,
+      };
+    case types.CHECK_WELCOME_ADVANCE_PROFILE:
+      return {
+        ...state,
+        showWelcomeAdvanceProfile: false,
       };
     case types.CHECK_COMPLETED_ADVANCE_PROFILE:
       return {
