@@ -47,7 +47,7 @@ class QualitiesBehaviorCard extends React.Component {
           </MCCard>
         )}
         {options.length > 0 && (
-          <H4 mr={10}>{t('tools_tab_qualities_character_description')}</H4>
+          <H4 mr={10}>{t('profile_card_qualities_character_description')}</H4>
         )}
         {options.length > 0 &&
           options.map(option => {

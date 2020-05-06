@@ -1955,6 +1955,18 @@ export const profileIcons = [
     icon: 'exclamation-triangle',
     signinRequired: false,
   },
+  {
+    key: 'approach',
+    iconType: 'FontAwesome5Pro',
+    icon: 'boxing-glove',
+    signinRequired: false,
+  },
+  {
+    key: 'attachment',
+    iconType: 'Ionicon',
+    icon: 'ios-attach',
+    signinRequired: false,
+  },
 
   {
     key: 'value',
@@ -2009,18 +2021,6 @@ export const profileIcons = [
     iconType: 'Ionicon',
     icon: 'ios-warning',
     signinRequired: true,
-  },
-  {
-    key: 'attachment',
-    iconType: 'Ionicon',
-    icon: 'ios-attach',
-    signinRequired: false,
-  },
-  {
-    key: 'approach',
-    iconType: 'FontAwesome5Pro',
-    icon: 'boxing-glove',
-    signinRequired: false,
   },
 ];
 

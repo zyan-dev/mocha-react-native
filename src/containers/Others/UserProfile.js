@@ -142,6 +142,8 @@ class UserProfileScreen extends React.Component {
       praise,
       qualities,
       challenges,
+      approach,
+      attachment,
       commits,
     } = this.props;
     if (unknownUser) {
@@ -263,6 +265,10 @@ class UserProfileScreen extends React.Component {
                   editable={false}
                 />
               )}
+              {selected === 'approach' && <ApproachCard approach={approach} />}
+              {selected === 'attachment' && (
+                <AttachmentCard attachment={attachment} />
+              )}
               {selected === 'value' && (
                 <ValuesCard values={values} editable={false} />
               )}
@@ -286,8 +292,6 @@ class UserProfileScreen extends React.Component {
               )}
               {selected === 'quirk' && <QuirksCard editable={false} />}
               {selected === 'trigger' && <TriggersCard editable={false} />}
-              {selected === 'attachment' && <AttachmentCard editable={false} />}
-              {selected === 'approach' && <ApproachCard editable={false} />}
               {selected === 'feedback_preference' && (
                 <FeedbackPreferenceCard
                   feedbackPreference={feedbackPreference}
@@ -392,6 +396,11 @@ const mapStateToProps = state => ({
   challenges: selector.reflections.findUserSpecialReflections(
     state,
     'Challenges',
+  ),
+  approach: selector.reflections.findUserSpecialReflections(state, 'Approach'),
+  attachment: selector.reflections.findUserSpecialReflections(
+    state,
+    'Attachment',
   ),
   commits: state.otherReducer.commits,
 });

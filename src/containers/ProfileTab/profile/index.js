@@ -188,6 +188,8 @@ class ProfileScreen extends React.Component {
       praise,
       qualities,
       challenges,
+      approach,
+      attachment,
       behaviorPreference,
       commits,
       showDrawer,
@@ -325,6 +327,21 @@ class ProfileScreen extends React.Component {
                   }
                 />
               )}
+              {profileTab === 'approach' && (
+                <ApproachCard
+                  approach={approach}
+                  onPressEdit={() => NavigationService.navigate('EditApproach')}
+                />
+              )}
+              {profileTab === 'attachment' && (
+                <AttachmentCard
+                  attachment={attachment}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditAttachment')
+                  }
+                />
+              )}
+
               {profileTab === 'purpose' && (
                 <PurposesCard
                   onPressDetails={() => this.onPressAllPurposes()}
@@ -368,12 +385,6 @@ class ProfileScreen extends React.Component {
               {profileTab === 'quirk' && <QuirksCard onPressEdit={() => {}} />}
               {profileTab === 'trigger' && (
                 <TriggersCard onPressEdit={() => {}} />
-              )}
-              {profileTab === 'attachment' && (
-                <AttachmentCard onPressEdit={() => {}} />
-              )}
-              {profileTab === 'approach' && (
-                <ApproachCard onPressEdit={() => {}} />
               )}
             </MCContent>
           </MCView>
@@ -467,6 +478,11 @@ const mapStateToProps = state => ({
   challenges: selector.reflections.findMySpecialReflections(
     state,
     'Challenges',
+  ),
+  approach: selector.reflections.findMySpecialReflections(state, 'Approach'),
+  attachment: selector.reflections.findMySpecialReflections(
+    state,
+    'Attachment',
   ),
   commits: state.otherReducer.commits,
 });

@@ -35,6 +35,8 @@ import EditCriticismFeedbackScreen from '../ToolsTab/profile_advanced/CriticismF
 import EditPraiseFeedbackScreen from '../ToolsTab/profile_advanced/PriaseFeedback';
 import EditQualitiesScreen from '../ToolsTab/profile_advanced/QualitiesCharacter';
 import EditChallengesScreen from '../ToolsTab/profile_advanced/ChallengesConcerns';
+import EditApproachScreen from '../ToolsTab/profile_advanced/ApproachToConflict';
+import EditAttachmentScreen from '../ToolsTab/profile_advanced/AttachmentPattern';
 import EditPersonalityScreen from './profile/details/personality';
 
 const Stack = createStackNavigator();
@@ -127,6 +129,11 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen
             name="EditPersonality"
             component={EditPersonalityScreen}
+          />
+          <Stack.Screen name="EditApproach" component={EditApproachScreen} />
+          <Stack.Screen
+            name="EditAttachment"
+            component={EditAttachmentScreen}
           />
         </Stack.Navigator>
       </Drawer>

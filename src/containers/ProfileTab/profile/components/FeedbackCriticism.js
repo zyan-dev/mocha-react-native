@@ -48,7 +48,7 @@ class CriticismFeedbackCard extends React.Component {
           </MCCard>
         )}
         {options.length > 0 && (
-          <H4 mr={10}>{t('tools_tab_criticism_feedback_description')}</H4>
+          <H4 mr={10}>{t('profile_card_criticism_feedback_description')}</H4>
         )}
         <MCView row wrap justify="space-between" width={300}>
           {options.length > 0 &&
