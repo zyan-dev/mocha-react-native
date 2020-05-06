@@ -21,13 +21,12 @@ class PendingRequestScreen extends React.Component {
   };
 
   onPressUserAvatar = user => {
-    NavigationService.navigate('UserProfile', {id: user.requestId});
+    NavigationService.navigate('UserProfile', {id: user._id});
   };
 
   _renderPendingReqeustItem = ({item}) => {
-    const user = item;
-    const {t, theme, declineRequest} = this.props;
-
+    const {t, theme, declineRequest, allUsers} = this.props;
+    const user = allUsers.find(user => user._id === item.requestId);
     return (
       <MCCard p={1} row align="center" mb={10}>
         <MCButton onPress={() => this.onPressUserAvatar(user)}>
@@ -89,6 +88,7 @@ class PendingRequestScreen extends React.Component {
 const mapStateToProps = state => ({
   pendingUsers: selector.users.getAllPendingUsers(state),
   theme: state.routerReducer.theme,
+  allUsers: state.usersReducer.allUsers,
 });
 
 const mapDispatchToProps = {
