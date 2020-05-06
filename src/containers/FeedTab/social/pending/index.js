@@ -15,13 +15,19 @@ class PendingRequestScreen extends React.Component {
   componentDidMount() {
     this.props.getAllTrustMembers();
   }
-  onAddUser = (user) => {
+
+  onAddUser = user => {
     NavigationService.navigate('AddPendingUser', {pendingUser: user});
+  };
+
+  onPressUserAvatar = user => {
+    NavigationService.navigate('UserProfile', {id: user._id});
   };
 
   _renderPendingReqeustItem = ({item}) => {
     const user = item;
     const {t, theme, declineRequest} = this.props;
+
     return (
       <MCCard p={1} row align="center" mb={10}>
         <MCButton onPress={() => this.onPressUserAvatar(user)}>
@@ -72,7 +78,7 @@ class PendingRequestScreen extends React.Component {
           style={{width: dySize(355)}}
           data={pendingUsers}
           renderItem={this._renderPendingReqeustItem}
-          keyExtractor={(item) => item.requestId}
+          keyExtractor={item => item.requestId}
           ListEmptyComponent={<MCEmptyText>{t('empty_request')}</MCEmptyText>}
         />
       </MCRootView>
@@ -80,7 +86,7 @@ class PendingRequestScreen extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   pendingUsers: selector.users.getAllPendingUsers(state),
   theme: state.routerReducer.theme,
 });
@@ -91,5 +97,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(PendingRequestScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PendingRequestScreen),
 );
