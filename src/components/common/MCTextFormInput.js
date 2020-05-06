@@ -18,6 +18,7 @@ class MCTextFormInput extends React.PureComponent {
     mt: PropTypes.number,
     mb: PropTypes.number,
     keyboardType: PropTypes.string,
+    placeholder: PropTypes.string,
     style: PropTypes.object,
   };
 
@@ -47,6 +48,7 @@ class MCTextFormInput extends React.PureComponent {
       value,
       maxLength,
       keyboardType,
+      placeholder,
       mt,
       mb,
       style,
@@ -62,6 +64,8 @@ class MCTextFormInput extends React.PureComponent {
           onChangeText={text => onChange(text)}
           maxLength={maxLength}
           keyboardType={keyboardType}
+          placeholder={placeholder}
+          placeholderTextColor={theme.colors.border}
           style={{
             borderColor:
               submitted && isInvalid

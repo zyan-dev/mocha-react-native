@@ -9,6 +9,7 @@ const INITIAL_STATE = {
 };
 
 const feedbackReducer = (state = INITIAL_STATE, action) => {
+  console.log({questions: state.questions});
   switch (action.type) {
     case types.SET_MY_FEEDBACKS:
       return {

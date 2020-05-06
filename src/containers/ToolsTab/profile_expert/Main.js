@@ -14,8 +14,17 @@ import {getStringWithOutline} from 'services/operators';
 import {ProfileExpertCards} from 'utils/constants';
 
 class ProfileExpertScreen extends React.Component {
+  checkCompletedBestSelf = () => {
+    const {myFeedbacks, profile} = this.props;
+    const find = myFeedbacks.find(
+      feedback =>
+        feedback.sender._id === profile._id &&
+        feedback.question === 'mocha_feedback_best_self',
+    );
+    return find;
+  };
   render() {
-    const {t, theme, coreValues, strength, meaning} = this.props;
+    const {t, theme, coreValues, strength, meaning, valueStory} = this.props;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -43,7 +52,7 @@ class ProfileExpertScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileExpertCards.core_values}
-            completed={coreValues}
+            completed={valueStory}
             theme={theme}
           />
 
@@ -56,8 +65,8 @@ class ProfileExpertScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileExpertCards.strength}
-            locked={!coreValues}
-            completed={strength}
+            locked={!valueStory}
+            completed={this.checkCompletedBestSelf()}
           />
 
           <H3 underline mt={40}>
@@ -69,7 +78,7 @@ class ProfileExpertScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileExpertCards.meaning}
-            locked={!strength}
+            locked={!this.checkCompletedBestSelf()}
             completed={meaning}
             theme={theme}
           />
@@ -127,8 +136,14 @@ const mapStateToProps = state => ({
     state,
     'CoreValues',
   ),
+  valueStory: selector.reflections.findMySpecialReflections(
+    state,
+    'ValueStory',
+  ),
   strength: selector.reflections.findMySpecialReflections(state, 'Strengths'),
   meaning: selector.reflections.findMySpecialReflections(state, 'MeaningLife'),
+  myFeedbacks: state.feedbackReducer.myFeedbacks,
+  profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {

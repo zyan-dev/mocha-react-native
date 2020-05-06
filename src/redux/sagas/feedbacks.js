@@ -82,7 +82,7 @@ export function* requestFeedback(action) {
     } = yield select();
     const param = {
       receivers: selectedUsers.map(user => ({_id: user._id})),
-      questions: selectedQuestions.map(question => i18next.t(question)),
+      questions: selectedQuestions,
     };
     yield put({type: types.API_CALLING});
     const response = yield call(API.sendFeedbackRequest, param);
@@ -104,7 +104,12 @@ export function* requestFeedback(action) {
       });
       yield put({type: types.GET_MY_FEEDBACKS});
       yield put({type: types.API_FINISHED});
-      NavigationService.navigate('CompletedFeedback');
+      console.log('feedback sent');
+      if (action.payload.goBack) {
+        NavigationService.goBack();
+      } else {
+        NavigationService.navigate('CompletedFeedback');
+      }
     } else {
       yield put({
         type: types.API_FINISHED,

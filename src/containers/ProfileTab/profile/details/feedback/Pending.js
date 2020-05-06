@@ -87,7 +87,7 @@ class FeedbackPendingScreen extends React.Component {
           </MCView>
         </MCCard>
         <H3 ph={10} mt={5} mb={5}>
-          {feedback.question}
+          {t(feedback.question)}
         </H3>
         {editing.id === feedback._id && (
           <MCView row ml={10} mr={10}>
@@ -100,13 +100,22 @@ class FeedbackPendingScreen extends React.Component {
             />
           </MCView>
         )}
-        <H5
-          ph={10}
-          align="right"
-          color={theme.colors.border}
-          style={{width: '100%'}}>
-          {moment(feedback.updated).format('YYYY-MM-DD hh:mm A')}
-        </H5>
+        <MCView row justify="space-between" pv={10} ph={10}>
+          {feedback.question === 'mocha_feedback_best_self' ? (
+            <MCView
+              bordered
+              br={4}
+              style={{borderColor: theme.colors.outline}}
+              ph={10}>
+              <H5 color={theme.colors.outline}>Best Self</H5>
+            </MCView>
+          ) : (
+            <MCView />
+          )}
+          <H5 align="right" color={theme.colors.border} style={{flex: 1}}>
+            {moment(feedback.updated).format('YYYY-MM-DD hh:mm A')}
+          </H5>
+        </MCView>
       </MCView>
     );
   };

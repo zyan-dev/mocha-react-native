@@ -39,8 +39,9 @@ export const createQuestion = question => ({
   payload: question,
 });
 
-export const requestFeedback = () => ({
+export const requestFeedback = param => ({
   type: types.REQUEST_FEEDBACK,
+  payload: param,
 });
 
 export const removeFeedbackRequest = id => ({

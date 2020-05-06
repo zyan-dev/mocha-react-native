@@ -286,6 +286,7 @@ export const SampleFeedbackQuestions = [
   'mocha_feedback_my-weakness',
   'mocha_feedback_when-i-was-at-best',
   'mocha_feedback_working-with-me',
+  'mocha_feedback_best_self',
 ];
 
 export const BasicPermissions = [
@@ -1543,6 +1544,12 @@ export const DefaultReflections = {
       options: [],
     },
   },
+  value_story: {
+    type: 'ValueStory',
+    data: {
+      story: {},
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1915,6 +1922,12 @@ export const profileIcons = [
     key: 'value',
     iconType: 'Ionicon',
     icon: 'ios-key',
+    signinRequired: false,
+  },
+  {
+    key: 'feedback',
+    iconType: 'Ionicon',
+    icon: 'ios-git-compare',
     signinRequired: false,
   },
   {

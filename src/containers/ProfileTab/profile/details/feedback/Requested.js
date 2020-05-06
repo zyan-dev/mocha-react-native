@@ -48,7 +48,7 @@ class FeedbackRequestedScreen extends React.Component {
           </MCView>
         </MCCard>
         <H3 ph={10} mt={5} mb={5}>
-          {feedback.question}
+          {t(feedback.question)}
         </H3>
         <H5
           ph={10}

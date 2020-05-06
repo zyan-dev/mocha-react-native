@@ -42,7 +42,7 @@ class FeedbackSentScreen extends React.Component {
           </MCView>
         </MCCard>
         <H3 weight="bold" ph={10} mt={10}>
-          {feedback.question}
+          {t(feedback.question)}
         </H3>
         <MCView ph={10} pv={10}>
           <MCReadMoreText>
