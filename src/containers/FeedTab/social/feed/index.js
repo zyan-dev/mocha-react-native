@@ -74,6 +74,8 @@ class FeedScreen extends React.Component {
   render() {
     const {searchText} = this.state;
     const {t, theme, showDrawer} = this.props;
+    const data = this.getFilteredUsers();
+
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -91,23 +93,29 @@ class FeedScreen extends React.Component {
             // onBlur={() => this.setState({searchText: ''})}
           />
           {searchText.length > 0 && (
-            <FlatList
-              style={{
-                maxHeight: 300,
-                borderWidth: 1,
-                borderRadius: 4,
-                borderColor: theme.colors.border,
-                backgroundColor: theme.colors.background,
-              }}
-              keyboardShouldPersistTaps="always"
-              contentContainerStyle={{
-                padding: dySize(5),
-              }}
-              data={this.getFilteredUsers()}
-              renderItem={this._renderUserItem}
-              ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-              keyExtractor={item => item._id}
-            />
+            <MCView style={{marginTop: -10, maxHeight: 300}}>
+              <FlatList
+                style={{
+                  borderWidth: data.length > 0 ? 1 : 0,
+                  borderRadius: 4,
+                  borderColor: theme.colors.border,
+                  backgroundColor: theme.colors.background,
+                  width: dySize(350),
+                }}
+                keyboardShouldPersistTaps="always"
+                contentContainerStyle={{
+                  padding: dySize(5),
+                }}
+                data={this.getFilteredUsers()}
+                renderItem={this._renderUserItem}
+                ListEmptyComponent={
+                  <MCView bordered align="center">
+                    <MCEmptyText>{t('no_result')}</MCEmptyText>
+                  </MCView>
+                }
+                keyExtractor={item => item._id}
+              />
+            </MCView>
           )}
         </MCView>
         {searchText.length === 0 && (
@@ -118,7 +126,7 @@ class FeedScreen extends React.Component {
               paddingVertical: dySize(5),
             }}>
             <H4 align="center" color={theme.colors.border}>
-              No feeds
+              {t('no_feeds')}
             </H4>
           </MCContent>
         )}
