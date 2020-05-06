@@ -1,5 +1,5 @@
 import UsersSvg from './Users';
-import UserSvg from './User';
+import ProfileSvg from './Profile';
 import ToolsSvg from './Tools';
 import ResourceSvg from './Resource';
 import AppleSvg from './Apple';
@@ -23,11 +23,12 @@ import HandheartSvg from './Handheart';
 import TeaSvg from './Tea';
 import ShieldSvg from './Shield';
 import PeopleArrowSvg from './PeopleArrows';
-import ManageTrustNetworkSvg from './ManageTrustNetwork'
+import ManageTrustNetworkSvg from './ManageTrustNetwork';
+import CommunitySvg from './Community';
 
 export {
   UsersSvg,
-  UserSvg,
+  ProfileSvg,
   ToolsSvg,
   ResourceSvg,
   AppleSvg,
@@ -52,4 +53,5 @@ export {
   ShieldSvg,
   PeopleArrowSvg,
   ManageTrustNetworkSvg,
+  CommunitySvg,
 };
