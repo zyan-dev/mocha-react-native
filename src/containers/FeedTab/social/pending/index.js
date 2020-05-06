@@ -21,7 +21,7 @@ class PendingRequestScreen extends React.Component {
   };
 
   onPressUserAvatar = user => {
-    NavigationService.navigate('UserProfile', {id: user._id});
+    NavigationService.navigate('UserProfile', {id: user.requestId});
   };
 
   _renderPendingReqeustItem = ({item}) => {
