@@ -53,7 +53,7 @@ class PendingRequestScreen extends React.Component {
             <H4>{t('add_addButton')}</H4>
           </MCButton>
           <MCButton
-            onPress={() => declineRequest(user.requestId)}
+            onPress={() => declineRequest(user._id)}
             mt={10}
             pt={1}
             pb={1}
