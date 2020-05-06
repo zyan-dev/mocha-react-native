@@ -7,7 +7,13 @@ import {MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {H4} from 'components/styled/Text';
-import {UsersSvg, UserSvg, ToolsSvg, ResourceSvg} from 'assets/svgs';
+import {
+  ProfileSvg,
+  UserSvg,
+  ToolsSvg,
+  ResourceSvg,
+  CommunitySvg,
+} from 'assets/svgs';
 import NavigationService from 'navigation/NavigationService';
 import {
   profileActions,
@@ -19,8 +25,8 @@ import {
 } from 'Redux/actions';
 
 const TabBarHeight = 80;
-const TabIconBigSize = dySize(40);
-const TabIconSmallSize = dySize(25);
+const TabIconBigSize = dySize(45);
+const TabIconSmallSize = dySize(35);
 
 const TabWrapper = styled(Footer)`
   height: ${TabBarHeight};
@@ -31,13 +37,6 @@ const TabWrapper = styled(Footer)`
 `;
 
 class TabView extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tabIndex: 2,
-    };
-  }
-
   tabIndex = 2;
   lastTime = 0;
 
@@ -47,33 +46,6 @@ class TabView extends React.PureComponent {
 
   componentWillUnmount() {
     this.mounted = false;
-  }
-
-  componentWillReceiveProps(props) {
-    if (!this.mounted) return;
-    const history = props.state.history;
-    if (history.length > 0) {
-      switch (history[0].key.split('-')[0]) {
-        case 'TabFeed':
-          this.setState({tabIndex: 0});
-          console.log('Social Tab Pressed!');
-          break;
-        case 'TabResource':
-          this.setState({tabIndex: 1});
-          console.log('Add Tab Pressed!');
-          break;
-        case 'TabTools':
-          this.setState({tabIndex: 2});
-          console.log('Add Tab Pressed!');
-          break;
-        case 'TabProfile':
-          this.setState({tabIndex: 3});
-          console.log('Profile Tab Pressed!');
-          break;
-        default:
-          break;
-      }
-    }
   }
 
   onClickTab = index => {
@@ -97,7 +69,7 @@ class TabView extends React.PureComponent {
       {name: 'Profile'},
     ];
 
-    this.setState({tabIndex: index});
+    this.props.setMainTabIndex(index);
 
     // detect double clicking
     if (this.tabIndex === index && new Date().getTime() - this.lastTime < 800) {
@@ -143,8 +115,7 @@ class TabView extends React.PureComponent {
   };
 
   render() {
-    const {t, theme} = this.props;
-    const {tabIndex} = this.state;
+    const {t, theme, mainTabIndex} = this.props;
     return (
       <TabWrapper>
         <MCView
@@ -159,11 +130,11 @@ class TabView extends React.PureComponent {
             align="center"
             height={TabBarHeight}
             style={{flex: 1}}>
-            <UsersSvg
-              size={tabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
-              color={theme.colors.text}
+            <CommunitySvg
+              theme={theme}
+              size={mainTabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
             />
-            <H4 weight={tabIndex === 0 ? 'bold' : 'regular'}>
+            <H4 weight={mainTabIndex === 0 ? 'bold' : 'regular'}>
               {t('footer_feed')}
             </H4>
           </MCButton>
@@ -176,10 +147,10 @@ class TabView extends React.PureComponent {
             style={{flex: 1}}
             height={TabBarHeight}>
             <ResourceSvg
-              size={tabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
-              color={theme.colors.text}
+              size={mainTabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
+              theme={theme}
             />
-            <H4 weight={tabIndex === 1 ? 'bold' : 'regular'}>
+            <H4 weight={mainTabIndex === 1 ? 'bold' : 'regular'}>
               {t('footer_resources')}
             </H4>
           </MCButton>
@@ -192,10 +163,10 @@ class TabView extends React.PureComponent {
             style={{flex: 1}}
             height={TabBarHeight}>
             <ToolsSvg
-              size={tabIndex === 2 ? TabIconBigSize : TabIconSmallSize}
+              size={mainTabIndex === 2 ? TabIconBigSize : TabIconSmallSize}
               color={theme.colors.text}
             />
-            <H4 weight={tabIndex === 2 ? 'bold' : 'regular'}>
+            <H4 weight={mainTabIndex === 2 ? 'bold' : 'regular'}>
               {t('footer_tools')}
             </H4>
           </MCButton>
@@ -207,11 +178,11 @@ class TabView extends React.PureComponent {
             onPress={() => this.onClickTab(3)}
             style={{flex: 1}}
             height={TabBarHeight}>
-            <UserSvg
-              size={tabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
-              color={theme.colors.text}
+            <ProfileSvg
+              size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
+              theme={theme}
             />
-            <H4 weight={tabIndex === 3 ? 'bold' : 'regular'}>
+            <H4 weight={mainTabIndex === 3 ? 'bold' : 'regular'}>
               {t('footer_profile')}
             </H4>
           </MCButton>
@@ -225,6 +196,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
   userToken: state.profileReducer.userToken,
+  mainTabIndex: state.routerReducer.mainTabIndex,
 });
 
 const mapDispatchToProps = {
@@ -239,6 +211,7 @@ const mapDispatchToProps = {
   changeToolsTab: otherActions.changeToolsTab,
   showSocialDrawer: routerActions.setSocialDrawerOpened,
   showProfileDrawer: routerActions.setProfileDrawerOpened,
+  setMainTabIndex: routerActions.setMainTabIndex,
 };
 
 export default withTranslation()(

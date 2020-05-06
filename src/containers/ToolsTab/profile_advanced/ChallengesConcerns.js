@@ -89,7 +89,10 @@ class ChallengesConcernScreen extends React.Component {
           onPressRight={() => addOrUpdateReflection()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          {getStringWithOutline(this.title, 'left', true, true)}
+          {getStringWithOutline(this.title, {
+            align: 'left',
+            underline: true,
+          })}
           {BehaviorPreferenceNegatives.map(preference => {
             const liked = bookmarked.indexOf(preference) > -1;
             return (
@@ -153,7 +156,7 @@ class ChallengesConcernScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   challenges: selector.reflections.findMySpecialReflections(
     state,
     'Challenges',

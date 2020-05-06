@@ -222,14 +222,12 @@ class AddResourceScreen extends React.PureComponent {
           )}
 
           <MCView mt={10}>
-            <MCView width={350} align="center" pv={5}>
-              {getStringWithOutline(
-                this.ResourceTypeQuestion,
-                'left',
-                true,
-                true,
-                true,
-              )}
+            <MCView width={350} pv={5}>
+              {getStringWithOutline(this.ResourceTypeQuestion, {
+                align: 'left',
+                underline: true,
+                bigSize: true,
+              })}
             </MCView>
             <MCView row wrap>
               {impacts.map((impact, index) => (
@@ -251,13 +249,11 @@ class AddResourceScreen extends React.PureComponent {
           </MCView>
           <MCView mt={5}>
             <MCView width={350} align="center" pv={5}>
-              {getStringWithOutline(
-                this.PersonalDevelopmentQuestion,
-                'left',
-                true,
-                true,
-                true,
-              )}
+              {getStringWithOutline(this.PersonalDevelopmentQuestion, {
+                align: 'left',
+                underline: true,
+                bigSize: true,
+              })}
             </MCView>
             <MCView row wrap>
               {skills.map((skill, index) => (

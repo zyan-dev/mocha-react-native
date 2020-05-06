@@ -9,7 +9,6 @@ import {
   otherActions,
 } from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {UserSvg} from 'assets/svgs';
 import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
@@ -33,8 +32,11 @@ import QuirksCard from './components/Quirks';
 import TriggersCard from './components/Triggers';
 import AttachmentCard from './components/Attachment';
 import ApproachCard from './components/Approach';
-import FeedbackPreferenceCard from './components/FeedbackPreference';
-import BehaviorPreferenceCard from './components/BehaviorPreference';
+import CoachingFeedbackCard from './components/FeedbackCoaching';
+import CriticismFeedbackCard from './components/FeedbackCriticism';
+import PraiseFeedbackCard from './components/FeedbackPraise';
+import QualitiesBehaviorCard from './components/BehaviorQualities';
+import ChallengesBehaviorCard from './components/BehaviorChallenges';
 import NutritionCard from './components/Nutrition';
 import HydrationCard from './components/Hydration';
 import DreamCard from './components/Dream';
@@ -42,7 +44,7 @@ import NavigationService from 'navigation/NavigationService';
 import {showAlert, getStringWithOutline} from 'services/operators';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
-import {FaucetWhiteSvg, FutureSvg} from 'assets/svgs';
+import {FaucetWhiteSvg, FutureSvg, ProfileSvg} from 'assets/svgs';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -181,7 +183,11 @@ class ProfileScreen extends React.Component {
       motivations,
       manuals,
       personality,
-      feedbackPreference,
+      coaching,
+      criticism,
+      praise,
+      qualities,
+      challenges,
       behaviorPreference,
       commits,
       showDrawer,
@@ -273,6 +279,52 @@ class ProfileScreen extends React.Component {
                   theme={theme}
                 />
               )}
+              {profileTab === 'coaching_feedback' && (
+                <CoachingFeedbackCard
+                  coaching={coaching}
+                  theme={theme}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditCoachingFeedback')
+                  }
+                />
+              )}
+              {profileTab === 'criticism_feedback' && (
+                <CriticismFeedbackCard
+                  criticism={criticism}
+                  theme={theme}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditCriticismFeedback')
+                  }
+                />
+              )}
+              {profileTab === 'praise_feedback' && (
+                <PraiseFeedbackCard
+                  praise={praise}
+                  theme={theme}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditPraiseFeedback')
+                  }
+                />
+              )}
+              {profileTab === 'qualities_character' && (
+                <QualitiesBehaviorCard
+                  qualities={qualities}
+                  behaviorPreference={behaviorPreference}
+                  theme={theme}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditQualities')
+                  }
+                />
+              )}
+              {profileTab === 'challenges_concerns' && (
+                <ChallengesBehaviorCard
+                  challenges={challenges}
+                  behaviorPreference={behaviorPreference}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditChallenges')
+                  }
+                />
+              )}
               {profileTab === 'purpose' && (
                 <PurposesCard
                   onPressDetails={() => this.onPressAllPurposes()}
@@ -296,7 +348,12 @@ class ProfileScreen extends React.Component {
                 />
               )}
               {profileTab === 'personality' && (
-                <PersonalityCard personality={personality} />
+                <PersonalityCard
+                  personality={personality}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditPersonality')
+                  }
+                />
               )}
               {profileTab === 'risk' && (
                 <RiskToleranceCard onPressEdit={() => {}} />
@@ -318,22 +375,6 @@ class ProfileScreen extends React.Component {
               {profileTab === 'approach' && (
                 <ApproachCard onPressEdit={() => {}} />
               )}
-              {profileTab === 'feedback_preference' && (
-                <FeedbackPreferenceCard
-                  feedbackPreference={feedbackPreference}
-                  onPressEdit={() =>
-                    NavigationService.navigate('FeedbackPreference')
-                  }
-                />
-              )}
-              {profileTab === 'behavior_preference' && (
-                <BehaviorPreferenceCard
-                  behaviorPreference={behaviorPreference}
-                  onPressEdit={() =>
-                    NavigationService.navigate('BehaviorPreference')
-                  }
-                />
-              )}
             </MCContent>
           </MCView>
           <MCView
@@ -352,7 +393,7 @@ class ProfileScreen extends React.Component {
             <H3 mb={10} underline>
               {t('welcome_profile_title')}
             </H3>
-            <UserSvg size={30} color={theme.colors.text} />
+            <ProfileSvg size={30} theme={theme} />
             <H4 mt={20} pv={1}>
               {t('welcome_tools_take_a_look')}
             </H4>
@@ -383,13 +424,16 @@ const mapStateToProps = state => ({
   ),
   nutrition: selector.reflections.findMySpecialReflections(state, 'Nutrition'),
   hydration: selector.reflections.findMySpecialReflections(state, 'Hydration'),
-  stress: selector.reflections.findMySpecialReflections(state, 'Stress'),
-  strength: selector.reflections.findMySpecialReflections(state, 'Strength'),
+  stress: selector.reflections.findMySpecialReflections(
+    state,
+    'StressResponse',
+  ),
+  strength: selector.reflections.findMySpecialReflections(state, 'Strengths'),
   coreValues: selector.reflections.findMySpecialReflections(
     state,
     'CoreValues',
   ),
-  dream: selector.reflections.findMySpecialReflections(state, 'Dream'),
+  dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
   dailyHabits: selector.reflections
     .getMySpecialReflections(state, 'Habit')
     .filter(({data}) => data.isDaily),
@@ -398,7 +442,6 @@ const mapStateToProps = state => ({
     .filter(({data}) => !data.isDaily),
   manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   values: selector.reflections.getMySpecialReflections(state, 'Value'),
-  manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
   motivations: selector.reflections.getMySpecialReflections(
     state,
     'Motivation',
@@ -408,13 +451,22 @@ const mapStateToProps = state => ({
     state,
     'Personality',
   ),
-  feedbackPreference: selector.reflections.findMySpecialReflections(
+  coaching: selector.reflections.findMySpecialReflections(
     state,
-    'FeedbackPreference',
+    'CoachingFeedback',
   ),
-  behaviorPreference: selector.reflections.findMySpecialReflections(
+  criticism: selector.reflections.findMySpecialReflections(
     state,
-    'BehaviorPreference',
+    'CriticismFeedback',
+  ),
+  praise: selector.reflections.findMySpecialReflections(
+    state,
+    'PraiseFeedback',
+  ),
+  qualities: selector.reflections.findMySpecialReflections(state, 'Qualities'),
+  challenges: selector.reflections.findMySpecialReflections(
+    state,
+    'Challenges',
   ),
   commits: state.otherReducer.commits,
 });

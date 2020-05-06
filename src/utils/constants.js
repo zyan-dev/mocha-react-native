@@ -62,6 +62,8 @@ export const FontFamilies = {
   italic: 'Raleway-Italic',
 };
 
+export const mainTabKeys = ['social', 'resources', 'tools', 'profile'];
+
 export const ContactProfileKeys = [
   'preferredtobecalled',
   'namepronoun',
@@ -1924,23 +1926,36 @@ export const profileIcons = [
     signinRequired: true,
   },
   {
-    key: 'feedback',
-    iconType: 'Ionicon',
-    icon: 'ios-people',
+    key: 'coaching_feedback',
+    iconType: 'FontAwesome5Pro',
+    icon: 'bullhorn',
     signinRequired: true,
   },
   {
-    key: 'feedback_preference',
-    iconType: 'Ionicon',
-    icon: 'ios-git-compare',
+    key: 'criticism_feedback',
+    iconType: 'FontAwesome5Pro',
+    icon: 'hand-point-down',
     signinRequired: false,
   },
   {
-    key: 'behavior_preference',
-    iconType: 'FontAwesome5',
-    icon: 'thumbs-up',
+    key: 'praise_feedback',
+    iconType: 'FontAwesome5Pro',
+    icon: 'award',
     signinRequired: false,
   },
+  {
+    key: 'qualities_character',
+    iconType: 'FontAwesome5Pro',
+    icon: 'medal',
+    signinRequired: false,
+  },
+  {
+    key: 'challenges_concerns',
+    iconType: 'FontAwesome5Pro',
+    icon: 'exclamation-triangle',
+    signinRequired: false,
+  },
+
   {
     key: 'value',
     iconType: 'Ionicon',
@@ -2032,12 +2047,6 @@ export const ValueCardBackgrounds = ['#FBE9E6', '#E9F6F9', '#E5E6E8'];
 
 export const DiscoverValues = [
   {
-    value: 'social',
-    category: 'power',
-    name: 'sparrow',
-    image: AnimalSparrow,
-  },
-  {
     value: 'beauty',
     category: 'universalism',
     name: 'indian_peafowl',
@@ -2122,22 +2131,10 @@ export const DiscoverValues = [
     image: AnimalTortoise,
   },
   {
-    value: 'creativity',
-    category: 'self-direction',
-    name: 'puffer_fish',
-    icon: 'creative-commons-sampling-plus',
-  },
-  {
     value: 'sense',
     category: 'security',
     name: 'arctic_walrus',
     icon: 'brain',
-  },
-  {
-    value: 'influence',
-    category: 'achievement',
-    name: 'coral_snake',
-    icon: 'confluence',
   },
   {
     value: 'respect',
@@ -2434,7 +2431,7 @@ export const ComfortingPreferences = [
   'hearing_pessimism',
   'conversation',
   'other_people',
-  'template',
+  'alone',
 ];
 
 export const stressRecoveries = ['tea', 'exercise', 'meditating', 'music'];

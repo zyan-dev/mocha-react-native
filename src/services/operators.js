@@ -179,13 +179,12 @@ export const getWeekDay = t => {
   return WeekDays[weekDay].long.toLowerCase();
 };
 
-export const getStringWithOutline = (
-  textData,
-  center = 'center',
-  bold = true,
-  underline = false,
-  bigSize = false,
-) => {
+export const getStringWithOutline = (textData, params = {}) => {
+  const align = params.align || 'center';
+  const bold = params.bold || true;
+  const underline = params.underline || false;
+  const bigSize = params.bigSize || false;
+  const style = params.style || {};
   // outline can be bold or underline
   let str = textData.title;
   const snippets = [];
@@ -201,13 +200,19 @@ export const getStringWithOutline = (
       }
       if (bigSize) {
         snippets.push(
-          <H3 weight={bold ? 'bold' : 'regular'} underline={underline}>
+          <H3
+            weight={bold ? 'bold' : 'regular'}
+            underline={underline}
+            align={align}>
             {str.substr(boldIndex, boldWord.length)}
           </H3>,
         );
       } else {
         snippets.push(
-          <H4 weight={bold ? 'bold' : 'regular'} underline={underline}>
+          <H4
+            weight={bold ? 'bold' : 'regular'}
+            underline={underline}
+            align={align}>
             {str.substr(boldIndex, boldWord.length)}
           </H4>,
         );
@@ -219,14 +224,18 @@ export const getStringWithOutline = (
   snippets.push(str);
   if (bigSize) {
     return (
-      <MCView row style={{width: '100%'}}>
-        <H3 align={center}>{snippets.map(snippet => snippet)}</H3>
+      <MCView row>
+        <H3 align={align} {...style} style={{width: '100%'}}>
+          {snippets.map(snippet => snippet)}
+        </H3>
       </MCView>
     );
   } else {
     return (
-      <MCView row style={{width: '100%'}}>
-        <H4 align={center}>{snippets.map(snippet => snippet)}</H4>
+      <MCView row>
+        <H4 align={align} {...style} style={{width: '100%'}}>
+          {snippets.map(snippet => snippet)}
+        </H4>
       </MCView>
     );
   }

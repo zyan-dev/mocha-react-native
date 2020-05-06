@@ -111,6 +111,7 @@ class OverviewCard extends React.Component {
               lineHeight: dySize(24),
               fontStyle: 'italic',
               color: theme.colors.text,
+              height: editing ? dySize(200) : 'auto',
             }}
           />
         </MCView>

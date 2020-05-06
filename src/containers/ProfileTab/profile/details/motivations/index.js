@@ -17,19 +17,8 @@ class MotivationListScreen extends React.PureComponent {
   };
 
   onPressEdit = item => {
-    const {
-      selectedReflection,
-      selectReflection,
-      addOrUpdateReflection,
-    } = this.props;
-    if (selectedReflection && selectedReflection._id === item._id) {
-      // save
-      addOrUpdateReflection();
-    } else {
-      // edit
-      selectReflection(item);
-      NavigationService.navigate('AddMotivation');
-    }
+    this.props.selectReflection(item);
+    NavigationService.navigate('AddMotivation');
   };
 
   onPressRemove = item => {
@@ -102,15 +91,12 @@ const mapStateToProps = state => ({
     state,
     'Motivation',
   ),
-  selectedReflection: state.reflectionReducer.selectedReflection,
 });
 
 const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,
   removeReflection: reflectionActions.removeReflection,
   selectReflection: reflectionActions.selectReflection,
-  updateSelectedReflection: reflectionActions.updateSelectedReflection,
-  addOrUpdateReflection: reflectionActions.addOrUpdateReflection,
 };
 
 export default withTranslation()(

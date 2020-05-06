@@ -187,9 +187,9 @@ class ProfileAdvancedScreen extends React.Component {
                     {' '}
                     Habits
                   </H3>
-                  <MCView row mt={-5}>
+                  <H3 mt={-5}>
                     <AppleSvg size={20} />
-                  </MCView>
+                  </H3>
                   <H3>, check out </H3>
                   <H3 weight="bold">Profile Expert </H3>
                   <MCIcon

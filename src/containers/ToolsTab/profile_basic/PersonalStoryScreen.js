@@ -181,19 +181,31 @@ class PersonalStoryScreen extends React.Component {
   };
 
   validateAudio = () => {
-    return this.props.selectedReflection.data.pronounce.length > 0;
+    const {selectedReflection} = this.props;
+    const pronounce = _.get(selectedReflection, ['data', 'pronounce'], '');
+    return pronounce.length > 0;
   };
 
   validateTown = () => {
-    return this.props.selectedReflection.data.hometown.length > 0;
+    const {selectedReflection} = this.props;
+    const hometown = _.get(selectedReflection, ['data', 'hometown'], '');
+    return hometown.length > 0;
   };
 
   validateJob = () => {
-    return this.props.selectedReflection.data.first_job.length > 0;
+    const {selectedReflection} = this.props;
+    const first_job = _.get(selectedReflection, ['data', 'first_job'], '');
+    return first_job.length > 0;
   };
 
   validateChallenge = () => {
-    return this.props.selectedReflection.data.biggest_challenge.length > 0;
+    const {selectedReflection} = this.props;
+    const biggest_challenge = _.get(
+      selectedReflection,
+      ['data', 'biggest_challenge'],
+      '',
+    );
+    return biggest_challenge.length > 0;
   };
 
   onPressSubmit = () => {
@@ -309,7 +321,7 @@ class PersonalStoryScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   myPersonalStory: selector.reflections.findMySpecialReflections(
     state,
     'PersonalStory',

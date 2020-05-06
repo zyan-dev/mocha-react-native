@@ -1,13 +1,14 @@
 import {call, put, select} from 'redux-saga/effects';
 import * as _ from 'lodash';
+import i18next from 'i18next';
 import {selector} from 'Redux/selectors';
 import * as types from '../actions/types';
 import API from 'services/api';
 import {showAlert} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {getWeekStartDateStamp} from 'services/operators';
-import {getTodayStartDateStamp, getWeekNumber} from '../../services/operators';
-import i18next from 'i18next';
+import {getTodayStartDateStamp, getWeekNumber} from 'services/operators';
+import {mainTabKeys} from 'utils/constants';
 
 export function* getMyReflections(action) {
   try {
@@ -80,39 +81,43 @@ export function* addOrUpdateReflection(action) {
   try {
     let response = {};
     const {
-      reflectionReducer: {selectedReflection, myReflections},
+      reflectionReducer: {selectedReflection, myReflections, mainTabIndex},
       profileReducer: {name, userToken},
       routerReducer: {isInternetReachable},
     } = yield select();
+    const selectedTempReflection =
+      selectedReflection[mainTabKeys[mainTabIndex]];
     yield put({type: types.API_CALLING});
     if (
       isInternetReachable &&
-      selectedReflection.data.image &&
-      selectedReflection.data.image.length &&
-      selectedReflection.data.image.indexOf('https://') < 0
+      selectedTempReflection.data.image &&
+      selectedTempReflection.data.image.length &&
+      selectedTempReflection.data.image.indexOf('https://') < 0
     ) {
       response = yield call(API.fileUploadToS3, {
-        image: selectedReflection.data.image,
+        image: selectedTempReflection.data.image,
         name,
-        type: selectedReflection.type,
+        type: selectedTempReflection.type,
       });
       if (response === 'error') {
         return;
       } else {
-        selectedReflection.data.image = response;
+        selectedTempReflection.data.image = response;
       }
     }
-    if (selectedReflection._id) {
+    if (!selectedTempReflection) {
+      yield put({type: types.API_FINISHED, payload: 'Empty'});
+    } else if (selectedTempReflection._id) {
       if (userToken && isInternetReachable) {
         // online update
         response = yield call(API.updateReflections, {
-          data: [selectedReflection],
+          data: [selectedTempReflection],
         });
       } else {
         // offline update
         const updated = myReflections.map(reflection => {
-          if (reflection._id === selectedReflection._id)
-            return selectedReflection;
+          if (reflection._id === selectedTempReflection._id)
+            return selectedTempReflection;
           else return reflection;
         });
         yield put({
@@ -125,7 +130,7 @@ export function* addOrUpdateReflection(action) {
         // online add
         response = yield call(API.addReflections, {
           data: {
-            [selectedReflection.type]: [selectedReflection.data],
+            [selectedTempReflection.type]: [selectedTempReflection.data],
           },
         });
       } else {
@@ -133,7 +138,7 @@ export function* addOrUpdateReflection(action) {
         yield put({
           type: types.SET_MY_REFLECTIONS,
           payload: myReflections.concat({
-            ...selectedReflection,
+            ...selectedTempReflection,
             _id: new Date().getTime(),
           }),
         });
@@ -148,19 +153,13 @@ export function* addOrUpdateReflection(action) {
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
-          event: selectedReflection._id
+          event: selectedTempReflection._id
             ? 'Update Reflection'
             : 'Add Reflection',
-          data: {type: selectedReflection.type},
+          data: {type: selectedTempReflection.type},
         },
       });
       yield put({type: types.API_FINISHED});
-      yield put({
-        type: types.SET_INITIAL_REFLECTION,
-        payload: selectedReflection.type,
-      });
-      if (selectedReflection._id && selectedReflection.type === 'motivation')
-        return;
       if (action.payload === 'goBack') NavigationService.goBack();
       else NavigationService.navigate(action.payload);
     } else {

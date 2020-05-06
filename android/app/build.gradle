@@ -132,8 +132,8 @@ android {
         applicationId "com.mocha.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 39
-        versionName "1.3.8"
+        versionCode 45
+        versionName "1.4.5"
         multiDexEnabled true
     }
     splits {
@@ -219,7 +219,7 @@ googleServices {
 }
 
 project.ext.vectoricons = [
-    iconFontNames: [ 'FontAwesome5Pro-Light.ttf', 'FontAwesome5Pro-Regular.ttf', 'FontAwesome5Pro-Solid.ttf' ] // Name of the font files you want to copy
+    iconFontNames: [ 'FontAwesome5_Pro_Light.ttf', 'FontAwesome5_Pro_Regular.ttf', 'FontAwesome5_Pro_Solid.ttf' ] // Name of the font files you want to copy
 ]
 
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"

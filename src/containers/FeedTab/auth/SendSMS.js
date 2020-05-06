@@ -56,5 +56,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(SendSMSScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SendSMSScreen),
 );

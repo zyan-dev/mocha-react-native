@@ -89,7 +89,7 @@ class QualitiesCharacterScreen extends React.Component {
           onPressRight={() => addOrUpdateReflection()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
-          {getStringWithOutline(this.title, 'left', true, true)}
+          {getStringWithOutline(this.title, {align: 'left', underline: true})}
           {BehaviorPreferences.map(preference => {
             const liked = bookmarked.indexOf(preference) > -1;
             return (
@@ -152,7 +152,7 @@ class QualitiesCharacterScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   qualities: selector.reflections.findMySpecialReflections(state, 'Qualities'),
   reflectionDraft: state.reflectionReducer.draft,
 });

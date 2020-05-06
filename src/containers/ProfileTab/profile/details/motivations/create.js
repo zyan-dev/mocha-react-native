@@ -1,7 +1,9 @@
 import React from 'react';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
+import * as _ from 'lodash';
 import {reflectionActions} from 'Redux/actions';
+import {selector} from 'Redux/selectors';
 import {MCHeader, MCImagePicker, MCTextFormInput} from 'components/common';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
 import {dySize} from 'utils/responsive';
@@ -23,24 +25,27 @@ class CreateMotivationScreen extends React.PureComponent {
   };
 
   validateTitle = () => {
-    return this.props.selectedReflection.data.title.length > 0;
+    const {selectedReflection} = this.props;
+    const title = _.get(selectedReflection, ['data', 'title'], '');
+    return title.length > 0;
   };
 
   validateDescription = () => {
-    return this.props.selectedReflection.data.description.length > 0;
+    const {selectedReflection} = this.props;
+    const description = _.get(selectedReflection, ['data', 'description'], '');
+    return description.length > 0;
   };
 
   render() {
     const {submitted} = this.state;
-    const {
-      t,
-      selectedReflection: {
-        data: {title, description, image},
-      },
-      updateSelectedReflection,
-    } = this.props;
+    const {t, selectedReflection, updateSelectedReflection} = this.props;
+    if (!selectedReflection) return null;
+    const title = _.get(selectedReflection, ['data', 'title'], '');
+    const description = _.get(selectedReflection, ['data', 'description'], '');
+    const image = _.get(selectedReflection, ['data', 'image'], '');
     const isErrorTitle = !this.validateTitle();
     const isErrorDescription = !this.validateDescription();
+
     return (
       <MCRootView>
         <MCHeader
@@ -89,7 +94,7 @@ class CreateMotivationScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
 });
 
 const mapDispatchToProps = {

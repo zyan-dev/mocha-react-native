@@ -40,6 +40,7 @@ export default class MCModal extends React.PureComponent {
     width: PropTypes.number,
     animationIn: PropTypes.string,
     animationOut: PropTypes.string,
+    br: PropTypes.number,
   };
 
   static defaultProps = {
@@ -47,6 +48,7 @@ export default class MCModal extends React.PureComponent {
     animationIn: 'slideInLeft',
     animationOut: 'slideOutRight',
     hasCloseButton: true,
+    br: 20,
   };
 
   render() {
@@ -55,6 +57,7 @@ export default class MCModal extends React.PureComponent {
       children,
       onClose,
       width,
+      br,
       animationIn,
       animationOut,
       hasCloseButton,
@@ -64,7 +67,7 @@ export default class MCModal extends React.PureComponent {
         isVisible={isVisible}
         animationIn={animationIn}
         animationOut={animationOut}>
-        <ModalWrapper width={width}>
+        <ModalWrapper width={width} br={br}>
           <ModalContent
             contentContainerStyle={{
               alignItems: 'center',

@@ -49,7 +49,7 @@ class WelcomeOnboardSecond extends React.PureComponent {
               {t('welcome_onboard_second_text_2')}
             </H4>
             <MCView align="center" mt={15}>
-              {getStringWithOutline(this.MochaValue, 'center', true, false)}
+              {getStringWithOutline(this.MochaValue)}
             </MCView>
             <MCView column align="center">
               <MCView row justify="center" align="center" mt="10">

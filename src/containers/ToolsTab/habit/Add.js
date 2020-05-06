@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import CheckBox from 'react-native-check-box';
 import {FlatList} from 'react-native-gesture-handler';
 import * as _ from 'lodash';
+import {selector} from 'Redux/selectors';
 import {reflectionActions, userActions, otherActions} from 'Redux/actions';
 import {
   MCHeader,
@@ -152,14 +153,15 @@ class EditHabitScreen extends React.PureComponent {
   };
 
   validateTitle = () => {
-    return this.props.selectedReflection.data.title.length > 0;
+    const {selectedReflection} = this.props;
+    const title = _.get(selectedReflection, ['data', 'title'], '');
+    return title.length > 0;
   };
 
   validateHabits = () => {
-    return (
-      this.props.selectedReflection.data.habits.length > 0 ||
-      this.state.newHabitTitle.length > 0
-    );
+    const {selectedReflection} = this.props;
+    const habits = _.get(selectedReflection, ['data', 'habits'], []);
+    return habits.length > 0 || this.state.newHabitTitle.length > 0;
   };
 
   onPressBack = () => {
@@ -219,9 +221,10 @@ class EditHabitScreen extends React.PureComponent {
       updateSelectedReflection,
       selectedUsers,
     } = this.props;
-    const {
-      data: {title, isDaily, habits},
-    } = selectedReflection;
+    if (!selectedReflection) return null;
+    const title = _.get(selectedReflection, ['data', 'title'], '');
+    const isDaily = _.get(selectedReflection, ['data', 'isDaily'], false);
+    const habits = _.get(selectedReflection, ['data', 'habits'], []);
     const isErrorTitle = !this.validateTitle();
     const isErrorHabits = !this.validateHabits();
     return (
@@ -374,7 +377,7 @@ class EditHabitScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   selectedUsers: state.usersReducer.selectedUsers,
   reflectionDraft: state.reflectionReducer.draft,
 });

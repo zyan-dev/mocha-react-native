@@ -96,14 +96,15 @@ class DreamScreen extends React.Component {
   };
 
   validateMain = () => {
-    return this.props.selectedReflection.data.main.length > 0;
+    const {selectedReflection} = this.props;
+    const main = _.get(selectedReflection, ['data', 'main'], '');
+    return main.length > 0;
   };
 
   validateOthers = () => {
-    return (
-      this.props.selectedReflection.data.others.length > 0 ||
-      this.state.newItem.length > 0
-    );
+    const {selectedReflection} = this.props;
+    const others = _.get(selectedReflection, ['data', 'others'], []);
+    return others.length > 0 || this.state.newItem.length > 0;
   };
 
   render() {
@@ -131,7 +132,10 @@ class DreamScreen extends React.Component {
             value={main}
             onChangeText={text => updateSelectedReflection({main: text})}
           />
-          <H4 mt={30}>{t('tools_tab_dreams_others_title')}</H4>
+          <MCView row align="center" mt={30}>
+            <H4>{t('tools_tab_dreams_others_title')}</H4>
+            <MCIcon type="FontAwesome5Pro" name="island-tropical" />
+          </MCView>
           {submitted && !this.validateOthers() && (
             <ErrorText>{t('error_input_select_empty')}</ErrorText>
           )}
@@ -169,7 +173,7 @@ class DreamScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
   reflectionDraft: state.reflectionReducer.draft,
 });

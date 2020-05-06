@@ -4,13 +4,12 @@ import styled from 'styled-components';
 import {withTranslation} from 'react-i18next';
 import FastImage from 'react-native-fast-image';
 import {userActions} from 'Redux/actions';
-import {MCRootView} from 'components/styled/View';
-import {MCHeader} from 'components/common';
+import {MCRootView, MCContent, MCView} from 'components/styled/View';
+import {MCHeader, MCIcon} from 'components/common';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {SignInSuccess} from 'assets/images';
 import NavigationService from 'navigation/NavigationService';
-import {MCContent, MCView} from '../../../components/styled/View';
+import {ManageTrustNetworkSvg} from 'assets/svgs'
 
 const SuccessIcon = styled(FastImage)`
   width: 100px;
@@ -44,7 +43,7 @@ class FeedWelcome extends React.Component {
   };
 
   render() {
-    const {t} = this.props;
+    const {t, theme} = this.props;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -69,10 +68,11 @@ class FeedWelcome extends React.Component {
             <MCButton
               bordered
               mt={30}
+              mb={20}
               onPress={() => this.onPressTrustNetwork()}>
               <H3 align="center">{t('feed_menu_manage_trust_network')}</H3>
             </MCButton>
-            <SuccessIcon source={SignInSuccess} />
+            <ManageTrustNetworkSvg theme={theme} size={90} />
           </MCView>
         </MCContent>
       </MCRootView>
@@ -81,6 +81,7 @@ class FeedWelcome extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
   userToken: state.profileReducer.userToken,
 });
 

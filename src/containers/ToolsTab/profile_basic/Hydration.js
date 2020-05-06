@@ -58,7 +58,9 @@ class HydrationScreen extends React.Component {
   };
 
   validateOptions = () => {
-    return this.props.selectedReflection.data.practices.length > 0;
+    const {selectedReflection} = this.props;
+    const practices = _.get(selectedReflection, ['data', 'practices'], []);
+    return practices.length > 0;
   };
 
   onChangeHydrationRange = range => {
@@ -158,7 +160,7 @@ class HydrationScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   hydration: selector.reflections.findMySpecialReflections(state, 'Hydration'),
   reflectionDraft: state.reflectionReducer.draft,
 });
