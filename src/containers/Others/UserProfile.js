@@ -25,13 +25,14 @@ import DreamCard from '../ProfileTab/profile/components/Dream';
 import CoreValuesCard from '../ProfileTab/profile/components/CoreValues';
 import ChronotypeCard from '../ProfileTab/profile/components/Chronotype';
 import PersonalityCard from '../ProfileTab/profile/components/Personality';
-import StressAndComfortCard from '../ProfileTab/profile/components/StressAndComfort';
+import StressCard from '../ProfileTab/profile/components/Stress';
 import RiskToleranceCard from '../ProfileTab/profile/components/RiskTolerance';
 import FeedbacksCard from '../ProfileTab/profile/components/Feedbacks';
 import QuirksCard from '../ProfileTab/profile/components/Quirks';
 import TriggersCard from '../ProfileTab/profile/components/Triggers';
 import AttachmentCard from '../ProfileTab/profile/components/Attachment';
 import ApproachCard from '../ProfileTab/profile/components/Approach';
+import ComfortCard from '../ProfileTab/profile/components/Comfort';
 import CoachingFeedbackCard from '../ProfileTab/profile/components/FeedbackCoaching';
 import CriticismFeedbackCard from '../ProfileTab/profile/components/FeedbackCriticism';
 import PraiseFeedbackCard from '../ProfileTab/profile/components/FeedbackPraise';
@@ -144,6 +145,7 @@ class UserProfileScreen extends React.Component {
       challenges,
       approach,
       attachment,
+      comfort,
       commits,
     } = this.props;
     if (unknownUser) {
@@ -203,11 +205,7 @@ class UserProfileScreen extends React.Component {
                 />
               )}
               {selected === 'stress' && (
-                <StressAndComfortCard
-                  stress={stress}
-                  theme={theme}
-                  editable={false}
-                />
+                <StressCard stress={stress} theme={theme} editable={false} />
               )}
               {selected === 'skill' && (
                 <SkillsCard strength={strength} editable={false} />
@@ -268,6 +266,9 @@ class UserProfileScreen extends React.Component {
               {selected === 'approach' && <ApproachCard approach={approach} />}
               {selected === 'attachment' && (
                 <AttachmentCard attachment={attachment} />
+              )}
+              {selected === 'comfort' && (
+                <ComfortCard comfort={comfort} theme={theme} />
               )}
               {selected === 'value' && (
                 <ValuesCard values={values} editable={false} />
@@ -402,6 +403,7 @@ const mapStateToProps = state => ({
     state,
     'Attachment',
   ),
+  comfort: selector.reflections.findUserSpecialReflections(state, 'Comfort'),
   commits: state.otherReducer.commits,
 });
 

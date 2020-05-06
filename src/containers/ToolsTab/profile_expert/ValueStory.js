@@ -62,8 +62,8 @@ class PersonalizeValueScreen extends React.Component {
         mb={15}
         onPress={() => this.onPressCoreItem(value)}
         style={{
-          width: dySize(160),
-          height: dySize(220),
+          width: dySize(250),
+          height: dySize(360),
           alignItems: 'center',
           justifyContent: 'center',
           borderWidth: 1,
@@ -73,6 +73,12 @@ class PersonalizeValueScreen extends React.Component {
           borderWidth: dySize(6),
           padding: dySize(5),
         }}>
+        <H4
+          align="center"
+          color={ValueCardTextColor}
+          style={{letterSpacing: 5}}>
+          {t(`value_category_${value.category}`).toUpperCase()}
+        </H4>
         <H4 weight="bold" align="center" color={ValueCardTextColor}>
           {t(`tools_tab_value_${value.value}`)}
         </H4>
@@ -80,8 +86,8 @@ class PersonalizeValueScreen extends React.Component {
           {value.image && (
             <MCImage
               image={value.image}
-              width={dySize(125)}
-              height={dySize(100)}
+              width={dySize(200)}
+              height={dySize(160)}
               resizeMode="contain"
             />
           )}
@@ -99,6 +105,9 @@ class PersonalizeValueScreen extends React.Component {
           style={{letterSpacing: 5}}
           color={ValueCardTextColor}>
           {t(`value_name_${value.name}`).toUpperCase()}
+        </H5>
+        <H5 color={ValueCardTextColor} weight="italic" align="center">
+          {t(`value_name_${value.name}_description`)}
         </H5>
       </MCButton>
     );
@@ -122,7 +131,7 @@ class PersonalizeValueScreen extends React.Component {
         <MCContent
           contentContainerStyle={{padding: dySize(20), paddingBottom: 100}}>
           <H4>{t('tools_tab_value_story_title')}</H4>
-          <MCView mt={40} mb={40} align="center">
+          <MCView mt={40} align="center">
             {this.renderSelectedValueCard()}
           </MCView>
           <H4>{t('label_examples')}</H4>

@@ -25,13 +25,14 @@ import UserManualsCard from './components/UserManuals';
 import HabitCard from './components/habits';
 import ChronotypeCard from './components/Chronotype';
 import PersonalityCard from './components/Personality';
-import StressAndComfortCard from './components/StressAndComfort';
+import StressCard from './components/Stress';
 import RiskToleranceCard from './components/RiskTolerance';
 import FeedbacksCard from './components/Feedbacks';
 import QuirksCard from './components/Quirks';
 import TriggersCard from './components/Triggers';
 import AttachmentCard from './components/Attachment';
 import ApproachCard from './components/Approach';
+import ComfortCard from './components/Comfort';
 import CoachingFeedbackCard from './components/FeedbackCoaching';
 import CriticismFeedbackCard from './components/FeedbackCriticism';
 import PraiseFeedbackCard from './components/FeedbackPraise';
@@ -173,6 +174,7 @@ class ProfileScreen extends React.Component {
       nutrition,
       hydration,
       stress,
+      stressRecovery,
       strength,
       coreValues,
       dream,
@@ -190,6 +192,7 @@ class ProfileScreen extends React.Component {
       challenges,
       approach,
       attachment,
+      comfort,
       behaviorPreference,
       commits,
       showDrawer,
@@ -234,11 +237,15 @@ class ProfileScreen extends React.Component {
                 />
               )}
               {profileTab === 'stress' && (
-                <StressAndComfortCard
+                <StressCard
                   theme={theme}
                   stress={stress}
-                  onPressEdit={() =>
+                  stressRecovery={stressRecovery}
+                  onPressEditParts={() =>
                     NavigationService.navigate('EditBodyStress')
+                  }
+                  onPressEditRecovery={() =>
+                    NavigationService.navigate('EditStressRecovery')
                   }
                 />
               )}
@@ -341,7 +348,13 @@ class ProfileScreen extends React.Component {
                   }
                 />
               )}
-
+              {profileTab === 'comfort' && (
+                <ComfortCard
+                  comfort={comfort}
+                  onPressEdit={() => NavigationService.navigate('EditComfort')}
+                  theme={theme}
+                />
+              )}
               {profileTab === 'purpose' && (
                 <PurposesCard
                   onPressDetails={() => this.onPressAllPurposes()}
@@ -439,6 +452,10 @@ const mapStateToProps = state => ({
     state,
     'StressResponse',
   ),
+  stressRecovery: selector.reflections.findMySpecialReflections(
+    state,
+    'StressRecovery',
+  ),
   strength: selector.reflections.findMySpecialReflections(state, 'Strengths'),
   coreValues: selector.reflections.findMySpecialReflections(
     state,
@@ -484,6 +501,7 @@ const mapStateToProps = state => ({
     state,
     'Attachment',
   ),
+  comfort: selector.reflections.findMySpecialReflections(state, 'Comfort'),
   commits: state.otherReducer.commits,
 });
 

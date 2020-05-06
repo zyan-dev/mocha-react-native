@@ -8,11 +8,13 @@ import {dySize} from 'utils/responsive';
 class MCTagInput extends React.Component {
   static propTypes = {
     tags: PropTypes.array,
+    fontSize: PropTypes.number,
     updateState: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     tags: [],
+    fontSize: dySize(15),
   };
 
   constructor(props) {
@@ -47,7 +49,7 @@ class MCTagInput extends React.Component {
 
   render() {
     const {text} = this.state;
-    const {t, theme, tags} = this.props;
+    const {t, theme, tags, fontSize} = this.props;
     if (tags)
       return (
         <TagInput
@@ -87,6 +89,7 @@ class MCTagInput extends React.Component {
             color: theme.colors.text,
             margin: 0,
             padding: 0,
+            fontSize: fontSize,
           }}
           keysForTag={','}
           onSubmitEditing={() => this.onPressEnterOrBlur()}
