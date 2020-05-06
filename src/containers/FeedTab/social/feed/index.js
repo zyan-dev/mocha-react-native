@@ -74,6 +74,8 @@ class FeedScreen extends React.Component {
   render() {
     const {searchText} = this.state;
     const {t, theme, showDrawer} = this.props;
+    const data = this.getFilteredUsers();
+
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -94,10 +96,11 @@ class FeedScreen extends React.Component {
             <FlatList
               style={{
                 maxHeight: 300,
-                borderWidth: 1,
+                borderWidth: data.length > 0 ? 1 : 0,
                 borderRadius: 4,
                 borderColor: theme.colors.border,
                 backgroundColor: theme.colors.background,
+                width: dySize(350),
               }}
               keyboardShouldPersistTaps="always"
               contentContainerStyle={{
@@ -105,7 +108,7 @@ class FeedScreen extends React.Component {
               }}
               data={this.getFilteredUsers()}
               renderItem={this._renderUserItem}
-              ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+              ListEmptyComponent={<MCEmptyText>{t('no_feeds')}</MCEmptyText>}
               keyExtractor={item => item._id}
             />
           )}
@@ -118,7 +121,7 @@ class FeedScreen extends React.Component {
               paddingVertical: dySize(5),
             }}>
             <H4 align="center" color={theme.colors.border}>
-              No feeds
+              {t('no_feeds')}
             </H4>
           </MCContent>
         )}
