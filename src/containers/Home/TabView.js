@@ -7,7 +7,13 @@ import {MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {H4} from 'components/styled/Text';
-import {UsersSvg, UserSvg, ToolsSvg, ResourceSvg} from 'assets/svgs';
+import {
+  ProfileSvg,
+  UserSvg,
+  ToolsSvg,
+  ResourceSvg,
+  CommunitySvg,
+} from 'assets/svgs';
 import NavigationService from 'navigation/NavigationService';
 import {
   profileActions,
@@ -19,8 +25,8 @@ import {
 } from 'Redux/actions';
 
 const TabBarHeight = 80;
-const TabIconBigSize = dySize(40);
-const TabIconSmallSize = dySize(25);
+const TabIconBigSize = dySize(45);
+const TabIconSmallSize = dySize(35);
 
 const TabWrapper = styled(Footer)`
   height: ${TabBarHeight};
@@ -124,9 +130,9 @@ class TabView extends React.PureComponent {
             align="center"
             height={TabBarHeight}
             style={{flex: 1}}>
-            <UsersSvg
+            <CommunitySvg
+              theme={theme}
               size={mainTabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
-              color={theme.colors.text}
             />
             <H4 weight={mainTabIndex === 0 ? 'bold' : 'regular'}>
               {t('footer_feed')}
@@ -142,7 +148,7 @@ class TabView extends React.PureComponent {
             height={TabBarHeight}>
             <ResourceSvg
               size={mainTabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
-              color={theme.colors.text}
+              theme={theme}
             />
             <H4 weight={mainTabIndex === 1 ? 'bold' : 'regular'}>
               {t('footer_resources')}
@@ -172,9 +178,9 @@ class TabView extends React.PureComponent {
             onPress={() => this.onClickTab(3)}
             style={{flex: 1}}
             height={TabBarHeight}>
-            <UserSvg
+            <ProfileSvg
               size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
-              color={theme.colors.text}
+              theme={theme}
             />
             <H4 weight={mainTabIndex === 3 ? 'bold' : 'regular'}>
               {t('footer_profile')}
