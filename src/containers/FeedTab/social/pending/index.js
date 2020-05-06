@@ -26,21 +26,21 @@ class PendingRequestScreen extends React.Component {
 
   _renderPendingReqeustItem = ({item}) => {
     const {t, theme, declineRequest, allUsers} = this.props;
-    const user = allUsers.find(user => user._id === item.requestId);
+    if (!item._id) return null;
     return (
       <MCCard p={1} row align="center" mb={10}>
-        <MCButton onPress={() => this.onPressUserAvatar(user)}>
+        <MCButton onPress={() => this.onPressUserAvatar(item)}>
           <MCImage
             width={80}
             height={80}
             round
             type="avatar"
-            image={{uri: user.avatar}}
+            image={{uri: item.avatar}}
           />
         </MCButton>
         <MCView style={{flex: 1}} justify="center">
-          <H3>{user.name}</H3>
-          <H4 padding={0} color={theme.colors.border}>{`@${user.user_id}`}</H4>
+          <H3>{item.name}</H3>
+          <H4 padding={0} color={theme.colors.border}>{`@${item.user_id}`}</H4>
         </MCView>
         <MCView mr={10}>
           <MCButton
@@ -49,11 +49,11 @@ class PendingRequestScreen extends React.Component {
             bordered
             width={80}
             align="center"
-            onPress={() => this.onAddUser(user)}>
+            onPress={() => this.onAddUser(item)}>
             <H4>{t('add_addButton')}</H4>
           </MCButton>
           <MCButton
-            onPress={() => declineRequest(user._id)}
+            onPress={() => declineRequest(item._id)}
             mt={10}
             pt={1}
             pb={1}
