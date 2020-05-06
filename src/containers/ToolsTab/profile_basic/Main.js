@@ -233,7 +233,7 @@ class ProfileBasicScreen extends React.Component {
           <MCView width={280} mt={20} align="center">
             <MCView align="center" pv={40} ph={10} width={270}>
               <MCView row wrap align="center">
-                <H3 underline>{t('welcome_profile_basic')}</H3>
+                <H4 underline>{t('welcome_profile_basic')}</H4>
                 <MCIcon
                   type="FontAwesome5Pro-Solid"
                   name="chess-pawn-alt"
