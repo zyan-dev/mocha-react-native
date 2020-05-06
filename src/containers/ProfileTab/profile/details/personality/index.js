@@ -87,7 +87,7 @@ class PersonalityScreen extends React.PureComponent {
 
   render() {
     const {t, selectedReflection} = this.props;
-    if (!selectedReflection) return null;
+    if (!selectedReflection || !selectedReflection.data) return null;
     return (
       <MCRootView>
         <MCHeader
