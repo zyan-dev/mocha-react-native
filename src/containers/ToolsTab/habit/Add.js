@@ -195,23 +195,6 @@ class EditHabitScreen extends React.PureComponent {
     );
   };
 
-  _renderSocialListFooter = () => (
-    <MCButton
-      bordered
-      align="center"
-      justify="center"
-      width={80}
-      height={80}
-      br={40}
-      mt={10}
-      ml={10}
-      onPress={() =>
-        NavigationService.navigate('SelectUser', {multiple: true})
-      }>
-      <MCIcon name="ios-add" size={40} />
-    </MCButton>
-  );
-
   render() {
     const {newHabitTitle, submitted} = this.state;
     const {
@@ -337,11 +320,19 @@ class EditHabitScreen extends React.PureComponent {
           {isErrorHabits && submitted && (
             <ErrorText>{t('error_input_habits')}</ErrorText>
           )}
-          <MCView row align="center" mt={20}>
-            <MCIcon name="ios-person-add" padding={1} />
-            <H3 ml={10} weight="bold">
-              {t('habit_social_accountability_title')}
-            </H3>
+          <MCView row align="center" justify="space-between" mt={20}>
+            <MCView row align="center">
+              <MCIcon name="ios-person-add" padding={1} />
+              <H3 ml={10} weight="bold">
+                {t('habit_social_accountability_title')}
+              </H3>
+            </MCView>
+            <MCButton
+              onPress={() =>
+                NavigationService.navigate('SelectUser', {multiple: true})
+              }>
+              <MCIcon name="ios-add-circle-outline" padding={1} />
+            </MCButton>
           </MCView>
           <H4 color={theme.colors.border}>
             {t('habit_social_accountability_bottom')}
@@ -354,7 +345,6 @@ class EditHabitScreen extends React.PureComponent {
               keyboardShouldPersistTaps="always"
               renderItem={this._renderMemberItem}
               keyExtractor={item => item}
-              ListFooterComponent={this._renderSocialListFooter}
             />
           </MCCard>
           {selectedReflection._id && (
