@@ -12,6 +12,7 @@ import {
   AnimalRockhopper,
   AnimalAlbatross,
   AnimalChamois,
+  AnimalChimpanzee,
   AnimalBat,
   AnimalPolarBear,
   AnimalSloth,
@@ -2068,6 +2069,12 @@ export const DiscoverValues = [
     category: 'stimulation',
     name: 'chamois',
     image: AnimalChamois,
+  },
+  {
+    value: 'humor',
+    category: 'security',
+    name: 'chimpanzee',
+    image: AnimalChimpanzee,
   },
   {
     value: 'reciprocation',
