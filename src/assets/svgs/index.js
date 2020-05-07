@@ -36,6 +36,7 @@ import HeadSideBrainSvg from './HeadSideBrain';
 import PaletteSvg from './Palette';
 import SortAmountSvg from './SortAmount';
 import ConnectionSvg from './Connection';
+import UsersSvg from './Users';
 
 export {
   ProfileSvg,
@@ -76,4 +77,5 @@ export {
   PaletteSvg,
   SortAmountSvg,
   ConnectionSvg,
+  UsersSvg,
 };

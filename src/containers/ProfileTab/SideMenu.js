@@ -23,7 +23,6 @@ class ProfileSideMenu extends React.Component {
     this.state = {
       index: '',
       cp_status: '',
-      isOn: false,
     };
   }
 
@@ -91,13 +90,18 @@ class ProfileSideMenu extends React.Component {
   };
 
   onToggle = isOn => {
-    this.setState({isOn});
     this.props.toggleCrown(isOn);
   };
 
   render() {
-    const {cp_status, isOn} = this.state;
-    const {systemTheme, profile, t} = this.props;
+    const {cp_status} = this.state;
+    const {
+      t,
+      systemTheme,
+      profile,
+      completedExpertProfile,
+      setCrown,
+    } = this.props;
     return (
       <MCRootView justify="flex-start" align="flex-start">
         <ScrollView>
@@ -176,19 +180,21 @@ class ProfileSideMenu extends React.Component {
               })}
             </MCView>
           </MCView>
-          <MCView row align="center" justify="space-around" mb={20}>
-            <MCView row>
-              <H3 mr={5}>{t('profile_menu_self_mastery')}</H3>
-              <ProfileCrownSvg theme={systemTheme} size={30} />
+          {completedExpertProfile && (
+            <MCView row align="center" justify="space-around" mb={20}>
+              <MCView row>
+                <H3 mr={5}>{t('profile_menu_self_mastery')}</H3>
+                <ProfileCrownSvg theme={systemTheme} size={30} />
+              </MCView>
+              <ToggleSwitch
+                isOn={setCrown}
+                onColor={systemTheme.colors.toggle_on}
+                offColor={systemTheme.colors.toggle_off}
+                size="medium"
+                onToggle={isOn => this.onToggle(isOn)}
+              />
             </MCView>
-            <ToggleSwitch
-              isOn={isOn}
-              onColor={systemTheme.colors.toggle_on}
-              offColor={systemTheme.colors.toggle_off}
-              size="medium"
-              onToggle={isOn => this.onToggle(isOn)}
-            />
-          </MCView>
+          )}
           <MCView align="center" mb={20}>
             <MCButton
               bordered
@@ -212,6 +218,8 @@ class ProfileSideMenu extends React.Component {
 const mapStateToProps = state => ({
   systemTheme: state.routerReducer.theme,
   profile: state.profileReducer,
+  completedExpertProfile: state.otherReducer.completedExpertProfile,
+  setCrown: state.otherReducer.setCrown,
 });
 
 const mapDispatchToProps = {

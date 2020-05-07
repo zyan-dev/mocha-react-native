@@ -9,7 +9,7 @@ import {H2, H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
 import ProfileBasicCard from '../profile_basic/components/ProfileBasicCard';
-import {IceCreamSvg, ProfileSvg, CrownSvg} from 'assets/svgs';
+import {IceCreamSvg, ProfileCrownSvg, CrownSvg} from 'assets/svgs';
 import {getStringWithOutline} from 'services/operators';
 import {ProfileExpertCards} from 'utils/constants';
 
@@ -118,7 +118,7 @@ class ProfileExpertScreen extends React.Component {
                 <H3 align="center" style={{lineHeight: 30}}>
                   Check out the
                   <H3 weight="bold"> Profile Tab </H3>
-                  <ProfileSvg size={25} theme={theme} />
+                  <ProfileCrownSvg size={25} theme={theme} />
                   <H3> to see all your data.</H3>
                 </H3>
               </MCView>

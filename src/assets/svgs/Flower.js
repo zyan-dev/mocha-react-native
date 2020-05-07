@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const FlowerSvg = ({size, theme}) => {
   let color1 = '#338900';
   let color2 = '#EBE32D';
-  // if (theme.colors.theme_name === 'Stone') color1 = '#5366FF';
+  if (theme.colors.theme_name === 'Stone') color2 = '#ABA32D';
   return (
     <Svg
       aria-hidden="true"

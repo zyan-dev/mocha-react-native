@@ -21,6 +21,7 @@ import {
   HeadSideBrainSvg,
   SortAmountSvg,
   ConnectionSvg,
+  UsersSvg,
 } from 'assets/svgs';
 
 class MeaningLifeScreen extends React.Component {
@@ -146,9 +147,11 @@ class MeaningLifeScreen extends React.Component {
                       <ConnectionSvg size={30} color={theme.colors.text} />
                     )}
                     {key === 'belonging' && (
-                      <MCIcon type="FontAwesome5Pro" name="users" size={30} />
+                      <UsersSvg size={40} color={theme.colors.text} />
                     )}
-                    {key === 'trancendence' && <FlowerSvg size={35} />}
+                    {key === 'trancendence' && (
+                      <FlowerSvg theme={theme} size={35} />
+                    )}
                     {key === 'self-knowledge' && (
                       <HeadSideBrainSvg size={30} theme={theme} />
                     )}

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const SortAmountSvg = ({size, theme}) => {
   let color1 = '#FFFFFF';
   let color2 = '#000000';
-  if (theme.colors.theme_name === 'Stone') color2 = '#E65B1C';
+  if (theme.colors.theme_name === 'Stone') color1 = '#222222';
   return (
     <Svg
       aria-hidden="true"
