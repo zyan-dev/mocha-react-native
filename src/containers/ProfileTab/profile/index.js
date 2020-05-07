@@ -33,6 +33,7 @@ import TriggersCard from './components/Triggers';
 import AttachmentCard from './components/Attachment';
 import ApproachCard from './components/Approach';
 import ComfortCard from './components/Comfort';
+import MeaningLifeCard from './components/MeaningLife';
 import CoachingFeedbackCard from './components/FeedbackCoaching';
 import CriticismFeedbackCard from './components/FeedbackCriticism';
 import PraiseFeedbackCard from './components/FeedbackPraise';
@@ -45,7 +46,12 @@ import NavigationService from 'navigation/NavigationService';
 import {showAlert, getStringWithOutline} from 'services/operators';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
-import {FaucetWhiteSvg, FutureSvg, ProfileCrownSvg} from 'assets/svgs';
+import {
+  FaucetWhiteSvg,
+  FutureSvg,
+  ProfileCrownSvg,
+  SkullCowSvg,
+} from 'assets/svgs';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -152,6 +158,8 @@ class ProfileScreen extends React.Component {
           <FaucetWhiteSvg size={size} color={color} />
         ) : icon.key === 'dream' ? (
           <FutureSvg size={size} color={color} />
+        ) : icon.key === 'meaning_life' ? (
+          <SkullCowSvg size={size} color={color} />
         ) : (
           <MCIcon
             type={icon.iconType}
@@ -177,6 +185,7 @@ class ProfileScreen extends React.Component {
       stressRecovery,
       strength,
       coreValues,
+      valueStory,
       dream,
       dailyHabits,
       weeklyHabits,
@@ -193,6 +202,7 @@ class ProfileScreen extends React.Component {
       approach,
       attachment,
       comfort,
+      meaning,
       behaviorPreference,
       commits,
       showDrawer,
@@ -268,8 +278,12 @@ class ProfileScreen extends React.Component {
                 <CoreValuesCard
                   theme={theme}
                   coreValues={coreValues}
+                  valueStory={valueStory}
                   onPressEdit={() =>
                     NavigationService.navigate('EditCoreValues')
+                  }
+                  onPressEditValueStory={value =>
+                    NavigationService.navigate('EditValueStory', {value})
                   }
                 />
               )}
@@ -352,6 +366,15 @@ class ProfileScreen extends React.Component {
                 <ComfortCard
                   comfort={comfort}
                   onPressEdit={() => NavigationService.navigate('EditComfort')}
+                  theme={theme}
+                />
+              )}
+              {profileTab === 'meaning_life' && (
+                <MeaningLifeCard
+                  meaning={meaning}
+                  onPressEdit={() =>
+                    NavigationService.navigate('EditMeaningLife')
+                  }
                   theme={theme}
                 />
               )}
@@ -461,6 +484,10 @@ const mapStateToProps = state => ({
     state,
     'CoreValues',
   ),
+  valueStory: selector.reflections.findMySpecialReflections(
+    state,
+    'ValueStory',
+  ),
   dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
   dailyHabits: selector.reflections
     .getMySpecialReflections(state, 'Habit')
@@ -502,6 +529,7 @@ const mapStateToProps = state => ({
     'Attachment',
   ),
   comfort: selector.reflections.findMySpecialReflections(state, 'Comfort'),
+  meaning: selector.reflections.findMySpecialReflections(state, 'MeaningLife'),
   commits: state.otherReducer.commits,
 });
 

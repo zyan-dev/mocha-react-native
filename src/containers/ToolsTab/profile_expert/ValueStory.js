@@ -60,7 +60,6 @@ class PersonalizeValueScreen extends React.Component {
       <MCButton
         key={value.value + theme.colors.theme_name}
         mb={15}
-        onPress={() => this.onPressCoreItem(value)}
         style={{
           width: dySize(250),
           height: dySize(360),

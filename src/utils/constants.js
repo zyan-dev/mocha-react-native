@@ -1924,6 +1924,12 @@ export const profileIcons = [
     signinRequired: false,
   },
   {
+    key: 'meaning_life',
+    iconType: 'FontAwesome5Pro',
+    icon: 'skull-cow',
+    signinRequired: false,
+  },
+  {
     key: 'value',
     iconType: 'Ionicon',
     icon: 'ios-key',

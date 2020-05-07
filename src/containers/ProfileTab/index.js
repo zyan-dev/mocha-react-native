@@ -39,6 +39,8 @@ import EditApproachScreen from '../ToolsTab/profile_advanced/ApproachToConflict'
 import EditAttachmentScreen from '../ToolsTab/profile_advanced/AttachmentPattern';
 import EditStressRecoveryScreen from '../ToolsTab/profile_advanced/StressRecovery';
 import EditComfortScreen from '../ToolsTab/profile_advanced/Comforting';
+import EditMeaningLifeScreen from '../ToolsTab/profile_expert/MeaningLife';
+import EditValueStoryScreen from '../ToolsTab/profile_expert/ValueStory';
 import EditPersonalityScreen from './profile/details/personality';
 
 const Stack = createStackNavigator();
@@ -142,6 +144,14 @@ class ProfileTabStack extends React.Component {
             component={EditAttachmentScreen}
           />
           <Stack.Screen name="EditComfort" component={EditComfortScreen} />
+          <Stack.Screen
+            name="EditMeaningLife"
+            component={EditMeaningLifeScreen}
+          />
+          <Stack.Screen
+            name="EditValueStory"
+            component={EditValueStoryScreen}
+          />
         </Stack.Navigator>
       </Drawer>
     );
