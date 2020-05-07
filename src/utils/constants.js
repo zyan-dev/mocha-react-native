@@ -1535,7 +1535,7 @@ export const DefaultReflections = {
   stress_recovery: {
     type: 'StressRecovery',
     data: {
-      method: '',
+      methods: [],
     },
   },
   meaning_life: {
@@ -1917,7 +1917,12 @@ export const profileIcons = [
     icon: 'ios-attach',
     signinRequired: false,
   },
-
+  {
+    key: 'comfort',
+    iconType: 'FontAwesome5Pro',
+    icon: 'hand-heart',
+    signinRequired: false,
+  },
   {
     key: 'value',
     iconType: 'Ionicon',

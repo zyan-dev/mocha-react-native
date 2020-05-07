@@ -37,6 +37,8 @@ import EditQualitiesScreen from '../ToolsTab/profile_advanced/QualitiesCharacter
 import EditChallengesScreen from '../ToolsTab/profile_advanced/ChallengesConcerns';
 import EditApproachScreen from '../ToolsTab/profile_advanced/ApproachToConflict';
 import EditAttachmentScreen from '../ToolsTab/profile_advanced/AttachmentPattern';
+import EditStressRecoveryScreen from '../ToolsTab/profile_advanced/StressRecovery';
+import EditComfortScreen from '../ToolsTab/profile_advanced/Comforting';
 import EditPersonalityScreen from './profile/details/personality';
 
 const Stack = createStackNavigator();
@@ -110,6 +112,10 @@ class ProfileTabStack extends React.Component {
             component={EditBodyStressScreen}
           />
           <Stack.Screen
+            name="EditStressRecovery"
+            component={EditStressRecoveryScreen}
+          />
+          <Stack.Screen
             name="EditCoachingFeedback"
             component={EditCoachingFeedbackScreen}
           />
@@ -135,6 +141,7 @@ class ProfileTabStack extends React.Component {
             name="EditAttachment"
             component={EditAttachmentScreen}
           />
+          <Stack.Screen name="EditComfort" component={EditComfortScreen} />
         </Stack.Navigator>
       </Drawer>
     );

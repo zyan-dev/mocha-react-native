@@ -70,19 +70,32 @@ const bodyPartButtons = [
 class StressAndComfortCard extends React.Component {
   static propTypes = {
     stress: PropTypes.arrayOf(Object),
-    onPressEdit: PropTypes.func,
+    stressRecovery: PropTypes.array,
+    onPressEditParts: PropTypes.func,
+    onPressEditRecovery: PropTypes.func,
     editable: PropTypes.bool,
   };
 
   static defaultProps = {
     editable: true,
     stress: [],
-    onPressEdit: () => undefined,
+    stressRecovery: [],
+    onPressEditParts: () => undefined,
+    onPressEditRecovery: () => undefined,
   };
 
   render() {
-    const {t, theme, stress, onPressEdit, editable} = this.props;
+    const {
+      t,
+      theme,
+      stress,
+      stressRecovery,
+      onPressEditParts,
+      onPressEditRecovery,
+      editable,
+    } = this.props;
     const parts = _.get(stress, ['data', 'parts'], []);
+    const methods = _.get(stressRecovery, ['data', 'methods'], []);
     return (
       <MCView>
         <MCView row align="center" mb={20}>
@@ -94,7 +107,7 @@ class StressAndComfortCard extends React.Component {
             {t('profile_card_stress_response')}
           </H4>
           {editable && (
-            <MCButton onPress={() => onPressEdit()}>
+            <MCButton onPress={() => onPressEditParts()}>
               <MCIcon type="FontAwesome5" name="edit" />
             </MCButton>
           )}
@@ -154,6 +167,47 @@ class StressAndComfortCard extends React.Component {
               })}
             </MCView>
           </>
+        )}
+        <MCView row align="center" mb={10}>
+          <H4 underline style={{flex: 1}}>
+            {t('profile_card_stress_recovery')}
+          </H4>
+          {editable && (
+            <MCButton onPress={() => onPressEditRecovery()}>
+              <MCIcon type="FontAwesome5" name="edit" />
+            </MCButton>
+          )}
+        </MCView>
+        {methods.length === 0 && (
+          <MCButton align="center" style={{width: '100%'}} bordered>
+            <MCEmptyText>
+              {editable
+                ? t('profile_card_empty_stress')
+                : t('profile_card_empty_user_stress')}
+            </MCEmptyText>
+          </MCButton>
+        )}
+        {methods.length > 0 && (
+          <H4 align="center">{t('profile_card_stress_recovery_title')}</H4>
+        )}
+        {methods.length > 0 && (
+          <MCView row wrap justify="space-between" width={300}>
+            {methods.map(method => {
+              return (
+                <MCView
+                  bordered
+                  br={10}
+                  width={140}
+                  height={80}
+                  align="center"
+                  justify="center"
+                  mt={15}
+                  ph={10}>
+                  <H4 align="center">{method}</H4>
+                </MCView>
+              );
+            })}
+          </MCView>
         )}
       </MCView>
     );

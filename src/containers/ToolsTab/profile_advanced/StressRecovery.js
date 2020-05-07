@@ -6,8 +6,8 @@ import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H3, H4} from 'components/styled/Text';
-import {MCHeader, MCTextFormInput} from 'components/common';
+import {H3, H4, ErrorText} from 'components/styled/Text';
+import {MCHeader, MCTagInput} from 'components/common';
 import {dySize} from 'utils/responsive';
 import {stressRecoveries} from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
@@ -18,6 +18,7 @@ class StressRecoveryScreen extends React.Component {
     super(props);
     this.state = {
       submitted: false,
+      method: '',
     };
   }
 
@@ -52,15 +53,33 @@ class StressRecoveryScreen extends React.Component {
   };
 
   onPressSubmit = () => {
+    const {method} = this.state;
+    const {
+      selectedReflection,
+      updateSelectedReflection,
+      addOrUpdateReflection,
+    } = this.props;
+    const methods = _.get(selectedReflection, ['data', 'methods'], []);
     this.setState({submitted: true});
-    if (!this.validateMethod()) return;
-    this.props.addOrUpdateReflection();
+    if (!this.validateMethods()) return;
+    if (method.length > 0 && methods.indexOf(method) < 0) {
+      methods.push(method);
+    }
+    updateSelectedReflection({methods});
+    setTimeout(() => {
+      addOrUpdateReflection();
+    });
   };
 
-  validateMethod = () => {
+  onUpdateMethod = state => {
+    this.setState({method: state.tag});
+    this.props.updateSelectedReflection({methods: state.tagsArray});
+  };
+
+  validateMethods = () => {
     const {selectedReflection} = this.props;
-    const method = _.get(selectedReflection, ['data', 'method'], []);
-    return method.length > 0;
+    const methods = _.get(selectedReflection, ['data', 'methods'], []);
+    return methods.length > 0 || this.state.method.length > 0;
   };
 
   render() {
@@ -72,9 +91,7 @@ class StressRecoveryScreen extends React.Component {
       selectedReflection.type !== 'StressRecovery'
     )
       return null;
-    const method = _.get(selectedReflection, ['data', 'method'], '');
-    const isErrorMethods = !this.validateMethod();
-
+    const methods = _.get(selectedReflection, ['data', 'methods'], []);
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -100,18 +117,11 @@ class StressRecoveryScreen extends React.Component {
                 ))}
               </MCView>
             </MCView>
-
-            <MCTextFormInput
-              label={t('write_methods')}
-              value={method}
-              multiline
-              bordered
-              onChange={text => updateSelectedReflection({method: text})}
-              submitted={submitted}
-              errorText={t('error_input_required')}
-              isInvalid={isErrorMethods}
-              style={{width: dySize(295)}}
-            />
+            <H4>{t('write_methods')}</H4>
+            {submitted && !this.validateMethods() && (
+              <ErrorText>{t('error_input_habits')}</ErrorText>
+            )}
+            <MCTagInput tags={methods} updateState={this.onUpdateMethod} />
           </MCView>
         </MCContent>
       </MCRootView>

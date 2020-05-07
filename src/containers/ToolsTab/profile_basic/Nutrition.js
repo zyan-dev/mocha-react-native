@@ -112,12 +112,12 @@ class NutritionScreen extends React.Component {
         <MCContent contentContainerStyle={{padding: dySize(20)}}>
           <H4>{t('tools_tab_question_best_nutrition')}</H4>
           {submitted && !this.validateBest() && (
-            <ErrorText>{t('error_input_select_empty')}</ErrorText>
+            <ErrorText>{t('error_input_habits')}</ErrorText>
           )}
           <MCTagInput tags={best} updateState={this.onUpdateBestFoods} />
           <H4 mt={30}>{t('tools_tab_question_worst_nutrition')}</H4>
           {submitted && !this.validateWorst() && (
-            <ErrorText>{t('error_input_select_empty')}</ErrorText>
+            <ErrorText>{t('error_input_habits')}</ErrorText>
           )}
           <MCTagInput tags={worst} updateState={this.onUpdateWorstFoods} />
         </MCContent>
