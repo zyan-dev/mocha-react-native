@@ -1,7 +1,8 @@
-import UsersSvg from './Users';
 import ProfileSvg from './Profile';
+import ProfileCrownSvg from './ProfileCrown';
 import ToolsSvg from './Tools';
 import ResourceSvg from './Resource';
+import ResourceCrownSvg from './ResourceCrown';
 import AppleSvg from './Apple';
 import SheepSvg from './Sheep';
 import CarrotSvg from './Carrot';
@@ -25,6 +26,7 @@ import ShieldSvg from './Shield';
 import PeopleArrowSvg from './PeopleArrows';
 import ManageTrustNetworkSvg from './ManageTrustNetwork';
 import CommunitySvg from './Community';
+import CommunityCrownSvg from './CommunityCrown';
 import SkullCowSvg from './SkullCow';
 import BellSvg from './Bell';
 import CrownSvg from './Crown';
@@ -36,10 +38,11 @@ import SortAmountSvg from './SortAmount';
 import ConnectionSvg from './Connection';
 
 export {
-  UsersSvg,
   ProfileSvg,
+  ProfileCrownSvg,
   ToolsSvg,
   ResourceSvg,
+  ResourceCrownSvg,
   AppleSvg,
   SheepSvg,
   CarrotSvg,
@@ -63,6 +66,7 @@ export {
   PeopleArrowSvg,
   ManageTrustNetworkSvg,
   CommunitySvg,
+  CommunityCrownSvg,
   SkullCowSvg,
   BellSvg,
   CrownSvg,

@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   completedExpertProfile: false,
   showWelcomeBasicProfile: true,
   showWelcomeAdvanceProfile: true,
+  setCrown: false,
 };
 
 const otherReducer = (state = INITIAL_STATE, action) => {
@@ -82,6 +83,11 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       return {
         ...INITIAL_STATE,
         favoriteTools: state.favoriteTools,
+      };
+    case types.PROFILE_CROWN_TOGGLE:
+      return {
+        ...state,
+        setCrown: action.payload,
       };
     default:
       return state;
