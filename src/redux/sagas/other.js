@@ -36,8 +36,8 @@ export function* checkNetwork(action) {
     yield put({
       type: types.TRACK_MIXPANEL_EVENT,
       payload: {
-        event: `Network ${
-          networkState.isInternetReachable ? 'Online' : 'Offline'
+        event: `network_${
+          networkState.isInternetReachable ? 'online' : 'offline'
         }`,
       },
     });

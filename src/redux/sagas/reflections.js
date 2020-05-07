@@ -154,8 +154,8 @@ export function* addOrUpdateReflection(action) {
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
           event: selectedTempReflection._id
-            ? 'Update Reflection'
-            : 'Add Reflection',
+            ? 'update_reflection'
+            : 'add_reflection',
           data: {type: selectedTempReflection.type},
         },
       });
@@ -190,7 +190,7 @@ export function* removeReflection(action) {
         yield put({
           type: types.TRACK_MIXPANEL_EVENT,
           payload: {
-            event: 'Remove Reflection',
+            event: 'remove_reflection',
             data: {type: action.payload.type},
           },
         });

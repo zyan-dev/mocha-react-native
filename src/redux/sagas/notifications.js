@@ -36,7 +36,7 @@ export function* updateNotificationSettings(action) {
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
-          event: 'Update Notification Settings',
+          event: 'update_notification_settings',
           data: {settings: notificationReducer},
         },
       });

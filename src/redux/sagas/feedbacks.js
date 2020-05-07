@@ -55,7 +55,7 @@ export function* submitFeedback(action) {
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
-          event: 'Give Feedback',
+          event: 'give_feedback',
           data: {feedback: action.payload.feedback},
         },
       });
@@ -98,7 +98,7 @@ export function* requestFeedback(action) {
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
-          event: 'Request Feedback',
+          event: 'request_feedback',
           data: {to: param.receivers},
         },
       });

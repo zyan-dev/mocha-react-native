@@ -53,7 +53,7 @@ export function* updateBasicProfile(action) {
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
-          event: 'Update Profile',
+          event: 'update_basic_profile',
           data: {profile: response.data.data.user},
         },
       });
@@ -84,7 +84,7 @@ export function* updateContactProfile(action) {
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
-          event: 'Update Profile',
+          event: 'update_contact_profile',
           data: {profile: response.data.data.user},
         },
       });
@@ -128,7 +128,7 @@ export function* deleteAccount() {
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
-          event: 'Delete Account',
+          event: 'delete_account',
           data: {userId: _id},
         },
       });

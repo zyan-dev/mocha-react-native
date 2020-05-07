@@ -46,7 +46,7 @@ export function* sendContactRequest(action) {
       yield put({type: types.GET_ALL_TRUST_MEMBERS});
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
-        payload: {event: 'Send Request', data: action.payload},
+        payload: {event: 'send_request', data: action.payload},
       });
     } else {
       showAlert(response.data.data.message);

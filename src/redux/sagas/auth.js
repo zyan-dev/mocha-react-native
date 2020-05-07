@@ -43,12 +43,10 @@ export function* verifySignUpSMS(action) {
         userToken: response.data.data.token,
       };
       // set Crashlytics attributes:
-      await Promise.all([
-        crashlytics().setUserId(profileData._id),
-        crashlytics().setUserName(profileData.name),
-      ]);
-        // save token to AsyncStorage for API calls
-        AsyncStorage.setItem('userToken', response.data.data.token);
+      yield put(crashlytics().setUserId, profileData._id);
+      yield put(crashlytics().setUserName, profileData.name);
+      // save token to AsyncStorage for API calls
+      AsyncStorage.setItem('userToken', response.data.data.token);
       // save phone in profile reducer
       yield put({
         type: types.SET_PROFILE_DATA,
@@ -74,7 +72,7 @@ export function* completeSignUp(action) {
     // track mixpanel event
     yield put({
       type: types.TRACK_MIXPANEL_EVENT,
-      payload: {event: 'VERIFIED SMS', data: {username: user_id}},
+      payload: {event: 'verified_sms', data: {username: user_id}},
     });
   } catch (e) {
     showAlert(e.toString());

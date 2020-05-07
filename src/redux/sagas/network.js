@@ -34,7 +34,7 @@ export function* createNetwork(action) {
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
-          event: 'Create Network',
+          event: 'create_trust_network',
           data: {networkName: selectedNetwork.name},
         },
       });
@@ -57,8 +57,8 @@ export function* updateNetwork(action) {
       usersReducer: {allUsers},
     } = yield select();
     yield put({type: types.API_CALLING});
-    selectedNetwork.members = selectedNetwork.members.filter((member) => {
-      return allUsers.find((user) => user._id === member);
+    selectedNetwork.members = selectedNetwork.members.filter(member => {
+      return allUsers.find(user => user._id === member);
     });
     const param = _.pick(selectedNetwork, [
       '_id',
