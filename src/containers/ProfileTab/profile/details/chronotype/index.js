@@ -21,7 +21,14 @@ import {
   DaytimeIcon,
   NightimeIcon,
 } from 'assets/images';
-import {SheepSvg} from 'assets/svgs';
+import {
+  SheepSvg,
+  LarkSvg,
+  DayAndNightSvg,
+  OwlSvg,
+  NightSvg,
+  DaySvg,
+} from 'assets/svgs';
 import {MCTimeSlider} from 'components/common';
 import {NightSliderValues, DaySliderValues} from 'utils/constants';
 
@@ -81,6 +88,12 @@ class ChronotypeScreen extends React.PureComponent {
       ['data', 'day_sleep_offset_end'],
       7,
     );
+    const morningTextColor =
+      type === 'morning' ? theme.colors.background : theme.colors.text;
+    const flexibleTextColor =
+      type === 'flexible' ? theme.colors.background : theme.colors.text;
+    const nightTextColor =
+      type === 'night' ? theme.colors.background : theme.colors.text;
     return (
       <MCRootView>
         <MCHeader
@@ -94,41 +107,45 @@ class ChronotypeScreen extends React.PureComponent {
           <H3 underline>{t('profile_card_chronotype')}</H3>
           <MCView row align="center" justify="center">
             <MCButton onPress={() => this.onSelectType('morning')}>
-              <NativeCard bordered={type === 'morning'}>
+              <NativeCard
+                background={
+                  type === 'morning' ? theme.colors.outline : undefined
+                }>
                 <MCView width={85} align="center">
-                  <MCImage
-                    image={MorningLarkIcon}
-                    resizeMode="contain"
-                    width={70}
-                    height={70}
-                  />
-                  <H5>{t('chronotype_type_morning')}</H5>
+                  <MCView height={80} align="center" justify="center">
+                    <LarkSvg size={80} color={morningTextColor} />
+                  </MCView>
+                  <H5 color={morningTextColor}>
+                    {t('chronotype_type_morning')}
+                  </H5>
                 </MCView>
               </NativeCard>
             </MCButton>
             <MCButton onPress={() => this.onSelectType('flexible')}>
-              <NativeCard bordered={type === 'flexible'}>
+              <NativeCard
+                background={
+                  type === 'flexible' ? theme.colors.outline : undefined
+                }>
                 <MCView width={85} align="center">
-                  <MCImage
-                    image={FlexibleIcon}
-                    resizeMode="contain"
-                    width={70}
-                    height={70}
-                  />
-                  <H5>{t('chronotype_type_flexible')}</H5>
+                  <MCView height={80} align="center" justify="center">
+                    <DayAndNightSvg size={70} color={flexibleTextColor} />
+                  </MCView>
+                  <H5 color={flexibleTextColor}>
+                    {t('chronotype_type_flexible')}
+                  </H5>
                 </MCView>
               </NativeCard>
             </MCButton>
             <MCButton onPress={() => this.onSelectType('night')}>
-              <NativeCard bordered={type === 'night'}>
+              <NativeCard
+                background={
+                  type === 'night' ? theme.colors.outline : undefined
+                }>
                 <MCView width={85} align="center">
-                  <MCImage
-                    image={NightOwlIcon}
-                    resizeMode="contain"
-                    width={70}
-                    height={70}
-                  />
-                  <H5>{t('chronotype_type_night')}</H5>
+                  <MCView height={80} align="center" justify="center">
+                    <OwlSvg size={60} color={nightTextColor} />
+                  </MCView>
+                  <H5 color={nightTextColor}>{t('chronotype_type_night')}</H5>
                 </MCView>
               </NativeCard>
             </MCButton>
@@ -137,7 +154,7 @@ class ChronotypeScreen extends React.PureComponent {
             <H3 mr={10} underline>
               {t('chronotype_night_sleep_title')}
             </H3>
-            <MCImage image={NightimeIcon} width={20} height={20} />
+            <NightSvg size={25} color={theme.colors.text} />
           </MCView>
           <MCView align="center">
             <MCTimeSlider
@@ -158,7 +175,7 @@ class ChronotypeScreen extends React.PureComponent {
             <H3 mr={10} underline>
               {t('chronotype_day_sleep_title')}
             </H3>
-            <MCImage image={DaytimeIcon} width={20} height={20} />
+            <DaySvg size={25} color={theme.colors.text} />
           </MCView>
           <MCView align="center">
             <MCTimeSlider

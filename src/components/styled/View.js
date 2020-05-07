@@ -60,15 +60,13 @@ export const ABSView = styled.View`
 `;
 
 export const NativeCard = styled(Card)`
-  background-color: ${props => props.theme.colors.background};
+  background-color: ${props =>
+    props.background || props.theme.colors.background};
   shadow-color: black;
   shadow-offset: {width: 0, height: 2};
   shadow-opacity: 0.5;
   shadow-radius: 4;
   elevation: 2;
-  border-width: 1px;
-  border-color: ${props =>
-    props.bordered ? props.theme.colors.text : 'transparent'};
   padding-horizontal: ${props => dySize(props.ph || 10)}px;
   padding-vertical: ${props => dySize(props.pv || 10)}px;
   width: ${props => (props.width ? `${dySize(props.width)}px` : '100%')};
