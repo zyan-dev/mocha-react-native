@@ -191,10 +191,7 @@ class ProfileAdvancedScreen extends React.Component {
           }>
           <MCView width={280} mt={20}>
             <MCView bordered br={15} align="center" pv={20} ph={20}>
-              <MCView align="center" row>
-                <IceCreamSvg theme={theme} size={70} />
-                <IceCreamSvg theme={theme} size={70} />
-              </MCView>
+              <IceCreamSvg theme={theme} size={70} />
               <H2 weight="bold">Excellent 👍</H2>
               <MCView row wrap align="center" justify="center">
                 <H3 align="center" style={{lineHeight: 30}}>

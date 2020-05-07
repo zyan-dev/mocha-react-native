@@ -26,6 +26,14 @@ import PeopleArrowSvg from './PeopleArrows';
 import ManageTrustNetworkSvg from './ManageTrustNetwork';
 import CommunitySvg from './Community';
 import SkullCowSvg from './SkullCow';
+import BellSvg from './Bell';
+import CrownSvg from './Crown';
+import FlowerSvg from './Flower';
+import HandsheartSvg from './HandsHeart';
+import HeadSideBrainSvg from './HeadSideBrain';
+import PaletteSvg from './Palette';
+import SortAmountSvg from './SortAmount';
+import ConnectionSvg from './Connection';
 
 export {
   UsersSvg,
@@ -56,4 +64,12 @@ export {
   ManageTrustNetworkSvg,
   CommunitySvg,
   SkullCowSvg,
+  BellSvg,
+  CrownSvg,
+  FlowerSvg,
+  HandsheartSvg,
+  HeadSideBrainSvg,
+  PaletteSvg,
+  SortAmountSvg,
+  ConnectionSvg,
 };

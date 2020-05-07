@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   toolsTab: 0,
   completedBasicProfile: false,
   completedAdvanceProfile: false,
+  completedExpertProfile: false,
   showWelcomeBasicProfile: true,
   showWelcomeAdvanceProfile: true,
 };
@@ -71,6 +72,11 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         completedAdvanceProfile: true,
+      };
+    case types.CHECK_COMPLETED_EXPERT_PROFILE:
+      return {
+        ...state,
+        completedExpertProfile: true,
       };
     case types.RESET_ALL_REDUCER:
       return {

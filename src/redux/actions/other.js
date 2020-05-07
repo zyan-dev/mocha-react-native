@@ -75,6 +75,10 @@ export const checkCompletedAdvanceProfile = () => ({
   type: types.CHECK_COMPLETED_ADVANCE_PROFILE,
 });
 
+export const checkCompletedExpertProfile = () => ({
+  type: types.CHECK_COMPLETED_EXPERT_PROFILE,
+});
+
 export const sendEmail = data => ({
   type: types.SEND_EMAIL,
   payload: data,
