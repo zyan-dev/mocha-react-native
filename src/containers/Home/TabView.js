@@ -8,10 +8,12 @@ import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {H4} from 'components/styled/Text';
 import {
+  ProfileCrownSvg,
   ProfileSvg,
-  UserSvg,
   ToolsSvg,
   ResourceSvg,
+  ResourceCrownSvg,
+  CommunityCrownSvg,
   CommunitySvg,
 } from 'assets/svgs';
 import NavigationService from 'navigation/NavigationService';
@@ -115,7 +117,8 @@ class TabView extends React.PureComponent {
   };
 
   render() {
-    const {t, theme, mainTabIndex} = this.props;
+    const {t, theme, mainTabIndex, setCrown} = this.props;
+
     return (
       <TabWrapper>
         <MCView
@@ -130,10 +133,19 @@ class TabView extends React.PureComponent {
             align="center"
             height={TabBarHeight}
             style={{flex: 1}}>
-            <CommunitySvg
-              theme={theme}
-              size={mainTabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
-            />
+            {setCrown ? (
+              <CommunityCrownSvg
+                theme={theme}
+                size={mainTabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
+              />
+            ) : (
+              <CommunitySvg
+                theme={theme}
+                size={mainTabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
+                color={theme.colors.text}
+              />
+            )}
+
             <H4 weight={mainTabIndex === 0 ? 'bold' : 'regular'}>
               {t('footer_feed')}
             </H4>
@@ -146,10 +158,19 @@ class TabView extends React.PureComponent {
             onPress={() => this.onClickTab(1)}
             style={{flex: 1}}
             height={TabBarHeight}>
-            <ResourceSvg
-              size={mainTabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
-              theme={theme}
-            />
+            {setCrown ? (
+              <ResourceCrownSvg
+                size={mainTabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
+                theme={theme}
+              />
+            ) : (
+              <ResourceSvg
+                size={mainTabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
+                theme={theme}
+                color={theme.colors.text}
+              />
+            )}
+
             <H4 weight={mainTabIndex === 1 ? 'bold' : 'regular'}>
               {t('footer_resources')}
             </H4>
@@ -178,10 +199,19 @@ class TabView extends React.PureComponent {
             onPress={() => this.onClickTab(3)}
             style={{flex: 1}}
             height={TabBarHeight}>
-            <ProfileSvg
-              size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
-              theme={theme}
-            />
+            {setCrown ? (
+              <ProfileCrownSvg
+                size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
+                theme={theme}
+              />
+            ) : (
+              <ProfileSvg
+                size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
+                theme={theme}
+                color={theme.colors.text}
+              />
+            )}
+
             <H4 weight={mainTabIndex === 3 ? 'bold' : 'regular'}>
               {t('footer_profile')}
             </H4>
@@ -197,6 +227,7 @@ const mapStateToProps = state => ({
   profile: state.profileReducer,
   userToken: state.profileReducer.userToken,
   mainTabIndex: state.routerReducer.mainTabIndex,
+  setCrown: state.otherReducer.setCrown,
 });
 
 const mapDispatchToProps = {

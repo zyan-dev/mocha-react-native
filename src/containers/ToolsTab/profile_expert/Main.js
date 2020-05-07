@@ -9,7 +9,7 @@ import {H2, H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
 import ProfileBasicCard from '../profile_basic/components/ProfileBasicCard';
-import {IceCreamSvg} from 'assets/svgs';
+import {IceCreamSvg, ProfileSvg, CrownSvg} from 'assets/svgs';
 import {getStringWithOutline} from 'services/operators';
 import {ProfileExpertCards} from 'utils/constants';
 
@@ -24,7 +24,14 @@ class ProfileExpertScreen extends React.Component {
     return find;
   };
   render() {
-    const {t, theme, coreValues, strength, meaning, valueStory} = this.props;
+    const {
+      t,
+      theme,
+      meaning,
+      valueStory,
+      completedExpertProfile,
+      checkCompletedExpertProfile,
+    } = this.props;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -83,7 +90,14 @@ class ProfileExpertScreen extends React.Component {
             theme={theme}
           />
         </MCContent>
-        <MCModal hasCloseButton={false} isVisible={false}>
+        <MCModal
+          hasCloseButton={false}
+          isVisible={
+            !completedExpertProfile &&
+            valueStory &&
+            meaning &&
+            this.checkCompletedBestSelf()
+          }>
           <MCView width={280} mt={20}>
             <MCView bordered br={15} align="center" pv={20} ph={20}>
               <IceCreamSvg theme={theme} size={70} />
@@ -91,8 +105,12 @@ class ProfileExpertScreen extends React.Component {
               <MCView row wrap align="center" justify="center">
                 <H3 align="center" style={{lineHeight: 30}}>
                   You've completed your
-                  <H3 weight="bold"> Basic Profile </H3>
-                  <MCIcon type="FontAwesome5Pro" name="chess-pawn" />
+                  <H3 weight="bold"> Expert Profile </H3>
+                  <MCIcon
+                    type="FontAwesome5Pro-Solid"
+                    name="chess-queen-alt"
+                    size={25}
+                  />
                   <H3> set up.</H3>
                 </H3>
               </MCView>
@@ -100,18 +118,17 @@ class ProfileExpertScreen extends React.Component {
                 <H3 align="center" style={{lineHeight: 30}}>
                   Check out the
                   <H3 weight="bold"> Profile Tab </H3>
-                  <MCIcon type="FontAwesome5Pro" name="user-alt" />
+                  <ProfileSvg size={25} theme={theme} />
                   <H3> to see all your data.</H3>
                 </H3>
               </MCView>
               <MCView mt={20} row wrap align="center" justify="center">
                 <H3 align="center" style={{lineHeight: 30}}>
-                  Next you can meet some other Mocha Community Members on the
-                  <H3 weight="bold"> Social Tab </H3>
-                  <MCIcon type="FontAwesome5Pro" name="users" />
-                  <H3> or check out </H3>
-                  <H3 weight="bold">Profile Advanced </H3>
-                  <MCIcon type="FontAwesome5Pro" name="chess-knight" />
+                  Next check out
+                  <H3 weight="bold"> Personal Development </H3>
+                  <MCView mt={-5}>
+                    <CrownSvg size={30} theme={theme} />
+                  </MCView>
                 </H3>
               </MCView>
               <MCButton
@@ -119,7 +136,7 @@ class ProfileExpertScreen extends React.Component {
                 mt={20}
                 width={80}
                 align="center"
-                onPress={() => checkCompletedBasicProfile()}>
+                onPress={() => checkCompletedExpertProfile()}>
                 <H3>{t('I Got It')}</H3>
               </MCButton>
             </MCView>
@@ -144,10 +161,11 @@ const mapStateToProps = state => ({
   meaning: selector.reflections.findMySpecialReflections(state, 'MeaningLife'),
   myFeedbacks: state.feedbackReducer.myFeedbacks,
   profile: state.profileReducer,
+  completedExpertProfile: state.otherReducer.completedExpertProfile,
 });
 
 const mapDispatchToProps = {
-  checkCompletedBasicProfile: otherActions.checkCompletedBasicProfile,
+  checkCompletedExpertProfile: otherActions.checkCompletedExpertProfile,
   checkWelcomeBasicProfile: otherActions.checkWelcomeBasicProfile,
 };
 

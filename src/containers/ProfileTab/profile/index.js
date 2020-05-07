@@ -45,7 +45,7 @@ import NavigationService from 'navigation/NavigationService';
 import {showAlert, getStringWithOutline} from 'services/operators';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
-import {FaucetWhiteSvg, FutureSvg, ProfileSvg} from 'assets/svgs';
+import {FaucetWhiteSvg, FutureSvg, ProfileCrownSvg} from 'assets/svgs';
 
 class ProfileScreen extends React.Component {
   constructor(props) {
@@ -417,7 +417,7 @@ class ProfileScreen extends React.Component {
             <H3 mb={10} underline>
               {t('welcome_profile_title')}
             </H3>
-            <ProfileSvg size={30} theme={theme} />
+            <ProfileCrownSvg size={30} theme={theme} />
             <H4 mt={20} pv={1}>
               {t('welcome_tools_take_a_look')}
             </H4>

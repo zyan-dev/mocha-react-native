@@ -10,6 +10,7 @@ import {
   FlexibleIcon,
   NightimeIcon,
   DaytimeIcon,
+  NightOwlIcon,
 } from 'assets/images';
 import {dySize} from 'utils/responsive';
 import {NightSliderValues, DaySliderValues} from 'utils/constants';
@@ -18,7 +19,7 @@ import {SheepSvg} from 'assets/svgs';
 const chronotypeIcons = {
   morning: MorningLarkIcon,
   flexible: FlexibleIcon,
-  night: NightimeIcon,
+  night: NightOwlIcon,
 };
 
 class ChronotypeCard extends React.Component {

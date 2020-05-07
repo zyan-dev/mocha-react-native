@@ -11,8 +11,10 @@ const INITIAL_STATE = {
   toolsTab: 0,
   completedBasicProfile: false,
   completedAdvanceProfile: false,
+  completedExpertProfile: false,
   showWelcomeBasicProfile: true,
   showWelcomeAdvanceProfile: true,
+  setCrown: false,
 };
 
 const otherReducer = (state = INITIAL_STATE, action) => {
@@ -72,10 +74,20 @@ const otherReducer = (state = INITIAL_STATE, action) => {
         ...state,
         completedAdvanceProfile: true,
       };
+    case types.CHECK_COMPLETED_EXPERT_PROFILE:
+      return {
+        ...state,
+        completedExpertProfile: true,
+      };
     case types.RESET_ALL_REDUCER:
       return {
         ...INITIAL_STATE,
         favoriteTools: state.favoriteTools,
+      };
+    case types.PROFILE_CROWN_TOGGLE:
+      return {
+        ...state,
+        setCrown: action.payload,
       };
     default:
       return state;

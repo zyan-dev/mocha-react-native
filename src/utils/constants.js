@@ -2002,6 +2002,19 @@ export const ApproachToConflictOptions = [
   'self_blaming',
 ];
 
+export const MeaningLifeOptions = [
+  'friend_family_love',
+  'creativity',
+  'self-improvement',
+  'music',
+  'other_services',
+  'connection',
+  'belonging',
+  'trancendence',
+  'self-knowledge',
+  'order',
+];
+
 export const CommitColors = ['#99AA99', '#669966', '#11BB11', '#00FF00'];
 export const ValueCardTextColor = '#222222';
 export const ValueCardBackgrounds = ['#FBE9E6', '#E9F6F9', '#E5E6E8'];
