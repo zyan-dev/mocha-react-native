@@ -1,4 +1,5 @@
 import {call, put, select} from 'redux-saga/effects';
+import crashlytics from '@react-native-firebase/crashlytics';
 import * as types from '../actions/types';
 import NavigationService from 'navigation/NavigationService';
 import API from 'services/api';
@@ -41,8 +42,13 @@ export function* verifySignUpSMS(action) {
         pushToken,
         userToken: response.data.data.token,
       };
-      // save token to AsyncStorage for API calls
-      AsyncStorage.setItem('userToken', response.data.data.token);
+      // set Crashlytics attributes:
+      await Promise.all([
+        crashlytics().setUserId(profileData._id),
+        crashlytics().setUserName(profileData.name),
+      ]);
+        // save token to AsyncStorage for API calls
+        AsyncStorage.setItem('userToken', response.data.data.token);
       // save phone in profile reducer
       yield put({
         type: types.SET_PROFILE_DATA,

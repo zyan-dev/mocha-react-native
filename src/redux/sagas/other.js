@@ -1,6 +1,7 @@
 import {all, call, put, select} from 'redux-saga/effects';
 import RNIap from 'react-native-iap';
 import Mixpanel from 'react-native-mixpanel';
+import analytics from '@react-native-firebase/analytics';
 import NetInfo from '@react-native-community/netinfo';
 import * as types from '../actions/types';
 import API from 'services/api';
@@ -270,6 +271,10 @@ export function* updateCommits(action) {
 export function* trackMixpanelEvent(action) {
   const {profileReducer} = yield select();
   Mixpanel.trackWithProperties(action.payload.event, {
+    ...action.payload.data,
+    userId: profileReducer._id,
+  });
+  analytics().logEvent(action.payload.event, {
     ...action.payload.data,
     userId: profileReducer._id,
   });
