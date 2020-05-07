@@ -84,7 +84,7 @@ class ProfileSideMenu extends React.Component {
   onPressTheme = index => {
     this.props.setThemeIndex(index);
     this.props.trackEvent({
-      event: 'Select Theme',
+      event: 'change_theme',
       data: {type: colorThemes[index].theme_name},
     });
   };

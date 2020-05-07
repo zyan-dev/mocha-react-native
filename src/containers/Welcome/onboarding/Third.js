@@ -14,7 +14,7 @@ import {routerActions, otherActions} from 'Redux/actions';
 class WelcomeOnboardThird extends React.PureComponent {
   onPressBegin = () => {
     this.props.setNewUser(false);
-    this.props.trackEvent({event: 'Welcome to Mocha'});
+    this.props.trackEvent({event: 'Welcome_to_Mocha'});
     NavigationService.navigate('mainStack');
   };
 

@@ -14,13 +14,14 @@ import {
 } from 'assets/images';
 import {dySize} from 'utils/responsive';
 import {NightSliderValues, DaySliderValues} from 'utils/constants';
-import {SheepSvg} from 'assets/svgs';
-
-const chronotypeIcons = {
-  morning: MorningLarkIcon,
-  flexible: FlexibleIcon,
-  night: NightOwlIcon,
-};
+import {
+  SheepSvg,
+  LarkSvg,
+  DayAndNightSvg,
+  OwlSvg,
+  NightSvg,
+  DaySvg,
+} from 'assets/svgs';
 
 class ChronotypeCard extends React.Component {
   static propTypes = {
@@ -76,12 +77,15 @@ class ChronotypeCard extends React.Component {
             <MCView row width={300} justify="space-between">
               <NativeCard width={140}>
                 <MCView height={80} align="center" justify="center">
-                  <MCImage
-                    image={chronotypeIcons[chronotype.data.type]}
-                    resizeMode="contain"
-                    width={50}
-                    height={50}
-                  />
+                  {chronotype.data.type === 'morning' && (
+                    <LarkSvg size={100} color={theme.colors.text} />
+                  )}
+                  {chronotype.data.type === 'flexible' && (
+                    <DayAndNightSvg size={80} color={theme.colors.text} />
+                  )}
+                  {chronotype.data.type === 'night' && (
+                    <OwlSvg size={60} color={theme.colors.text} />
+                  )}
                 </MCView>
                 <H4 align="center">
                   {t(`chronotype_type_${chronotype.data.type}`)}
@@ -107,7 +111,7 @@ class ChronotypeCard extends React.Component {
             <NativeCard width={300}>
               <MCView overflow="visible" align="center">
                 <MCView width={280}>
-                  <MCImage image={NightimeIcon} width={20} height={20} />
+                  <NightSvg size={30} color={theme.colors.text} />
                 </MCView>
                 <MCTimeSlider
                   width={260}
@@ -123,7 +127,7 @@ class ChronotypeCard extends React.Component {
             <NativeCard width={300}>
               <MCView overflow="visible" align="center">
                 <MCView width={280}>
-                  <MCImage image={DaytimeIcon} width={20} height={20} />
+                  <DaySvg size={30} color={theme.colors.text} />
                 </MCView>
                 <MCTimeSlider
                   width={260}

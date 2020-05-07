@@ -37,6 +37,11 @@ import PaletteSvg from './Palette';
 import SortAmountSvg from './SortAmount';
 import ConnectionSvg from './Connection';
 import UsersSvg from './Users';
+import LarkSvg from './Lark';
+import DaySvg from './Day';
+import OwlSvg from './Owl';
+import NightSvg from './Night';
+import DayAndNightSvg from './DayAndNight';
 
 export {
   ProfileSvg,
@@ -78,4 +83,9 @@ export {
   SortAmountSvg,
   ConnectionSvg,
   UsersSvg,
+  LarkSvg,
+  DaySvg,
+  OwlSvg,
+  NightSvg,
+  DayAndNightSvg,
 };
