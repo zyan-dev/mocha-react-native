@@ -4,15 +4,18 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import codePush from 'react-native-code-push';
 import DeviceInfo from 'react-native-device-info';
+import {ScrollView} from 'react-native-gesture-handler';
+import ToggleSwitch from 'toggle-switch-react-native';
+
 import {routerActions, profileActions, otherActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
-import {colorThemes} from 'theme';
 import {MCIcon} from 'components/common';
 import {H3, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
-import {ScrollView} from 'react-native-gesture-handler';
+import {colorThemes} from 'theme';
 import {ProfileSideMenuList} from 'utils/constants';
+import {ProfileCrownSvg} from 'assets/svgs';
 
 class ProfileSideMenu extends React.Component {
   constructor(props) {
@@ -20,6 +23,7 @@ class ProfileSideMenu extends React.Component {
     this.state = {
       index: '',
       cp_status: '',
+      isOn: false,
     };
   }
 
@@ -86,8 +90,13 @@ class ProfileSideMenu extends React.Component {
     });
   };
 
+  onToggle = isOn => {
+    this.setState({isOn});
+    this.props.toggleCrown(isOn);
+  };
+
   render() {
-    const {cp_status} = this.state;
+    const {cp_status, isOn} = this.state;
     const {systemTheme, profile, t} = this.props;
     return (
       <MCRootView justify="flex-start" align="flex-start">
@@ -145,7 +154,7 @@ class ProfileSideMenu extends React.Component {
             );
           })}
           <MCView height={0.5} mr={10} ml={10} mb={30} mt={30} bordered />
-          <MCView align="center" width={275} mb={50}>
+          <MCView align="center" width={275} mb={20}>
             <H3 padding={20}>{t('welcome_theme_displayText')}</H3>
             <MCView justify="space-between" row wrap width={240}>
               {colorThemes.map((theme, index) => {
@@ -167,12 +176,24 @@ class ProfileSideMenu extends React.Component {
               })}
             </MCView>
           </MCView>
-          <MCView align="center" mb={30}>
+          <MCView row align="center" justify="space-around" mb={20}>
+            <MCView row>
+              <H3 mr={5}>{t('profile_menu_self_mastery')}</H3>
+              <ProfileCrownSvg theme={systemTheme} size={30} />
+            </MCView>
+            <ToggleSwitch
+              isOn={isOn}
+              onColor={systemTheme.colors.toggle_on}
+              offColor={systemTheme.colors.toggle_off}
+              size="medium"
+              onToggle={isOn => this.onToggle(isOn)}
+            />
+          </MCView>
+          <MCView align="center" mb={20}>
             <MCButton
               bordered
               align="center"
               width={110}
-              mt={12}
               onPress={() =>
                 this.onPressItem({
                   index: 8,
@@ -199,6 +220,7 @@ const mapDispatchToProps = {
   deleteAccount: profileActions.deleteAccount,
   resetAllReducer: routerActions.resetAllReducer,
   trackEvent: otherActions.trackEvent,
+  toggleCrown: otherActions.toggleCrown,
 };
 
 export default withTranslation()(

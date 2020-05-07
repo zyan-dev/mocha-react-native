@@ -1,39 +1,32 @@
 import React from 'react';
-import {Svg, Path, Polygon} from 'react-native-svg';
+import {Svg, Path} from 'react-native-svg';
 import PropTypes from 'prop-types';
 
-const ProfileSvg = ({size, theme}) => {
-  let color1 = '#FFC50C';
-  let color2 = theme.colors.text;
-  if (theme.colors.theme_name === 'Stone') color1 = '#336B87';
-  return (
-    <Svg
-      aria-hidden="true"
-      focusable="false"
-      data-prefix="fas"
-      data-icon="plus"
-      className="svg-inline--fa fa-plus fa-w-14"
-      role="img"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 27 35"
-      width={(size * 27) / 35}
-      height={size}>
-      <Polygon
-        id="Path"
-        fill={color1}
-        points="21 6 6 6 6 0 9.75 2 13.5 0 17.25 2 21 0"
-      />
-      <Path
-        d="M18.9,20.9166667 L17.8929241,20.9166667 C15.105474,22.3613831 11.894526,22.3613831 9.10707589,20.9166667 L8.1,20.9166667 C3.62649353,20.9166667 0,24.9908754 0,30.0166667 L0,31.75 C0,33.5449254 1.29517626,35 2.89285714,35 L24.1071429,35 C25.7048237,35 27,33.5449254 27,31.75 L27,30.0166667 C27,24.9908754 23.3735065,20.9166667 18.9,20.9166667 Z M13.7142857,18.75 C17.8564213,18.75 21.2142857,14.8698012 21.2142857,10.0833333 L21.2142857,9 L6.21428571,9 L6.21428571,10.0833333 C6.21428571,14.8698012 9.57215009,18.75 13.7142857,18.75 Z"
-        id="Shape"
-        fill={color2}
-      />
-    </Svg>
-  );
-};
+const ProfileSvg = ({size, color}) => (
+  <Svg
+    aria-hidden="true"
+    focusable="false"
+    data-prefix="fas"
+    data-icon="user"
+    class="svg-inline--fa fa-user fa-w-14"
+    role="img"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 448 512"
+    width={size - 6}
+    height={size - 6}
+    fill={color}
+    stroke={color}
+    style={{marginBottom: 5}}>
+    <Path
+      fill={color}
+      d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"
+    />
+  </Svg>
+);
 
 ProfileSvg.propTypes = {
   size: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 export default ProfileSvg;

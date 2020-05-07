@@ -79,3 +79,8 @@ export const sendEmail = data => ({
   type: types.SEND_EMAIL,
   payload: data,
 });
+
+export const toggleCrown = flag => ({
+  type: types.PROFILE_CROWN_TOGGLE,
+  payload: flag,
+});
