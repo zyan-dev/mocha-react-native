@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {MCRootView, MCView, MCContent, MCCard} from 'components/styled/View';
-import {MCImage, MCReadMoreText} from 'components/common';
+import {MCImage, MCReadMoreText, MCTagsView} from 'components/common';
 import {H3, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
