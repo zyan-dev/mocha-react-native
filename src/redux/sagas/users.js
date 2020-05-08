@@ -149,7 +149,7 @@ export function* getUntrustmembers(action) {
   try {
     if (action.payload.page === 1) {
       yield put({
-        type: types.SET_SEARCHED_USERS,
+        type: types.SET_SEARCHED_TRUST_MEMBERS,
         payload: [],
       });
     }
@@ -162,12 +162,12 @@ export function* getUntrustmembers(action) {
     if (response.data.status === 'success') {
       if (action.payload.page === 1) {
         yield put({
-          type: types.SET_SEARCHED_USERS,
+          type: types.SET_SEARCHED_TRUST_MEMBERS,
           payload: response.data.data.users,
         });
       } else {
         yield put({
-          type: types.ADD_SEARCHED_USERS,
+          type: types.ADD_SEARCHED_TRUST_MEMBERS,
           payload: response.data.data.users,
         });
       }

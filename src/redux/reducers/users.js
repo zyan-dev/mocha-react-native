@@ -24,6 +24,7 @@ const INITIAL_STATE = {
   selectedUsers: [], // for multiple picker
   selectedUser: [], // for single picker
   searchedUsers: [],
+  searchedTrustMembers: [],
   v: false,
   pageSearching: false,
   searchPageIndex: 1,
@@ -85,6 +86,16 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         searchedUsers: state.searchedUsers.concat(action.payload),
+      };
+    case types.SET_SEARCHED_TRUST_MEMBERS:
+      return {
+        ...state,
+        searchedTrustMembers: action.payload,
+      };
+    case types.ADD_SEARCHED_TRUST_MEMBERS:
+      return {
+        ...state,
+        searchedTrustMembers: state.searchedTrustMembers.concat(action.payload),
       };
     case types.SET_SEARCH_PAGE_INDEX:
       return {

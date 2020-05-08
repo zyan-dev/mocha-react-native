@@ -47,8 +47,10 @@ class SendRequestScreen extends React.Component {
 
   filterUser = users => {
     const {searchText} = this.state;
+    const {myProfile} = this.props;
     return users.filter(user => {
       if (!user.name || !user.user_id) return false;
+      if (user._id === myProfile._id) return null;
       if (
         user.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
         user.user_id.toLowerCase().indexOf(searchText.toLowerCase()) > -1
@@ -106,7 +108,7 @@ class SendRequestScreen extends React.Component {
   };
 
   render() {
-    const {t, theme, searchedUsers, searchPageLimited} = this.props;
+    const {t, theme, searchedTrustMembers, searchPageLimited} = this.props;
     const {searchText, selectedUser, showModal} = this.state;
     return (
       <MCRootView justify="flex-start">
@@ -123,11 +125,12 @@ class SendRequestScreen extends React.Component {
             alignItems: 'center',
             paddingBottom: 100,
           }}
-          data={this.filterUser(searchedUsers)}
+          data={this.filterUser(searchedTrustMembers)}
           renderItem={this._renderUserItem}
           ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           ListFooterComponent={
-            searchPageLimited && this.filterUser(searchedUsers).length ? (
+            searchPageLimited &&
+            this.filterUser(searchedTrustMembers).length ? (
               <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
             ) : null
           }
@@ -167,7 +170,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   myProfile: state.profileReducer,
   allUsers: selector.users.getAllMembersWithNetworkState(state),
-  searchedUsers: state.usersReducer.searchedUsers,
+  searchedTrustMembers: state.usersReducer.searchedTrustMembers,
   searchPageLimited: state.usersReducer.searchPageLimited,
   searchPageIndex: state.usersReducer.searchPageIndex,
   pageSearching: state.usersReducer.pageSearching,

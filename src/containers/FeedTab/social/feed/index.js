@@ -41,8 +41,9 @@ class FeedScreen extends React.Component {
   };
 
   _renderUserItem = ({item}) => {
-    const {theme} = this.props;
+    const {theme, profile} = this.props;
     const user = item;
+    if (user._id === profile._id) return null;
     return (
       <MCButton
         row
@@ -148,6 +149,7 @@ const mapStateToProps = state => ({
   searchPageIndex: state.usersReducer.searchPageIndex,
   pageSearching: state.usersReducer.pageSearching,
   theme: state.routerReducer.theme,
+  profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {
