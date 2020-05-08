@@ -49,6 +49,15 @@ class FeedbackReceivedScreen extends React.Component {
             <H4>{feedback.feedback}</H4>
           </MCReadMoreText>
         </MCView>
+        {feedback.question === 'mocha_feedback_best_self' && (
+          <MCView row ml={10}>
+            <MCTagsView
+              tags={feedback.meta.skills.map(i =>
+                t(`resource_book_skills_${i}`),
+              )}
+            />
+          </MCView>
+        )}
         <H5
           ph={10}
           align="right"

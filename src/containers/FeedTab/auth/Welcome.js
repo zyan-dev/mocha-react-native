@@ -9,7 +9,7 @@ import {MCHeader, MCIcon} from 'components/common';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
-import {ManageTrustNetworkSvg} from 'assets/svgs'
+import {ManageTrustNetworkSvg} from 'assets/svgs';
 
 const SuccessIcon = styled(FastImage)`
   width: 100px;
@@ -59,9 +59,11 @@ class FeedWelcome extends React.Component {
             <MCButton
               bordered
               mt={30}
+              mb={20}
               onPress={() => this.onPressSendRequest()}>
               <H3 align="center">{t('feed_menu_send_request')}</H3>
             </MCButton>
+            <MCIcon type="FontAwesome5Pro-Light" name="paper-plane" size={70} />
             <H3 align="center" mt={50} width={300}>
               {t('auth_welcome_trustnetwork_displayText')}
             </H3>
@@ -72,7 +74,7 @@ class FeedWelcome extends React.Component {
               onPress={() => this.onPressTrustNetwork()}>
               <H3 align="center">{t('feed_menu_manage_trust_network')}</H3>
             </MCButton>
-            <ManageTrustNetworkSvg theme={theme} size={90} />
+            <MCIcon type="FontAwesome5Pro-Light" name="handshake" size={70} />
           </MCView>
         </MCContent>
       </MCRootView>
@@ -91,5 +93,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(FeedWelcome),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FeedWelcome),
 );

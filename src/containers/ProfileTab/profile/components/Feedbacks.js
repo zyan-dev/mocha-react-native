@@ -102,7 +102,7 @@ class FeedbacksCard extends React.Component {
                 type="avatar"
               />
               <H3 weight="bold" mt={10}>
-                {selectedFeedback.question}
+                {t(selectedFeedback.question)}
               </H3>
               <H4>{selectedFeedback.feedback}</H4>
             </MCView>
