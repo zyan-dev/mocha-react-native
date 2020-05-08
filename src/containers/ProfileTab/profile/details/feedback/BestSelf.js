@@ -4,7 +4,7 @@ import {withTranslation} from 'react-i18next';
 import {feedbackActions} from 'Redux/actions';
 import {MCRootView, MCView, MCContent} from 'components/styled/View';
 import {MCHeader, MCIcon, MCImage, MCTextFormInput} from 'components/common';
-import {H3, H4} from 'components/styled/Text';
+import {H3, H4, ErrorText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {skills as BestSelfSkills} from 'utils/constants';
@@ -57,7 +57,7 @@ class BestSelfSubmitScreen extends React.Component {
 
   render() {
     const {t, theme} = this.props;
-    const {request, feedback, skills} = this.state;
+    const {request, feedback, skills, submitted} = this.state;
     return (
       <MCRootView justify="flex-start" align="flex-start">
         <MCHeader
@@ -102,8 +102,14 @@ class BestSelfSubmitScreen extends React.Component {
             onChange={text => this.onChangeFeedback(text)}
             placeholder="Write your answer here"
             style={{borderRadius: 6}}
+            submitted={submitted}
+            errorText={t('error_input_required')}
+            isInvalid={!this.validateFeedback()}
           />
           <H4>{t('label_select_from_list')}</H4>
+          {submitted && !this.validateSkills() && (
+            <ErrorText>{t('error_input_select_empty')}</ErrorText>
+          )}
           <MCView row wrap>
             {BestSelfSkills.map((skill, index) => {
               const selected = skills.indexOf(skill) > -1;
