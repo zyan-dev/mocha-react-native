@@ -257,12 +257,14 @@ class UserProfileScreen extends React.Component {
                   editable={false}
                 />
               )}
-              {selected === 'approach' && <ApproachCard approach={approach} />}
+              {selected === 'approach' && (
+                <ApproachCard approach={approach} editable={false} />
+              )}
               {selected === 'attachment' && (
-                <AttachmentCard attachment={attachment} />
+                <AttachmentCard attachment={attachment} editable={false} />
               )}
               {selected === 'comfort' && (
-                <ComfortCard comfort={comfort} theme={theme} />
+                <ComfortCard comfort={comfort} theme={theme} editable={false} />
               )}
               {selected === 'meaning_life' && (
                 <MeaningLifeCard

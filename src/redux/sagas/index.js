@@ -78,6 +78,8 @@ function* mySaga() {
   yield takeLatest(types.SEND_CONTACT_REQUEST, userSaga.sendContactRequest);
   yield takeLatest(types.DECLINE_USER_REQUEST, userSaga.declineRequest);
   yield takeLatest(types.APPROVE_REQUEST, userSaga.approveRequest);
+  yield takeLatest(types.FIND_USER_BY_NAME, userSaga.findUserByName);
+  yield takeLatest(types.GET_UNTRUST_MEMBERS, userSaga.getUntrustmembers);
 
   // network
   yield takeLatest(types.GET_TRUST_NETWORKS, networkSaga.getTrustNetworks);

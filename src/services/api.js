@@ -10,6 +10,8 @@ const API_TIMEOUT = 5000;
 const URL_SEND_SMS = '/auth/signup-request';
 const URL_VERIFY_SMS = '/auth/signup-confirm';
 const URL_MY_PROFILE = '/user/me';
+const URL_USER_FIND = '/user/find';
+const URL_SEARCH_USER = '/user/search-user'; // returns user who is not in trust network
 const URL_REFLECTION_UPDATE = '/reflection/update';
 const URL_REFLECTION_ADD = '/reflection/add';
 const URL_GET_MY_REFLECTION = '/reflection/list';
@@ -108,6 +110,16 @@ const removeResources = param =>
   apiCall('post', `${URL_RESOURCE}/remove`, param, true);
 const getSupportedHabits = () =>
   apiCall('get', `${URL_REFLECTION}/habit-shared`, {}, true);
+const sendEmail = param => apiCall('post', `${URL_CONTACT_US}`, param);
+const findUserByName = param =>
+  apiCall(
+    'get',
+    `${URL_USER_FIND}?name=${param.name}&page=${param.page}`,
+    {},
+    true,
+  );
+const getUntrustmembers = param =>
+  apiCall('get', `${URL_SEARCH_USER}?page=${param.page}`, {}, true);
 
 const fileUploadToS3 = async ({image, name, type}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
@@ -125,8 +137,6 @@ const fileUploadToS3 = async ({image, name, type}) => {
     return response.body.postResponse.location;
   }
 };
-
-const sendEmail = param => apiCall('post', `${URL_CONTACT_US}`, param);
 
 export default {
   sendSMS,
@@ -167,4 +177,6 @@ export default {
   removeResources,
   getSupportedHabits,
   sendEmail,
+  findUserByName,
+  getUntrustmembers,
 };
