@@ -63,6 +63,7 @@ const routerReducer = (state = INITIAL_STATE, action) => {
       if (action.payload) {
         showAlert(action.payload);
       }
+      console.log(action.payload);
       return {
         ...state,
         isLoading: false,
