@@ -54,29 +54,12 @@ import {
 } from 'assets/svgs';
 
 class ProfileScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showWelcomeModal: false,
-    };
-  }
-
   WelcomeProfileDescription = {
     title: i18next.t('welcome_profile_description', {
       bold: i18next.t('outline_profile_basics'),
     }),
     boldWordKeys: ['profile_basics'],
   };
-
-  componentDidMount() {
-    const {visitedProfile, profile, getMyFeedbacks} = this.props;
-    if (profile.userToken.length > 0) {
-      getMyFeedbacks();
-    }
-    if (!visitedProfile) {
-      this.setState({showWelcomeModal: true});
-    }
-  }
 
   onPressAllValues = () => {
     NavigationService.navigate('Values');
@@ -139,7 +122,6 @@ class ProfileScreen extends React.Component {
 
   onCloseWelcomeModal = () => {
     this.props.visitProfileTab();
-    this.setState({showWelcomeModal: false});
   };
 
   renderProfileIcon = icon => {
@@ -206,8 +188,8 @@ class ProfileScreen extends React.Component {
       behaviorPreference,
       commits,
       showDrawer,
+      visitedProfile,
     } = this.props;
-    const {showWelcomeModal} = this.state;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -434,8 +416,8 @@ class ProfileScreen extends React.Component {
         </MCView>
         <MCModal
           hasCloseButton={false}
-          isVisible={showWelcomeModal}
-          onClose={() => this.setState({showModal: false})}>
+          isVisible={!visitedProfile}
+          onClose={() => this.onCloseWelcomeModal()}>
           <MCView align="center" width={280} mt={20}>
             <H3 mb={10} underline>
               {t('welcome_profile_title')}

@@ -102,17 +102,34 @@ export function* updateContactProfile(action) {
 
 export function* getUserProfile(action) {
   try {
-    const response = yield call(API.getUserProfile, action.payload);
+    const {id, fetchRelatedData} = action.payload;
+    yield put({
+      type: types.SET_USER_PROFILE,
+      payload: {message: 'Loading profile...'},
+    });
+    const response = yield call(API.getUserProfile, id);
     if (response.data.status === 'success') {
       yield put({
         type: types.SET_USER_PROFILE,
         payload: response.data.data.user,
       });
+      if (fetchRelatedData) {
+        yield put({type: types.GET_USER_REFLECTIONS, payload: id});
+        yield put({type: types.GET_USER_FEEDBACKS, payload: id});
+        yield put({type: types.GET_USER_COMMITS, payload: id});
+      }
     } else {
-      showAlert(response.data.data.message);
+      yield put({
+        type: types.SET_USER_PROFILE,
+        payload: {message: response.data.data.message},
+      });
     }
   } catch (e) {
     showAlert(e.toString());
+    yield put({
+      type: types.SET_USER_PROFILE,
+      payload: {message: 'Error occured'},
+    });
   }
 }
 

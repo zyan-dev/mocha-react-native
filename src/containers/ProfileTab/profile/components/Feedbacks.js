@@ -5,7 +5,7 @@ import {withTranslation} from 'react-i18next';
 import {MCCard, MCView} from 'components/styled/View';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCModal, MCImage} from 'components/common';
+import {MCModal, MCImage, MCTagsView} from 'components/common';
 import {dySize} from 'utils/responsive';
 
 class FeedbacksCard extends React.Component {
@@ -36,6 +36,7 @@ class FeedbacksCard extends React.Component {
   };
 
   _renderItem = ({item}) => {
+    const {t} = this.props;
     const feedback = item;
     return (
       <MCCard width={140} mr={15} align="center" mb={10}>
@@ -51,7 +52,7 @@ class FeedbacksCard extends React.Component {
             type="avatar"
           />
           <H4 align="center" numberOfLines={3} width={120}>
-            {feedback.question}
+            {t(feedback.question)}
           </H4>
         </MCButton>
       </MCCard>
@@ -104,7 +105,12 @@ class FeedbacksCard extends React.Component {
               <H3 weight="bold" mt={10}>
                 {t(selectedFeedback.question)}
               </H3>
-              <H4>{selectedFeedback.feedback}</H4>
+              <H4 style={{width: '100%'}}>{selectedFeedback.feedback}</H4>
+              {selectedFeedback.question === 'mocha_feedback_best_self' && (
+                <MCTagsView
+                  tags={selectedFeedback.meta.skills.map(i => t(i))}
+                />
+              )}
             </MCView>
           </MCModal>
         )}

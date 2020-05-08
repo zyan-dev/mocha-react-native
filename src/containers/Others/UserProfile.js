@@ -50,7 +50,6 @@ class UserProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      unknownUser: false,
       selected: 'overview',
       showAvatarModal: false,
     };
@@ -58,22 +57,7 @@ class UserProfileScreen extends React.Component {
 
   componentDidMount() {
     const {id} = this.props.route.params;
-    const {
-      allUsers,
-      getUserProfile,
-      getUserReflections,
-      getUserFeedbacks,
-      getUserCommits,
-    } = this.props;
-    const find = allUsers.find(user => user._id === id);
-    if (find) {
-      getUserProfile(id);
-      getUserReflections(id);
-      getUserFeedbacks(id);
-      getUserCommits(id);
-    } else {
-      this.setState({unknownUser: true});
-    }
+    this.props.getUserProfile(id, true);
   }
 
   onPressProfileIcon = icon => {
@@ -122,7 +106,7 @@ class UserProfileScreen extends React.Component {
   };
 
   render() {
-    const {selected, unknownUser, showAvatarModal} = this.state;
+    const {selected, showAvatarModal} = this.state;
     const {
       t,
       theme,
@@ -153,7 +137,7 @@ class UserProfileScreen extends React.Component {
       meaning,
       commits,
     } = this.props;
-    if (unknownUser) {
+    if (profile.message === 'api.user.get-profile.fail') {
       return (
         <MCRootView justify="flex-start">
           <MCHeader />
@@ -163,8 +147,12 @@ class UserProfileScreen extends React.Component {
         </MCRootView>
       );
     }
-    if (!profile.user_id) {
-      return <MCRootView justify="flex-start" />;
+    if (profile.message) {
+      return (
+        <MCRootView>
+          <H4>{profile.message}</H4>
+        </MCRootView>
+      );
     }
     return (
       <MCRootView justify="flex-start">
@@ -430,9 +418,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getUserProfile: profileActions.getUserProfile,
-  getUserReflections: reflectionActions.getUserReflections,
-  getUserFeedbacks: feedbackActions.getUserFeedbacks,
-  getUserCommits: otherActions.getUserCommits,
 };
 
 export default withTranslation()(
