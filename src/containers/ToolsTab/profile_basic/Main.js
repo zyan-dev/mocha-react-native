@@ -190,7 +190,11 @@ class ProfileBasicScreen extends React.Component {
                 <H3 align="center" style={{lineHeight: 30}}>
                   You've completed your
                   <H3 weight="bold"> Basic Profile </H3>
-                  <MCIcon type="FontAwesome5Pro" name="chess-pawn" />
+                  <MCIcon
+                    type="FontAwesome5Pro-Solid"
+                    name="chess-pawn-alt"
+                    size={30}
+                  />
                   <H3> set up.</H3>
                 </H3>
               </MCView>
@@ -198,7 +202,7 @@ class ProfileBasicScreen extends React.Component {
                 <H3 align="center" style={{lineHeight: 30}}>
                   Check out the
                   <H3 weight="bold"> Profile Tab </H3>
-                  <MCIcon type="FontAwesome5Pro" name="user-alt" />
+                  <MCIcon type="FontAwesome5Pro-Solid" name="user-alt" />
                   <H3> to see all your data.</H3>
                 </H3>
               </MCView>
@@ -206,10 +210,14 @@ class ProfileBasicScreen extends React.Component {
                 <H3 align="center" style={{lineHeight: 30}}>
                   Next you can meet some other Mocha Community Members on the
                   <H3 weight="bold"> Social Tab </H3>
-                  <MCIcon type="FontAwesome5Pro" name="users" />
+                  <MCIcon type="FontAwesome5Pro-Solid" name="users" />
                   <H3> or check out </H3>
                   <H3 weight="bold">Profile Advanced </H3>
-                  <MCIcon type="FontAwesome5Pro" name="chess-knight" />
+                  <MCIcon
+                    type="FontAwesome5Pro-Solid"
+                    name="chess-knight-alt"
+                    size={30}
+                  />
                 </H3>
               </MCView>
               <MCButton
@@ -225,6 +233,7 @@ class ProfileBasicScreen extends React.Component {
         </MCModal>
         <MCModal
           br={50}
+          width={250}
           hasCloseButton={false}
           isVisible={
             (showWelcomeBasicProfile && !completedBasicProfile) ||
@@ -233,7 +242,9 @@ class ProfileBasicScreen extends React.Component {
           <MCView width={280} mt={20} align="center">
             <MCView align="center" pv={40} ph={10} width={270}>
               <MCView row wrap align="center">
-                <H4 underline>{t('welcome_profile_basic')}</H4>
+                <H4 underline weight="italic">
+                  {t('welcome_profile_basic')}
+                </H4>
                 <MCIcon
                   type="FontAwesome5Pro-Solid"
                   name="chess-pawn-alt"
