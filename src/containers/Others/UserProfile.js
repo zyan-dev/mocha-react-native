@@ -33,6 +33,7 @@ import TriggersCard from '../ProfileTab/profile/components/Triggers';
 import AttachmentCard from '../ProfileTab/profile/components/Attachment';
 import ApproachCard from '../ProfileTab/profile/components/Approach';
 import ComfortCard from '../ProfileTab/profile/components/Comfort';
+import MeaningLifeCard from '../ProfileTab/profile/components/MeaningLife';
 import CoachingFeedbackCard from '../ProfileTab/profile/components/FeedbackCoaching';
 import CriticismFeedbackCard from '../ProfileTab/profile/components/FeedbackCriticism';
 import PraiseFeedbackCard from '../ProfileTab/profile/components/FeedbackPraise';
@@ -43,7 +44,7 @@ import HydrationCard from '../ProfileTab/profile/components/Hydration';
 import NavigationService from 'navigation/NavigationService';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
-import {FaucetWhiteSvg, FutureSvg} from 'assets/svgs';
+import {FaucetWhiteSvg, FutureSvg, SkullCowSvg} from 'assets/svgs';
 
 class UserProfileScreen extends React.Component {
   constructor(props) {
@@ -106,6 +107,8 @@ class UserProfileScreen extends React.Component {
           <FaucetWhiteSvg size={size} color={color} />
         ) : icon.key === 'dream' ? (
           <FutureSvg size={size} color={color} />
+        ) : icon.key === 'meaning_life' ? (
+          <SkullCowSvg size={size} color={color} />
         ) : (
           <MCIcon
             type={icon.iconType}
@@ -130,6 +133,7 @@ class UserProfileScreen extends React.Component {
       stress,
       strength,
       coreValues,
+      valueStory,
       dream,
       dailyHabits,
       weeklyHabits,
@@ -146,6 +150,7 @@ class UserProfileScreen extends React.Component {
       approach,
       attachment,
       comfort,
+      meaning,
       commits,
     } = this.props;
     if (unknownUser) {
@@ -214,6 +219,7 @@ class UserProfileScreen extends React.Component {
                 <CoreValuesCard
                   theme={theme}
                   coreValues={coreValues}
+                  valueStory={valueStory}
                   editable={false}
                 />
               )}
@@ -269,6 +275,13 @@ class UserProfileScreen extends React.Component {
               )}
               {selected === 'comfort' && (
                 <ComfortCard comfort={comfort} theme={theme} />
+              )}
+              {selected === 'meaning_life' && (
+                <MeaningLifeCard
+                  meaning={meaning}
+                  theme={theme}
+                  editable={false}
+                />
               )}
               {selected === 'value' && (
                 <ValuesCard values={values} editable={false} />
@@ -359,6 +372,10 @@ const mapStateToProps = state => ({
     state,
     'CoreValues',
   ),
+  valueStory: selector.reflections.findUserSpecialReflections(
+    state,
+    'ValueStory',
+  ),
   dream: selector.reflections.findUserSpecialReflections(state, 'Dreams'),
   dailyHabits: selector.reflections
     .getUserSpecialReflections(state, 'Habit')
@@ -404,6 +421,10 @@ const mapStateToProps = state => ({
     'Attachment',
   ),
   comfort: selector.reflections.findUserSpecialReflections(state, 'Comfort'),
+  meaning: selector.reflections.findUserSpecialReflections(
+    state,
+    'MeaningLife',
+  ),
   commits: state.otherReducer.commits,
 });
 
