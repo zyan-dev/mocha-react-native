@@ -43,7 +43,6 @@ export function* verifySignUpSMS(action) {
         pushToken,
         userToken: response.data.data.token,
       };
-      console.log({profileData});
       // set Crashlytics attributes:
       crashlytics().setUserId(profileData._id.toString());
       crashlytics().setUserName(_.get(profileData, ['name'], 'anonymous'));
