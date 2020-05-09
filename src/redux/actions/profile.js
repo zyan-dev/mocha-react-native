@@ -9,9 +9,9 @@ export const getMyProfile = () => ({
   type: types.GET_MY_PROFILE,
 });
 
-export const getUserProfile = id => ({
+export const getUserProfile = (id, fetchRelatedData) => ({
   type: types.GET_USER_PROFILE,
-  payload: id,
+  payload: {id, fetchRelatedData},
 });
 
 export const updateBasicProfile = () => ({

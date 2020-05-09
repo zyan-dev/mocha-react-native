@@ -48,6 +48,7 @@ export function* submitFeedback(action) {
       feedback: {
         pending: false,
         feedback: action.payload.feedback,
+        meta: action.payload.meta,
       },
     });
     if (response.data.status === 'success') {
@@ -60,6 +61,7 @@ export function* submitFeedback(action) {
         },
       });
       yield put({type: types.API_FINISHED});
+      if (action.payload.meta) NavigationService.goBack();
     } else {
       yield put({
         type: types.API_FINISHED,

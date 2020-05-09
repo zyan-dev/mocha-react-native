@@ -372,7 +372,6 @@ export function* resetMyHabits(action) {
     });
     let response;
     if (updateParam.length > 0) {
-      console.log('Reseting habits: ', updateParam);
       response = yield call(API.updateReflections, {
         data: updateParam,
       });

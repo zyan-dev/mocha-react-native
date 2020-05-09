@@ -39,7 +39,7 @@ export const createQuestion = question => ({
   payload: question,
 });
 
-export const requestFeedback = param => ({
+export const requestFeedback = (param = {goBack: false}) => ({
   type: types.REQUEST_FEEDBACK,
   payload: param,
 });

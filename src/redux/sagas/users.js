@@ -1,4 +1,4 @@
-import {call, put} from 'redux-saga/effects';
+import {call, put, select} from 'redux-saga/effects';
 import * as types from '../actions/types';
 import API from 'services/api';
 import {showAlert} from 'services/operators';
@@ -96,6 +96,97 @@ export function* approveRequest(action) {
     yield put({
       type: types.API_FINISHED,
       payload: e.toString(),
+    });
+  }
+}
+
+export function* findUserByName(action) {
+  try {
+    if (action.payload.page === 1) {
+      yield put({
+        type: types.SET_SEARCHED_USERS,
+        payload: [],
+      });
+    }
+    yield put({
+      type: types.SET_PAGE_SEARCHING_STATE,
+      payload: true,
+    });
+    const response = yield call(API.findUserByName, action.payload);
+    if (response.data.status === 'success') {
+      if (action.payload.page === 1) {
+        yield put({
+          type: types.SET_SEARCHED_USERS,
+          payload: response.data.data.users,
+        });
+      } else {
+        yield put({
+          type: types.ADD_SEARCHED_USERS,
+          payload: response.data.data.users,
+        });
+      }
+      yield put({
+        type: types.SET_SEARCH_PAGE_LIMITED,
+        payload: action.payload.page === response.data.data.total_pages,
+      });
+    } else {
+      showAlert(response.data.data.message);
+    }
+    yield put({
+      type: types.SET_PAGE_SEARCHING_STATE,
+      payload: false,
+    });
+  } catch (e) {
+    showAlert(e.toString());
+    yield put({
+      type: types.SET_PAGE_SEARCHING_STATE,
+      payload: false,
+    });
+  }
+}
+
+export function* getUntrustmembers(action) {
+  try {
+    if (action.payload.page === 1) {
+      yield put({
+        type: types.SET_SEARCHED_TRUST_MEMBERS,
+        payload: [],
+      });
+    }
+    yield put({
+      type: types.SET_PAGE_SEARCHING_STATE,
+      payload: true,
+    });
+
+    const response = yield call(API.getUntrustmembers, action.payload);
+    if (response.data.status === 'success') {
+      if (action.payload.page === 1) {
+        yield put({
+          type: types.SET_SEARCHED_TRUST_MEMBERS,
+          payload: response.data.data.users,
+        });
+      } else {
+        yield put({
+          type: types.ADD_SEARCHED_TRUST_MEMBERS,
+          payload: response.data.data.users,
+        });
+      }
+      yield put({
+        type: types.SET_SEARCH_PAGE_LIMITED,
+        payload: action.payload.page === response.data.data.total_pages,
+      });
+    } else {
+      showAlert(response.data.data.message);
+    }
+    yield put({
+      type: types.SET_PAGE_SEARCHING_STATE,
+      payload: false,
+    });
+  } catch (e) {
+    showAlert(e.toString());
+    yield put({
+      type: types.SET_PAGE_SEARCHING_STATE,
+      payload: false,
     });
   }
 }

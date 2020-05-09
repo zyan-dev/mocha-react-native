@@ -2,14 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {FlatList} from 'react-native-gesture-handler';
-import {routerActions} from 'Redux/actions';
+import {routerActions, userActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCHeader, MCSearchInput, MCImage} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {getStringIndexOf} from 'services/operators';
 
 class FeedScreen extends React.Component {
   constructor(props) {
@@ -23,9 +22,28 @@ class FeedScreen extends React.Component {
     NavigationService.navigate('UserProfile', {id: user._id});
   };
 
+  onChangeSearchText = text => {
+    this.setState({searchText: text});
+    this.props.setSearchPageIndex(1);
+    this.props.findUserByName({name: text, page: 1});
+  };
+
+  searchNextPage = () => {
+    const {searchText} = this.state;
+    const {
+      findUserByName,
+      searchPageLimited,
+      searchPageIndex,
+      pageSearching,
+    } = this.props;
+    if (searchPageLimited || pageSearching) return;
+    findUserByName({name: searchText, page: searchPageIndex + 1});
+  };
+
   _renderUserItem = ({item}) => {
-    const {theme} = this.props;
+    const {theme, profile} = this.props;
     const user = item;
+    if (user._id === profile._id) return null;
     return (
       <MCButton
         row
@@ -53,29 +71,10 @@ class FeedScreen extends React.Component {
     );
   };
 
-  getFilteredUsers = () => {
-    const {searchText} = this.state;
-    const {allUsers} = this.props;
-    if (searchText.length === 0) return [];
-    else {
-      return allUsers.filter(user => {
-        if (user.name && getStringIndexOf(user.name, searchText) > -1)
-          return true;
-        else if (
-          user.user_id &&
-          getStringIndexOf(user.user_id, searchText) > -1
-        )
-          return true;
-        else return false;
-      });
-    }
-  };
-
   render() {
     const {searchText} = this.state;
-    const {t, theme, showDrawer} = this.props;
-    const data = this.getFilteredUsers();
-
+    const {t, theme, showDrawer, searchedUsers, searchPageLimited} = this.props;
+    if (!searchedUsers) return null;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -89,14 +88,14 @@ class FeedScreen extends React.Component {
           <MCSearchInput
             width={350}
             text={searchText}
-            onChange={text => this.setState({searchText: text})}
+            onChange={text => this.onChangeSearchText(text)}
             // onBlur={() => this.setState({searchText: ''})}
           />
           {searchText.length > 0 && (
             <MCView style={{marginTop: -10, maxHeight: 300}}>
               <FlatList
                 style={{
-                  borderWidth: data.length > 0 ? 1 : 0,
+                  borderWidth: searchedUsers.length > 0 ? 1 : 0,
                   borderRadius: 4,
                   borderColor: theme.colors.border,
                   backgroundColor: theme.colors.background,
@@ -106,14 +105,23 @@ class FeedScreen extends React.Component {
                 contentContainerStyle={{
                   padding: dySize(5),
                 }}
-                data={this.getFilteredUsers()}
+                data={searchedUsers}
                 renderItem={this._renderUserItem}
                 ListEmptyComponent={
                   <MCView bordered align="center">
                     <MCEmptyText>{t('no_result')}</MCEmptyText>
                   </MCView>
                 }
+                ListFooterComponent={
+                  searchPageLimited && searchedUsers.length ? (
+                    <MCEmptyText weight="italic">
+                      {t('no_more_result')}
+                    </MCEmptyText>
+                  ) : null
+                }
                 keyExtractor={item => item._id}
+                onEndReached={() => this.searchNextPage()}
+                onEndReachedThreshold={0.5}
               />
             </MCView>
           )}
@@ -136,12 +144,18 @@ class FeedScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  allUsers: state.usersReducer.allUsers,
+  searchedUsers: state.usersReducer.searchedUsers,
+  searchPageLimited: state.usersReducer.searchPageLimited,
+  searchPageIndex: state.usersReducer.searchPageIndex,
+  pageSearching: state.usersReducer.pageSearching,
   theme: state.routerReducer.theme,
+  profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {
   showDrawer: routerActions.setSocialDrawerOpened,
+  findUserByName: userActions.findUserByName,
+  setSearchPageIndex: userActions.setSearchPageIndex,
 };
 
 export default withTranslation()(

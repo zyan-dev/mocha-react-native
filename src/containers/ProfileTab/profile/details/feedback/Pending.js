@@ -29,6 +29,8 @@ class FeedbackPendingScreen extends React.Component {
     if (editing.id === feedback._id) {
       // user pressed send icon
       submitFeedback(editing);
+    } else if (feedback.question === 'mocha_feedback_best_self') {
+      NavigationService.navigate('SubmitBestSelfFeedback', {request: feedback});
     } else {
       this.setState({editing: {id: feedback._id, feedback: ''}});
     }

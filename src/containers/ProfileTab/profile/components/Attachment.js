@@ -6,7 +6,6 @@ import {MCIcon} from 'components/common';
 import {MCView, MCCard} from 'components/styled/View';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {BoxingSvg} from 'assets/svgs';
 import {AttachmentOptions} from 'utils/constants';
 
 class AttachmentCard extends React.Component {
@@ -32,7 +31,12 @@ class AttachmentCard extends React.Component {
             <H3 weight="bold" mr={10}>
               {t('profile_card_attachment')}
             </H3>
-            <BoxingSvg size={20} />
+            <MCIcon
+              type="FontAwesome5Pro"
+              name="paperclip"
+              color="#DC3E3E"
+              size={25}
+            />
           </MCView>
           {editable && (
             <MCButton onPress={() => onPressEdit()}>

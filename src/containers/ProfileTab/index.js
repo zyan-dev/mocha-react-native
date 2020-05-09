@@ -42,6 +42,7 @@ import EditComfortScreen from '../ToolsTab/profile_advanced/Comforting';
 import EditMeaningLifeScreen from '../ToolsTab/profile_expert/MeaningLife';
 import EditValueStoryScreen from '../ToolsTab/profile_expert/ValueStory';
 import EditPersonalityScreen from './profile/details/personality';
+import BestSelfSubmitScreen from './profile/details/feedback/BestSelf';
 
 const Stack = createStackNavigator();
 
@@ -151,6 +152,10 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen
             name="EditValueStory"
             component={EditValueStoryScreen}
+          />
+          <Stack.Screen
+            name="SubmitBestSelfFeedback"
+            component={BestSelfSubmitScreen}
           />
         </Stack.Navigator>
       </Drawer>

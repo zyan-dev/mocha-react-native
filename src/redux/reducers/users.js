@@ -23,6 +23,11 @@ const INITIAL_STATE = {
   },
   selectedUsers: [], // for multiple picker
   selectedUser: [], // for single picker
+  searchedUsers: [],
+  searchedTrustMembers: [],
+  v: false,
+  pageSearching: false,
+  searchPageIndex: 1,
 };
 
 const usersReducer = (state = INITIAL_STATE, action) => {
@@ -71,6 +76,41 @@ const usersReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         selectedUser: action.payload,
+      };
+    case types.SET_SEARCHED_USERS:
+      return {
+        ...state,
+        searchedUsers: action.payload,
+      };
+    case types.ADD_SEARCHED_USERS:
+      return {
+        ...state,
+        searchedUsers: state.searchedUsers.concat(action.payload),
+      };
+    case types.SET_SEARCHED_TRUST_MEMBERS:
+      return {
+        ...state,
+        searchedTrustMembers: action.payload,
+      };
+    case types.ADD_SEARCHED_TRUST_MEMBERS:
+      return {
+        ...state,
+        searchedTrustMembers: state.searchedTrustMembers.concat(action.payload),
+      };
+    case types.SET_SEARCH_PAGE_INDEX:
+      return {
+        ...state,
+        searchPageIndex: action.payload,
+      };
+    case types.SET_SEARCH_PAGE_LIMITED:
+      return {
+        ...state,
+        searchPageLimited: action.payload,
+      };
+    case types.SET_PAGE_SEARCHING_STATE:
+      return {
+        ...state,
+        pageSearching: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

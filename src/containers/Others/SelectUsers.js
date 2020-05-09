@@ -1,13 +1,14 @@
 import React from 'react';
+import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import NavigationService from 'navigation/NavigationService';
 import {userActions} from 'Redux/actions';
 import {MCHeader, MCImage, MCSearchInput, MCIcon} from 'components/common';
-import {H3, H4} from 'components/styled/Text';
+import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
-import {getStringIndexOf} from 'services/operators';
+import {MCRootView, MCView, MCCard} from 'components/styled/View';
+import {dySize} from 'utils/responsive';
 
 class SelectUserScreen extends React.Component {
   constructor(props) {
@@ -15,9 +16,11 @@ class SelectUserScreen extends React.Component {
     this.state = {
       searchText: '',
       isMultiple: props.route.params.multiple,
-      origin_selectedUsers: props.selectedUsers,
-      origin_selectedUser: props.selectedUser,
     };
+  }
+
+  componentDidMount() {
+    this.props.findUserByName({name: '', page: 1});
   }
 
   onPressUserAvatar = user => {
@@ -40,92 +43,188 @@ class SelectUserScreen extends React.Component {
     }
   };
 
+  searchNextPage = () => {
+    const {
+      findUserByName,
+      searchPageLimited,
+      searchPageIndex,
+      pageSearching,
+    } = this.props;
+    if (searchPageLimited || pageSearching) return;
+    findUserByName({name: '', page: searchPageIndex + 1});
+  };
+
+  _renderUserItem = ({item}) => {
+    const {searchText, isMultiple} = this.state;
+    const {theme, myProfile, selectedUsers, selectedUser} = this.props;
+    const user = item;
+
+    // search by text
+    if (
+      user.name.toLowerCase().indexOf(searchText.toLowerCase()) < 0 &&
+      user.user_id.toLowerCase().indexOf(searchText.toLowerCase()) < 0
+    )
+      return null;
+
+    // skip owner's profile
+    if (user._id === myProfile._id) return null;
+
+    // check if selected
+    const filtered = selectedUsers.filter(
+      selected => selected._id === user._id,
+    );
+    const selected = isMultiple
+      ? filtered.length > 0
+      : selectedUser._id === user._id;
+
+    return (
+      <MCCard
+        key={user.user_id}
+        row
+        align="center"
+        width={350}
+        shadow
+        mt={10}
+        p={0}>
+        <MCButton onPress={() => this.onPressUserAvatar(user)}>
+          <MCImage
+            width={80}
+            height={80}
+            round
+            type="avatar"
+            image={{uri: user.avatar}}
+          />
+        </MCButton>
+        <MCButton
+          style={{flex: 1}}
+          row
+          align="center"
+          onPress={() => {
+            selected ? this.deselectUser(user) : this.selectUser(user);
+          }}>
+          <MCView style={{flex: 1}} ml={10} justify="center">
+            <H3>{user.name}</H3>
+            <H4 padding={0} color={theme.colors.border}>
+              {`@${user.user_id}`}
+            </H4>
+          </MCView>
+          {selected && (
+            <MCIcon
+              name="ios-checkmark"
+              color={theme.colors.toggle_on}
+              size={60}
+            />
+          )}
+        </MCButton>
+      </MCCard>
+    );
+  };
+
+  _renderSelectedUsers = ({item}) => {
+    const {theme, deselectUser} = this.props;
+    const user = item;
+    return (
+      <MCView mr={5}>
+        <MCImage image={{uri: user.avatar}} width={70} height={70} round />
+        <MCView
+          absolute
+          br={15}
+          background={theme.colors.border}
+          style={{top: 0, right: 0}}>
+          <MCButton
+            width={30}
+            height={30}
+            align="center"
+            justify="center"
+            onPress={() => deselectUser(user)}>
+            <MCIcon
+              name="ios-close"
+              color={theme.colors.background}
+              style={{
+                padding: 0,
+                alignItem: 'center',
+                justifyContent: 'center',
+                marginTop: -5,
+              }}
+            />
+          </MCButton>
+        </MCView>
+      </MCView>
+    );
+  };
+
   render() {
     const {searchText, isMultiple} = this.state;
     const {
       t,
       theme,
-      allUsers,
-      myProfile,
-      selectedUsers,
       selectedUser,
+      selectedUsers,
+      searchedUsers,
+      searchPageLimited,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
-        <MCHeader title={t('add_reflection_feedback_header')} />
+        <MCHeader title={t('title_select_user')} />
         <MCSearchInput
           width={350}
           text={searchText}
           onChange={text => this.setState({searchText: text})}
         />
-        <MCContent contentContainerStyle={{paddingHorizontal: 10}}>
-          {allUsers.map(user => {
-            const userName = user.user_id;
-            const fullName = user.name;
-            const filterString = searchText.toLowerCase();
-            if (!userName || !fullName || user._id === myProfile._id) {
-              return;
-            } else if (
-              getStringIndexOf(userName, filterString) < 0 &&
-              getStringIndexOf(fullName, filterString) < 0
-            ) {
-              return;
-            }
-            const filtered = selectedUsers.filter(
-              selected => selected._id === user._id,
-            );
-            const selected = isMultiple
-              ? filtered.length > 0
-              : selectedUser._id === user._id;
-            return (
-              <MCCard
-                key={user.user_id}
-                row
-                align="center"
-                shadow
-                mt={10}
-                p={0}>
-                <MCButton onPress={() => this.onPressUserAvatar(user)}>
-                  <MCImage
-                    width={80}
-                    height={80}
-                    round
-                    type="avatar"
-                    image={{uri: user.avatar}}
-                  />
-                </MCButton>
-                <MCButton
-                  onPress={() => {
-                    selected ? this.deselectUser(user) : this.selectUser(user);
-                  }}
-                  row
-                  justify="space-between"
-                  align="center"
-                  style={{height: '100%', flex: 1}}>
-                  <MCView justify="center">
-                    <H3>{user.name}</H3>
-                    <H4 padding={0} color={theme.colors.border}>
-                      {`@${user.user_id}`}
-                    </H4>
-                  </MCView>
-                  {selected ? (
-                    <MCIcon
-                      name="ios-checkmark-circle-outline"
-                      color={theme.colors.border}
-                      size={30}
-                    />
-                  ) : (
-                    <MCIcon
-                      name="ios-add-circle-outline"
-                      color={theme.colors.toggle_on}
-                      size={30}
-                    />
-                  )}
-                </MCButton>
-              </MCCard>
-            );
-          })}
-        </MCContent>
+        <FlatList
+          style={{width: dySize(375)}}
+          keyboardShouldPersistTaps="always"
+          contentContainerStyle={{
+            alignItems: 'center',
+            paddingBottom: 100,
+          }}
+          data={searchedUsers}
+          renderItem={this._renderUserItem}
+          ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+          ListFooterComponent={
+            searchPageLimited && searchedUsers.length ? (
+              <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
+            ) : null
+          }
+          keyExtractor={item => item._id}
+          onEndReached={() => this.searchNextPage()}
+          onEndReachedThreshold={0.5}
+        />
+        {isMultiple && selectedUsers.length > 0 && (
+          <MCView height={130} align="center">
+            <H4>Selected Users ( {selectedUsers.length} )</H4>
+            <FlatList
+              horizontal
+              style={{width: dySize(375)}}
+              contentContainerStyle={{paddingHorizontal: dySize(15)}}
+              data={selectedUsers}
+              renderItem={this._renderSelectedUsers}
+              keyExtractor={item => item._id}
+              ListEmptyComponent={
+                <MCEmptyText>{t('you did not select yet')}</MCEmptyText>
+              }
+            />
+          </MCView>
+        )}
+        {!isMultiple && selectedUser && (
+          <MCView height={130} align="center">
+            <H4>Selected User</H4>
+            <MCView row align="center">
+              <MCImage
+                image={{uri: selectedUser.avatar}}
+                width={70}
+                height={70}
+                round
+              />
+              <MCView>
+                <H3>{selectedUser.name}</H3>
+                <H4 padding={0} color={theme.colors.border}>
+                  {`@${selectedUser.user_id}`}
+                </H4>
+              </MCView>
+            </MCView>
+          </MCView>
+        )}
       </MCRootView>
     );
   }
@@ -134,16 +233,19 @@ class SelectUserScreen extends React.Component {
 const mapStateToProps = state => ({
   selectedUsers: state.usersReducer.selectedUsers,
   selectedUser: state.usersReducer.selectedUser,
-  allUsers: state.usersReducer.allUsers,
+  searchedUsers: state.usersReducer.searchedUsers,
+  searchPageLimited: state.usersReducer.searchPageLimited,
+  searchPageIndex: state.usersReducer.searchPageIndex,
+  pageSearching: state.usersReducer.pageSearching,
   myProfile: state.profileReducer,
   theme: state.routerReducer.theme,
 });
 
 const mapDispatchToProps = {
   selectUser: userActions.selectUser,
-  setSeletedUsers: userActions.setSeletedUsers,
   deselectUser: userActions.deselectUser,
   selectSingleUser: userActions.selectSingleUser,
+  findUserByName: userActions.findUserByName,
 };
 
 export default withTranslation()(

@@ -33,6 +33,7 @@ import TriggersCard from '../ProfileTab/profile/components/Triggers';
 import AttachmentCard from '../ProfileTab/profile/components/Attachment';
 import ApproachCard from '../ProfileTab/profile/components/Approach';
 import ComfortCard from '../ProfileTab/profile/components/Comfort';
+import MeaningLifeCard from '../ProfileTab/profile/components/MeaningLife';
 import CoachingFeedbackCard from '../ProfileTab/profile/components/FeedbackCoaching';
 import CriticismFeedbackCard from '../ProfileTab/profile/components/FeedbackCriticism';
 import PraiseFeedbackCard from '../ProfileTab/profile/components/FeedbackPraise';
@@ -43,13 +44,12 @@ import HydrationCard from '../ProfileTab/profile/components/Hydration';
 import NavigationService from 'navigation/NavigationService';
 import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
-import {FaucetWhiteSvg, FutureSvg} from 'assets/svgs';
+import {FaucetWhiteSvg, FutureSvg, SkullCowSvg} from 'assets/svgs';
 
 class UserProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      unknownUser: false,
       selected: 'overview',
       showAvatarModal: false,
     };
@@ -57,22 +57,7 @@ class UserProfileScreen extends React.Component {
 
   componentDidMount() {
     const {id} = this.props.route.params;
-    const {
-      allUsers,
-      getUserProfile,
-      getUserReflections,
-      getUserFeedbacks,
-      getUserCommits,
-    } = this.props;
-    const find = allUsers.find(user => user._id === id);
-    if (find) {
-      getUserProfile(id);
-      getUserReflections(id);
-      getUserFeedbacks(id);
-      getUserCommits(id);
-    } else {
-      this.setState({unknownUser: true});
-    }
+    this.props.getUserProfile(id, true);
   }
 
   onPressProfileIcon = icon => {
@@ -106,6 +91,8 @@ class UserProfileScreen extends React.Component {
           <FaucetWhiteSvg size={size} color={color} />
         ) : icon.key === 'dream' ? (
           <FutureSvg size={size} color={color} />
+        ) : icon.key === 'meaning_life' ? (
+          <SkullCowSvg size={size} color={color} />
         ) : (
           <MCIcon
             type={icon.iconType}
@@ -119,7 +106,7 @@ class UserProfileScreen extends React.Component {
   };
 
   render() {
-    const {selected, unknownUser, showAvatarModal} = this.state;
+    const {selected, showAvatarModal} = this.state;
     const {
       t,
       theme,
@@ -130,6 +117,7 @@ class UserProfileScreen extends React.Component {
       stress,
       strength,
       coreValues,
+      valueStory,
       dream,
       dailyHabits,
       weeklyHabits,
@@ -146,9 +134,10 @@ class UserProfileScreen extends React.Component {
       approach,
       attachment,
       comfort,
+      meaning,
       commits,
     } = this.props;
-    if (unknownUser) {
+    if (profile.message === 'api.user.get-profile.fail') {
       return (
         <MCRootView justify="flex-start">
           <MCHeader />
@@ -158,8 +147,12 @@ class UserProfileScreen extends React.Component {
         </MCRootView>
       );
     }
-    if (!profile.user_id) {
-      return <MCRootView justify="flex-start" />;
+    if (profile.message) {
+      return (
+        <MCRootView>
+          <H4>{profile.message}</H4>
+        </MCRootView>
+      );
     }
     return (
       <MCRootView justify="flex-start">
@@ -214,6 +207,7 @@ class UserProfileScreen extends React.Component {
                 <CoreValuesCard
                   theme={theme}
                   coreValues={coreValues}
+                  valueStory={valueStory}
                   editable={false}
                 />
               )}
@@ -263,12 +257,21 @@ class UserProfileScreen extends React.Component {
                   editable={false}
                 />
               )}
-              {selected === 'approach' && <ApproachCard approach={approach} />}
+              {selected === 'approach' && (
+                <ApproachCard approach={approach} editable={false} />
+              )}
               {selected === 'attachment' && (
-                <AttachmentCard attachment={attachment} />
+                <AttachmentCard attachment={attachment} editable={false} />
               )}
               {selected === 'comfort' && (
-                <ComfortCard comfort={comfort} theme={theme} />
+                <ComfortCard comfort={comfort} theme={theme} editable={false} />
+              )}
+              {selected === 'meaning_life' && (
+                <MeaningLifeCard
+                  meaning={meaning}
+                  theme={theme}
+                  editable={false}
+                />
               )}
               {selected === 'value' && (
                 <ValuesCard values={values} editable={false} />
@@ -359,6 +362,10 @@ const mapStateToProps = state => ({
     state,
     'CoreValues',
   ),
+  valueStory: selector.reflections.findUserSpecialReflections(
+    state,
+    'ValueStory',
+  ),
   dream: selector.reflections.findUserSpecialReflections(state, 'Dreams'),
   dailyHabits: selector.reflections
     .getUserSpecialReflections(state, 'Habit')
@@ -404,14 +411,15 @@ const mapStateToProps = state => ({
     'Attachment',
   ),
   comfort: selector.reflections.findUserSpecialReflections(state, 'Comfort'),
+  meaning: selector.reflections.findUserSpecialReflections(
+    state,
+    'MeaningLife',
+  ),
   commits: state.otherReducer.commits,
 });
 
 const mapDispatchToProps = {
   getUserProfile: profileActions.getUserProfile,
-  getUserReflections: reflectionActions.getUserReflections,
-  getUserFeedbacks: feedbackActions.getUserFeedbacks,
-  getUserCommits: otherActions.getUserCommits,
 };
 
 export default withTranslation()(

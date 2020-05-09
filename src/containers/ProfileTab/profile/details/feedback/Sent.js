@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {MCRootView, MCView, MCContent, MCCard} from 'components/styled/View';
-import {MCImage, MCReadMoreText} from 'components/common';
+import {MCImage, MCReadMoreText, MCTagsView} from 'components/common';
 import {H3, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
@@ -49,6 +49,15 @@ class FeedbackSentScreen extends React.Component {
             <H4>{feedback.feedback}</H4>
           </MCReadMoreText>
         </MCView>
+        {feedback.question === 'mocha_feedback_best_self' && (
+          <MCView row ml={10}>
+            <MCTagsView
+              tags={feedback.meta.skills.map(i =>
+                t(`resource_book_skills_${i}`),
+              )}
+            />
+          </MCView>
+        )}
         <H5
           ph={10}
           align="right"
