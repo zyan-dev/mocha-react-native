@@ -78,7 +78,7 @@ class ManageNotifications extends React.Component {
         ? '0' + parseInt(today.getUTCMonth() + 1)
         : parseInt(today.getUTCMonth() + 1)) +
       '-' +
-      today.getUTCDate();
+      (today.getUTCDate() < 10 ? '0' + today.getUTCDate() : today.getUTCDate());
 
     return (
       <MCRootView justify="flex-start">
