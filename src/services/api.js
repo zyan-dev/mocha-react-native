@@ -139,8 +139,6 @@ const fileUploadToS3 = async ({image, name, type}) => {
   }
 };
 
-const sendEmail = param => apiCall('post', `${URL_CONTACT_US}`, param);
-
 const searchResources = resource =>
   apiCall('get', `${URL_SEARCH_RESOURCE}/${resource}`, {}, true);
 
