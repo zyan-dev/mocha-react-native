@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import Swiper from 'react-native-swiper';
 
 import {MCView} from 'components/styled/View';
-import {MCBookTagsView, MCIcon} from 'components/common';
+import {MCBookTagsView, MCIcon, MCImage} from 'components/common';
 import {H3, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {BookImgage} from 'assets/images';
@@ -139,35 +139,21 @@ class BookItem extends React.Component {
         ph={5}
         pv={5}>
         <MCButton onPress={() => this.goDetailpage(resource)}>
-          <MCView row justify="space-between" align="flex-start">
-            <H3 weight="bold">{resource.title}</H3>
-            <MCIcon type="FontAwesome5" name="plus" size={16} />
-          </MCView>
-          <H5>
-            {t('resource_type_book_by')} {resource.author}
-          </H5>
-          <MCView mt={15} mb={15}>
-            <MCView align="flex-end">
-              <H5 align="right">
-                {t('resource_type_book_released')}:{' '}
-                {moment(resource.released).format('MM/DD/YYYY')}
-              </H5>
-            </MCView>
-            <MCView row justify="space-around">
-              <BookIcon source={BookImgage} />
-              <MCView width={90} align="flex-end">
-                <H5>
-                  {t('resource_type_book_length')}: {resource.length}
-                </H5>
-                <H5>
-                  {t('resource_type_book_page')}: {resource.pages} pg
-                </H5>
-              </MCView>
-            </MCView>
+          <MCImage
+            width={150}
+            height={200}
+            image={{uri: resource.data.thumbnail}}
+          />
+          <MCView width={150} justify="center" align="center">
+            <H3 style={{flex: 1}} weight="bold">
+              {resource.data.title}
+            </H3>
+            <H5>{resource.data.authors[0]}</H5>
           </MCView>
         </MCButton>
         <MCView height={2} bordered mb={10} width={120} />
         <Swiper
+          loadMinimal
           loop={false}
           showsButtons={false}
           dot={<MCView width={8} height={8} mr={5} bordered br={4} />}
@@ -189,9 +175,10 @@ class BookItem extends React.Component {
             <MCView align="center" style={{flex: 1}}>
               <H4 underline>{t('resource_type_book_impact')}</H4>
               <MCBookTagsView
-                tags={resource.impact}
+                tags={resource.data.impacts}
                 impact={true}
                 collaborators={collaborators}
+                t={t}
               />
             </MCView>
           </ScrollView>
@@ -199,8 +186,9 @@ class BookItem extends React.Component {
             <MCView align="center" style={{flex: 1}}>
               <H4 underline>{t('resource_type_book_skills')}</H4>
               <MCBookTagsView
-                tags={resource.skills}
+                tags={resource.data.skills}
                 collaborators={collaborators}
+                t={t}
               />
             </MCView>
           </ScrollView>

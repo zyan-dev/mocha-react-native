@@ -14,49 +14,15 @@ import {MCHeader, MCSearchInput, MCIcon} from 'components/common';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {H4, H6, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-
+import {ResoucesRoots} from 'utils/constants';
 class ResourceTabView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      index: props.initialIndex || 0,
-    };
-  }
-
   onChangeTabIndex = i => {
     this.setState({index: i});
+    this.props.onChangeTabIndex(i);
   };
 
   render() {
-    const {t, theme, isShowingUserHabit} = this.props;
-    const {index} = this.state;
-    const routes = [
-      {
-        key: 'featured',
-        title: 'featured',
-        icon: 'hand-holding-seedling',
-      },
-      {
-        key: 'search',
-        title: 'search',
-        icon: 'search',
-      },
-      {
-        key: 'books',
-        title: 'book',
-        icon: 'book',
-      },
-      {
-        key: 'blogs',
-        title: 'blog',
-        icon: 'rss-square',
-      },
-      {
-        key: 'podcasts',
-        title: 'podcast',
-        icon: 'podcast',
-      },
-    ];
+    const {t, theme, tabIndex, isShowingUserHabit} = this.props;
 
     const renderScene = SceneMap({
       featured: FeaturedResourceScreen,
@@ -93,10 +59,11 @@ class ResourceTabView extends React.Component {
         }}
       />
     );
+
     return (
       <View style={{flex: 1}}>
         <TabView
-          navigationState={{index, routes}}
+          navigationState={{index: tabIndex, routes: ResoucesRoots}}
           renderScene={renderScene}
           onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}

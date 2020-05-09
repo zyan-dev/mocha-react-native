@@ -5,6 +5,7 @@ import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 import moment from 'moment';
 import i18next from 'i18next';
+import * as _ from 'lodash';
 
 import {resourceActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
@@ -16,18 +17,12 @@ import {
   MCTextFormInput,
   MCIcon,
   MCReadMoreText,
+  MCSearchInput,
+  MCImage,
 } from 'components/common';
 import {dySize} from 'utils/responsive';
 import {ResourceTypes, skills, impacts} from 'utils/constants';
-import {validURL} from 'services/operators';
-import {BookImgage} from 'assets/images';
-import {getStringWithOutline} from '../../services/operators';
-
-const BookIcon = styled(FastImage)`
-  width: ${dySize(100)}px;
-  height: ${dySize(130)}px;
-  resize-mode: contain;
-`;
+import {validURL, getStringWithOutline} from 'services/operators';
 
 class AddResourceScreen extends React.PureComponent {
   constructor(props) {
@@ -36,10 +31,10 @@ class AddResourceScreen extends React.PureComponent {
     this.state = {
       submitted: false,
       flagMore: false,
-      resource: null,
       selectedImpacts: [],
       selectedSkills: [],
       tags: [],
+      searchText: '',
     };
   }
 
@@ -58,9 +53,22 @@ class AddResourceScreen extends React.PureComponent {
   };
 
   componentDidMount() {
-    if (this.props.route.params) {
+    const {tags, impacts, skills} = this.props.selectedResource;
+
+    this.setState({
+      selectedImpacts: impacts,
+      selectedSkills: skills,
+      tags: tags,
+    });
+
+    if (this.props.route.params.resource) {
       const resource = this.props.route.params.resource;
       this.setState({resource: resource});
+      this.setState({
+        selectedImpacts: resource.data.impacts,
+        selectedSkills: resource.data.skills,
+        tags: resource.data.tags,
+      });
     }
   }
 
@@ -77,6 +85,7 @@ class AddResourceScreen extends React.PureComponent {
     const newTags = [...state.tagsArray];
     this.setState({tags: newTags});
     this.props.updateSelectedResource({tags: newTags});
+    this.props.updateSelectedResource({skills: newSkills});
   };
 
   updateSelectedImpacts = impact => {
@@ -106,41 +115,84 @@ class AddResourceScreen extends React.PureComponent {
   };
 
   onPressRight = () => {
-    const {selectedResource, createResources, updateResources} = this.props;
+    const {
+      selectedResource,
+      createResources,
+      updateResources,
+      searchResource,
+    } = this.props;
+    const {selectedImpacts, selectedSkills} = this.state;
+
     this.setState({submitted: true});
-    if (!this.validateTitle()) return;
-    if (!this.validateLink()) return;
-    if (selectedResource._id && selectedResource._id.length < 20) {
-      // create resource
-      createResources([selectedResource]);
-    } else {
-      updateResources([selectedResource]);
+    let resource = searchResource;
+    let type;
+
+    if (this.props.route.params.root) {
+      type = this.props.route.params.root.key;
     }
+
+    if (this.props.route.params && this.props.route.params.resource) {
+      resource = this.props.route.params.resource;
+      type = resource.type;
+    }
+
+    resource.data.skills = [...selectedSkills];
+    resource.data.impacts = [...selectedImpacts];
+    delete resource.data.type;
+    if (resource._id) {
+      const data = {
+        _id: resource._id,
+        ...resource,
+      };
+      updateResources([data]);
+    } else {
+      if (!this.validateTitle()) return;
+      const data = {
+        resourceData: {
+          ...resource.data,
+          ...selectedResource,
+        },
+        type,
+      };
+      createResources([data]);
+    }
+    this.props.updateSelectedResource({skills: []});
+    this.props.updateSelectedResource({impacts: []});
+    this.props.updateSelectedResource({tags: []});
   };
 
   validateTitle = () => {
-    return (
-      this.props.selectedResource.title &&
-      this.props.selectedResource.title.length > 0
-    );
+    const {searchResource} = this.props;
+    return searchResource.data && searchResource.data.title;
   };
 
-  validateLink = () => {
-    return validURL(this.props.selectedResource.link);
-  };
+  searchBook = _.debounce(() => {
+    const {searchText} = this.state;
+    const {searchResources} = this.props;
+    searchResources(searchText);
+  }, 2000);
 
   render() {
     const {
       submitted,
       flagMore,
-      resource,
       selectedImpacts,
       selectedSkills,
+      tags,
+      searchText,
     } = this.state;
-    const {t, selectedResource, updateSelectedResource} = this.props;
-    const {title, link, type, tags} = selectedResource;
-    isErrorTitle = !this.validateTitle();
-    isErrorLink = !this.validateLink();
+    const {
+      t,
+      selectedResource,
+      updateSelectedResource,
+      searchResource,
+    } = this.props;
+
+    let resource = searchResource;
+    console.log(8888, searchResource);
+    if (this.props.route.params && this.props.route.params.resource) {
+      resource = this.props.route.params.resource;
+    }
 
     return (
       <MCRootView>
@@ -155,72 +207,63 @@ class AddResourceScreen extends React.PureComponent {
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(15)}}>
-          {resource ? (
-            <MCView width={350} row justify="center" mb={30}>
-              <MCView mr={20}>
-                <BookIcon source={BookImgage} />
-              </MCView>
+          {resource && resource._id ? null : (
+            <MCSearchInput
+              placeholder={t('resource_search_book_placeholder')}
+              text={searchText}
+              onChange={searchText => {
+                this.setState({searchText});
+                this.searchBook();
+              }}
+            />
+          )}
 
-              <MCView width={210}>
-                <H3 weight="bold">{resource.title}</H3>
-                <H5>
-                  {t('resource_type_book_released')}:{' '}
-                  {moment(resource.released).format('MM/DD/YYYY')}
-                </H5>
-                <H5>
-                  {t('resource_type_book_length')}: {resource.length}
-                </H5>
-                <H5>
-                  {t('resource_type_book_page')}: {resource.pages} pg
-                </H5>
-              </MCView>
-            </MCView>
-          ) : (
+          {resource && resource.data && (
             <>
-              <MCTextFormInput
-                label={t('resource_input_title')}
-                value={title}
-                maxLength={60}
-                onChange={text => updateSelectedResource({title: text})}
-                submitted={submitted}
-                errorText={t('error_input_required')}
-                isInvalid={isErrorTitle}
-              />
-              <MCTextFormInput
-                label={t('resource_input_link')}
-                value={link}
-                maxLength={1024}
-                onChange={text => updateSelectedResource({link: text})}
-                submitted={submitted}
-                errorText={t('error_invalid_link')}
-                isInvalid={isErrorLink}
-              />
-              <H3 mt={20} mb={5}>
-                {t('resource_select_type')}
-              </H3>
-              <MCView width={345} bordered row wrap br={4} ph={10} pv={10}>
-                {ResourceTypes.map(rt => (
-                  <MCButton
-                    key={rt.type}
-                    onPress={() => updateSelectedResource({type: rt.type})}
-                    width={160}
-                    row
-                    align="center"
-                    pv={5}>
-                    <MCIcon
-                      name={
-                        type === rt.type
-                          ? 'ios-radio-button-on'
-                          : 'ios-radio-button-off'
-                      }
-                    />
-                    <H4 ml={10}>{t(`resource_type_${rt.type}`)}</H4>
-                  </MCButton>
-                ))}
+              <MCView width={350} row justify="space-between">
+                <MCView mt={10}>
+                  <MCImage
+                    width={120}
+                    height={170}
+                    image={{uri: resource.data.thumbnail}}
+                  />
+                </MCView>
+                <MCView width={210}>
+                  <H3 weight="bold">{resource.data.title}</H3>
+                  <H5 weight="bold">{t('resource_type_book_author')}</H5>
+                  {resource.data.authors.map((item, index) => (
+                    <H5 key={index} ml={10}>
+                      {item}
+                    </H5>
+                  ))}
+                  <MCView row>
+                    <H5 weight="bold">{t('resource_type_book_released')}</H5>
+                    <H5 ml={10}>{resource.data.publishDate}</H5>
+                  </MCView>
+                  <MCView row>
+                    <H5 weight="bold">{t('resource_type_book_page')}</H5>
+                    <H5 ml={10}>{resource.data.pageCount} pg</H5>
+                  </MCView>
+                  <MCView row>
+                    <H5 weight="bold">{t('resource_type_book_genre')}</H5>
+                    {resource.data.genre.map((item, index) => (
+                      <H5 ml={10} key={index}>
+                        {item}
+                      </H5>
+                    ))}
+                  </MCView>
+                </MCView>
+              </MCView>
+              <MCView>
+                <H5 weight="bold">{t('resource_type_book_description')}</H5>
+                {resource.data.description.length > 180 ? (
+                  <H5>{resource.data.description.substr(0, 170)} ...</H5>
+                ) : (
+                  <H5>{resource.data.description}</H5>
+                )}
               </MCView>
             </>
           )}
-
           <MCView mt={10}>
             <MCView width={350} pv={5}>
               {getStringWithOutline(this.ResourceTypeQuestion, {
@@ -295,12 +338,14 @@ class AddResourceScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   selectedResource: state.resourceReducer.selectedResource,
+  searchResource: state.resourceReducer.searchResource,
 });
 
 const mapDispatchToProps = {
   updateSelectedResource: resourceActions.updateSelectedResource,
   createResources: resourceActions.createResources,
   updateResources: resourceActions.updateResources,
+  searchResources: resourceActions.searchResources,
 };
 
 export default withTranslation()(

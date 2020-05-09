@@ -23,7 +23,8 @@ export default class MCBookTagsView extends React.PureComponent {
   };
 
   render() {
-    const {tags, impact, collaborators} = this.props;
+    const {t, tags, impact, collaborators} = this.props;
+
     return (
       <MCView column align="center">
         {!tags.length ? (
@@ -35,7 +36,9 @@ export default class MCBookTagsView extends React.PureComponent {
                 postion: 'relative',
               }}>
               <TagView key={index} ph={5} mb={25} align="center" type={impact}>
-                {tag}
+                {impact
+                  ? t(`resource_book_impact_${tag}`)
+                  : t(`resource_book_skills_${tag}`)}
               </TagView>
               {collaborators && (
                 <MCView

@@ -104,26 +104,54 @@ class BookDetailScreen extends React.PureComponent {
         />
         <MCContent>
           <MCView ph={10} pv={10} align="center">
-            <MCView width={350} row justify="center" mb={30}>
-              <MCView mr={20}>
-                <BookIcon source={BookImgage} />
+            <MCView width={350} row justify="space-between">
+              <MCView mt={10}>
+                <MCImage
+                  width={120}
+                  height={170}
+                  image={{uri: resource.data.thumbnail}}
+                />
               </MCView>
-
               <MCView width={210}>
-                <H3 weight="bold">{resource.title}</H3>
-                <H5>
-                  {t('resource_type_book_released')}:{' '}
-                  {moment(resource.released).format('MM/DD/YYYY')}
-                </H5>
-                <H5>
-                  {t('resource_type_book_length')}: {resource.length}
-                </H5>
-                <H5>
-                  {t('resource_type_book_page')}: {resource.pages} pg
-                </H5>
+                <H3 weight="bold">{resource.data.title}</H3>
+                <H5 weight="bold">{t('resource_type_book_author')}</H5>
+                {resource.data.authors.map((item, index) => (
+                  <H5 key={index} ml={10}>
+                    {item}
+                  </H5>
+                ))}
+                <MCView row>
+                  <H5 weight="bold">{t('resource_type_book_released')}</H5>
+                  <H5 ml={10}>{resource.data.publishDate}</H5>
+                </MCView>
+                <MCView row>
+                  <H5 weight="bold">{t('resource_type_book_page')}</H5>
+                  <H5 ml={10}>{resource.data.pageCount} pg</H5>
+                </MCView>
+                <MCView row>
+                  <H5 weight="bold">{t('resource_type_book_genre')}</H5>
+                  {resource.data.genre.map((item, index) => (
+                    <H5 ml={10} key={index}>
+                      {item}
+                    </H5>
+                  ))}
+                </MCView>
               </MCView>
             </MCView>
-            <MCView height={1} bordered mb={10} width={350} />
+            {resource.data.buyLink && (
+              <MCView>
+                <H5 weight="bold">{t('resource_type_book_buy_link')}</H5>
+                <H5 ml={10}>{resource.data.buyLink}</H5>
+              </MCView>
+            )}
+            {resource.data.readLink && (
+              <MCView>
+                <H5 weight="bold">{t('resource_type_book_read_link')}</H5>
+                <H5 ml={10}>{resource.data.readLink}</H5>
+              </MCView>
+            )}
+
+            <MCView height={1} bordered width={350} mb={10} mt={10} />
             <MCView width={350} row>
               <H5>14 of your TrustMemebers have added this book</H5>
               <MCView row align="flex-start">
@@ -152,23 +180,26 @@ class BookDetailScreen extends React.PureComponent {
               <MCView align="center" style={{flex: 1}}>
                 <H4 underline>{t('resource_type_book_impact')}</H4>
                 <MCBookTagsView
-                  tags={resource.impact}
+                  tags={resource.data.impacts}
                   impact={true}
                   collaborators={collaborators}
+                  t={t}
                 />
               </MCView>
               <MCView align="center" style={{flex: 1}}>
                 <H4 underline>{t('resource_type_book_skills')}</H4>
                 <MCBookTagsView
-                  tags={resource.skills}
+                  tags={resource.data.skills}
                   collaborators={collaborators}
+                  t={t}
                 />
               </MCView>
             </MCView>
-            <MCView height={1} bordered mb={10} width={350} />
-            <MCView ph={10} pv={10}>
+            <MCView height={1} bordered width={350} />
+            <MCView pv={10} width={350}>
+              <H5 weight="bold">{t('resource_type_book_description')}</H5>
               <MCReadMoreText>
-                <H5>{resource.description}</H5>
+                <H5>{resource.data.description}</H5>
               </MCReadMoreText>
             </MCView>
           </MCView>

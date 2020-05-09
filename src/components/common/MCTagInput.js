@@ -96,6 +96,7 @@ class MCTagInput extends React.Component {
           onChange={e => this.setState({text: e.nativeEvent.text})}
           blurOnSubmit={false}
           maxLength={30}
+          autoCapitalize="none"
         />
       );
   }

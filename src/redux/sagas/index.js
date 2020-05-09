@@ -92,6 +92,7 @@ function* mySaga() {
   yield takeEvery(types.UPDATE_RESOURCES, resourceSaga.updateResources);
   yield takeEvery(types.REMOVE_RESOURCES, resourceSaga.removeResources);
   yield takeEvery(types.BOOKMARK_RESOURCE, resourceSaga.bookmarkResource);
+  yield takeEvery(types.SEARCH_RESOURCES, resourceSaga.searchResources);
 
   // other
   yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);

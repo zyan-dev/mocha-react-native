@@ -9,7 +9,7 @@ import {H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from '../../navigation/NavigationService';
 import ResourceTabView from './TabView';
-
+import {ResoucesRoots} from 'utils/constants';
 class ResourceSearchScreen extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -17,6 +17,7 @@ class ResourceSearchScreen extends React.PureComponent {
       searchText: '',
       viewAll: true,
       filterTypes: [],
+      tabIndex: 2,
     };
   }
 
@@ -41,10 +42,13 @@ class ResourceSearchScreen extends React.PureComponent {
   };
 
   onPressRight = () => {
-    NavigationService.navigate('AddResource');
-  }
+    NavigationService.navigate('AddResource', {
+      root: ResoucesRoots[this.state.tabIndex],
+    });
+  };
 
   render() {
+    const {tabIndex} = this.state;
     const {t, profile} = this.props;
 
     if (!profile.userToken.length) {
@@ -74,49 +78,10 @@ class ResourceSearchScreen extends React.PureComponent {
             </MCView>
           }
         />
-        <ResourceTabView initialIndex={2} />
-        {/* <RBSheet
-          ref={ref => {
-            this.RBSheet = ref;
-          }}
-          height={dySize(400)}
-          duration={250}
-          customStyles={{
-            container: {
-              backgroundColor: theme.colors.background,
-            },
-          }}>
-          <MCView row wrap justify="center" align="center" mt={20}>
-            {[{type: 'all', icon: 'globe'}].concat(ResourceTypes).map(type => {
-              let outlined = filterTypes.indexOf(type.type) > -1;
-              if (viewAll) outlined = false;
-              if (type.type === 'all') outlined = viewAll;
-              return (
-                <MCButton
-                  key={type.type}
-                  onPress={() => this.onPressFilterItem(type)}
-                  bordered
-                  br={8}
-                  mr={10}
-                  ml={10}
-                  mb={10}
-                  width={100}
-                  height={100}
-                  style={{
-                    borderColor: outlined
-                      ? theme.colors.outline
-                      : theme.colors.border,
-                    borderWidth: outlined ? 3 : 1,
-                  }}
-                  justify="center"
-                  align="center">
-                  <MCIcon type="FontAwesome5" name={type.icon} size={30} />
-                  <H4>{t(`resource_type_${type.type}`)}</H4>
-                </MCButton>
-              );
-            })}
-          </MCView>
-        </RBSheet> */}
+        <ResourceTabView
+          tabIndex={tabIndex}
+          onChangeTabIndex={i => this.setState({tabIndex: i})}
+        />
       </View>
     );
   }
