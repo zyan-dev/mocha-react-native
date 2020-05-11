@@ -2423,3 +2423,31 @@ export const ComfortingPreferences = [
 ];
 
 export const stressRecoveries = ['tea', 'exercise', 'meditating', 'music'];
+
+export const ResoucesRoots = [
+  {
+    key: 'featured',
+    title: 'featured',
+    icon: 'hand-holding-seedling',
+  },
+  {
+    key: 'search',
+    title: 'search',
+    icon: 'search',
+  },
+  {
+    key: 'books',
+    title: 'book',
+    icon: 'book',
+  },
+  {
+    key: 'blogs',
+    title: 'blog',
+    icon: 'rss-square',
+  },
+  {
+    key: 'podcasts',
+    title: 'podcast',
+    icon: 'podcast',
+  },
+];

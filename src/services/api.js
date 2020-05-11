@@ -27,6 +27,7 @@ const URL_NETWORK = '/network';
 const URL_COMMIT = '/commit';
 const URL_RESOURCE = '/resource';
 const URL_CONTACT_US = '/contact-us';
+const URL_SEARCH_RESOURCE = '/resource/books';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -138,6 +139,9 @@ const fileUploadToS3 = async ({image, name, type}) => {
   }
 };
 
+const searchResources = resource =>
+  apiCall('get', `${URL_SEARCH_RESOURCE}/${resource}`, {}, true);
+
 export default {
   sendSMS,
   verifySMS,
@@ -177,6 +181,7 @@ export default {
   removeResources,
   getSupportedHabits,
   sendEmail,
+  searchResources,
   findUserByName,
   getUntrustmembers,
 };

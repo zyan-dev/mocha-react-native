@@ -8,7 +8,7 @@ export const getMyResources = () => ({
   type: types.GET_MY_RESOURCES,
 });
 
-export const selectResource = (resource) => ({
+export const selectResource = resource => ({
   type: types.SELECT_RESOURCE,
   payload: resource,
 });
@@ -17,27 +17,32 @@ export const setInitialResource = () => ({
   type: types.SET_INITIAL_RESOURCE,
 });
 
-export const createResources = (data) => ({
+export const createResources = data => ({
   type: types.CREATE_RESOURCES,
   payload: data,
 });
 
-export const updateResources = (data) => ({
+export const updateResources = data => ({
   type: types.UPDATE_RESOURCES,
   payload: data,
 });
 
-export const updateSelectedResource = (data) => ({
+export const updateSelectedResource = data => ({
   type: types.UPDATE_SELECTED_RESOURCE,
   payload: data,
 });
 
-export const removeResources = (ids) => ({
+export const removeResources = ids => ({
   type: types.REMOVE_RESOURCES,
   payload: ids,
 });
 
-export const bookmarkResource = (link) => ({
+export const bookmarkResource = link => ({
   type: types.BOOKMARK_RESOURCE,
   payload: link,
+});
+
+export const searchResources = title => ({
+  type: types.SEARCH_RESOURCES,
+  payload: title,
 });

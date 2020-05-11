@@ -54,6 +54,10 @@ export function* createResources(action) {
     });
     if (response.data.status === 'success') {
       yield put({type: types.GET_ALL_RESOURCES});
+      yield put({
+        type: types.SET_SEARCH_RESOURCE,
+        payload: {},
+      });
       NavigationService.goBack();
       yield put({type: types.API_FINISHED});
     } else {
@@ -74,8 +78,12 @@ export function* updateResources(action) {
       data: action.payload,
     });
     if (response.data.status === 'success') {
-      NavigationService.goBack();
       yield put({type: types.GET_ALL_RESOURCES});
+      yield put({
+        type: types.SET_SEARCH_RESOURCE,
+        payload: {},
+      });
+      NavigationService.navigate('ResourceSearch');
     } else {
       yield put({
         type: types.API_FINISHED,
@@ -123,5 +131,27 @@ export function* bookmarkResource(action) {
     });
   } catch (e) {
     showAlert(e.toString());
+  }
+}
+
+export function* searchResources(action) {
+  try {
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.searchResources, action.payload);
+
+    if (response.data.status === 'success') {
+      yield put({
+        type: types.SET_SEARCH_RESOURCE,
+        payload: response.data.data.resources,
+      });
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }

@@ -6,7 +6,7 @@ import {resourceActions} from 'Redux/actions';
 import {MCContent, MCRootView} from 'components/styled/View';
 import {MCHeader} from 'components/common';
 import {MCEmptyText} from 'components/styled/Text';
-import ResourceItem from '../ResourceItem';
+import {H3} from 'components/styled/Text';
 
 class FeatureResourceScreen extends React.PureComponent {
   filter = resources => {
@@ -19,17 +19,9 @@ class FeatureResourceScreen extends React.PureComponent {
 
   _renderListItem = ({item}) => {
     return (
-      <ResourceItem
-        resource={item}
-        bookmarked
-        onPressBookmark={id => {
-          this.props.bookmarkResource(id);
-          this.forceUpdate();
-        }}
-        onPressEdit={this.onPressEdit}
-        onPressRemove={this.onPressRemove}
-        editable={false}
-      />
+      <MCRootView>
+        <H3>Podcasts Page</H3>
+      </MCRootView>
     );
   };
 
@@ -37,16 +29,7 @@ class FeatureResourceScreen extends React.PureComponent {
     const {t, allResources} = this.props;
     return (
       <MCRootView>
-        <MCContent>
-          <FlatList
-            contentContainerStyle={{alignItems: 'center'}}
-            data={this.filter(allResources)}
-            renderItem={this._renderListItem}
-            keyExtractor={item => item._id}
-            keyboardShouldPersistTaps="always"
-            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-          />
-        </MCContent>
+        <H3>Podcasts Page</H3>
       </MCRootView>
     );
   }

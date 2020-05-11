@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     type: 'book',
     tags: [],
   },
+  searchResource: null,
 };
 
 const resourceReducer = (state = INITIAL_STATE, action) => {
@@ -54,6 +55,11 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;
+    case types.SET_SEARCH_RESOURCE:
+      return {
+        ...state,
+        searchResource: action.payload,
+      };
     default:
       return state;
   }
