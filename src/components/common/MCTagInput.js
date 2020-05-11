@@ -4,6 +4,7 @@ import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import TagInput from 'react-native-tags-input';
 import {dySize} from 'utils/responsive';
+import {MCIcon} from '.';
 
 class MCTagInput extends React.Component {
   static propTypes = {
@@ -80,9 +81,11 @@ class MCTagInput extends React.Component {
             height: dySize(30),
             borderRadius: dySize(8),
             maxWidth: 'auto',
+            backgroundColor: theme.colors.card,
+            borderColor: theme.colors.border,
           }}
           tagTextStyle={{
-            color: theme.colors.background,
+            color: theme.colors.text,
             maxWidth: dySize(300),
           }}
           inputStyle={{
@@ -91,6 +94,13 @@ class MCTagInput extends React.Component {
             padding: 0,
             fontSize: fontSize,
           }}
+          deleteElement={
+            <MCIcon
+              name="ios-close-circle-outline"
+              color={theme.colors.border}
+              padding={0.1}
+            />
+          }
           keysForTag={','}
           onSubmitEditing={() => this.onPressEnterOrBlur()}
           onChange={e => this.setState({text: e.nativeEvent.text})}

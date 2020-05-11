@@ -78,20 +78,20 @@ class ManageNotifications extends React.Component {
         />
         <MCContent>
           <MCView align="center">
-            <MCView width={345}>
+            <MCView width={345} mb={100}>
               <H4>{t('notification_topText')}</H4>
               {Object.keys(_.pick(notifications, NotificationKeys)).map(key => {
                 const setting = notifications[key];
                 return (
                   <MCCard key={key} shadow mt={10}>
                     <MCView row>
-                      <MCView style={{flex: 1}} p={5}>
+                      <MCView style={{flex: 1}} ph={10}>
                         <H3>{t(`notification_${key}_title`)}</H3>
                         <H4 color={theme.colors.border}>
                           {t(`notification_${key}_description`)}
                         </H4>
                       </MCView>
-                      <MCView mt={10}>
+                      <MCView mt={10} mr={10}>
                         <ToggleSwitch
                           isOn={setting.enabled}
                           onColor={theme.colors.toggle_on}

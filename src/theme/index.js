@@ -1,6 +1,6 @@
 const commonTheme = {
   border: '#AAAAAA',
-  card: 'rgba(0, 0, 0, 0.3)',
+  card: 'rgba(0, 0, 0, 0.2)',
   danger: '#AA3333',
   sidemenu_bg: 'rgba(240, 245, 245, 1)',
   sidemenu_border: 'rgba(0, 0, 0, 0.8)',
@@ -44,6 +44,7 @@ export const colorThemes = [
     toggle_on: '#079311',
     toggle_off: '#8B9296',
     outline: '#5555FF',
+    card: 'rgba(0, 0, 0, 0.1)',
   },
   {
     ...commonTheme,
