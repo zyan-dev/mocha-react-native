@@ -1,27 +1,17 @@
 import React from 'react';
-import {Linking, Clipboard, ScrollView} from 'react-native';
+import {Clipboard, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
-import moment from 'moment';
-import FastImage from 'react-native-fast-image';
-import styled from 'styled-components';
 import Swiper from 'react-native-swiper';
 
 import {MCView} from 'components/styled/View';
-import {MCBookTagsView, MCIcon, MCImage} from 'components/common';
+import {MCBookTagsView, MCImage} from 'components/common';
 import {H3, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {BookImgage} from 'assets/images';
 import {showAlert} from 'services/operators';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-
-const BookIcon = styled(FastImage)`
-  width: ${dySize(50)}px;
-  height: ${dySize(60)}px;
-  resize-mode: contain;
-`;
 
 class BookItem extends React.Component {
   static propTypes = {
@@ -98,16 +88,6 @@ class BookItem extends React.Component {
     };
   }
 
-  onPressBrowser = link => {
-    Linking.canOpenURL(link).then(supported => {
-      if (supported) {
-        Linking.openURL(link);
-      } else {
-        console.log("Don't know how to open URI: " + link);
-      }
-    });
-  };
-
   onPressCopyLink = link => {
     const {t} = this.props;
     Clipboard.setString(link);
@@ -119,7 +99,10 @@ class BookItem extends React.Component {
   };
 
   goDetailpage = resource => {
-    NavigationService.navigate('BookDetail', {resource: resource});
+    NavigationService.navigate('BookDetail', {
+      resource: resource,
+      collaborators: this.state.collaborators,
+    });
   };
 
   render() {
@@ -148,7 +131,7 @@ class BookItem extends React.Component {
             <H3 style={{flex: 1}} weight="bold">
               {resource.data.title}
             </H3>
-            <H5>{resource.data.authors[0]}</H5>
+            <H5>{resource.data.authors && resource.data.authors[0]}</H5>
           </MCView>
         </MCButton>
         <MCView height={2} bordered mb={10} width={120} />

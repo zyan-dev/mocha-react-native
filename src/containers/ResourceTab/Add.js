@@ -1,9 +1,7 @@
 import React from 'react';
+import {Linking} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
-import FastImage from 'react-native-fast-image';
-import styled from 'styled-components';
-import moment from 'moment';
 import i18next from 'i18next';
 import * as _ from 'lodash';
 
@@ -14,15 +12,13 @@ import {H3, H4, H5} from 'components/styled/Text';
 import {
   MCHeader,
   MCTagInput,
-  MCTextFormInput,
-  MCIcon,
   MCReadMoreText,
   MCSearchInput,
   MCImage,
 } from 'components/common';
 import {dySize} from 'utils/responsive';
-import {ResourceTypes, skills, impacts} from 'utils/constants';
-import {validURL, getStringWithOutline} from 'services/operators';
+import {skills, impacts} from 'utils/constants';
+import {getStringWithOutline} from 'services/operators';
 
 class AddResourceScreen extends React.PureComponent {
   constructor(props) {
@@ -33,7 +29,7 @@ class AddResourceScreen extends React.PureComponent {
       flagMore: false,
       selectedImpacts: [],
       selectedSkills: [],
-      tags: [],
+      selectedTags: [],
       searchText: '',
     };
   }
@@ -54,11 +50,10 @@ class AddResourceScreen extends React.PureComponent {
 
   componentDidMount() {
     const {tags, impacts, skills} = this.props.selectedResource;
-
     this.setState({
-      selectedImpacts: impacts,
-      selectedSkills: skills,
-      tags: tags,
+      selectedImpacts: impacts || [],
+      selectedSkills: skills || [],
+      selectedTags: tags || [],
     });
 
     if (this.props.route.params.resource) {
@@ -67,7 +62,7 @@ class AddResourceScreen extends React.PureComponent {
       this.setState({
         selectedImpacts: resource.data.impacts,
         selectedSkills: resource.data.skills,
-        tags: resource.data.tags,
+        selectedTags: resource.data.tags,
       });
     }
   }
@@ -76,17 +71,17 @@ class AddResourceScreen extends React.PureComponent {
     const {selectedSkills} = this.state;
     const newSkills = [...selectedSkills];
     state.tagsArray.forEach((tag, index) => {
-      if (newSkills.indexOf(tag) > -1) {
+      if (
+        newSkills.indexOf(tag) > -1 &&
+        newSkills.indexOf(`resource_manual_${tag}`) > -1
+      ) {
         state.tagsArray.splice(index, 1);
-      } else {
-        const manualPrefixTag = `resource_manual_${tag}`;
-        newSkills.push(manualPrefixTag);
       }
     });
+
     const newTags = [...state.tagsArray];
-    this.setState({tags: newTags});
+    this.setState({selectedTags: newTags});
     this.props.updateSelectedResource({tags: newTags});
-    this.props.updateSelectedResource({skills: newSkills});
   };
 
   updateSelectedImpacts = impact => {
@@ -116,13 +111,17 @@ class AddResourceScreen extends React.PureComponent {
   };
 
   onPressRight = () => {
+    if (!this.props.route.params.resource) {
+      if (!this.validateTitle()) return;
+    }
+
     const {
       selectedResource,
       createResources,
       updateResources,
       searchResource,
     } = this.props;
-    const {selectedImpacts, selectedSkills, tags} = this.state;
+    const {selectedImpacts, selectedSkills, selectedTags} = this.state;
 
     this.setState({submitted: true});
     let resource = searchResource;
@@ -137,9 +136,19 @@ class AddResourceScreen extends React.PureComponent {
       type = resource.type;
     }
 
-    resource.data.skills = [...selectedSkills];
     resource.data.impacts = [...selectedImpacts];
-    resource.data.tags = [...tags];
+    resource.data.tags = [...selectedTags];
+    let skills = [...selectedSkills];
+    selectedTags.forEach(tag => {
+      if (
+        skills.indexOf(tag) == -1 &&
+        skills.indexOf(`resource_manual_${tag}`) == -1
+      ) {
+        skills.push(`resource_manual_${tag}`);
+      }
+    });
+    resource.data.skills = skills;
+
     delete resource.data.type;
     if (resource._id) {
       const data = {
@@ -148,11 +157,9 @@ class AddResourceScreen extends React.PureComponent {
       };
       updateResources([data]);
     } else {
-      if (!this.validateTitle()) return;
       const data = {
         resourceData: {
           ...resource.data,
-          ...selectedResource,
         },
         type,
       };
@@ -176,13 +183,23 @@ class AddResourceScreen extends React.PureComponent {
     }
   }, 2000);
 
+  onPressBrowser = link => {
+    Linking.canOpenURL(link).then(supported => {
+      if (supported) {
+        Linking.openURL(link);
+      } else {
+        console.log("Don't know how to open URI: " + link);
+      }
+    });
+  };
+
   render() {
     const {
       submitted,
       flagMore,
       selectedImpacts,
       selectedSkills,
-      tags,
+      selectedTags,
       searchText,
     } = this.state;
     const {
@@ -262,12 +279,22 @@ class AddResourceScreen extends React.PureComponent {
               </MCView>
               <MCView>
                 <H5 weight="bold">{t('resource_type_book_description')}</H5>
-                {resource.data.description.length > 180 ? (
+                {resource.data.description &&
+                resource.data.description.length > 180 ? (
                   <H5>{resource.data.description.substr(0, 170)} ...</H5>
                 ) : (
                   <H5>{resource.data.description}</H5>
                 )}
               </MCView>
+              {resource.data.readLink && (
+                <MCView>
+                  <H5 weight="bold">{t('resource_type_book_read_link')}</H5>
+                  <MCButton
+                    onPress={() => this.onPressBrowser(resource.data.readLink)}>
+                    <H5>{resource.data.readLink}</H5>
+                  </MCButton>
+                </MCView>
+              )}
             </>
           )}
           <MCView mt={10}>
@@ -289,7 +316,10 @@ class AddResourceScreen extends React.PureComponent {
                   mr={5}
                   mb={5}
                   style={{
-                    opacity: selectedImpacts.indexOf(impact) > -1 ? 1 : 0.5,
+                    opacity:
+                      selectedImpacts && selectedImpacts.indexOf(impact) > -1
+                        ? 1
+                        : 0.5,
                   }}>
                   <H4>{t(`resource_book_impact_${impact}`)}</H4>
                 </MCButton>
@@ -315,7 +345,10 @@ class AddResourceScreen extends React.PureComponent {
                   mr={5}
                   mb={5}
                   style={{
-                    opacity: selectedSkills.indexOf(skill) > -1 ? 1 : 0.5,
+                    opacity:
+                      selectedSkills && selectedSkills.indexOf(skill) > -1
+                        ? 1
+                        : 0.5,
                   }}>
                   <H4>{t(`resource_book_skills_${skill}`)}</H4>
                 </MCButton>
@@ -334,7 +367,7 @@ class AddResourceScreen extends React.PureComponent {
             </MCButton>
           </MCView>
           {flagMore && (
-            <MCTagInput tags={tags} updateState={this.updateTagState} />
+            <MCTagInput tags={selectedTags} updateState={this.updateTagState} />
           )}
         </MCContent>
       </MCRootView>
