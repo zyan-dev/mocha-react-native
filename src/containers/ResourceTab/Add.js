@@ -125,15 +125,15 @@ class AddResourceScreen extends React.PureComponent {
 
     this.setState({submitted: true});
     let resource = searchResource;
-    let type;
+    // let type;
 
-    if (this.props.route.params.root) {
-      type = this.props.route.params.root.key;
-    }
+    // if (this.props.route.params.root) {
+    //   type = this.props.route.params.root.key;
+    // }
 
     if (this.props.route.params && this.props.route.params.resource) {
       resource = this.props.route.params.resource;
-      type = resource.type;
+      // type = resource.type;
     }
 
     resource.data.impacts = [...selectedImpacts];
@@ -167,7 +167,7 @@ class AddResourceScreen extends React.PureComponent {
         resourceData: {
           ...resource.data,
         },
-        type,
+        type: 'books',
       };
       createResources([data]);
     }
