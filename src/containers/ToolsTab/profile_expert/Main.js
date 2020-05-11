@@ -12,6 +12,7 @@ import ProfileBasicCard from '../profile_basic/components/ProfileBasicCard';
 import {IceCreamSvg, ProfileCrownSvg, CrownSvg} from 'assets/svgs';
 import {getStringWithOutline} from 'services/operators';
 import {ProfileExpertCards} from 'utils/constants';
+import {dySize} from 'utils/responsive';
 
 class ProfileExpertScreen extends React.Component {
   checkCompletedBestSelf = () => {
@@ -103,7 +104,9 @@ class ProfileExpertScreen extends React.Component {
               <IceCreamSvg theme={theme} size={70} />
               <H2 weight="bold">Excellent 👍</H2>
               <MCView row wrap align="center" justify="center">
-                <H3 align="center" style={{lineHeight: 30}}>
+                <H3
+                  align="center"
+                  style={{lineHeight: 30, width: dySize(240), height: 'auto'}}>
                   You've completed your
                   <H3 weight="bold"> Expert Profile </H3>
                   <MCIcon
@@ -115,7 +118,9 @@ class ProfileExpertScreen extends React.Component {
                 </H3>
               </MCView>
               <MCView mt={20} row wrap align="center" justify="center">
-                <H3 align="center" style={{lineHeight: 30}}>
+                <H3
+                  align="center"
+                  style={{lineHeight: 30, width: dySize(240), height: 'auto'}}>
                   Check out the
                   <H3 weight="bold"> Profile Tab </H3>
                   <ProfileCrownSvg size={25} theme={theme} />
@@ -123,12 +128,12 @@ class ProfileExpertScreen extends React.Component {
                 </H3>
               </MCView>
               <MCView mt={20} row wrap align="center" justify="center">
-                <H3 align="center" style={{lineHeight: 30}}>
+                <H3
+                  align="center"
+                  style={{lineHeight: 30, width: dySize(240), height: 'auto'}}>
                   Next check out
                   <H3 weight="bold"> Personal Development </H3>
-                  <MCView mt={-5}>
-                    <CrownSvg size={30} theme={theme} />
-                  </MCView>
+                  <CrownSvg size={30} theme={theme} style={{marginTop: -5}} />
                 </H3>
               </MCView>
               <MCButton

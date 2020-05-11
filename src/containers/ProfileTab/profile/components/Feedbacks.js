@@ -108,7 +108,9 @@ class FeedbacksCard extends React.Component {
               <H4 style={{width: '100%'}}>{selectedFeedback.feedback}</H4>
               {selectedFeedback.question === 'mocha_feedback_best_self' && (
                 <MCTagsView
-                  tags={selectedFeedback.meta.skills.map(i => t(i))}
+                  tags={selectedFeedback.meta.skills.map(i =>
+                    t(`resource_book_skills_${i}`),
+                  )}
                 />
               )}
             </MCView>
