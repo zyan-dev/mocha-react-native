@@ -156,7 +156,7 @@ class BookItem extends React.Component {
           }}>
           <MCView height={150} align="center" width={150}>
             <ScrollView>
-              <MCView align="center" style={{flex: 1}}>
+              <MCView align="center" width={150}>
                 <H4 underline>{t('resource_type_book_impact')}</H4>
                 <MCBookTagsView
                   tags={resource.data.impacts}
