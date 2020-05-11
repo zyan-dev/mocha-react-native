@@ -104,9 +104,7 @@ class ProfileExpertScreen extends React.Component {
               <IceCreamSvg theme={theme} size={70} />
               <H2 weight="bold">Excellent 👍</H2>
               <MCView row wrap align="center" justify="center">
-                <H3
-                  align="center"
-                  style={{lineHeight: 30, width: dySize(240), height: 'auto'}}>
+                <H3 align="center" style={{lineHeight: 30}}>
                   You've completed your
                   <H3 weight="bold"> Expert Profile </H3>
                   <MCIcon
@@ -118,9 +116,7 @@ class ProfileExpertScreen extends React.Component {
                 </H3>
               </MCView>
               <MCView mt={20} row wrap align="center" justify="center">
-                <H3
-                  align="center"
-                  style={{lineHeight: 30, width: dySize(240), height: 'auto'}}>
+                <H3 align="center" style={{lineHeight: 30}}>
                   Check out the
                   <H3 weight="bold"> Profile Tab </H3>
                   <ProfileCrownSvg size={25} theme={theme} />
@@ -128,9 +124,7 @@ class ProfileExpertScreen extends React.Component {
                 </H3>
               </MCView>
               <MCView mt={20} row wrap align="center" justify="center">
-                <H3
-                  align="center"
-                  style={{lineHeight: 30, width: dySize(240), height: 'auto'}}>
+                <H3 align="center" style={{lineHeight: 30}}>
                   Next check out
                   <H3 weight="bold"> Personal Development </H3>
                   <CrownSvg size={30} theme={theme} style={{marginTop: -5}} />
