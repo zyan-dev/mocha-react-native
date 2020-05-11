@@ -53,7 +53,7 @@ class BookDetailScreen extends React.PureComponent {
               <MCView mt={10}>
                 <MCImage
                   width={120}
-                  height={170}
+                  height={180}
                   image={{uri: resource.data.thumbnail}}
                 />
               </MCView>

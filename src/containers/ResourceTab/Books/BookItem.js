@@ -124,7 +124,7 @@ class BookItem extends React.Component {
         <MCButton onPress={() => this.goDetailpage(resource)}>
           <MCImage
             width={150}
-            height={200}
+            height={220}
             image={{uri: resource.data.thumbnail}}
           />
           <MCView width={150} justify="center" align="center">
