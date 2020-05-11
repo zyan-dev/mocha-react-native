@@ -29,6 +29,11 @@ export const showUserHabits = show => ({
   payload: show,
 });
 
+export const setProfileLayout = layout => ({
+  type: types.SET_PROFILE_LAYOUT,
+  payload: layout,
+});
+
 export const trackEvent = param => ({
   type: types.TRACK_MIXPANEL_EVENT,
   payload: param,

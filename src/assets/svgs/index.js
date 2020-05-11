@@ -42,6 +42,7 @@ import DaySvg from './Day';
 import OwlSvg from './Owl';
 import NightSvg from './Night';
 import DayAndNightSvg from './DayAndNight';
+import GrabberSvg from './Grabber';
 
 export {
   ProfileSvg,
@@ -88,4 +89,5 @@ export {
   OwlSvg,
   NightSvg,
   DayAndNightSvg,
+  GrabberSvg,
 };

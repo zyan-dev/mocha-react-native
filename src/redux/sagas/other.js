@@ -1,6 +1,7 @@
 import {all, call, put, select} from 'redux-saga/effects';
 import RNIap from 'react-native-iap';
 import Mixpanel from 'react-native-mixpanel';
+import * as _ from 'lodash';
 import analytics from '@react-native-firebase/analytics';
 import NetInfo from '@react-native-community/netinfo';
 import * as types from '../actions/types';
@@ -56,7 +57,7 @@ export function* syncData(action) {
   try {
     yield put({type: types.API_CALLING});
     // sync profile
-    const avatar = profileReducer.avatar;
+    const avatar = _.get(profileReducer, ['avatar'], '');
     if (avatar.length > 0 && avatar.indexOf('https://') < 0) {
       // avatar should be uploaded to server
       const fileResponse = yield call(API.fileUploadToS3, {
@@ -95,7 +96,7 @@ export function* syncData(action) {
       }
 
       // processing updated reflections
-      const reflections_should_be_uppdated = [];
+      const reflections_should_be_updated = [];
       const reflections_should_be_added = [];
       const reflections_should_be_removed = [];
       for (let i = 0; i < localReflections.length; i++) {
@@ -121,14 +122,14 @@ export function* syncData(action) {
           }
         }
         if (find && lr.updated > find.updated) {
-          reflections_should_be_uppdated.push(lr);
+          reflections_should_be_updated.push(lr);
         } else if (!find) {
           reflections_should_be_added.push(lr);
         }
       }
-      if (reflections_should_be_uppdated.length > 0) {
+      if (reflections_should_be_updated.length > 0) {
         response = yield call(API.updateReflections, {
-          data: reflections_should_be_uppdated,
+          data: reflections_should_be_updated,
         });
         if (response.data.status !== 'success') {
           yield put({
@@ -228,7 +229,10 @@ export function* syncData(action) {
         yield put({type: types.GET_MY_REFLECTIONS});
       }
     } else {
-      showAlert(response.data.data.message);
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
     }
   } catch (e) {
     yield put({

@@ -49,6 +49,7 @@
     "react-native-collapsible": "^1.5.1",
     "react-native-country-picker-modal": "^1.10.0",
     "react-native-device-info": "^5.5.5",
+    "react-native-draggable-flatlist": "^2.3.2",
     "react-native-drawer": "^2.5.1",
     "react-native-fast-image": "^7.0.2",
     "react-native-gesture-handler": "^1.6.0",
