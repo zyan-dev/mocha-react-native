@@ -171,27 +171,31 @@ class BookItem extends React.Component {
             height: 220,
             zIndex: 9999,
           }}>
-          <ScrollView>
-            <MCView align="center" style={{flex: 1}}>
-              <H4 underline>{t('resource_type_book_impact')}</H4>
-              <MCBookTagsView
-                tags={resource.data.impacts}
-                impact={true}
-                collaborators={collaborators}
-                t={t}
-              />
-            </MCView>
-          </ScrollView>
-          <ScrollView>
-            <MCView align="center" style={{flex: 1}}>
-              <H4 underline>{t('resource_type_book_skills')}</H4>
-              <MCBookTagsView
-                tags={resource.data.skills}
-                collaborators={collaborators}
-                t={t}
-              />
-            </MCView>
-          </ScrollView>
+          <MCView height={150} align="center" width={150}>
+            <ScrollView>
+              <MCView align="center" style={{flex: 1}}>
+                <H4 underline>{t('resource_type_book_impact')}</H4>
+                <MCBookTagsView
+                  tags={resource.data.impacts}
+                  impact={true}
+                  collaborators={collaborators}
+                  t={t}
+                />
+              </MCView>
+            </ScrollView>
+          </MCView>
+          <MCView height={150} align="center" width={150}>
+            <ScrollView>
+              <MCView align="center" width={150}>
+                <H4 underline>{t('resource_type_book_skills')}</H4>
+                <MCBookTagsView
+                  tags={resource.data.skills}
+                  collaborators={collaborators}
+                  t={t}
+                />
+              </MCView>
+            </ScrollView>
+          </MCView>
         </Swiper>
       </MCView>
     );
