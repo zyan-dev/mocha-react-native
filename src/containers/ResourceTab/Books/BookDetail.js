@@ -55,6 +55,7 @@ class BookDetailScreen extends React.PureComponent {
                   width={120}
                   height={180}
                   image={{uri: resource.data.thumbnail}}
+                  resizeMode="contain"
                 />
               </MCView>
               <MCView width={210}>
