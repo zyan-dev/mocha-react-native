@@ -79,7 +79,8 @@ class AddResourceScreen extends React.PureComponent {
       if (newSkills.indexOf(tag) > -1) {
         state.tagsArray.splice(index, 1);
       } else {
-        newSkills.push(tag);
+        const manualPrefixTag = `resource_manual_${tag}`;
+        newSkills.push(manualPrefixTag);
       }
     });
     const newTags = [...state.tagsArray];
@@ -121,7 +122,7 @@ class AddResourceScreen extends React.PureComponent {
       updateResources,
       searchResource,
     } = this.props;
-    const {selectedImpacts, selectedSkills} = this.state;
+    const {selectedImpacts, selectedSkills, tags} = this.state;
 
     this.setState({submitted: true});
     let resource = searchResource;
@@ -138,6 +139,7 @@ class AddResourceScreen extends React.PureComponent {
 
     resource.data.skills = [...selectedSkills];
     resource.data.impacts = [...selectedImpacts];
+    resource.data.tags = [...tags];
     delete resource.data.type;
     if (resource._id) {
       const data = {
@@ -168,8 +170,10 @@ class AddResourceScreen extends React.PureComponent {
 
   searchBook = _.debounce(() => {
     const {searchText} = this.state;
-    const {searchResources} = this.props;
-    searchResources(searchText);
+    if (searchText.length > 2) {
+      const {searchResources} = this.props;
+      searchResources(searchText);
+    }
   }, 2000);
 
   render() {
@@ -189,7 +193,7 @@ class AddResourceScreen extends React.PureComponent {
     } = this.props;
 
     let resource = searchResource;
-    console.log(8888, searchResource);
+
     if (this.props.route.params && this.props.route.params.resource) {
       resource = this.props.route.params.resource;
     }
@@ -231,11 +235,12 @@ class AddResourceScreen extends React.PureComponent {
                 <MCView width={210}>
                   <H3 weight="bold">{resource.data.title}</H3>
                   <H5 weight="bold">{t('resource_type_book_author')}</H5>
-                  {resource.data.authors.map((item, index) => (
-                    <H5 key={index} ml={10}>
-                      {item}
-                    </H5>
-                  ))}
+                  {resource.data.authors &&
+                    resource.data.authors.map((item, index) => (
+                      <H5 key={index} ml={10}>
+                        {item}
+                      </H5>
+                    ))}
                   <MCView row>
                     <H5 weight="bold">{t('resource_type_book_released')}</H5>
                     <H5 ml={10}>{resource.data.publishDate}</H5>
@@ -246,11 +251,12 @@ class AddResourceScreen extends React.PureComponent {
                   </MCView>
                   <MCView row>
                     <H5 weight="bold">{t('resource_type_book_genre')}</H5>
-                    {resource.data.genre.map((item, index) => (
-                      <H5 ml={10} key={index}>
-                        {item}
-                      </H5>
-                    ))}
+                    {resource.data.genre &&
+                      resource.data.genre.map((item, index) => (
+                        <H5 ml={10} key={index}>
+                          {item}
+                        </H5>
+                      ))}
                   </MCView>
                 </MCView>
               </MCView>

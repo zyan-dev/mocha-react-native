@@ -38,6 +38,8 @@ export default class MCBookTagsView extends React.PureComponent {
               <TagView key={index} ph={5} mb={25} align="center" type={impact}>
                 {impact
                   ? t(`resource_book_impact_${tag}`)
+                  : tag.indexOf('resource_manual_') > -1
+                  ? t(tag.slice('resource_manual_'.length))
                   : t(`resource_book_skills_${tag}`)}
               </TagView>
               {collaborators && (
