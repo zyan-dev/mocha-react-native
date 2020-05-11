@@ -139,14 +139,20 @@ class AddResourceScreen extends React.PureComponent {
     resource.data.impacts = [...selectedImpacts];
     resource.data.tags = [...selectedTags];
     let skills = [...selectedSkills];
-    selectedTags.forEach(tag => {
-      if (
-        skills.indexOf(tag) == -1 &&
-        skills.indexOf(`resource_manual_${tag}`) == -1
-      ) {
-        skills.push(`resource_manual_${tag}`);
-      }
-    });
+
+    if (selectedTags.length == 0) {
+      skills = skills.filter(skill => skill.indexOf('resource_manual_') < 0);
+    } else {
+      selectedTags.forEach(tag => {
+        if (
+          skills.indexOf(tag) == -1 &&
+          skills.indexOf(`resource_manual_${tag}`) == -1
+        ) {
+          skills.push(`resource_manual_${tag}`);
+        }
+      });
+    }
+
     resource.data.skills = skills;
 
     delete resource.data.type;
