@@ -6507,6 +6507,11 @@ react-native-device-info@^5.5.5:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-5.5.7.tgz#aafe2581a702637a66fc04f333052980a4f9e8c5"
   integrity sha512-0021blhx/N1+mWQPOW3QAMWhOjYdG0uC5n+P6sMXZD3pF9aiIeCKuw4JpBpfNXXpUmDmQ7qWgHZUZO7JBMRijw==
 
+react-native-draggable-flatlist@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-draggable-flatlist/-/react-native-draggable-flatlist-2.3.2.tgz#4d84b2f7298d2426a4e5a95290c3b10861d81bf2"
+  integrity sha512-IoVmTwfUX+dvkgmIrJdPkwfgARJDCY+/KGVhYLGUzPvYpIIlcwhv7Vn6430GyEaO9TPsgnSVsOwVprnN16tn3Q==
+
 react-native-drawer@2.5.1, react-native-drawer@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/react-native-drawer/-/react-native-drawer-2.5.1.tgz#08b9314184f48c724f1b467f8859797369798654"

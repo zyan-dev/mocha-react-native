@@ -12,10 +12,13 @@ import {dySize} from 'utils/responsive';
 
 const HeaderWrapper = styled(Header)`
   width: ${dySize(375)};
-  height: 80px;
+  height: auto;
   background-color: ${props => props.theme.colors.background};
   border-bottom-width: 0px;
   elevation: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const HeaderLeft = styled(Left)`
@@ -31,7 +34,7 @@ const HeaderRight = styled(Right)`
 `;
 
 const HeaderBody = styled(Body)`
-  flex: 4;
+  flex: 3;
   justify-content: center;
   align-items: center;
   flex-direction: row;

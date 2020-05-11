@@ -227,6 +227,14 @@ export const ProfileSideMenuList = [
   },
   {
     index: 2,
+    icon: 'sort',
+    iconType: 'FontAwesome5Pro',
+    title: 'profile_menu_layout',
+    redirectTo: 'ProfileLayout',
+    registerRequired: true,
+  },
+  {
+    index: 3,
     icon: 'ios-calendar',
     iconType: 'Ionicon',
     title: 'profile_menu_timeline',
@@ -234,7 +242,7 @@ export const ProfileSideMenuList = [
     registerRequired: true,
   },
   {
-    index: 3,
+    index: 4,
     icon: 'ios-trending-up',
     iconType: 'Ionicon',
     title: 'profile_menu_analyze',
@@ -242,7 +250,7 @@ export const ProfileSideMenuList = [
     registerRequired: true,
   },
   {
-    index: 4,
+    index: 5,
     icon: 'ios-send',
     iconType: 'Ionicon',
     title: 'profile_menu_cv',
@@ -250,7 +258,7 @@ export const ProfileSideMenuList = [
     registerRequired: true,
   },
   {
-    index: 5,
+    index: 6,
     icon: 'ios-notifications-outline',
     iconType: 'Ionicon',
     title: 'profile_menu_manage_notifications',
@@ -258,7 +266,7 @@ export const ProfileSideMenuList = [
     registerRequired: true,
   },
   {
-    index: 6,
+    index: 7,
     icon: 'logo-usd',
     iconType: 'Ionicon',
     title: 'profile_menu_purchase',
@@ -266,7 +274,7 @@ export const ProfileSideMenuList = [
     registerRequired: true,
   },
   {
-    index: 7,
+    index: 8,
     icon: 'ios-remove-circle-outline',
     iconType: 'Ionicon',
     title: 'profile_menu_delete',

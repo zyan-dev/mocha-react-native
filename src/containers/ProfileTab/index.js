@@ -6,6 +6,7 @@ import ProfileScreen from './profile';
 import ProfileSideMenu from './SideMenu';
 import {routerActions} from 'Redux/actions';
 import {dySize} from 'utils/responsive';
+import ProfileLayoutScreen from './ProfileLayout';
 import TimeLineScreen from './TimeLine';
 import AnalyzeScreen from './Analyze';
 import SendMochaCVScreen from './SendMochaCV';
@@ -78,6 +79,7 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen name="Habits" component={HabitScreen} />
           <Stack.Screen name="EditHabit" component={EditHabitScreen} />
 
+          <Stack.Screen name="ProfileLayout" component={ProfileLayoutScreen} />
           <Stack.Screen name="TimeLine" component={TimeLineScreen} />
           <Stack.Screen name="Analyze" component={AnalyzeScreen} />
           <Stack.Screen name="SendMochaCV" component={SendMochaCVScreen} />
