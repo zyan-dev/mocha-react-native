@@ -124,28 +124,29 @@ class ProfileScreen extends React.Component {
     this.props.visitProfileTab();
   };
 
-  renderProfileIcon = icon => {
+  renderProfileIcon = layout => {
     const {theme, profile, profileTab} = this.props;
-    if (icon.signinRequired && !profile.userToken.length) return null;
-    const selected = profileTab === icon.key;
+    if (layout.signinRequired && !profile.userToken.length) return null;
+    if (layout.disabled) return null;
+    const selected = profileTab === layout.key;
     const size = selected ? 30 : 20;
     const color = selected ? theme.colors.outline : theme.colors.text;
     return (
       <MCButton
-        key={icon.key}
+        key={layout.key}
         width={50}
         align="center"
-        onPress={() => this.onPressProfileIcon(icon)}>
-        {icon.key === 'hydration' ? (
+        onPress={() => this.onPressProfileIcon(layout)}>
+        {layout.key === 'hydration' ? (
           <FaucetWhiteSvg size={size} color={color} />
-        ) : icon.key === 'dream' ? (
+        ) : layout.key === 'dreams' ? (
           <FutureSvg size={size} color={color} />
-        ) : icon.key === 'meaning_life' ? (
+        ) : layout.key === 'meaning_life' ? (
           <SkullCowSvg size={size} color={color} />
         ) : (
           <MCIcon
-            type={icon.iconType}
-            name={icon.icon}
+            type={layout.iconType}
+            name={layout.icon}
             size={size}
             color={color}
           />
@@ -159,6 +160,7 @@ class ProfileScreen extends React.Component {
       t,
       theme,
       profile,
+      profileLayout,
       profileTab,
       chronotype,
       nutrition,
@@ -228,7 +230,7 @@ class ProfileScreen extends React.Component {
                   }
                 />
               )}
-              {profileTab === 'stress' && (
+              {profileTab === 'stress_recovery' && (
                 <StressCard
                   theme={theme}
                   stress={stress}
@@ -241,7 +243,7 @@ class ProfileScreen extends React.Component {
                   }
                 />
               )}
-              {profileTab === 'skill' && (
+              {profileTab === 'strengths' && (
                 <SkillsCard
                   strength={strength}
                   onPressEdit={() =>
@@ -249,7 +251,7 @@ class ProfileScreen extends React.Component {
                   }
                 />
               )}
-              {profileTab === 'value' && (
+              {profileTab === 'values' && (
                 <ValuesCard
                   values={values}
                   onPressDetails={() => this.onPressAllValues()}
@@ -269,13 +271,13 @@ class ProfileScreen extends React.Component {
                   }
                 />
               )}
-              {profileTab === 'dream' && (
+              {profileTab === 'dreams' && (
                 <DreamCard
                   dream={dream}
                   onPressEdit={() => NavigationService.navigate('EditDreams')}
                 />
               )}
-              {profileTab === 'habit' && (
+              {profileTab === 'habits' && (
                 <HabitCard
                   commits={commits}
                   dailyHabits={dailyHabits}
@@ -330,13 +332,13 @@ class ProfileScreen extends React.Component {
                   }
                 />
               )}
-              {profileTab === 'approach' && (
+              {profileTab === 'approach_to_conflict' && (
                 <ApproachCard
                   approach={approach}
                   onPressEdit={() => NavigationService.navigate('EditApproach')}
                 />
               )}
-              {profileTab === 'attachment' && (
+              {profileTab === 'attachment_pattern' && (
                 <AttachmentCard
                   attachment={attachment}
                   onPressEdit={() =>
@@ -360,12 +362,12 @@ class ProfileScreen extends React.Component {
                   theme={theme}
                 />
               )}
-              {profileTab === 'purpose' && (
+              {profileTab === 'purposes' && (
                 <PurposesCard
                   onPressDetails={() => this.onPressAllPurposes()}
                 />
               )}
-              {profileTab === 'motivation' && (
+              {profileTab === 'motivations' && (
                 <MotivationCard
                   motivations={motivations}
                   onPressDetails={() => this.onPressAllMotivations()}
@@ -375,7 +377,7 @@ class ProfileScreen extends React.Component {
               {profileTab === 'languages' && (
                 <LanguagesCard onPressDetails={() => {}} />
               )}
-              {profileTab === 'belief' && (
+              {profileTab === 'beliefs' && (
                 <UserManualsCard
                   manuals={manuals}
                   onPressDetails={() => this.onPressAllUserManuals()}
@@ -390,18 +392,18 @@ class ProfileScreen extends React.Component {
                   }
                 />
               )}
-              {profileTab === 'risk' && (
+              {profileTab === 'risks' && (
                 <RiskToleranceCard onPressEdit={() => {}} />
               )}
-              {profileTab === 'feedback' && (
+              {profileTab === 'feedbacks' && (
                 <FeedbacksCard
                   feedbacks={feedbacks}
                   onPressDetails={() => NavigationService.navigate('Feedbacks')}
                   onPressNew={() => this.onPressNewFeedback()}
                 />
               )}
-              {profileTab === 'quirk' && <QuirksCard onPressEdit={() => {}} />}
-              {profileTab === 'trigger' && (
+              {profileTab === 'quirks' && <QuirksCard onPressEdit={() => {}} />}
+              {profileTab === 'triggers' && (
                 <TriggersCard onPressEdit={() => {}} />
               )}
             </MCContent>
@@ -410,7 +412,7 @@ class ProfileScreen extends React.Component {
             width={50}
             style={{borderLeftWidth: 1, borderColor: theme.colors.border}}>
             <MCContent>
-              {profileIcons.map(icon => this.renderProfileIcon(icon))}
+              {profileLayout.map(layout => this.renderProfileIcon(layout))}
             </MCContent>
           </MCView>
         </MCView>
@@ -445,6 +447,7 @@ class ProfileScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
+  profileLayout: state.otherReducer.profileLayout,
   profileTab: state.otherReducer.profileTab,
   visitedProfile: state.routerReducer.visitedProfile,
   chronotype: selector.reflections.findMySpecialReflections(

@@ -1,5 +1,6 @@
 import * as types from '../actions/types';
 import i18next from 'i18next';
+import {profileIcons} from '../../utils/constants';
 
 const INITIAL_STATE = {
   purchaseProducts: [], // pending, checking, incorrect, passed
@@ -8,6 +9,7 @@ const INITIAL_STATE = {
   isShowingUserHabit: false,
   favoriteTools: [],
   profileTab: 'overview',
+  profileLayout: [...profileIcons],
   toolsTab: 0,
   completedBasicProfile: false,
   completedAdvanceProfile: false,
@@ -33,6 +35,11 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         commits: action.payload,
+      };
+    case types.SET_PROFILE_LAYOUT:
+      return {
+        ...state,
+        profileLayout: action.payload,
       };
     case types.SHOW_USER_HABITS:
       return {
