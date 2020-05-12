@@ -2,8 +2,7 @@ import React from 'react';
 import {Svg, Path, Polygon} from 'react-native-svg';
 import PropTypes from 'prop-types';
 
-const UserCrownSvg = ({size, theme}) => {
-  const color = theme.colors.text;
+const UserCrownSvg = ({size, color}) => {
   return (
     <Svg
       aria-hidden="true"

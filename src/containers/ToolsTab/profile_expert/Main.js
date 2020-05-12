@@ -119,7 +119,7 @@ class ProfileExpertScreen extends React.Component {
                 <H3 align="center" style={{lineHeight: 30}}>
                   Check out the
                   <H3 weight="bold"> Profile Tab </H3>
-                  <UserCrownSvg size={25} theme={theme} />
+                  <UserCrownSvg size={25} color={theme.colors.text} />
                   <H3> to see all your data.</H3>
                 </H3>
               </MCView>

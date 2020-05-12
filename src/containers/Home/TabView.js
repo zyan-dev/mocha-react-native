@@ -134,7 +134,9 @@ class TabView extends React.PureComponent {
             <CommentsLightSvg
               theme={theme}
               size={mainTabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
-              color={theme.colors.text}
+              color={
+                mainTabIndex === 0 ? theme.colors.outline : theme.colors.text
+              }
             />
 
             <H4 weight={mainTabIndex === 0 ? 'bold' : 'regular'}>
@@ -152,7 +154,9 @@ class TabView extends React.PureComponent {
             <BookLightSvg
               size={mainTabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
               theme={theme}
-              color={theme.colors.text}
+              color={
+                mainTabIndex === 1 ? theme.colors.outline : theme.colors.text
+              }
             />
 
             <H4 weight={mainTabIndex === 1 ? 'bold' : 'regular'}>
@@ -169,7 +173,9 @@ class TabView extends React.PureComponent {
             height={TabBarHeight}>
             <RulerLightSvg
               size={mainTabIndex === 2 ? TabIconBigSize : TabIconSmallSize}
-              color={theme.colors.text}
+              color={
+                mainTabIndex === 2 ? theme.colors.outline : theme.colors.text
+              }
             />
             <H4 weight={mainTabIndex === 2 ? 'bold' : 'regular'}>
               {t('footer_tools')}
@@ -186,13 +192,17 @@ class TabView extends React.PureComponent {
             {setCrown ? (
               <UserCrownSvg
                 size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
-                theme={theme}
+                color={
+                  mainTabIndex === 3 ? theme.colors.outline : theme.colors.text
+                }
               />
             ) : (
               <UserLightSvg
                 size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
                 theme={theme}
-                color={theme.colors.text}
+                color={
+                  mainTabIndex === 3 ? theme.colors.outline : theme.colors.text
+                }
               />
             )}
 

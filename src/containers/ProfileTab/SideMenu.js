@@ -184,7 +184,7 @@ class ProfileSideMenu extends React.Component {
             <MCView row align="center" justify="space-around" mb={20}>
               <MCView row>
                 <H3 mr={5}>{t('profile_menu_self_mastery')}</H3>
-                <UserCrownSvg theme={systemTheme} size={30} />
+                <UserCrownSvg color={systemTheme.colors.text} size={30} />
               </MCView>
               <ToggleSwitch
                 isOn={setCrown}
