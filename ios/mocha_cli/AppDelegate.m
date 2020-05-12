@@ -41,6 +41,13 @@
   [AppCenterReactNative register];
   [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
   [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
+  
+  for (NSString *familyName in [UIFont familyNames]){
+      NSLog(@"Family name: %@", familyName);
+      for (NSString *fontName in [UIFont fontNamesForFamilyName:familyName]) {
+          NSLog(@"--Font name: %@", fontName);
+      }
+  }
   return YES;
 }
 

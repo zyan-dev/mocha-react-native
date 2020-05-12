@@ -56,10 +56,10 @@ const getWeekNumber = d => {
 };
 
 export const FontFamilies = {
-  bold: 'Raleway-Bold',
-  regular: 'Raleway-Regular',
-  thin: 'Raleway-Thin',
-  italic: 'Raleway-Italic',
+  bold: 'ProximaNovaA-Bold',
+  regular: 'ProximaNova-Regular',
+  thin: 'ProximaNovaT-Thin',
+  italic: 'ProximaNova-RegularIt',
 };
 
 export const mainTabKeys = ['social', 'resources', 'tools', 'profile'];
