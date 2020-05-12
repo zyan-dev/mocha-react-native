@@ -1,13 +1,4 @@
-import i18next from 'i18next';
 import {
-  AddUserManualIcon,
-  AddEmotionIcon,
-  AddFeedbackIcon,
-  AddGoalIcon,
-  AddNeedIcon,
-  AddTapToCountIcon,
-  AddValueIcon,
-  AnimalSparrow,
   AnimalPeafowl,
   AnimalRockhopper,
   AnimalAlbatross,
@@ -1218,6 +1209,35 @@ export const EMOTIONS = [
 
 export const EmotionHow = ['midly', 'moderately', 'intensely', 'hysterically'];
 
+export const ReflectionKeys = [
+  'Chronotype',
+  'Nutrition',
+  'Hydration',
+  'StressRecovery',
+  'Strengths',
+  'CoreValues',
+  'Dreams',
+  'Habit',
+  'CoachingFeedback',
+  'CriticismFeedback',
+  'PraiseFeedback',
+  'Qualities',
+  'Challenges',
+  'Approach',
+  'Attachment',
+  'Comfort',
+  'MeaningLife',
+  'Personality',
+  'Value',
+  'Purpose',
+  'Motivation',
+  'Languages',
+  'Manual',
+  'Risks',
+  'Quirks',
+  'Triggers',
+];
+
 export const DefaultReflections = {
   motivation: {
     type: 'Motivation',
@@ -1310,43 +1330,6 @@ export const DefaultReflections = {
       childhood_hobbies: [],
       first_job: '',
       biggest_challenge: '',
-    },
-  },
-  feedback_preference: {
-    type: 'FeedbackPreference',
-    data: {
-      positive: [],
-      negative: [],
-    },
-  },
-  behavior_preference: {
-    type: 'BehaviorPreference',
-    data: {
-      ownership: 50,
-      flexible: 50,
-      punctual: 50,
-      optimistic: 50,
-      criticism: 50,
-      creative: 50,
-      sense_of_humor: 50,
-      listener: 50,
-      storyteller: 50,
-      emotional_intelligence: 50,
-      integrity: 50,
-      conscientiousness: 50,
-      negative_pleasing: 50,
-      negative_optimistic: 50,
-      negative_defensive: 50,
-      negative_high_emotionality: 50,
-      negative_cynical: 50,
-      negative_procrasinators: 50,
-      negative_immature: 50,
-      negative_teachers: 50,
-      negative_naysayers: 50,
-      negative_paranoid: 50,
-      negative_charmless: 50,
-      negative_frank: 50,
-      bookmarked: [],
     },
   },
   risk_tolerance: {

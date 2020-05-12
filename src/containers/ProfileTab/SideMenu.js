@@ -30,11 +30,11 @@ class ProfileSideMenu extends React.Component {
     const {t} = this.props;
     this.setState({index: menu.index});
     this.props.showDrawer(false);
-    if (menu.index === 1) {
+    if (menu.title === 'profile_menu_signout') {
       this.props.resetAllReducer();
       NavigationService.reset('welcomeStack');
       AsyncStorage.removeItem('userToken');
-    } else if (menu.index === 7) {
+    } else if (menu.title === 'profile_menu_delete') {
       Alert.alert(
         t('alert_title_mocha'),
         t('alert_remove_account'),
@@ -145,7 +145,11 @@ class ProfileSideMenu extends React.Component {
                 <MCView>
                   <H3
                     ml={6}
-                    color={menu.index === 7 ? systemTheme.colors.danger : ''}>
+                    color={
+                      menu.title === 'profile_menu_delete'
+                        ? systemTheme.colors.danger
+                        : ''
+                    }>
                     {t(menu.title)}
                   </H3>
                   {menu.index === 0 && (

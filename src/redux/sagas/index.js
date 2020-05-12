@@ -99,6 +99,7 @@ function* mySaga() {
   // other
   yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);
   yield takeLatest(types.SYNC_DATA, otherSaga.syncData);
+  yield takeLatest(types.SYNC_DATA_FOR_NEW_USER, otherSaga.syncDataForNewUser);
   yield takeEvery(types.API_CALLING, otherSaga.checkNetwork);
   yield takeEvery(types.GET_USER_COMMITS, otherSaga.getUserCommits);
   yield takeEvery(types.UPDATE_COMMITS, otherSaga.updateCommits);
