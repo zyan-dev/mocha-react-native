@@ -117,7 +117,7 @@ class EditUserManualScreen extends React.PureComponent {
     return (
       <MCRootView>
         <MCHeader
-          title={t('profile_Manual_title')}
+          title={t('tools_tab_edit_user_manual')}
           hasRight
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
@@ -140,7 +140,7 @@ class EditUserManualScreen extends React.PureComponent {
             {addingCustomTitle && (
               <MCTextInput
                 style={{flex: 1}}
-                placeholder={t('motivation_description')}
+                placeholder={t('label_description')}
                 value={customTitle}
                 onChangeText={value => this.setState({customTitle: value})}
               />
@@ -164,7 +164,7 @@ class EditUserManualScreen extends React.PureComponent {
             <MCView ph={10} pv={10}>
               <MCTextFormInput
                 style={{width: dySize(333)}}
-                placeholder={t('motivation_description')}
+                placeholder={t('label_description')}
                 multiline
                 textAlignVertical="top"
                 maxHeight={300}
@@ -196,7 +196,7 @@ class EditUserManualScreen extends React.PureComponent {
               <MCView width={333}>
                 <MCTagInput updateState={this.updateTagState} tags={tags} />
               </MCView>
-              <H3 mt={20}>{t('section_label_vulnerability')}</H3>
+              <H3 mt={20}>{t('label_vulnerability')}</H3>
               <MCVulnerabilityPicker
                 defaultIndex={vulnerability}
                 onSelect={index =>

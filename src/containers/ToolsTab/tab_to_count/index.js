@@ -83,12 +83,12 @@ class TapToCountScreen extends React.Component {
       t('alert_reset_tap_to_count'),
       [
         {
-          text: t('modal_cancel'),
+          text: t('button_cancel'),
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {
-          text: t('modal_ok'),
+          text: t('button_ok'),
           onPress: () => {
             this.props.updateTapToCounts([]);
             this.setState({tapToCounts: []});

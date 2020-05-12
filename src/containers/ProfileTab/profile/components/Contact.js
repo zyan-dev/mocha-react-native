@@ -45,7 +45,7 @@ class ContactCard extends React.Component {
       <MCView>
         <MCView row align="center">
           <H3 weight="bold" style={{flex: 1}}>
-            {t('profile_card_contact')}
+            {t('profile_subtitle_contact')}
           </H3>
           {editable && (
             <MCButton onPress={() => this.toggleEdit()}>

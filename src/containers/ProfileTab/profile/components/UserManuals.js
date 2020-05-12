@@ -60,7 +60,7 @@ class UserManualsCard extends React.Component {
       <MCView align="center">
         <MCView row align="center" mb={20}>
           <H3 weight="bold" style={{flex: 1}}>
-            {t('profile_card_belief')}
+            {t('profile_subtitle_beliefs')}
           </H3>
           {editable && (
             <MCButton onPress={() => onPressDetails()}>
@@ -98,7 +98,7 @@ class UserManualsCard extends React.Component {
                 {selectedManual.text}
               </H4>
               <MCView row mt={10}>
-                <H4>{`${t('section_label_tags')}: `}</H4>
+                <H4>{`${t('label_tags')}: `}</H4>
                 <MCTagsView tags={selectedManual.tags} />
               </MCView>
               <H4 style={{width: '100%'}}>

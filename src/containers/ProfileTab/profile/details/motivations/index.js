@@ -65,7 +65,7 @@ class MotivationListScreen extends React.PureComponent {
     return (
       <MCRootView>
         <MCHeader
-          title={t('motivation_headerTitle')}
+          title={t('title_motivations')}
           hasRight
           rightIcon="plus"
           onPressRight={() => this.onPressNew()}

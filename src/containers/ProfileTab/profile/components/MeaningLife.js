@@ -41,7 +41,7 @@ class MeaningLifeCard extends React.Component {
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>
-              {t('tools_tab_meaning_of_life')}
+              {t('profile_subtitle_meaning_life')}
             </H3>
             <SkullCowSvg size={25} color={theme.colors.text} />
           </MCView>

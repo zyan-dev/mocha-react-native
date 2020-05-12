@@ -376,7 +376,7 @@ class AddReflectionScreen extends React.Component {
               width={80}
               align="center"
               onPress={() => this.onCloseWelcomeModal()}>
-              <H3>{t('modal_ok')}</H3>
+              <H3>{t('button_ok')}</H3>
             </MCButton>
           </MCView>
         </MCModal>

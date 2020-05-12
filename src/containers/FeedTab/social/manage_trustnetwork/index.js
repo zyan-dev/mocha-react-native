@@ -107,7 +107,7 @@ class MyTrustNetworkScreen extends React.Component {
               style={{flex: 1}}
               onPress={() => this.onPressNewNetwork()}>
               <MCIcon name="ios-add" size={40} />
-              <H3 ml={10}>{t('create_network')}</H3>
+              <H3 ml={10}>{t('button_create_network')}</H3>
             </MCButton>
           </MCCard>
         </MCContent>

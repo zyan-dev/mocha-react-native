@@ -49,14 +49,14 @@ class CreateMotivationScreen extends React.PureComponent {
     return (
       <MCRootView>
         <MCHeader
-          title={t('motivation_headerTitle')}
+          title={t('motivation_edit_headerTitle')}
           hasRight
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
           <MCTextFormInput
-            label={t('motivation_title')}
+            label={t('label_title')}
             value={title}
             onChange={text => updateSelectedReflection({title: text})}
             submitted={submitted}
@@ -64,7 +64,7 @@ class CreateMotivationScreen extends React.PureComponent {
             isInvalid={isErrorTitle}
           />
           <MCTextFormInput
-            label={t('motivation_description')}
+            label={t('label_description')}
             multiline
             value={description}
             textAlignVertical="top"

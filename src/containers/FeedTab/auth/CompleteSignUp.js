@@ -84,7 +84,7 @@ class CompleteSignUp extends React.Component {
             width={150}
             disabled={avatar.length * name.length * user_id.length === 0}
             onPress={() => this.onFinishedProfile()}>
-            <H3>{t('finished')}</H3>
+            <H3>{t('button_finished')}</H3>
           </MCButton>
         </MCContent>
       </MCRootView>

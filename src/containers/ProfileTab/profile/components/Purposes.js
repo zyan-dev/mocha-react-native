@@ -49,7 +49,7 @@ class PurposesCard extends React.Component {
       <MCView align="center">
         <MCView row align="center" mb={20}>
           <H3 weight="bold" style={{flex: 1}}>
-            {t('profile_card_purpose_and_passion')}
+            {t('profile_subtitle_purposes')}
           </H3>
           {editable && (
             <MCButton onPress={() => this.props.onPressDetails()}>

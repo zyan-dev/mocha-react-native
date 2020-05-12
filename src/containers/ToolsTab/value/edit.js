@@ -146,7 +146,7 @@ class EditValueScreen extends React.PureComponent {
             {addingCustomTitle && (
               <MCTextInput
                 style={{flex: 1}}
-                placeholder={t('motivation_description')}
+                placeholder={t('label_description')}
                 value={customTitle}
                 onChangeText={text => this.setState({customTitle: text})}
               />

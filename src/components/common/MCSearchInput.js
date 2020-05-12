@@ -15,7 +15,7 @@ const Wrapper = styled(MCView)`
   width: ${props => dySize(props.width) || dySize(350)};
   border-radius: 4px;
   border: 1px solid ${props => props.theme.colors.text};
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: ${props => props.theme.colors.card};
   margin-top: 10px;
   margin-bottom: 10px;
 `;
