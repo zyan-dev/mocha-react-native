@@ -105,7 +105,6 @@ class MCHeader extends React.PureComponent {
         <HeaderLeft style={{width: 60}}>
           {hasBack && (
             <MCButton width={70} onPress={() => onPressBack()}>
-              {/* <H4>{t('header_back')}</H4> */}
               <MCIcon type={leftIconType} name={leftIcon} size={leftIconSize} />
             </MCButton>
           )}

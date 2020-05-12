@@ -113,7 +113,9 @@ class BestSelfSubmitScreen extends React.Component {
           <MCView row wrap>
             {BestSelfSkills.map((skill, index) => {
               const selected = skills.indexOf(skill) > -1;
-              const background = selected ? theme.colors.outline : '#3d5164';
+              const background = selected
+                ? theme.colors.outline
+                : theme.colors.card;
               const textColor = selected
                 ? theme.colors.background
                 : theme.colors.text;
@@ -123,6 +125,7 @@ class BestSelfSubmitScreen extends React.Component {
                   onPress={() => this.updateSelectedSkills(skill)}
                   align="center"
                   background={background}
+                  bordered
                   pt={1}
                   pb={1}
                   mr={15}

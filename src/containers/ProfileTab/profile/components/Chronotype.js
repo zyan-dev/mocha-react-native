@@ -43,7 +43,7 @@ class ChronotypeCard extends React.Component {
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>
-              {t('profile_card_chronotype')}
+              {t('profile_subtitle_chronotype')}
             </H3>
             <SheepSvg theme={theme} size={30} />
           </MCView>

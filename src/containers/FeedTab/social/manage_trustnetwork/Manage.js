@@ -57,11 +57,11 @@ class ManageTrustNetworkScreen extends React.Component {
       t('alert_remove_network'),
       [
         {
-          text: t('modal_cancel'),
+          text: t('button_cancel'),
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: t('modal_ok'), onPress: () => deleteNetwork()},
+        {text: t('button_ok'), onPress: () => deleteNetwork()},
       ],
       {cancelable: false},
     );
@@ -110,7 +110,13 @@ class ManageTrustNetworkScreen extends React.Component {
     const {deselectUser} = this.props;
     return (
       <MCView align="center" width={100} mt={10}>
-        <MCImage round image={{uri: user.avatar}} width={80} height={80} />
+        <MCImage
+          round
+          image={{uri: user.avatar}}
+          width={80}
+          height={80}
+          type="avatar"
+        />
         <MCButton onPress={() => deselectUser(user)}>
           <MCIcon name="ios-remove-circle-outline" />
         </MCButton>
@@ -145,7 +151,9 @@ class ManageTrustNetworkScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader
           title={
-            isNew ? t('create_network') : t('feed_network_edit_headerTitle')
+            isNew
+              ? t('button_create_network')
+              : t('feed_network_edit_headerTitle')
           }
           hasRight
           rightIcon="cloud-upload-alt"

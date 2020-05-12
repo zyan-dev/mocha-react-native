@@ -15,7 +15,7 @@ class TimeLineScreen extends React.Component {
     const {t} = this.props;
     return (
       <MCRootView justify="flex-start">
-        <MCHeader title={t('timeline_headerTitle')} />
+        <MCHeader title={t('title_timeline')} />
         <H3>TimeLine Screen</H3>
       </MCRootView>
     );
@@ -27,5 +27,8 @@ const mapStateToProps = state => ({});
 const mapDispatchToProps = {};
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(TimeLineScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(TimeLineScreen),
 );

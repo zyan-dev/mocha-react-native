@@ -39,13 +39,13 @@ class ContactCard extends React.Component {
   };
 
   render() {
-    const {t, editable, profile} = this.props;
+    const {t, theme, editable, profile} = this.props;
     const {editing} = this.state;
     return (
       <MCView>
         <MCView row align="center">
           <H3 weight="bold" style={{flex: 1}}>
-            {t('profile_card_contact')}
+            {t('profile_subtitle_contact')}
           </H3>
           {editable && (
             <MCButton onPress={() => this.toggleEdit()}>
@@ -62,14 +62,16 @@ class ContactCard extends React.Component {
           }
           return (
             <MCView key={key} mt={20}>
-              <H4 underline>{`${t(`profile_card_${key}`)}: `}</H4>
+              <H4 color={theme.colors.border}>{`${t(
+                `profile_card_${key}`,
+              )}: `}</H4>
               <MCView width={300}>
                 <MCEditableText
                   text={profile[key]}
                   placeholder={t(`profile_card_${key}_placeholder`)}
                   editable={key === 'phone' ? false : editing}
                   onChange={value => this.onUpdateProfile(key, value)}
-                  style={{flex: 1, fontStyle: 'italic'}}
+                  style={{flex: 1, fontStyle: 'italic', fontWeight: 'bold'}}
                   keyboardType={key === 'email' ? 'email-address' : 'default'}
                 />
               </MCView>
@@ -81,6 +83,10 @@ class ContactCard extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
+});
+
 const mapDispatchToProps = {
   updateProfile: profileActions.setProfileData,
   updateContactProfile: profileActions.updateContactProfile,
@@ -88,7 +94,7 @@ const mapDispatchToProps = {
 
 export default withTranslation()(
   connect(
-    undefined,
+    mapStateToProps,
     mapDispatchToProps,
   )(ContactCard),
 );

@@ -71,7 +71,7 @@ class CoreValuesCard extends React.Component {
         <MCView row align="center">
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>
-              {t('tools_tab_core_values')}
+              {t('profile_subtitle_core_values')}
             </H3>
             <KeySvg theme={theme} size={25} />
           </MCView>
@@ -108,7 +108,7 @@ class CoreValuesCard extends React.Component {
                   backgroundColor: ValueCardBackgrounds[index % 3],
                   borderRadius: 6,
                   borderWidth: dySize(5),
-                  borderColor: 'white',
+                  borderColor: theme.colors.card,
                   padding: dySize(5),
                 }}>
                 <H4 weight="bold" align="center" color={ValueCardTextColor}>
@@ -150,7 +150,7 @@ class CoreValuesCard extends React.Component {
                   backgroundColor: ValueCardBackgrounds[index % 3],
                   borderRadius: 6,
                   borderWidth: dySize(5),
-                  borderColor: 'white',
+                  borderColor: theme.colors.card,
                   padding: dySize(5),
                 }}>
                 <ScrollView
@@ -171,9 +171,11 @@ class CoreValuesCard extends React.Component {
                       name="undo-alt"
                     />
                   </MCButton>
-                  <MCButton onPress={() => onPressEditValueStory(value)}>
-                    <MCIcon color="black" type="FontAwesome5" name="edit" />
-                  </MCButton>
+                  {editable && (
+                    <MCButton onPress={() => onPressEditValueStory(value)}>
+                      <MCIcon color="black" type="FontAwesome5" name="edit" />
+                    </MCButton>
+                  )}
                 </MCView>
               </MCView>
             </CardFlip>

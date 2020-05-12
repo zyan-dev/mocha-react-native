@@ -99,7 +99,7 @@ class StressAndComfortCard extends React.Component {
     return (
       <MCView>
         <MCView row align="center" mb={20}>
-          <H3 weight="bold">{t('profile_card_stress_recovery')}</H3>
+          <H3 weight="bold">{t('profile_subtitle_stress_recovery')}</H3>
           <FragileSvg size={30} />
         </MCView>
         <MCView row align="center" mb={10}>

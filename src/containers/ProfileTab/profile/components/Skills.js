@@ -61,7 +61,7 @@ class SkillsCard extends React.Component {
       <MCView align="center">
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
-            <H3 weight="bold">{t('profile_card_skill')}</H3>
+            <H3 weight="bold">{t('profile_subtitle_strengths')}</H3>
             <MCIcon type="FontAwesome5Pro" name="hammer" />
           </MCView>
           {editable && (

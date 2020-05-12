@@ -29,17 +29,15 @@ class LanguagesCard extends React.Component {
     };
   }
 
-  onPressItem = (language) => {
+  onPressItem = language => {
     this.setState({selectedLanguage: language, showModal: true});
   };
 
-  _renderItem = (item) => {
+  _renderItem = item => {
     const language = item.data;
     return (
       <MCCard width={140} key={item._id} mr={15} align="center">
-        <MCButton
-          align="center"
-          onPress={() => this.onPressItem(item)}></MCButton>
+        <MCButton align="center" onPress={() => this.onPressItem(item)} />
       </MCCard>
     );
   };
@@ -51,7 +49,7 @@ class LanguagesCard extends React.Component {
       <MCView align="center">
         <MCView row align="center" mb={20}>
           <H3 weight="bold" style={{flex: 1}}>
-            {t('profile_card_language')}
+            {t('profile_subtitle_languages')}
           </H3>
           {editable && (
             <MCButton onPress={() => this.props.onPressDetails()}>
@@ -62,7 +60,7 @@ class LanguagesCard extends React.Component {
         <FlatList
           data={languages.slice(0, 4)}
           renderItem={this._renderItem}
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           numColumns={2}
           style={{width: dySize(300)}}
           ListEmptyComponent={<MCEmptyText>{t('coming soon')}</MCEmptyText>}
@@ -71,7 +69,7 @@ class LanguagesCard extends React.Component {
           <MCModal
             isVisible={showModal}
             onClose={() => this.setState({showModal: false})}>
-            <MCView align="center" width={300} mt={20}></MCView>
+            <MCView align="center" width={300} mt={20} />
           </MCModal>
         )}
       </MCView>

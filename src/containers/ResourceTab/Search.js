@@ -58,7 +58,7 @@ class ResourceSearchScreen extends React.PureComponent {
           <MCButton
             bordered
             onPress={() => NavigationService.navigate('TabFeed')}>
-            <H4>{t('sign_up_button')}</H4>
+            <H4>{t('button_go_to_signup')}</H4>
           </MCButton>
         </MCRootView>
       );

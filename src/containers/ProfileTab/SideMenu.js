@@ -40,11 +40,11 @@ class ProfileSideMenu extends React.Component {
         t('alert_remove_account'),
         [
           {
-            text: t('modal_cancel'),
+            text: t('button_cancel'),
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          {text: t('modal_ok'), onPress: () => this.props.deleteAccount()},
+          {text: t('button_ok'), onPress: () => this.props.deleteAccount()},
         ],
         {cancelable: false},
       );

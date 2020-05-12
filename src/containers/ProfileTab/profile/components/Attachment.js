@@ -29,7 +29,7 @@ class AttachmentCard extends React.Component {
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>
-              {t('profile_card_attachment')}
+              {t('profile_subtitle_attachment_pattern')}
             </H3>
             <MCIcon
               type="FontAwesome5Pro"

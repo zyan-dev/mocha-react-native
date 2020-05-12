@@ -60,7 +60,7 @@ class HydrationCard extends React.Component {
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>
-              {t('profile_card_hydration')}
+              {t('profile_subtitle_hydration')}
             </H3>
             <FaucetSvg size={25} />
           </MCView>
