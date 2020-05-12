@@ -2278,7 +2278,7 @@ export const StrengthOptions = [
 export const skills = [
   'empathy',
   'service',
-  'curiousity',
+  'curiosity',
   'leadership',
   'character_development',
   'transcendence',
@@ -2312,7 +2312,7 @@ export const skills = [
 
 export const impacts = [
   'impactful',
-  'theraputic',
+  'therapeutic',
   'self_discovery',
   'cathartic',
   'life_changing',

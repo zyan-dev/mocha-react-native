@@ -10,7 +10,7 @@ const TagView = styled(H4)`
   border: 1px solid ${props => props.theme.colors.border};
   border-radius: ${dySize(8)}px;
   height: ${dySize(30)}px;
-  width: ${dySize(100)}px;
+  width: ${dySize(120)}px;
   color: ${props => props.theme.colors.text};
   background-color: ${props => (props.type ? '#6f4c4b' : '#3d5164')};
   overflow: hidden;
@@ -35,7 +35,13 @@ export default class MCBookTagsView extends React.PureComponent {
               style={{
                 postion: 'relative',
               }}>
-              <TagView key={index} ph={5} mb={25} align="center" type={impact}>
+              <TagView
+                key={index}
+                ph={5}
+                mb={25}
+                align="center"
+                type={impact}
+                numberOfLines={1}>
                 {impact
                   ? t(`resource_book_impact_${tag}`)
                   : tag.indexOf('resource_manual_') > -1
@@ -49,7 +55,7 @@ export default class MCBookTagsView extends React.PureComponent {
                   absolute
                   style={{
                     top: 28,
-                    left: 30,
+                    left: 50,
                   }}>
                   <H6 ml={30}>+12</H6>
                   <MCView
