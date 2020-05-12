@@ -121,28 +121,24 @@ class BookDetailScreen extends React.PureComponent {
               </MCView>
             </MCView>
 
-            <MCView mb={30} style={{maxHeight: 300, height: 'auto'}}>
-              <ScrollView>
-                <MCView width={350} row justify="center">
-                  <MCView align="center" style={{flex: 1}}>
-                    <H4 underline>{t('resource_type_book_impact')}</H4>
-                    <MCBookTagsView
-                      tags={resource.data.impacts}
-                      impact={true}
-                      collaborators={collaborators}
-                      t={t}
-                    />
-                  </MCView>
-                  <MCView align="center" style={{flex: 1}}>
-                    <H4 underline>{t('resource_type_book_skills')}</H4>
-                    <MCBookTagsView
-                      tags={resource.data.skills}
-                      collaborators={collaborators}
-                      t={t}
-                    />
-                  </MCView>
-                </MCView>
-              </ScrollView>
+            <MCView width={350} mb={30} row justify="center">
+              <MCView align="center" style={{flex: 1}}>
+                <H4 underline>{t('resource_type_book_impact')}</H4>
+                <MCBookTagsView
+                  tags={resource.data.impacts}
+                  impact={true}
+                  collaborators={collaborators}
+                  t={t}
+                />
+              </MCView>
+              <MCView align="center" style={{flex: 1}}>
+                <H4 underline>{t('resource_type_book_skill')}</H4>
+                <MCBookTagsView
+                  tags={resource.data.skills}
+                  collaborators={collaborators}
+                  t={t}
+                />
+              </MCView>
             </MCView>
             <MCView height={1} bordered width={350} />
             <MCView pv={10} width={350}>

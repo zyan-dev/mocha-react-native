@@ -36,9 +36,9 @@ class AddResourceScreen extends React.PureComponent {
 
   ResourceTypeQuestion = {
     title: i18next.t('resources_type_impact', {
-      bold: i18next.t('resource_type_book_impact'),
+      bold: i18next.t('resource_type_book_impactful'),
     }),
-    boldWordKeys: ['impact'],
+    boldWordKeys: ['impactful'],
   };
 
   PersonalDevelopmentQuestion = {
