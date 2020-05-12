@@ -108,7 +108,7 @@ class SelectQuestionScreen extends React.Component {
               pl={20}
               pr={20}
               onPress={() => this.onAddNewQuestion()}>
-              <H3>{t('button_add_new')}</H3>
+              <H3>{t('button_add')}</H3>
             </MCButton>
           </MCView>
         </MCModal>

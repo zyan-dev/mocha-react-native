@@ -67,14 +67,13 @@ class AddFeedbackScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          title={t('add_reflection_feedback_header')}
+          title={t('add_feedback_heading')}
           hasRight
           rightIcon="paper-plane"
           onPressRight={() => this.onPressSend()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
-          <H2 align="center">{t('add_feedback_heading')}</H2>
-          <H3 mt={20}>{t('add_feedback_who')}</H3>
+          <H3>{t('add_feedback_who')}</H3>
           <MCView row wrap mt={10}>
             {selectedUsers.map(user => (
               <MCView key={user._id} mr={10} align="center">

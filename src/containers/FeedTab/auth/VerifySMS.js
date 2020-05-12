@@ -54,7 +54,7 @@ class VerifySMS extends React.Component {
 
     return (
       <MCRootView justify="flex-start">
-        <MCHeader title={t('auth_sms_displayText')} />
+        <MCHeader title={t('title_sms_verification')} />
         <OTPInputView
           style={{width: '80%', height: 100, marginTop: dySize(100)}}
           pinCount={6}
@@ -84,7 +84,7 @@ class VerifySMS extends React.Component {
               align="center"
               width={150}
               onPress={() => this.resendSMS()}>
-              <H3>{t('auth_signup_recend_code')}</H3>
+              <H3>{t('button_resend_sms')}</H3>
             </MCButton>
           </>
         )}

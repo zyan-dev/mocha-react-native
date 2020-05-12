@@ -84,7 +84,7 @@ class EditEmotionScreen extends React.PureComponent {
           <MCCard p={1} mt={30}>
             <MCCard shadow br={1} style={{width: '100%'}} align="center">
               <MCView row wrap>
-                <H4>{t('add_emotion_full')}</H4>
+                <H4>{t('add_emotion_title_prefix')}</H4>
                 <H4 weight="bold">
                   {emotion.length ? t(`mocha_emotion_${emotion}`) : ''}
                 </H4>

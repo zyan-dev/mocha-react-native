@@ -89,7 +89,7 @@ class UserProfileScreen extends React.Component {
         onPress={() => this.onPressProfileIcon(icon)}>
         {icon.key === 'hydration' ? (
           <FaucetWhiteSvg size={size} color={color} />
-        ) : icon.key === 'dream' ? (
+        ) : icon.key === 'dreams' ? (
           <FutureSvg size={size} color={color} />
         ) : icon.key === 'meaning_life' ? (
           <SkullCowSvg size={size} color={color} />
@@ -197,10 +197,10 @@ class UserProfileScreen extends React.Component {
                   hydration={hydration}
                 />
               )}
-              {selected === 'stress' && (
+              {selected === 'stress_recovery' && (
                 <StressCard stress={stress} theme={theme} editable={false} />
               )}
-              {selected === 'skill' && (
+              {selected === 'strengths' && (
                 <SkillsCard strength={strength} editable={false} />
               )}
               {selected === 'core_values' && (
@@ -211,10 +211,10 @@ class UserProfileScreen extends React.Component {
                   editable={false}
                 />
               )}
-              {selected === 'dream' && (
+              {selected === 'dreams' && (
                 <DreamCard dream={dream} editable={false} />
               )}
-              {selected === 'habit' && (
+              {selected === 'habits' && (
                 <HabitCard
                   commits={commits}
                   editable={false}
@@ -257,10 +257,10 @@ class UserProfileScreen extends React.Component {
                   editable={false}
                 />
               )}
-              {selected === 'approach' && (
+              {selected === 'approach_to_conflict' && (
                 <ApproachCard approach={approach} editable={false} />
               )}
-              {selected === 'attachment' && (
+              {selected === 'attachment_pattern' && (
                 <AttachmentCard attachment={attachment} editable={false} />
               )}
               {selected === 'comfort' && (
@@ -273,16 +273,16 @@ class UserProfileScreen extends React.Component {
                   editable={false}
                 />
               )}
-              {selected === 'value' && (
+              {selected === 'values' && (
                 <ValuesCard values={values} editable={false} />
               )}
-              {selected === 'purpose' && <PurposesCard editable={false} />}
-              {selected === 'motivation' && (
+              {selected === 'purposes' && <PurposesCard editable={false} />}
+              {selected === 'motivations' && (
                 <MotivationCard motivations={motivations} editable={false} />
               )}
               {selected === 'languages' && <LanguagesCard editable={false} />}
 
-              {selected === 'belief' && (
+              {selected === 'beliefs' && (
                 <UserManualsCard manuals={manuals} editable={false} />
               )}
 
@@ -290,24 +290,12 @@ class UserProfileScreen extends React.Component {
                 <PersonalityCard personality={personality} editable={false} />
               )}
 
-              {selected === 'risk' && <RiskToleranceCard editable={false} />}
-              {selected === 'feedback' && (
+              {selected === 'risks' && <RiskToleranceCard editable={false} />}
+              {selected === 'feedbacks' && (
                 <FeedbacksCard feedbacks={feedbacks} editable={false} />
               )}
-              {selected === 'quirk' && <QuirksCard editable={false} />}
-              {selected === 'trigger' && <TriggersCard editable={false} />}
-              {selected === 'feedback_preference' && (
-                <FeedbackPreferenceCard
-                  feedbackPreference={feedbackPreference}
-                  editable={false}
-                />
-              )}
-              {selected === 'behavior_preference' && (
-                <BehaviorPreferenceCard
-                  behaviorPreference={behaviorPreference}
-                  editable={false}
-                />
-              )}
+              {selected === 'quirks' && <QuirksCard editable={false} />}
+              {selected === 'triggers' && <TriggersCard editable={false} />}
             </MCContent>
           </MCView>
           <MCView

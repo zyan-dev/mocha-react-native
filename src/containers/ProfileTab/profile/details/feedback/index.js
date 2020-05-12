@@ -69,7 +69,7 @@ class FeedbackScreen extends React.Component {
     return (
       <View style={{flex: 1}}>
         <MCHeader
-          title={t('add_feedback_headerTitle')}
+          title={t('title_feedbacks')}
           onPressBack={() => NavigationService.navigate('Profile')}
         />
         <TabView
@@ -100,5 +100,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(FeedbackScreen),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(FeedbackScreen),
 );

@@ -42,7 +42,7 @@ class SendSMSScreen extends React.Component {
           align="center"
           width={150}
           onPress={() => this.sendSMS()}>
-          <H3>{t('auth_signup_buttonText')}</H3>
+          <H3>{t('button_send_sms')}</H3>
         </MCButton>
       </MCRootView>
     );

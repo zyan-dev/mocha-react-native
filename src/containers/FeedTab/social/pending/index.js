@@ -50,7 +50,7 @@ class PendingRequestScreen extends React.Component {
             width={80}
             align="center"
             onPress={() => this.onAddUser(item)}>
-            <H4>{t('add_addButton')}</H4>
+            <H4>{t('button_add')}</H4>
           </MCButton>
           <MCButton
             onPress={() => declineRequest(item._id)}

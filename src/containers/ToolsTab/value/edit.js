@@ -68,7 +68,7 @@ class EditValueScreen extends React.PureComponent {
         updateSelectedReflection({value: `custom_value_title${customTitle}`});
         this.setState({addingCustomTitle: false, customTitle: ''});
       } else {
-        showAlert(t('add_new_constant_duplicateError'));
+        showAlert(t('error_add_new_duplicated'));
       }
     } else {
       this.setState({addingCustomTitle: true});
@@ -124,7 +124,7 @@ class EditValueScreen extends React.PureComponent {
     return (
       <MCRootView>
         <MCHeader
-          title={t('add_value_headerTitle')}
+          title={t('title_edit_value')}
           hasRight
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onPressRight()}
@@ -156,9 +156,7 @@ class EditValueScreen extends React.PureComponent {
               align="center"
               onPress={() => this.onToggleCustomButton()}>
               <MCIcon name="ios-add-circle-outline" />
-              <H3>
-                {addingCustomTitle ? t('add_addButton') : t('value_custom')}
-              </H3>
+              <H3>{addingCustomTitle ? t('button_add') : t('value_custom')}</H3>
             </MCButton>
           </MCView>
           <MCCard p={1}>

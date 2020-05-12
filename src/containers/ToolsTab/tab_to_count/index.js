@@ -34,7 +34,7 @@ class TapToCountScreen extends React.Component {
       i => i.data.text.toLowerCase() === newText.toLowerCase(),
     );
     if (find) {
-      showAlert(t('add_new_constant_duplicateError'));
+      showAlert(t('error_add_new_duplicated'));
       return;
     }
     this.setState({
@@ -233,7 +233,7 @@ class TapToCountScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          title={t('add_reflection_tapToCount_header')}
+          title={t('title_tap_to_count')}
           hasRight
           rightIcon="trash-alt"
           onPressBack={() => this.onSaveAndGoBack()}
