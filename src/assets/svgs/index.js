@@ -1,8 +1,3 @@
-import ProfileSvg from './Profile';
-import ProfileCrownSvg from './ProfileCrown';
-import ToolsSvg from './Tools';
-import ResourceSvg from './Resource';
-import ResourceCrownSvg from './ResourceCrown';
 import AppleSvg from './Apple';
 import SheepSvg from './Sheep';
 import CarrotSvg from './Carrot';
@@ -25,8 +20,6 @@ import TeaSvg from './Tea';
 import ShieldSvg from './Shield';
 import PeopleArrowSvg from './PeopleArrows';
 import ManageTrustNetworkSvg from './ManageTrustNetwork';
-import CommunitySvg from './Community';
-import CommunityCrownSvg from './CommunityCrown';
 import SkullCowSvg from './SkullCow';
 import BellSvg from './Bell';
 import CrownSvg from './Crown';
@@ -43,13 +36,13 @@ import OwlSvg from './Owl';
 import NightSvg from './Night';
 import DayAndNightSvg from './DayAndNight';
 import GrabberSvg from './Grabber';
+import BookLightSvg from './BookLight';
+import CommentsLightSvg from './CommentsLight';
+import RulerLightSvg from './RulerLight';
+import UserLightSvg from './UserLight';
+import UserCrownSvg from './UserCrown';
 
 export {
-  ProfileSvg,
-  ProfileCrownSvg,
-  ToolsSvg,
-  ResourceSvg,
-  ResourceCrownSvg,
   AppleSvg,
   SheepSvg,
   CarrotSvg,
@@ -72,8 +65,6 @@ export {
   ShieldSvg,
   PeopleArrowSvg,
   ManageTrustNetworkSvg,
-  CommunitySvg,
-  CommunityCrownSvg,
   SkullCowSvg,
   BellSvg,
   CrownSvg,
@@ -90,4 +81,9 @@ export {
   NightSvg,
   DayAndNightSvg,
   GrabberSvg,
+  BookLightSvg,
+  CommentsLightSvg,
+  RulerLightSvg,
+  UserLightSvg,
+  UserCrownSvg,
 };
