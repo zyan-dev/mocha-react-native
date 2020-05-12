@@ -39,9 +39,8 @@ export const setNetworkStatus = status => ({
   payload: status,
 });
 
-export const syncData = isNewUser => ({
+export const syncData = () => ({
   type: types.SYNC_DATA,
-  payload: isNewUser,
 });
 
 export const visitToolsTab = () => ({

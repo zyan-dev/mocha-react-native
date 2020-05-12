@@ -8,6 +8,7 @@ import * as types from '../actions/types';
 import API from 'services/api';
 import {showAlert} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
+import {ReflectionKeys} from 'utils/constants';
 
 export function* purchaseSubscription(action) {
   try {
@@ -43,8 +44,85 @@ export function* checkNetwork(action) {
       },
     });
     if (!isInternetReachable && networkState.isInternetReachable) {
-      yield put({type: types.SYNC_DATA, payload: false});
+      yield put({type: types.SYNC_DATA});
     }
+  }
+}
+
+export function* syncDataForNewUser(action) {
+  const {
+    profileReducer,
+    reflectionReducer: {myReflections},
+    notificationReducer,
+  } = yield select();
+  try {
+    yield put({type: types.API_CALLING});
+    // sync profile
+    const avatar = _.get(profileReducer, ['avatar'], '');
+    if (avatar.length > 0 && avatar.indexOf('https://') < 0) {
+      // avatar should be uploaded to server
+      const fileResponse = yield call(API.fileUploadToS3, {
+        image: profileReducer.avatar,
+        name: profileReducer.name,
+        type: 'avatar',
+      });
+      if (fileResponse !== 'error') {
+        profileReducer.avatar = fileResponse;
+      } else {
+        showAlert('Upload Error');
+        return;
+      }
+    }
+    let response = yield call(API.updateProfile, profileReducer);
+    yield put({
+      type: types.SET_PROFILE_DATA,
+      payload: response.data.data.user,
+    });
+
+    // add reflections
+    if (myReflections.length > 0) {
+      let data = {};
+      ReflectionKeys.map(key => {
+        data[key] = myReflections
+          .filter(({type}) => type === key)
+          .map(reflection => reflection.data);
+      });
+      response = yield call(API.addReflections, {data});
+      if (response.data.status !== 'success') {
+        yield put({
+          type: types.API_FINISHED,
+          payload: 'Error occured while adding new reflections',
+        });
+        return;
+      }
+    }
+
+    // sync notification settings
+    if (notificationReducer) {
+      response = yield call(
+        API.createNotificationSettings,
+        notificationReducer,
+      );
+      if (response.data.status !== 'success') {
+        yield put({
+          type: types.API_FINISHED,
+          payload:
+            'Error occured while synchronizing your notification settings',
+        });
+        return;
+      }
+    }
+
+    yield put({
+      type: types.API_FINISHED,
+      payload: 'All data has been synced successfully',
+    });
+    NavigationService.navigate('Auth_Welcome');
+  } catch (e) {
+    yield put({
+      type: types.API_FINISHED,
+      payload: e.toString(),
+    });
   }
 }
 
@@ -83,22 +161,32 @@ export function* syncData(action) {
     if (response.data.status === 'success') {
       const serverReflections = response.data.data.reflections;
       const localReflections = myReflections;
+
       // processing deleted reflections
+      const deleteIds = [];
       if (!action.payload) {
-        yield all(
-          serverReflections.map(sr => {
-            const find = localReflections.find(lr => lr._id === sr._id);
-            if (!find) {
-              put({type: types.REMOVE_REFLECTION, payload: sr});
-            }
-          }),
-        );
+        serverReflections.map(sr => {
+          const find = localReflections.find(lr => lr._id === sr._id);
+          if (!find) deleteIds.push(sr._id);
+        });
+        if (deleteIds.length > 0) {
+          response = yield call(API.removeReflection, {
+            data: deleteIds,
+          });
+          if (response.data.status !== 'success') {
+            yield put({
+              type: types.API_FINISHED,
+              payload: 'Error occured while deleting reflections',
+            });
+            return;
+          }
+        }
       }
 
       // processing updated reflections
       const reflections_should_be_updated = [];
       const reflections_should_be_added = [];
-      const reflections_should_be_removed = [];
+      const reflections_should_be_removed = []; // invalid format
       for (let i = 0; i < localReflections.length; i++) {
         const lr = localReflections[i];
         const find = serverReflections.find(sr => lr._id === sr._id);
@@ -154,31 +242,13 @@ export function* syncData(action) {
       }
 
       if (reflections_should_be_added.length > 0) {
-        response = yield call(API.addReflections, {
-          data: {
-            goal: reflections_should_be_added
-              .filter(({type}) => type === 'Goal')
-              .map(reflection => reflection.data),
-            value: reflections_should_be_added
-              .filter(({type}) => type === 'Value')
-              .map(reflection => reflection.data),
-            manual: reflections_should_be_added
-              .filter(({type}) => type === 'Manual')
-              .map(reflection => reflection.data),
-            feedback: reflections_should_be_added
-              .filter(({type}) => type === 'Feedback')
-              .map(reflection => reflection.data),
-            chronotype: reflections_should_be_added
-              .filter(({type}) => type === 'Chronotype')
-              .map(reflection => reflection.data),
-            motivation: reflections_should_be_added
-              .filter(({type}) => type === 'Motivation')
-              .map(reflection => reflection.data),
-            emotion: reflections_should_be_added
-              .filter(({type}) => type === 'Emotion')
-              .map(reflection => reflection.data),
-          },
+        let data = {};
+        ReflectionKeys.map(key => {
+          data[key] = reflections_should_be_added
+            .filter(({type}) => type === key)
+            .map(reflection => reflection.data);
         });
+        response = yield call(API.addReflections, {data});
         if (response.data.status !== 'success') {
           yield put({
             type: types.API_FINISHED,
@@ -217,16 +287,6 @@ export function* syncData(action) {
           });
           return;
         }
-      }
-
-      yield put({
-        type: types.API_FINISHED,
-        payload: 'All data has been synced successfully',
-      });
-      if (action.payload) {
-        NavigationService.navigate('Auth_Welcome');
-      } else {
-        yield put({type: types.GET_MY_REFLECTIONS});
       }
     } else {
       yield put({

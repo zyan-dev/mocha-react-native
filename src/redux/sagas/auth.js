@@ -66,10 +66,18 @@ export function* verifySignUpSMS(action) {
 export function* completeSignUp(action) {
   try {
     const {
-      profileReducer: {user_id},
+      profileReducer: {user_id, created, updated},
     } = yield select();
     yield put({type: types.API_CALLING});
-    yield put({type: types.SYNC_DATA, payload: true});
+
+    if (created === updated) {
+      // new user
+      yield put({type: types.SYNC_DATA_FOR_NEW_USER, payload: true});
+    } else {
+      // existing user
+      NavigationService.navigate('ToolsTabHome');
+      yield put({type: types.API_FINISHED});
+    }
     // track mixpanel event
     yield put({
       type: types.TRACK_MIXPANEL_EVENT,
