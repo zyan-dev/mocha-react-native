@@ -152,32 +152,31 @@ class BookItem extends React.Component {
           }
           style={{
             height: 220,
-            zIndex: 9999,
           }}>
-          <MCView height={150} align="center" width={150}>
-            <ScrollView>
-              <MCView align="center" width={150}>
-                <H4 underline>{t('resource_type_book_impact')}</H4>
-                <MCBookTagsView
-                  tags={resource.data.impacts}
-                  impact={true}
-                  collaborators={collaborators}
-                  t={t}
-                />
-              </MCView>
-            </ScrollView>
+          <MCView align="center" width={150}>
+            <H4 underline>{t('resource_type_book_impact')}</H4>
+            <MCBookTagsView
+              tags={
+                resource.data.impacts.length > 2
+                  ? resource.data.impacts.slice(0, 2)
+                  : resource.data.impacts
+              }
+              impact={true}
+              collaborators={collaborators}
+              t={t}
+            />
           </MCView>
-          <MCView height={150} align="center" width={150}>
-            <ScrollView>
-              <MCView align="center" width={150}>
-                <H4 underline>{t('resource_type_book_skills')}</H4>
-                <MCBookTagsView
-                  tags={resource.data.skills}
-                  collaborators={collaborators}
-                  t={t}
-                />
-              </MCView>
-            </ScrollView>
+          <MCView align="center" width={150}>
+            <H4 underline>{t('resource_type_book_skills')}</H4>
+            <MCBookTagsView
+              tags={
+                resource.data.skills.length > 2
+                  ? resource.data.skills.slice(0, 2)
+                  : resource.data.skills
+              }
+              collaborators={collaborators}
+              t={t}
+            />
           </MCView>
         </Swiper>
       </MCView>

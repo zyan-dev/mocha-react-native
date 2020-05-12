@@ -49,8 +49,8 @@ class BookDetailScreen extends React.PureComponent {
         />
         <MCContent>
           <MCView ph={10} pv={10} align="center">
-            <MCView width={350} row justify="space-between">
-              <MCView mt={10}>
+            <MCView width={350} row justify="space-between" align="flex-start">
+              <MCView>
                 <MCImage
                   width={120}
                   height={180}
