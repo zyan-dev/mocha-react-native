@@ -59,7 +59,7 @@ class WeeklyHabitScreen extends React.Component {
             leftTextStyle={{
               color: theme.colors.text,
               fontSize: theme.base.FONT_SIZE_LARGE,
-              fontFamily: 'Raleway-Regular',
+              fontFamily: 'ProximaNova-Regular',
             }}
             checkBoxColor={theme.colors.text}
           />

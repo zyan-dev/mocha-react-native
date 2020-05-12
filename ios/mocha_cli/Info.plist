@@ -76,6 +76,10 @@
 		<string>FontAwesome5Pro-Light.ttf</string>
 		<string>FontAwesome5Pro-Regular.ttf</string>
 		<string>FontAwesome5Pro-Solid.ttf</string>
+		<string>ProximaNova-Bold.ttf</string>
+		<string>ProximaNova-Italic.ttf</string>
+		<string>ProximaNova-Regular.ttf</string>
+		<string>ProximaNova-Thin.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

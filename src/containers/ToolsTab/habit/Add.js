@@ -257,7 +257,7 @@ class EditHabitScreen extends React.PureComponent {
               rightTextStyle={{
                 color: theme.colors.text,
                 fontSize: theme.base.FONT_SIZE_LARGE,
-                fontFamily: 'Raleway-Regular',
+                fontFamily: 'ProximaNova-Regular',
                 paddingRight: 10,
               }}
               checkBoxColor={theme.colors.text}
@@ -270,7 +270,7 @@ class EditHabitScreen extends React.PureComponent {
               rightTextStyle={{
                 color: theme.colors.text,
                 fontSize: theme.base.FONT_SIZE_LARGE,
-                fontFamily: 'Raleway-Regular',
+                fontFamily: 'ProximaNova-Regular',
                 paddingRight: 10,
               }}
               checkBoxColor={theme.colors.text}
