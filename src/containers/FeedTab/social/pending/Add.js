@@ -106,7 +106,7 @@ class AddPendingUserScreen extends React.Component {
                     mr={5}
                     bordered
                     onPress={() => this.onAdd(network)}>
-                    <H4>{t('add_addButton')}</H4>
+                    <H4>{t('button_add')}</H4>
                   </MCButton>
                 )}
               </MCCard>

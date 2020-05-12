@@ -55,7 +55,7 @@ class EditUserManualScreen extends React.PureComponent {
         updateSelectedReflection({title: `custom_manual_title${customTitle}`});
         this.setState({addingCustomTitle: false, customTitle: ''});
       } else {
-        showAlert(t('add_new_constant_duplicateError'));
+        showAlert(t('error_add_new_duplicated'));
       }
     } else {
       this.setState({addingCustomTitle: true});
@@ -152,7 +152,7 @@ class EditUserManualScreen extends React.PureComponent {
               <MCIcon name="ios-add-circle-outline" />
               <H3>
                 {addingCustomTitle
-                  ? t('add_addButton')
+                  ? t('button_add')
                   : t('usermanual_custom_title')}
               </H3>
             </MCButton>

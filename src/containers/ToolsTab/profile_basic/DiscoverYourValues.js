@@ -363,7 +363,7 @@ class DiscoverValueScreen extends React.Component {
                         {t('tools_tab_discover_your_values_refresh')}
                       </MCEmptyText>
                     </MCButton>
-                    <MCEmptyText>{t('add_goal_manage_or')}</MCEmptyText>
+                    <MCEmptyText>{t('label_or')}</MCEmptyText>
                     <MCButton
                       bordered
                       pl={20}

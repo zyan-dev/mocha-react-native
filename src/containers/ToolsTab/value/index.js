@@ -76,7 +76,7 @@ class ValueScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          title={t('add_value_headerTitle')}
+          title={t('title_values')}
           hasRight={true}
           rightIcon="plus"
           onPressRight={() => this.onPressNew()}

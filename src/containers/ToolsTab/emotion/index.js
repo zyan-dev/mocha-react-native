@@ -43,7 +43,7 @@ class EmotionScreen extends React.Component {
         mb={20}>
         <MCCard shadow br={1} width={340} align="center">
           <MCView width={320} row wrap>
-            <H4>{t('add_emotion_heading')}</H4>
+            <H4>{t('add_emotion_title_prefix')}</H4>
             <H4 weight="bold">{t(`mocha_emotion_${emotion.emotion}`)}</H4>
             <H4 weight="italic"> {t(`add_emotion_value_${emotion.how}`)}</H4>
           </MCView>
@@ -70,7 +70,7 @@ class EmotionScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          title={t('add_reflection_mood_and_emotion_header')}
+          title={t('title_emotions')}
           hasRight={true}
           rightIcon="plus"
           onPressRight={() => this.onPressNew()}

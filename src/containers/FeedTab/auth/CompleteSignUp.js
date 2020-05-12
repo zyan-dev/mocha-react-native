@@ -36,7 +36,7 @@ class CompleteSignUp extends React.Component {
       <MCRootView justify="flex-start">
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
           <MCView mt={50} width={350} align="center">
-            <H3 align="center">{t('auth_comple_signup_title')}</H3>
+            <H3 align="center">{t('auth_complete_signup_title')}</H3>
             <H3 align="center" mt={50} mb={20}>
               {t('auth_comple_signup_select_picture')}
             </H3>
@@ -102,5 +102,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(CompleteSignUp),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(CompleteSignUp),
 );

@@ -71,7 +71,7 @@ class NeedScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          title={t('add_reflection_need_header')}
+          title={t('title_needs')}
           hasRight={true}
           rightIcon="plus"
           onPressRight={() => this.onPressNew()}

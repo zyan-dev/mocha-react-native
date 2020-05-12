@@ -61,7 +61,7 @@ class BestSelfSubmitScreen extends React.Component {
     return (
       <MCRootView justify="flex-start" align="flex-start">
         <MCHeader
-          title={t('best_self_title')}
+          title={t('title_best_self')}
           headerIcon={<MCIcon type="FontAwesome5Pro" name="hammer" />}
           hasRight
           rightIcon="cloud-upload-alt"
