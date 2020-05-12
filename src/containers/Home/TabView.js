@@ -40,6 +40,10 @@ class TabView extends React.PureComponent {
   tabIndex = 2;
   lastTime = 0;
 
+  componentWillMount() {
+    this.props.setMainTabIndex(2);
+  }
+
   componentDidMount() {
     this.mounted = true;
   }
