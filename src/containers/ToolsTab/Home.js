@@ -260,7 +260,7 @@ class AddReflectionScreen extends React.Component {
     const card = item;
     const exist = favoriteTools && favoriteTools.find(i => i.key === card.key);
     return (
-      <MCView bordered mb={10} ml={10} br={10}>
+      <MCView background={theme.colors.card} mb={10} ml={10} br={10}>
         <MCButton
           width={130}
           align="center"
@@ -286,7 +286,7 @@ class AddReflectionScreen extends React.Component {
             <MCIcon
               padding={1}
               name={exist ? 'ios-star' : 'ios-star-outline'}
-              color={exist ? theme.colors.outline : theme.colors.text}
+              color={exist ? theme.colors.like : theme.colors.text}
               size={15}
             />
           </MCButton>

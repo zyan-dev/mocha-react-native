@@ -110,7 +110,13 @@ class ManageTrustNetworkScreen extends React.Component {
     const {deselectUser} = this.props;
     return (
       <MCView align="center" width={100} mt={10}>
-        <MCImage round image={{uri: user.avatar}} width={80} height={80} />
+        <MCImage
+          round
+          image={{uri: user.avatar}}
+          width={80}
+          height={80}
+          type="avatar"
+        />
         <MCButton onPress={() => deselectUser(user)}>
           <MCIcon name="ios-remove-circle-outline" />
         </MCButton>

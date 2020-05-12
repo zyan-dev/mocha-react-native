@@ -72,6 +72,7 @@ export const NativeCard = styled(Card)`
   width: ${props => (props.width ? `${dySize(props.width)}px` : '100%')};
   margin-top: ${props => dySize(props.mt || 10)}px;
   border-radius: ${props => dySize(props.mt || 10)}px;
+  border-color: transparent;
   justify-content: ${props => props.justify || 'center'};
   align-items: ${props => props.align || 'center'};
 `;

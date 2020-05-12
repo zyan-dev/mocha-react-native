@@ -108,7 +108,7 @@ class CoreValuesCard extends React.Component {
                   backgroundColor: ValueCardBackgrounds[index % 3],
                   borderRadius: 6,
                   borderWidth: dySize(5),
-                  borderColor: 'white',
+                  borderColor: theme.colors.card,
                   padding: dySize(5),
                 }}>
                 <H4 weight="bold" align="center" color={ValueCardTextColor}>
@@ -150,7 +150,7 @@ class CoreValuesCard extends React.Component {
                   backgroundColor: ValueCardBackgrounds[index % 3],
                   borderRadius: 6,
                   borderWidth: dySize(5),
-                  borderColor: 'white',
+                  borderColor: theme.colors.card,
                   padding: dySize(5),
                 }}>
                 <ScrollView
