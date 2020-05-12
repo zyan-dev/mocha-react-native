@@ -49,7 +49,7 @@ import {dySize} from 'utils/responsive';
 import {
   FaucetWhiteSvg,
   FutureSvg,
-  ProfileCrownSvg,
+  UserCrownSvg,
   SkullCowSvg,
 } from 'assets/svgs';
 
@@ -424,7 +424,7 @@ class ProfileScreen extends React.Component {
             <H3 mb={10} underline>
               {t('welcome_profile_title')}
             </H3>
-            <ProfileCrownSvg size={30} theme={theme} />
+            <UserCrownSvg size={30} color={theme.colors.text} />
             <H4 mt={20} pv={1}>
               {t('welcome_tools_take_a_look')}
             </H4>

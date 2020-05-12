@@ -68,8 +68,8 @@ class ResourceSearchScreen extends React.PureComponent {
         <MCHeader
           title={t('resources')}
           onPressBack={() => this.onPressFilterOption()}
-          hasRight
-          rightIcon="bars"
+          hasRight={tabIndex != 0 && tabIndex != 1 ? true : false}
+          rightIcon="plus"
           onPressRight={() => this.onPressRight()}
           hasBack={false}
           headerIcon={

@@ -15,7 +15,7 @@ import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {colorThemes} from 'theme';
 import {ProfileSideMenuList} from 'utils/constants';
-import {ProfileCrownSvg} from 'assets/svgs';
+import {UserCrownSvg} from 'assets/svgs';
 
 class ProfileSideMenu extends React.Component {
   constructor(props) {
@@ -188,7 +188,7 @@ class ProfileSideMenu extends React.Component {
             <MCView row align="center" justify="space-around" mb={20}>
               <MCView row>
                 <H3 mr={5}>{t('profile_menu_self_mastery')}</H3>
-                <ProfileCrownSvg theme={systemTheme} size={30} />
+                <UserCrownSvg color={systemTheme.colors.text} size={30} />
               </MCView>
               <ToggleSwitch
                 isOn={setCrown}

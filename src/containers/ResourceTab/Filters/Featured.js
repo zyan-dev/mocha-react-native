@@ -20,7 +20,7 @@ class FeatureResourceScreen extends React.PureComponent {
   _renderListItem = ({item}) => {
     return (
       <MCRootView>
-        <H3>Podcasts Page</H3>
+        <H3>Featured Page</H3>
       </MCRootView>
     );
   };
@@ -29,7 +29,7 @@ class FeatureResourceScreen extends React.PureComponent {
     const {t, allResources} = this.props;
     return (
       <MCRootView>
-        <H3>Podcasts Page</H3>
+        <H3>Featured Page</H3>
       </MCRootView>
     );
   }

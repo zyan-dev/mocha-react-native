@@ -47,10 +47,10 @@ const getWeekNumber = d => {
 };
 
 export const FontFamilies = {
-  bold: 'Raleway-Bold',
-  regular: 'Raleway-Regular',
-  thin: 'Raleway-Thin',
-  italic: 'Raleway-Italic',
+  bold: 'ProximaNovaA-Bold',
+  regular: 'ProximaNova-Regular',
+  thin: 'ProximaNovaT-Thin',
+  italic: 'ProximaNova-RegularIt',
 };
 
 export const mainTabKeys = ['social', 'resources', 'tools', 'profile'];
@@ -2261,7 +2261,7 @@ export const StrengthOptions = [
 export const skills = [
   'empathy',
   'service',
-  'curiousity',
+  'curiosity',
   'leadership',
   'character_development',
   'transcendence',
@@ -2295,7 +2295,7 @@ export const skills = [
 
 export const impacts = [
   'impactful',
-  'theraputic',
+  'therapeutic',
   'self_discovery',
   'cathartic',
   'life_changing',

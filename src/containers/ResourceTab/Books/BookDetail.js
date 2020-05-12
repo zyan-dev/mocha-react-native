@@ -49,12 +49,13 @@ class BookDetailScreen extends React.PureComponent {
         />
         <MCContent>
           <MCView ph={10} pv={10} align="center">
-            <MCView width={350} row justify="space-between">
-              <MCView mt={10}>
+            <MCView width={350} row justify="space-between" align="flex-start">
+              <MCView>
                 <MCImage
                   width={120}
                   height={180}
                   image={{uri: resource.data.thumbnail}}
+                  resizeMode="contain"
                 />
               </MCView>
               <MCView width={210}>
@@ -86,11 +87,11 @@ class BookDetailScreen extends React.PureComponent {
               </MCView>
             </MCView>
             {resource.data.readLink && (
-              <MCView>
+              <MCView mt={10}>
                 <H5 weight="bold">{t('resource_type_book_read_link')}</H5>
                 <MCButton
                   onPress={() => this.onPressBrowser(resource.data.readLink)}>
-                  <H5 ml={10}>{resource.data.readLink}</H5>
+                  <H5>{resource.data.readLink}</H5>
                 </MCButton>
               </MCView>
             )}
@@ -120,28 +121,24 @@ class BookDetailScreen extends React.PureComponent {
               </MCView>
             </MCView>
 
-            <MCView mb={30} style={{maxHeight: 300, height: 'auto'}}>
-              <ScrollView>
-                <MCView width={350} row justify="center">
-                  <MCView align="center" style={{flex: 1}}>
-                    <H4 underline>{t('resource_type_book_impact')}</H4>
-                    <MCBookTagsView
-                      tags={resource.data.impacts}
-                      impact={true}
-                      collaborators={collaborators}
-                      t={t}
-                    />
-                  </MCView>
-                  <MCView align="center" style={{flex: 1}}>
-                    <H4 underline>{t('resource_type_book_skills')}</H4>
-                    <MCBookTagsView
-                      tags={resource.data.skills}
-                      collaborators={collaborators}
-                      t={t}
-                    />
-                  </MCView>
-                </MCView>
-              </ScrollView>
+            <MCView width={350} mb={30} row justify="center">
+              <MCView align="center" style={{flex: 1}}>
+                <H4 underline>{t('resource_type_book_impact')}</H4>
+                <MCBookTagsView
+                  tags={resource.data.impacts}
+                  impact={true}
+                  collaborators={collaborators}
+                  t={t}
+                />
+              </MCView>
+              <MCView align="center" style={{flex: 1}}>
+                <H4 underline>{t('resource_type_book_skill')}</H4>
+                <MCBookTagsView
+                  tags={resource.data.skills}
+                  collaborators={collaborators}
+                  t={t}
+                />
+              </MCView>
             </MCView>
             <MCView height={1} bordered width={350} />
             <MCView pv={10} width={350}>

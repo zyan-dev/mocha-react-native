@@ -36,9 +36,9 @@ class AddResourceScreen extends React.PureComponent {
 
   ResourceTypeQuestion = {
     title: i18next.t('resources_type_impact', {
-      bold: i18next.t('resource_type_book_impact'),
+      bold: i18next.t('resource_type_book_impactful'),
     }),
-    boldWordKeys: ['impact'],
+    boldWordKeys: ['impactful'],
   };
 
   PersonalDevelopmentQuestion = {
@@ -125,15 +125,15 @@ class AddResourceScreen extends React.PureComponent {
 
     this.setState({submitted: true});
     let resource = searchResource;
-    let type;
+    // let type;
 
-    if (this.props.route.params.root) {
-      type = this.props.route.params.root.key;
-    }
+    // if (this.props.route.params.root) {
+    //   type = this.props.route.params.root.key;
+    // }
 
     if (this.props.route.params && this.props.route.params.resource) {
       resource = this.props.route.params.resource;
-      type = resource.type;
+      // type = resource.type;
     }
 
     resource.data.impacts = [...selectedImpacts];
@@ -167,7 +167,7 @@ class AddResourceScreen extends React.PureComponent {
         resourceData: {
           ...resource.data,
         },
-        type,
+        type: 'books',
       };
       createResources([data]);
     }
@@ -283,7 +283,7 @@ class AddResourceScreen extends React.PureComponent {
                   </MCView>
                 </MCView>
               </MCView>
-              <MCView>
+              <MCView mt={10}>
                 <H5 weight="bold">{t('resource_type_book_description')}</H5>
                 {resource.data.description &&
                 resource.data.description.length > 180 ? (
