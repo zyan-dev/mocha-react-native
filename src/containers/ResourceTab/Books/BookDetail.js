@@ -87,11 +87,11 @@ class BookDetailScreen extends React.PureComponent {
               </MCView>
             </MCView>
             {resource.data.readLink && (
-              <MCView>
+              <MCView mt={10}>
                 <H5 weight="bold">{t('resource_type_book_read_link')}</H5>
                 <MCButton
                   onPress={() => this.onPressBrowser(resource.data.readLink)}>
-                  <H5 ml={10}>{resource.data.readLink}</H5>
+                  <H5>{resource.data.readLink}</H5>
                 </MCButton>
               </MCView>
             )}
