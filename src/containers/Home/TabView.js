@@ -8,13 +8,11 @@ import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {H4} from 'components/styled/Text';
 import {
-  ProfileCrownSvg,
-  ProfileSvg,
-  ToolsSvg,
-  ResourceSvg,
-  ResourceCrownSvg,
-  CommunityCrownSvg,
-  CommunitySvg,
+  BookLightSvg,
+  CommentsLightSvg,
+  RulerLightSvg,
+  UserLightSvg,
+  UserCrownSvg,
 } from 'assets/svgs';
 import NavigationService from 'navigation/NavigationService';
 import {
@@ -133,18 +131,11 @@ class TabView extends React.PureComponent {
             align="center"
             height={TabBarHeight}
             style={{flex: 1}}>
-            {setCrown ? (
-              <CommunityCrownSvg
-                theme={theme}
-                size={mainTabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
-              />
-            ) : (
-              <CommunitySvg
-                theme={theme}
-                size={mainTabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
-                color={theme.colors.text}
-              />
-            )}
+            <CommentsLightSvg
+              theme={theme}
+              size={mainTabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
+              color={theme.colors.text}
+            />
 
             <H4 weight={mainTabIndex === 0 ? 'bold' : 'regular'}>
               {t('footer_feed')}
@@ -158,18 +149,11 @@ class TabView extends React.PureComponent {
             onPress={() => this.onClickTab(1)}
             style={{flex: 1}}
             height={TabBarHeight}>
-            {setCrown ? (
-              <ResourceCrownSvg
-                size={mainTabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
-                theme={theme}
-              />
-            ) : (
-              <ResourceSvg
-                size={mainTabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
-                theme={theme}
-                color={theme.colors.text}
-              />
-            )}
+            <BookLightSvg
+              size={mainTabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
+              theme={theme}
+              color={theme.colors.text}
+            />
 
             <H4 weight={mainTabIndex === 1 ? 'bold' : 'regular'}>
               {t('footer_resources')}
@@ -183,7 +167,7 @@ class TabView extends React.PureComponent {
             onPress={() => this.onClickTab(2)}
             style={{flex: 1}}
             height={TabBarHeight}>
-            <ToolsSvg
+            <RulerLightSvg
               size={mainTabIndex === 2 ? TabIconBigSize : TabIconSmallSize}
               color={theme.colors.text}
             />
@@ -200,12 +184,12 @@ class TabView extends React.PureComponent {
             style={{flex: 1}}
             height={TabBarHeight}>
             {setCrown ? (
-              <ProfileCrownSvg
+              <UserCrownSvg
                 size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
                 theme={theme}
               />
             ) : (
-              <ProfileSvg
+              <UserLightSvg
                 size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
                 theme={theme}
                 color={theme.colors.text}

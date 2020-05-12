@@ -7,7 +7,7 @@ import i18next from 'i18next';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
 import {MCHeader, MCSearchInput, MCIcon, MCModal} from 'components/common';
-import {ToolsSvg} from 'assets/svgs';
+import {RulerLightSvg} from 'assets/svgs';
 import {ToolsSideTabs} from 'utils/constants';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
@@ -304,7 +304,7 @@ class AddReflectionScreen extends React.Component {
           hasBack={false}
           headerIcon={
             <MCView ml={10}>
-              <ToolsSvg size={30} color={theme.colors.text} />
+              <RulerLightSvg size={30} color={theme.colors.text} />
             </MCView>
           }
           title={t('footer_tools')}
@@ -365,7 +365,7 @@ class AddReflectionScreen extends React.Component {
             <H3 mb={10} underline>
               {t('welcome_tools_title')}
             </H3>
-            <ToolsSvg size={30} color={theme.colors.text} />
+            <RulerLightSvg size={30} color={theme.colors.text} />
             <H4 mt={20} pv={1}>
               {t('welcome_tools_take_a_look')}
             </H4>
