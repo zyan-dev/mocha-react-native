@@ -283,7 +283,7 @@ class AddResourceScreen extends React.PureComponent {
                   </MCView>
                 </MCView>
               </MCView>
-              <MCView>
+              <MCView mt={10}>
                 <H5 weight="bold">{t('resource_type_book_description')}</H5>
                 {resource.data.description &&
                 resource.data.description.length > 180 ? (
