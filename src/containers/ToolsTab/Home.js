@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList} from 'react-native';
+import {FlatList, Animated} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {otherActions, routerActions} from 'Redux/actions';
@@ -7,7 +7,7 @@ import i18next from 'i18next';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
 import {MCHeader, MCSearchInput, MCIcon, MCModal} from 'components/common';
-import {ToolsSvg} from 'assets/svgs';
+import {RulerLightSvg} from 'assets/svgs';
 import {ToolsSideTabs} from 'utils/constants';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
@@ -20,6 +20,8 @@ class AddReflectionScreen extends React.Component {
     this.state = {
       searchText: '',
       showWelcomeModal: false,
+      sideMenuRight: new Animated.Value(dySize(-75)),
+      mainMarginLeft: new Animated.Value(dySize(0)),
     };
   }
 
@@ -255,14 +257,40 @@ class AddReflectionScreen extends React.Component {
     this.setState({showWelcomeModal: false});
   };
 
+  showSideMenu = () => {
+    Animated.timing(
+      // Uses easing functions
+      this.state.sideMenuRight, // The value to drive
+      {toValue: 0}, // Configuration
+    ).start();
+    Animated.timing(
+      // Uses easing functions
+      this.state.mainMarginLeft, // The value to drive
+      {toValue: dySize(-150)}, // Configuration
+    ).start();
+  };
+
+  onHideSideMenu = () => {
+    Animated.timing(
+      // Uses easing functions
+      this.state.sideMenuRight, // The value to drive
+      {toValue: dySize(-75)}, // Configuration
+    ).start();
+    Animated.timing(
+      // Uses easing functions
+      this.state.mainMarginLeft, // The value to drive
+      {toValue: dySize(0)}, // Configuration
+    ).start();
+  };
+
   _renderCardItem = ({item}) => {
     const {t, theme, favoriteTools} = this.props;
     const card = item;
     const exist = favoriteTools && favoriteTools.find(i => i.key === card.key);
     return (
-      <MCView bordered mb={10} ml={10} br={10}>
+      <MCView background={theme.colors.card} mb={10} ml={10} br={10}>
         <MCButton
-          width={130}
+          width={160}
           align="center"
           pt={20}
           onPress={() => this.onPressCard(card)}>
@@ -286,7 +314,7 @@ class AddReflectionScreen extends React.Component {
             <MCIcon
               padding={1}
               name={exist ? 'ios-star' : 'ios-star-outline'}
-              color={exist ? theme.colors.outline : theme.colors.text}
+              color={exist ? theme.colors.like : theme.colors.text}
               size={15}
             />
           </MCButton>
@@ -296,7 +324,12 @@ class AddReflectionScreen extends React.Component {
   };
 
   render() {
-    const {searchText, showWelcomeModal} = this.state;
+    const {
+      searchText,
+      showWelcomeModal,
+      sideMenuRight,
+      mainMarginLeft,
+    } = this.state;
     const {t, theme, favoriteTools, toolsTab} = this.props;
     return (
       <MCRootView justify="flex-start">
@@ -304,59 +337,79 @@ class AddReflectionScreen extends React.Component {
           hasBack={false}
           headerIcon={
             <MCView ml={10}>
-              <ToolsSvg size={30} color={theme.colors.text} />
+              <RulerLightSvg size={30} color={theme.colors.text} />
             </MCView>
           }
           title={t('footer_tools')}
+          rightIcon="bars"
+          hasRight
+          onPressRight={() => this.showSideMenu()}
         />
-        <MCView row style={{flex: 1}}>
-          <MCView
-            width={75}
-            style={{borderRightWidth: 1, borderColor: theme.colors.text}}>
-            <MCContent
-              contentContainerStyle={{width: dySize(80), alignItems: 'center'}}>
-              {ToolsSideTabs.map((tab, index) => {
-                const tabColor =
-                  toolsTab === index ? theme.colors.outline : theme.colors.text;
-                return (
-                  <MCButton
-                    key={index}
-                    mb={20}
-                    align="center"
-                    onPress={() => this.onPressTab(index)}>
-                    <MCIcon
-                      type={tab.iconType}
-                      name={tab.icon}
-                      color={tabColor}
-                      size={30}
-                    />
-                    <H5 color={tabColor}>{t(`tools_tab_side_${tab.key}`)}</H5>
-                  </MCButton>
-                );
-              })}
-            </MCContent>
-          </MCView>
-          <MCView style={{flex: 1, alignItems: 'center'}}>
-            {toolsTab === 4 && (
-              <MCSearchInput
-                width={280}
-                text={searchText}
-                onChange={text => this.setState({searchText: text})}
+        <Animated.View style={{marginLeft: mainMarginLeft}}>
+          <MCView row style={{flex: 1}} mt={30}>
+            <MCView style={{width: dySize(375), alignItems: 'center'}}>
+              {toolsTab === 4 && (
+                <MCSearchInput
+                  width={320}
+                  text={searchText}
+                  onChange={text => this.setState({searchText: text})}
+                />
+              )}
+              <FlatList
+                data={this.getCards()}
+                contentContainerStyle={{paddingBottom: dySize(100)}}
+                renderItem={this._renderCardItem}
+                keyExtractor={item => item.key}
+                numColumns={2}
+                style={{width: dySize(350), flex: 1}}
+                ListEmptyComponent={
+                  <MCEmptyText mt={30}>{t('no_result')}</MCEmptyText>
+                }
+                extraData={favoriteTools}
               />
-            )}
-            <FlatList
-              data={this.getCards()}
-              renderItem={this._renderCardItem}
-              keyExtractor={item => item.key}
-              numColumns={2}
-              style={{width: dySize(300)}}
-              ListEmptyComponent={
-                <MCEmptyText mt={30}>{t('no_result')}</MCEmptyText>
-              }
-              extraData={favoriteTools}
-            />
+            </MCView>
           </MCView>
-        </MCView>
+        </Animated.View>
+        <Animated.View
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            right: sideMenuRight,
+            width: dySize(75),
+            backgroundColor: theme.colors.background,
+            // borderLeftWidth: 1,
+            // borderColor: theme.colors.border,
+          }}>
+          <MCContent
+            contentContainerStyle={{
+              width: dySize(75),
+              alignItems: 'center',
+            }}>
+            <MCButton align="center" onPress={() => this.onHideSideMenu()}>
+              <MCIcon name="ios-close" size={60} />
+            </MCButton>
+            {ToolsSideTabs.map((tab, index) => {
+              const tabColor =
+                toolsTab === index ? theme.colors.outline : theme.colors.text;
+              return (
+                <MCButton
+                  key={index}
+                  mb={20}
+                  align="center"
+                  onPress={() => this.onPressTab(index)}>
+                  <MCIcon
+                    type={tab.iconType}
+                    name={tab.icon}
+                    color={tabColor}
+                    size={30}
+                  />
+                  <H5 color={tabColor}>{t(`tools_tab_side_${tab.key}`)}</H5>
+                </MCButton>
+              );
+            })}
+          </MCContent>
+        </Animated.View>
         <MCModal
           hasCloseButton={false}
           isVisible={showWelcomeModal}
@@ -365,7 +418,7 @@ class AddReflectionScreen extends React.Component {
             <H3 mb={10} underline>
               {t('welcome_tools_title')}
             </H3>
-            <ToolsSvg size={30} color={theme.colors.text} />
+            <RulerLightSvg size={30} color={theme.colors.text} />
             <H4 mt={20} pv={1}>
               {t('welcome_tools_take_a_look')}
             </H4>
@@ -376,7 +429,7 @@ class AddReflectionScreen extends React.Component {
               width={80}
               align="center"
               onPress={() => this.onCloseWelcomeModal()}>
-              <H3>{t('modal_ok')}</H3>
+              <H3>{t('button_ok')}</H3>
             </MCButton>
           </MCView>
         </MCModal>

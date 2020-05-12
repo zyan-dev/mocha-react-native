@@ -16,6 +16,7 @@ import {selector} from 'Redux/selectors';
 import NavigationService from 'navigation/NavigationService';
 import {MCCard, MCView, MCRootView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
+import {NativeCard} from '../../../../components/styled/View';
 
 class SendRequestScreen extends React.Component {
   constructor(props) {
@@ -75,35 +76,32 @@ class SendRequestScreen extends React.Component {
     const {theme} = this.props;
     const user = item;
     return (
-      <MCCard
-        key={user.user_id}
-        row
-        align="center"
-        width={350}
-        shadow
-        mt={10}
-        p={0}>
-        <MCButton onPress={() => this.onPressUserAvatar(user)}>
-          <MCImage
-            width={80}
-            height={80}
-            round
-            type="avatar"
-            image={{uri: user.avatar}}
-          />
-        </MCButton>
-        <MCView style={{flex: 1}} ml={10} justify="center">
-          <H3>{user.name}</H3>
-          <H4 padding={0} color={theme.colors.border}>{`@${user.user_id}`}</H4>
+      <NativeCard width={350} pv={1}>
+        <MCView key={user.user_id} row align="center" p={0}>
+          <MCButton onPress={() => this.onPressUserAvatar(user)}>
+            <MCImage
+              width={80}
+              height={80}
+              round
+              type="avatar"
+              image={{uri: user.avatar}}
+            />
+          </MCButton>
+          <MCView style={{flex: 1}} ml={10} justify="center">
+            <H3>{user.name}</H3>
+            <H4 padding={0} color={theme.colors.border}>{`@${
+              user.user_id
+            }`}</H4>
+          </MCView>
+          <MCButton onPress={() => this.onPressUser(user)}>
+            <MCIcon
+              name="ios-add-circle-outline"
+              color={theme.colors.toggle_on}
+              size={30}
+            />
+          </MCButton>
         </MCView>
-        <MCButton onPress={() => this.onPressUser(user)}>
-          <MCIcon
-            name="ios-add-circle-outline"
-            color={theme.colors.toggle_on}
-            size={30}
-          />
-        </MCButton>
-      </MCCard>
+      </NativeCard>
     );
   };
 
@@ -150,6 +148,7 @@ class SendRequestScreen extends React.Component {
                 height={60}
                 image={{uri: selectedUser.avatar}}
                 round
+                type="avatar"
               />
               <H3 weight="bold">{selectedUser.name}</H3>
               <H4 align="center">{t('contact_request_modal_question')}</H4>

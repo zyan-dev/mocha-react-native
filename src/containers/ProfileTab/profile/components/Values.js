@@ -57,7 +57,7 @@ class ValuesCard extends React.Component {
       <MCView align="center">
         <MCView row align="center" mb={20}>
           <H3 weight="bold" style={{flex: 1}}>
-            {t('profile_card_value')}
+            {t('profile_subtitle_values')}
           </H3>
           {editable && (
             <MCButton onPress={() => this.props.onPressDetails()}>

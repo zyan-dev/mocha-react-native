@@ -30,7 +30,7 @@ class NutritionCard extends React.Component {
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>
-              {t('profile_card_nutrition')}
+              {t('profile_subtitle_nutrition')}
             </H3>
             <CarrotSvg size={25} />
           </MCView>

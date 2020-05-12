@@ -77,9 +77,7 @@ class UserManualScreen extends React.Component {
           <MCTagsView tags={usermanual.tags} />
         </MCView>
         <MCView row width={320} align="center">
-          <H4>{`${t('section_label_vulnerability')}:  ${
-            usermanual.vulnerability
-          }`}</H4>
+          <H4>{`${t('label_vulnerability')}:  ${usermanual.vulnerability}`}</H4>
           <MCView row style={{flex: 1}} justify="flex-end">
             <MCButton onPress={() => this.onPressEdit(item)}>
               <MCIcon name="ios-create" />
@@ -98,7 +96,7 @@ class UserManualScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          title={t('profile_Manual_title')}
+          title={t('title_user_manual')}
           hasRight={true}
           rightIcon="plus"
           onPressRight={() => this.onPressNew()}

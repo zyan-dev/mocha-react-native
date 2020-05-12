@@ -66,7 +66,7 @@ class PersonalizeValueScreen extends React.Component {
           alignItems: 'center',
           justifyContent: 'center',
           borderWidth: 1,
-          borderColor: 'white',
+          borderColor: theme.colors.card,
           backgroundColor: ValueCardBackgrounds[0],
           borderRadius: 10,
           borderWidth: dySize(6),

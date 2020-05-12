@@ -62,7 +62,7 @@ class OverviewCard extends React.Component {
         {editable && (
           <MCView row align="center">
             <H3 weight="bold" style={{flex: 1}}>
-              {t('profile_card_overview')}
+              {t('profile_subtitle_overview')}
             </H3>
             <MCButton onPress={() => this.toggleEdit()}>
               <MCIcon

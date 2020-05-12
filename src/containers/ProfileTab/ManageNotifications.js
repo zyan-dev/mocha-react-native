@@ -70,6 +70,7 @@ class ManageNotifications extends React.Component {
   render() {
     const {dateKey, showTimePicker} = this.state;
     const {t, theme, notifications} = this.props;
+    const todayDate = new Date().toISOString().split('T')[0];
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -114,7 +115,7 @@ class ManageNotifications extends React.Component {
                         onPress={() => this.onPressTime(key)}>
                         <MCIcon name="md-alarm" />
                         <H4 style={{flex: 1}}>
-                          {moment(`2001-01-01T${setting.daily_time}`).format(
+                          {moment(`${todayDate}T${setting.daily_time}`).format(
                             'hh:mm A',
                           )}
                         </H4>
@@ -131,8 +132,8 @@ class ManageNotifications extends React.Component {
           <MCDateTimePicker
             isVisible={showTimePicker}
             mode="time"
-            minimumDate={new Date('2000-01-01T00:00:00.000Z')}
-            date={new Date(`2001-01-01T${notifications[dateKey].daily_time}`)}
+            minimumDate={new Date('2001-01-01T00:00:00.000Z')}
+            date={new Date(`${todayDate}T${notifications[dateKey].daily_time}`)}
             onConfirm={this.onChangeTime}
             onCancel={this.hideDatePicker}
           />

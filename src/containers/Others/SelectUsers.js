@@ -9,6 +9,7 @@ import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCRootView, MCView, MCCard} from 'components/styled/View';
 import {dySize} from 'utils/responsive';
+import {NativeCard} from '../../components/styled/View';
 
 class SelectUserScreen extends React.Component {
   constructor(props) {
@@ -78,45 +79,40 @@ class SelectUserScreen extends React.Component {
       : selectedUser._id === user._id;
 
     return (
-      <MCCard
-        key={user.user_id}
-        row
-        align="center"
-        width={350}
-        shadow
-        mt={10}
-        p={0}>
-        <MCButton onPress={() => this.onPressUserAvatar(user)}>
-          <MCImage
-            width={80}
-            height={80}
-            round
-            type="avatar"
-            image={{uri: user.avatar}}
-          />
-        </MCButton>
-        <MCButton
-          style={{flex: 1}}
-          row
-          align="center"
-          onPress={() => {
-            selected ? this.deselectUser(user) : this.selectUser(user);
-          }}>
-          <MCView style={{flex: 1}} ml={10} justify="center">
-            <H3>{user.name}</H3>
-            <H4 padding={0} color={theme.colors.border}>
-              {`@${user.user_id}`}
-            </H4>
-          </MCView>
-          {selected && (
-            <MCIcon
-              name="ios-checkmark"
-              color={theme.colors.toggle_on}
-              size={60}
+      <NativeCard width={350} pv={1}>
+        <MCView key={user.user_id} row align="center" shadow p={0}>
+          <MCButton onPress={() => this.onPressUserAvatar(user)}>
+            <MCImage
+              width={80}
+              height={80}
+              round
+              type="avatar"
+              image={{uri: user.avatar}}
             />
-          )}
-        </MCButton>
-      </MCCard>
+          </MCButton>
+          <MCButton
+            style={{flex: 1}}
+            row
+            align="center"
+            onPress={() => {
+              selected ? this.deselectUser(user) : this.selectUser(user);
+            }}>
+            <MCView style={{flex: 1}} ml={10} justify="center">
+              <H3>{user.name}</H3>
+              <H4 padding={0} color={theme.colors.border}>
+                {`@${user.user_id}`}
+              </H4>
+            </MCView>
+            {selected && (
+              <MCIcon
+                name="ios-checkmark"
+                color={theme.colors.toggle_on}
+                size={60}
+              />
+            )}
+          </MCButton>
+        </MCView>
+      </NativeCard>
     );
   };
 
@@ -125,11 +121,17 @@ class SelectUserScreen extends React.Component {
     const user = item;
     return (
       <MCView mr={5}>
-        <MCImage image={{uri: user.avatar}} width={70} height={70} round />
+        <MCImage
+          image={{uri: user.avatar}}
+          width={70}
+          height={70}
+          round
+          type="avatar"
+        />
         <MCView
           absolute
           br={15}
-          background={theme.colors.border}
+          background={theme.colors.text}
           style={{top: 0, right: 0}}>
           <MCButton
             width={30}

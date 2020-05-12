@@ -92,7 +92,7 @@ class PersonalityScreen extends React.PureComponent {
       <MCRootView>
         <MCHeader
           hasRight
-          title={t('profile_card_personality')}
+          title={t('profile_subtitle_personality')}
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onSubmit()}
           onPressBack={() => this.onPressBack()}

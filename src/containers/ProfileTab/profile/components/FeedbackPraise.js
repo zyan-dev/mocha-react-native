@@ -30,7 +30,7 @@ class PraiseFeedbackCard extends React.Component {
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>
-              {t('tools_tab_praise_feedback')}
+              {t('profile_subtitle_praise_feedback')}
             </H3>
             <AwardSvg size={25} />
           </MCView>

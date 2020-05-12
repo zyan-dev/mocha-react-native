@@ -94,7 +94,7 @@ class AddPendingUserScreen extends React.Component {
                   )}
                   {network.members.length > 1 && (
                     <H4 color={theme.colors.border}>
-                      {`${network.members.length} ${t('members')}`}
+                      {`${network.members.length} ${t('network_members')}`}
                     </H4>
                   )}
                 </MCView>
@@ -119,7 +119,7 @@ class AddPendingUserScreen extends React.Component {
               style={{flex: 1}}
               onPress={() => this.onPressNewNetwork()}>
               <MCIcon name="ios-add" size={40} />
-              <H3>{t('create_network')}</H3>
+              <H3>{t('button_create_network')}</H3>
             </MCButton>
           </MCCard>
         </MCContent>
