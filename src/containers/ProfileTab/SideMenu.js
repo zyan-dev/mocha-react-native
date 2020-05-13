@@ -203,7 +203,7 @@ class ProfileSideMenu extends React.Component {
             <MCButton
               bordered
               align="center"
-              width={110}
+              width={150}
               onPress={() =>
                 this.onPressItem({
                   index: 8,

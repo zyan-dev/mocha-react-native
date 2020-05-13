@@ -75,7 +75,7 @@ export function* completeSignUp(action) {
       yield put({type: types.SYNC_DATA_FOR_NEW_USER, payload: true});
     } else {
       // existing user
-      NavigationService.navigate('ToolsTabHome');
+      NavigationService.navigate('Auth_Welcome');
       yield put({type: types.API_FINISHED});
     }
     // track mixpanel event
