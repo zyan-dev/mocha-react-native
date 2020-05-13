@@ -328,7 +328,7 @@ class AddReflectionScreen extends React.Component {
           align="center"
           pt={20}
           onPress={() => this.onPressCard(card)}>
-          <MCView height={60} justify="center" ph={5}>
+          <MCView height={60} justify="center" align="center" ph={5}>
             {getStringWithOutline(card)}
           </MCView>
           <MCIcon
@@ -386,7 +386,7 @@ class AddReflectionScreen extends React.Component {
           {t(`tools_tab_side_${ToolsSideTabs[toolsTab].key}`)}
         </H3>
         <Animated.View style={{marginLeft: mainMarginLeft}}>
-          <MCView row style={{flex: 1}} mt={30}>
+          <MCView row style={{flex: 1}} mt={10}>
             <MCView style={{width: dySize(375), alignItems: 'center'}}>
               {toolsTab === 4 && (
                 <MCSearchInput
@@ -397,11 +397,14 @@ class AddReflectionScreen extends React.Component {
               )}
               <FlatList
                 data={this.getCards()}
-                contentContainerStyle={{paddingBottom: dySize(100)}}
+                contentContainerStyle={{
+                  paddingBottom: dySize(200),
+                  paddingHorizontal: dySize(12.5),
+                }}
                 renderItem={this._renderCardItem}
                 keyExtractor={item => item.key}
                 numColumns={2}
-                style={{width: dySize(350), flex: 1}}
+                style={{width: dySize(375), flex: 1}}
                 ListEmptyComponent={
                   <MCEmptyText mt={30}>{t('no_result')}</MCEmptyText>
                 }

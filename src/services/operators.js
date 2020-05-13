@@ -246,6 +246,7 @@ export const getStringWithOutline = (textData, params = {}) => {
   if (bigSize) {
     return (
       <H3
+        align={align}
         style={{
           flexWrap: 'wrap',
           display: 'flex',
@@ -257,10 +258,12 @@ export const getStringWithOutline = (textData, params = {}) => {
   } else {
     return (
       <H4
+        align={align}
         style={{
           flexWrap: 'wrap',
           display: 'flex',
           flexDirection: 'row',
+          justify: 'center',
         }}>
         {snippets.map(snippet => snippet)}
       </H4>

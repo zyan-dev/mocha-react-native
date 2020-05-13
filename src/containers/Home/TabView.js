@@ -23,20 +23,14 @@ import {
   routerActions,
   otherActions,
 } from 'Redux/actions';
+import {NativeCard} from '../../components/styled/View';
 
 const TabBarHeight = 80;
 const TabIconSize = 30;
 const TabWrapper = styled(Footer)`
-  height: ${TabBarHeight + 100};
-  border-top-width: 0px;
+  height: ${TabBarHeight};
   background-color: ${props => props.theme.colors.background};
   border-top-width: 0px;
-  elevation: 11;
-  shadow-color: black;
-  shadow-offset: 0px 0px;
-  shadow-opacity: 0.2;
-  shadow-radius: 10;
-  margin-bottom: -100px;
 `;
 
 class TabView extends React.PureComponent {
@@ -126,92 +120,105 @@ class TabView extends React.PureComponent {
 
     return (
       <TabWrapper>
-        <MCView
-          row
-          width={375}
-          style={{backgroundColor: theme.colors.background}}>
-          <MCButton
-            rippleCentered
-            rippleSize={dySize(100)}
-            onPress={() => this.onClickTab(0)}
-            justify="center"
-            align="center"
-            height={TabBarHeight}
-            style={{flex: 1}}>
-            <CommentsLightSvg
-              theme={theme}
-              size={TabIconSize}
-              color={
-                mainTabIndex === 0 ? theme.colors.outline : theme.colors.text
-              }
-            />
-            {/* <H4 weight={mainTabIndex === 0 ? 'bold' : 'regular'}>
-              {t('footer_feed')}
-            </H4> */}
-          </MCButton>
-          <MCButton
-            rippleCentered
-            rippleSize={dySize(100)}
-            align="center"
-            justify="center"
-            onPress={() => this.onClickTab(1)}
-            style={{flex: 1}}
-            height={TabBarHeight}>
-            <BookLightSvg
-              size={TabIconSize}
-              theme={theme}
-              color={
-                mainTabIndex === 1 ? theme.colors.outline : theme.colors.text
-              }
-            />
-            {/* <H4 weight={mainTabIndex === 1 ? 'bold' : 'regular'}>
-              {t('footer_resources')}
-            </H4> */}
-          </MCButton>
-          <MCButton
-            rippleCentered
-            rippleSize={dySize(100)}
-            align="center"
-            justify="center"
-            onPress={() => this.onClickTab(2)}
-            style={{flex: 1}}
-            height={TabBarHeight}>
-            <RulerLightSvg
-              size={TabIconSize}
-              color={
-                mainTabIndex === 2 ? theme.colors.outline : theme.colors.text
-              }
-            />
-            {/* <H4 weight={mainTabIndex === 2 ? 'bold' : 'regular'}>
-              {t('footer_tools')}
-            </H4> */}
-          </MCButton>
-          <MCButton
-            rippleCentered
-            rippleSize={dySize(100)}
-            align="center"
-            justify="center"
-            onPress={() => this.onClickTab(3)}
-            style={{flex: 1}}
-            height={TabBarHeight}>
-            {setCrown ? (
-              <UserCrownSvg
+        <NativeCard>
+          <MCView
+            row
+            width={375}
+            style={{
+              shadowColor: '#000000',
+              shadowRadius: 10,
+              shadowOpacity: 0.5,
+              elevation: 11,
+              shadowOffset: {width: 0, height: -10},
+              backgroundColor: theme.colors.background,
+            }}>
+            <MCButton
+              rippleCentered
+              rippleSize={dySize(100)}
+              onPress={() => this.onClickTab(0)}
+              justify="center"
+              align="center"
+              height={TabBarHeight}
+              style={{flex: 1}}>
+              <CommentsLightSvg
+                theme={theme}
                 size={TabIconSize}
                 color={
-                  mainTabIndex === 3 ? theme.colors.outline : theme.colors.text
+                  mainTabIndex === 0 ? theme.colors.outline : theme.colors.text
                 }
               />
-            ) : (
-              <UserLightSvg
+              {/* <H4 weight={mainTabIndex === 0 ? 'bold' : 'regular'}>
+              {t('footer_feed')}
+            </H4> */}
+            </MCButton>
+            <MCButton
+              rippleCentered
+              rippleSize={dySize(100)}
+              align="center"
+              justify="center"
+              onPress={() => this.onClickTab(1)}
+              style={{flex: 1}}
+              height={TabBarHeight}>
+              <BookLightSvg
                 size={TabIconSize}
                 theme={theme}
                 color={
-                  mainTabIndex === 3 ? theme.colors.outline : theme.colors.text
+                  mainTabIndex === 1 ? theme.colors.outline : theme.colors.text
                 }
               />
-            )}
-          </MCButton>
-        </MCView>
+              {/* <H4 weight={mainTabIndex === 1 ? 'bold' : 'regular'}>
+              {t('footer_resources')}
+            </H4> */}
+            </MCButton>
+            <MCButton
+              rippleCentered
+              rippleSize={dySize(100)}
+              align="center"
+              justify="center"
+              onPress={() => this.onClickTab(2)}
+              style={{flex: 1}}
+              height={TabBarHeight}>
+              <RulerLightSvg
+                size={TabIconSize}
+                color={
+                  mainTabIndex === 2 ? theme.colors.outline : theme.colors.text
+                }
+              />
+              {/* <H4 weight={mainTabIndex === 2 ? 'bold' : 'regular'}>
+              {t('footer_tools')}
+            </H4> */}
+            </MCButton>
+            <MCButton
+              rippleCentered
+              rippleSize={dySize(100)}
+              align="center"
+              justify="center"
+              onPress={() => this.onClickTab(3)}
+              style={{flex: 1}}
+              height={TabBarHeight}>
+              {setCrown ? (
+                <UserCrownSvg
+                  size={TabIconSize}
+                  color={
+                    mainTabIndex === 3
+                      ? theme.colors.outline
+                      : theme.colors.text
+                  }
+                />
+              ) : (
+                <UserLightSvg
+                  size={TabIconSize}
+                  theme={theme}
+                  color={
+                    mainTabIndex === 3
+                      ? theme.colors.outline
+                      : theme.colors.text
+                  }
+                />
+              )}
+            </MCButton>
+          </MCView>
+        </NativeCard>
       </TabWrapper>
     );
   }
