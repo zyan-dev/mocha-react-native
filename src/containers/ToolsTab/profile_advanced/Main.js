@@ -118,7 +118,7 @@ class ProfileAdvancedScreen extends React.Component {
           </MCView>
 
           <H3 underline mt={40}>
-            {t('profile_card_Behavior_preference')}
+            {t('tools_tab_behavior_preferences')}
           </H3>
           <MCView row align="center">
             <H3 mr={10}>{t('tools_tab_level_1')}</H3>
