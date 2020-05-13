@@ -77,7 +77,8 @@ class ProfileBasicScreen extends React.Component {
           rightIcon="question-circle"
           onPressRight={() => this.setState({showWelcomeModal: true})}
         />
-        <MCContent contentContainerStyle={{alignItems: 'center'}}>
+        <MCContent
+          contentContainerStyle={{alignItems: 'center', paddingBottom: 100}}>
           <H3 underline mt={40}>
             {t('tools_tab_discover_your_values')}
           </H3>

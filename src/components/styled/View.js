@@ -63,10 +63,10 @@ export const NativeCard = styled(Card)`
   background-color: ${props =>
     props.background || props.theme.colors.background};
   shadow-color: black;
-  shadow-offset: 2px 2px;
+  shadow-offset: 2px -2px;
   shadow-opacity: 0.2;
   shadow-radius: 10;
-  elevation: 2;
+  elevation: 11;
   padding-horizontal: ${props => dySize(props.ph || 10)}px;
   padding-vertical: ${props => dySize(props.pv || 10)}px;
   width: ${props => (props.width ? `${dySize(props.width)}px` : '100%')};
