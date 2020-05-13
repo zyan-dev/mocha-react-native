@@ -108,13 +108,14 @@ class ChronotypeScreen extends React.PureComponent {
           <MCView row align="center" justify="center">
             <MCButton onPress={() => this.onSelectType('morning')}>
               <NativeCard
+                mt={5}
                 mr={5}
                 background={
                   type === 'morning' ? theme.colors.outline : undefined
                 }>
-                <MCView width={85} align="center">
-                  <MCView height={80} align="center" justify="center">
-                    <LarkSvg size={80} color={morningTextColor} />
+                <MCView width={80} align="center">
+                  <MCView height={70} align="center" justify="center">
+                    <LarkSvg size={70} color={morningTextColor} />
                   </MCView>
                   <H5 color={morningTextColor}>
                     {t('chronotype_type_morning')}
@@ -124,12 +125,13 @@ class ChronotypeScreen extends React.PureComponent {
             </MCButton>
             <MCButton onPress={() => this.onSelectType('flexible')}>
               <NativeCard
+                mt={5}
                 mr={5}
                 background={
                   type === 'flexible' ? theme.colors.outline : undefined
                 }>
-                <MCView width={85} align="center">
-                  <MCView height={80} align="center" justify="center">
+                <MCView width={80} align="center">
+                  <MCView height={70} align="center" justify="center">
                     <DayAndNightSvg size={70} color={flexibleTextColor} />
                   </MCView>
                   <H5 color={flexibleTextColor}>
@@ -140,12 +142,13 @@ class ChronotypeScreen extends React.PureComponent {
             </MCButton>
             <MCButton onPress={() => this.onSelectType('night')}>
               <NativeCard
+                mt={5}
                 mr={5}
                 background={
                   type === 'night' ? theme.colors.outline : undefined
                 }>
-                <MCView width={85} align="center">
-                  <MCView height={80} align="center" justify="center">
+                <MCView width={80} align="center">
+                  <MCView height={70} align="center" justify="center">
                     <OwlSvg size={60} color={nightTextColor} />
                   </MCView>
                   <H5 color={nightTextColor}>{t('chronotype_type_night')}</H5>

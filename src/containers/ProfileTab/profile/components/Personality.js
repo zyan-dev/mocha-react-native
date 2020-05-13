@@ -60,9 +60,12 @@ class PersonalityCard extends React.Component {
                 pv={20}
                 align="center"
                 visible="visible"
-                mt={10}>
+                mt={10}
+                mb={10}
+                ml={5}
+                mr={5}>
                 <MCSpeedoMeter
-                  width={120}
+                  width={110}
                   value={Number(personality.data.honest_humility)}
                 />
                 <MCView height={40} justify="center">
@@ -76,9 +79,12 @@ class PersonalityCard extends React.Component {
                 pv={20}
                 align="center"
                 visible="visible"
-                mt={10}>
+                mt={10}
+                mb={10}
+                ml={5}
+                mr={5}>
                 <MCSpeedoMeter
-                  width={120}
+                  width={110}
                   value={Number(personality.data.emotionality)}
                 />
                 <MCView height={40} justify="center">
@@ -94,9 +100,12 @@ class PersonalityCard extends React.Component {
                 pv={20}
                 align="center"
                 visible="visible"
-                mt={10}>
+                mt={10}
+                mb={10}
+                ml={5}
+                mr={5}>
                 <MCSpeedoMeter
-                  width={120}
+                  width={110}
                   value={Number(personality.data.extraversion)}
                 />
                 <MCView height={40} justify="center">
@@ -110,9 +119,12 @@ class PersonalityCard extends React.Component {
                 pv={20}
                 align="center"
                 visible="visible"
-                mt={10}>
+                mt={10}
+                mb={10}
+                ml={5}
+                mr={5}>
                 <MCSpeedoMeter
-                  width={120}
+                  width={110}
                   value={Number(personality.data.agreeableness)}
                 />
                 <MCView height={40} justify="center">
@@ -128,9 +140,12 @@ class PersonalityCard extends React.Component {
                 pv={20}
                 align="center"
                 visible="visible"
-                mt={10}>
+                mt={10}
+                mb={10}
+                ml={5}
+                mr={5}>
                 <MCSpeedoMeter
-                  width={120}
+                  width={110}
                   value={Number(personality.data.conscientiousness)}
                 />
                 <MCView height={40} justify="center">
@@ -144,9 +159,12 @@ class PersonalityCard extends React.Component {
                 pv={20}
                 align="center"
                 visible="visible"
-                mt={10}>
+                mt={10}
+                mb={10}
+                ml={5}
+                mr={5}>
                 <MCSpeedoMeter
-                  width={120}
+                  width={110}
                   value={Number(personality.data.openness_to_experience)}
                 />
                 <MCView height={40} justify="center">
