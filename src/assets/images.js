@@ -60,3 +60,6 @@ export const AnimalSalamander = require('./images/tools/salamander.png');
 export const AnimalSeaTurtle = require('./images/tools/sea-turtle.png');
 export const AnimalSparrowTwo = require('./images/tools/sparrow-2.png');
 export const AnimalViper = require('./images/tools/viper.png');
+
+export const OvalYellow = require('./images/tools/oval-yellow.png');
+export const OvalGreen = require('./images/tools/oval-green.png');

@@ -2170,22 +2170,22 @@ export const ToolsSideTabs = [
   },
   {
     key: 'body',
-    iconType: 'Ionicon',
-    icon: 'ios-body',
+    iconType: 'FontAwesome5Pro',
+    icon: 'dumbbell',
   },
   {
     key: 'mind',
-    iconType: 'FontAwesome5',
+    iconType: 'FontAwesome5Pro-Light',
     icon: 'brain',
   },
   {
     key: 'social',
-    iconType: 'FontAwesome5',
-    icon: 'user-friends',
+    iconType: 'FontAwesome5Pro',
+    icon: 'comments-alt',
   },
   {
     key: 'search',
-    iconType: 'FontAwesome5',
+    iconType: 'FontAwesome5Pro-Light',
     icon: 'search',
   },
 ];

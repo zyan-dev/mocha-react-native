@@ -195,8 +195,18 @@ export const getStringWithOutline = (textData, params = {}) => {
     textData.boldWordKeys.map(key => {
       boldWord = i18next.t(`outline_${key}`);
       boldIndex = str.indexOf(boldWord);
-      if (boldIndex > 0) {
-        snippets.push(str.substr(0, boldIndex));
+      if (boldIndex > 0 && bigSize) {
+        snippets.push(
+          <H3 underline={underline} align={align}>
+            {str.substr(0, boldIndex)}
+          </H3>,
+        );
+      } else if (boldIndex > 0 && !bigSize) {
+        snippets.push(
+          <H4 underline={underline} align={align}>
+            {str.substr(0, boldIndex)}
+          </H4>,
+        );
       }
       if (bigSize) {
         snippets.push(
@@ -220,23 +230,40 @@ export const getStringWithOutline = (textData, params = {}) => {
       str = str.substr(boldIndex + boldWord.length);
     });
   }
-
-  snippets.push(str);
+  if (bigSize) {
+    snippets.push(
+      <H3 underline={underline} align={align}>
+        {str}
+      </H3>,
+    );
+  } else {
+    snippets.push(
+      <H4 underline={underline} align={align}>
+        {str}
+      </H4>,
+    );
+  }
   if (bigSize) {
     return (
-      <MCView row>
-        <H3 align={align} {...style} style={{width: '100%'}}>
-          {snippets.map(snippet => snippet)}
-        </H3>
-      </MCView>
+      <H3
+        style={{
+          flexWrap: 'wrap',
+          display: 'flex',
+          flexDirection: 'row',
+        }}>
+        {snippets.map(snippet => snippet)}
+      </H3>
     );
   } else {
     return (
-      <MCView row>
-        <H4 align={align} {...style} style={{width: '100%'}}>
-          {snippets.map(snippet => snippet)}
-        </H4>
-      </MCView>
+      <H4
+        style={{
+          flexWrap: 'wrap',
+          display: 'flex',
+          flexDirection: 'row',
+        }}>
+        {snippets.map(snippet => snippet)}
+      </H4>
     );
   }
 };

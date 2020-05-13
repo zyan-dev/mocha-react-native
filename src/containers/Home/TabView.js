@@ -23,17 +23,23 @@ import {
   routerActions,
   otherActions,
 } from 'Redux/actions';
+import {NativeCard} from '../../components/styled/View';
 
 const TabBarHeight = 80;
 const TabIconBigSize = dySize(45);
 const TabIconSmallSize = dySize(35);
 
 const TabWrapper = styled(Footer)`
-  height: ${TabBarHeight};
+  height: ${TabBarHeight + 100};
   border-top-width: 0px;
   background-color: ${props => props.theme.colors.background};
   border-top-width: 0px;
-  elevation: 0;
+  elevation: 2;
+  shadow-color: black;
+  shadow-offset: 0px 0px;
+  shadow-opacity: 0.2;
+  shadow-radius: 10;
+  margin-bottom: -100px;
 `;
 
 class TabView extends React.PureComponent {
@@ -142,10 +148,9 @@ class TabView extends React.PureComponent {
                 mainTabIndex === 0 ? theme.colors.outline : theme.colors.text
               }
             />
-
-            <H4 weight={mainTabIndex === 0 ? 'bold' : 'regular'}>
+            {/* <H4 weight={mainTabIndex === 0 ? 'bold' : 'regular'}>
               {t('footer_feed')}
-            </H4>
+            </H4> */}
           </MCButton>
           <MCButton
             rippleCentered
@@ -162,10 +167,9 @@ class TabView extends React.PureComponent {
                 mainTabIndex === 1 ? theme.colors.outline : theme.colors.text
               }
             />
-
-            <H4 weight={mainTabIndex === 1 ? 'bold' : 'regular'}>
+            {/* <H4 weight={mainTabIndex === 1 ? 'bold' : 'regular'}>
               {t('footer_resources')}
-            </H4>
+            </H4> */}
           </MCButton>
           <MCButton
             rippleCentered
@@ -181,9 +185,9 @@ class TabView extends React.PureComponent {
                 mainTabIndex === 2 ? theme.colors.outline : theme.colors.text
               }
             />
-            <H4 weight={mainTabIndex === 2 ? 'bold' : 'regular'}>
+            {/* <H4 weight={mainTabIndex === 2 ? 'bold' : 'regular'}>
               {t('footer_tools')}
-            </H4>
+            </H4> */}
           </MCButton>
           <MCButton
             rippleCentered
@@ -209,10 +213,9 @@ class TabView extends React.PureComponent {
                 }
               />
             )}
-
-            <H4 weight={mainTabIndex === 3 ? 'bold' : 'regular'}>
+            {/* <H4 weight={mainTabIndex === 3 ? 'bold' : 'regular'}>
               {t('footer_profile')}
-            </H4>
+            </H4> */}
           </MCButton>
         </MCView>
       </TabWrapper>
