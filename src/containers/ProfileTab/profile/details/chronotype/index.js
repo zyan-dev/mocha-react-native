@@ -108,6 +108,7 @@ class ChronotypeScreen extends React.PureComponent {
           <MCView row align="center" justify="center">
             <MCButton onPress={() => this.onSelectType('morning')}>
               <NativeCard
+                mt={5}
                 mr={5}
                 background={
                   type === 'morning' ? theme.colors.outline : undefined
@@ -124,6 +125,7 @@ class ChronotypeScreen extends React.PureComponent {
             </MCButton>
             <MCButton onPress={() => this.onSelectType('flexible')}>
               <NativeCard
+                mt={5}
                 mr={5}
                 background={
                   type === 'flexible' ? theme.colors.outline : undefined
@@ -140,6 +142,7 @@ class ChronotypeScreen extends React.PureComponent {
             </MCButton>
             <MCButton onPress={() => this.onSelectType('night')}>
               <NativeCard
+                mt={5}
                 mr={5}
                 background={
                   type === 'night' ? theme.colors.outline : undefined

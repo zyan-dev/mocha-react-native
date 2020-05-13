@@ -47,34 +47,41 @@ class SocialSideMenu extends React.Component {
   };
 
   render() {
-    const {t, isDrawerOpened} = this.props;
+    const {t, isSocialDrawerOpened} = this.props;
+    console.log(isSocialDrawerOpened);
     return (
-      <MCRootView justify="flex-start" align="flex-start">
-        <NativeCard style={{height: '100%'}} br={1} justify="flex-start">
-          <MCView height={80} />
-          {sideMenuList.map(menu => {
-            return (
-              <MCButton
-                key={menu.index}
-                style={{width: '100%'}}
-                align="flex-start"
-                row
-                onPress={() => this.onPressItem(menu)}>
-                <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
-                <H3 align="right" ml={6}>
-                  {t(menu.title)}
-                </H3>
-              </MCButton>
-            );
-          })}
-        </NativeCard>
+      <MCRootView
+        justify="flex-start"
+        align="flex-start"
+        style={{
+          shadowColor: '#000000',
+          shadowRadius: isSocialDrawerOpened ? 8 : 0,
+          shadowOpacity: 0.5,
+          elevation: 11,
+        }}>
+        <MCView height={80} />
+        {sideMenuList.map(menu => {
+          return (
+            <MCButton
+              key={menu.index}
+              style={{width: '100%'}}
+              align="flex-start"
+              row
+              onPress={() => this.onPressItem(menu)}>
+              <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
+              <H3 align="right" ml={6}>
+                {t(menu.title)}
+              </H3>
+            </MCButton>
+          );
+        })}
       </MCRootView>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isDrawerOpened: state.routerReducer.isProfileDrawerOpened,
+  isSocialDrawerOpened: state.routerReducer.isSocialDrawerOpened,
 });
 
 const mapDispatchToProps = {
