@@ -88,7 +88,7 @@ class ChronotypeCard extends React.Component {
                   )}
                 </MCView>
                 <H4 align="center">
-                  {t(`chronotype_type_${chronotype.data.type}`)}123
+                  {t(`chronotype_type_${chronotype.data.type}`)}
                 </H4>
               </NativeCard>
               <NativeCard width={140} mt={10} mb={10} ml={5} mr={5}>

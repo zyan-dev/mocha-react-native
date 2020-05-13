@@ -48,7 +48,7 @@ class SocialSideMenu extends React.Component {
 
   render() {
     const {t, isSocialDrawerOpened} = this.props;
-    console.log(isSocialDrawerOpened);
+
     return (
       <MCRootView
         justify="flex-start"
