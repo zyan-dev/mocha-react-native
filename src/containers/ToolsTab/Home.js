@@ -44,6 +44,7 @@ class AddReflectionScreen extends React.Component {
     super(props);
     this.state = {
       searchText: '',
+      showSideMenu: false,
       showWelcomeModal: false,
       sideMenuRight: new Animated.Value(dySize(-75)),
       mainMarginLeft: new Animated.Value(dySize(0)),
@@ -283,6 +284,7 @@ class AddReflectionScreen extends React.Component {
   };
 
   showSideMenu = () => {
+    this.setState({showSideMenu: true});
     Animated.timing(
       // Uses easing functions
       this.state.sideMenuRight, // The value to drive
@@ -305,7 +307,7 @@ class AddReflectionScreen extends React.Component {
       // Uses easing functions
       this.state.mainMarginLeft, // The value to drive
       {toValue: dySize(0)}, // Configuration
-    ).start();
+    ).start(() => this.setState({showSideMenu: false}));
   };
 
   _renderCardItem = ({item}) => {
@@ -316,6 +318,7 @@ class AddReflectionScreen extends React.Component {
       <NativeCard
         background={theme.colors.background}
         width={155}
+        mt={10}
         mb={10}
         mr={10}
         ml={10}
@@ -365,6 +368,7 @@ class AddReflectionScreen extends React.Component {
       showWelcomeModal,
       sideMenuRight,
       mainMarginLeft,
+      showSideMenu,
     } = this.state;
     const {t, theme, favoriteTools, toolsTab} = this.props;
     return (
@@ -414,8 +418,10 @@ class AddReflectionScreen extends React.Component {
             right: sideMenuRight,
             width: dySize(75),
             backgroundColor: theme.colors.background,
-            // borderLeftWidth: 1,
-            // borderColor: theme.colors.border,
+            shadowColor: '#000000',
+            shadowRadius: showSideMenu ? 4 : 0,
+            shadowOpacity: 0.5,
+            elevation: 11,
           }}>
           <MCContent
             contentContainerStyle={{

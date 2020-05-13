@@ -55,7 +55,12 @@ class PersonalityCard extends React.Component {
         ) : (
           <MCView width={300}>
             <MCView row width={300} justify="space-between">
-              <NativeCard width={140} pv={20} align="center" visible="visible">
+              <NativeCard
+                width={140}
+                pv={20}
+                align="center"
+                visible="visible"
+                mt={10}>
                 <MCSpeedoMeter
                   width={120}
                   value={Number(personality.data.honest_humility)}
@@ -66,7 +71,12 @@ class PersonalityCard extends React.Component {
                   </H5>
                 </MCView>
               </NativeCard>
-              <NativeCard width={140} pv={20} align="center" visible="visible">
+              <NativeCard
+                width={140}
+                pv={20}
+                align="center"
+                visible="visible"
+                mt={10}>
                 <MCSpeedoMeter
                   width={120}
                   value={Number(personality.data.emotionality)}
@@ -79,7 +89,12 @@ class PersonalityCard extends React.Component {
               </NativeCard>
             </MCView>
             <MCView row width={300} justify="space-between">
-              <NativeCard width={140} pv={20} align="center" visible="visible">
+              <NativeCard
+                width={140}
+                pv={20}
+                align="center"
+                visible="visible"
+                mt={10}>
                 <MCSpeedoMeter
                   width={120}
                   value={Number(personality.data.extraversion)}
@@ -90,7 +105,12 @@ class PersonalityCard extends React.Component {
                   </H5>
                 </MCView>
               </NativeCard>
-              <NativeCard width={140} pv={20} align="center" visible="visible">
+              <NativeCard
+                width={140}
+                pv={20}
+                align="center"
+                visible="visible"
+                mt={10}>
                 <MCSpeedoMeter
                   width={120}
                   value={Number(personality.data.agreeableness)}
@@ -103,7 +123,12 @@ class PersonalityCard extends React.Component {
               </NativeCard>
             </MCView>
             <MCView row width={300} justify="space-between">
-              <NativeCard width={140} pv={20} align="center" visible="visible">
+              <NativeCard
+                width={140}
+                pv={20}
+                align="center"
+                visible="visible"
+                mt={10}>
                 <MCSpeedoMeter
                   width={120}
                   value={Number(personality.data.conscientiousness)}
@@ -114,7 +139,12 @@ class PersonalityCard extends React.Component {
                   </H5>
                 </MCView>
               </NativeCard>
-              <NativeCard width={140} pv={20} align="center" visible="visible">
+              <NativeCard
+                width={140}
+                pv={20}
+                align="center"
+                visible="visible"
+                mt={10}>
                 <MCSpeedoMeter
                   width={120}
                   value={Number(personality.data.openness_to_experience)}

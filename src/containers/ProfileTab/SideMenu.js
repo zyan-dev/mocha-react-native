@@ -112,6 +112,7 @@ class ProfileSideMenu extends React.Component {
           shadowColor: '#000000',
           shadowRadius: isDrawerOpened ? 8 : 0,
           shadowOpacity: 0.5,
+          elevation: 11,
         }}>
         <ScrollView>
           <MCView

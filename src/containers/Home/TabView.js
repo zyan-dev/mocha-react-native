@@ -23,18 +23,15 @@ import {
   routerActions,
   otherActions,
 } from 'Redux/actions';
-import {NativeCard} from '../../components/styled/View';
 
 const TabBarHeight = 80;
-const TabIconBigSize = dySize(45);
-const TabIconSmallSize = dySize(35);
-
+const TabIconSize = 30;
 const TabWrapper = styled(Footer)`
   height: ${TabBarHeight + 100};
   border-top-width: 0px;
   background-color: ${props => props.theme.colors.background};
   border-top-width: 0px;
-  elevation: 2;
+  elevation: 11;
   shadow-color: black;
   shadow-offset: 0px 0px;
   shadow-opacity: 0.2;
@@ -143,7 +140,7 @@ class TabView extends React.PureComponent {
             style={{flex: 1}}>
             <CommentsLightSvg
               theme={theme}
-              size={mainTabIndex === 0 ? TabIconBigSize : TabIconSmallSize}
+              size={TabIconSize}
               color={
                 mainTabIndex === 0 ? theme.colors.outline : theme.colors.text
               }
@@ -161,7 +158,7 @@ class TabView extends React.PureComponent {
             style={{flex: 1}}
             height={TabBarHeight}>
             <BookLightSvg
-              size={mainTabIndex === 1 ? TabIconBigSize : TabIconSmallSize}
+              size={TabIconSize}
               theme={theme}
               color={
                 mainTabIndex === 1 ? theme.colors.outline : theme.colors.text
@@ -180,7 +177,7 @@ class TabView extends React.PureComponent {
             style={{flex: 1}}
             height={TabBarHeight}>
             <RulerLightSvg
-              size={mainTabIndex === 2 ? TabIconBigSize : TabIconSmallSize}
+              size={TabIconSize}
               color={
                 mainTabIndex === 2 ? theme.colors.outline : theme.colors.text
               }
@@ -199,23 +196,20 @@ class TabView extends React.PureComponent {
             height={TabBarHeight}>
             {setCrown ? (
               <UserCrownSvg
-                size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
+                size={TabIconSize}
                 color={
                   mainTabIndex === 3 ? theme.colors.outline : theme.colors.text
                 }
               />
             ) : (
               <UserLightSvg
-                size={mainTabIndex === 3 ? TabIconBigSize : TabIconSmallSize}
+                size={TabIconSize}
                 theme={theme}
                 color={
                   mainTabIndex === 3 ? theme.colors.outline : theme.colors.text
                 }
               />
             )}
-            {/* <H4 weight={mainTabIndex === 3 ? 'bold' : 'regular'}>
-              {t('footer_profile')}
-            </H4> */}
           </MCButton>
         </MCView>
       </TabWrapper>
