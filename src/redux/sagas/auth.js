@@ -65,17 +65,37 @@ export function* verifySignUpSMS(action) {
 
 export function* completeSignUp(action) {
   try {
-    const {
-      profileReducer: {user_id},
-    } = yield select();
+    const {profileReducer} = yield select();
+    const {user_id, created, updated} = profileReducer;
     yield put({type: types.API_CALLING});
-    yield put({type: types.SYNC_DATA, payload: true});
-    // track mixpanel event
-    yield put({
-      type: types.TRACK_MIXPANEL_EVENT,
-      payload: {event: 'verified_sms', data: {username: user_id}},
-    });
+
+    const response = yield call(API.updateProfile, profileReducer);
+    if (response.data.status === 'success') {
+      if (created === updated) {
+        // new user
+        yield put({type: types.SYNC_DATA_FOR_NEW_USER, payload: true});
+      } else {
+        // existing user
+        NavigationService.navigate('Auth_Welcome');
+        yield put({type: types.API_FINISHED});
+      }
+      // track mixpanel event
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {event: 'verified_sms', data: {username: user_id}},
+      });
+
+      yield put({
+        type: types.SET_PROFILE_DATA,
+        payload: response.data.data.user,
+      });
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
   } catch (e) {
-    showAlert(e.toString());
+    yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }
