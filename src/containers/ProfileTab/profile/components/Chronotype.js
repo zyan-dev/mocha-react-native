@@ -75,7 +75,7 @@ class ChronotypeCard extends React.Component {
         ) : (
           <>
             <MCView row width={300} justify="space-between">
-              <NativeCard width={140}>
+              <NativeCard width={140} mt={10}>
                 <MCView height={80} align="center" justify="center">
                   {chronotype.data.type === 'morning' && (
                     <LarkSvg size={100} color={theme.colors.text} />
@@ -91,7 +91,7 @@ class ChronotypeCard extends React.Component {
                   {t(`chronotype_type_${chronotype.data.type}`)}
                 </H4>
               </NativeCard>
-              <NativeCard width={140}>
+              <NativeCard width={140} mt={10}>
                 <MCView height={80} align="center" justify="center">
                   <MCText
                     weight="bold"
@@ -108,7 +108,7 @@ class ChronotypeCard extends React.Component {
                 <H4 align="center">{t('hours_sleep')}</H4>
               </NativeCard>
             </MCView>
-            <NativeCard width={300}>
+            <NativeCard width={300} mt={10}>
               <MCView overflow="visible" align="center">
                 <MCView width={280}>
                   <NightSvg size={30} color={theme.colors.text} />
@@ -124,7 +124,7 @@ class ChronotypeCard extends React.Component {
                 />
               </MCView>
             </NativeCard>
-            <NativeCard width={300}>
+            <NativeCard width={300} mt={10}>
               <MCView overflow="visible" align="center">
                 <MCView width={280}>
                   <DaySvg size={30} color={theme.colors.text} />

@@ -71,10 +71,10 @@ export const NativeCard = styled(Card)`
   padding-vertical: ${props => dySize(props.pv || 10)}px;
   width: ${props => (props.width ? `${dySize(props.width)}px` : '100%')};
   margin-bottom: ${props => dySize(props.mb || 0)}px;
-  margin-top: ${props => dySize(props.mt || 10)}px;
+  margin-top: ${props => dySize(props.mt || 0)}px;
   margin-right: ${props => dySize(props.mr || 0)}px;
   margin-left: ${props => dySize(props.ml || 0)}px;
-  border-radius: ${props => dySize(props.mt || 10)}px;
+  border-radius: ${props => dySize(props.br || 10)}px;
   border-color: transparent;
   justify-content: ${props => props.justify || 'center'};
   align-items: ${props => props.align || 'center'};

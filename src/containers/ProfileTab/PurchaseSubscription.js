@@ -107,6 +107,7 @@ class PurchaseSubscription extends React.Component {
           {products.map(product => (
             <MCButton onPress={() => this.onPressPurchaseItem(product)}>
               <NativeCard
+                mt={10}
                 key={product.productId}
                 justify="flex-start"
                 align="flex-start"
@@ -152,5 +153,8 @@ const mapDispatchToProps = {
 };
 
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(PurchaseSubscription),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PurchaseSubscription),
 );

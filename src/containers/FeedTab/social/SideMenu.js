@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {routerActions} from 'Redux/actions';
-import {MCRootView, MCView} from 'components/styled/View';
+import {MCRootView, MCView, NativeCard} from 'components/styled/View';
 import {MCIcon} from 'components/common';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
@@ -47,29 +47,35 @@ class SocialSideMenu extends React.Component {
   };
 
   render() {
-    const {t} = this.props;
+    const {t, isDrawerOpened} = this.props;
     return (
       <MCRootView justify="flex-start" align="flex-start">
-        <MCView height={80} />
-        {sideMenuList.map(menu => {
-          return (
-            <MCButton
-              key={menu.index}
-              style={{width: '100%'}}
-              align="flex-start"
-              row
-              onPress={() => this.onPressItem(menu)}>
-              <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
-              <H3 align="right" ml={6}>
-                {t(menu.title)}
-              </H3>
-            </MCButton>
-          );
-        })}
+        <NativeCard style={{height: '100%'}} br={1} justify="flex-start">
+          <MCView height={80} />
+          {sideMenuList.map(menu => {
+            return (
+              <MCButton
+                key={menu.index}
+                style={{width: '100%'}}
+                align="flex-start"
+                row
+                onPress={() => this.onPressItem(menu)}>
+                <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
+                <H3 align="right" ml={6}>
+                  {t(menu.title)}
+                </H3>
+              </MCButton>
+            );
+          })}
+        </NativeCard>
       </MCRootView>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isDrawerOpened: state.routerReducer.isProfileDrawerOpened,
+});
 
 const mapDispatchToProps = {
   showDrawer: routerActions.setSocialDrawerOpened,
@@ -77,7 +83,7 @@ const mapDispatchToProps = {
 
 export default withTranslation()(
   connect(
-    undefined,
+    mapStateToProps,
     mapDispatchToProps,
   )(SocialSideMenu),
 );
