@@ -178,7 +178,7 @@ class AddResourceScreen extends React.PureComponent {
 
   validateTitle = () => {
     const {searchResource} = this.props;
-    return searchResource.data && searchResource.data.title;
+    return searchResource && searchResource.data && searchResource.data.title;
   };
 
   searchBook = _.debounce(() => {
