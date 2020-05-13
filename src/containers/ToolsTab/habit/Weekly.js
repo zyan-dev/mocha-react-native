@@ -18,6 +18,7 @@ import {getCommitKey, getWeekDay} from 'services/operators';
 const ReactionView = styled(MCView)`
   display: flex;
   flex-direction: row;
+  align-items: center;
   height: 40px;
   border-radius: 20px;
   margin-right: 10px;

@@ -99,11 +99,6 @@ class ProfileScreen extends React.Component {
   onPressNewFeedback = () => {
     if (!this.props.profile.userToken) {
       showAlert('You need to sign up');
-    } else {
-      NavigationService.navigate('TabTools');
-      setTimeout(() => {
-        NavigationService.navigate('Feedbacks');
-      });
     }
   };
 
@@ -399,7 +394,9 @@ class ProfileScreen extends React.Component {
                 <FeedbacksCard
                   feedbacks={feedbacks}
                   onPressDetails={() => NavigationService.navigate('Feedbacks')}
-                  onPressNew={() => this.onPressNewFeedback()}
+                  onPressNew={() =>
+                    NavigationService.navigate('RequestFeedback')
+                  }
                 />
               )}
               {profileTab === 'quirks' && <QuirksCard onPressEdit={() => {}} />}

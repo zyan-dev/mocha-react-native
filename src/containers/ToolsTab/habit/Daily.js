@@ -18,6 +18,7 @@ const ReactionView = styled(MCView)`
   display: flex;
   flex-direction: row;
   height: 40px;
+  align-items: center;
   border-radius: 20px;
   margin-right: 10px;
   margin-bottom: 10px;

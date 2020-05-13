@@ -40,27 +40,21 @@ export const FAProIcon = styled(FontAwesome5Pro)`
 
 export const H1 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_MASSIVE)}px;
-  line-height: ${dySize(40)}px;
 `;
 export const H2 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_EXTRA_LARGE)}px;
-  line-height: ${dySize(32)}px;
 `;
 export const H3 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_LARGE)}px;
-  line-height: ${dySize(20)}px;
 `;
 export const H4 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_MEDIUM)}px;
-  line-height: ${dySize(16)}px;
 `;
 export const H5 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_SMALL)}px;
-  line-height: ${dySize(12)}px;
 `;
 export const H6 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_TINY)}px;
-  line-height: ${dySize(12)}px;
 `;
 
 export const MCEmptyText = styled(H4)`
