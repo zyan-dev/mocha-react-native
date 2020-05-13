@@ -98,33 +98,49 @@ class PurchaseSubscription extends React.Component {
 
   render() {
     const {selectedItem} = this.state;
-    const {t, products} = this.props;
+    const {t, theme, products} = this.props;
     if (!products) return <MCRootView />;
     return (
       <MCRootView justify="flex-start">
         <MCHeader title={t('profile_menu_purchase')} />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
-          {products.map(product => (
-            <MCButton onPress={() => this.onPressPurchaseItem(product)}>
-              <NativeCard
+          {products.map(product => {
+            const background =
+              selectedItem.productId === product.productId
+                ? theme.colors.outline
+                : undefined;
+            const textColor =
+              selectedItem.productId === product.productId
+                ? theme.colors.background
+                : undefined;
+            return (
+              <MCButton
+                onPress={() => this.onPressPurchaseItem(product)}
                 mt={10}
-                key={product.productId}
-                justify="flex-start"
-                align="flex-start"
-                width={340}
-                bordered={selectedItem.productId === product.productId}>
-                <MCView>
-                  <MCView row align="center">
-                    <H3 weight="bold">
-                      {monthsPerProduct[product.productId]}{' '}
+                style={{padding: 0}}>
+                <NativeCard
+                  key={product.productId}
+                  justify="flex-start"
+                  align="flex-start"
+                  width={340}
+                  background={background}>
+                  <MCView>
+                    <MCView row align="center">
+                      <H3 color={textColor} weight="bold">
+                        {monthsPerProduct[product.productId]}{' '}
+                      </H3>
+                      <H4 weight="bold" color={textColor}>
+                        {t('unit_months')}
+                      </H4>
+                    </MCView>
+                    <H3 pv={1} color={textColor}>
+                      {product.localizedPrice}
                     </H3>
-                    <H4 weight="bold">{t('unit_months')}</H4>
                   </MCView>
-                  <H3 pv={1}>{product.localizedPrice}</H3>
-                </MCView>
-              </NativeCard>
-            </MCButton>
-          ))}
+                </NativeCard>
+              </MCButton>
+            );
+          })}
         </MCContent>
         <MCButton
           onPress={() => this.onPurchase()}
