@@ -34,7 +34,7 @@ const TabWrapper = styled(Footer)`
   border-top-width: 0px;
   background-color: ${props => props.theme.colors.background};
   border-top-width: 0px;
-  elevation: 2;
+  elevation: 11;
   shadow-color: black;
   shadow-offset: 0px 0px;
   shadow-opacity: 0.2;

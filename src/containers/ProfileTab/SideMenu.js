@@ -101,9 +101,18 @@ class ProfileSideMenu extends React.Component {
       profile,
       completedExpertProfile,
       setCrown,
+      isDrawerOpened,
     } = this.props;
+
     return (
-      <MCRootView justify="flex-start" align="flex-start">
+      <MCRootView
+        justify="flex-start"
+        align="flex-start"
+        style={{
+          shadowColor: '#000000',
+          shadowRadius: isDrawerOpened ? 8 : 0,
+          shadowOpacity: 0.5,
+        }}>
         <ScrollView>
           <MCView
             mt={50}
@@ -224,6 +233,7 @@ const mapStateToProps = state => ({
   profile: state.profileReducer,
   completedExpertProfile: state.otherReducer.completedExpertProfile,
   setCrown: state.otherReducer.setCrown,
+  isDrawerOpened: state.routerReducer.isProfileDrawerOpened,
 });
 
 const mapDispatchToProps = {
