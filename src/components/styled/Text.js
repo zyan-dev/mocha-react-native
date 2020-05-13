@@ -48,15 +48,15 @@ export const H2 = styled(MCText)`
 `;
 export const H3 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_LARGE)}px;
-  line-height: ${dySize(28)}px;
+  line-height: ${dySize(20)}px;
 `;
 export const H4 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_MEDIUM)}px;
-  line-height: ${dySize(20)}px;
+  line-height: ${dySize(16)}px;
 `;
 export const H5 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_SMALL)}px;
-  line-height: ${dySize(16)}px;
+  line-height: ${dySize(12)}px;
 `;
 export const H6 = styled(MCText)`
   font-size: ${props => dySize(props.theme.base.FONT_SIZE_TINY)}px;

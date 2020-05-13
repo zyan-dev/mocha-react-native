@@ -63,14 +63,17 @@ export const NativeCard = styled(Card)`
   background-color: ${props =>
     props.background || props.theme.colors.background};
   shadow-color: black;
-  shadow-offset: {width: 0, height: 2};
-  shadow-opacity: 0.5;
-  shadow-radius: 4;
+  shadow-offset: 2px 2px;
+  shadow-opacity: 0.2;
+  shadow-radius: 10;
   elevation: 2;
   padding-horizontal: ${props => dySize(props.ph || 10)}px;
   padding-vertical: ${props => dySize(props.pv || 10)}px;
   width: ${props => (props.width ? `${dySize(props.width)}px` : '100%')};
+  margin-bottom: ${props => dySize(props.mb || 0)}px;
   margin-top: ${props => dySize(props.mt || 10)}px;
+  margin-right: ${props => dySize(props.mr || 0)}px;
+  margin-left: ${props => dySize(props.ml || 0)}px;
   border-radius: ${props => dySize(props.mt || 10)}px;
   border-color: transparent;
   justify-content: ${props => props.justify || 'center'};

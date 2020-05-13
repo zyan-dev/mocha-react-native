@@ -59,7 +59,7 @@ export const colorThemes = [
 export const baseTheme = {
   FONT_SIZE_TINY: 8,
   FONT_SIZE_SMALL: 12,
-  FONT_SIZE_MEDIUM: 16,
+  FONT_SIZE_MEDIUM: 18,
   FONT_SIZE_LARGE: 22,
   FONT_SIZE_EXTRA_LARGE: 26,
   FONT_SIZE_MASSIVE: 32,

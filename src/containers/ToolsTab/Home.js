@@ -1,10 +1,16 @@
 import React from 'react';
-import {FlatList, Animated} from 'react-native';
+import {FlatList, Animated, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import styled from 'styled-components';
 import {otherActions, routerActions} from 'Redux/actions';
 import i18next from 'i18next';
-import {MCView, MCRootView, MCContent} from 'components/styled/View';
+import {
+  MCView,
+  MCRootView,
+  MCContent,
+  NativeCard,
+} from 'components/styled/View';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
 import {MCHeader, MCSearchInput, MCIcon, MCModal} from 'components/common';
 import {RulerLightSvg} from 'assets/svgs';
@@ -13,6 +19,25 @@ import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {getStringWithOutline} from 'services/operators';
+import {OvalYellow, OvalGreen} from 'assets/images';
+
+export const OvalGreenImage = styled(Image)`
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  height: 128px;
+  width: 62px;
+  opacity: 0.2;
+`;
+
+export const OvalYellowImage = styled(Image)`
+  position: absolute;
+  top: 100px;
+  right: 0px;
+  height: 149px;
+  width: 33px;
+  opacity: 0.2;
+`;
 
 class AddReflectionScreen extends React.Component {
   constructor(props) {
@@ -46,8 +71,8 @@ class AddReflectionScreen extends React.Component {
         bold: i18next.t('outline_profile_basic'),
       }),
       boldWordKeys: ['profile_basic'],
-      duration: '15~30',
-      iconType: 'FontAwesome5Pro-Solid',
+      duration: '15 - 30',
+      iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-pawn-alt',
       navigateTo: 'ProfileBasic',
     },
@@ -57,8 +82,8 @@ class AddReflectionScreen extends React.Component {
         bold: i18next.t('outline_profile_advanced'),
       }),
       boldWordKeys: ['profile_advanced'],
-      duration: '15~30',
-      iconType: 'FontAwesome5Pro-Solid',
+      duration: '15 - 30',
+      iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-knight-alt',
       navigateTo: 'ProfileAdvance',
     },
@@ -68,8 +93,8 @@ class AddReflectionScreen extends React.Component {
         bold: i18next.t('outline_profile_expert'),
       }),
       boldWordKeys: ['profile_expert'],
-      duration: '15~30',
-      iconType: 'FontAwesome5Pro-Solid',
+      duration: '15 - 30',
+      iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-queen-alt',
       navigateTo: 'ProfileExpert',
     },
@@ -79,8 +104,8 @@ class AddReflectionScreen extends React.Component {
         bold: i18next.t('outline_personality'),
       }),
       boldWordKeys: ['personality'],
-      duration: '15~30',
-      iconType: 'FontAwesome5Pro',
+      duration: '15 - 30',
+      iconType: 'FontAwesome5Pro-Light',
       icon: 'fingerprint',
       navigateTo: 'EditPersonality',
     },
@@ -120,7 +145,7 @@ class AddReflectionScreen extends React.Component {
   ToolsSocialCards = [
     {
       key: 'manual',
-      duration: '5-10',
+      duration: '5 - 10',
       title: i18next.t('tools_card_title_manual', {
         bold: i18next.t('outline_manual'),
       }),
@@ -156,7 +181,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'habit',
-      duration: '4-6',
+      duration: '4 - 6',
       title: i18next.t('tools_card_title_goal', {
         bold: i18next.t('outline_goal'),
       }),
@@ -168,7 +193,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'mood_and_emotion',
-      duration: '2-4',
+      duration: '2 - 4',
       title: i18next.t('tools_card_title_mood_and_emotion', {
         bold1: i18next.t('outline_mood'),
         bold2: i18next.t('outline_emotions'),
@@ -181,7 +206,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'need',
-      duration: '2-4',
+      duration: '2 - 4',
       title: i18next.t('tools_card_title_need', {
         bold: i18next.t('outline_needs'),
       }),
@@ -193,7 +218,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'tapToCount',
-      duration: '<1',
+      duration: '< 1',
       title: i18next.t('tools_card_title_tap', {
         bold: i18next.t('outline_tap'),
       }),
@@ -288,16 +313,27 @@ class AddReflectionScreen extends React.Component {
     const card = item;
     const exist = favoriteTools && favoriteTools.find(i => i.key === card.key);
     return (
-      <MCView background={theme.colors.card} mb={10} ml={10} br={10}>
+      <NativeCard
+        background={theme.colors.background}
+        width={155}
+        mb={10}
+        mr={10}
+        ml={10}
+        br={10}>
         <MCButton
           width={160}
           align="center"
           pt={20}
           onPress={() => this.onPressCard(card)}>
-          <MCView height={60} justify="center" ph={10}>
+          <MCView height={60} justify="center" ph={5}>
             {getStringWithOutline(card)}
           </MCView>
-          <MCIcon type={card.iconType} name={card.icon} size={40} />
+          <MCIcon
+            type={card.iconType}
+            name={card.icon}
+            size={60}
+            color={theme.colors.outline}
+          />
           <MCView row align="center" mt={20}>
             <MCIcon type="FontAwesome" name="clock-o" />
             <H4>{`${card.duration} ${t('unit_min')}`}</H4>
@@ -319,7 +355,7 @@ class AddReflectionScreen extends React.Component {
             />
           </MCButton>
         </MCView>
-      </MCView>
+      </NativeCard>
     );
   };
 
@@ -335,16 +371,16 @@ class AddReflectionScreen extends React.Component {
       <MCRootView justify="flex-start">
         <MCHeader
           hasBack={false}
-          headerIcon={
-            <MCView ml={10}>
-              <RulerLightSvg size={30} color={theme.colors.text} />
-            </MCView>
-          }
           title={t('footer_tools')}
           rightIcon="bars"
           hasRight
           onPressRight={() => this.showSideMenu()}
         />
+        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
+        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
+        <H3 align="center">
+          {t(`tools_tab_side_${ToolsSideTabs[toolsTab].key}`)}
+        </H3>
         <Animated.View style={{marginLeft: mainMarginLeft}}>
           <MCView row style={{flex: 1}} mt={30}>
             <MCView style={{width: dySize(375), alignItems: 'center'}}>

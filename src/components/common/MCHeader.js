@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {Header, Left, Body, Right, Icon} from 'native-base';
-import {H4, H3} from '../styled/Text';
+import {H2, H3, H4} from '../styled/Text';
 import {MCIcon} from '.';
 import {MCButton} from '../styled/Button';
 import NavigationService from 'navigation/NavigationService';
@@ -110,9 +110,9 @@ class MCHeader extends React.PureComponent {
           )}
         </HeaderLeft>
         <HeaderBody>
-          <H3 mr={6} align="center">
+          <H2 mr={6} ml={6} weight="bold" align="center">
             {title}
-          </H3>
+          </H2>
           {headerIcon}
         </HeaderBody>
         <HeaderRight>
