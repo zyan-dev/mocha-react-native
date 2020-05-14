@@ -17,6 +17,7 @@ const INITIAL_STATE = {
   showWelcomeBasicProfile: true,
   showWelcomeAdvanceProfile: true,
   setCrown: false,
+  cp_status: '',
 };
 
 const otherReducer = (state = INITIAL_STATE, action) => {
@@ -95,6 +96,11 @@ const otherReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         setCrown: action.payload,
+      };
+    case types.SET_CODEPUSH_STATUS:
+      return {
+        ...state,
+        cp_status: action.payload,
       };
     default:
       return state;

@@ -22,8 +22,15 @@ class ProfileSideMenu extends React.Component {
     super(props);
     this.state = {
       index: '',
-      cp_status: '',
+      cp_version: '',
     };
+  }
+
+  componentDidMount() {
+    codePush.getUpdateMetadata().then(metadata => {
+      console.log({metadata});
+      this.setState({cp_version: metadata.label});
+    });
   }
 
   onPressItem = menu => {
@@ -53,34 +60,6 @@ class ProfileSideMenu extends React.Component {
     }
   };
 
-  updateFromCodePush = () => {
-    codePush.sync(
-      {
-        updateDialog: true,
-        installMode: codePush.InstallMode.IMMEDIATE,
-      },
-      status => {
-        switch (status) {
-          case codePush.SyncStatus.CHECKING_FOR_UPDATE:
-            this.setState({cp_status: 'codepush_checking_for_update'});
-            break;
-          case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-            this.setState({cp_status: 'codepush_downloading_package'});
-            break;
-          case codePush.SyncStatus.INSTALLING_UPDATE:
-            this.setState({cp_status: 'codepush_installing_update'});
-            break;
-          case codePush.SyncStatus.UP_TO_DATE:
-            this.setState({cp_status: 'codepush_up_to_date'});
-            break;
-          case codePush.SyncStatus.UPDATE_INSTALLED:
-            this.setState({cp_status: 'codepush_update_installed'});
-            break;
-        }
-      },
-    );
-  };
-
   onPressTheme = index => {
     this.props.setThemeIndex(index);
     this.props.trackEvent({
@@ -94,7 +73,7 @@ class ProfileSideMenu extends React.Component {
   };
 
   render() {
-    const {cp_status} = this.state;
+    const {cp_version} = this.state;
     const {
       t,
       systemTheme,
@@ -102,6 +81,7 @@ class ProfileSideMenu extends React.Component {
       completedExpertProfile,
       setCrown,
       isDrawerOpened,
+      cp_status,
     } = this.props;
 
     return (
@@ -121,16 +101,19 @@ class ProfileSideMenu extends React.Component {
             justify="space-between"
             ph={10}
             align="flex-start">
-            <H3
-              style={{width: '100%'}}
-              color={systemTheme.colors.border}
-              mb={5}
-              align="left">
-              {t('version', {version: DeviceInfo.getVersion()})}
-            </H3>
+            <MCView row justify="space-between" width={250}>
+              <H3 color={systemTheme.colors.border}>{t('version')}</H3>
+              <H3 color={systemTheme.colors.border}>
+                {DeviceInfo.getVersion()}
+              </H3>
+            </MCView>
+            <MCView row justify="space-between" width={250} mb={15}>
+              <H3 color={systemTheme.colors.border}>{t('cp_version')}</H3>
+              <H3 color={systemTheme.colors.border}>{cp_version}</H3>
+            </MCView>
             <MCButton
               bordered
-              onPress={() => this.updateFromCodePush()}
+              onPress={() => this.props.checkCodePushUpdates()}
               pt={2}
               pb={2}>
               <H4>{t('codepush_check_for_update')}</H4>
@@ -234,6 +217,7 @@ const mapStateToProps = state => ({
   profile: state.profileReducer,
   completedExpertProfile: state.otherReducer.completedExpertProfile,
   setCrown: state.otherReducer.setCrown,
+  cp_status: state.otherReducer.cp_status,
   isDrawerOpened: state.routerReducer.isProfileDrawerOpened,
 });
 
@@ -244,6 +228,7 @@ const mapDispatchToProps = {
   resetAllReducer: routerActions.resetAllReducer,
   trackEvent: otherActions.trackEvent,
   toggleCrown: otherActions.toggleCrown,
+  checkCodePushUpdates: otherActions.checkCodePushUpdates,
 };
 
 export default withTranslation()(

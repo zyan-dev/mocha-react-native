@@ -1,4 +1,4 @@
-import {all, call, put, select} from 'redux-saga/effects';
+import {call, put, select} from 'redux-saga/effects';
 import RNIap from 'react-native-iap';
 import Mixpanel from 'react-native-mixpanel';
 import * as _ from 'lodash';

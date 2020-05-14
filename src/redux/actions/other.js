@@ -1,3 +1,4 @@
+import codePush from 'react-native-code-push';
 import * as types from './types';
 
 export const purchaseSubscription = param => ({
@@ -93,3 +94,36 @@ export const toggleCrown = flag => ({
   type: types.PROFILE_CROWN_TOGGLE,
   payload: flag,
 });
+
+export const setCodePushStatus = status => ({
+  type: types.SET_CODEPUSH_STATUS,
+  payload: status,
+});
+
+export const checkCodePushUpdates = () => dispatch => {
+  codePush.sync(
+    {
+      updateDialog: {title: 'CodePush update available'},
+      installMode: codePush.InstallMode.IMMEDIATE,
+    },
+    status => {
+      switch (status) {
+        case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+          dispatch(setCodePushStatus('codepush_checking_for_update'));
+          break;
+        case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+          dispatch(setCodePushStatus('codepush_downloading_package'));
+          break;
+        case codePush.SyncStatus.INSTALLING_UPDATE:
+          dispatch(setCodePushStatus('codepush_installing_update'));
+          break;
+        case codePush.SyncStatus.UP_TO_DATE:
+          dispatch(setCodePushStatus('codepush_up_to_date'));
+          break;
+        case codePush.SyncStatus.UPDATE_INSTALLED:
+          dispatch(setCodePushStatus('codepush_update_installed'));
+          break;
+      }
+    },
+  );
+};

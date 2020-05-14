@@ -13,6 +13,7 @@ import {
   userActions,
   feedbackActions,
   reflectionActions,
+  otherActions,
 } from 'Redux/actions';
 import NavigationService from 'navigation/NavigationService';
 
@@ -20,6 +21,11 @@ const Tab = createBottomTabNavigator();
 
 class MainHomeStack extends React.Component {
   componentDidMount() {
+    this.configurePushNotification();
+    this.props.checkCodePushUpdates();
+  }
+
+  configurePushNotification() {
     const {
       setProfileData,
       getAllTrustMembers,
@@ -132,6 +138,7 @@ const mapDispatchToProps = {
   getMyFeedbacks: feedbackActions.getMyFeedbacks,
   getUserProfile: profileActions.getUserProfile,
   getUserReflections: reflectionActions.getUserReflections,
+  checkCodePushUpdates: otherActions.checkCodePushUpdates,
 };
 
 export default connect(
