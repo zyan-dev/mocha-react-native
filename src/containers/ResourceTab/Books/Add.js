@@ -27,7 +27,7 @@ class AddResourceScreen extends React.PureComponent {
     this.state = {
       submitted: false,
       flagMore: false,
-      selectedImpacts: [],
+      selectedImpacts: '',
       selectedSkills: [],
       selectedTags: [],
       searchText: '',
@@ -51,7 +51,7 @@ class AddResourceScreen extends React.PureComponent {
   componentDidMount() {
     const {tags, impacts, skills} = this.props.selectedResource;
     this.setState({
-      selectedImpacts: impacts || [],
+      selectedImpacts: impacts,
       selectedSkills: skills || [],
       selectedTags: tags || [],
     });
@@ -85,16 +85,8 @@ class AddResourceScreen extends React.PureComponent {
   };
 
   updateSelectedImpacts = impact => {
-    const {selectedImpacts} = this.state;
-    const newImpacts = [...selectedImpacts];
-    const index = newImpacts.indexOf(impact);
-    if (index >= 0) {
-      newImpacts.splice(index, 1);
-    } else {
-      newImpacts.push(impact);
-    }
-    this.setState({selectedImpacts: newImpacts});
-    this.props.updateSelectedResource({impacts: newImpacts});
+    this.setState({selectedImpacts: impact.key});
+    this.props.updateSelectedResource({impacts: impact.key});
   };
 
   updateSelectedSkills = skill => {
@@ -136,7 +128,7 @@ class AddResourceScreen extends React.PureComponent {
       // type = resource.type;
     }
 
-    resource.data.impacts = [...selectedImpacts];
+    resource.data.impacts = selectedImpacts;
     resource.data.tags = [...selectedTags];
     let skills = [...selectedSkills];
 
@@ -201,19 +193,13 @@ class AddResourceScreen extends React.PureComponent {
 
   render() {
     const {
-      submitted,
       flagMore,
       selectedImpacts,
       selectedSkills,
       selectedTags,
       searchText,
     } = this.state;
-    const {
-      t,
-      selectedResource,
-      updateSelectedResource,
-      searchResource,
-    } = this.props;
+    const {t, searchResource} = this.props;
 
     let resource = searchResource;
 
@@ -322,12 +308,9 @@ class AddResourceScreen extends React.PureComponent {
                   mr={5}
                   mb={5}
                   style={{
-                    opacity:
-                      selectedImpacts && selectedImpacts.indexOf(impact) > -1
-                        ? 1
-                        : 0.5,
+                    opacity: selectedImpacts == impact.key ? 1 : 0.5,
                   }}>
-                  <H4>{t(`resource_book_impact_${impact}`)}</H4>
+                  <H4>{t(`resource_book_impact_${impact.value}`)}</H4>
                 </MCButton>
               ))}
             </MCView>

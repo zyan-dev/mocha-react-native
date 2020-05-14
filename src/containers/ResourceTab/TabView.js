@@ -3,18 +3,19 @@ import {Dimensions, View} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
-import {reflectionActions, otherActions, userActions} from 'Redux/actions';
-import BlogResourceScreen from './Filters/Blogs';
-import BookResourceScreen from './Filters/Books';
-import FeaturedResourceScreen from './Filters/Featured';
-import PodcastResourceScreen from './Filters/Podcasts';
-import SearchResourceScreen from './Filters/Search';
-import {dySize} from 'utils/responsive';
-import {MCHeader, MCSearchInput, MCIcon} from 'components/common';
 import RBSheet from 'react-native-raw-bottom-sheet';
+
+import {reflectionActions, otherActions, userActions} from 'Redux/actions';
+import FeaturedResourceScreen from './Filters/Featured';
+import AllResourcesScreen from './Filters/AllResources';
+import MyResourceScreen from './Filters/MyResource';
+import SearchResourceScreen from './Filters/Search';
+import {MCHeader, MCSearchInput, MCIcon} from 'components/common';
 import {H4, H6, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {ResoucesRoots} from 'utils/constants';
+import {ResourcesRoots} from 'utils/constants';
+import {dySize} from 'utils/responsive';
+
 class ResourceTabView extends React.Component {
   onChangeTabIndex = i => {
     this.setState({index: i});
@@ -25,11 +26,10 @@ class ResourceTabView extends React.Component {
     const {t, theme, tabIndex, isShowingUserHabit} = this.props;
 
     const renderScene = SceneMap({
-      featured: FeaturedResourceScreen,
+      globe: FeaturedResourceScreen,
       search: SearchResourceScreen,
-      books: BookResourceScreen,
-      blogs: BlogResourceScreen,
-      podcasts: PodcastResourceScreen,
+      users: AllResourcesScreen,
+      user: MyResourceScreen,
     });
 
     const renderTabBar = props => (
@@ -40,8 +40,6 @@ class ResourceTabView extends React.Component {
           backgroundColor: theme.colors.background,
           borderBottomWidth: 0,
         }}
-        scrollEnabled
-        tabStyle={{width: dySize(80)}}
         renderLabel={({route, focused, color}) => {
           return (
             <MCButton align="center">
@@ -51,9 +49,6 @@ class ResourceTabView extends React.Component {
                 size={20}
                 color={focused && theme.colors.outline}
               />
-              <H5 color={focused ? theme.colors.outline : theme.colors.text}>
-                {t(`resource_type_${route.title}`)}
-              </H5>
             </MCButton>
           );
         }}
@@ -63,7 +58,7 @@ class ResourceTabView extends React.Component {
     return (
       <View style={{flex: 1}}>
         <TabView
-          navigationState={{index: tabIndex, routes: ResoucesRoots}}
+          navigationState={{index: tabIndex, routes: ResourcesRoots}}
           renderScene={renderScene}
           onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}
@@ -73,6 +68,7 @@ class ResourceTabView extends React.Component {
     );
   }
 }
+
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
 });

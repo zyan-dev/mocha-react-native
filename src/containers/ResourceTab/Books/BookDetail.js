@@ -14,9 +14,8 @@ import {
 import {H3, H4, H5, H6} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
-import {BookImgage} from 'assets/images';
 import {dySize} from 'utils/responsive';
-
+import {skills, impacts} from 'utils/constants';
 class BookDetailScreen extends React.PureComponent {
   onPressRight = resource => {
     NavigationService.navigate('AddResource', {resource: resource});
@@ -36,6 +35,9 @@ class BookDetailScreen extends React.PureComponent {
     const {t, profile} = this.props;
     const resource = this.props.route.params.resource;
     const collaborators = this.props.route.params.collaborators;
+    const index = impacts.findIndex(
+      impact => impact.key === resource.data.impacts,
+    );
 
     return (
       <MCRootView justify="flex-start">
@@ -125,7 +127,7 @@ class BookDetailScreen extends React.PureComponent {
               <MCView align="center" style={{flex: 1}}>
                 <H4 underline>{t('resource_type_book_impact')}</H4>
                 <MCBookTagsView
-                  tags={resource.data.impacts}
+                  tags={[impacts[index]]}
                   impact={true}
                   collaborators={collaborators}
                   t={t}

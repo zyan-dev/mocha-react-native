@@ -29,7 +29,7 @@ class FeatureResourceScreen extends React.PureComponent {
     const {t, allResources} = this.props;
     return (
       <MCRootView>
-        <H3>Featured Page</H3>
+        <H3>Coming Soon</H3>
       </MCRootView>
     );
   }
