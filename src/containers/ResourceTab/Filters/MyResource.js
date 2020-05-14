@@ -41,7 +41,7 @@ class MyResourceScreen extends React.PureComponent {
 
     return (
       <MCRootView>
-        <MCView row mt={10}>
+        <MCView row>
           {ResourceContentRoots.map(item => (
             <MCButton onPress={() => this.onPressItem(item)}>
               <MCIcon
@@ -53,7 +53,7 @@ class MyResourceScreen extends React.PureComponent {
             </MCButton>
           ))}
         </MCView>
-        <MCView row mt={10} width={350} justify="space-between" align="center">
+        <MCView row width={350} justify="space-between" align="center">
           <H4 weight="bold" underline>
             {t('resource_type_my')} {t('bookshelf')}
           </H4>

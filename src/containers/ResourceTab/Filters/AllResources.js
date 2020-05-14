@@ -48,13 +48,11 @@ class AllResourcesScreen extends React.PureComponent {
   };
 
   _renderListItem = ({item}) => {
-    console.log(123, item);
     const {theme} = this.props;
     const {selectedMember} = this.state;
     return (
-      <MCButton ml={10} onPress={() => this.selectMember(item)}>
+      <MCButton onPress={() => this.selectMember(item)}>
         <MCView
-          mr={5}
           br={27}
           width={54}
           height={54}
@@ -101,7 +99,7 @@ class AllResourcesScreen extends React.PureComponent {
 
     return (
       <MCRootView>
-        <MCView row wrap mt={20}>
+        <MCView row wrap mt={5} ph={5}>
           <FlatList
             data={members}
             renderItem={this._renderListItem}
@@ -113,7 +111,7 @@ class AllResourcesScreen extends React.PureComponent {
             horizontal={true}
           />
         </MCView>
-        <MCView row mt={10}>
+        <MCView row>
           {ResourceContentRoots.map(item => (
             <MCButton onPress={() => this.onPressItem(item)}>
               <MCIcon
@@ -125,7 +123,7 @@ class AllResourcesScreen extends React.PureComponent {
             </MCButton>
           ))}
         </MCView>
-        <MCView row mt={10} width={350} justify="space-between" align="center">
+        <MCView row width={350} justify="space-between" align="center">
           <H4 weight="bold" underline>
             {selectedMember.name
               ? `${selectedMember.name}'s`

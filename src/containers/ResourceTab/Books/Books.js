@@ -38,7 +38,7 @@ class BookResourceScreen extends React.PureComponent {
     const bookmarked = bookmarkedResources.indexOf(item._id) > -1;
     return (
       <MCView align="center">
-        <NativeCard width={320} mt={20} mb={20} ml={10} mr={10}>
+        <NativeCard width={320} mt={10} mb={10} ml={10} mr={10}>
           <BookItem
             resource={item}
             bookmarked={bookmarked}
