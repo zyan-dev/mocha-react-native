@@ -105,6 +105,7 @@ class AddResourceScreen extends React.PureComponent {
   onPressRight = () => {
     if (!this.props.route.params.resource) {
       if (!this.validateTitle()) return;
+      if (this.state.selectedImpacts == '') return;
     }
 
     const {
@@ -316,7 +317,7 @@ class AddResourceScreen extends React.PureComponent {
             </MCView>
           </MCView>
           <MCView mt={5}>
-            <MCView width={350} align="center" pv={5}>
+            <MCView width={350} pv={5}>
               {getStringWithOutline(this.PersonalDevelopmentQuestion, {
                 align: 'left',
                 underline: true,
