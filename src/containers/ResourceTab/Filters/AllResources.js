@@ -1,14 +1,16 @@
 import React from 'react';
+import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 
 import {resourceActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {H3, H4, H5} from 'components/styled/Text';
+import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
 import {MCImage, MCIcon} from 'components/common';
 import {ResourceContentRoots} from 'utils/constants';
 import BookResourceScreen from '../Books/Books';
+import {dySize} from 'utils/responsive';
 
 class AllResourcesScreen extends React.PureComponent {
   constructor(props) {
@@ -45,6 +47,34 @@ class AllResourcesScreen extends React.PureComponent {
     this.setState({sort: !this.state.sort});
   };
 
+  _renderListItem = ({item}) => {
+    console.log(123, item);
+    const {theme} = this.props;
+    const {selectedMember} = this.state;
+    return (
+      <MCButton ml={10} onPress={() => this.selectMember(item)}>
+        <MCView
+          mr={5}
+          br={27}
+          width={54}
+          height={54}
+          bordered={selectedMember._id == item._id}
+          style={{
+            borderColor: theme.colors.outline,
+            borderWidth: selectedMember._id == item._id ? 2 : 0,
+          }}>
+          <MCImage
+            key={item._id}
+            image={{uri: item.avatar}}
+            round
+            width={50}
+            height={50}
+          />
+        </MCView>
+      </MCButton>
+    );
+  };
+
   render() {
     const {theme, t, allResources} = this.props;
     const {focused, sort, selectedMember} = this.state;
@@ -72,28 +102,16 @@ class AllResourcesScreen extends React.PureComponent {
     return (
       <MCRootView>
         <MCView row wrap mt={20}>
-          {members.map(user => (
-            <MCButton mr={10} onPress={() => this.selectMember(user)}>
-              <MCView
-                mr={5}
-                br={27}
-                width={54}
-                height={54}
-                bordered={selectedMember._id == user._id}
-                style={{
-                  borderColor: theme.colors.outline,
-                  borderWidth: selectedMember._id == user._id ? 2 : 0,
-                }}>
-                <MCImage
-                  key={user._id}
-                  image={{uri: user.avatar}}
-                  round
-                  width={50}
-                  height={50}
-                />
-              </MCView>
-            </MCButton>
-          ))}
+          <FlatList
+            data={members}
+            renderItem={this._renderListItem}
+            keyExtractor={item => item._id}
+            keyboardShouldPersistTaps="always"
+            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+            numColumns={1}
+            style={{width: dySize(350)}}
+            horizontal={true}
+          />
         </MCView>
         <MCView row mt={10}>
           {ResourceContentRoots.map(item => (
