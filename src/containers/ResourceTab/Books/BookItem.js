@@ -107,79 +107,67 @@ class BookItem extends React.Component {
 
   render() {
     const {t, resource, theme} = this.props;
-    const {collaborators} = this.state;
 
     return (
-      <MCView
-        key={resource._id}
-        width={160}
-        bordered
-        align="center"
-        br={10}
-        mt={30}
-        ml={8}
-        mr={8}
-        ph={5}
-        pv={5}>
-        <MCButton onPress={() => this.goDetailpage(resource)}>
-          <MCImage
-            width={150}
-            height={220}
-            image={{uri: resource.data.thumbnail}}
-          />
-          <MCView width={150} justify="center" align="center">
-            <H3 style={{flex: 1}} weight="bold">
-              {resource.data.title}
-            </H3>
-            <H5>{resource.data.authors && resource.data.authors[0]}</H5>
-          </MCView>
-        </MCButton>
-        <MCView height={2} bordered mb={10} width={120} />
-        <Swiper
-          loadMinimal
-          loop={false}
-          showsButtons={false}
-          dot={<MCView width={8} height={8} mr={5} bordered br={4} />}
-          activeDot={
-            <MCView
-              width={8}
-              height={8}
-              bordered
-              br={4}
-              mr={5}
-              background={theme.colors.text}
-            />
-          }
-          style={{
-            height: 220,
-          }}>
-          <MCView align="center" width={150}>
-            <H4 underline>{t('resource_type_book_impact')}</H4>
-            <MCBookTagsView
-              tags={
-                resource.data.impacts.length > 2
-                  ? resource.data.impacts.slice(0, 2)
-                  : resource.data.impacts
-              }
-              impact={true}
-              collaborators={collaborators}
-              t={t}
+      <MCButton onPress={() => this.goDetailpage(resource)} key={resource._id}>
+        <MCView
+          width={300}
+          row
+          justify="space-between"
+          align="flex-start"
+          ph={10}>
+          <MCView>
+            <MCImage
+              width={120}
+              height={180}
+              image={{uri: resource.data.thumbnail}}
+              resizeMode="contain"
             />
           </MCView>
-          <MCView align="center" width={150}>
-            <H4 underline>{t('resource_type_book_skills')}</H4>
-            <MCBookTagsView
-              tags={
-                resource.data.skills.length > 2
-                  ? resource.data.skills.slice(0, 2)
-                  : resource.data.skills
-              }
-              collaborators={collaborators}
-              t={t}
-            />
+          <MCView width={140}>
+            <H3 weight="bold">{resource.data.title}</H3>
+            {resource.data.authors && <H5> By {resource.data.authors[0]}</H5>}
+            <MCView row>
+              <H5 weight="bold">{t('resource_type_book_released')}</H5>
+              <H5 ml={10}>{resource.data.publishDate}</H5>
+            </MCView>
+            <MCView row>
+              <H5 weight="bold">{t('resource_type_book_page')}</H5>
+              <H5 ml={10}>{resource.data.pageCount} pg</H5>
+            </MCView>
           </MCView>
-        </Swiper>
-      </MCView>
+        </MCView>
+        <MCView bordered mt={10} mb={10} width={300} />
+        <MCView width={300}>
+          <H4 underline>{t('resource_type_book_skill')}</H4>
+          <MCView row wrap>
+            {resource.data.skills.map(
+              (skill, index) =>
+                index < 3 && (
+                  <MCView
+                    mr={10}
+                    mb={5}
+                    br={10}
+                    background={theme.colors.text}
+                    height={30}
+                    ph={10}
+                    align="center"
+                    justify="center">
+                    {skill.indexOf('resource_manual_') > -1 ? (
+                      <H5 color={theme.colors.background}>
+                        {t(skill.slice('resource_manual_'.length))}
+                      </H5>
+                    ) : (
+                      <H5 color={theme.colors.background}>
+                        {t(`resource_book_skills_${skill}`)}
+                      </H5>
+                    )}
+                  </MCView>
+                ),
+            )}
+          </MCView>
+        </MCView>
+      </MCButton>
     );
   }
 }

@@ -43,7 +43,7 @@ export default class MCBookTagsView extends React.PureComponent {
                 type={impact}
                 numberOfLines={1}>
                 {impact
-                  ? t(`resource_book_impact_${tag}`)
+                  ? t(`resource_book_impact_${tag.value}`)
                   : tag.indexOf('resource_manual_') > -1
                   ? t(tag.slice('resource_manual_'.length))
                   : t(`resource_book_skills_${tag}`)}

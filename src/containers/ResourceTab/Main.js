@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
+
 import {routerActions, resourceActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {MCHeader, MCIcon} from 'components/common';
@@ -9,41 +10,22 @@ import {H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from '../../navigation/NavigationService';
 import ResourceTabView from './TabView';
-import {ResoucesRoots} from 'utils/constants';
-class ResourceSearchScreen extends React.PureComponent {
+import {ResourcesRoots} from 'utils/constants';
+
+class ResourceScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       searchText: '',
       viewAll: true,
       filterTypes: [],
-      tabIndex: 2,
+      tabIndex: 1,
     };
   }
 
-  onPressFilterOption = () => {
-    this.RBSheet && this.RBSheet.open();
-  };
-
-  onPressFilterItem = type => {
-    const {filterTypes, viewAll} = this.state;
-    const index = filterTypes.indexOf(type.type);
-    if (index > -1) {
-      filterTypes.splice(index, 1);
-    } else {
-      filterTypes.push(type.type);
-    }
-    if (type.type === 'all') {
-      this.setState({viewAll: true, filterTypes: []});
-    } else {
-      this.setState({viewAll: false, filterTypes});
-    }
-    this.forceUpdate();
-  };
-
   onPressRight = () => {
     NavigationService.navigate('AddResource', {
-      root: ResoucesRoots[this.state.tabIndex],
+      root: ResourcesRoots[this.state.tabIndex],
     });
   };
 
@@ -63,12 +45,12 @@ class ResourceSearchScreen extends React.PureComponent {
         </MCRootView>
       );
     }
+
     return (
       <View style={{flex: 1}}>
         <MCHeader
           title={t('resources')}
-          onPressBack={() => this.onPressFilterOption()}
-          hasRight={tabIndex != 0 && tabIndex != 1 ? true : false}
+          hasRight={tabIndex != 3 ? true : false}
           rightIcon="plus"
           onPressRight={() => this.onPressRight()}
           hasBack={false}
@@ -104,5 +86,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(ResourceSearchScreen),
+  )(ResourceScreen),
 );

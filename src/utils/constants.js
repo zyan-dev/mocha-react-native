@@ -95,37 +95,6 @@ export const WeekDays = [
   },
 ];
 
-export const ResourceSideMenuList = [
-  {
-    index: 0,
-    icon: 'ios-search',
-    iconType: 'Ionicon',
-    title: 'resource_menu_search',
-    redirectTo: 'ResourceSearch',
-  },
-  {
-    index: 1,
-    icon: 'ios-apps',
-    iconType: 'Ionicon',
-    title: 'resource_menu_my_resources',
-    redirectTo: 'MyResources',
-  },
-  {
-    index: 2,
-    icon: 'ios-add',
-    iconType: 'Ionicon',
-    title: 'resource_menu_add',
-    redirectTo: 'AddResource',
-  },
-  {
-    index: 0,
-    icon: 'ios-gift',
-    iconType: 'Ionicon',
-    title: 'resource_menu_favourite',
-    redirectTo: 'ResourceBookmarked',
-  },
-];
-
 export const ProfileSideMenuList = [
   {
     index: 0,
@@ -2294,20 +2263,62 @@ export const skills = [
 ];
 
 export const impacts = [
-  'impactful',
-  'therapeutic',
-  'self_discovery',
-  'cathartic',
-  'life_changing',
-  'explanatory',
-  'important',
-  'helpful',
-  'life_saving',
-  'must_read',
-  'every_year',
-  'very_important',
-  'essential',
-  'remarkable',
+  {
+    key: 1,
+    value: 'impactful',
+  },
+  {
+    key: 2,
+    value: 'therapeutic',
+  },
+  {
+    key: 3,
+    value: 'self_discovery',
+  },
+  {
+    key: 4,
+    value: 'cathartic',
+  },
+  {
+    key: 5,
+    value: 'life_changing',
+  },
+  {
+    key: 6,
+    value: 'explanatory',
+  },
+  {
+    key: 7,
+    value: 'important',
+  },
+  {
+    key: 8,
+    value: 'helpful',
+  },
+  {
+    key: 9,
+    value: 'life_saving',
+  },
+  {
+    key: 10,
+    value: 'must_read',
+  },
+  {
+    key: 11,
+    value: 'every_year',
+  },
+  {
+    key: 12,
+    value: 'very_important',
+  },
+  {
+    key: 13,
+    value: 'essential',
+  },
+  {
+    key: 14,
+    value: 'remarkable',
+  },
 ];
 
 export const CoachingFeedbackOptions = [
@@ -2364,30 +2375,44 @@ export const ComfortingPreferences = [
 
 export const stressRecoveries = ['tea', 'exercise', 'meditating', 'music'];
 
-export const ResoucesRoots = [
+export const ResourcesRoots = [
   {
-    key: 'featured',
-    title: 'featured',
-    icon: 'hand-holding-seedling',
+    key: 'globe',
+    icon: 'globe',
+  },
+  {
+    key: 'users',
+    icon: 'users',
+  },
+  {
+    key: 'user',
+    icon: 'user',
   },
   {
     key: 'search',
-    title: 'search',
     icon: 'search',
   },
+];
+
+export const ResourceContentRoots = [
   {
     key: 'books',
-    title: 'book',
     icon: 'book',
   },
   {
     key: 'blogs',
-    title: 'blog',
     icon: 'rss-square',
   },
   {
     key: 'podcasts',
-    title: 'podcast',
     icon: 'podcast',
+  },
+  {
+    key: 'class',
+    icon: 'users-class',
+  },
+  {
+    key: 'video',
+    icon: 'video',
   },
 ];

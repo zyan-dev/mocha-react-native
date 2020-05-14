@@ -65,7 +65,7 @@ class TabView extends React.PureComponent {
     const TabScreens = ['TabFeed', 'TabResource', 'TabTools', 'TabProfile'];
     const TabHomeScreens = [
       {name: userToken.length > 0 ? 'Feed' : 'Auth_SendSMS'},
-      {name: 'ResourceSearch'},
+      {name: 'Resources'},
       {name: 'ToolsTabHome'},
       {name: 'Profile'},
     ];

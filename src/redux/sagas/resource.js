@@ -83,7 +83,7 @@ export function* updateResources(action) {
         type: types.SET_SEARCH_RESOURCE,
         payload: {},
       });
-      NavigationService.navigate('ResourceSearch');
+      NavigationService.navigate('Resources');
     } else {
       yield put({
         type: types.API_FINISHED,
