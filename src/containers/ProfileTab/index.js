@@ -23,6 +23,7 @@ import UserManualScreen from '../ToolsTab/usermanual';
 import EditUserManualScreen from '../ToolsTab/usermanual/edit';
 import HabitScreen from '../ToolsTab/habit';
 import EditHabitScreen from '../ToolsTab/habit/Add';
+import FeedbackStack from '../ToolsTab/feedback';
 import FeedbackPreferenceScreen from '../ToolsTab/profile_advanced/CoachingFeedback';
 import BehaviorPreferenceScreen from '../ToolsTab/profile_advanced/QualitiesCharacter';
 import EditNutritionScreen from '../ToolsTab/profile_basic/Nutrition';
@@ -89,6 +90,7 @@ class ProfileTabStack extends React.Component {
           />
           <Stack.Screen name="Purchase" component={PurchaseSubscription} />
           <Stack.Screen name="Feedbacks" component={FeedbackScreen} />
+          <Stack.Screen name="RequestFeedback" component={FeedbackStack} />
           <Stack.Screen name="Chronotype" component={ChronotypeScreen} />
           <Stack.Screen name="Motivations" component={MotivationListScreen} />
           <Stack.Screen name="Personality" component={PersonalityScreen} />

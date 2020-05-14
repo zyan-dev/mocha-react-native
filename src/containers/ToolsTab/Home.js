@@ -233,6 +233,7 @@ class AddReflectionScreen extends React.Component {
 
   onPressTab = index => {
     this.props.changeToolsTab(index);
+    this.hideSideMenu();
   };
 
   onPressCard = section => {
@@ -297,7 +298,7 @@ class AddReflectionScreen extends React.Component {
     ).start();
   };
 
-  onHideSideMenu = () => {
+  hideSideMenu = () => {
     Animated.timing(
       // Uses easing functions
       this.state.sideMenuRight, // The value to drive
@@ -431,7 +432,7 @@ class AddReflectionScreen extends React.Component {
               width: dySize(75),
               alignItems: 'center',
             }}>
-            <MCButton align="center" onPress={() => this.onHideSideMenu()}>
+            <MCButton align="center" onPress={() => this.hideSideMenu()}>
               <MCIcon name="ios-close" size={60} />
             </MCButton>
             {ToolsSideTabs.map((tab, index) => {

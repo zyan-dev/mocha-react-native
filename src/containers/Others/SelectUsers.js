@@ -79,7 +79,7 @@ class SelectUserScreen extends React.Component {
       : selectedUser._id === user._id;
 
     return (
-      <NativeCard width={350} pv={1}>
+      <NativeCard width={350} pv={1} mt={10}>
         <MCView key={user.user_id} row align="center" shadow p={0}>
           <MCButton onPress={() => this.onPressUserAvatar(user)}>
             <MCImage
