@@ -74,7 +74,13 @@ class SocialSearchScreen extends React.Component {
 
   render() {
     const {searchText} = this.state;
-    const {t, theme, isLoading, searchedUsers, searchPageLimited} = this.props;
+    const {
+      t,
+      theme,
+      pageSearching,
+      searchedUsers,
+      searchPageLimited,
+    } = this.props;
     if (!searchedUsers) return null;
     return (
       <View style={{flex: 1}}>
@@ -108,7 +114,7 @@ class SocialSearchScreen extends React.Component {
                 ListEmptyComponent={
                   <MCView bordered align="center">
                     <MCEmptyText>
-                      {isLoading ? t('progress_loading') : t('no_result')}
+                      {pageSearching ? t('progress_loading') : t('no_result')}
                     </MCEmptyText>
                   </MCView>
                 }

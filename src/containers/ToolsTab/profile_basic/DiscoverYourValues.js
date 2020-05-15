@@ -17,8 +17,7 @@ import {
   ValueCardTextColor,
 } from 'utils/constants';
 import {KeySvg} from 'assets/svgs';
-import {showAlert} from 'services/operators';
-import {getStringWithOutline} from '../../../services/operators';
+import {showAlert, getStringWithOutline} from 'services/operators';
 import i18next from 'i18next';
 
 const cardViewHeight =
@@ -180,16 +179,22 @@ class DiscoverValueScreen extends React.Component {
     this.setState({coreValues});
   };
 
-  onPressSubmit = () => {
-    this.setState({submitted: true});
-    if (!this.validateOptions()) return;
-    this.props.updateSelectedReflection({
-      selected: this.state.selectedValues,
-      core: this.state.coreValues,
-    });
-    setTimeout(() => {
-      this.props.addOrUpdateReflection();
-    });
+  onPressRight = () => {
+    const {step} = this.state;
+    if (!step) {
+      // pressed View All
+      this.setState({selectedValues: DiscoverValues, coreValues: [], step: 1});
+    } else {
+      this.setState({submitted: true});
+      if (!this.validateOptions()) return;
+      this.props.updateSelectedReflection({
+        selected: this.state.selectedValues,
+        core: this.state.coreValues,
+      });
+      setTimeout(() => {
+        this.props.addOrUpdateReflection();
+      });
+    }
   };
 
   validateOptions = () => {
@@ -316,12 +321,13 @@ class DiscoverValueScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          hasRight={step === 1}
+          hasRight
           title={t('tools_tab_discover_your_values')}
           headerIcon={<KeySvg theme={theme} size={30} />}
-          rightIcon={step ? 'cloud-upload-alt' : 'arrow-right'}
+          rightIcon={step && 'cloud-upload-alt'}
+          rightText={!step && 'View All'}
           onPressBack={() => this.onPressHeaderBack()}
-          onPressRight={() => this.onPressSubmit()}
+          onPressRight={() => this.onPressRight()}
         />
         {step === 0 ? (
           <>

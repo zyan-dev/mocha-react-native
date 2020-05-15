@@ -134,7 +134,6 @@ export function* findUserByName(action) {
         payload: [],
       });
     }
-    yield put({type: types.API_CALLING});
     yield put({
       type: types.SET_PAGE_SEARCHING_STATE,
       payload: true,
