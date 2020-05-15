@@ -2,12 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Drawer from 'react-native-drawer';
 import {createStackNavigator} from '@react-navigation/stack';
-import FeedScreen from './feed';
+import FeedScreen from './social';
 import SendRequestScreen from './send_request';
 import MyTrustNetworkScreen from './manage_trustnetwork';
 import ManageTrustNetworkScreen from './manage_trustnetwork/Manage';
 import PendingRequestScreen from './pending';
 import AddPendingUserScreen from './pending/Add';
+import CreateChatRoomScreen from './social/chat/Create';
+import SelectChatMemberScreen from './social/chat/SelectMember';
 import SocialSideMenu from './SideMenu';
 import {dySize} from 'utils/responsive';
 import {routerActions} from 'Redux/actions';
@@ -53,6 +55,14 @@ class SocialStack extends React.Component {
             name="AddPendingUser"
             component={AddPendingUserScreen}
           />
+          <Stack.Screen
+            name="CreateChatRoom"
+            component={CreateChatRoomScreen}
+          />
+          <Stack.Screen
+            name="SelectChatMember"
+            component={SelectChatMemberScreen}
+          />
         </Stack.Navigator>
       </Drawer>
     );
@@ -67,4 +77,7 @@ const mapDispatchToProps = {
   showDrawer: routerActions.setSocialDrawerOpened,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SocialStack);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SocialStack);

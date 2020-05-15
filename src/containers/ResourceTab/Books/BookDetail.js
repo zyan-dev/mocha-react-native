@@ -161,7 +161,6 @@ const mapStateToProps = state => ({
   bookmarkedResources: state.resourceReducer.bookmarkedResources,
   allResources: state.resourceReducer.allResources,
   profile: state.profileReducer,
-  allUsers: state.usersReducer.allUsers,
 });
 
 const mapDispatchToProps = {

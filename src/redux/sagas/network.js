@@ -54,12 +54,8 @@ export function* updateNetwork(action) {
   try {
     const {
       networkReducer: {selectedNetwork},
-      usersReducer: {allUsers},
     } = yield select();
     yield put({type: types.API_CALLING});
-    selectedNetwork.members = selectedNetwork.members.filter(member => {
-      return allUsers.find(user => user._id === member);
-    });
     const param = _.pick(selectedNetwork, [
       '_id',
       'permissions',

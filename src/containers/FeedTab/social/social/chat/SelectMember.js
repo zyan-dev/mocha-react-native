@@ -7,11 +7,10 @@ import {userActions} from 'Redux/actions';
 import {MCHeader, MCImage, MCSearchInput, MCIcon} from 'components/common';
 import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCRootView, MCView, MCCard} from 'components/styled/View';
+import {MCRootView, MCView, NativeCard} from 'components/styled/View';
 import {dySize} from 'utils/responsive';
-import {NativeCard} from '../../components/styled/View';
 
-class SelectUserScreen extends React.Component {
+class SelectChatMemberScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,8 +20,21 @@ class SelectUserScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.findUserByName({name: '', page: 1});
+    this.props.getTrustMembers({
+      status: 1,
+      name: '',
+      page: 1,
+    });
   }
+
+  onChangeSearchText = text => {
+    this.setState({searchText: text});
+    this.props.getTrustMembers({
+      status: 1,
+      name: text,
+      page: 1,
+    });
+  };
 
   onPressUserAvatar = user => {
     NavigationService.navigate('UserProfile', {id: user._id});
@@ -47,26 +59,18 @@ class SelectUserScreen extends React.Component {
 
   searchNextPage = () => {
     const {
-      findUserByName,
+      getTrustMembers,
       searchPageLimited,
       searchPageIndex,
       pageSearching,
     } = this.props;
     if (searchPageLimited || pageSearching) return;
-    findUserByName({name: '', page: searchPageIndex + 1});
+    getTrustMembers({page: searchPageIndex + 1});
   };
 
   _renderUserItem = ({item}) => {
-    const {searchText} = this.state;
     const {theme, myProfile, selectedUsers} = this.props;
     const user = item;
-
-    // search by text
-    if (
-      user.name.toLowerCase().indexOf(searchText.toLowerCase()) < 0 &&
-      user.user_id.toLowerCase().indexOf(searchText.toLowerCase()) < 0
-    )
-      return null;
 
     // skip owner's profile
     if (user._id === myProfile._id) return null;
@@ -160,17 +164,17 @@ class SelectUserScreen extends React.Component {
       t,
       theme,
       selectedUsers,
-      searchedUsers,
+      trustMembers,
       searchPageLimited,
       isLoading,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
-        <MCHeader title={t('title_select_user')} />
+        <MCHeader title={t('title_select_chat_member')} />
         <MCSearchInput
           width={350}
           text={searchText}
-          onChange={text => this.setState({searchText: text})}
+          onChange={text => this.onChangeSearchText(text)}
         />
         <MCView width={375} style={{flex: 1}}>
           <FlatList
@@ -180,7 +184,7 @@ class SelectUserScreen extends React.Component {
               alignItems: 'center',
               paddingBottom: 100,
             }}
-            data={searchedUsers}
+            data={trustMembers}
             renderItem={this._renderUserItem}
             ListEmptyComponent={
               <MCEmptyText>
@@ -188,7 +192,7 @@ class SelectUserScreen extends React.Component {
               </MCEmptyText>
             }
             ListFooterComponent={
-              searchPageLimited && searchedUsers.length ? (
+              searchPageLimited && trustMembers.length ? (
                 <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
               ) : null
             }
@@ -221,7 +225,7 @@ class SelectUserScreen extends React.Component {
 
 const mapStateToProps = state => ({
   selectedUsers: state.usersReducer.selectedUsers,
-  searchedUsers: state.usersReducer.searchedUsers,
+  trustMembers: state.usersReducer.trustMembers,
   searchPageLimited: state.usersReducer.searchPageLimited,
   searchPageIndex: state.usersReducer.searchPageIndex,
   pageSearching: state.usersReducer.pageSearching,
@@ -234,12 +238,12 @@ const mapDispatchToProps = {
   selectUser: userActions.selectUser,
   deselectUser: userActions.deselectUser,
   selectSingleUser: userActions.selectSingleUser,
-  findUserByName: userActions.findUserByName,
+  getTrustMembers: userActions.getTrustMembers,
 };
 
 export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(SelectUserScreen),
+  )(SelectChatMemberScreen),
 );

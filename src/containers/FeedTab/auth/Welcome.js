@@ -24,12 +24,6 @@ class FeedWelcome extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    const {userToken, getAllUsers, getAllTrustMembers} = this.props;
-    userToken.length > 0 && getAllUsers();
-    userToken.length > 0 && getAllTrustMembers();
-  }
-
   onSkipWelcome = () => {
     NavigationService.navigate('Social');
   };
@@ -87,14 +81,9 @@ const mapStateToProps = state => ({
   userToken: state.profileReducer.userToken,
 });
 
-const mapDispatchToProps = {
-  getAllUsers: userActions.getAllUsers,
-  getAllTrustMembers: userActions.getAllTrustMembers,
-};
-
 export default withTranslation()(
   connect(
     mapStateToProps,
-    mapDispatchToProps,
+    undefined,
   )(FeedWelcome),
 );

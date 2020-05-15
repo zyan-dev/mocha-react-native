@@ -13,7 +13,11 @@ import NavigationService from 'navigation/NavigationService';
 
 class PendingRequestScreen extends React.Component {
   componentDidMount() {
-    this.props.getAllTrustMembers();
+    this.props.getTrustMembers({
+      status: 0,
+      name: '',
+      page: 1,
+    });
   }
 
   onAddUser = user => {
@@ -25,7 +29,7 @@ class PendingRequestScreen extends React.Component {
   };
 
   _renderPendingReqeustItem = ({item}) => {
-    const {t, theme, declineRequest, allUsers} = this.props;
+    const {t, theme, declineRequest} = this.props;
     if (!item._id) return null;
     return (
       <MCCard p={1} row align="center" mb={10}>
@@ -86,14 +90,13 @@ class PendingRequestScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  pendingUsers: selector.users.getAllPendingUsers(state),
+  pendingUsers: state.usersReducer.pendingUsers,
   theme: state.routerReducer.theme,
-  allUsers: state.usersReducer.allUsers,
 });
 
 const mapDispatchToProps = {
   declineRequest: userActions.declineRequest,
-  getAllTrustMembers: userActions.getAllTrustMembers,
+  getTrustMembers: userActions.getTrustMembers,
 };
 
 export default withTranslation()(

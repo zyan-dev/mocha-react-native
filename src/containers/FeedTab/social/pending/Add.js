@@ -40,11 +40,11 @@ class AddPendingUserScreen extends React.Component {
   };
 
   renderAvatars = network => {
-    const {allUsers} = this.props;
     return (
       <MCView width={80} height={70} style={{position: 'relative'}}>
         {network.members.slice(0, 3).map((memberId, index) => {
-          const find = allUsers.find(user => user._id === memberId);
+          const find = network.includes.find(i => i._id === memberId);
+          if (!find) return null;
           return (
             <MCImage
               key={memberId}
@@ -130,7 +130,6 @@ class AddPendingUserScreen extends React.Component {
 
 const mapStateToProps = state => ({
   myNetworks: state.networkReducer.myNetworks,
-  allUsers: state.usersReducer.allUsers,
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
 });

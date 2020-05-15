@@ -1,12 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {
-  profileActions,
-  reflectionActions,
-  feedbackActions,
-  otherActions,
-} from 'Redux/actions';
+import {profileActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
 import {H2, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
@@ -137,20 +132,16 @@ class UserProfileScreen extends React.Component {
       meaning,
       commits,
     } = this.props;
-    if (profile.message === 'api.user.get-profile.fail') {
-      return (
-        <MCRootView justify="flex-start">
-          <MCHeader />
-          <MCView align="center" mt={50}>
-            <H2 align="center">{t('unknown_user_displayText')}</H2>
-          </MCView>
-        </MCRootView>
-      );
-    }
     if (profile.message) {
       return (
-        <MCRootView>
-          <H4>{profile.message}</H4>
+        <MCRootView justify="flex-start">
+          <MCHeader title={t('other_profile_page_headerText')} />
+          <MCView
+            align="center"
+            justify="center"
+            style={{flex: 1, paddingBottom: dySize(100)}}>
+            <H4>{t(profile.message)}</H4>
+          </MCView>
         </MCRootView>
       );
     }
@@ -328,7 +319,6 @@ class UserProfileScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.usersReducer.userProfile,
-  allUsers: state.usersReducer.allUsers,
   chronotype: selector.reflections.findUserSpecialReflections(
     state,
     'Chronotype',

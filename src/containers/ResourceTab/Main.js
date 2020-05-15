@@ -31,7 +31,7 @@ class ResourceScreen extends React.PureComponent {
 
   render() {
     const {tabIndex} = this.state;
-    const {t, profile} = this.props;
+    const {t, theme, profile} = this.props;
 
     if (!profile.userToken.length) {
       return (
@@ -47,7 +47,7 @@ class ResourceScreen extends React.PureComponent {
     }
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: theme.colors.background}}>
         <MCHeader
           title={t('resources')}
           hasRight={tabIndex != 3 ? true : false}

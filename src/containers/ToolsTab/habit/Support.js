@@ -50,14 +50,11 @@ class SupportHabitScreen extends React.Component {
   };
 
   getHabitOwners = () => {
-    const {supportedHabits, allUsers} = this.props;
+    const {supportedHabits} = this.props;
     let owners = [];
     supportedHabits.map(habit => {
       const find = owners.find(user => user._id === habit.owner);
-      if (!find) {
-        const owner = allUsers.find(user => user._id === habit.owner);
-        if (owner) owners.push(owner);
-      }
+      if (!find) owners.push(habit.owner_profile);
     });
     return owners;
   };
@@ -93,9 +90,7 @@ class SupportHabitScreen extends React.Component {
 
   _renderHabitItem = ({item}) => {
     const habit = item.data;
-    const {allUsers, theme} = this.props;
-    const owner = allUsers.find(user => user._id === item.owner);
-    if (!owner) return null;
+    const {theme} = this.props;
     return (
       <MCView width={350} bordered br={8} mt={10}>
         <MCCard shadow row align="center" justify="center" width={350} br={1}>
@@ -224,7 +219,6 @@ class SupportHabitScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   supportedHabits: state.reflectionReducer.supportedHabits,
-  allUsers: state.usersReducer.allUsers,
 });
 
 const mapDispatchToProps = {

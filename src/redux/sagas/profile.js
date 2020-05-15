@@ -105,10 +105,10 @@ export function* getUserProfile(action) {
     const {id, fetchRelatedData} = action.payload;
     yield put({
       type: types.SET_USER_PROFILE,
-      payload: {message: 'Loading profile...'},
+      payload: {message: 'progress_loading_profile'},
     });
     const response = yield call(API.getUserProfile, id);
-    if (response.data.status === 'success') {
+    if (response.data.data.user) {
       yield put({
         type: types.SET_USER_PROFILE,
         payload: response.data.data.user,
@@ -121,7 +121,7 @@ export function* getUserProfile(action) {
     } else {
       yield put({
         type: types.SET_USER_PROFILE,
-        payload: {message: response.data.data.message},
+        payload: {message: 'progress_user_not_exist'},
       });
     }
   } catch (e) {

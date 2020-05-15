@@ -1,11 +1,8 @@
 import * as types from './types';
 
-export const getAllUsers = () => ({
-  type: types.GET_ALL_USERS,
-});
-
-export const getAllTrustMembers = () => ({
-  type: types.GET_ALL_TRUST_MEMBERS,
+export const getTrustMembers = param => ({
+  type: types.GET_TRUST_MEMBERS,
+  payload: param,
 });
 
 export const sendContactRequest = param => ({
@@ -19,7 +16,7 @@ export const setSeletedUsers = users => ({
 });
 
 export const selectSingleUser = user => ({
-  type: types.SET_SINGLE_SELECTED_USERS,
+  type: types.SET_SINGLE_SELECTED_USER,
   payload: user,
 });
 

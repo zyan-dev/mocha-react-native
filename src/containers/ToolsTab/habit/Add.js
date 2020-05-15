@@ -54,9 +54,7 @@ class EditHabitScreen extends React.PureComponent {
     if (!this.validateTitle()) return;
     if (!this.validateHabits()) return;
     updateSelectedReflection({
-      collaborators: selectedUsers.map(user =>
-        _.pick(user, ['_id', 'avatar', 'pushToken', 'name']),
-      ),
+      collaborators: selectedUsers.map(user => _.pick(user, ['_id'])),
       habits:
         newHabitTitle.length > 0
           ? habits.concat([{title: newHabitTitle}])
@@ -105,6 +103,10 @@ class EditHabitScreen extends React.PureComponent {
       }
     });
     updateSelectedReflection({habits: updated});
+  };
+
+  onPressCollaborator = user => {
+    NavigationService.navigate('UserProfile', {id: user._id});
   };
 
   onRemoveHabit = habit => {
@@ -186,7 +188,15 @@ class EditHabitScreen extends React.PureComponent {
     const {deselectUser} = this.props;
     return (
       <MCView align="center" width={100} mt={10}>
-        <MCImage round image={{uri: user.avatar}} width={80} height={80} />
+        <MCButton onPress={() => this.onPressCollaborator(user)}>
+          <MCImage
+            round
+            image={{uri: user.avatar}}
+            width={80}
+            height={80}
+            type="avatar"
+          />
+        </MCButton>
         <MCButton onPress={() => deselectUser(user)}>
           <MCIcon name="ios-remove-circle-outline" />
         </MCButton>

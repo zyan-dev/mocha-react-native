@@ -1,4 +1,5 @@
 import React from 'react';
+import {View} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {FlatList} from 'react-native-gesture-handler';
@@ -10,7 +11,7 @@ import {MCHeader, MCSearchInput, MCImage} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 
-class FeedScreen extends React.Component {
+class SocialSearchScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,15 +77,12 @@ class FeedScreen extends React.Component {
     const {t, theme, showDrawer, searchedUsers, searchPageLimited} = this.props;
     if (!searchedUsers) return null;
     return (
-      <MCRootView justify="flex-start">
-        <MCHeader
-          hasRight
-          hasBack={false}
-          title={t('feed_headerTitle')}
-          rightIcon="bars"
-          onPressRight={() => showDrawer(true)}
-        />
-        <MCView style={{position: 'relative', zIndex: 10}} overflow="visible">
+      <View style={{flex: 1}}>
+        <MCView
+          width={375}
+          align="center"
+          style={{position: 'relative', zIndex: 10}}
+          overflow="visible">
           <MCSearchInput
             width={350}
             text={searchText}
@@ -138,7 +136,7 @@ class FeedScreen extends React.Component {
             </H4>
           </MCContent>
         )}
-      </MCRootView>
+      </View>
     );
   }
 }
@@ -162,5 +160,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(FeedScreen),
+  )(SocialSearchScreen),
 );
