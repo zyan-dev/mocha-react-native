@@ -22,6 +22,7 @@ import {
   feedbackActions,
   routerActions,
   otherActions,
+  resourceActions,
 } from 'Redux/actions';
 import {NativeCard} from '../../components/styled/View';
 
@@ -61,6 +62,7 @@ class TabView extends React.PureComponent {
       showProfileDrawer,
       showSocialDrawer,
       getUserCommits,
+      getAllResources,
     } = this.props;
     const TabScreens = ['TabFeed', 'TabResource', 'TabTools', 'TabProfile'];
     const TabHomeScreens = [
@@ -96,7 +98,9 @@ class TabView extends React.PureComponent {
         showSocialDrawer(false);
         break;
       case 1:
-        // user clicked Add Tab
+        // user clicked Resource Tab
+        userToken.length > 0 && getAllResources();
+        showSocialDrawer(false);
         break;
       case 2:
         // user clicked Tools Tab
@@ -245,6 +249,7 @@ const mapDispatchToProps = {
   showSocialDrawer: routerActions.setSocialDrawerOpened,
   showProfileDrawer: routerActions.setProfileDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
+  getAllResources: resourceActions.getAllResources,
 };
 
 export default withTranslation()(

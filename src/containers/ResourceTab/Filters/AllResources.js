@@ -25,12 +25,6 @@ class AllResourcesScreen extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    if (this.props.profile.userToken.length) {
-      this.props.getAllResources();
-    }
-  }
-
   onPressItem = item => {
     this.setState({focused: item.key});
   };
