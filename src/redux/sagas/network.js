@@ -38,6 +38,16 @@ export function* createNetwork(action) {
           data: {networkName: selectedNetwork.name},
         },
       });
+
+      // update trust members after adding pending user to new trust network.
+      yield put({
+        type: types.GET_TRUST_MEMBERS,
+        payload: {
+          status: 0,
+          name: '',
+          page: 1,
+        },
+      });
       NavigationService.goBack();
     } else {
       yield put({
