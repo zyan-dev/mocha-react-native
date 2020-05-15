@@ -25,6 +25,7 @@ class SendRequestScreen extends React.Component {
       searchText: '',
       selectedUser: null,
       showModal: false,
+      sentUserIds: [],
     };
   }
 
@@ -37,9 +38,11 @@ class SendRequestScreen extends React.Component {
   };
 
   sendRequest = () => {
-    const {selectedUser} = this.state;
+    const {selectedUser, sentUserIds} = this.state;
     this.props.sendContactRequest({to: selectedUser._id});
     this.setState({showModal: false});
+    sentUserIds.push(selectedUser._id);
+    this.setState({sentUserIds});
   };
 
   onPressUserAvatar = user => {
@@ -73,10 +76,12 @@ class SendRequestScreen extends React.Component {
   };
 
   _renderUserItem = ({item}) => {
+    const {sentUserIds} = this.state;
     const {theme} = this.props;
     const user = item;
+    const sent = sentUserIds.indexOf(user._id) > -1;
     return (
-      <NativeCard width={350} pv={1}>
+      <NativeCard width={350} pv={1} mt={10}>
         <MCView key={user.user_id} row align="center" p={0}>
           <MCButton onPress={() => this.onPressUserAvatar(user)}>
             <MCImage
@@ -93,13 +98,23 @@ class SendRequestScreen extends React.Component {
               user.user_id
             }`}</H4>
           </MCView>
-          <MCButton onPress={() => this.onPressUser(user)}>
-            <MCIcon
-              name="ios-add-circle-outline"
-              color={theme.colors.toggle_on}
-              size={30}
-            />
-          </MCButton>
+          {sent ? (
+            <MCButton>
+              <MCIcon
+                name="ios-checkmark-circle-outline"
+                color={theme.colors.text}
+                size={30}
+              />
+            </MCButton>
+          ) : (
+            <MCButton onPress={() => this.onPressUser(user)}>
+              <MCIcon
+                name="ios-add-circle-outline"
+                color={theme.colors.toggle_on}
+                size={30}
+              />
+            </MCButton>
+          )}
         </MCView>
       </NativeCard>
     );
@@ -144,13 +159,15 @@ class SendRequestScreen extends React.Component {
             onClose={() => this.setState({showModal: false})}>
             <MCView align="center" width={320} ph={20} pv={20}>
               <MCImage
-                width={60}
-                height={60}
+                width={80}
+                height={80}
                 image={{uri: selectedUser.avatar}}
                 round
                 type="avatar"
               />
-              <H3 weight="bold">{selectedUser.name}</H3>
+              <H3 weight="bold" mt={20}>
+                {selectedUser.name}
+              </H3>
               <H4 align="center">{t('contact_request_modal_question')}</H4>
               <MCButton bordered mt={20} onPress={() => this.sendRequest()}>
                 <H3 width={100} align="center">

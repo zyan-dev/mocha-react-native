@@ -329,7 +329,7 @@ class AddReflectionScreen extends React.Component {
           align="center"
           pt={20}
           onPress={() => this.onPressCard(card)}>
-          <MCView height={60} justify="center" align="center" ph={5}>
+          <MCView height={80} justify="center" align="center" ph={5}>
             {getStringWithOutline(card)}
           </MCView>
           <MCIcon

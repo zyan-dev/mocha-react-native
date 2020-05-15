@@ -19,8 +19,10 @@ const MarkerWrapper = styled.View`
 const MarkerTextView = styled.View`
   text-align: center;
   position: absolute;
-  margin-top: -45px;
-  width: 50px;
+  margin-top: -60px;
+  width: 70px;
+  height: 50px;
+  justify-content: flex-end;
 `;
 
 const MarkerBottomView = styled.View`
@@ -148,7 +150,7 @@ class MCTimeSlider extends React.PureComponent {
           onValuesChange={this.multiSliderValuesChange}
           snapped
           containerStyle={{
-            marginTop: showBottomLabel ? dySize(-52) : dySize(-46),
+            marginTop: showBottomLabel ? dySize(-57) : dySize(-46),
           }}
         />
       </MCView>
