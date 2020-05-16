@@ -74,7 +74,7 @@ class AllResourcesScreen extends React.PureComponent {
     let members = [];
 
     allResources.forEach(resource => {
-      if (resource.type == focused && resource.data) {
+      if (resource.type == focused && resource.data && resource.ownerName) {
         const temp = {
           _id: resource.ownerId,
           name: resource.ownerName,
