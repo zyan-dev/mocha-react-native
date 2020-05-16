@@ -20,7 +20,6 @@ const URL_REFLECTION = '/reflection';
 const URL_FEEDBACK = '/feedback';
 const URL_REQUEST_FEEDBACK = '/feedback/request';
 const URL_NOTIFICATION = '/notification';
-const URL_ALL_USERS = '/user/all';
 const URL_TRUST_MEMBERS = '/member';
 const URL_USER_PROFILE = '/user/profile/';
 const URL_NETWORK = '/network';
@@ -76,8 +75,15 @@ const updateNotificationSettings = param =>
   apiCall('patch', URL_NOTIFICATION, param, true);
 const createNotificationSettings = param =>
   apiCall('post', URL_NOTIFICATION, param, true);
-const getAllUsers = param => apiCall('get', URL_ALL_USERS, {}, true);
-const getAllTrustMembers = param => apiCall('get', URL_TRUST_MEMBERS, {}, true);
+const getTrustMembers = param =>
+  apiCall(
+    'get',
+    `${URL_TRUST_MEMBERS}?status=${param.status}&name=${param.name}&page=${
+      param.page
+    }`,
+    {},
+    true,
+  );
 const sendContactRequest = param =>
   apiCall('post', URL_TRUST_MEMBERS, param, true);
 const sendFeedbackRequest = param => apiCall('post', URL_FEEDBACK, param, true);
@@ -155,8 +161,7 @@ export default {
   getNotificationSettings,
   updateNotificationSettings,
   createNotificationSettings,
-  getAllUsers,
-  getAllTrustMembers,
+  getTrustMembers,
   sendContactRequest,
   getUserProfile,
   sendFeedbackRequest,

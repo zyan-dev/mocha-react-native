@@ -14,9 +14,8 @@ import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {selector} from 'Redux/selectors';
 import NavigationService from 'navigation/NavigationService';
-import {MCCard, MCView, MCRootView} from 'components/styled/View';
+import {NativeCard, MCView, MCRootView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {NativeCard} from '../../../../components/styled/View';
 
 class SendRequestScreen extends React.Component {
   constructor(props) {
@@ -121,7 +120,7 @@ class SendRequestScreen extends React.Component {
   };
 
   render() {
-    const {t, theme, searchedTrustMembers, searchPageLimited} = this.props;
+    const {t, theme, searchedUnTrustMembers, searchPageLimited} = this.props;
     const {searchText, selectedUser, showModal} = this.state;
     return (
       <MCRootView justify="flex-start">
@@ -138,12 +137,12 @@ class SendRequestScreen extends React.Component {
             alignItems: 'center',
             paddingBottom: 100,
           }}
-          data={this.filterUser(searchedTrustMembers)}
+          data={this.filterUser(searchedUnTrustMembers)}
           renderItem={this._renderUserItem}
           ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
           ListFooterComponent={
             searchPageLimited &&
-            this.filterUser(searchedTrustMembers).length ? (
+            this.filterUser(searchedUnTrustMembers).length ? (
               <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
             ) : null
           }
@@ -185,8 +184,7 @@ class SendRequestScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   myProfile: state.profileReducer,
-  allUsers: selector.users.getAllMembersWithNetworkState(state),
-  searchedTrustMembers: state.usersReducer.searchedTrustMembers,
+  searchedUnTrustMembers: state.usersReducer.searchedUnTrustMembers,
   searchPageLimited: state.usersReducer.searchPageLimited,
   searchPageIndex: state.usersReducer.searchPageIndex,
   pageSearching: state.usersReducer.pageSearching,

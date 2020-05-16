@@ -54,8 +54,6 @@ class TabView extends React.PureComponent {
     const {
       profile,
       userToken,
-      getAllUsers,
-      getAllTrustMembers,
       getMyProfile,
       getMyReflections,
       getMyFeedbacks,
@@ -88,14 +86,12 @@ class TabView extends React.PureComponent {
     // set values to detect the next double click
     this.tabIndex = index;
     this.lastTime = new Date().getTime();
+    showSocialDrawer(false);
 
     // call APIs
     switch (index) {
       case 0:
         // user clicked Social Tab
-        userToken.length > 0 && getAllUsers();
-        userToken.length > 0 && getAllTrustMembers();
-        showSocialDrawer(false);
         break;
       case 1:
         // user clicked Resource Tab
@@ -112,7 +108,6 @@ class TabView extends React.PureComponent {
         userToken.length > 0 && getMyReflections();
         userToken.length > 0 && getMyFeedbacks();
         userToken.length > 0 && getUserCommits(profile._id);
-        showProfileDrawer(false);
         break;
       default:
         break;
@@ -237,8 +232,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getAllUsers: userActions.getAllUsers,
-  getAllTrustMembers: userActions.getAllTrustMembers,
   getMyProfile: profileActions.getMyProfile,
   getMyReflections: reflectionActions.getMyReflections,
   getUserReflections: reflectionActions.getUserReflections,

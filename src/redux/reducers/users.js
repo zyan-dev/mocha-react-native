@@ -1,7 +1,7 @@
 import * as types from '../actions/types';
 
 const INITIAL_STATE = {
-  allUsers: [],
+  pendingUsers: [],
   trustMembers: [],
   userProfile: {
     _id: '',
@@ -23,8 +23,8 @@ const INITIAL_STATE = {
   },
   selectedUsers: [], // for multiple picker
   selectedUser: [], // for single picker
-  searchedUsers: [],
-  searchedTrustMembers: [],
+  searchedUsers: [], // for full search
+  searchedUnTrustMembers: [], // for send request screen
   v: false,
   pageSearching: false,
   searchPageIndex: 1,
@@ -32,15 +32,15 @@ const INITIAL_STATE = {
 
 const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case types.SET_ALL_USERS:
-      return {
-        ...state,
-        allUsers: action.payload,
-      };
-    case types.SET_ALL_TRUST_MEMBERS:
+    case types.SET_TRUST_MEMBERS:
       return {
         ...state,
         trustMembers: action.payload,
+      };
+    case types.SET_PENDING_MEMBERS:
+      return {
+        ...state,
+        pendingUsers: action.payload,
       };
     case types.SET_USER_PROFILE:
       return {
@@ -72,7 +72,7 @@ const usersReducer = (state = INITIAL_STATE, action) => {
         ...state,
         selectedUsers: [],
       };
-    case types.SET_SINGLE_SELECTED_USERS:
+    case types.SET_SINGLE_SELECTED_USER:
       return {
         ...state,
         selectedUser: action.payload,
@@ -90,12 +90,14 @@ const usersReducer = (state = INITIAL_STATE, action) => {
     case types.SET_SEARCHED_TRUST_MEMBERS:
       return {
         ...state,
-        searchedTrustMembers: action.payload,
+        searchedUnTrustMembers: action.payload,
       };
     case types.ADD_SEARCHED_TRUST_MEMBERS:
       return {
         ...state,
-        searchedTrustMembers: state.searchedTrustMembers.concat(action.payload),
+        searchedUnTrustMembers: state.searchedUnTrustMembers.concat(
+          action.payload,
+        ),
       };
     case types.SET_SEARCH_PAGE_INDEX:
       return {

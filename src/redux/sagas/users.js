@@ -3,37 +3,50 @@ import * as types from '../actions/types';
 import API from 'services/api';
 import {showAlert} from 'services/operators';
 
-export function* getAllUsers(action) {
+export function* getTrustMembers(action) {
   try {
-    // call send sms API
-    const response = yield call(API.getAllUsers);
-    if (response.data.status === 'success') {
+    if (action.payload.page === 1) {
       yield put({
-        type: types.SET_ALL_USERS,
-        payload: response.data.data.users,
+        type: types.SET_SEARCHED_USERS,
+        payload: [],
       });
-    } else {
-      showAlert('API failed');
     }
-  } catch (e) {
-    showAlert(e.toString());
-  }
-}
-
-export function* getAllTrustMembers(action) {
-  try {
+    yield put({type: types.API_CALLING});
+    yield put({
+      type: types.SET_PAGE_SEARCHING_STATE,
+      payload: true,
+    });
     // call send sms API
-    const response = yield call(API.getAllTrustMembers);
+    const response = yield call(API.getTrustMembers, action.payload);
     if (response.data.status === 'success') {
       yield put({
-        type: types.SET_ALL_TRUST_MEMBERS,
+        type:
+          action.payload.status === 0
+            ? types.SET_PENDING_MEMBERS
+            : types.SET_TRUST_MEMBERS,
         payload: response.data.data.contacts,
       });
+      yield put({
+        type: types.SET_SEARCH_PAGE_LIMITED,
+        payload: action.payload.page === response.data.data.total_pages,
+      });
     } else {
-      showAlert(response.data.data.message);
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
     }
+    yield put({
+      type: types.SET_PAGE_SEARCHING_STATE,
+      payload: false,
+    });
+    yield put({type: types.API_FINISHED});
   } catch (e) {
-    showAlert(e.toString());
+    yield put({
+      type: types.SET_PAGE_SEARCHING_STATE,
+      payload: false,
+    });
+    yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }
 
@@ -43,7 +56,6 @@ export function* sendContactRequest(action) {
     const response = yield call(API.sendContactRequest, action.payload);
     if (response.data.status === 'success') {
       showAlert('Your request has been sent successfully');
-      yield put({type: types.GET_ALL_TRUST_MEMBERS});
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {event: 'send_request', data: action.payload},
@@ -62,7 +74,14 @@ export function* declineRequest(action) {
     yield put({type: types.API_CALLING});
     const response = yield call(API.declineRequest, action.payload);
     if (response.data.status === 'success') {
-      yield put({type: types.GET_ALL_TRUST_MEMBERS});
+      yield put({
+        type: types.GET_TRUST_MEMBERS,
+        payload: {
+          status: 0,
+          name: '',
+          page: 1,
+        },
+      });
       yield put({type: types.API_FINISHED});
     } else {
       yield put({
@@ -84,7 +103,14 @@ export function* approveRequest(action) {
     yield put({type: types.API_CALLING});
     const response = yield call(API.approveRequest, action.payload);
     if (response.data.status === 'success') {
-      yield put({type: types.GET_ALL_TRUST_MEMBERS});
+      yield put({
+        type: types.GET_TRUST_MEMBERS,
+        payload: {
+          status: 0,
+          name: '',
+          page: 1,
+        },
+      });
       yield put({type: types.API_FINISHED});
     } else {
       yield put({
@@ -130,18 +156,22 @@ export function* findUserByName(action) {
         payload: action.payload.page === response.data.data.total_pages,
       });
     } else {
-      showAlert(response.data.data.message);
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
     }
     yield put({
       type: types.SET_PAGE_SEARCHING_STATE,
       payload: false,
     });
+    yield put({type: types.API_FINISHED});
   } catch (e) {
-    showAlert(e.toString());
     yield put({
       type: types.SET_PAGE_SEARCHING_STATE,
       payload: false,
     });
+    yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }
 

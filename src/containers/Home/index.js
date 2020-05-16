@@ -28,7 +28,6 @@ class MainHomeStack extends React.Component {
   configurePushNotification() {
     const {
       setProfileData,
-      getAllTrustMembers,
       getMyFeedbacks,
       getUserProfile,
       getUserReflections,
@@ -78,14 +77,12 @@ class MainHomeStack extends React.Component {
             });
             break;
           case 'send.request':
-            getAllTrustMembers();
             NavigationService.navigate('TabFeed');
             setTimeout(() => {
               NavigationService.navigate('PendingRequest');
             });
             break;
           case 'add.trustnetwork':
-            getAllTrustMembers();
             NavigationService.navigate('TabFeed');
             setTimeout(() => {
               NavigationService.navigate('MyTrustNetwork');
@@ -134,7 +131,6 @@ class MainHomeStack extends React.Component {
 
 const mapDispatchToProps = {
   setProfileData: profileActions.setProfileData,
-  getAllTrustMembers: userActions.getAllTrustMembers,
   getMyFeedbacks: feedbackActions.getMyFeedbacks,
   getUserProfile: profileActions.getUserProfile,
   getUserReflections: reflectionActions.getUserReflections,

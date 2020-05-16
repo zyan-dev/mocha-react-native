@@ -22,11 +22,11 @@ class MyTrustNetworkScreen extends React.Component {
   };
 
   onEditNetwork = network => {
-    const {setSeletedUsers, selectTrustNetwork, allUsers} = this.props;
-    const filtered = allUsers.filter(
-      user => network.members.indexOf(user._id) > -1,
-    );
-    // select network members with full profile data
+    const {setSeletedUsers, selectTrustNetwork, profile} = this.props;
+
+    // get valid members with recent profile data
+    // includes field contains all profile for trust network members. If user is not exist, includes doesn't contain the profile
+    const filtered = network.includes.filter(i => i._id !== profile._id);
     setSeletedUsers(filtered);
     // select network for edit screen
     selectTrustNetwork(network);
@@ -34,18 +34,18 @@ class MyTrustNetworkScreen extends React.Component {
   };
 
   renderAvatars = network => {
-    const {allUsers} = this.props;
     return (
       <MCView width={80} height={70} style={{position: 'relative'}}>
         {network.members.slice(0, 3).map((memberId, index) => {
-          const find = allUsers.find(user => user._id === memberId);
+          const find = network.includes.find(i => i._id === memberId);
+          if (!find) return null;
           return (
             <MCImage
               key={index}
               width={40}
               height={40}
               round
-              image={{uri: find ? find.avatar : ''}}
+              image={{uri: find.avatar}}
               style={{
                 position: 'absolute',
                 left: 20 * index,
@@ -118,7 +118,6 @@ class MyTrustNetworkScreen extends React.Component {
 
 const mapStateToProps = state => ({
   myNetworks: state.networkReducer.myNetworks,
-  allUsers: state.usersReducer.allUsers,
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
 });

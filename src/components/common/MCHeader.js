@@ -13,7 +13,7 @@ import {dySize} from 'utils/responsive';
 const HeaderWrapper = styled(Header)`
   width: ${dySize(375)};
   height: auto;
-  background-color: ${props => props.theme.colors.background};
+  background-color: transparent;
   border-bottom-width: 0px;
   elevation: 0;
   display: flex;

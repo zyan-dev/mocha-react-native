@@ -40,10 +40,11 @@ class GoalScreen extends React.Component {
   render() {
     const {
       t,
+      theme,
       route: {params},
     } = this.props;
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: theme.colors.background}}>
         <MCHeader
           title={t('habit_headerTitle')}
           hasRight
@@ -58,6 +59,7 @@ class GoalScreen extends React.Component {
 }
 const mapStateToProps = state => ({
   profile: state.profileReducer,
+  theme: state.routerReducer.theme,
 });
 const mapDispatchToProps = {
   setInitialReflection: reflectionActions.setInitialReflection,

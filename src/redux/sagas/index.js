@@ -73,8 +73,7 @@ function* mySaga() {
   );
 
   // user
-  yield takeLatest(types.GET_ALL_USERS, userSaga.getAllUsers);
-  yield takeLatest(types.GET_ALL_TRUST_MEMBERS, userSaga.getAllTrustMembers);
+  yield takeLatest(types.GET_TRUST_MEMBERS, userSaga.getTrustMembers);
   yield takeLatest(types.SEND_CONTACT_REQUEST, userSaga.sendContactRequest);
   yield takeLatest(types.DECLINE_USER_REQUEST, userSaga.declineRequest);
   yield takeLatest(types.APPROVE_REQUEST, userSaga.approveRequest);
