@@ -83,6 +83,7 @@ class ManageNotifications extends React.Component {
               <H4>{t('notification_topText')}</H4>
               {Object.keys(_.pick(notifications, NotificationKeys)).map(key => {
                 const setting = notifications[key];
+                if (key === 'supportReminderSecond') return;
                 return (
                   <MCCard key={key} shadow mt={10}>
                     <MCView row>
@@ -92,35 +93,93 @@ class ManageNotifications extends React.Component {
                           {t(`notification_${key}_description`)}
                         </H4>
                       </MCView>
-                      <MCView mt={10} mr={10}>
-                        <ToggleSwitch
-                          isOn={setting.enabled}
-                          onColor={theme.colors.toggle_on}
-                          offColor={theme.colors.toggle_off}
-                          size="medium"
-                          onToggle={isOn => this.onToggle(key, isOn)}
-                        />
-                      </MCView>
+                      {key !== 'supportReminder' && key !== 'dailyReflection' && (
+                        <MCView mt={10} mr={10}>
+                          <ToggleSwitch
+                            isOn={setting.enabled}
+                            onColor={theme.colors.toggle_on}
+                            offColor={theme.colors.toggle_off}
+                            size="medium"
+                            onToggle={isOn => this.onToggle(key, isOn)}
+                          />
+                        </MCView>
+                      )}
                     </MCView>
-                    {setting.enabled && setting.daily_time && (
-                      <MCButton
+                    {(key === 'dailyReflection' ||
+                      key === 'supportReminder') && (
+                      <MCView
                         row
                         align="center"
+                        mt={10}
                         style={{
                           borderTopColor: theme.colors.border,
                           borderTopWidth: 1,
-                        }}
+                        }}>
+                        <MCButton
+                          row
+                          align="center"
+                          style={{flex: 1}}
+                          ph={-10}
+                          onPress={() => this.onPressTime(key)}>
+                          <MCIcon name="md-alarm" />
+                          <H4 style={{flex: 1}}>
+                            {moment(
+                              `${todayDate}T${setting.daily_time}`,
+                            ).format('hh:mm A')}
+                          </H4>
+                        </MCButton>
+                        <MCView mt={10} mr={10}>
+                          <ToggleSwitch
+                            isOn={setting.enabled}
+                            onColor={theme.colors.toggle_on}
+                            offColor={theme.colors.toggle_off}
+                            size="medium"
+                            onToggle={isOn => this.onToggle(key, isOn)}
+                          />
+                        </MCView>
+                      </MCView>
+                    )}
+                    {key === 'supportReminder' && (
+                      <MCView
+                        row
+                        align="center"
                         mt={10}
-                        ph={-10}
-                        onPress={() => this.onPressTime(key)}>
-                        <MCIcon name="md-alarm" />
-                        <H4 style={{flex: 1}}>
-                          {moment(`${todayDate}T${setting.daily_time}`).format(
-                            'hh:mm A',
-                          )}
-                        </H4>
-                        <MCIcon name="ios-arrow-forward" />
-                      </MCButton>
+                        style={{
+                          borderTopColor: theme.colors.border,
+                          borderTopWidth: 1,
+                        }}>
+                        <MCButton
+                          row
+                          align="center"
+                          style={{flex: 1}}
+                          ph={-10}
+                          onPress={() =>
+                            this.onPressTime('supportReminderSecond')
+                          }>
+                          <MCIcon name="md-alarm" />
+                          <H4 style={{flex: 1}}>
+                            {moment(
+                              `${todayDate}T${
+                                notifications['supportReminderSecond']
+                                  .daily_time
+                              }`,
+                            ).format('hh:mm A')}
+                          </H4>
+                        </MCButton>
+                        <MCView mt={10} mr={10}>
+                          <ToggleSwitch
+                            isOn={
+                              notifications['supportReminderSecond'].enabled
+                            }
+                            onColor={theme.colors.toggle_on}
+                            offColor={theme.colors.toggle_off}
+                            size="medium"
+                            onToggle={isOn =>
+                              this.onToggle('supportReminderSecond', isOn)
+                            }
+                          />
+                        </MCView>
+                      </MCView>
                     )}
                   </MCCard>
                 );
