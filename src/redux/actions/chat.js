@@ -33,10 +33,10 @@ export const updateChatRoom = data => ({
 
 export const getRoomMessages = roomId => (dispatch, getState) => {
   dispatch(setRoomMessages([]));
-  dispatch(setChatLoading(true));
   database()
     .ref(`/chatrooms/${roomId}/history`)
     .on('value', snapshot => {
+      dispatch(setChatLoading(true));
       dispatch(setRoomMessages(snapshot.val() || []));
       dispatch(setChatLoading(false));
     });
