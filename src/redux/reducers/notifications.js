@@ -5,6 +5,10 @@ const INITIAL_STATE = {
     daily_time: '00:00:00.000Z',
     enabled: true,
   },
+  supportReminderSecond: {
+    daily_time: '00:00:00.000Z',
+    enabled: true,
+  },
   dailyReflection: {
     daily_time: '00:00:00.000Z',
     enabled: true,
@@ -30,6 +34,7 @@ const notificationReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.SET_NOTIFICATION_SETTINGS:
       return {
+        ...INITIAL_STATE,
         ...state,
         ...action.payload,
       };
