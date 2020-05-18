@@ -37,7 +37,6 @@ export const getRoomMessages = roomId => (dispatch, getState) => {
   database()
     .ref(`/chatrooms/${roomId}/history`)
     .on('value', snapshot => {
-      console.log('Chat Messages: ', snapshot.val());
       dispatch(setRoomMessages(snapshot.val() || []));
       dispatch(setChatLoading(false));
     });

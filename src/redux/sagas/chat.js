@@ -8,6 +8,9 @@ import {showAlert} from 'services/operators';
 
 export function* getMyChatRooms(action) {
   try {
+    const {
+      chatReducer: {selectedRoom},
+    } = yield select();
     yield put({type: types.SET_CHAT_LOADING, payload: true});
     const response = yield call(API.getMyChatRooms);
     if (response.data.status === 'success') {
@@ -15,6 +18,12 @@ export function* getMyChatRooms(action) {
         type: types.SET_MY_CHAT_ROOMS,
         payload: response.data.data.chats,
       });
+      if (selectedRoom) {
+        const find = response.data.data.chats.find(
+          i => i._id === selectedRoom._id,
+        );
+        yield put({type: types.SELECT_CHAT_ROOM, payload: find});
+      }
       yield put({type: types.SET_CHAT_LOADING, payload: false});
     } else {
       yield put({type: types.SET_CHAT_LOADING, payload: false});
@@ -28,16 +37,9 @@ export function* getMyChatRooms(action) {
 
 export function* updateChatRoom(action) {
   try {
-    const {
-      chatReducer: {selectedRoom},
-    } = yield select();
     const response = yield call(API.updateChatRoom, action.payload);
     if (response.data.status === 'success') {
       yield put({type: types.GET_MY_CHAT_ROOMS});
-      yield put({
-        type: types.SELECT_CHAT_ROOM,
-        payload: response.data.data.chat,
-      });
     } else {
       showAlert(response.data.data.message);
     }

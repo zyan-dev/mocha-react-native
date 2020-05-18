@@ -61,8 +61,8 @@ class SocialChatScreen extends React.Component {
                       background={theme.colors.background}
                       align="center"
                       justify="center"
-                      style={{opacity: 0.5}}>
-                      <H4>+{chatRoom.members.length - 1}</H4>
+                      style={{opacity: 0.8}}>
+                      <H4 weight="bold">+{chatRoom.members.length - 3}</H4>
                     </MCView>
                   )}
                 </MCView>

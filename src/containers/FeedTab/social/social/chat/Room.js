@@ -30,8 +30,6 @@ class ChatRoomScreen extends React.Component {
   }
 
   componentDidUpdate(preProps, prevState) {
-    console.log(preProps.loading);
-    console.log(this.props.loading);
     if (preProps.loading && !this.props.loading) {
       setTimeout(() => {
         this.chatList && this.chatList.scrollToEnd();
@@ -110,6 +108,7 @@ class ChatRoomScreen extends React.Component {
 
   _renderBubbleItem = ({item}) => {
     const {t, theme, profile, selectedRoom, roomMessages} = this.props;
+    const memberProfiles = selectedRoom.includes.concat(selectedRoom.ownerInfo);
     const bubbleId = item;
     const bubble = roomMessages[bubbleId];
     let bubbleUser = null;
@@ -118,7 +117,8 @@ class ChatRoomScreen extends React.Component {
       bubbleUser = profile;
       mine = true;
     } else {
-      bubbleUser = selectedRoom.includes.find(i => i._id === bubble.userId);
+      console.log({memberProfiles});
+      bubbleUser = memberProfiles.find(i => i._id === bubble.userId);
     }
     if (!bubbleUser) return null;
     return (
