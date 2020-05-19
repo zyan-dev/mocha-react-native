@@ -21,6 +21,7 @@ const Stack = createStackNavigator();
 class RootNavigator extends React.Component {
   componentDidMount() {
     this.props.setLoading(false);
+    this.props.startChatListener();
     Mixpanel.sharedInstanceWithToken(MixpanelToken);
   }
 
