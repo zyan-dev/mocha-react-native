@@ -20,7 +20,10 @@ class SendSMSScreen extends React.Component {
   sendSMS = () => {
     const {phoneCode, phoneNumber} = this.state;
     const phone = `${phoneCode}${phoneNumber}`;
-    this.props.sendSMS(phone);
+    this.props.sendSMS({
+      phone: phone,
+      from: 'signup',
+    });
   };
 
   render() {

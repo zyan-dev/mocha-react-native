@@ -21,6 +21,7 @@ export const SET_SMS_VERIFY_STATUS = 'SET_SMS_VERIFY_STATUS';
 export const COMPLETE_SIGN_UP = 'COMPLETE_SIGN_UP';
 export const VERIFY_SMS = 'VERIFY_SMS';
 export const SEND_SMS = 'SEND_SMS';
+export const UPDATE_PHONE_NUMBER = 'UPDATE_PHONE_NUMBER';
 
 // Profile
 export const SET_PROFILE_DATA = 'SET_PROFILE_DATA';

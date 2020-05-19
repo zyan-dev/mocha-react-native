@@ -7,8 +7,10 @@ import ProfileSideMenu from './SideMenu';
 import {routerActions} from 'Redux/actions';
 import {dySize} from 'utils/responsive';
 import ProfileLayoutScreen from './ProfileLayout';
-import TimeLineScreen from './TimeLine';
-import AnalyzeScreen from './Analyze';
+import SettingsScreen from './settings';
+import PhoneUpdateScreen from './settings/PhoneUpdate';
+import TimeLineScreen from './settings/TimeLine';
+import AnalyzeScreen from './settings/Analyze';
 import SendMochaCVScreen from './SendMochaCV';
 import ManageNotifications from './ManageNotifications';
 import PurchaseSubscription from './PurchaseSubscription';
@@ -45,6 +47,7 @@ import EditMeaningLifeScreen from '../ToolsTab/profile_expert/MeaningLife';
 import EditValueStoryScreen from '../ToolsTab/profile_expert/ValueStory';
 import EditPersonalityScreen from './profile/details/personality';
 import BestSelfSubmitScreen from './profile/details/feedback/BestSelf';
+import VerifySMSScreen from '../FeedTab/auth/VerifySMS';
 
 const Stack = createStackNavigator();
 
@@ -81,8 +84,11 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen name="EditHabit" component={EditHabitScreen} />
 
           <Stack.Screen name="ProfileLayout" component={ProfileLayoutScreen} />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen name="PhoneUpdate" component={PhoneUpdateScreen} />
           <Stack.Screen name="TimeLine" component={TimeLineScreen} />
           <Stack.Screen name="Analyze" component={AnalyzeScreen} />
+          <Stack.Screen name="Auth_VerifySMS" component={VerifySMSScreen} />
           <Stack.Screen name="SendMochaCV" component={SendMochaCVScreen} />
           <Stack.Screen
             name="ManageNotifications"

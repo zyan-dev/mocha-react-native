@@ -12,6 +12,7 @@ const URL_VERIFY_SMS = '/auth/signup-confirm';
 const URL_MY_PROFILE = '/user/me';
 const URL_USER_FIND = '/user/find';
 const URL_SEARCH_USER = '/user/search-user'; // returns user who is not in trust network
+const URL_MY_PROFILE_PHONE = '/user/me/phone-number';
 const URL_REFLECTION_UPDATE = '/reflection/update';
 const URL_REFLECTION_ADD = '/reflection/add';
 const URL_GET_MY_REFLECTION = '/reflection/list';
@@ -55,6 +56,8 @@ const apiCall = async (type, url, param, withToken = false, options = {}) => {
 const sendSMS = phone => apiCall('post', URL_SEND_SMS, {phone});
 const verifySMS = param => apiCall('post', URL_VERIFY_SMS, param);
 const updateProfile = param => apiCall('patch', URL_MY_PROFILE, param, true);
+const updateProfilePhoneNumber = param =>
+  apiCall('patch', URL_MY_PROFILE_PHONE, param, true);
 const getMyProfile = () => apiCall('get', URL_MY_PROFILE, {}, true);
 const deleteProfile = () => apiCall('delete', URL_MY_PROFILE, {}, true);
 const getUserProfile = userId =>
@@ -152,6 +155,7 @@ export default {
   sendSMS,
   verifySMS,
   updateProfile,
+  updateProfilePhoneNumber,
   getMyProfile,
   fileUploadToS3,
   getMyReflections,

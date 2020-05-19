@@ -6,7 +6,7 @@ import {showAlert} from 'services/operators';
 import {ContactProfileKeys} from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
 
-export function* getMyProfile(action) {
+export function* getMyProfile() {
   try {
     const response = yield call(API.getMyProfile);
     if (response.data.status === 'success') {
@@ -156,6 +156,23 @@ export function* deleteAccount() {
         type: types.API_FINISHED,
         payload: response.data.data.message,
       });
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
+export function* updatePhoneNumber(action) {
+  try {
+    yield put({type: types.SET_SMS_VERIFY_STATUS, payload: 'checking'});
+    const response = yield call(API.updateProfilePhoneNumber, action.payload);
+    if (response.data.status === 'success') {
+      yield put({type: types.SET_SMS_VERIFY_STATUS, payload: 'passed'});
+      yield put({type: types.GET_MY_PROFILE});
+      // navigate to complete sign up screen
+      NavigationService.navigate('Settings');
+    } else {
+      yield put({type: types.SET_SMS_VERIFY_STATUS, payload: 'incorrect'});
     }
   } catch (e) {
     yield put({type: types.API_FINISHED, payload: e.toString()});

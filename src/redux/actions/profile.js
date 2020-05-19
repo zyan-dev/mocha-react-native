@@ -25,3 +25,8 @@ export const updateContactProfile = () => ({
 export const deleteAccount = () => ({
   type: types.DELETE_ACCOUNT,
 });
+
+export const updatePhoneNumber = param => ({
+  type: types.UPDATE_PHONE_NUMBER,
+  payload: param,
+});
