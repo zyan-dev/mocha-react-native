@@ -129,9 +129,9 @@ const findUserByName = param =>
 const getUntrustmembers = param =>
   apiCall('get', `${URL_SEARCH_USER}?page=${param.page}`, {}, true);
 
-const fileUploadToS3 = async ({image, name, type}) => {
+const fileUploadToS3 = async ({image, type, userId}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
-  const imageName = `${name}/${type}_${genetratedDate()}.${imageType}`;
+  const imageName = `${type}/${userId}_${new Date().getTime()}.${imageType}`;
   const file = {
     uri: image,
     name: imageName,
