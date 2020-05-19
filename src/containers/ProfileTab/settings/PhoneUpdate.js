@@ -31,6 +31,10 @@ class AnalyzeScreen extends React.Component {
     const {profile} = this.props;
     const oldPhone = `${oldPhoneCode}${oldPhoneNumber}`;
     const newPhone = `${newPhoneCode}${newPhoneNumber}`;
+    if (oldPhoneNumber == '' || newPhoneNumber == '') {
+      showAlert('Please insert phone number');
+      return;
+    }
     if (oldPhone === newPhone) {
       showAlert('You are using same phone number.');
     } else if (oldPhone === profile.phone) {
