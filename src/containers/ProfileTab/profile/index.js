@@ -1,6 +1,8 @@
 import React from 'react';
+import {Image} from 'react-native';
 import {connect} from 'react-redux';
 import i18next from 'i18next';
+import styled from 'styled-components';
 import {withTranslation} from 'react-i18next';
 import {
   feedbackActions,
@@ -52,6 +54,25 @@ import {
   UserCrownSvg,
   SkullCowSvg,
 } from 'assets/svgs';
+import {OvalYellow, OvalGreen} from 'assets/images';
+
+export const OvalGreenImage = styled(Image)`
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  height: 128px;
+  width: 62px;
+  opacity: 0.2;
+`;
+
+export const OvalYellowImage = styled(Image)`
+  position: absolute;
+  top: 100px;
+  right: 0px;
+  height: 149px;
+  width: 33px;
+  opacity: 0.2;
+`;
 
 class ProfileScreen extends React.Component {
   WelcomeProfileDescription = {
@@ -189,10 +210,14 @@ class ProfileScreen extends React.Component {
     } = this.props;
     return (
       <MCRootView justify="flex-start">
+        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
+        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
         <MCHeader
-          leftIcon="bars"
+          hasBack={false}
+          hasRight
+          rightIcon="bars"
           title={t('profile_title')}
-          onPressBack={() => showDrawer(true)}
+          onPressRight={() => showDrawer(true)}
         />
         <MCView row style={{flex: 1}}>
           <MCView width={325}>
@@ -405,9 +430,7 @@ class ProfileScreen extends React.Component {
               )}
             </MCContent>
           </MCView>
-          <MCView
-            width={50}
-            style={{borderLeftWidth: 1, borderColor: theme.colors.border}}>
+          <MCView width={55}>
             <MCContent>
               {profileLayout.map(layout => this.renderProfileIcon(layout))}
             </MCContent>

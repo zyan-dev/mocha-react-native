@@ -128,7 +128,7 @@ class ManageNotifications extends React.Component {
                             ).format('hh:mm A')}
                           </H4>
                         </MCButton>
-                        <MCView mt={10} mr={10}>
+                        <MCView mr={10}>
                           <ToggleSwitch
                             isOn={setting.enabled}
                             onColor={theme.colors.toggle_on}
@@ -143,7 +143,6 @@ class ManageNotifications extends React.Component {
                       <MCView
                         row
                         align="center"
-                        mt={10}
                         style={{
                           borderTopColor: theme.colors.border,
                           borderTopWidth: 1,
@@ -166,7 +165,7 @@ class ManageNotifications extends React.Component {
                             ).format('hh:mm A')}
                           </H4>
                         </MCButton>
-                        <MCView mt={10} mr={10}>
+                        <MCView mr={10}>
                           <ToggleSwitch
                             isOn={
                               notifications['supportReminderSecond'].enabled

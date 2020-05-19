@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {withTranslation} from 'react-i18next';
 import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
-import {routerActions, userActions} from 'Redux/actions';
+import {routerActions, userActions, chatActions} from 'Redux/actions';
 import {MCHeader, MCIcon} from 'components/common';
 import SocialHomeScreen from './home';
 import SocialChatScreen from './chat';
@@ -40,10 +40,25 @@ class FeedScreen extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getMyChatRooms();
+  }
+
   onPressRight = () => {
     const {index} = this.state;
     if (index === 1) {
       NavigationService.navigate('CreateChatRoom');
+    }
+  };
+
+  onChangeTabIndex = i => {
+    this.setState({index: i});
+    switch (i) {
+      case 1:
+        this.props.getMyChatRooms();
+        break;
+      default:
+        break;
     }
   };
 
@@ -111,7 +126,7 @@ class FeedScreen extends React.Component {
             accountability: SocialAccountabilityScreen,
             search: SocialSearchScreen,
           })}
-          onIndexChange={i => this.setState({index: i})}
+          onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}
           renderTabBar={renderTabBar}
         />
@@ -133,6 +148,7 @@ const mapDispatchToProps = {
   showDrawer: routerActions.setSocialDrawerOpened,
   findUserByName: userActions.findUserByName,
   setSearchPageIndex: userActions.setSearchPageIndex,
+  getMyChatRooms: chatActions.getMyChatRooms,
 };
 
 export default withTranslation()(

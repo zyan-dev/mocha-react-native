@@ -1,5 +1,5 @@
 const commonTheme = {
-  border: '#AAAAAA',
+  border: '#BABABA',
   card: 'rgba(0, 0, 0, 0.2)',
   danger: '#AA3333',
   sidemenu_bg: 'rgba(240, 245, 245, 1)',
@@ -39,7 +39,7 @@ export const colorThemes = [
     theme_name: 'Stone',
     text: '#14161A',
     background: '#FFFFFF',
-    border: '#7E7E81',
+    border: '#BABABA',
     navbar: '#4E4848',
     profileIcon: '#4E4848',
     card: 'rgba(0, 0, 0, 0.1)',
