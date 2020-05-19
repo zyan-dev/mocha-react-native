@@ -37,9 +37,7 @@ class ChatRoomScreen extends React.Component {
 
   componentDidUpdate(preProps, prevState) {
     if (preProps.loading && !this.props.loading) {
-      setTimeout(() => {
-        this.chatList && this.chatList.scrollToEnd();
-      }, 1000);
+      this.scrollToEnd();
     }
   }
 
@@ -116,6 +114,13 @@ class ChatRoomScreen extends React.Component {
     const {updatingRoomName} = this.state;
     if (updatingRoomName) this.setState({updatingRoomName: false});
     else this.RBSheet.close();
+  };
+
+  scrollToEnd = () => {
+    setTimeout(() => {
+      this.chatList &&
+        this.chatList.scrollToEnd({animated: false, duration: 1000});
+    }, 2000);
   };
 
   _renderBubbleItem = ({item, index}) => {
@@ -199,14 +204,14 @@ class ChatRoomScreen extends React.Component {
           </MCView>
         )}
         <KeyboardAvoidingView
-          style={{flex: 1, alignItems: 'center'}}
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+          style={{flex: 1, alignItems: 'center', marginTop: dySize(10)}}
+          behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
           <FlatList
             ref={ref => (this.chatList = ref)}
             contentContainerStyle={{
               width: dySize(375),
-              paddingBottom: 20,
               alignItems: 'center',
+              paddingVertical: 10,
             }}
             data={roomMessageIds}
             renderItem={this._renderBubbleItem}
@@ -227,6 +232,8 @@ class ChatRoomScreen extends React.Component {
               style={{flex: 1}}
               onSubmitEditing={() => this.sendMessage()}
               returnKeyType="send"
+              onFocus={() => this.scrollToEnd()}
+              onBlur={() => this.scrollToEnd()}
             />
             <MCButton onPress={() => this.sendMessage()}>
               <MCIcon type="FontAwesome5Pro" name="paper-plane" />

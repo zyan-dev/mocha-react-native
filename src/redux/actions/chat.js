@@ -84,7 +84,7 @@ export const sendMessage = (msgData, callback) => (dispatch, getState) => {
     });
 };
 
-export const addMemberToRoom = (selectedUsers, room) => (
+export const addMemberToRoom = (selectedUsers, room, callback) => (
   dispatch,
   getState,
 ) => {
