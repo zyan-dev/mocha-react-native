@@ -11,6 +11,12 @@ export const MCRootView = styled(Container)`
     props.background || props.theme.colors.background};
 `;
 
+export const DividerLine = styled.View`
+  width: ${props => props.width || 350}px;
+  height: 0.5px;
+  background-color: ${props => props.theme.colors.text};
+`;
+
 export const MCContent = styled(Content)`
   width: ${props => dySize(props.width || 375)}px;
 `;
@@ -64,7 +70,7 @@ export const NativeCard = styled(Card)`
     props.background || props.theme.colors.background};
   shadow-color: black;
   shadow-opacity: 0.2;
-  shadow-offset: 1px -2px;
+  shadow-offset: 2px -2px;
   shadow-radius: 5;
   elevation: 11;
   padding-horizontal: ${props => dySize(props.ph || 10)}px;

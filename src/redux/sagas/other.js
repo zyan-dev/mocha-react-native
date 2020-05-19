@@ -63,8 +63,8 @@ export function* syncDataForNewUser(action) {
       // avatar should be uploaded to server
       const fileResponse = yield call(API.fileUploadToS3, {
         image: profileReducer.avatar,
-        name: profileReducer.name,
         type: 'avatar',
+        userId: profileReducer._id,
       });
       if (fileResponse !== 'error') {
         profileReducer.avatar = fileResponse;
@@ -140,8 +140,8 @@ export function* syncData(action) {
       // avatar should be uploaded to server
       const fileResponse = yield call(API.fileUploadToS3, {
         image: profileReducer.avatar,
-        name: profileReducer.name,
         type: 'avatar',
+        userId: profileReducer._id,
       });
       if (fileResponse !== 'error') {
         profileReducer.avatar = fileResponse;
@@ -200,8 +200,8 @@ export function* syncData(action) {
         ) {
           response = yield call(API.fileUploadToS3, {
             image: lr.data.image,
-            name: profileReducer.name,
             type: lr.type,
+            userId: profileReducer._id,
           });
           if (response === 'error') {
             return;

@@ -10,6 +10,7 @@ import PendingRequestScreen from './pending';
 import AddPendingUserScreen from './pending/Add';
 import CreateChatRoomScreen from './social/chat/Create';
 import SelectChatMemberScreen from './social/chat/SelectMember';
+import ChatRoomScreen from './social/chat/Room';
 import SocialSideMenu from './SideMenu';
 import {dySize} from 'utils/responsive';
 import {routerActions} from 'Redux/actions';
@@ -63,6 +64,7 @@ class SocialStack extends React.Component {
             name="SelectChatMember"
             component={SelectChatMemberScreen}
           />
+          <Stack.Screen name="ChatRoom" component={ChatRoomScreen} />
         </Stack.Navigator>
       </Drawer>
     );

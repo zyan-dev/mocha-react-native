@@ -26,7 +26,7 @@ export function* updateBasicProfile(action) {
   try {
     let response = {};
     const {
-      profileReducer: {bio, name, avatar, avatarChanged, userToken},
+      profileReducer: {_id, bio, name, avatar, avatarChanged, userToken},
     } = yield select();
     if (!userToken) return;
     let updatedProfile = {bio, name, avatar};
@@ -35,8 +35,8 @@ export function* updateBasicProfile(action) {
       // avatar Changed
       response = yield call(API.fileUploadToS3, {
         image: avatar,
-        name,
         type: 'avatar',
+        userId: _id,
       });
       if (response !== 'error') {
         updatedProfile.avatar = response;

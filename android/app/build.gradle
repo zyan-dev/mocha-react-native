@@ -1,4 +1,6 @@
 apply plugin: "com.android.application"
+apply plugin: 'com.android.application' // apply after this line
+apply plugin: 'io.fabric'
 
 import com.android.build.OutputFile
 
@@ -132,8 +134,8 @@ android {
         applicationId "com.mocha.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 48
-        versionName "1.4.8"
+        versionCode 50
+        versionName "1.5.0"
         multiDexEnabled true
     }
     splits {

@@ -9,6 +9,7 @@ import * as userSaga from './users';
 import * as networkSaga from './network';
 import * as resourceSaga from './resource';
 import * as otherSaga from './other';
+import * as chatSaga from './chat';
 
 function* mySaga() {
   // auth
@@ -106,6 +107,13 @@ function* mySaga() {
   yield takeEvery(types.ADD_FAVORITE_TOOL, otherSaga.addFavoriteTool);
   yield takeEvery(types.REMOVE_FAVORITE_TOOL, otherSaga.removeFavoriteTool);
   yield takeEvery(types.SEND_EMAIL, otherSaga.sendEmail);
+
+  // chat
+  yield takeLatest(types.CREATE_CHAT_ROOM, chatSaga.createChatRoom);
+  yield takeLatest(types.GET_MY_CHAT_ROOMS, chatSaga.getMyChatRooms);
+  yield takeLatest(types.UPDATE_CHAT_ROOM, chatSaga.updateChatRoom);
+  yield takeLatest(types.DELETE_CHAT_ROOM, chatSaga.deleteChatRoom);
+  yield takeLatest(types.SET_MY_CHAT_ROOMS, chatSaga.checkChatMissedState);
 }
 
 export default mySaga;

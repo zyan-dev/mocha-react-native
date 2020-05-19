@@ -82,7 +82,7 @@ export function* addOrUpdateReflection(action) {
     let response = {};
     const {
       reflectionReducer: {selectedReflection, myReflections, mainTabIndex},
-      profileReducer: {name, userToken},
+      profileReducer: {_id, name, userToken},
       routerReducer: {isInternetReachable},
     } = yield select();
     const selectedTempReflection =
@@ -96,8 +96,8 @@ export function* addOrUpdateReflection(action) {
     ) {
       response = yield call(API.fileUploadToS3, {
         image: selectedTempReflection.data.image,
-        name,
         type: selectedTempReflection.type,
+        userId: _id,
       });
       if (response === 'error') {
         return;

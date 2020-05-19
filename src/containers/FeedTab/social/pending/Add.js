@@ -43,6 +43,7 @@ class AddPendingUserScreen extends React.Component {
     return (
       <MCView width={80} height={70} style={{position: 'relative'}}>
         {network.members.slice(0, 3).map((memberId, index) => {
+          if (!network.includes) return null;
           const find = network.includes.find(i => i._id === memberId);
           if (!find) return null;
           return (

@@ -8,6 +8,7 @@ import * as userActions from './users';
 import * as networkActions from './network';
 import * as otherActions from './other';
 import * as resourceActions from './resource';
+import * as chatActions from './chat';
 
 export {
   routerActions,
@@ -20,4 +21,5 @@ export {
   networkActions,
   otherActions,
   resourceActions,
+  chatActions,
 };

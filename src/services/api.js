@@ -27,6 +27,7 @@ const URL_COMMIT = '/commit';
 const URL_RESOURCE = '/resource';
 const URL_CONTACT_US = '/contact-us';
 const URL_SEARCH_RESOURCE = '/resource/books';
+const URL_CHAT = '/chat';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -128,9 +129,9 @@ const findUserByName = param =>
 const getUntrustmembers = param =>
   apiCall('get', `${URL_SEARCH_USER}?page=${param.page}`, {}, true);
 
-const fileUploadToS3 = async ({image, name, type}) => {
+const fileUploadToS3 = async ({image, type, userId}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
-  const imageName = `${name}/${type}_${genetratedDate()}.${imageType}`;
+  const imageName = `${type}/${userId}_${new Date().getTime()}.${imageType}`;
   const file = {
     uri: image,
     name: imageName,
@@ -147,6 +148,12 @@ const fileUploadToS3 = async ({image, name, type}) => {
 
 const searchResources = resource =>
   apiCall('get', `${URL_SEARCH_RESOURCE}/${resource}`, {}, true);
+const createChatRoom = param => apiCall('post', `${URL_CHAT}`, param, true);
+const getMyChatRooms = () => apiCall('get', `${URL_CHAT}`, {}, true);
+const updateChatRoom = param =>
+  apiCall('patch', `${URL_CHAT}/${param._id}`, param, true);
+const deleteChatRoom = roomId =>
+  apiCall('delete', `${URL_CHAT}/${roomId}`, {}, true);
 
 export default {
   sendSMS,
@@ -189,4 +196,8 @@ export default {
   searchResources,
   findUserByName,
   getUntrustmembers,
+  createChatRoom,
+  getMyChatRooms,
+  updateChatRoom,
+  deleteChatRoom,
 };

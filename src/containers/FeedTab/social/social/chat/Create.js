@@ -2,7 +2,7 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {userActions} from 'Redux/actions';
+import {userActions, chatActions} from 'Redux/actions';
 import {
   MCHeader,
   MCSearchInput,
@@ -52,7 +52,7 @@ class CreateChatRoomScreen extends React.Component {
 
   onSubmitChatRoom = () => {
     const {type, title} = this.state;
-    const {profile, selectedUsers, selectedUser} = this.props;
+    const {profile, selectedUsers, selectedUser, createChatRoom} = this.props;
     this.setState({submitted: true});
     if (type === 'group' && !this.validateTitle()) return;
     if (type === 'group' && !this.validateMembers()) return;
@@ -64,13 +64,14 @@ class CreateChatRoomScreen extends React.Component {
     // create chat room
     const param = {
       type,
-      name: type === 'group' ? title : 'private_chat',
+      room_name: type === 'group' ? title : 'private_chat',
       owner: profile._id,
       members,
       last_message: '',
       last_updated: new Date().getTime(),
+      last_userId: profile._id,
     };
-    alert(JSON.stringify(param));
+    createChatRoom(param);
   };
 
   _renderMemberItem = ({item}) => {
@@ -219,6 +220,7 @@ const mapDispatchToProps = {
   deselectUser: userActions.deselectUser,
   setSeletedUsers: userActions.setSeletedUsers,
   selectSingleUser: userActions.selectSingleUser,
+  createChatRoom: chatActions.createChatRoom,
 };
 
 export default withTranslation()(
