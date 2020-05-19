@@ -82,15 +82,6 @@ export const sendMessage = (msgData, callback) => (dispatch, getState) => {
       );
       callback();
     });
-  selectedRoom.includes.map(user => {
-    if (user._id === msgData.userId) return;
-    // update last message date for all members
-    database()
-      .ref(`/chat_listener/${user._id}/${selectedRoom._id}`)
-      .set({
-        last_updated: new Date().getTime(),
-      });
-  });
 };
 
 export const addMemberToRoom = (selectedUsers, room) => (

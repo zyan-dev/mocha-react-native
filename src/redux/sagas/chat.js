@@ -45,12 +45,25 @@ export function* checkChatMissedState(action) {
 
 export function* updateChatRoom(action) {
   try {
+    const {
+      profileReducer,
+      chatReducer: {selectedRoom},
+    } = yield select();
     const response = yield call(API.updateChatRoom, action.payload);
     if (response.data.status === 'success') {
       yield put({type: types.GET_MY_CHAT_ROOMS});
       yield put({
         type: types.SELECT_CHAT_ROOM,
         payload: response.data.data.chat,
+      });
+      selectedRoom.includes.map(user => {
+        if (user._id === profileReducer._id) return;
+        // update last message date for all members
+        database()
+          .ref(`/chat_listener/${user._id}/${selectedRoom._id}`)
+          .set({
+            last_updated: new Date().getTime(),
+          });
       });
     } else {
       showAlert(response.data.data.message);
