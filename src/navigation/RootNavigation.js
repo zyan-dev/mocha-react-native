@@ -14,7 +14,7 @@ import UserHabitScreen from '../containers/Others/UserHabits';
 import ContactScreen from '../containers/Contact';
 import NavigationService from './NavigationService';
 import {MixpanelToken} from 'utils/config';
-import {routerActions} from 'Redux/actions';
+import {routerActions, chatActions} from 'Redux/actions';
 
 const Stack = createStackNavigator();
 
@@ -56,6 +56,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setLoading: routerActions.setLoading,
+  startChatListener: chatActions.startChatListener,
 };
 
 export default connect(

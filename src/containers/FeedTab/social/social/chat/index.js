@@ -70,7 +70,11 @@ class SocialChatScreen extends React.Component {
             })}
           </MCView>
           <MCView row justify="space-between" align="center">
-            <H4 style={{flex: 1}} weight="italic" color={theme.colors.border}>
+            <H4
+              style={{flex: 1}}
+              weight="italic"
+              color={theme.colors.border}
+              mr={30}>
               {chatRoom.last_userId === profile._id ? (
                 <H4 weight="italic">You</H4>
               ) : (

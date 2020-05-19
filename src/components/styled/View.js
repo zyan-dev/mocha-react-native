@@ -11,6 +11,12 @@ export const MCRootView = styled(Container)`
     props.background || props.theme.colors.background};
 `;
 
+export const DividerLine = styled.View`
+  width: ${props => props.width || 350}px;
+  height: 0.5px;
+  background-color: ${props => props.theme.colors.text};
+`;
+
 export const MCContent = styled(Content)`
   width: ${props => dySize(props.width || 375)}px;
 `;

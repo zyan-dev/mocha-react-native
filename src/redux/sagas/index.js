@@ -113,6 +113,7 @@ function* mySaga() {
   yield takeLatest(types.GET_MY_CHAT_ROOMS, chatSaga.getMyChatRooms);
   yield takeLatest(types.UPDATE_CHAT_ROOM, chatSaga.updateChatRoom);
   yield takeLatest(types.DELETE_CHAT_ROOM, chatSaga.deleteChatRoom);
+  yield takeLatest(types.SET_MY_CHAT_ROOMS, chatSaga.checkChatMissedState);
 }
 
 export default mySaga;

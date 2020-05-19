@@ -6,6 +6,8 @@ const INITIAL_STATE = {
   roomMessages: [],
   blockList: [],
   loading: false,
+  lastMessageDateChecked: {},
+  hasMissedMessages: false,
 };
 
 const chatReducer = (state = INITIAL_STATE, action) => {
@@ -29,6 +31,20 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: action.payload,
+      };
+    case types.SET_CHAT_MISSED_STATE:
+      console.log('hasMissedMessages', action.payload);
+      return {
+        ...state,
+        hasMissedMessages: action.payload,
+      };
+    case types.UPDATE_LAST_MESSAGE_DATE:
+      return {
+        ...state,
+        lastMessageDateChecked: {
+          ...state.lastMessageDateChecked,
+          ...action.payload,
+        },
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

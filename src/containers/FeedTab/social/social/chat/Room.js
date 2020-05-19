@@ -5,13 +5,13 @@ import {withTranslation} from 'react-i18next';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import moment from 'moment';
 import {chatActions} from 'Redux/actions';
-import {MCRootView, MCView, MCCard} from 'components/styled/View';
+import {MCRootView, MCView, DividerLine} from 'components/styled/View';
 import {MCHeader, MCImage, MCIcon, MCModal} from 'components/common';
 import {MCTextInput, H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
-import styled from 'styled-components';
-import {MCContent} from '../../../../../components/styled/View';
+import NavigationService from 'navigation/NavigationService';
+import ChatBubbleItem from './Bubble';
 
 class ChatRoomScreen extends React.Component {
   constructor(props) {
@@ -23,6 +23,12 @@ class ChatRoomScreen extends React.Component {
       updatingRoomName: false,
     };
   }
+
+  prevUserId = '';
+  viewabilityConfig = {
+    waitForInteraction: true,
+    itemVisiblePercentThreshold: 75,
+  };
 
   componentDidMount() {
     const {selectedRoom, getRoomMessages} = this.props;
@@ -62,7 +68,13 @@ class ChatRoomScreen extends React.Component {
     this.RBSheet && this.RBSheet.open();
   };
 
-  onPressAddMember = () => {};
+  onPressAddMember = () => {
+    this.closeActionSheet();
+    NavigationService.navigate('SelectChatMember', {
+      multiple: true,
+      type: 'add_member',
+    });
+  };
 
   onPressChangeName = () => {
     this.setState({
@@ -106,73 +118,85 @@ class ChatRoomScreen extends React.Component {
     else this.RBSheet.close();
   };
 
-  _renderBubbleItem = ({item}) => {
-    const {t, theme, profile, selectedRoom, roomMessages} = this.props;
-    const memberProfiles = selectedRoom.includes.concat(selectedRoom.ownerInfo);
-    const bubbleId = item;
-    const bubble = roomMessages[bubbleId];
-    let bubbleUser = null;
-    let mine = false;
-    if (bubble.userId === profile._id) {
-      bubbleUser = profile;
-      mine = true;
+  _renderBubbleItem = ({item, index}) => {
+    const {roomMessages, roomMessageIds} = this.props;
+    let hasAvatar = true;
+    const userId = roomMessages[roomMessageIds[index]].userId;
+    if (index > 0 && this.prevUserId === userId) {
+      hasAvatar = false;
     } else {
-      console.log({memberProfiles});
-      bubbleUser = memberProfiles.find(i => i._id === bubble.userId);
+      this.prevUserId = userId;
     }
-    if (!bubbleUser) return null;
-    return (
-      <MCView
-        row
-        mt={10}
-        width={350}
-        justify={mine ? 'flex-end' : 'flex-start'}
-        key={bubbleId}>
-        {!mine && (
-          <MCImage
-            round
-            image={{uri: bubbleUser.avatar}}
-            width={30}
-            height={30}
-            type="avatar"
-          />
-        )}
-        <MCCard shadow ml={10} mr={10} p={10}>
-          {bubble.text && (
-            <H4>
-              {bubble.text === 'who_chat_message_created_room'
-                ? t('who_chat_message_created_room', {who: bubbleUser.name})
-                : bubble.text}
-            </H4>
-          )}
-        </MCCard>
-        {mine && (
-          <MCImage
-            round
-            image={{uri: bubbleUser.avatar}}
-            width={30}
-            height={30}
-            type="avatar"
-          />
-        )}
-      </MCView>
-    );
+    return <ChatBubbleItem bubbleId={item} hasAvatar={hasAvatar} />;
+  };
+
+  onViewableItemsChanged = ({viewableItems, changed}) => {
+    const {selectedRoom, roomMessages, lastMessageDateChecked} = this.props;
+    const viewableLastDate = viewableItems[viewableItems.length - 1].item;
+    if (viewableLastDate <= lastMessageDateChecked[selectedRoom._id]) return;
+    this.props.updateLastMessageDate({
+      [selectedRoom._id]: viewableLastDate,
+    });
   };
 
   render() {
     const {text, roomName, updatingRoomName} = this.state;
-    const {t, theme, loading, roomMessages, selectedRoom} = this.props;
+    const {
+      t,
+      theme,
+      profile,
+      loading,
+      selectedRoom,
+      roomMessageIds,
+      lastMessageDateChecked,
+    } = this.props;
+    console.log({lastMessageDateChecked});
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          title={t(`chat_type_${selectedRoom.type}`)}
-          hasRight
+          title={
+            selectedRoom.type === 'private'
+              ? t('chat_type_private')
+              : selectedRoom.room_name
+          }
+          hasRight={selectedRoom.type === 'group'}
           rightIconType="Ionicon"
           rightIcon="md-more"
           onPressRight={() => this.openActionSheet()}
         />
         {selectedRoom.type === 'group' && (
-          <MCEmptyText>{selectedRoom.room_name}</MCEmptyText>
+          <MCView row justify="center" ph={30}>
+            {selectedRoom.members.slice(0, 3).map((member, index) => {
+              const find = selectedRoom.includes.find(i => i._id === member);
+              if (!find) return;
+              return (
+                <MCView ml={index > 0 ? -15 : 0}>
+                  <MCImage
+                    image={{uri: find.avatar}}
+                    round
+                    type="avatar"
+                    width={30}
+                    height={30}
+                  />
+                  {selectedRoom.members.length > 8 && index === 7 && (
+                    <MCView
+                      absolute
+                      width={30}
+                      height={30}
+                      background={theme.colors.background}
+                      align="center"
+                      justify="center"
+                      style={{opacity: 0.8}}>
+                      <H4 weight="bold">+{selectedRoom.members.length - 8}</H4>
+                    </MCView>
+                  )}
+                </MCView>
+              );
+            })}
+            {/* <MCEmptyText>
+              {selectedRoom.includes.length} {t('network_members')}
+            </MCEmptyText> */}
+          </MCView>
         )}
         <KeyboardAvoidingView
           style={{flex: 1, alignItems: 'center'}}
@@ -184,7 +208,7 @@ class ChatRoomScreen extends React.Component {
               paddingBottom: 20,
               alignItems: 'center',
             }}
-            data={Object.keys(roomMessages || {}).sort((a, b) => a > b)}
+            data={roomMessageIds}
             renderItem={this._renderBubbleItem}
             keyExtractor={item => item}
             ListEmptyComponent={
@@ -192,6 +216,8 @@ class ChatRoomScreen extends React.Component {
                 {loading ? t('progress_loading') : t('no_messages')}
               </MCEmptyText>
             }
+            viewabilityConfig={this.viewabilityConfig}
+            onViewableItemsChanged={this.onViewableItemsChanged}
           />
           <MCView row align="center" width={350} pv={10}>
             <MCTextInput
@@ -243,6 +269,17 @@ class ChatRoomScreen extends React.Component {
               </MCView>
             ) : (
               <>
+                <H4 width={300} align="center" color={theme.colors.border}>
+                  {selectedRoom.room_name}
+                </H4>
+                <H4
+                  mb={10}
+                  width={300}
+                  align="center"
+                  color={theme.colors.border}>
+                  ({selectedRoom.members.length} {t('network_members')})
+                </H4>
+                <DividerLine />
                 {selectedRoom.type === 'group' && (
                   <MCButton onPress={() => this.onPressAddMember()}>
                     <H3>{t('chat_action_add_member')}</H3>
@@ -253,14 +290,16 @@ class ChatRoomScreen extends React.Component {
                     <H3>{t('chat_action_change_room_name')}</H3>
                   </MCButton>
                 )}
-                <MCButton onPress={() => this.onPressDelete()}>
-                  <H3 color={theme.colors.danger}>
-                    {t('chat_action_delete_room')}
-                  </H3>
-                </MCButton>
+                {selectedRoom.owner === profile._id && (
+                  <MCButton onPress={() => this.onPressDelete()}>
+                    <H3 color={theme.colors.danger}>
+                      {t('chat_action_delete_room')}
+                    </H3>
+                  </MCButton>
+                )}
               </>
             )}
-            {/* <MCView bordered mt={15} height={0.1} br={1} width={250} /> */}
+            <DividerLine />
             <MCButton
               onPress={() => this.closeActionSheet()}
               mt={20}
@@ -279,7 +318,11 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedRoom: state.chatReducer.selectedRoom,
   roomMessages: state.chatReducer.roomMessages,
+  roomMessageIds: Object.keys(state.chatReducer.roomMessages || {}).sort(
+    (a, b) => a > b,
+  ),
   loading: state.chatReducer.loading,
+  lastMessageDateChecked: state.chatReducer.lastMessageDateChecked,
   profile: state.profileReducer,
 });
 
@@ -289,6 +332,7 @@ const mapDispatchToProps = {
   deleteChatRoom: chatActions.deleteChatRoom,
   updateChatRoom: chatActions.updateChatRoom,
   closeRoomMessageListener: chatActions.closeRoomMessageListener,
+  updateLastMessageDate: chatActions.updateLastMessageDate,
 };
 
 export default withTranslation()(

@@ -3,7 +3,7 @@ import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import NavigationService from 'navigation/NavigationService';
-import {userActions} from 'Redux/actions';
+import {userActions, chatActions} from 'Redux/actions';
 import {MCHeader, MCImage, MCSearchInput, MCIcon} from 'components/common';
 import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
@@ -16,10 +16,12 @@ class SelectChatMemberScreen extends React.Component {
     this.state = {
       searchText: '',
       isMultiple: props.route.params.multiple,
+      type: props.route.params.type || 'create_room',
     };
   }
 
   componentDidMount() {
+    this.props.setSeletedUsers([]);
     this.props.getTrustMembers({
       status: 1,
       name: '',
@@ -50,6 +52,13 @@ class SelectChatMemberScreen extends React.Component {
     }
   };
 
+  onAddMembersToChatRoom = () => {
+    const {selectedUsers, selectedRoom, addMemberToRoom} = this.props;
+    addMemberToRoom(selectedUsers, selectedRoom, () => {
+      NavigationService.goBack();
+    });
+  };
+
   deselectUser = user => {
     const {isMultiple} = this.state;
     if (isMultiple) {
@@ -69,11 +78,16 @@ class SelectChatMemberScreen extends React.Component {
   };
 
   _renderUserItem = ({item}) => {
-    const {theme, myProfile, selectedUsers} = this.props;
+    const {type} = this.state;
+    const {theme, myProfile, selectedUsers, selectedRoom} = this.props;
     const user = item;
 
     // skip owner's profile
     if (user._id === myProfile._id) return null;
+    // skip original chat members when adding new members in the chat room
+    const find = selectedRoom.includes.find(i => i._id === user._id);
+    console.log({type, find});
+    if (type === 'add_member' && find) return null;
 
     // check if selected
     const filtered = selectedUsers.filter(
@@ -159,7 +173,7 @@ class SelectChatMemberScreen extends React.Component {
   };
 
   render() {
-    const {searchText, isMultiple} = this.state;
+    const {type, searchText, isMultiple} = this.state;
     const {
       t,
       theme,
@@ -170,7 +184,12 @@ class SelectChatMemberScreen extends React.Component {
     } = this.props;
     return (
       <MCRootView justify="flex-start">
-        <MCHeader title={t('title_select_chat_member')} />
+        <MCHeader
+          title={t('title_select_chat_member')}
+          hasRight={type === 'add_member'}
+          rightIcon="cloud-upload-alt"
+          onPressRight={() => this.onAddMembersToChatRoom()}
+        />
         <MCSearchInput
           width={350}
           text={searchText}
@@ -232,6 +251,7 @@ const mapStateToProps = state => ({
   myProfile: state.profileReducer,
   theme: state.routerReducer.theme,
   isLoading: state.routerReducer.isLoading,
+  selectedRoom: state.chatReducer.selectedRoom,
 });
 
 const mapDispatchToProps = {
@@ -239,6 +259,8 @@ const mapDispatchToProps = {
   deselectUser: userActions.deselectUser,
   selectSingleUser: userActions.selectSingleUser,
   getTrustMembers: userActions.getTrustMembers,
+  setSeletedUsers: userActions.setSeletedUsers,
+  addMemberToRoom: chatActions.addMemberToRoom,
 };
 
 export default withTranslation()(
