@@ -288,6 +288,7 @@ class ChatRoomScreen extends React.Component {
           style={{flex: 1, alignItems: 'center', marginTop: dySize(10)}}
           behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
           <FlatList
+            keyboardShouldPersistTaps="always"
             ref={ref => (this.chatList = ref)}
             contentContainerStyle={{
               width: dySize(375),

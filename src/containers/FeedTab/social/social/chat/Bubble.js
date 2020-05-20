@@ -35,11 +35,17 @@ class ChatBubbleItem extends React.Component {
     if (bubble.text.indexOf('chat_message_who_added_whom') > -1) return;
     if (mine) {
       this.setState({selectedBubble: bubble});
-      // this.RBSheet && this.RBSheet.open();
-      this.setState({showImagePreview: true});
+      this.RBSheet && this.RBSheet.open();
     } else {
       //  go to preview screen directly
     }
+  };
+
+  onPreviewImage = () => {
+    this.RBSheet && this.RBSheet.close();
+    setTimeout(() => {
+      this.setState({showImagePreview: true});
+    }, 1000);
   };
 
   onEditMessage = () => {
@@ -66,7 +72,7 @@ class ChatBubbleItem extends React.Component {
 
   onDeleteMessage = () => {
     const {selectedBubble} = this.state;
-    const {t, deleteMessage, selectedRoom} = this.props;
+    const {t, updateMessage, selectedRoom} = this.props;
     Alert.alert(
       t('alert_title_mocha'),
       t('alert_remove_chat_room'),
@@ -183,7 +189,8 @@ class ChatBubbleItem extends React.Component {
         </MCView>
         <RBSheet
           ref={ref => (this.RBSheet = ref)}
-          openDuration={500}
+          openDuration={3500}
+          closeDuration={100}
           customStyles={{
             container: {
               backgroundColor: theme.colors.background,
@@ -221,8 +228,7 @@ class ChatBubbleItem extends React.Component {
           ) : (
             <MCView align="center" pv={20}>
               {selectedBubble && selectedBubble.image && (
-                <MCButton
-                  onPress={() => this.setState({showImagePreview: true})}>
+                <MCButton onPress={() => this.onPreviewImage()}>
                   <H3>{t('chat_action_preview_image')}</H3>
                 </MCButton>
               )}
