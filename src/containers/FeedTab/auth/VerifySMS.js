@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 
-import {authActions} from 'Redux/actions';
+import {authActions, profileActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {H3, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
@@ -37,14 +37,21 @@ class VerifySMS extends React.Component {
   }
 
   verifySMS = code => {
-    const {phone} = this.props.route.params;
-    this.props.verifySMS({phone, code});
+    const {data} = this.props.route.params;
+    if (data.from == 'signup') {
+      this.props.verifySMS({phone: data.phone, code: code});
+    } else {
+      this.props.updatePhoneNumber({phone: data.phone, code: code});
+    }
   };
 
   resendSMS = () => {
-    const {phone} = this.props.route.params;
+    const {data} = this.props.route.params;
     this.props.setSMSVerifyStatus('pending');
-    this.props.sendSMS(phone);
+    this.props.sendSMS({
+      phone: data.phone,
+      from: data.from,
+    });
     this.setState({clearInputs: true, code: ''});
   };
 
@@ -107,6 +114,7 @@ const mapDispatchToProps = {
   verifySMS: authActions.verifySMS,
   setSMSVerifyStatus: authActions.setSMSVerifyStatus,
   sendSMS: authActions.sendSMS,
+  updatePhoneNumber: profileActions.updatePhoneNumber,
 };
 
 export default withTranslation()(

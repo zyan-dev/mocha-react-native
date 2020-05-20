@@ -26,6 +26,7 @@ function* mySaga() {
   );
   yield takeLatest(types.GET_USER_PROFILE, profileSaga.getUserProfile);
   yield takeLatest(types.DELETE_ACCOUNT, profileSaga.deleteAccount);
+  yield takeLatest(types.UPDATE_PHONE_NUMBER, profileSaga.updatePhoneNumber);
 
   // reflection
   yield takeLatest(types.GET_MY_REFLECTIONS, reflectionSaga.getMyReflections);
