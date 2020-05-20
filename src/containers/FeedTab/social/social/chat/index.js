@@ -93,7 +93,7 @@ class SocialChatScreen extends React.Component {
             </H4>
           </MCView>
         </MCButton>
-        {lastMessageDateChecked[chatRoom._id] <
+        {Number(lastMessageDateChecked[chatRoom._id]) !==
           new Date(chatRoom.last_updated).getTime() && (
           <MCView
             style={{
@@ -121,7 +121,11 @@ class SocialChatScreen extends React.Component {
     return (
       <MCRootView justify="flex-start" background="transparent">
         <FlatList
-          contentContainerStyle={{width: dySize(375), alignItems: 'center'}}
+          contentContainerStyle={{
+            width: dySize(375),
+            alignItems: 'center',
+            paddingBottom: 40,
+          }}
           data={myRooms}
           renderItem={this._renderChatItem}
           keyExtractor={item => item._id}
