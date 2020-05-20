@@ -75,9 +75,12 @@ export const OvalYellowImage = styled(Image)`
   opacity: 0.2;
 `;
 
+const opacityArray = [1, 0.5, 0.2];
+
 class ProfileScreen extends React.Component {
   state = {
     viewableItems: [],
+    focusedIndex: 0,
   };
   viewabilityConfig = {
     waitForInteraction: false,
@@ -144,8 +147,9 @@ class ProfileScreen extends React.Component {
 
   onPressProfileIcon = (icon, index) => {
     this.props.changeProfileTab(icon.key);
+    this.setState({focusedIndex: index});
     this.contentScroll &&
-      this.contentScroll.scrollToIndex({animated: true, index});
+      this.contentScroll.scrollToIndex({animated: false, index});
   };
 
   onCloseWelcomeModal = () => {
@@ -155,17 +159,17 @@ class ProfileScreen extends React.Component {
   onViewableItemsChanged = ({viewableItems, changed}) => {
     const {profileLayout} = this.props;
     if (viewableItems.length === 0) return;
-    console.log({viewableItems});
-    this.setState({viewableItems});
     const findIndex = profileLayout.findIndex(
       i => i.key === viewableItems[0].key,
     );
-    this.iconScroll &&
-      this.iconScroll.scrollToIndex({
-        animated: true,
-        index: findIndex,
-        viewPosition: 0.5,
-      });
+    this.setState({viewableItems, focusedIndex: findIndex}, () => {
+      this.iconScroll &&
+        this.iconScroll.scrollToIndex({
+          animated: true,
+          index: findIndex,
+          viewPosition: 0.5,
+        });
+    });
   };
 
   _renderProfileSections = ({item}) => {
@@ -396,21 +400,24 @@ class ProfileScreen extends React.Component {
   };
 
   renderProfileIcon = ({item, index}) => {
-    const {viewableItems} = this.state;
+    const {viewableItems, focusedIndex} = this.state;
     const {theme, profile, profileTab} = this.props;
     const layout = item;
     if (layout.signinRequired && !profile.userToken.length) return null;
     if (layout.disabled) return null;
     const selected =
-      viewableItems.length && viewableItems.find(i => i.key === layout.key);
+      viewableItems.length && viewableItems[0].key === layout.key;
     const size = selected ? 30 : 20;
     const color = selected ? theme.colors.outline : theme.colors.text;
     return (
       <MCButton
         key={layout.key}
         width={50}
+        height={50}
         align="center"
-        onPress={() => this.onPressProfileIcon(layout, index)}>
+        justify="center"
+        onPress={() => this.onPressProfileIcon(layout, index)}
+        style={{opacity: opacityArray[Math.abs(focusedIndex - index) % 3]}}>
         {layout.key === 'hydration' ? (
           <FaucetWhiteSvg size={size} color={color} />
         ) : layout.key === 'dreams' ? (
@@ -431,6 +438,7 @@ class ProfileScreen extends React.Component {
 
   render() {
     const {t, theme, profileLayout, showDrawer, visitedProfile} = this.props;
+    const {focusedIndex} = this.state;
     return (
       <MCRootView justify="flex-start">
         <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
@@ -452,23 +460,44 @@ class ProfileScreen extends React.Component {
               contentContainerStyle={{
                 width: dySize(325),
                 paddingHorizontal: 10,
-                paddingBottom: 40,
+                paddingBottom: 200,
               }}
               viewabilityConfig={this.viewabilityConfig}
               onViewableItemsChanged={this.onViewableItemsChanged}
-            />
-          </MCView>
-          <MCView width={55}>
-            <FlatList
-              ref={ref => (this.iconScroll = ref)}
-              data={profileLayout}
-              renderItem={this.renderProfileIcon}
-              keyExtractor={item => item.key}
-              contentContainerStyle={{
-                width: dySize(55),
-                alignItems: 'center',
+              onScrollToIndexFailed={info => {
+                console.log({info});
+                this.contentScroll.scrollToIndex({
+                  animated: false,
+                  index: info.highestMeasuredFrameIndex,
+                });
+                setTimeout(() => {
+                  this.contentScroll.scrollToIndex({
+                    animated: false,
+                    index: focusedIndex,
+                  });
+                }, 1000);
               }}
             />
+          </MCView>
+          <MCView
+            width={55}
+            justify="center"
+            row
+            align="center"
+            style={{height: '100%'}}>
+            <MCView height={250}>
+              <FlatList
+                ref={ref => (this.iconScroll = ref)}
+                data={profileLayout}
+                renderItem={this.renderProfileIcon}
+                keyExtractor={item => item.key}
+                contentContainerStyle={{
+                  width: dySize(55),
+                  alignItems: 'center',
+                  paddingVertical: dySize(100),
+                }}
+              />
+            </MCView>
             {/* <MCContent>
               {profileLayout.map(layout => this.renderProfileIcon(layout))}
             </MCContent> */}
