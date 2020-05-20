@@ -74,7 +74,7 @@ class BookResourceScreen extends React.PureComponent {
     });
 
     const orderedBooks = this.sortBook(books, sort);
-    // console.log(orderedBooks);
+
     return (
       <MCRootView align="center">
         <FlatList

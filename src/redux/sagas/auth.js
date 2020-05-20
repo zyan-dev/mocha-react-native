@@ -11,10 +11,10 @@ export function* sendSignUpSMS(action) {
   try {
     // call send sms API
     yield put({type: types.API_CALLING});
-    const response = yield call(API.sendSMS, action.payload);
+    const response = yield call(API.sendSMS, action.payload.phone);
     if (response.data.status === 'success') {
       // if success go to verify sms screen
-      NavigationService.navigate('Auth_VerifySMS', {phone: action.payload});
+      NavigationService.navigate('Auth_VerifySMS', {data: action.payload});
       showAlert('Verification has been sent successfully');
       yield put({type: types.API_FINISHED});
     } else {

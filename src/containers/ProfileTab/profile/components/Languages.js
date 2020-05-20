@@ -46,7 +46,7 @@ class LanguagesCard extends React.Component {
     const {t, languages, editable} = this.props;
     const {selectedLanguage, showModal} = this.state;
     return (
-      <MCView align="center">
+      <MCView align="center" mt={30}>
         <MCView row align="center" mb={20}>
           <H3 weight="bold" style={{flex: 1}}>
             {t('profile_subtitle_languages')}

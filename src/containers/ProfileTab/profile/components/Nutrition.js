@@ -26,7 +26,7 @@ class NutritionCard extends React.Component {
     const bests = _.get(nutrition, ['data', 'best'], []);
     const worsts = _.get(nutrition, ['data', 'worst'], []);
     return (
-      <MCView>
+      <MCView mt={30}>
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>

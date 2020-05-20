@@ -199,7 +199,7 @@ class ProfileSideMenu extends React.Component {
               width={150}
               onPress={() =>
                 this.onPressItem({
-                  index: 8,
+                  index: 7,
                   redirectTo: 'Contact',
                 })
               }>

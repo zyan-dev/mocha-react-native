@@ -26,7 +26,7 @@ class DreamCard extends React.Component {
     const main = _.get(dream, ['data', 'main'], '');
     const others = _.get(dream, ['data', 'others'], []);
     return (
-      <MCView>
+      <MCView mt={30}>
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>

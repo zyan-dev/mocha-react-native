@@ -122,22 +122,14 @@ export const ProfileSideMenuList = [
   },
   {
     index: 3,
-    icon: 'ios-calendar',
-    iconType: 'Ionicon',
-    title: 'profile_menu_timeline',
-    redirectTo: 'TimeLine',
+    icon: 'cog',
+    iconType: 'FontAwesome5Pro',
+    title: 'profile_menu_setting',
+    redirectTo: 'Settings',
     registerRequired: true,
   },
   {
     index: 4,
-    icon: 'ios-trending-up',
-    iconType: 'Ionicon',
-    title: 'profile_menu_analyze',
-    redirectTo: 'Analyze',
-    registerRequired: true,
-  },
-  {
-    index: 5,
     icon: 'ios-send',
     iconType: 'Ionicon',
     title: 'profile_menu_cv',
@@ -145,7 +137,7 @@ export const ProfileSideMenuList = [
     registerRequired: true,
   },
   {
-    index: 6,
+    index: 5,
     icon: 'ios-notifications-outline',
     iconType: 'Ionicon',
     title: 'profile_menu_manage_notifications',
@@ -153,7 +145,7 @@ export const ProfileSideMenuList = [
     registerRequired: true,
   },
   {
-    index: 7,
+    index: 6,
     icon: 'logo-usd',
     iconType: 'Ionicon',
     title: 'profile_menu_purchase',
@@ -161,11 +153,38 @@ export const ProfileSideMenuList = [
     registerRequired: true,
   },
   {
-    index: 8,
+    index: 7,
     icon: 'ios-remove-circle-outline',
     iconType: 'Ionicon',
     title: 'profile_menu_delete',
     redirectTo: '',
+    registerRequired: true,
+  },
+];
+
+export const ProfileSideSettingsList = [
+  {
+    index: 0,
+    icon: 'phone',
+    iconType: 'FontAwesome5Pro',
+    title: 'settings_phone_number_update',
+    redirectTo: 'PhoneUpdate',
+    registerRequired: true,
+  },
+  {
+    index: 1,
+    icon: 'ios-calendar',
+    iconType: 'Ionicon',
+    title: 'profile_menu_timeline',
+    redirectTo: 'TimeLine',
+    registerRequired: true,
+  },
+  {
+    index: 2,
+    icon: 'ios-trending-up',
+    iconType: 'Ionicon',
+    title: 'profile_menu_analyze',
+    redirectTo: 'Analyze',
     registerRequired: true,
   },
 ];

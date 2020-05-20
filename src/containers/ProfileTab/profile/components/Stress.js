@@ -97,7 +97,7 @@ class StressAndComfortCard extends React.Component {
     const parts = _.get(stress, ['data', 'parts'], []);
     const methods = _.get(stressRecovery, ['data', 'methods'], []);
     return (
-      <MCView>
+      <MCView mt={30}>
         <MCView row align="center" mb={20}>
           <H3 weight="bold">{t('profile_subtitle_stress_recovery')}</H3>
           <FragileSvg size={30} />

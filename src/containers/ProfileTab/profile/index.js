@@ -55,6 +55,7 @@ import {
   SkullCowSvg,
 } from 'assets/svgs';
 import {OvalYellow, OvalGreen} from 'assets/images';
+import {FlatList} from 'react-native-gesture-handler';
 
 export const OvalGreenImage = styled(Image)`
   position: absolute;
@@ -75,6 +76,14 @@ export const OvalYellowImage = styled(Image)`
 `;
 
 class ProfileScreen extends React.Component {
+  state = {
+    viewableItems: [],
+  };
+  viewabilityConfig = {
+    waitForInteraction: false,
+    itemVisiblePercentThreshold: 20,
+  };
+
   WelcomeProfileDescription = {
     title: i18next.t('welcome_profile_description', {
       bold: i18next.t('outline_profile_basics'),
@@ -132,52 +141,37 @@ class ProfileScreen extends React.Component {
   onPressAllLanguages = () => {};
   onPressAllRisks = () => {};
   onPressAllAnswers = () => {};
-  onPressProfileIcon = icon => {
+
+  onPressProfileIcon = (icon, index) => {
     this.props.changeProfileTab(icon.key);
+    this.contentScroll &&
+      this.contentScroll.scrollToIndex({animated: true, index});
   };
 
   onCloseWelcomeModal = () => {
     this.props.visitProfileTab();
   };
 
-  renderProfileIcon = layout => {
-    const {theme, profile, profileTab} = this.props;
-    if (layout.signinRequired && !profile.userToken.length) return null;
-    if (layout.disabled) return null;
-    const selected = profileTab === layout.key;
-    const size = selected ? 30 : 20;
-    const color = selected ? theme.colors.outline : theme.colors.text;
-    return (
-      <MCButton
-        key={layout.key}
-        width={50}
-        align="center"
-        onPress={() => this.onPressProfileIcon(layout)}>
-        {layout.key === 'hydration' ? (
-          <FaucetWhiteSvg size={size} color={color} />
-        ) : layout.key === 'dreams' ? (
-          <FutureSvg size={size} color={color} />
-        ) : layout.key === 'meaning_life' ? (
-          <SkullCowSvg size={size} color={color} />
-        ) : (
-          <MCIcon
-            type={layout.iconType}
-            name={layout.icon}
-            size={size}
-            color={color}
-          />
-        )}
-      </MCButton>
+  onViewableItemsChanged = ({viewableItems, changed}) => {
+    const {profileLayout} = this.props;
+    if (viewableItems.length === 0) return;
+    console.log({viewableItems});
+    this.setState({viewableItems});
+    const findIndex = profileLayout.findIndex(
+      i => i.key === viewableItems[0].key,
     );
+    this.iconScroll &&
+      this.iconScroll.scrollToIndex({
+        animated: true,
+        index: findIndex,
+        viewPosition: 0.5,
+      });
   };
 
-  render() {
+  _renderProfileSections = ({item}) => {
     const {
-      t,
       theme,
       profile,
-      profileLayout,
-      profileTab,
       chronotype,
       nutrition,
       hydration,
@@ -205,9 +199,238 @@ class ProfileScreen extends React.Component {
       meaning,
       behaviorPreference,
       commits,
-      showDrawer,
-      visitedProfile,
     } = this.props;
+    const key = item.key;
+    if (item.disabled) return null;
+    if (key === 'overview') return <OverviewCard profile={profile} />;
+    if (key === 'contact') return <ContactCard profile={profile} />;
+    if (key === 'chronotype')
+      return (
+        <ChronotypeCard
+          theme={theme}
+          chronotype={chronotype}
+          onPressEdit={() => NavigationService.navigate('Chronotype')}
+        />
+      );
+    if (key === 'nutrition')
+      return (
+        <NutritionCard
+          nutrition={nutrition}
+          onPressEdit={() => NavigationService.navigate('EditNutrition')}
+        />
+      );
+    if (key === 'hydration')
+      return (
+        <HydrationCard
+          theme={theme}
+          hydration={hydration}
+          onPressEdit={() => NavigationService.navigate('EditHydration')}
+        />
+      );
+    if (key === 'stress_recovery')
+      return (
+        <StressCard
+          theme={theme}
+          stress={stress}
+          stressRecovery={stressRecovery}
+          onPressEditParts={() => NavigationService.navigate('EditBodyStress')}
+          onPressEditRecovery={() =>
+            NavigationService.navigate('EditStressRecovery')
+          }
+        />
+      );
+    if (key === 'strengths')
+      return (
+        <SkillsCard
+          strength={strength}
+          onPressEdit={() => NavigationService.navigate('EditStrengths')}
+        />
+      );
+    if (key === 'core_values')
+      return (
+        <CoreValuesCard
+          theme={theme}
+          coreValues={coreValues}
+          valueStory={valueStory}
+          onPressEdit={() => NavigationService.navigate('EditCoreValues')}
+          onPressEditValueStory={value =>
+            NavigationService.navigate('EditValueStory', {value})
+          }
+        />
+      );
+    if (key === 'dreams')
+      return (
+        <DreamCard
+          dream={dream}
+          onPressEdit={() => NavigationService.navigate('EditDreams')}
+        />
+      );
+    if (key === 'habits')
+      return (
+        <HabitCard
+          commits={commits}
+          dailyHabits={dailyHabits}
+          weeklyHabits={weeklyHabits}
+          onPressAll={() => this.onPressAllHabits(0)}
+          theme={theme}
+        />
+      );
+    if (key === 'coaching_feedback')
+      return (
+        <CoachingFeedbackCard
+          coaching={coaching}
+          theme={theme}
+          onPressEdit={() => NavigationService.navigate('EditCoachingFeedback')}
+        />
+      );
+    if (key === 'criticism_feedback')
+      return (
+        <CriticismFeedbackCard
+          criticism={criticism}
+          theme={theme}
+          onPressEdit={() =>
+            NavigationService.navigate('EditCriticismFeedback')
+          }
+        />
+      );
+    if (key === 'praise_feedback')
+      return (
+        <PraiseFeedbackCard
+          praise={praise}
+          theme={theme}
+          onPressEdit={() => NavigationService.navigate('EditPraiseFeedback')}
+        />
+      );
+    if (key === 'qualities_character')
+      return (
+        <QualitiesBehaviorCard
+          qualities={qualities}
+          behaviorPreference={behaviorPreference}
+          theme={theme}
+          onPressEdit={() => NavigationService.navigate('EditQualities')}
+        />
+      );
+    if (key === 'challenges_concerns')
+      return (
+        <ChallengesBehaviorCard
+          challenges={challenges}
+          behaviorPreference={behaviorPreference}
+          onPressEdit={() => NavigationService.navigate('EditChallenges')}
+        />
+      );
+    if (key === 'approach_to_conflict')
+      return (
+        <ApproachCard
+          approach={approach}
+          onPressEdit={() => NavigationService.navigate('EditApproach')}
+        />
+      );
+    if (key === 'attachment_pattern')
+      return (
+        <AttachmentCard
+          attachment={attachment}
+          onPressEdit={() => NavigationService.navigate('EditAttachment')}
+        />
+      );
+    if (key === 'comfort')
+      return (
+        <ComfortCard
+          comfort={comfort}
+          onPressEdit={() => NavigationService.navigate('EditComfort')}
+          theme={theme}
+        />
+      );
+    if (key === 'meaning_life')
+      return (
+        <MeaningLifeCard
+          meaning={meaning}
+          onPressEdit={() => NavigationService.navigate('EditMeaningLife')}
+          theme={theme}
+        />
+      );
+    if (key === 'personality')
+      return (
+        <PersonalityCard
+          personality={personality}
+          onPressEdit={() => NavigationService.navigate('EditPersonality')}
+        />
+      );
+    if (key === 'values')
+      return (
+        <ValuesCard
+          values={values}
+          onPressDetails={() => this.onPressAllValues()}
+          onPressNew={() => this.onPressNewValue()}
+        />
+      );
+    if (key === 'feedbacks')
+      return (
+        <FeedbacksCard
+          feedbacks={feedbacks}
+          onPressDetails={() => NavigationService.navigate('Feedbacks')}
+          onPressNew={() => NavigationService.navigate('RequestFeedback')}
+        />
+      );
+    if (key === 'purposes')
+      return <PurposesCard onPressDetails={() => this.onPressAllPurposes()} />;
+    if (key === 'motivations')
+      return (
+        <MotivationCard
+          motivations={motivations}
+          onPressDetails={() => this.onPressAllMotivations()}
+          onPressNew={() => this.onPressNewMotivation()}
+        />
+      );
+    if (key === 'languages') return <LanguagesCard onPressDetails={() => {}} />;
+    if (key === 'beliefs')
+      return (
+        <UserManualsCard
+          manuals={manuals}
+          onPressDetails={() => this.onPressAllUserManuals()}
+          onPressNew={() => this.onPressNewUserManual()}
+        />
+      );
+    if (key === 'risks') return <RiskToleranceCard onPressEdit={() => {}} />;
+    if (key === 'quirks') return <QuirksCard onPressEdit={() => {}} />;
+    if (key === 'triggers') return <TriggersCard onPressEdit={() => {}} />;
+  };
+
+  renderProfileIcon = ({item, index}) => {
+    const {viewableItems} = this.state;
+    const {theme, profile, profileTab} = this.props;
+    const layout = item;
+    if (layout.signinRequired && !profile.userToken.length) return null;
+    if (layout.disabled) return null;
+    const selected =
+      viewableItems.length && viewableItems.find(i => i.key === layout.key);
+    const size = selected ? 30 : 20;
+    const color = selected ? theme.colors.outline : theme.colors.text;
+    return (
+      <MCButton
+        key={layout.key}
+        width={50}
+        align="center"
+        onPress={() => this.onPressProfileIcon(layout, index)}>
+        {layout.key === 'hydration' ? (
+          <FaucetWhiteSvg size={size} color={color} />
+        ) : layout.key === 'dreams' ? (
+          <FutureSvg size={size} color={color} />
+        ) : layout.key === 'meaning_life' ? (
+          <SkullCowSvg size={size} color={color} />
+        ) : (
+          <MCIcon
+            type={layout.iconType}
+            name={layout.icon}
+            size={size}
+            color={color}
+          />
+        )}
+      </MCButton>
+    );
+  };
+
+  render() {
+    const {t, theme, profileLayout, showDrawer, visitedProfile} = this.props;
     return (
       <MCRootView justify="flex-start">
         <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
@@ -221,219 +444,34 @@ class ProfileScreen extends React.Component {
         />
         <MCView row style={{flex: 1}}>
           <MCView width={325}>
-            <MCContent
-              style={{width: dySize(325)}}
-              contentContainerStyle={{padding: dySize(10)}}>
-              {profileTab === 'overview' && <OverviewCard profile={profile} />}
-              {profileTab === 'contact' && <ContactCard profile={profile} />}
-              {profileTab === 'chronotype' && (
-                <ChronotypeCard
-                  theme={theme}
-                  chronotype={chronotype}
-                  onPressEdit={() => NavigationService.navigate('Chronotype')}
-                />
-              )}
-              {profileTab === 'nutrition' && (
-                <NutritionCard
-                  nutrition={nutrition}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditNutrition')
-                  }
-                />
-              )}
-              {profileTab === 'hydration' && (
-                <HydrationCard
-                  theme={theme}
-                  hydration={hydration}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditHydration')
-                  }
-                />
-              )}
-              {profileTab === 'stress_recovery' && (
-                <StressCard
-                  theme={theme}
-                  stress={stress}
-                  stressRecovery={stressRecovery}
-                  onPressEditParts={() =>
-                    NavigationService.navigate('EditBodyStress')
-                  }
-                  onPressEditRecovery={() =>
-                    NavigationService.navigate('EditStressRecovery')
-                  }
-                />
-              )}
-              {profileTab === 'strengths' && (
-                <SkillsCard
-                  strength={strength}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditStrengths')
-                  }
-                />
-              )}
-              {profileTab === 'values' && (
-                <ValuesCard
-                  values={values}
-                  onPressDetails={() => this.onPressAllValues()}
-                  onPressNew={() => this.onPressNewValue()}
-                />
-              )}
-              {profileTab === 'core_values' && (
-                <CoreValuesCard
-                  theme={theme}
-                  coreValues={coreValues}
-                  valueStory={valueStory}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditCoreValues')
-                  }
-                  onPressEditValueStory={value =>
-                    NavigationService.navigate('EditValueStory', {value})
-                  }
-                />
-              )}
-              {profileTab === 'dreams' && (
-                <DreamCard
-                  dream={dream}
-                  onPressEdit={() => NavigationService.navigate('EditDreams')}
-                />
-              )}
-              {profileTab === 'habits' && (
-                <HabitCard
-                  commits={commits}
-                  dailyHabits={dailyHabits}
-                  weeklyHabits={weeklyHabits}
-                  onPressAll={() => this.onPressAllHabits(0)}
-                  theme={theme}
-                />
-              )}
-              {profileTab === 'coaching_feedback' && (
-                <CoachingFeedbackCard
-                  coaching={coaching}
-                  theme={theme}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditCoachingFeedback')
-                  }
-                />
-              )}
-              {profileTab === 'criticism_feedback' && (
-                <CriticismFeedbackCard
-                  criticism={criticism}
-                  theme={theme}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditCriticismFeedback')
-                  }
-                />
-              )}
-              {profileTab === 'praise_feedback' && (
-                <PraiseFeedbackCard
-                  praise={praise}
-                  theme={theme}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditPraiseFeedback')
-                  }
-                />
-              )}
-              {profileTab === 'qualities_character' && (
-                <QualitiesBehaviorCard
-                  qualities={qualities}
-                  behaviorPreference={behaviorPreference}
-                  theme={theme}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditQualities')
-                  }
-                />
-              )}
-              {profileTab === 'challenges_concerns' && (
-                <ChallengesBehaviorCard
-                  challenges={challenges}
-                  behaviorPreference={behaviorPreference}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditChallenges')
-                  }
-                />
-              )}
-              {profileTab === 'approach_to_conflict' && (
-                <ApproachCard
-                  approach={approach}
-                  onPressEdit={() => NavigationService.navigate('EditApproach')}
-                />
-              )}
-              {profileTab === 'attachment_pattern' && (
-                <AttachmentCard
-                  attachment={attachment}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditAttachment')
-                  }
-                />
-              )}
-              {profileTab === 'comfort' && (
-                <ComfortCard
-                  comfort={comfort}
-                  onPressEdit={() => NavigationService.navigate('EditComfort')}
-                  theme={theme}
-                />
-              )}
-              {profileTab === 'meaning_life' && (
-                <MeaningLifeCard
-                  meaning={meaning}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditMeaningLife')
-                  }
-                  theme={theme}
-                />
-              )}
-              {profileTab === 'purposes' && (
-                <PurposesCard
-                  onPressDetails={() => this.onPressAllPurposes()}
-                />
-              )}
-              {profileTab === 'motivations' && (
-                <MotivationCard
-                  motivations={motivations}
-                  onPressDetails={() => this.onPressAllMotivations()}
-                  onPressNew={() => this.onPressNewMotivation()}
-                />
-              )}
-              {profileTab === 'languages' && (
-                <LanguagesCard onPressDetails={() => {}} />
-              )}
-              {profileTab === 'beliefs' && (
-                <UserManualsCard
-                  manuals={manuals}
-                  onPressDetails={() => this.onPressAllUserManuals()}
-                  onPressNew={() => this.onPressNewUserManual()}
-                />
-              )}
-              {profileTab === 'personality' && (
-                <PersonalityCard
-                  personality={personality}
-                  onPressEdit={() =>
-                    NavigationService.navigate('EditPersonality')
-                  }
-                />
-              )}
-              {profileTab === 'risks' && (
-                <RiskToleranceCard onPressEdit={() => {}} />
-              )}
-              {profileTab === 'feedbacks' && (
-                <FeedbacksCard
-                  feedbacks={feedbacks}
-                  onPressDetails={() => NavigationService.navigate('Feedbacks')}
-                  onPressNew={() =>
-                    NavigationService.navigate('RequestFeedback')
-                  }
-                />
-              )}
-              {profileTab === 'quirks' && <QuirksCard onPressEdit={() => {}} />}
-              {profileTab === 'triggers' && (
-                <TriggersCard onPressEdit={() => {}} />
-              )}
-            </MCContent>
+            <FlatList
+              ref={ref => (this.contentScroll = ref)}
+              data={profileLayout}
+              renderItem={this._renderProfileSections}
+              keyExtractor={item => item.key}
+              contentContainerStyle={{
+                width: dySize(325),
+                paddingHorizontal: 10,
+                paddingBottom: 40,
+              }}
+              viewabilityConfig={this.viewabilityConfig}
+              onViewableItemsChanged={this.onViewableItemsChanged}
+            />
           </MCView>
           <MCView width={55}>
-            <MCContent>
+            <FlatList
+              ref={ref => (this.iconScroll = ref)}
+              data={profileLayout}
+              renderItem={this.renderProfileIcon}
+              keyExtractor={item => item.key}
+              contentContainerStyle={{
+                width: dySize(55),
+                alignItems: 'center',
+              }}
+            />
+            {/* <MCContent>
               {profileLayout.map(layout => this.renderProfileIcon(layout))}
-            </MCContent>
+            </MCContent> */}
           </MCView>
         </MCView>
         <MCModal
