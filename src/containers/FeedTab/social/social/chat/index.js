@@ -11,6 +11,7 @@ import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
+import {convertChatMessage} from 'services/operators';
 
 class SocialChatScreen extends React.Component {
   constructor(props) {
@@ -26,12 +27,11 @@ class SocialChatScreen extends React.Component {
   };
 
   _renderChatItem = ({item}) => {
-    const {t, theme, profile} = this.props;
+    const {t, theme, profile, lastMessageDateChecked} = this.props;
     const chatRoom = item;
     let lastUser = chatRoom.includes.find(i => i._id === chatRoom.last_userId);
-    if (chatRoom.last_userId === profile._id) lastUser = profile;
     return (
-      <NativeCard width={350} mt={10} ph={1} pv={5}>
+      <NativeCard width={350} mt={10} ph={10} pv={5}>
         <MCButton onPress={() => this.onPressChatRoom(chatRoom)}>
           <MCView
             row
@@ -58,6 +58,7 @@ class SocialChatScreen extends React.Component {
                       absolute
                       width={30}
                       height={30}
+                      br={15}
                       background={theme.colors.background}
                       align="center"
                       justify="center"
@@ -74,6 +75,7 @@ class SocialChatScreen extends React.Component {
               style={{flex: 1}}
               weight="italic"
               color={theme.colors.border}
+              numberOfLines={2}
               mr={30}>
               {chatRoom.last_userId === profile._id ? (
                 <H4 weight="italic">You</H4>
@@ -81,13 +83,31 @@ class SocialChatScreen extends React.Component {
                 <H4 weight="italic">{_.get(lastUser, ['name'], 'Someone')}</H4>
               )}
               {': '}
-              {t(chatRoom.last_message || 'chat_message_created_room')}
+              {convertChatMessage(
+                {text: chatRoom.last_message, userId: chatRoom.last_userId},
+                chatRoom,
+              )}
             </H4>
             <H4 color={theme.colors.border}>
               {moment(chatRoom.last_updated).fromNow()}
             </H4>
           </MCView>
         </MCButton>
+        {lastMessageDateChecked[chatRoom._id] <
+          new Date(chatRoom.last_updated).getTime() && (
+          <MCView
+            style={{
+              position: 'absolute',
+              top: dySize(5),
+              right: dySize(5),
+            }}
+            width={12}
+            height={12}
+            bordered
+            br={6}
+            background={theme.colors.danger}
+          />
+        )}
       </NativeCard>
     );
   };
@@ -122,6 +142,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   myRooms: state.chatReducer.myRooms,
   loading: state.chatReducer.loading,
+  lastMessageDateChecked: state.chatReducer.lastMessageDateChecked,
   profile: state.profileReducer,
 });
 

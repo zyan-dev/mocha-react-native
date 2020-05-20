@@ -33,7 +33,6 @@ const chatReducer = (state = INITIAL_STATE, action) => {
         loading: action.payload,
       };
     case types.SET_CHAT_MISSED_STATE:
-      console.log('hasMissedMessages', action.payload);
       return {
         ...state,
         hasMissedMessages: action.payload,

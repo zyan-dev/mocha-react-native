@@ -3,26 +3,14 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {chatActions} from 'Redux/actions';
 import {withTranslation} from 'react-i18next';
-import {MCRootView, MCView, MCCard} from 'components/styled/View';
-import {MCHeader, MCImage, MCIcon, MCModal} from 'components/common';
-import {MCTextInput, H3, H4, H5, MCEmptyText} from 'components/styled/Text';
-import {MCButton} from 'components/styled/Button';
+import {MCView} from 'components/styled/View';
+import {MCImage} from 'components/common';
+import {H4, H5} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
-import styled from 'styled-components';
+import {convertChatMessage} from 'services/operators';
 
 const bubbleColor = '#AAAAAA';
 const bubbleColorMine = '#303030';
-
-const BubbleSnippet = styled.View`
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  border-bottom-left-radius: 30000px;
-  border-bottom-right-radius: 30000px;
-  background: ${bubbleColor};
-  top: -15px;
-  left: 8px;
-`;
 
 class ChatBubbleItem extends React.Component {
   static propTypes = {
@@ -32,7 +20,6 @@ class ChatBubbleItem extends React.Component {
 
   render() {
     const {
-      t,
       hasAvatar,
       bubbleId,
       profile,
@@ -40,13 +27,10 @@ class ChatBubbleItem extends React.Component {
       roomMessages,
     } = this.props;
     const bubble = roomMessages[bubbleId];
-    let bubbleUser = null;
+    let bubbleUser = selectedRoom.includes.find(i => i._id === bubble.userId);
     let mine = false;
     if (bubble.userId === profile._id) {
-      bubbleUser = profile;
       mine = true;
-    } else {
-      bubbleUser = selectedRoom.includes.find(i => i._id === bubble.userId);
     }
     if (!bubbleUser) return null;
     return (
@@ -69,7 +53,7 @@ class ChatBubbleItem extends React.Component {
         {!mine && !hasAvatar && <MCView width={30} />}
         <MCView mt={-10}>
           {!mine && hasAvatar && <H5 ml={15}>{bubbleUser.name}</H5>}
-          <MCView>
+          <MCView mt={mine && hasAvatar ? 10 : 0}>
             {hasAvatar && (
               <MCView
                 style={{
@@ -100,9 +84,7 @@ class ChatBubbleItem extends React.Component {
               }}>
               {bubble.text && (
                 <H4 color={mine ? 'white' : 'black'}>
-                  {bubble.text === 'who_chat_message_created_room'
-                    ? t('who_chat_message_created_room', {who: bubbleUser.name})
-                    : bubble.text}
+                  {convertChatMessage(bubble, selectedRoom)}
                 </H4>
               )}
             </MCView>

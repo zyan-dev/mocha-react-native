@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {Header, Left, Body, Right, Icon} from 'native-base';
 import {H2, H3, H4} from '../styled/Text';
+import {MCView} from '../styled/View';
 import {MCIcon} from '.';
 import {MCButton} from '../styled/Button';
 import NavigationService from 'navigation/NavigationService';
@@ -48,6 +49,7 @@ const HeaderIcon = styled(Icon)`
 class MCHeader extends React.PureComponent {
   static propTypes = {
     hasBack: PropTypes.bool,
+    hasLeftBadge: PropTypes.bool,
     title: PropTypes.string.isRequired,
     hasRight: PropTypes.bool,
     headerIcon: PropTypes.node,
@@ -65,6 +67,7 @@ class MCHeader extends React.PureComponent {
   };
   static defaultProps = {
     hasBack: true,
+    hasLeftBadge: false,
     hasRight: false,
     headerIcon: undefined,
     rightText: '',
@@ -84,6 +87,7 @@ class MCHeader extends React.PureComponent {
   render() {
     const {
       hasBack,
+      hasLeftBadge,
       title,
       hasRight,
       headerIcon,
@@ -98,7 +102,7 @@ class MCHeader extends React.PureComponent {
       onPressRight,
       onPressBack,
       style,
-      t,
+      theme,
     } = this.props;
     return (
       <HeaderWrapper style={style}>
@@ -106,6 +110,20 @@ class MCHeader extends React.PureComponent {
           {hasBack && (
             <MCButton width={70} onPress={() => onPressBack()}>
               <MCIcon type={leftIconType} name={leftIcon} size={leftIconSize} />
+              {hasLeftBadge && (
+                <MCView
+                  style={{
+                    position: 'absolute',
+                    top: dySize(5),
+                    left: dySize(20),
+                  }}
+                  width={12}
+                  height={12}
+                  bordered
+                  br={6}
+                  background={theme.colors.danger}
+                />
+              )}
             </MCButton>
           )}
         </HeaderLeft>

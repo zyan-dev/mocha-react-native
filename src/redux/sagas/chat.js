@@ -30,12 +30,16 @@ export function* getMyChatRooms(action) {
 
 export function* checkChatMissedState(action) {
   const {
-    chatReducer: {lastMessageDateChecked},
+    chatReducer: {lastMessageDateChecked, myRooms},
   } = yield select();
   // check updated chat status
-  const find = action.payload.find(
-    room => lastMessageDateChecked[room._id] !== room.last_updated,
-  );
+  const rooms = action.payload || myRooms;
+  const find = rooms.find(room => {
+    return (
+      Number(lastMessageDateChecked[room._id]) !==
+      new Date(room.last_updated).getTime()
+    );
+  });
   if (find) {
     yield put({type: types.SET_CHAT_MISSED_STATE, payload: true});
   } else {
