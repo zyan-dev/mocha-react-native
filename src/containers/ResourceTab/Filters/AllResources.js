@@ -30,6 +30,7 @@ class AllResourcesScreen extends React.PureComponent {
   };
 
   selectMember = user => {
+    // this.setState({selectedMember: user});
     if (user._id == this.state.selectedMember._id) {
       this.setState({selectedMember: {}});
     } else {
@@ -74,21 +75,23 @@ class AllResourcesScreen extends React.PureComponent {
     let members = [];
 
     allResources.forEach(resource => {
-      if (resource.type == focused && resource.data && resource.ownerName) {
-        const temp = {
-          _id: resource.ownerId,
-          name: resource.ownerName,
-          avatar: resource.ownerAvatar,
-        };
+      resource.data.map(item => {
+        if (item.type == focused && item.data && item.ownerName) {
+          const temp = {
+            _id: item.ownerId,
+            name: item.ownerName,
+            avatar: item.ownerAvatar,
+          };
 
-        members.forEach((member, index) => {
-          if (member._id == resource.ownerId) {
-            members.splice(index, 1);
-          }
-        });
+          members.forEach((member, index) => {
+            if (member._id == item.ownerId) {
+              members.splice(index, 1);
+            }
+          });
 
-        members.push(temp);
-      }
+          members.push(temp);
+        }
+      });
     });
 
     return (

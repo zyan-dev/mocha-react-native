@@ -33,7 +33,7 @@ class BookResourceScreen extends React.PureComponent {
   };
 
   _renderListItem = ({item}) => {
-    const {bookmarkedResources} = this.props;
+    const {bookmarkedResources, from} = this.props;
 
     const bookmarked = bookmarkedResources.indexOf(item._id) > -1;
     return (
@@ -47,6 +47,7 @@ class BookResourceScreen extends React.PureComponent {
               this.forceUpdate();
             }}
             editable={false}
+            from={from}
           />
         </NativeCard>
       </MCView>
@@ -64,17 +65,19 @@ class BookResourceScreen extends React.PureComponent {
     let books = [];
 
     allResources.forEach(resource => {
-      if (resource.type == 'books' && resource.data) {
-        if (selectedMember._id == resource.ownerId) {
-          books.push(resource);
-        } else if (_.isEmpty(selectedMember)) {
-          books.push(resource);
+      resource.data.map(item => {
+        if (item.type == 'books' && item.data) {
+          if (selectedMember._id == item.ownerId) {
+            books.push(item);
+          } else if (_.isEmpty(selectedMember)) {
+            books.push(item);
+          }
         }
-      }
+      });
     });
 
     const orderedBooks = this.sortBook(books, sort);
-    // console.log(orderedBooks);
+
     return (
       <MCRootView align="center">
         <FlatList

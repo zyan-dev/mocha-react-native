@@ -6,7 +6,7 @@ import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
 import {reflectionActions, otherActions, userActions} from 'Redux/actions';
-import FeaturedResourceScreen from './Filters/Featured';
+import GlobalResourceScreen from './Filters/Global';
 import AllResourcesScreen from './Filters/AllResources';
 import MyResourceScreen from './Filters/MyResource';
 import SearchResourceScreen from './Filters/Search';
@@ -26,7 +26,7 @@ class ResourceTabView extends React.Component {
     const {t, theme, tabIndex, isShowingUserHabit} = this.props;
 
     const renderScene = SceneMap({
-      globe: FeaturedResourceScreen,
+      globe: GlobalResourceScreen,
       search: SearchResourceScreen,
       users: AllResourcesScreen,
       user: MyResourceScreen,

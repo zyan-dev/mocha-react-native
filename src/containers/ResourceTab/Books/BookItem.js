@@ -30,64 +30,6 @@ class BookItem extends React.Component {
     editable: true,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      collaborators: [
-        {
-          _id: '5e2609b3a9834d7b0216fb8b',
-          phone: '+380639348839',
-          created: '2020-01-20T20:12:35.726Z',
-          updated: '2020-04-21T09:27:58.540Z',
-          __v: 0,
-          name: 'viacheslav',
-          avatar:
-            'https://mochaassets.s3.amazonaws.com/uploads%2Funregistered%2Favatar_02-07-2020_01%3A11%3A24.jpg',
-          user_id: 'Vstiger',
-          pushToken:
-            'dssxgs8YUy0:APA91bFxAC0vWsmRMstnDkdoEqxnDLEwazZPbEWQduWji1WUV7M5aywMtx8gZ5XHXP8oJddnlQ5TTUal1BYXjNzHxUyeIS_x2UiVgvNZLT1v_BWsjFYWj6c8dQWbb0bYR-0_EnoXA3Bv',
-          bio: 'I am full stack engineer',
-          email: 'via.sadovoy@mail.com',
-          namepronoun: 'Viacheslav',
-          neighborhood: 'Hlevakha, UK',
-          preferredtobecalled: 'via',
-          points: 0,
-        },
-        {
-          _id: '5e300069aed5197aa96a42f9',
-          phone: '+112133061472',
-          created: '2020-01-28T09:35:37.014Z',
-          updated: '2020-02-10T08:52:47.908Z',
-          __v: 0,
-          avatar:
-            'https://mochaassets.s3.amazonaws.com/uploads%2Funregistered%2Favatar_02-05-2020_23%3A23%3A11.jpg',
-          name: 'Francisco Dotti',
-          user_id: 'franciscodotti',
-          pushToken: 'ExponentPushToken[fVZ2_IExuDI_A4iI8_hiWP]',
-        },
-        {
-          _id: '5e307be7aed5197aa96a430b',
-          phone: '+18054599608',
-          created: '2020-01-28T18:22:31.135Z',
-          updated: '2020-04-02T21:53:16.378Z',
-          __v: 0,
-          avatar:
-            'https://mochaassets.s3.amazonaws.com/uploads%2FDavid+Hansen%2Favatar_04-02-2020_14%3A53%3A15.jpg',
-          email: 'david.c.hansen4@gmail.com',
-          name: 'David Hansen',
-          namepronoun: 'Day vid',
-          neighborhood: 'Petaluma',
-          points: 0,
-          preferredpronoun: 'He',
-          preferredtobecalled: 'David',
-          pushToken:
-            'dxnx0bghSwak0Id6o8bmni:APA91bHjx1he56-_FD2FGlsYfJoRkxBEuevZ0_aBmnfoMuhPR2FMNLP58yu1EYvKPFJ_z1pC_mX2LuMqfPl4lp-09FjizPvx1GxL6cN3o6Cz8eYjlSbmbk5dqQnEVrS96ACUxbYWljS2',
-          user_id: 'DHansen',
-        },
-      ],
-    };
-  }
-
   onPressCopyLink = link => {
     const {t} = this.props;
     Clipboard.setString(link);
@@ -101,12 +43,12 @@ class BookItem extends React.Component {
   goDetailpage = resource => {
     NavigationService.navigate('BookDetail', {
       resource: resource,
-      collaborators: this.state.collaborators,
+      from: this.props.from,
     });
   };
 
   render() {
-    const {t, resource, theme} = this.props;
+    const {t, resource, theme, from} = this.props;
 
     return (
       <MCButton onPress={() => this.goDetailpage(resource)} key={resource._id}>
@@ -137,36 +79,40 @@ class BookItem extends React.Component {
             </MCView>
           </MCView>
         </MCView>
-        <MCView bordered mt={10} mb={10} width={300} />
-        <MCView width={300}>
-          <H4 underline>{t('resource_type_book_skill')}</H4>
-          <MCView row wrap>
-            {resource.data.skills.map(
-              (skill, index) =>
-                index < 3 && (
-                  <MCView
-                    mr={10}
-                    mb={5}
-                    br={10}
-                    background={theme.colors.text}
-                    height={30}
-                    ph={10}
-                    align="center"
-                    justify="center">
-                    {skill.indexOf('resource_manual_') > -1 ? (
-                      <H5 color={theme.colors.background}>
-                        {t(skill.slice('resource_manual_'.length))}
-                      </H5>
-                    ) : (
-                      <H5 color={theme.colors.background}>
-                        {t(`resource_book_skills_${skill}`)}
-                      </H5>
-                    )}
-                  </MCView>
-                ),
-            )}
-          </MCView>
-        </MCView>
+        {from != 'global' && (
+          <>
+            <MCView bordered mt={10} mb={10} width={300} />
+            <MCView width={300}>
+              <H4 underline>{t('resource_type_book_skill')}</H4>
+              <MCView row wrap>
+                {resource.data.skills.map(
+                  (skill, index) =>
+                    index < 3 && (
+                      <MCView
+                        mr={10}
+                        mb={5}
+                        br={10}
+                        background={theme.colors.text}
+                        height={30}
+                        ph={10}
+                        align="center"
+                        justify="center">
+                        {skill.indexOf('resource_manual_') > -1 ? (
+                          <H5 color={theme.colors.background}>
+                            {t(skill.slice('resource_manual_'.length))}
+                          </H5>
+                        ) : (
+                          <H5 color={theme.colors.background}>
+                            {t(`resource_book_skills_${skill}`)}
+                          </H5>
+                        )}
+                      </MCView>
+                    ),
+                )}
+              </MCView>
+            </MCView>
+          </>
+        )}
       </MCButton>
     );
   }

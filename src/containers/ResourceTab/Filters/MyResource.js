@@ -69,7 +69,11 @@ class MyResourceScreen extends React.PureComponent {
           </MCButton>
         </MCView>
         {focused == 'books' ? (
-          <BookResourceScreen selectedMember={profile} sort={sort} />
+          <BookResourceScreen
+            selectedMember={profile}
+            sort={sort}
+            from="my-resource"
+          />
         ) : (
           <MCContent>
             <MCView align="center">
