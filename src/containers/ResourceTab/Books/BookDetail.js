@@ -21,7 +21,6 @@ class BookDetailScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      trustMemebers: [],
       bookInfo: null,
       impactsArray: [],
       skillsArray: [],
@@ -34,7 +33,7 @@ class BookDetailScreen extends React.PureComponent {
 
     if (from === 'global') {
       allResources.map(item => {
-        if (item._id === resource.data.title) {
+        if (item.title === resource.data.title) {
           this.setState({bookInfo: item}, () => {
             const groupImpacts = _.groupBy(
               this.state.bookInfo.data,
@@ -93,9 +92,8 @@ class BookDetailScreen extends React.PureComponent {
 
   render() {
     const {t, theme} = this.props;
-    const {trustMemebers, bookInfo, impactsArray, skillsArray} = this.state;
-    const resource = this.props.route.params.resource;
-    const {from} = this.props.route.params;
+    const {bookInfo, impactsArray, skillsArray} = this.state;
+    const {from, resource} = this.props.route.params;
     const index = impacts.findIndex(
       impact => impact.key === resource.data.impacts,
     );
@@ -164,21 +162,23 @@ class BookDetailScreen extends React.PureComponent {
               {from === 'global' && bookInfo && (
                 <>
                   <H5>
-                    {bookInfo.ownerInfo.length} of users have added this book
+                    {bookInfo.ownerInfo.length} of user
+                    {bookInfo.ownerInfo.length > 1 && 's'} have added this book
                   </H5>
-                  <MCView row align="flex-start">
+                  <MCView row justify="flex-end" width={180}>
                     {bookInfo.ownerInfo.slice(0, 3).map((owner, index) => {
                       return (
                         <>
-                          <MCImage
-                            key={index}
-                            image={{uri: owner.avatar}}
-                            round
-                            width={30}
-                            height={30}
-                            type="avatar"
-                            style={{marginRight: dySize(-15)}}
-                          />
+                          <MCView ml={-15}>
+                            <MCImage
+                              key={index}
+                              image={{uri: owner.avatar}}
+                              round
+                              width={30}
+                              height={30}
+                              type="avatar"
+                            />
+                          </MCView>
                           {bookInfo.ownerInfo.length > 3 && index == 2 && (
                             <MCView
                               width={30}
@@ -188,6 +188,7 @@ class BookDetailScreen extends React.PureComponent {
                               background={theme.colors.text}
                               align="center"
                               justify="center"
+                              ml={-14}
                               style={{opacity: 0.8}}>
                               <H4 weight="bold" color={theme.colors.background}>
                                 +{bookInfo.ownerInfo.length - 3}
@@ -201,7 +202,7 @@ class BookDetailScreen extends React.PureComponent {
                 </>
               )}
 
-              {from !== 'global' && trustMemebers.length > 0 && (
+              {/* {from !== 'global' && trustMemebers.length > 0 && (
                 <>
                   <H5>
                     {trustMemebers.length} of your TrustMemebers have added this
@@ -239,7 +240,7 @@ class BookDetailScreen extends React.PureComponent {
                     })}
                   </MCView>
                 </>
-              )}
+              )} */}
             </MCView>
 
             {from == 'global' ? (
@@ -273,20 +274,11 @@ class BookDetailScreen extends React.PureComponent {
               <MCView width={350} mb={30} row justify="center">
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_impact')}</H4>
-                  <MCBookTagsView
-                    tags={[impacts[index]]}
-                    impact={true}
-                    users={trustMemebers}
-                    t={t}
-                  />
+                  <MCBookTagsView tags={[impacts[index]]} impact={true} t={t} />
                 </MCView>
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_skill')}</H4>
-                  <MCBookTagsView
-                    tags={resource.data.skills}
-                    users={trustMemebers}
-                    t={t}
-                  />
+                  <MCBookTagsView tags={resource.data.skills} t={t} />
                 </MCView>
               </MCView>
             )}

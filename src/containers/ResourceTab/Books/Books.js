@@ -61,28 +61,35 @@ class BookResourceScreen extends React.PureComponent {
       allResources,
       selectedMember,
       sort,
+      from,
+      searchResult,
     } = this.props;
     let books = [];
 
-    allResources.forEach(resource => {
-      resource.data.map(item => {
-        if (item.type == 'books' && item.data) {
-          if (selectedMember._id == item.ownerId) {
-            books.push(item);
-          } else if (_.isEmpty(selectedMember)) {
-            books.push(item);
-          }
-        }
+    if (from === 'global') {
+      searchResult.forEach(resource => {
+        books.push(resource.data[0]);
       });
-    });
-
-    const orderedBooks = this.sortBook(books, sort);
+    } else {
+      allResources.forEach(resource => {
+        resource.data.map(item => {
+          if (item.type == 'books' && item.data) {
+            if (selectedMember._id == item.ownerId) {
+              books.push(item);
+            } else if (_.isEmpty(selectedMember)) {
+              books.push(item);
+            }
+          }
+        });
+      });
+      books = this.sortBook(books, sort);
+    }
 
     return (
       <MCRootView align="center">
         <FlatList
           extraData={bookmarkedResources}
-          data={orderedBooks}
+          data={books}
           renderItem={this._renderListItem}
           keyExtractor={item => item._id}
           keyboardShouldPersistTaps="always"

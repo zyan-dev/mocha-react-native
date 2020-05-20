@@ -7,7 +7,7 @@ import {resourceActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
-import {MCImage, MCIcon} from 'components/common';
+import {MCImage, MCIcon, MCSearchInput} from 'components/common';
 import {ResourceContentRoots} from 'utils/constants';
 import BookResourceScreen from '../Books/Books';
 import {dySize} from 'utils/responsive';
@@ -20,19 +20,59 @@ class GlobalResourceScreen extends React.PureComponent {
       focused: ResourceContentRoots[0].key,
       selectedMember: {},
       sort: true,
+      searchText: '',
+      searchResult: this.props.allResources,
     };
   }
 
+  onPressItem = item => {
+    this.setState({focused: item.key});
+  };
+
+  filterResource(searchText) {
+    this.setState({searchText});
+    const {allResources} = this.props;
+    const searchResult = allResources.filter(v =>
+      v.title.toLowerCase().includes(searchText.toLowerCase()),
+    );
+    this.setState({searchResult});
+  }
+
   render() {
-    const {focused, sort, selectedMember} = this.state;
+    const {
+      focused,
+      sort,
+      selectedMember,
+      searchText,
+      searchResult,
+    } = this.state;
+    const {t, theme} = this.props;
 
     return (
       <MCRootView>
+        <MCView row>
+          {ResourceContentRoots.map(item => (
+            <MCButton onPress={() => this.onPressItem(item)}>
+              <MCIcon
+                type="FontAwesome5Pro"
+                name={item.icon}
+                size={20}
+                color={focused == item.key && theme.colors.outline}
+              />
+            </MCButton>
+          ))}
+        </MCView>
+        <MCSearchInput
+          placeholder={t('resource_search_placeholder')}
+          text={searchText}
+          onChange={searchText => this.filterResource(searchText)}
+        />
         {focused == 'books' ? (
           <BookResourceScreen
             selectedMember={selectedMember}
             sort={sort}
             from="global"
+            searchResult={searchResult}
           />
         ) : (
           <MCContent>

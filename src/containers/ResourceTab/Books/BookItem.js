@@ -30,6 +30,25 @@ class BookItem extends React.Component {
     editable: true,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      bookInfo: null,
+    };
+  }
+
+  componentDidMount() {
+    const {from, resource, allResources} = this.props;
+
+    if (from === 'global') {
+      allResources.map(item => {
+        if (item.title === resource.data.title) {
+          this.setState({bookInfo: item});
+        }
+      });
+    }
+  }
+
   onPressCopyLink = link => {
     const {t} = this.props;
     Clipboard.setString(link);
@@ -49,9 +68,47 @@ class BookItem extends React.Component {
 
   render() {
     const {t, resource, theme, from} = this.props;
-
+    const {bookInfo} = this.state;
     return (
       <MCButton onPress={() => this.goDetailpage(resource)} key={resource._id}>
+        {from === 'global' && (
+          <MCView row justify="flex-end" width={300} mb={10}>
+            {bookInfo &&
+              bookInfo.ownerInfo.slice(0, 3).map((owner, index) => {
+                return (
+                  <>
+                    <MCView ml={-15}>
+                      <MCImage
+                        key={index}
+                        image={{uri: owner.avatar}}
+                        round
+                        width={30}
+                        height={30}
+                        type="avatar"
+                      />
+                    </MCView>
+                    {bookInfo.ownerInfo.length > 3 && index == 2 && (
+                      <MCView
+                        width={30}
+                        height={30}
+                        bordered
+                        br={15}
+                        background={theme.colors.text}
+                        align="center"
+                        justify="center"
+                        ml={-14}
+                        style={{opacity: 0.8}}>
+                        <H4 weight="bold" color={theme.colors.background}>
+                          +{bookInfo.ownerInfo.length - 3}
+                        </H4>
+                      </MCView>
+                    )}
+                  </>
+                );
+              })}
+          </MCView>
+        )}
+
         <MCView
           width={300}
           row
@@ -120,6 +177,9 @@ class BookItem extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
+  bookmarkedResources: state.resourceReducer.bookmarkedResources,
+  allResources: state.resourceReducer.allResources,
+  profile: state.profileReducer,
 });
 
 export default withTranslation()(
