@@ -6,8 +6,8 @@ import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
 import {reflectionActions, otherActions, userActions} from 'Redux/actions';
-import GlobalResourceScreen from './Filters/Global';
-import AllResourcesScreen from './Filters/AllResources';
+import GlobalResourceScreen from './Filters/GlobalResource';
+import SocialResourcesScreen from './Filters/SocialResources';
 import MyResourceScreen from './Filters/MyResource';
 import SearchResourceScreen from './Filters/Search';
 import {MCHeader, MCSearchInput, MCIcon} from 'components/common';
@@ -28,7 +28,7 @@ class ResourceTabView extends React.Component {
     const renderScene = SceneMap({
       globe: GlobalResourceScreen,
       search: SearchResourceScreen,
-      users: AllResourcesScreen,
+      users: SocialResourcesScreen,
       user: MyResourceScreen,
     });
 

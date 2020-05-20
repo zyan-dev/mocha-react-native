@@ -261,7 +261,7 @@ class BookDetailScreen extends React.PureComponent {
                   <H4 underline>{t('resource_type_book_skill')}</H4>
                   {skillsArray.map(item => (
                     <MCBookTagsView
-                      tags={[Object.keys(item)]}
+                      tags={Object.keys(item)}
                       impact={false}
                       users={item[Object.keys(item)]}
                       t={t}

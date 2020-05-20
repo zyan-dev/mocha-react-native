@@ -12,7 +12,7 @@ import {ResourceContentRoots} from 'utils/constants';
 import BookResourceScreen from '../Books/Books';
 import {dySize} from 'utils/responsive';
 
-class AllResourcesScreen extends React.PureComponent {
+class SocialResourcesScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -43,8 +43,9 @@ class AllResourcesScreen extends React.PureComponent {
   };
 
   _renderListItem = ({item}) => {
-    const {theme} = this.props;
+    const {theme, myNetworks} = this.props;
     const {selectedMember} = this.state;
+
     return (
       <MCButton onPress={() => this.selectMember(item)}>
         <MCView
@@ -69,11 +70,11 @@ class AllResourcesScreen extends React.PureComponent {
   };
 
   render() {
-    const {theme, t, allResources} = this.props;
+    const {theme, t, allResources, trustMembers} = this.props;
     const {focused, sort, selectedMember} = this.state;
 
     let members = [];
-
+    console.log(123, trustMembers);
     allResources.forEach(resource => {
       resource.data.map(item => {
         if (item.type == focused && item.data && item.ownerName) {
@@ -156,6 +157,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   allResources: state.resourceReducer.allResources,
   profile: state.profileReducer,
+  trustMembers: state.usersReducer.trustMembers,
 });
 
 const mapDispatchToProps = {
@@ -166,5 +168,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(AllResourcesScreen),
+  )(SocialResourcesScreen),
 );

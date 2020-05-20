@@ -50,6 +50,11 @@ class GlobalResourceScreen extends React.PureComponent {
 
     return (
       <MCRootView>
+        <MCSearchInput
+          placeholder={t('resource_search_placeholder')}
+          text={searchText}
+          onChange={searchText => this.filterResource(searchText)}
+        />
         <MCView row>
           {ResourceContentRoots.map(item => (
             <MCButton onPress={() => this.onPressItem(item)}>
@@ -62,11 +67,6 @@ class GlobalResourceScreen extends React.PureComponent {
             </MCButton>
           ))}
         </MCView>
-        <MCSearchInput
-          placeholder={t('resource_search_placeholder')}
-          text={searchText}
-          onChange={searchText => this.filterResource(searchText)}
-        />
         {focused == 'books' ? (
           <BookResourceScreen
             selectedMember={selectedMember}
