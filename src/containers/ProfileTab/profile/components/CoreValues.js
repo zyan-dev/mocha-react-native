@@ -67,7 +67,7 @@ class CoreValuesCard extends React.Component {
     const core = _.get(coreValues, ['data', 'core'], []);
     const stories = _.get(valueStory, ['data', 'story'], {});
     return (
-      <MCView>
+      <MCView mt={30}>
         <MCView row align="center">
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>

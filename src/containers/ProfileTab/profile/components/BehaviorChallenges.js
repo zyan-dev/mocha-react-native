@@ -25,7 +25,7 @@ class ChallengesBehaviorCard extends React.Component {
     const {t, theme, challenges, editable, onPressEdit} = this.props;
     const options = _.get(challenges, ['data', 'bookmarked'], []);
     return (
-      <MCView>
+      <MCView mt={30}>
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>

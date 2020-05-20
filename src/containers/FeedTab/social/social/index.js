@@ -6,6 +6,7 @@ import {withTranslation} from 'react-i18next';
 import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
 import {routerActions, userActions, chatActions} from 'Redux/actions';
 import {MCHeader, MCIcon} from 'components/common';
+import {MCView} from 'components/styled/View';
 import SocialHomeScreen from './home';
 import SocialChatScreen from './chat';
 import SocialAccountabilityScreen from './accountability';
@@ -97,11 +98,29 @@ class FeedScreen extends React.Component {
             return <PeopleArrowSvg color={iconColor} size={25} />;
           }
           return (
-            <MCIcon
-              type="FontAwesome5Pro"
-              name={route.icon}
-              color={iconColor}
-            />
+            <>
+              <MCIcon
+                type="FontAwesome5Pro"
+                name={route.icon}
+                color={iconColor}
+              />
+              {this.props.hasMissedMessages &&
+                route.key === 'chat' &&
+                !focused && (
+                  <MCView
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                    }}
+                    width={12}
+                    height={12}
+                    bordered
+                    br={6}
+                    background={theme.colors.danger}
+                  />
+                )}
+            </>
           );
         }}
       />
@@ -142,6 +161,7 @@ const mapStateToProps = state => ({
   pageSearching: state.usersReducer.pageSearching,
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
+  hasMissedMessages: state.chatReducer.hasMissedMessages,
 });
 
 const mapDispatchToProps = {

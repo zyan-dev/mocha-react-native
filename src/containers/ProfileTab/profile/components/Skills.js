@@ -58,7 +58,7 @@ class SkillsCard extends React.Component {
     const {t, strength, editable, onPressEdit} = this.props;
     const skills = _.get(strength, ['data', 'options'], []);
     return (
-      <MCView align="center">
+      <MCView align="center" mt={30}>
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold">{t('profile_subtitle_strengths')}</H3>

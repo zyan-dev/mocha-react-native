@@ -22,7 +22,7 @@ class RiskToleranceCard extends React.Component {
   render() {
     const {t, risks, onPressEdit, editable} = this.props;
     return (
-      <MCView align="center">
+      <MCView align="center" mt={30}>
         <MCView row align="center" mb={20}>
           <H3 weight="bold" style={{flex: 1}}>
             {t('profile_subtitle_risks')}

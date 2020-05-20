@@ -26,7 +26,7 @@ class PraiseFeedbackCard extends React.Component {
     const {t, praise, editable, onPressEdit} = this.props;
     const options = _.get(praise, ['data', 'options'], []);
     return (
-      <MCView>
+      <MCView mt={30}>
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>

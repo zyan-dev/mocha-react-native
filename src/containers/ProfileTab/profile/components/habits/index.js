@@ -132,7 +132,7 @@ class HabitsCard extends React.Component {
       weeklyHabits,
     } = this.props;
     return (
-      <MCView align="center">
+      <MCView align="center" mt={30}>
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>

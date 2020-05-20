@@ -80,6 +80,7 @@ class DailyHabitScreen extends React.Component {
                 width={30}
                 height={30}
                 style={{marginLeft: dySize(-20)}}
+                type="avatar"
               />
             ))}
           </MCView>

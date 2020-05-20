@@ -26,7 +26,7 @@ class ChatRoomScreen extends React.Component {
 
   prevUserId = '';
   viewabilityConfig = {
-    waitForInteraction: true,
+    waitForInteraction: false,
     itemVisiblePercentThreshold: 75,
   };
 
@@ -37,9 +37,7 @@ class ChatRoomScreen extends React.Component {
 
   componentDidUpdate(preProps, prevState) {
     if (preProps.loading && !this.props.loading) {
-      setTimeout(() => {
-        this.chatList && this.chatList.scrollToEnd();
-      }, 1000);
+      this.scrollToEnd();
     }
   }
 
@@ -118,6 +116,13 @@ class ChatRoomScreen extends React.Component {
     else this.RBSheet.close();
   };
 
+  scrollToEnd = () => {
+    setTimeout(() => {
+      this.chatList &&
+        this.chatList.scrollToEnd({animated: false, duration: 1000});
+    }, 2000);
+  };
+
   _renderBubbleItem = ({item, index}) => {
     const {roomMessages, roomMessageIds} = this.props;
     let hasAvatar = true;
@@ -131,11 +136,20 @@ class ChatRoomScreen extends React.Component {
   };
 
   onViewableItemsChanged = ({viewableItems, changed}) => {
-    const {selectedRoom, roomMessages, lastMessageDateChecked} = this.props;
+    const {
+      selectedRoom,
+      lastMessageDateChecked,
+      checkChatMissedState,
+    } = this.props;
+    if (viewableItems.length === 0) return;
     const viewableLastDate = viewableItems[viewableItems.length - 1].item;
     if (viewableLastDate <= lastMessageDateChecked[selectedRoom._id]) return;
     this.props.updateLastMessageDate({
       [selectedRoom._id]: viewableLastDate,
+    });
+    console.log('scrolling detected');
+    setTimeout(() => {
+      checkChatMissedState();
     });
   };
 
@@ -148,9 +162,8 @@ class ChatRoomScreen extends React.Component {
       loading,
       selectedRoom,
       roomMessageIds,
-      lastMessageDateChecked,
+      hasMissedMessages,
     } = this.props;
-    console.log({lastMessageDateChecked});
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -163,16 +176,15 @@ class ChatRoomScreen extends React.Component {
           rightIconType="Ionicon"
           rightIcon="md-more"
           onPressRight={() => this.openActionSheet()}
+          hasLeftBadge={hasMissedMessages}
         />
         {selectedRoom.type === 'group' && (
           <MCView row justify="center" ph={30}>
-            {selectedRoom.members.slice(0, 3).map((member, index) => {
-              const find = selectedRoom.includes.find(i => i._id === member);
-              if (!find) return;
+            {selectedRoom.includes.slice(0, 8).map((member, index) => {
               return (
                 <MCView ml={index > 0 ? -15 : 0}>
                   <MCImage
-                    image={{uri: find.avatar}}
+                    image={{uri: member.avatar}}
                     round
                     type="avatar"
                     width={30}
@@ -193,20 +205,17 @@ class ChatRoomScreen extends React.Component {
                 </MCView>
               );
             })}
-            {/* <MCEmptyText>
-              {selectedRoom.includes.length} {t('network_members')}
-            </MCEmptyText> */}
           </MCView>
         )}
         <KeyboardAvoidingView
-          style={{flex: 1, alignItems: 'center'}}
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+          style={{flex: 1, alignItems: 'center', marginTop: dySize(10)}}
+          behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
           <FlatList
             ref={ref => (this.chatList = ref)}
             contentContainerStyle={{
               width: dySize(375),
-              paddingBottom: 20,
               alignItems: 'center',
+              paddingVertical: 10,
             }}
             data={roomMessageIds}
             renderItem={this._renderBubbleItem}
@@ -227,6 +236,8 @@ class ChatRoomScreen extends React.Component {
               style={{flex: 1}}
               onSubmitEditing={() => this.sendMessage()}
               returnKeyType="send"
+              onFocus={() => this.scrollToEnd()}
+              onBlur={() => this.scrollToEnd()}
             />
             <MCButton onPress={() => this.sendMessage()}>
               <MCIcon type="FontAwesome5Pro" name="paper-plane" />
@@ -285,11 +296,12 @@ class ChatRoomScreen extends React.Component {
                     <H3>{t('chat_action_add_member')}</H3>
                   </MCButton>
                 )}
-                {selectedRoom.type === 'group' && (
-                  <MCButton onPress={() => this.onPressChangeName()}>
-                    <H3>{t('chat_action_change_room_name')}</H3>
-                  </MCButton>
-                )}
+                {selectedRoom.type === 'group' &&
+                  selectedRoom.owner === profile._id && (
+                    <MCButton onPress={() => this.onPressChangeName()}>
+                      <H3>{t('chat_action_change_room_name')}</H3>
+                    </MCButton>
+                  )}
                 {selectedRoom.owner === profile._id && (
                   <MCButton onPress={() => this.onPressDelete()}>
                     <H3 color={theme.colors.danger}>
@@ -322,6 +334,7 @@ const mapStateToProps = state => ({
     (a, b) => a > b,
   ),
   loading: state.chatReducer.loading,
+  hasMissedMessages: state.chatReducer.hasMissedMessages,
   lastMessageDateChecked: state.chatReducer.lastMessageDateChecked,
   profile: state.profileReducer,
 });
@@ -333,6 +346,7 @@ const mapDispatchToProps = {
   updateChatRoom: chatActions.updateChatRoom,
   closeRoomMessageListener: chatActions.closeRoomMessageListener,
   updateLastMessageDate: chatActions.updateLastMessageDate,
+  checkChatMissedState: chatActions.checkChatMissedState,
 };
 
 export default withTranslation()(

@@ -1,8 +1,8 @@
 import * as types from './types';
 
-export const sendSMS = phone => ({
+export const sendSMS = params => ({
   type: types.SEND_SMS,
-  payload: phone,
+  payload: params,
 });
 
 export const verifySMS = param => ({

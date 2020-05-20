@@ -270,3 +270,33 @@ export const getStringWithOutline = (textData, params = {}) => {
     );
   }
 };
+
+export const convertChatMessage = (msg, room) => {
+  const owner = room.includes.find(i => i._id === msg.userId);
+  if (msg.text === 'who_chat_message_created_room') {
+    console.log(msg);
+    return i18next.t('who_chat_message_created_room', {
+      who: `@${owner.name}`,
+    });
+  } else if (msg.text.indexOf('chat_message_who_added_whom') > -1) {
+    const text = msg.text;
+    const keys = text.split('&');
+    const who = owner ? owner.name : '???';
+    let names = [];
+    keys.map((key, index) => {
+      if (index === 0) return;
+      const find = room.includes.find(i => i._id === key);
+      if (find) names.push(find.name);
+      else names.push('???');
+    });
+    console.log({names});
+    const whom = names.map((name, index) => {
+      if (names.length === 1 && index === 0) return `@${name}`;
+      if (index === names.length - 1 && index > 0) return ` and @${name}`;
+      else return ` @${name}`;
+    });
+    return i18next.t('chat_message_who_added_whom', {who, whom});
+  } else {
+    return msg.text;
+  }
+};

@@ -115,7 +115,7 @@ class TabView extends React.PureComponent {
   };
 
   render() {
-    const {t, theme, mainTabIndex, setCrown} = this.props;
+    const {t, theme, mainTabIndex, setCrown, hasMissedMessages} = this.props;
 
     return (
       <TabWrapper>
@@ -146,9 +146,21 @@ class TabView extends React.PureComponent {
                   mainTabIndex === 0 ? theme.colors.outline : theme.colors.text
                 }
               />
-              {/* <H4 weight={mainTabIndex === 0 ? 'bold' : 'regular'}>
-              {t('footer_feed')}
-            </H4> */}
+              {/* Show red badge when user has unread messages */}
+              {hasMissedMessages && mainTabIndex !== 0 && (
+                <MCView
+                  style={{
+                    position: 'absolute',
+                    top: dySize(25),
+                    right: dySize(30),
+                  }}
+                  width={12}
+                  height={12}
+                  bordered
+                  br={6}
+                  background={theme.colors.danger}
+                />
+              )}
             </MCButton>
             <MCButton
               rippleCentered
@@ -229,6 +241,7 @@ const mapStateToProps = state => ({
   userToken: state.profileReducer.userToken,
   mainTabIndex: state.routerReducer.mainTabIndex,
   setCrown: state.otherReducer.setCrown,
+  hasMissedMessages: state.chatReducer.hasMissedMessages,
 });
 
 const mapDispatchToProps = {

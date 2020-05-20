@@ -42,7 +42,7 @@ class ContactCard extends React.Component {
     const {t, theme, editable, profile} = this.props;
     const {editing} = this.state;
     return (
-      <MCView>
+      <MCView mt={30}>
         <MCView row align="center">
           <H3 weight="bold" style={{flex: 1}}>
             {t('profile_subtitle_contact')}

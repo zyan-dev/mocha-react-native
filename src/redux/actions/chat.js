@@ -37,6 +37,10 @@ export const updateChatRoom = data => ({
   payload: data,
 });
 
+export const checkChatMissedState = () => ({
+  type: types.CHECK_CHAT_MISSED_STATE,
+});
+
 export const getRoomMessages = roomId => (dispatch, getState) => {
   dispatch(setRoomMessages([]));
   database()
@@ -84,7 +88,7 @@ export const sendMessage = (msgData, callback) => (dispatch, getState) => {
     });
 };
 
-export const addMemberToRoom = (selectedUsers, room) => (
+export const addMemberToRoom = (selectedUsers, room, callback) => (
   dispatch,
   getState,
 ) => {
