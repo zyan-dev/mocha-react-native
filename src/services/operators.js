@@ -291,7 +291,7 @@ export const convertChatMessage = (msg, room) => {
     });
     console.log({names});
     const whom = names.map((name, index) => {
-      if (index === names.length - 1) return `@${name}`;
+      if (names.length === 1 && index === 0) return `@${name}`;
       if (index === names.length - 1 && index > 0) return ` and @${name}`;
       else return ` @${name}`;
     });
