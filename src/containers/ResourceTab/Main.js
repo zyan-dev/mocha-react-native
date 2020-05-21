@@ -50,7 +50,7 @@ class ResourceScreen extends React.PureComponent {
       <View style={{flex: 1, backgroundColor: theme.colors.background}}>
         <MCHeader
           title={t('resources')}
-          hasRight={tabIndex != 3 ? true : false}
+          hasRight
           rightIcon="plus"
           onPressRight={() => this.onPressRight()}
           hasBack={false}
