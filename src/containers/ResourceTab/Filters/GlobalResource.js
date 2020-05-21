@@ -21,8 +21,12 @@ class GlobalResourceScreen extends React.PureComponent {
       selectedMember: {},
       sort: true,
       searchText: '',
-      searchResult: this.props.allResources || [],
+      searchResult: [],
     };
+  }
+
+  componentDidMount() {
+    this.setState({searchResult: this.props.allResources});
   }
 
   componentDidUpdate(preProps, prevState) {
