@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import * as types from '../actions/types';
 import NavigationService from 'navigation/NavigationService';
 import API from 'services/api';
-import {showAlert} from 'services/operators';
+import {showAlert, compareTimeStampWithDate} from 'services/operators';
 
 export function* getMyChatRooms(action) {
   try {
@@ -35,9 +35,9 @@ export function* checkChatMissedState(action) {
   // check updated chat status
   const rooms = action.payload || myRooms;
   const find = rooms.find(room => {
-    return (
-      Number(lastMessageDateChecked[room._id]) !==
-      new Date(room.last_updated).getTime()
+    return !compareTimeStampWithDate(
+      lastMessageDateChecked[room._id],
+      room.last_updated,
     );
   });
   if (find) {

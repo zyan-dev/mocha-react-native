@@ -3,13 +3,17 @@ import {FlatList, Alert, KeyboardAvoidingView} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import {FloatingAction} from 'react-native-floating-action';
 import moment from 'moment';
-import {chatActions} from 'Redux/actions';
+import ImagePicker from 'react-native-image-crop-picker';
+import API from 'services/api';
+import {chatActions, routerActions} from 'Redux/actions';
 import {MCRootView, MCView, DividerLine} from 'components/styled/View';
 import {MCHeader, MCImage, MCIcon, MCModal} from 'components/common';
 import {MCTextInput, H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
+import {showAlert} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import ChatBubbleItem from './Bubble';
 
@@ -21,6 +25,7 @@ class ChatRoomScreen extends React.Component {
       roomName: '',
       text: '',
       updatingRoomName: false,
+      selectedImage: null,
     };
   }
 
@@ -45,21 +50,39 @@ class ChatRoomScreen extends React.Component {
     this.props.closeRoomMessageListener();
   }
 
-  sendMessage = () => {
-    const {text} = this.state;
-    const {profile, sendMessage} = this.props;
+  sendMessage = async () => {
+    const {text, selectedImage} = this.state;
+    const {profile, sendMessage, setLoading} = this.props;
     if (text.length === 0) return;
+
     const ts = new Date().getTime();
-    sendMessage(
-      {
-        date: ts,
-        text,
-        userId: profile._id,
-      },
-      () => {
-        this.setState({text: ''});
-      },
-    );
+
+    let msgData = {
+      date: ts,
+      text,
+      userId: profile._id,
+    };
+
+    // upload media file if attached
+    if (selectedImage) {
+      setLoading(true);
+      const uploadedURL = await API.fileUploadToS3({
+        image: selectedImage.path,
+        type: 'chat_attachment',
+        userId: msgData.userId,
+      });
+      if (uploadedURL === 'error') {
+        showAlert(i18next.t('error_upload_file_failed'));
+        setLoading(false);
+        return;
+      }
+      msgData.image = uploadedURL;
+    }
+    setLoading(false);
+
+    sendMessage(msgData, () => {
+      this.setState({text: '', selectedImage: null});
+    });
   };
 
   openActionSheet = () => {
@@ -147,14 +170,39 @@ class ChatRoomScreen extends React.Component {
     this.props.updateLastMessageDate({
       [selectedRoom._id]: viewableLastDate,
     });
-    console.log('scrolling detected');
     setTimeout(() => {
       checkChatMissedState();
     });
   };
 
+  onAttachmentItem = name => {
+    if (name === 'image') {
+      ImagePicker.openPicker({
+        width: 400,
+        height: 600,
+        cropping: true,
+        includeBase64: true,
+      }).then(image => {
+        // image object (path, data ...)
+        this.scrollToEnd();
+        this.setState({selectedImage: image});
+      });
+    } else if (name === 'camera') {
+      ImagePicker.openCamera({
+        width: 400,
+        height: 600,
+        cropping: true,
+        includeBase64: true,
+      }).then(image => {
+        // image object (path, data ...)
+        this.scrollToEnd();
+        this.setState({selectedImage: image});
+      });
+    }
+  };
+
   render() {
-    const {text, roomName, updatingRoomName} = this.state;
+    const {text, roomName, updatingRoomName, selectedImage} = this.state;
     const {
       t,
       theme,
@@ -164,6 +212,35 @@ class ChatRoomScreen extends React.Component {
       roomMessageIds,
       hasMissedMessages,
     } = this.props;
+    const flatingActions = [
+      {
+        text: t('chat_action_pick_image'),
+        textColor: theme.colors.text,
+        textBackground: theme.colors.background,
+        icon: <MCIcon name="ios-images" color={theme.colors.outline} />,
+        name: 'image',
+        position: 1,
+        color: theme.colors.background,
+      },
+      {
+        text: t('chat_action_capture_image'),
+        textColor: theme.colors.text,
+        textBackground: theme.colors.background,
+        icon: <MCIcon name="ios-camera" color={theme.colors.outline} />,
+        name: 'camera',
+        position: 2,
+        color: theme.colors.background,
+      },
+      {
+        text: t('chat_action_select_video'),
+        textColor: theme.colors.text,
+        textBackground: theme.colors.background,
+        icon: <MCIcon name="ios-videocam" color={theme.colors.outline} />,
+        name: 'video',
+        position: 3,
+        color: theme.colors.background,
+      },
+    ];
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -211,6 +288,7 @@ class ChatRoomScreen extends React.Component {
           style={{flex: 1, alignItems: 'center', marginTop: dySize(10)}}
           behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
           <FlatList
+            keyboardShouldPersistTaps="always"
             ref={ref => (this.chatList = ref)}
             contentContainerStyle={{
               width: dySize(375),
@@ -228,7 +306,29 @@ class ChatRoomScreen extends React.Component {
             viewabilityConfig={this.viewabilityConfig}
             onViewableItemsChanged={this.onViewableItemsChanged}
           />
+          {selectedImage && (
+            <MCView
+              row
+              align="center"
+              justify="space-between"
+              width={350}
+              pv={10}>
+              <MCImage
+                width={70}
+                height={70}
+                image={{uri: selectedImage.path}}
+                resizeMode="cover"
+                br={10}
+              />
+              <H4>Image attached</H4>
+            </MCView>
+          )}
           <MCView row align="center" width={350} pv={10}>
+            <MCButton
+              onPress={() => this.floatingAction.animateButton()}
+              ml={-10}>
+              <MCIcon type="FontAwesome5Pro" name="plus-circle" />
+            </MCButton>
             <MCTextInput
               value={text}
               onChangeText={text => this.setState({text})}
@@ -239,10 +339,21 @@ class ChatRoomScreen extends React.Component {
               onFocus={() => this.scrollToEnd()}
               onBlur={() => this.scrollToEnd()}
             />
-            <MCButton onPress={() => this.sendMessage()}>
+            <MCButton onPress={() => this.sendMessage()} mr={-10}>
               <MCIcon type="FontAwesome5Pro" name="paper-plane" />
             </MCButton>
           </MCView>
+          <FloatingAction
+            ref={ref => {
+              this.floatingAction = ref;
+            }}
+            visible={false}
+            actions={flatingActions}
+            onPressItem={name => this.onAttachmentItem(name)}
+            position="left"
+            distanceToEdge={10}
+            overlayColor="rgba(0, 0, 0, 0.8)"
+          />
         </KeyboardAvoidingView>
         <RBSheet
           ref={ref => (this.RBSheet = ref)}
@@ -252,9 +363,6 @@ class ChatRoomScreen extends React.Component {
             container: {
               backgroundColor: theme.colors.background,
               height: 'auto',
-            },
-            draggableIcon: {
-              backgroundColor: '#000',
             },
           }}>
           <MCView align="center" pv={20}>
@@ -340,6 +448,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  setLoading: routerActions.setLoading,
   getRoomMessages: chatActions.getRoomMessages,
   sendMessage: chatActions.sendMessage,
   deleteChatRoom: chatActions.deleteChatRoom,

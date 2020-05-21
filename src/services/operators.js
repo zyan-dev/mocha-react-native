@@ -296,7 +296,15 @@ export const convertChatMessage = (msg, room) => {
       else return ` @${name}`;
     });
     return i18next.t('chat_message_who_added_whom', {who, whom});
+  } else if (msg.text === 'chat_message_deleted') {
+    return i18next.t('chat_message_deleted');
+  } else if (msg.edited) {
+    return i18next.t('chat_message_edited', {text: msg.text});
   } else {
     return msg.text;
   }
+};
+
+export const compareTimeStampWithDate = (ts, date) => {
+  return Number(ts) === new Date(date).getTime();
 };

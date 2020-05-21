@@ -318,6 +318,8 @@ PODS:
     - React
   - react-native-image-picker (2.3.1):
     - React
+  - react-native-image-resizer (1.2.2):
+    - React
   - react-native-mixpanel (1.2.0):
     - Mixpanel (~> 3.6.0)
     - React
@@ -456,6 +458,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-appearance (from `../node_modules/react-native-appearance`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-mixpanel (from `../node_modules/react-native-mixpanel`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -569,6 +572,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-appearance"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-image-resizer:
+    :path: "../node_modules/react-native-image-resizer"
   react-native-mixpanel:
     :path: "../node_modules/react-native-mixpanel"
   react-native-netinfo:
@@ -685,6 +690,7 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-appearance: 0f0e5fc2fcef70e03d48c8fe6b00b9158c2ba8aa
   react-native-image-picker: 6a850c41f57f0848d918c2a77aedd7aa272ffa30
+  react-native-image-resizer: e794dc2dbd0db0a1062ac5fa425d5df04c1970ca
   react-native-mixpanel: d644efe1ca33d2646d5cba29e24a13ebc9b37209
   react-native-netinfo: b9650ab1b8b4362b3c455b1274e4bc48223cc957
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392

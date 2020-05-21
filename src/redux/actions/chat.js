@@ -1,7 +1,9 @@
 import database from '@react-native-firebase/database';
 import * as types from './types';
 import {setLoading} from './route';
+import {compareTimeStampWithDate} from 'services/operators';
 import i18next from 'i18next';
+import {showAlert} from '../../services/operators';
 
 export const setChatLoading = loading => ({
   type: types.SET_CHAT_LOADING,
@@ -80,7 +82,9 @@ export const sendMessage = (msgData, callback) => (dispatch, getState) => {
         updateChatRoom({
           _id: selectedRoom._id,
           last_updated: msgData.date,
-          last_message: msgData.text,
+          last_message: msgData.image
+            ? 'chat_message_image_attached'
+            : msgData.text,
           last_userId: msgData.userId,
         }),
       );
@@ -121,6 +125,34 @@ export const addMemberToRoom = (selectedUsers, room, callback) => (
         }),
       );
       callback();
+    });
+};
+
+export const updateMessage = (room, bubble, callback) => (
+  dispatch,
+  getState,
+) => {
+  database()
+    .ref(`/chatrooms/${room._id}/history/${bubble.date}`)
+    .set({
+      ...bubble,
+      text: bubble.text,
+      edited: true,
+      image: null,
+    })
+    .then(() => {
+      if (compareTimeStampWithDate(bubble.date, room.last_updated)) {
+        dispatch(
+          updateChatRoom({
+            _id: room._id,
+            last_message: bubble.text,
+          }),
+        );
+      }
+      callback();
+    })
+    .catch(e => {
+      showAlert(e.toString());
     });
 };
 
