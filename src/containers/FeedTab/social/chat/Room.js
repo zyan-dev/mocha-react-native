@@ -1,48 +1,93 @@
 import React from 'react';
-import {FlatList, Alert, KeyboardAvoidingView} from 'react-native';
+import {
+  FlatList,
+  Alert,
+  KeyboardAvoidingView,
+  RefreshControl,
+  Keyboard,
+} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {FloatingAction} from 'react-native-floating-action';
+import EmojiSelector from 'react-native-emoji-selector';
 import moment from 'moment';
+import * as _ from 'lodash';
 import ImagePicker from 'react-native-image-crop-picker';
 import API from 'services/api';
 import {chatActions, routerActions} from 'Redux/actions';
 import {MCRootView, MCView, DividerLine} from 'components/styled/View';
 import {MCHeader, MCImage, MCIcon, MCModal} from 'components/common';
-import {MCTextInput, H3, H4, MCEmptyText} from 'components/styled/Text';
+import {MCTextInput, H2, H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
-import {showAlert} from 'services/operators';
+import {showAlert, getDateString} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import ChatBubbleItem from './Bubble';
+
+const countPerPage = 20;
 
 class ChatRoomScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showActionSheet: false,
       roomName: '',
       text: '',
       updatingRoomName: false,
       selectedImage: null,
+      firstLoad: false,
+      count: countPerPage,
+      refreshing: false,
+      lastItem: {},
+      topBubbleDate: 0,
+      showTopBubbleDate: false,
+      selectedBubbleId: 0,
+      showEmojiView: false,
+      selectedEmoji: '',
     };
   }
 
+  mounted = false;
   prevUserId = '';
+  prevDate = 0;
+  prevTime = 0;
   viewabilityConfig = {
     waitForInteraction: false,
     itemVisiblePercentThreshold: 75,
   };
 
+  componentWillMount() {
+    this.props.setRoomMessages({});
+  }
+
   componentDidMount() {
+    this.mounted = true;
     const {selectedRoom, getRoomMessages} = this.props;
-    getRoomMessages(selectedRoom._id);
+    getRoomMessages(selectedRoom._id, countPerPage); // page: 1
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   componentDidUpdate(preProps, prevState) {
+    const {refreshing, lastItem} = this.state;
     if (preProps.loading && !this.props.loading) {
-      this.scrollToEnd();
+      if (this.mounted && !this.state.firstLoad) {
+        this.scrollToEnd();
+        this.setState({firstLoad: true});
+        console.log('Initial load');
+      } else if (refreshing) {
+        this.setState({refreshing: false});
+        console.log('Scrolling to item');
+        this.scrollToItem(lastItem);
+      } else if (
+        // scroll to end if message length has been changed
+        preProps.roomMessages.length !== this.props.roomMessages.length
+      ) {
+        console.log('Scrolling to end');
+        this.scrollToEnd();
+      }
     }
   }
 
@@ -51,8 +96,14 @@ class ChatRoomScreen extends React.Component {
   }
 
   sendMessage = async () => {
-    const {text, selectedImage} = this.state;
-    const {profile, sendMessage, setLoading} = this.props;
+    const {text, selectedImage, count} = this.state;
+    const {
+      profile,
+      sendMessage,
+      setLoading,
+      getRoomMessages,
+      selectedRoom,
+    } = this.props;
     if (text.length === 0) return;
 
     const ts = new Date().getTime();
@@ -80,8 +131,9 @@ class ChatRoomScreen extends React.Component {
     }
     setLoading(false);
 
+    getRoomMessages(selectedRoom._id, count + 1);
     sendMessage(msgData, () => {
-      this.setState({text: '', selectedImage: null});
+      this.setState({text: '', selectedImage: null, count: count + 1});
     });
   };
 
@@ -142,20 +194,16 @@ class ChatRoomScreen extends React.Component {
   scrollToEnd = () => {
     setTimeout(() => {
       this.chatList &&
-        this.chatList.scrollToEnd({animated: false, duration: 1000});
-    }, 2000);
+        this.chatList.scrollToEnd({animated: false, duration: 500});
+    }, 1000);
   };
 
-  _renderBubbleItem = ({item, index}) => {
-    const {roomMessages, roomMessageIds} = this.props;
-    let hasAvatar = true;
-    const userId = roomMessages[roomMessageIds[index]].userId;
-    if (index > 0 && this.prevUserId === userId) {
-      hasAvatar = false;
-    } else {
-      this.prevUserId = userId;
-    }
-    return <ChatBubbleItem bubbleId={item} hasAvatar={hasAvatar} />;
+  scrollToItem = item => {
+    console.log('Scrolling to item');
+    setTimeout(() => {
+      this.chatList &&
+        this.chatList.scrollToItem({animated: false, item, viewPosition: 0});
+    }, 500);
   };
 
   onViewableItemsChanged = ({viewableItems, changed}) => {
@@ -163,8 +211,13 @@ class ChatRoomScreen extends React.Component {
       selectedRoom,
       lastMessageDateChecked,
       checkChatMissedState,
+      roomMessages,
     } = this.props;
     if (viewableItems.length === 0) return;
+
+    this.setState({
+      topBubbleDate: _.get(roomMessages, [viewableItems[0].item, 'date'], 0),
+    });
     const viewableLastDate = viewableItems[viewableItems.length - 1].item;
     if (viewableLastDate <= lastMessageDateChecked[selectedRoom._id]) return;
     this.props.updateLastMessageDate({
@@ -201,8 +254,92 @@ class ChatRoomScreen extends React.Component {
     }
   };
 
+  loadMoreMessages = () => {
+    const {count} = this.state;
+    const {selectedRoom, getRoomMessages, roomMessageIds} = this.props;
+    getRoomMessages(selectedRoom._id, count + countPerPage); // page: 1
+    this.setState({
+      refreshing: true,
+      lastItem: roomMessageIds[0],
+      count: count + countPerPage,
+    });
+  };
+
+  onScrollBeginDrag = () => {
+    this.setState({showTopBubbleDate: true});
+    Keyboard.dismiss();
+  };
+
+  onScrollEndDrag = () => {
+    setTimeout(() => {
+      this.mounted && this.setState({showTopBubbleDate: false});
+    }, 5000);
+  };
+
+  onPressEmoji = bubbleId => {
+    this.setState({selectedBubbleId: bubbleId, showEmojiView: true});
+  };
+
+  onEmojiSelected = () => {
+    const {selectedBubbleId, selectedEmoji} = this.state;
+    this.props.addEmoji(selectedBubbleId, selectedEmoji);
+    this.setState({showEmojiView: false});
+  };
+
+  _renderBubbleItem = ({item, index}) => {
+    const {roomMessages} = this.props;
+    let hasAvatar = true;
+    let hasTime = true;
+    let hasDate = true;
+    const bubble = roomMessages[item];
+    const userId = bubble.userId;
+
+    // if date or time is similar to the previous bubble, hide them
+    if (
+      index > 0 &&
+      Math.abs(this.prevTime - bubble.date) < 30 * 60 * 1000 &&
+      this.prevUserId === bubble.userId
+    ) {
+      hasTime = false;
+    }
+    if (
+      index > 0 &&
+      moment(this.prevDate).format('YYYY-MM-DD') ===
+        moment(bubble.date).format('YYYY-MM-DD')
+    ) {
+      hasDate = false;
+    }
+
+    // to avoid rendering same avatar for each bubble
+    if (index > 0 && this.prevUserId === userId) {
+      hasAvatar = false;
+    }
+
+    this.prevUserId = userId;
+    this.prevTime = bubble.date;
+    this.prevDate = bubble.date;
+    return (
+      <ChatBubbleItem
+        bubbleId={item}
+        hasAvatar={hasAvatar}
+        hasTime={hasTime}
+        hasDate={hasDate}
+        onPressEmoji={() => this.onPressEmoji(item)}
+      />
+    );
+  };
+
   render() {
-    const {text, roomName, updatingRoomName, selectedImage} = this.state;
+    const {
+      text,
+      roomName,
+      updatingRoomName,
+      selectedImage,
+      topBubbleDate,
+      showTopBubbleDate,
+      showEmojiView,
+      selectedEmoji,
+    } = this.state;
     const {
       t,
       theme,
@@ -285,6 +422,7 @@ class ChatRoomScreen extends React.Component {
             })}
           </MCView>
         )}
+
         <KeyboardAvoidingView
           style={{flex: 1, alignItems: 'center', marginTop: dySize(10)}}
           behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
@@ -295,6 +433,7 @@ class ChatRoomScreen extends React.Component {
               width: dySize(375),
               alignItems: 'center',
               paddingVertical: 10,
+              paddingTop: 40,
             }}
             data={roomMessageIds}
             renderItem={this._renderBubbleItem}
@@ -304,9 +443,37 @@ class ChatRoomScreen extends React.Component {
                 {loading ? t('progress_loading') : t('no_messages')}
               </MCEmptyText>
             }
+            onScrollEndDrag={() => this.onScrollEndDrag()}
+            onScrollBeginDrag={() => this.onScrollBeginDrag()}
             viewabilityConfig={this.viewabilityConfig}
             onViewableItemsChanged={this.onViewableItemsChanged}
+            refreshControl={
+              <RefreshControl
+                colors={['#9Bd35A', '#689F38']}
+                refreshing={loading}
+                onRefresh={this.loadMoreMessages.bind(this)}
+                title="Load more"
+              />
+            }
           />
+          {topBubbleDate > 0 && showTopBubbleDate && (
+            <MCView
+              br={20}
+              width={200}
+              height={40}
+              style={{
+                position: 'absolute',
+                top: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: theme.colors.text,
+                opacity: 0.6,
+              }}>
+              <H4 color={theme.colors.background}>
+                {getDateString(topBubbleDate)}
+              </H4>
+            </MCView>
+          )}
           {selectedImage && (
             <MCView
               row
@@ -324,6 +491,7 @@ class ChatRoomScreen extends React.Component {
               <H4>Image attached</H4>
             </MCView>
           )}
+
           <MCView row align="center" width={350} pv={10}>
             <MCButton
               onPress={() => this.floatingAction.animateButton()}
@@ -430,6 +598,31 @@ class ChatRoomScreen extends React.Component {
             </MCButton>
           </MCView>
         </RBSheet>
+        {showEmojiView && (
+          <MCView>
+            {selectedEmoji.length > 0 && (
+              <MCView
+                row
+                justify="space-between"
+                width={375}
+                align="center"
+                ph={10}>
+                <H3 style={{fontSize: 40}}>{selectedEmoji}</H3>
+                <MCButton
+                  bordered
+                  onPress={() => this.onEmojiSelected()}
+                  pl={20}
+                  pr={20}>
+                  <H3>{t('button_select')}</H3>
+                </MCButton>
+              </MCView>
+            )}
+            <EmojiSelector
+              onEmojiSelected={emoji => this.setState({selectedEmoji: emoji})}
+              style={{textColor: 'red', height: dySize(300)}}
+            />
+          </MCView>
+        )}
       </MCRootView>
     );
   }
@@ -457,6 +650,8 @@ const mapDispatchToProps = {
   closeRoomMessageListener: chatActions.closeRoomMessageListener,
   updateLastMessageDate: chatActions.updateLastMessageDate,
   checkChatMissedState: chatActions.checkChatMissedState,
+  setRoomMessages: chatActions.setRoomMessages,
+  addEmoji: chatActions.addEmoji,
 };
 
 export default withTranslation()(
