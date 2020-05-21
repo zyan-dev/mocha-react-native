@@ -1,4 +1,5 @@
 import React from 'react';
+import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {profileActions} from 'Redux/actions';
@@ -41,22 +42,34 @@ import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
 import {FaucetWhiteSvg, FutureSvg, SkullCowSvg} from 'assets/svgs';
 
+const opacityArray = [1, 0.5, 0.2];
+
 class UserProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selected: 'overview',
       showAvatarModal: false,
+      viewableItems: [],
+      focusedIndex: 0,
     };
   }
+
+  viewabilityConfig = {
+    waitForInteraction: false,
+    itemVisiblePercentThreshold: 20,
+  };
 
   componentDidMount() {
     const {id} = this.props.route.params;
     this.props.getUserProfile(id, true);
   }
 
-  onPressProfileIcon = icon => {
+  onPressProfileIcon = (icon, index) => {
     this.setState({selected: icon.key});
+    this.setState({focusedIndex: index});
+    this.contentScroll &&
+      this.contentScroll.scrollToIndex({animated: false, index});
   };
 
   onPressAllHabits = tabIndex => {
@@ -70,46 +83,37 @@ class UserProfileScreen extends React.Component {
     this.setState({showAvatarModal: true});
   };
 
-  renderProfileIcon = icon => {
-    const {selected} = this.state;
-    const {theme} = this.props;
-    const focused = selected === icon.key;
-    const size = focused ? 30 : 20;
-    const color = focused ? theme.colors.outline : theme.colors.text;
-    return (
-      <MCButton
-        key={icon.key}
-        width={50}
-        align="center"
-        onPress={() => this.onPressProfileIcon(icon)}>
-        {icon.key === 'hydration' ? (
-          <FaucetWhiteSvg size={size} color={color} />
-        ) : icon.key === 'dreams' ? (
-          <FutureSvg size={size} color={color} />
-        ) : icon.key === 'meaning_life' ? (
-          <SkullCowSvg size={size} color={color} />
-        ) : (
-          <MCIcon
-            type={icon.iconType}
-            name={icon.icon}
-            size={size}
-            color={color}
-          />
-        )}
-      </MCButton>
+  onViewableItemsChanged = ({viewableItems, changed}) => {
+    if (viewableItems.length === 0) return;
+    const findIndex = profileIcons.findIndex(
+      i => i.key === viewableItems[0].key,
+    );
+    this.setState(
+      {
+        viewableItems,
+        focusedIndex: findIndex,
+        selected: profileIcons[findIndex].key,
+      },
+      () => {
+        this.iconScroll &&
+          this.iconScroll.scrollToIndex({
+            animated: true,
+            index: findIndex,
+            viewPosition: 0.5,
+          });
+      },
     );
   };
 
-  render() {
-    const {selected, showAvatarModal} = this.state;
+  _renderProfileSections = ({item}) => {
     const {
-      t,
       theme,
       profile,
       chronotype,
       nutrition,
       hydration,
       stress,
+      stressRecovery,
       strength,
       coreValues,
       valueStory,
@@ -132,6 +136,154 @@ class UserProfileScreen extends React.Component {
       meaning,
       commits,
     } = this.props;
+    const key = item.key;
+    if (item.disabled) return null;
+    if (key === 'overview')
+      return <OverviewCard profile={profile} editable={false} />;
+    if (key === 'contact')
+      return <ContactCard profile={profile} editable={false} />;
+    if (key === 'chronotype')
+      return (
+        <ChronotypeCard
+          theme={theme}
+          chronotype={chronotype}
+          editable={false}
+        />
+      );
+    if (key === 'nutrition')
+      return <NutritionCard editable={false} nutrition={nutrition} />;
+    if (key === 'hydration')
+      return (
+        <HydrationCard theme={theme} editable={false} hydration={hydration} />
+      );
+    if (key === 'stress_recovery')
+      return (
+        <StressCard
+          theme={theme}
+          stress={stress}
+          stressRecovery={stressRecovery}
+          editable={false}
+        />
+      );
+    if (key === 'strengths')
+      return <SkillsCard strength={strength} editable={false} />;
+    if (key === 'core_values')
+      return (
+        <CoreValuesCard
+          theme={theme}
+          coreValues={coreValues}
+          valueStory={valueStory}
+          editable={false}
+        />
+      );
+    if (key === 'dreams') return <DreamCard dream={dream} editable={false} />;
+    if (key === 'habits')
+      return (
+        <HabitCard
+          commits={commits}
+          editable={false}
+          dailyHabits={dailyHabits}
+          weeklyHabits={weeklyHabits}
+          theme={theme}
+        />
+      );
+    if (key === 'coaching_feedback')
+      return (
+        <CoachingFeedbackCard
+          coaching={coaching}
+          theme={theme}
+          editable={false}
+        />
+      );
+    if (key === 'criticism_feedback')
+      return (
+        <CriticismFeedbackCard
+          criticism={criticism}
+          theme={theme}
+          editable={false}
+        />
+      );
+    if (key === 'praise_feedback')
+      return (
+        <PraiseFeedbackCard praise={praise} theme={theme} editable={false} />
+      );
+    if (key === 'qualities_character')
+      return (
+        <QualitiesBehaviorCard
+          qualities={qualities}
+          theme={theme}
+          editable={false}
+        />
+      );
+    if (key === 'challenges_concerns')
+      return (
+        <ChallengesBehaviorCard challenges={challenges} editable={false} />
+      );
+    if (key === 'approach_to_conflict')
+      return <ApproachCard approach={approach} editable={false} />;
+    if (key === 'attachment_pattern')
+      return <AttachmentCard attachment={attachment} editable={false} />;
+    if (key === 'comfort')
+      return <ComfortCard comfort={comfort} theme={theme} editable={false} />;
+    if (key === 'meaning_life')
+      return (
+        <MeaningLifeCard meaning={meaning} theme={theme} editable={false} />
+      );
+    if (key === 'personality')
+      return <PersonalityCard personality={personality} editable={false} />;
+    if (key === 'values')
+      return <ValuesCard values={values} editable={false} />;
+    if (key === 'feedbacks')
+      return <FeedbacksCard feedbacks={feedbacks} editable={false} />;
+    if (key === 'purposes') return <PurposesCard editable={false} />;
+    if (key === 'motivations')
+      return <MotivationCard motivations={motivations} editable={false} />;
+    if (key === 'languages') return <LanguagesCard editable={false} />;
+    if (key === 'beliefs')
+      return <UserManualsCard manuals={manuals} editable={false} />;
+    if (key === 'risks') return <RiskToleranceCard editable={false} />;
+    if (key === 'quirks') return <QuirksCard editable={false} />;
+    if (key === 'triggers') return <TriggersCard editable={false} />;
+  };
+
+  renderProfileIcon = ({item, index}) => {
+    const {viewableItems, focusedIndex} = this.state;
+    const {theme} = this.props;
+    const layout = item;
+    const selected =
+      viewableItems.length && viewableItems[0].key === layout.key;
+    const size = selected ? 30 : 20;
+    const color = selected ? theme.colors.outline : theme.colors.text;
+    return (
+      <MCButton
+        key={layout.key}
+        width={50}
+        height={50}
+        align="center"
+        justify="center"
+        onPress={() => this.onPressProfileIcon(layout, index)}
+        style={{opacity: opacityArray[Math.abs(focusedIndex - index) % 3]}}>
+        {layout.key === 'hydration' ? (
+          <FaucetWhiteSvg size={size} color={color} />
+        ) : layout.key === 'dreams' ? (
+          <FutureSvg size={size} color={color} />
+        ) : layout.key === 'meaning_life' ? (
+          <SkullCowSvg size={size} color={color} />
+        ) : (
+          <MCIcon
+            type={layout.iconType}
+            name={layout.icon}
+            size={size}
+            color={color}
+          />
+        )}
+      </MCButton>
+    );
+  };
+
+  render() {
+    const {selected, showAvatarModal, focusedIndex} = this.state;
+    const {t, theme, profile} = this.props;
     if (profile.message) {
       return (
         <MCRootView justify="flex-start">
@@ -162,139 +314,51 @@ class UserProfileScreen extends React.Component {
         />
         <MCView row style={{flex: 1}}>
           <MCView width={325}>
-            <MCContent
-              style={{width: dySize(325)}}
-              contentContainerStyle={{padding: dySize(10)}}>
-              {selected === 'overview' && (
-                <OverviewCard profile={profile} editable={false} />
-              )}
-              {selected === 'contact' && (
-                <ContactCard profile={profile} editable={false} />
-              )}
-              {selected === 'chronotype' && (
-                <ChronotypeCard
-                  theme={theme}
-                  chronotype={chronotype}
-                  editable={false}
-                />
-              )}
-              {selected === 'nutrition' && (
-                <NutritionCard editable={false} nutrition={nutrition} />
-              )}
-              {selected === 'hydration' && (
-                <HydrationCard
-                  theme={theme}
-                  editable={false}
-                  hydration={hydration}
-                />
-              )}
-              {selected === 'stress_recovery' && (
-                <StressCard stress={stress} theme={theme} editable={false} />
-              )}
-              {selected === 'strengths' && (
-                <SkillsCard strength={strength} editable={false} />
-              )}
-              {selected === 'core_values' && (
-                <CoreValuesCard
-                  theme={theme}
-                  coreValues={coreValues}
-                  valueStory={valueStory}
-                  editable={false}
-                />
-              )}
-              {selected === 'dreams' && (
-                <DreamCard dream={dream} editable={false} />
-              )}
-              {selected === 'habits' && (
-                <HabitCard
-                  commits={commits}
-                  editable={false}
-                  dailyHabits={dailyHabits}
-                  weeklyHabits={weeklyHabits}
-                  theme={theme}
-                />
-              )}
-              {selected === 'coaching_feedback' && (
-                <CoachingFeedbackCard
-                  coaching={coaching}
-                  theme={theme}
-                  editable={false}
-                />
-              )}
-              {selected === 'criticism_feedback' && (
-                <CriticismFeedbackCard
-                  criticism={criticism}
-                  theme={theme}
-                  editable={false}
-                />
-              )}
-              {selected === 'praise_feedback' && (
-                <PraiseFeedbackCard
-                  praise={praise}
-                  theme={theme}
-                  editable={false}
-                />
-              )}
-              {selected === 'qualities_character' && (
-                <QualitiesBehaviorCard
-                  qualities={qualities}
-                  theme={theme}
-                  editable={false}
-                />
-              )}
-              {selected === 'challenges_concerns' && (
-                <ChallengesBehaviorCard
-                  challenges={challenges}
-                  editable={false}
-                />
-              )}
-              {selected === 'approach_to_conflict' && (
-                <ApproachCard approach={approach} editable={false} />
-              )}
-              {selected === 'attachment_pattern' && (
-                <AttachmentCard attachment={attachment} editable={false} />
-              )}
-              {selected === 'comfort' && (
-                <ComfortCard comfort={comfort} theme={theme} editable={false} />
-              )}
-              {selected === 'meaning_life' && (
-                <MeaningLifeCard
-                  meaning={meaning}
-                  theme={theme}
-                  editable={false}
-                />
-              )}
-              {selected === 'values' && (
-                <ValuesCard values={values} editable={false} />
-              )}
-              {selected === 'purposes' && <PurposesCard editable={false} />}
-              {selected === 'motivations' && (
-                <MotivationCard motivations={motivations} editable={false} />
-              )}
-              {selected === 'languages' && <LanguagesCard editable={false} />}
-
-              {selected === 'beliefs' && (
-                <UserManualsCard manuals={manuals} editable={false} />
-              )}
-
-              {selected === 'personality' && (
-                <PersonalityCard personality={personality} editable={false} />
-              )}
-
-              {selected === 'risks' && <RiskToleranceCard editable={false} />}
-              {selected === 'feedbacks' && (
-                <FeedbacksCard feedbacks={feedbacks} editable={false} />
-              )}
-              {selected === 'quirks' && <QuirksCard editable={false} />}
-              {selected === 'triggers' && <TriggersCard editable={false} />}
-            </MCContent>
+            <FlatList
+              ref={ref => (this.contentScroll = ref)}
+              data={profileIcons}
+              renderItem={this._renderProfileSections}
+              keyExtractor={item => item.key}
+              contentContainerStyle={{
+                width: dySize(325),
+                paddingHorizontal: 10,
+                paddingBottom: 200,
+              }}
+              viewabilityConfig={this.viewabilityConfig}
+              onViewableItemsChanged={this.onViewableItemsChanged}
+              onScrollToIndexFailed={info => {
+                this.contentScroll.scrollToIndex({
+                  animated: false,
+                  index: info.highestMeasuredFrameIndex,
+                });
+                setTimeout(() => {
+                  this.contentScroll.scrollToIndex({
+                    animated: false,
+                    index: focusedIndex,
+                  });
+                }, 1000);
+              }}
+            />
           </MCView>
           <MCView
-            width={50}
-            style={{borderLeftWidth: 1, borderColor: theme.colors.border}}>
-            <MCContent>
-              {profileIcons.map(icon => this.renderProfileIcon(icon))}
-            </MCContent>
+            width={55}
+            justify="center"
+            row
+            align="center"
+            style={{height: '100%'}}>
+            <MCView height={250}>
+              <FlatList
+                ref={ref => (this.iconScroll = ref)}
+                data={profileIcons}
+                renderItem={this.renderProfileIcon}
+                keyExtractor={item => item.key}
+                contentContainerStyle={{
+                  width: dySize(55),
+                  alignItems: 'center',
+                  paddingVertical: dySize(100),
+                }}
+              />
+            </MCView>
           </MCView>
         </MCView>
         <MCModal
@@ -334,6 +398,10 @@ const mapStateToProps = state => ({
   stress: selector.reflections.findUserSpecialReflections(
     state,
     'StressResponse',
+  ),
+  stressRecovery: selector.reflections.findUserSpecialReflections(
+    state,
+    'StressRecovery',
   ),
   strength: selector.reflections.findUserSpecialReflections(state, 'Strengths'),
   coreValues: selector.reflections.findUserSpecialReflections(

@@ -465,7 +465,6 @@ class ProfileScreen extends React.Component {
               viewabilityConfig={this.viewabilityConfig}
               onViewableItemsChanged={this.onViewableItemsChanged}
               onScrollToIndexFailed={info => {
-                console.log({info});
                 this.contentScroll.scrollToIndex({
                   animated: false,
                   index: info.highestMeasuredFrameIndex,
@@ -498,9 +497,6 @@ class ProfileScreen extends React.Component {
                 }}
               />
             </MCView>
-            {/* <MCContent>
-              {profileLayout.map(layout => this.renderProfileIcon(layout))}
-            </MCContent> */}
           </MCView>
         </MCView>
         <MCModal

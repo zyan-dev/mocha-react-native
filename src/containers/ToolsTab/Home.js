@@ -58,6 +58,12 @@ class AddReflectionScreen extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.toolsTab !== this.props.toolsTab) {
+      this.hideSideMenu();
+    }
+  }
+
   WelcomeToolsDescription = {
     title: i18next.t('welcome_tools_description', {
       bold: i18next.t('outline_profile_basic'),
