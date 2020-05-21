@@ -28,6 +28,15 @@ import {
   AnimalSeaTurtle,
   AnimalSparrowTwo,
   AnimalViper,
+  AnimalBaboon,
+  AnimalButterfly,
+  AnimalElk,
+  AnimalLeopard,
+  AnimalMonkey,
+  AnimalOctopus,
+  AnimalTit,
+  AnimalWarthog,
+  AnimalWolf,
 } from '../assets/images';
 
 // Constants used for testing
@@ -2147,6 +2156,60 @@ export const DiscoverValues = [
     category: 'self-direction',
     name: 'viper',
     image: AnimalViper,
+  },
+  {
+    value: 'social_order',
+    category: 'security',
+    name: 'baboon',
+    image: AnimalBaboon,
+  },
+  {
+    value: 'varied_life',
+    category: 'stimulation',
+    name: 'butterfly',
+    image: AnimalButterfly,
+  },
+  {
+    value: 'authority',
+    category: 'power',
+    name: 'elk',
+    image: AnimalElk,
+  },
+  {
+    value: 'self_discipline',
+    category: 'conformity',
+    name: 'leopard',
+    image: AnimalLeopard,
+  },
+  {
+    value: 'respect_parent',
+    category: 'conformity',
+    name: 'monkey',
+    image: AnimalMonkey,
+  },
+  {
+    value: 'capability',
+    category: 'achievement',
+    name: 'octopus',
+    image: AnimalOctopus,
+  },
+  {
+    value: 'obedience',
+    category: 'conformity',
+    name: 'tit',
+    image: AnimalTit,
+  },
+  {
+    value: 'environment',
+    category: 'universalism',
+    name: 'warthog',
+    image: AnimalWarthog,
+  },
+  {
+    value: 'broad_mindedness',
+    category: 'universalism',
+    name: 'wolf',
+    image: AnimalWolf,
   },
 ];
 
