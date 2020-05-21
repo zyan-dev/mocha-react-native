@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const BoxingSvg = ({size, theme}) => {
   let color1 = '#A0A0A0';
   let color2 = '#A52626';
-  // if (theme.colors.theme_name === 'Stone') color1 = '#666666';
+  // if (theme.colors.theme_name === 'Bright') color1 = '#666666';
   return (
     <Svg
       aria-hidden="true"

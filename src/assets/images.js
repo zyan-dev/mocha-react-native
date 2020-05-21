@@ -61,5 +61,7 @@ export const AnimalSeaTurtle = require('./images/tools/sea-turtle.png');
 export const AnimalSparrowTwo = require('./images/tools/sparrow-2.png');
 export const AnimalViper = require('./images/tools/viper.png');
 
-export const OvalYellow = require('./images/tools/oval-yellow.png');
-export const OvalGreen = require('./images/tools/oval-green.png');
+export const OvalYellow = require('./images/tools/oval_yellow.png');
+export const OvalGreen = require('./images/tools/oval_green.png');
+export const OvalGreenWide = require('./images/tools/oval_green_wide.png');
+export const OvalYellowWide = require('./images/tools/oval_yellow_wide.png');

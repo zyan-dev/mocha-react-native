@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const PaletteSvg = ({size, theme}) => {
   let color1 = '#FFFFFF';
   let color2 = '#000000';
-  if (theme.colors.theme_name === 'Stone') {
+  if (theme.colors.theme_name === 'Bright') {
     color1 = '#222222';
   }
   return (

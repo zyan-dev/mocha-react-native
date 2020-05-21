@@ -212,6 +212,7 @@ class ChatRoomScreen extends React.Component {
       roomMessageIds,
       hasMissedMessages,
     } = this.props;
+    if (!selectedRoom || !selectedRoom.members) return null;
     const flatingActions = [
       {
         text: t('chat_action_pick_image'),

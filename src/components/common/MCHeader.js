@@ -35,7 +35,7 @@ const HeaderRight = styled(Right)`
 `;
 
 const HeaderBody = styled(Body)`
-  flex: 3;
+  flex: 6;
   justify-content: center;
   align-items: center;
   flex-direction: row;

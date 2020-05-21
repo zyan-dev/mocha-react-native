@@ -101,7 +101,7 @@ export const ProfileSideMenuList = [
     icon: 'ios-link',
     iconType: 'Ionicon',
     title: 'profile_menu_signin',
-    redirectTo: 'TabFeed',
+    redirectTo: 'Verification',
     registerRequired: false,
   },
   {

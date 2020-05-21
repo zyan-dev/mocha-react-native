@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const KeySvg = ({size, theme}) => {
   let color = '#DBC955';
-  if (theme.colors.theme_name === 'Stone') color = '#BBA935';
+  if (theme.colors.theme_name === 'Bright') color = '#BBA935';
   return (
     <Svg
       aria-hidden="true"

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const HeadPhoneSvg = ({size, theme}) => {
   let color1 = '#D4CACA';
   let color2 = '#AEAEAE';
-  if (theme.colors.theme_name === 'Stone') {
+  if (theme.colors.theme_name === 'Bright') {
     color1 = '#222222';
   }
   return (

@@ -18,25 +18,7 @@ const commonTheme = {
 export const colorThemes = [
   {
     ...commonTheme,
-    theme_name: 'Default',
-    text: '#F4E8D7',
-    background: '#283147',
-    profileIcon: '#D0C4B2',
-    navbar: '#D0C4B2',
-    outline: '#FFFF55',
-  },
-  {
-    ...commonTheme,
-    theme_name: 'Light',
-    text: '#FFFFFF',
-    background: '#336B87',
-    profileIcon: '#FFFFFF',
-    navbar: '#FFFFFF',
-    outline: '#FFFF55',
-  },
-  {
-    ...commonTheme,
-    theme_name: 'Stone',
+    theme_name: 'Bright',
     text: '#14161A',
     background: '#FFFFFF',
     border: '#BABABA',
@@ -46,7 +28,7 @@ export const colorThemes = [
   },
   {
     ...commonTheme,
-    theme_name: 'Shadow',
+    theme_name: 'Dark',
     text: '#FFFFFF',
     background: '#1A1D20',
     card: '#192D27',
@@ -54,6 +36,24 @@ export const colorThemes = [
     navbar: '#FFFFFF',
     border: '#B2B2B2',
   },
+  {
+    ...commonTheme,
+    theme_name: 'Blue',
+    text: '#F4E8D7',
+    background: '#283187',
+    profileIcon: '#D0C4B2',
+    navbar: '#D0C4B2',
+    outline: '#FFFF55',
+  },
+  // {
+  //   ...commonTheme,
+  //   theme_name: 'Light',
+  //   text: '#FFFFFF',
+  //   background: '#336B87',
+  //   profileIcon: '#FFFFFF',
+  //   navbar: '#FFFFFF',
+  //   outline: '#FFFF55',
+  // },
 ];
 
 export const baseTheme = {

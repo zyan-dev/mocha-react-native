@@ -7,6 +7,7 @@ import Mixpanel from 'react-native-mixpanel';
 
 import {ABSView} from 'components/styled/View';
 import WelcomeStack from '../containers/Welcome';
+import VerificationStack from '../containers/Auth';
 import MainHomeStack from '../containers/Home';
 import UserProfile from '../containers/Others/UserProfile';
 import SelectUserScreen from '../containers/Others/SelectUsers';
@@ -38,6 +39,10 @@ class RootNavigator extends React.Component {
           <Stack.Screen name="UserHabit" component={UserHabitScreen} />
           <Stack.Screen name="SelectUser" component={SelectUserScreen} />
           <Stack.Screen name="Contact" component={ContactScreen} />
+          <Stack.Screen
+            name="VerificationStack"
+            component={VerificationStack}
+          />
         </Stack.Navigator>
         {isLoading && (
           <ABSView>
