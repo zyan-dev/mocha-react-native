@@ -116,19 +116,20 @@ export function* removeResources(action) {
 
 export function* bookmarkResource(action) {
   try {
-    const {
-      resourceReducer: {bookmarkedResources},
-    } = yield select();
-    const index = bookmarkedResources.indexOf(action.payload);
-    if (index < 0) {
-      bookmarkedResources.push(action.payload);
-    } else {
-      bookmarkedResources.splice(index, 1);
+    try {
+      yield put({type: types.API_CALLING});
+      const response = yield call(API.bookmarkResources, action.payload);
+      if (response.data.status === 'success') {
+        yield put({type: types.GET_ALL_RESOURCES});
+      } else {
+        yield put({
+          type: types.API_FINISHED,
+          payload: response.data.data.message,
+        });
+      }
+    } catch (e) {
+      yield put({type: types.API_FINISHED, payload: e.toString()});
     }
-    yield put({
-      type: types.SET_BOOKMARKED_RESOURCES,
-      payload: bookmarkedResources,
-    });
   } catch (e) {
     showAlert(e.toString());
   }

@@ -119,6 +119,9 @@ const updateResources = param =>
   apiCall('patch', `${URL_RESOURCE}`, param, true);
 const removeResources = param =>
   apiCall('post', `${URL_RESOURCE}/remove`, param, true);
+const bookmarkResources = param =>
+  apiCall('patch', `${URL_RESOURCE}/bookmark`, param, true);
+
 const getSupportedHabits = () =>
   apiCall('get', `${URL_REFLECTION}/habit-shared`, {}, true);
 const sendEmail = param => apiCall('post', `${URL_CONTACT_US}`, param);
@@ -195,6 +198,7 @@ export default {
   createResources,
   updateResources,
   removeResources,
+  bookmarkResources,
   getSupportedHabits,
   sendEmail,
   searchResources,

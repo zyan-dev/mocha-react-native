@@ -9,7 +9,7 @@ import {reflectionActions, otherActions, userActions} from 'Redux/actions';
 import GlobalResourceScreen from './Filters/GlobalResource';
 import SocialResourcesScreen from './Filters/SocialResources';
 import MyResourceScreen from './Filters/MyResource';
-import SearchResourceScreen from './Filters/Search';
+import BookmarkResourcesScreen from './Filters/BookmarkResource';
 import {MCHeader, MCSearchInput, MCIcon} from 'components/common';
 import {H4, H6, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
@@ -27,9 +27,9 @@ class ResourceTabView extends React.Component {
 
     const renderScene = SceneMap({
       globe: GlobalResourceScreen,
-      search: SearchResourceScreen,
-      users: SocialResourcesScreen,
-      user: MyResourceScreen,
+      bookmark: BookmarkResourcesScreen,
+      social: SocialResourcesScreen,
+      me: MyResourceScreen,
     });
 
     const renderTabBar = props => (

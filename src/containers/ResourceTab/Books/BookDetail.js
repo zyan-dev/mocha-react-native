@@ -300,7 +300,6 @@ class BookDetailScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  bookmarkedResources: state.resourceReducer.bookmarkedResources,
   allResources: state.resourceReducer.allResources,
   profile: state.profileReducer,
 });

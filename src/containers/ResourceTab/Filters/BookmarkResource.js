@@ -3,28 +3,33 @@ import {connect} from 'react-redux';
 import {routerActions, resourceActions} from 'Redux/actions';
 import {withTranslation} from 'react-i18next';
 import {MCRootView, MCContent} from 'components/styled/View';
-import {MCSearchInput} from 'components/common';
+import BookResourceScreen from '../Books/Books';
 
-class SearchResourceScreen extends React.PureComponent {
+class BookmarkResourcesScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: '',
+      selectedMember: {},
+      sort: true,
     };
   }
 
   render() {
-    const {searchText} = this.state;
-    const {t} = this.props;
+    const {selectedMember, sort} = this.state;
+    const {t, allResources, profile} = this.props;
+    const bookedResources = allResources.filter(
+      resource =>
+        resource.bookedBy && resource.bookedBy.indexOf(profile._id) > -1,
+    );
+
     return (
       <MCRootView>
-        <MCContent width={350}>
-          <MCSearchInput
-            placeholder={t('resource_search_placeholder')}
-            text={searchText}
-            onChange={searchText => this.setState({searchText})}
-          />
-        </MCContent>
+        <BookResourceScreen
+          selectedMember={selectedMember}
+          sort={sort}
+          from="global"
+          selectedResources={bookedResources}
+        />
       </MCRootView>
     );
   }
@@ -32,7 +37,6 @@ class SearchResourceScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  bookmarkedResources: state.resourceReducer.bookmarkedResources,
   allResources: state.resourceReducer.allResources,
   profile: state.profileReducer,
 });
@@ -47,5 +51,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(SearchResourceScreen),
+  )(BookmarkResourcesScreen),
 );

@@ -36,8 +36,18 @@ class MyResourceScreen extends React.PureComponent {
   };
 
   render() {
-    const {t, theme, profile} = this.props;
+    const {t, theme, profile, allResources} = this.props;
     const {focused, sort} = this.state;
+    let resources = [];
+    allResources.forEach(resource => {
+      resource.data.map(item => {
+        if (item.type == 'books' && item.data) {
+          if (profile._id == item.ownerId) {
+            resources.push(item);
+          }
+        }
+      });
+    });
 
     return (
       <MCRootView>
@@ -73,6 +83,7 @@ class MyResourceScreen extends React.PureComponent {
             selectedMember={profile}
             sort={sort}
             from="my-resource"
+            selectedResources={resources}
           />
         ) : (
           <MCContent>

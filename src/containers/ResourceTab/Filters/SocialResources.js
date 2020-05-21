@@ -22,20 +22,68 @@ class SocialResourcesScreen extends React.PureComponent {
       showPageIndex: 1,
       selectedMember: {},
       sort: true,
+      members: [],
+      selectedResources: [],
     };
   }
+
+  componentDidMount() {
+    this.getResourceMembers();
+  }
+
+  componentDidUpdate(preProps, preState) {
+    if (
+      preProps.trustMembers !== this.props.trustMembers ||
+      preProps.allResources !== this.props.allResources
+    ) {
+      console.log(1111111);
+      this.getResourceMembers();
+    }
+  }
+
+  getResourceMembers = () => {
+    const {allResources, trustMembers} = this.props;
+    const {focused} = this.state;
+
+    let members = [],
+      resources = [];
+    allResources.forEach(resource => {
+      resource.data.map(item => {
+        if (
+          item.type == focused &&
+          item.data &&
+          trustMembers.findIndex(member => member._id == item.ownerId) > -1
+        ) {
+          resources.push(item);
+          const temp = {
+            _id: item.ownerId,
+            name: item.ownerName,
+            avatar: item.ownerAvatar,
+          };
+
+          members.forEach((member, index) => {
+            if (member._id == item.ownerId) {
+              members.splice(index, 1);
+            }
+          });
+
+          members.push(temp);
+        }
+      });
+    });
+    this.setState({
+      members: members,
+      selectedMember: members[0],
+      selectedResources: resources,
+    });
+  };
 
   onPressItem = item => {
     this.setState({focused: item.key});
   };
 
   selectMember = user => {
-    // this.setState({selectedMember: user});
-    if (user._id == this.state.selectedMember._id) {
-      this.setState({selectedMember: {}});
-    } else {
-      this.setState({selectedMember: user});
-    }
+    this.setState({selectedMember: user});
   };
 
   sortBook = () => {
@@ -70,30 +118,14 @@ class SocialResourcesScreen extends React.PureComponent {
   };
 
   render() {
-    const {theme, t, allResources, trustMembers} = this.props;
-    const {focused, sort, selectedMember} = this.state;
-
-    let members = [];
-    console.log(123, trustMembers);
-    allResources.forEach(resource => {
-      resource.data.map(item => {
-        if (item.type == focused && item.data && item.ownerName) {
-          const temp = {
-            _id: item.ownerId,
-            name: item.ownerName,
-            avatar: item.ownerAvatar,
-          };
-
-          members.forEach((member, index) => {
-            if (member._id == item.ownerId) {
-              members.splice(index, 1);
-            }
-          });
-
-          members.push(temp);
-        }
-      });
-    });
+    const {theme, t} = this.props;
+    const {
+      focused,
+      sort,
+      selectedMember,
+      members,
+      selectedResources,
+    } = this.state;
 
     return (
       <MCRootView>
@@ -140,7 +172,11 @@ class SocialResourcesScreen extends React.PureComponent {
           </MCButton>
         </MCView>
         {focused == 'books' ? (
-          <BookResourceScreen selectedMember={selectedMember} sort={sort} />
+          <BookResourceScreen
+            selectedMember={selectedMember ? selectedMember : members[0]}
+            sort={sort}
+            selectedResources={selectedResources}
+          />
         ) : (
           <MCContent>
             <MCView align="center">

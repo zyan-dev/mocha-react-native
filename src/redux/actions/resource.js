@@ -37,9 +37,9 @@ export const removeResources = ids => ({
   payload: ids,
 });
 
-export const bookmarkResource = link => ({
+export const bookmarkResource = data => ({
   type: types.BOOKMARK_RESOURCE,
-  payload: link,
+  payload: data,
 });
 
 export const searchResources = title => ({

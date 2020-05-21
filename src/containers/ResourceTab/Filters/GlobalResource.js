@@ -21,8 +21,14 @@ class GlobalResourceScreen extends React.PureComponent {
       selectedMember: {},
       sort: true,
       searchText: '',
-      searchResult: this.props.allResources,
+      searchResult: this.props.allResources || [],
     };
+  }
+
+  componentDidUpdate(preProps, prevState) {
+    if (preProps.allResources !== this.props.allResources) {
+      this.setState({searchResult: this.props.allResources});
+    }
   }
 
   onPressItem = item => {
@@ -47,7 +53,6 @@ class GlobalResourceScreen extends React.PureComponent {
       searchResult,
     } = this.state;
     const {t, theme} = this.props;
-
     return (
       <MCRootView>
         <MCSearchInput
@@ -72,7 +77,7 @@ class GlobalResourceScreen extends React.PureComponent {
             selectedMember={selectedMember}
             sort={sort}
             from="global"
-            searchResult={searchResult}
+            selectedResources={searchResult}
           />
         ) : (
           <MCContent>
