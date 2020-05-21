@@ -308,3 +308,19 @@ export const convertChatMessage = (msg, room) => {
 export const compareTimeStampWithDate = (ts, date) => {
   return Number(ts) === new Date(date).getTime();
 };
+
+export const getDateString = ts => {
+  const Today = new Date().getTime();
+  var REFERENCE = moment(Today); // fixed just for testing, use moment();
+  var TODAY = REFERENCE.clone().startOf('day');
+  var YESTERDAY = REFERENCE.clone()
+    .subtract(1, 'days')
+    .startOf('day');
+  if (moment(ts).isSame(TODAY, 'd')) {
+    return i18next.t('date_today');
+  } else if (moment(ts).isSame(YESTERDAY, 'd')) {
+    return i18next.t('date_yesterday');
+  } else {
+    return moment(ts).format('dddd, MMM DD, YYYY');
+  }
+};
