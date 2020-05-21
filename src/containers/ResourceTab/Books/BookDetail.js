@@ -77,7 +77,8 @@ class BookDetailScreen extends React.PureComponent {
   }
 
   onPressRight = resource => {
-    NavigationService.navigate('AddResource', {resource: resource});
+    const {from} = this.props.route.params;
+    NavigationService.navigate('AddResource', {resource: resource, from: from});
   };
 
   onPressBrowser = link => {

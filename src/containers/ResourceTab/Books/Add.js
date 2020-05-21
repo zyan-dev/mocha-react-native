@@ -115,7 +115,7 @@ class AddResourceScreen extends React.PureComponent {
       searchResource,
     } = this.props;
     const {selectedImpacts, selectedSkills, selectedTags} = this.state;
-
+    const {from} = this.props.route.params;
     this.setState({submitted: true});
     let resource = searchResource;
     // let type;
@@ -149,7 +149,8 @@ class AddResourceScreen extends React.PureComponent {
     resource.data.skills = skills;
 
     delete resource.data.type;
-    if (resource._id) {
+
+    if (resource._id && from == 'my-resource') {
       const data = {
         _id: resource._id,
         ...resource,

@@ -24,7 +24,7 @@ export default class MCBookTagsView extends React.PureComponent {
 
   render() {
     const {t, tags, impact, users, theme} = this.props;
-    console.log(333, tags);
+
     return (
       <MCView column align="center">
         {!tags.length ? (
