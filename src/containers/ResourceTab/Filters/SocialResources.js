@@ -36,7 +36,6 @@ class SocialResourcesScreen extends React.PureComponent {
       preProps.trustMembers !== this.props.trustMembers ||
       preProps.allResources !== this.props.allResources
     ) {
-      console.log(1111111);
       this.getResourceMembers();
     }
   }
