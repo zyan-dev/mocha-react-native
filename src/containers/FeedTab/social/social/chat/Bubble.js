@@ -13,6 +13,7 @@ import {H3, H4, H5, MCTextInput} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {convertChatMessage, getDateString, showAlert} from 'services/operators';
 import {MCButton} from 'components/styled/Button';
+import NavigationService from 'navigation/NavigationService';
 
 const bubbleColor = '#AAAAAA';
 const bubbleColorMine = '#303030';
@@ -184,13 +185,18 @@ class ChatBubbleItem extends React.Component {
           overflow="visible"
           key={bubbleId}>
           {!mine && hasAvatar && (
-            <MCImage
-              round
-              image={{uri: bubbleUser.avatar}}
-              width={30}
-              height={30}
-              type="avatar"
-            />
+            <MCButton
+              onPress={() =>
+                NavigationService.navigate('UserProfile', {id: bubbleUser._id})
+              }>
+              <MCImage
+                round
+                image={{uri: bubbleUser.avatar}}
+                width={30}
+                height={30}
+                type="avatar"
+              />
+            </MCButton>
           )}
           {!mine && !hasAvatar && <MCView width={30} />}
 

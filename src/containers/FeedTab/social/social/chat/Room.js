@@ -34,6 +34,7 @@ class ChatRoomScreen extends React.Component {
       roomName: '',
       text: '',
       updatingRoomName: false,
+      showMemberList: false,
       selectedImage: null,
       firstLoad: false,
       count: countPerPage,
@@ -141,6 +142,10 @@ class ChatRoomScreen extends React.Component {
     this.RBSheet && this.RBSheet.open();
   };
 
+  onPressMembersList = () => {
+    this.setState({showMemberList: true});
+  };
+
   onPressAddMember = () => {
     this.closeActionSheet();
     NavigationService.navigate('SelectChatMember', {
@@ -186,8 +191,9 @@ class ChatRoomScreen extends React.Component {
   };
 
   closeActionSheet = () => {
-    const {updatingRoomName} = this.state;
+    const {updatingRoomName, showMemberList} = this.state;
     if (updatingRoomName) this.setState({updatingRoomName: false});
+    else if (showMemberList) this.setState({showMemberList: false});
     else this.RBSheet.close();
   };
 
@@ -329,6 +335,24 @@ class ChatRoomScreen extends React.Component {
     );
   };
 
+  _renderAvatarItem = ({item}) => {
+    const userId = item;
+    const {selectedRoom} = this.props;
+    const findUser = selectedRoom.includes.find(i => i._id === userId);
+    return (
+      <MCButton
+        align="center"
+        width={80}
+        onPress={() => {
+          NavigationService.navigate('UserProfile', {id: findUser._id});
+          this.RBSheet.close();
+        }}>
+        <MCImage image={{uri: findUser.avatar}} width={60} height={60} round />
+        <H4 align="center">{findUser.name}</H4>
+      </MCButton>
+    );
+  };
+
   render() {
     const {
       text,
@@ -339,6 +363,7 @@ class ChatRoomScreen extends React.Component {
       showTopBubbleDate,
       showEmojiView,
       selectedEmoji,
+      showMemberList,
     } = this.state;
     const {
       t,
@@ -533,10 +558,17 @@ class ChatRoomScreen extends React.Component {
               height: 'auto',
             },
           }}>
-          <MCView align="center" pv={20}>
+          <MCView align="center" pv={10}>
+            <H3 width={300} mb={10} align="center" color={theme.colors.border}>
+              {selectedRoom.room_name}
+            </H3>
+            <DividerLine />
+
             {updatingRoomName ? (
               <MCView width={300} align="center">
-                <H3>{t('chat_action_change_room_name')}</H3>
+                <H4 weight="italic" mt={10} color={theme.colors.border}>
+                  {t('chat_action_change_room_name')}
+                </H4>
                 <MCView width={300} mt={10}>
                   <MCTextInput
                     value={roomName}
@@ -547,6 +579,7 @@ class ChatRoomScreen extends React.Component {
                 <MCButton
                   bordered
                   mt={20}
+                  mb={20}
                   pl={20}
                   pr={20}
                   onPress={() => this.updateRoomName()}
@@ -554,19 +587,22 @@ class ChatRoomScreen extends React.Component {
                   <H3>{t('button_update')}</H3>
                 </MCButton>
               </MCView>
+            ) : showMemberList ? (
+              <FlatList
+                horizontal
+                contentContainerStyle={{paddingVertical: 40}}
+                data={selectedRoom.members}
+                renderItem={this._renderAvatarItem}
+                keyExtractor={item => item}
+              />
             ) : (
               <>
-                <H4 width={300} align="center" color={theme.colors.border}>
-                  {selectedRoom.room_name}
-                </H4>
-                <H4
-                  mb={10}
-                  width={300}
-                  align="center"
-                  color={theme.colors.border}>
-                  ({selectedRoom.members.length} {t('network_members')})
-                </H4>
-                <DividerLine />
+                <MCButton onPress={() => this.onPressMembersList()}>
+                  <H3>
+                    {t('chat_action_member_list')} (
+                    {selectedRoom.members.length})
+                  </H3>
+                </MCButton>
                 {selectedRoom.type === 'group' && (
                   <MCButton onPress={() => this.onPressAddMember()}>
                     <H3>{t('chat_action_add_member')}</H3>
