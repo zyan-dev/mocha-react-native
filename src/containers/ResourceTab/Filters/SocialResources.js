@@ -23,57 +23,43 @@ class SocialResourcesScreen extends React.PureComponent {
       selectedMember: {},
       sort: true,
       members: [],
-      selectedResources: [],
     };
   }
 
   componentDidMount() {
+    const {
+      getTrustMemberResources,
+      setTrustMemberResourcePageIndex,
+    } = this.props;
+    setTrustMemberResourcePageIndex(1);
+    getTrustMemberResources(1);
     this.getResourceMembers();
   }
 
   componentDidUpdate(preProps, preState) {
-    if (
-      preProps.trustMembers !== this.props.trustMembers ||
-      preProps.allResources !== this.props.allResources
-    ) {
+    if (preProps.trustMemberResources !== this.props.trustMemberResources) {
       this.getResourceMembers();
     }
   }
 
   getResourceMembers = () => {
-    const {allResources, trustMembers} = this.props;
+    const {trustMemberResources} = this.props;
     const {focused} = this.state;
 
-    let members = [],
-      resources = [];
-    allResources.forEach(resource => {
-      resource.data.map(item => {
-        if (
-          item.type == focused &&
-          item.data &&
-          trustMembers.findIndex(member => member._id == item.ownerId) > -1
-        ) {
-          resources.push(item);
-          const temp = {
-            _id: item.ownerId,
-            name: item.ownerName,
-            avatar: item.ownerAvatar,
-          };
-
-          members.forEach((member, index) => {
-            if (member._id == item.ownerId) {
-              members.splice(index, 1);
-            }
-          });
-
-          members.push(temp);
-        }
-      });
+    let members = [];
+    trustMemberResources.forEach(resource => {
+      if (resource.type == focused && resource.data) {
+        members.forEach((member, index) => {
+          if (member._id === resource.trustMember._id) {
+            members.splice(index, 1);
+          }
+        });
+        members.push(resource.trustMember);
+      }
     });
     this.setState({
       members: members,
       selectedMember: members[0],
-      selectedResources: resources,
     });
   };
 
@@ -90,7 +76,7 @@ class SocialResourcesScreen extends React.PureComponent {
   };
 
   _renderListItem = ({item}) => {
-    const {theme, myNetworks} = this.props;
+    const {theme} = this.props;
     const {selectedMember} = this.state;
 
     return (
@@ -117,29 +103,25 @@ class SocialResourcesScreen extends React.PureComponent {
   };
 
   render() {
-    const {theme, t} = this.props;
-    const {
-      focused,
-      sort,
-      selectedMember,
-      members,
-      selectedResources,
-    } = this.state;
+    const {theme, t, trustMemberResources} = this.props;
+    const {focused, sort, selectedMember, members} = this.state;
 
     return (
-      <MCRootView>
-        <MCView row wrap mt={5} ph={5}>
-          <FlatList
-            data={members}
-            renderItem={this._renderListItem}
-            keyExtractor={item => item._id}
-            keyboardShouldPersistTaps="always"
-            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-            numColumns={1}
-            style={{width: dySize(350)}}
-            horizontal={true}
-          />
-        </MCView>
+      <MCRootView justify="flex-start">
+        <FlatList
+          data={members}
+          renderItem={this._renderListItem}
+          keyExtractor={item => item._id}
+          keyboardShouldPersistTaps="always"
+          ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+          numColumns={1}
+          style={{
+            width: dySize(350),
+            maxHeight: dySize(60),
+            marginTop: dySize(10),
+          }}
+          horizontal={true}
+        />
         <MCView row>
           {ResourceContentRoots.map(item => (
             <MCButton onPress={() => this.onPressItem(item)}>
@@ -154,7 +136,7 @@ class SocialResourcesScreen extends React.PureComponent {
         </MCView>
         <MCView row width={350} justify="space-between" align="center">
           <H4 weight="bold" underline>
-            {selectedMember.name
+            {selectedMember && selectedMember.name
               ? `${selectedMember.name}'s`
               : t('resource_type_all')}{' '}
             {t('bookshelf')}
@@ -174,7 +156,8 @@ class SocialResourcesScreen extends React.PureComponent {
           <BookResourceScreen
             selectedMember={selectedMember ? selectedMember : members[0]}
             sort={sort}
-            selectedResources={selectedResources}
+            from="trust-member"
+            selectedResources={trustMemberResources}
           />
         ) : (
           <MCContent>
@@ -190,15 +173,17 @@ class SocialResourcesScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  allResources: state.resourceReducer.allResources,
   profile: state.profileReducer,
-  trustMembers: state.usersReducer.trustMembers,
+  trustMemberResources: state.resourceReducer.trustMemberResources,
+  resourceTrustMeberPageIndex:
+    state.resourceReducer.resourceTrustMeberPageIndex,
 });
 
 const mapDispatchToProps = {
-  getAllResources: resourceActions.getAllResources,
+  getTrustMemberResources: resourceActions.getTrustMemberResources,
+  setTrustMemberResourcePageIndex:
+    resourceActions.setTrustMemberResourcePageIndex,
 };
-
 export default withTranslation()(
   connect(
     mapStateToProps,

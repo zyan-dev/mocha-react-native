@@ -61,8 +61,6 @@ class TabView extends React.PureComponent {
       showProfileDrawer,
       showSocialDrawer,
       getUserCommits,
-      getAllResources,
-      getTrustMembers,
     } = this.props;
     const TabScreens = ['TabFeed', 'TabResource', 'TabTools', 'TabProfile'];
     const TabHomeScreens = [
@@ -97,14 +95,6 @@ class TabView extends React.PureComponent {
         break;
       case 1:
         // user clicked Resource Tab
-        userToken.length > 0 && getAllResources();
-        userToken.length > 0 &&
-          getTrustMembers({
-            status: 1,
-            name: '',
-            page: 1,
-          });
-        showSocialDrawer(false);
         break;
       case 2:
         // user clicked Tools Tab
@@ -263,8 +253,6 @@ const mapDispatchToProps = {
   showSocialDrawer: routerActions.setSocialDrawerOpened,
   showProfileDrawer: routerActions.setProfileDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
-  getAllResources: resourceActions.getAllResources,
-  getTrustMembers: userActions.getTrustMembers,
 };
 
 export default withTranslation()(

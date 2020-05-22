@@ -14,21 +14,22 @@ class BookmarkResourcesScreen extends React.PureComponent {
     };
   }
 
+  componentDidMount() {
+    this.props.setBookmarkedResourcePageIndex(1);
+    this.props.getBookmarkedResources(1);
+  }
+
   render() {
     const {selectedMember, sort} = this.state;
-    const {t, allResources, profile} = this.props;
-    const bookedResources = allResources.filter(
-      resource =>
-        resource.bookedBy && resource.bookedBy.indexOf(profile._id) > -1,
-    );
+    const {t, bookmarkedResources, profile} = this.props;
 
     return (
       <MCRootView>
         <BookResourceScreen
           selectedMember={selectedMember}
           sort={sort}
-          from="global"
-          selectedResources={bookedResources}
+          from="bookmark"
+          selectedResources={bookmarkedResources}
         />
       </MCRootView>
     );
@@ -37,14 +38,16 @@ class BookmarkResourcesScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  allResources: state.resourceReducer.allResources,
+  bookmarkedResources: state.resourceReducer.bookmarkedResources,
+  resourceBookmarkPageIndex: state.resourceReducer.resourceBookmarkPageIndex,
   profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {
   showDrawer: routerActions.setProfileDrawerOpened,
-  bookmarkResource: resourceActions.bookmarkResource,
-  getAllResources: resourceActions.getAllResources,
+  getBookmarkedResources: resourceActions.getBookmarkedResources,
+  setBookmarkedResourcePageIndex:
+    resourceActions.setBookmarkedResourcePageIndex,
 };
 
 export default withTranslation()(

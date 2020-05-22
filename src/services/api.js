@@ -110,9 +110,26 @@ const removeReflection = param =>
 const updateCommits = param => apiCall('patch', URL_COMMIT, param, true);
 const getUserCommits = userId =>
   apiCall('get', `${URL_COMMIT}/${userId}`, {}, true);
-const getAllResources = () =>
-  apiCall('get', `${URL_RESOURCE}/list/all`, {}, true);
-const getMyResources = () => apiCall('get', `${URL_RESOURCE}`, {}, true);
+const getAllResources = pageIndex =>
+  apiCall('get', `${URL_RESOURCE}/list/all?page=${pageIndex}`, {}, true);
+const getMyResources = pageIndex =>
+  apiCall('get', `${URL_RESOURCE}?page=${pageIndex}`, {}, true);
+const getBookmarkedResources = pageIndex =>
+  apiCall('get', `${URL_RESOURCE}/list/bookmark?page=${pageIndex}`, {}, true);
+const getTrustMemberResources = pageIndex =>
+  apiCall(
+    'get',
+    `${URL_RESOURCE}/list/trustmember?page=${pageIndex}`,
+    {},
+    true,
+  );
+const searchResources = params =>
+  apiCall(
+    'post',
+    `${URL_RESOURCE}/list/search?page=${params.pageIndex}`,
+    params,
+    true,
+  );
 const createResources = param =>
   apiCall('post', `${URL_RESOURCE}`, param, true);
 const updateResources = param =>
@@ -152,7 +169,7 @@ const fileUploadToS3 = async ({image, type, userId}) => {
   }
 };
 
-const searchResources = resource =>
+const getResourceByTitle = resource =>
   apiCall('get', `${URL_SEARCH_RESOURCE}/${resource}`, {}, true);
 const createChatRoom = param => apiCall('post', `${URL_CHAT}`, param, true);
 const getMyChatRooms = () => apiCall('get', `${URL_CHAT}`, {}, true);
@@ -199,8 +216,11 @@ export default {
   updateResources,
   removeResources,
   bookmarkResources,
+  getBookmarkedResources,
+  getTrustMemberResources,
   getSupportedHabits,
   sendEmail,
+  getResourceByTitle,
   searchResources,
   findUserByName,
   getUntrustmembers,

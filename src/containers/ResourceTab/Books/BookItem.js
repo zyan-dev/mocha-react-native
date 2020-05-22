@@ -77,7 +77,7 @@ class BookItem extends React.Component {
         <MCButton
           onPress={() => this.goDetailpage(resource)}
           key={resource._id}>
-          {from === 'global' && (
+          {(from === 'global' || from === 'search') && (
             <MCView row justify="flex-start" width={300} mb={10}>
               {bookInfo &&
                 bookInfo.ownerInfo.slice(0, 3).map((owner, index) => {
@@ -142,7 +142,7 @@ class BookItem extends React.Component {
               </MCView>
             </MCView>
           </MCView>
-          {from != 'global' && (
+          {from != 'global' && from != 'search' && (
             <>
               <MCView bordered mt={10} mb={10} width={300} />
               <MCView width={300}>

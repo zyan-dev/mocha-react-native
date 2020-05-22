@@ -306,7 +306,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   showDrawer: routerActions.setProfileDrawerOpened,
-  bookmarkResource: resourceActions.bookmarkResource,
   getAllResources: resourceActions.getAllResources,
 };
 

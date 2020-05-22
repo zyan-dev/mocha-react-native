@@ -14,15 +14,6 @@ import {MCView} from '../../../components/styled/View';
 import {impacts} from '../../../utils/constants';
 
 class BookResourceScreen extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchText: '',
-      viewAll: true,
-      filterTypes: [],
-    };
-  }
-
   sortBook = (books, flag) => {
     let direction = 'asc';
     if (!flag) {
@@ -41,7 +32,7 @@ class BookResourceScreen extends React.PureComponent {
           <BookItem
             resource={item}
             onPressBookmark={data => {
-              this.props.bookmarkResource(data);
+              this.props.toggleBookmarkedResource(data);
               this.forceUpdate();
             }}
             editable={false}
@@ -52,32 +43,95 @@ class BookResourceScreen extends React.PureComponent {
     );
   };
 
+  getNextPage = () => {
+    const {
+      from,
+      pageSearching,
+      getAllResources,
+      getMyResources,
+      getTrustMemberResources,
+      getBookmarkedResources,
+      resourceAllPageIndex,
+      resourceAllPageLimited,
+      resourceMyPageIndex,
+      resourceMyPageLimited,
+      resourceBookmarkPageIndex,
+      resourceBookmarkLimited,
+      resourceTrustMemberPageIndex,
+      resourceTrustMemberLimited,
+      resourceSearchResourceIndex,
+      resourceSearchResourceLimited,
+      searchText,
+    } = this.props;
+
+    if (from == 'global') {
+      if (resourceAllPageLimited || pageSearching) return;
+      getAllResources(resourceAllPageIndex + 1);
+    } else if (from == 'search') {
+      if (resourceSearchResourceLimited || pageSearching) return;
+      searchResources({
+        title: searchText,
+        type: 'books',
+        pageIndex: resourceSearchResourceIndex + 1,
+      });
+    } else if (from === 'my-resource') {
+      if (resourceMyPageLimited || pageSearching) return;
+      getMyResources(resourceMyPageIndex + 1);
+    } else if (from === 'bookmark') {
+      if (resourceBookmarkLimited || pageSearching) return;
+      getBookmarkedResources(resourceBookmarkPageIndex + 1);
+    } else {
+      if (resourceTrustMemberLimited || pageSearching) return;
+      getTrustMemberResources(resourceTrustMemberPageIndex + 1);
+    }
+  };
+
   render() {
     const {
       t,
-      allResources,
       selectedMember,
       sort,
       from,
       selectedResources,
+      pageSearching,
+      resourceAllPageLimited,
+      resourceMyPageLimited,
+      resourceBookmarkLimited,
+      resourceSearchResourceLimited,
+      resourceTrustMemberLimited,
     } = this.props;
-    let books = [];
+    let books = [],
+      pageLimited = false;
 
     if (from === 'global') {
       selectedResources.forEach(resource => {
         books.push(resource.data[0]);
       });
+      pageLimited = resourceAllPageLimited;
+    } else if (from === 'search') {
+      selectedResources.forEach(resource => {
+        books.push(resource.data[0]);
+      });
+      pageLimited = resourceSearchResourceLimited;
+    } else if (from === 'bookmark') {
+      selectedResources.forEach(resource => {
+        books.push(resource.data[0]);
+      });
+      pageLimited = resourceBookmarkLimited;
+    } else if (from === 'my-resource') {
+      books = this.sortBook(selectedResources, sort);
+      pageLimited = resourceMyPageLimited;
     } else {
       selectedResources.forEach(resource => {
-        if (resource.type == 'books' && resource.data) {
-          if (selectedMember._id == resource.ownerId) {
-            books.push(resource);
-          } else if (_.isEmpty(selectedMember)) {
-            books.push(resource);
-          }
+        if (
+          resource.type == 'books' &&
+          selectedMember._id == resource.trustMember._id
+        ) {
+          books.push(resource);
         }
       });
       books = this.sortBook(books, sort);
+      pageLimited = resourceTrustMemberLimited;
     }
 
     return (
@@ -87,9 +141,22 @@ class BookResourceScreen extends React.PureComponent {
           renderItem={this._renderListItem}
           keyExtractor={item => item._id}
           keyboardShouldPersistTaps="always"
-          ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+          ListEmptyComponent={
+            <MCEmptyText>
+              {pageSearching ? t('progress_loading') : t('no_result')}
+            </MCEmptyText>
+          }
           numColumns={1}
           style={{width: dySize(350)}}
+          ListFooterComponent={
+            pageLimited &&
+            books.length && (
+              <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
+            )
+          }
+          keyExtractor={item => item._id}
+          onEndReached={() => this.getNextPage()}
+          onEndReachedThreshold={0.5}
         />
       </MCRootView>
     );
@@ -100,11 +167,29 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   allResources: state.resourceReducer.allResources,
   profile: state.profileReducer,
+  resourceAllPageIndex: state.resourceReducer.resourceAllPageIndex,
+  resourceTrustMemberPageIndex:
+    state.resourceReducer.resourceTrustMemberPageIndex,
+  resourceMyPageIndex: state.resourceReducer.resourceMyPageIndex,
+  resourceBookmarkPageIndex: state.resourceReducer.resourceBookmarkPageIndex,
+  resourceSearchResourceIndex:
+    state.resourceReducer.resourceSearchResourceIndex,
+  pageSearching: state.resourceReducer.pageSearching,
+  resourceAllPageLimited: state.resourceReducer.resourceAllPageLimited,
+  resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
+  resourceMyPageLimited: state.resourceReducer.resourceMyPageLimited,
+  resourceBookmarkLimited: state.resourceReducer.resourceBookmarkLimited,
+  resourceSearchResourceLimited:
+    state.resourceReducer.resourceSearchResourceLimited,
 });
 
 const mapDispatchToProps = {
-  bookmarkResource: resourceActions.bookmarkResource,
+  toggleBookmarkedResource: resourceActions.toggleBookmarkedResource,
   getAllResources: resourceActions.getAllResources,
+  getMyResources: resourceActions.getMyResources,
+  getBookmarkedResources: resourceActions.getBookmarkedResources,
+  getTrustMemberResources: resourceActions.getTrustMemberResources,
+  searchResources: resourceActions.searchResources,
 };
 
 export default withTranslation()(

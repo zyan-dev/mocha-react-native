@@ -23,6 +23,11 @@ class MyResourceScreen extends React.PureComponent {
     };
   }
 
+  componentDidMount() {
+    this.props.setMyResourcePageIndex(1);
+    this.props.getMyResources(1);
+  }
+
   onPressItem = item => {
     this.setState({focused: item.key});
   };
@@ -36,17 +41,15 @@ class MyResourceScreen extends React.PureComponent {
   };
 
   render() {
-    const {t, theme, profile, allResources} = this.props;
+    const {t, theme, profile, myResources, resourceMyPageIndex} = this.props;
     const {focused, sort} = this.state;
     let resources = [];
-    allResources.forEach(resource => {
-      resource.data.map(item => {
-        if (item.type == 'books' && item.data) {
-          if (profile._id == item.ownerId) {
-            resources.push(item);
-          }
+    myResources.forEach(resource => {
+      if (resource.type == 'books' && resource.data) {
+        if (profile._id == resource.owner) {
+          resources.push(resource);
         }
-      });
+      }
     });
 
     return (
@@ -99,13 +102,19 @@ class MyResourceScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  allResources: state.resourceReducer.allResources,
+  myResources: state.resourceReducer.myResources,
+  resourceMyPageIndex: state.resourceReducer.resourceMyPageIndex,
   profile: state.profileReducer,
 });
+
+const mapDispatchToProps = {
+  getMyResources: resourceActions.getMyResources,
+  setMyResourcePageIndex: resourceActions.setMyResourcePageIndex,
+};
 
 export default withTranslation()(
   connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
   )(MyResourceScreen),
 );

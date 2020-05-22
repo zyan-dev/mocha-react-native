@@ -21,18 +21,18 @@ class GlobalResourceScreen extends React.PureComponent {
       selectedMember: {},
       sort: true,
       searchText: '',
-      searchResult: [],
     };
   }
 
   componentDidMount() {
-    this.setState({searchResult: this.props.allResources});
-  }
-
-  componentDidUpdate(preProps, prevState) {
-    if (preProps.allResources !== this.props.allResources) {
-      this.setState({searchResult: this.props.allResources});
-    }
+    const {
+      getAllResources,
+      setALLResourcePageIndex,
+      setSearchResourcePageIndex,
+    } = this.props;
+    setSearchResourcePageIndex(1);
+    setALLResourcePageIndex(1);
+    getAllResources(1);
   }
 
   onPressItem = item => {
@@ -41,22 +41,26 @@ class GlobalResourceScreen extends React.PureComponent {
 
   filterResource(searchText) {
     this.setState({searchText});
-    const {allResources} = this.props;
-    const searchResult = allResources.filter(v =>
-      v.title.toLowerCase().includes(searchText.toLowerCase()),
-    );
-    this.setState({searchResult});
+    if (searchText) {
+      const {searchResources, resourceSearchResourceIndex} = this.props;
+      searchResources({
+        title: searchText,
+        type: 'books',
+        pageIndex: resourceSearchResourceIndex,
+      });
+    }
   }
 
   render() {
-    const {
-      focused,
-      sort,
-      selectedMember,
-      searchText,
-      searchResult,
-    } = this.state;
-    const {t, theme} = this.props;
+    const {focused, sort, selectedMember, searchText} = this.state;
+    const {t, theme, searchedResources, allResources} = this.props;
+    let resources = allResources,
+      from = 'global';
+    if (searchText) {
+      resources = searchedResources;
+      from = 'search';
+    }
+
     return (
       <MCRootView>
         <MCSearchInput
@@ -80,8 +84,8 @@ class GlobalResourceScreen extends React.PureComponent {
           <BookResourceScreen
             selectedMember={selectedMember}
             sort={sort}
-            from="global"
-            selectedResources={searchResult}
+            from={from}
+            selectedResources={resources}
           />
         ) : (
           <MCContent>
@@ -98,11 +102,18 @@ class GlobalResourceScreen extends React.PureComponent {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   allResources: state.resourceReducer.allResources,
+  resourceAllPageIndex: state.resourceReducer.resourceAllPageIndex,
   profile: state.profileReducer,
+  searchedResources: state.resourceReducer.searchedResources,
+  resourceSearchResourceIndex:
+    state.resourceReducer.resourceSearchResourceIndex,
 });
 
 const mapDispatchToProps = {
   getAllResources: resourceActions.getAllResources,
+  setALLResourcePageIndex: resourceActions.setALLResourcePageIndex,
+  searchResources: resourceActions.searchResources,
+  setSearchResourcePageIndex: resourceActions.setSearchResourcePageIndex,
 };
 
 export default withTranslation()(
