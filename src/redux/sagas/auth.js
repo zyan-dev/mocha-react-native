@@ -76,9 +76,10 @@ export function* completeSignUp(action) {
         yield put({type: types.SYNC_DATA_FOR_NEW_USER, payload: true});
       } else {
         // existing user
-        NavigationService.navigate('Auth_Welcome');
+        NavigationService.navigate('mainStack');
         yield put({type: types.API_FINISHED});
       }
+      yield put({type: types.SET_NEW_USER, payload: false});
       // track mixpanel event
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,

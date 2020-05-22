@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const MedalSvg = ({size, theme}) => {
   let color1 = '#FFFFFF';
   let color2 = '#CFB53B';
-  if (theme.colors.theme_name === 'Stone') color1 = '#666666';
+  if (theme.colors.theme_name === 'Bright') color1 = '#666666';
   return (
     <Svg
       aria-hidden="true"

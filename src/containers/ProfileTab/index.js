@@ -47,7 +47,7 @@ import EditMeaningLifeScreen from '../ToolsTab/profile_expert/MeaningLife';
 import EditValueStoryScreen from '../ToolsTab/profile_expert/ValueStory';
 import EditPersonalityScreen from './profile/details/personality';
 import BestSelfSubmitScreen from './profile/details/feedback/BestSelf';
-import VerifySMSScreen from '../FeedTab/auth/VerifySMS';
+import VerificationStack from '../Auth';
 
 const Stack = createStackNavigator();
 
@@ -88,7 +88,7 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen name="PhoneUpdate" component={PhoneUpdateScreen} />
           <Stack.Screen name="TimeLine" component={TimeLineScreen} />
           <Stack.Screen name="Analyze" component={AnalyzeScreen} />
-          <Stack.Screen name="Auth_VerifySMS" component={VerifySMSScreen} />
+          <Stack.Screen name="Verification" component={VerificationStack} />
           <Stack.Screen name="SendMochaCV" component={SendMochaCVScreen} />
           <Stack.Screen
             name="ManageNotifications"

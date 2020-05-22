@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const PointDownSvg = ({size, theme}) => {
   let color1 = '#DCDCDC';
   let color2 = '#8C1818';
-  if (theme.colors.theme_name === 'Stone') color1 = '#666666';
+  if (theme.colors.theme_name === 'Bright') color1 = '#666666';
   return (
     <Svg
       aria-hidden="true"

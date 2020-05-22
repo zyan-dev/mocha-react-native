@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const FaucetSvg = ({size}) => {
   let color1 = '#BDB159';
   let color2 = '#4AA8FF';
-  // if (theme.colors.theme_name === 'Stone') color1 = '#222222';
+  // if (theme.colors.theme_name === 'Bright') color1 = '#222222';
   return (
     <Svg
       aria-hidden="true"

@@ -7,6 +7,12 @@ import {dySize} from 'utils/responsive';
 import {H3} from 'components/styled/Text';
 import MCCountryPicker from 'components/common/MCCountryPicker';
 import {MCButton} from 'components/styled/Button';
+import {MCHeader} from 'components/common';
+import {
+  WideOvalGreenImage,
+  WideOvalYellowImage,
+} from 'components/styled/Custom';
+import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 
 class SendSMSScreen extends React.Component {
   constructor(props) {
@@ -30,7 +36,10 @@ class SendSMSScreen extends React.Component {
     const {t} = this.props;
     return (
       <MCRootView justify="flex-start">
-        <MCView mt={dySize(100)} width={300} align="center">
+        <MCHeader title={t('title_sms_verification')} />
+        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
+        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
+        <MCView mt={dySize(20)} width={300} align="center">
           <H3 align="center" mb={30}>
             {t('auth_signup_displayText')}
           </H3>

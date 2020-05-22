@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const IceCreamSvg = ({size, theme}) => {
   let color1 = '#FEB9B9';
   let color2 = '#FFFFFF';
-  if (theme.colors.theme_name === 'Stone') {
+  if (theme.colors.theme_name === 'Bright') {
     color1 = '#086F3C';
     color2 = '#999999';
   }

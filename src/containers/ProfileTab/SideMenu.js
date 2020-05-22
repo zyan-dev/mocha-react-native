@@ -16,6 +16,7 @@ import NavigationService from 'navigation/NavigationService';
 import {colorThemes} from 'theme';
 import {ProfileSideMenuList} from 'utils/constants';
 import {UserCrownSvg} from 'assets/svgs';
+import {DividerLine} from '../../components/styled/View';
 
 class ProfileSideMenu extends React.Component {
   constructor(props) {
@@ -95,12 +96,7 @@ class ProfileSideMenu extends React.Component {
           elevation: 11,
         }}>
         <ScrollView>
-          <MCView
-            mt={50}
-            mb={20}
-            justify="space-between"
-            ph={10}
-            align="flex-start">
+          <MCView mt={50} justify="space-between" ph={10} align="flex-start">
             <MCView row justify="space-between" width={250}>
               <H3 color={systemTheme.colors.border}>{t('version')}</H3>
               <H3 color={systemTheme.colors.border}>
@@ -124,7 +120,9 @@ class ProfileSideMenu extends React.Component {
               </H4>
             )}
           </MCView>
-          <MCView height={0.5} mr={10} ml={10} mb={30} mt={10} bordered />
+          <MCView align="center" mt={20} mb={20}>
+            <DividerLine width={275} />
+          </MCView>
           {ProfileSideMenuList.map(menu => {
             if (profile.userToken.length && !menu.registerRequired) return;
             else if (!profile.userToken.length && menu.registerRequired) return;
@@ -154,28 +152,33 @@ class ProfileSideMenu extends React.Component {
               </MCButton>
             );
           })}
-          <MCView height={0.5} mr={10} ml={10} mb={30} mt={30} bordered />
+          <MCView align="center" mt={20} mb={20}>
+            <DividerLine width={275} />
+          </MCView>
           <MCView align="center" width={275} mb={20}>
             <H3 padding={20}>{t('welcome_theme_displayText')}</H3>
-            <MCView justify="space-between" row wrap width={240}>
+            <MCView align="center" width={240}>
               {colorThemes.map((theme, index) => {
                 return (
                   <MCButton
                     key={index}
                     bordered
                     align="center"
-                    width={110}
+                    width={150}
                     mt={12}
                     onPress={() => this.onPressTheme(index)}
                     style={{
                       backgroundColor: theme.background,
-                      borderColor: theme.border,
+                      borderColor: theme.outline,
                     }}>
                     <H3 style={{color: theme.text}}>{theme.theme_name}</H3>
                   </MCButton>
                 );
               })}
             </MCView>
+          </MCView>
+          <MCView align="center" mt={20} mb={20}>
+            <DividerLine width={275} />
           </MCView>
           {completedExpertProfile && (
             <MCView row align="center" justify="space-around" mb={20}>
