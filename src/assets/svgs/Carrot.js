@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const CarrotSvg = ({size}) => {
   let color1 = '#ED6A00';
   let color2 = '#086F3C';
-  // if (theme.colors.theme_name === 'Stone') color1 = '#222222';
+  // if (theme.colors.theme_name === 'Bright') color1 = '#222222';
   return (
     <Svg
       aria-hidden="true"

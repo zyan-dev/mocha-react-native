@@ -3,13 +3,17 @@ import {StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
-
 import {authActions, profileActions} from 'Redux/actions';
-import {MCRootView, MCView} from 'components/styled/View';
+import {MCRootView} from 'components/styled/View';
 import {H3, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader} from 'components/common';
 import {dySize} from 'utils/responsive';
+import {
+  WideOvalGreenImage,
+  WideOvalYellowImage,
+} from 'components/styled/Custom';
+import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 
 const styles = StyleSheet.create({
   underlineStyleBase: {
@@ -62,6 +66,8 @@ class VerifySMS extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader title={t('title_sms_verification')} />
+        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
+        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
         <OTPInputView
           style={{width: '80%', height: 100, marginTop: dySize(100)}}
           pinCount={6}
@@ -86,13 +92,6 @@ class VerifySMS extends React.Component {
             <H5 align="center" mb={30} color={theme.colors.danger}>
               {t('alert_incorrect_code')}
             </H5>
-            <MCButton
-              bordered
-              align="center"
-              width={150}
-              onPress={() => this.resendSMS()}>
-              <H3>{t('button_resend_sms')}</H3>
-            </MCButton>
           </>
         )}
         {sms_verify_status === 'checking' && (
@@ -100,6 +99,13 @@ class VerifySMS extends React.Component {
             {t('alert_sms_checking')}
           </H3>
         )}
+        <MCButton
+          bordered
+          align="center"
+          width={150}
+          onPress={() => this.resendSMS()}>
+          <H3>{t('button_resend_sms')}</H3>
+        </MCButton>
       </MCRootView>
     );
   }

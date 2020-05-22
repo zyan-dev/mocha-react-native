@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const TeaSvg = ({size, theme}) => {
   let color1 = '#62CA46';
   let color2 = '#FFFFFF';
-  if (theme.colors.theme_name === 'Stone') color2 = '#E65B1C';
+  if (theme.colors.theme_name === 'Bright') color2 = '#E65B1C';
   return (
     <Svg
       aria-hidden="true"

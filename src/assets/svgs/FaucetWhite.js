@@ -3,7 +3,7 @@ import {Svg, Path} from 'react-native-svg';
 import PropTypes from 'prop-types';
 
 const FaucetWhiteSvg = ({size, color = '#FFFFFF'}) => {
-  // if (theme.colors.theme_name === 'Stone') color1 = '#222222';
+  // if (theme.colors.theme_name === 'Bright') color1 = '#222222';
   return (
     <Svg
       aria-hidden="true"

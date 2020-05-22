@@ -5,7 +5,12 @@ import {profileActions, authActions} from 'Redux/actions';
 import {MCRootView, MCView, MCContent} from 'components/styled/View';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCEditableText, MCImagePicker} from 'components/common';
+import {MCEditableText, MCImagePicker, MCHeader} from 'components/common';
+import {
+  WideOvalGreenImage,
+  WideOvalYellowImage,
+} from 'components/styled/Custom';
+import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 
 class CompleteSignUp extends React.Component {
   constructor(props) {
@@ -30,14 +35,17 @@ class CompleteSignUp extends React.Component {
       setProfileData,
       profile: {name, user_id, avatar},
       t,
+      theme,
     } = this.props;
     const {editableUsername} = this.state;
     return (
       <MCRootView justify="flex-start">
+        <MCHeader title={t('footer_profile')} hasBack={false} />
+        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
+        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
-          <MCView mt={50} width={350} align="center">
-            <H3 align="center">{t('auth_complete_signup_title')}</H3>
-            <H3 align="center" mt={50} mb={20}>
+          <MCView width={350} align="center">
+            <H3 align="center" mt={30} mb={20}>
               {t('auth_comple_signup_select_picture')}
             </H3>
             <MCImagePicker
@@ -77,14 +85,17 @@ class CompleteSignUp extends React.Component {
             </MCView>
           </MCView>
           <MCButton
+            br={20}
+            height={40}
             mt={40}
             mb={40}
-            bordered
             align="center"
-            width={150}
+            background={theme.colors.outline}
+            pl={20}
+            pr={20}
             disabled={avatar.length * name.length * user_id.length === 0}
             onPress={() => this.onFinishedProfile()}>
-            <H3>{t('button_finished')}</H3>
+            <H3 color={theme.colors.background}>{t('button_continue')}</H3>
           </MCButton>
         </MCContent>
       </MCRootView>
@@ -93,6 +104,7 @@ class CompleteSignUp extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
   profile: state.profileReducer,
 });
 

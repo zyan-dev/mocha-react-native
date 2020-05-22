@@ -3,7 +3,7 @@ import * as types from '../actions/types';
 const INITIAL_STATE = {
   myRooms: [],
   selectedRoom: {},
-  roomMessages: [],
+  roomMessages: {},
   blockList: [],
   loading: false,
   lastMessageDateChecked: {},

@@ -1,4 +1,5 @@
 import database from '@react-native-firebase/database';
+import * as _ from 'lodash';
 import * as types from './types';
 import {setLoading} from './route';
 import {compareTimeStampWithDate} from 'services/operators';
@@ -43,10 +44,11 @@ export const checkChatMissedState = () => ({
   type: types.CHECK_CHAT_MISSED_STATE,
 });
 
-export const getRoomMessages = roomId => (dispatch, getState) => {
-  dispatch(setRoomMessages([]));
+export const getRoomMessages = (roomId, count) => (dispatch, getState) => {
+  dispatch(closeRoomMessageListener());
   database()
     .ref(`/chatrooms/${roomId}/history`)
+    .limitToLast(count)
     .on('value', snapshot => {
       dispatch(setChatLoading(true));
       dispatch(setRoomMessages(snapshot.val() || {}));
@@ -151,6 +153,28 @@ export const updateMessage = (room, bubble, callback) => (
       }
       callback();
     })
+    .catch(e => {
+      showAlert(e.toString());
+    });
+};
+
+export const addEmoji = (bubbleId, emoji) => (dispatch, getState) => {
+  const {selectedRoom, roomMessages} = getState().chatReducer;
+  const {_id} = getState().profileReducer;
+  const ts = new Date().getTime();
+  database()
+    .ref(`/chatrooms/${selectedRoom._id}/history/${bubbleId}`)
+    .set({
+      ...roomMessages[bubbleId],
+      reactions: {
+        ..._.get(roomMessages, [bubbleId, 'reactions'], {}),
+        [ts]: {
+          userId: _id,
+          text: emoji,
+        },
+      },
+    })
+    .then(() => {})
     .catch(e => {
       showAlert(e.toString());
     });

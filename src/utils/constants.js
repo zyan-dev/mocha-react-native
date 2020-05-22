@@ -2,6 +2,7 @@ import {
   AnimalPeafowl,
   AnimalRockhopper,
   AnimalAlbatross,
+  AnimalCat,
   AnimalChamois,
   AnimalChimpanzee,
   AnimalBat,
@@ -37,6 +38,7 @@ import {
   AnimalTit,
   AnimalWarthog,
   AnimalWolf,
+  AnimalWalrus,
 } from '../assets/images';
 
 // Constants used for testing
@@ -110,7 +112,7 @@ export const ProfileSideMenuList = [
     icon: 'ios-link',
     iconType: 'Ionicon',
     title: 'profile_menu_signin',
-    redirectTo: 'TabFeed',
+    redirectTo: 'Verification',
     registerRequired: false,
   },
   {
@@ -2059,13 +2061,13 @@ export const DiscoverValues = [
     value: 'sense',
     category: 'security',
     name: 'arctic_walrus',
-    icon: 'brain',
+    image: AnimalWalrus,
   },
   {
     value: 'respect',
     category: 'achievement',
     name: 'domestic_cat',
-    icon: 'korvue',
+    image: AnimalCat,
   },
   {
     value: 'equality',
