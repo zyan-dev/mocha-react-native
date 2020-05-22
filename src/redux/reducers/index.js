@@ -9,6 +9,7 @@ import networkReducer from './network';
 import resourceReducer from './resource';
 import otherReducer from './other';
 import chatReducer from './chat';
+import postReducer from './post';
 
 export {
   routerReducer,
@@ -22,4 +23,5 @@ export {
   resourceReducer,
   otherReducer,
   chatReducer,
+  postReducer,
 };

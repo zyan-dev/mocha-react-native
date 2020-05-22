@@ -13,6 +13,7 @@ import {H3, H4, H5, MCTextInput} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {convertChatMessage, getDateString, showAlert} from 'services/operators';
 import {MCButton} from 'components/styled/Button';
+import NavigationService from 'navigation/NavigationService';
 
 const bubbleColor = '#AAAAAA';
 const bubbleColorMine = '#303030';
@@ -184,13 +185,18 @@ class ChatBubbleItem extends React.Component {
           overflow="visible"
           key={bubbleId}>
           {!mine && hasAvatar && (
-            <MCImage
-              round
-              image={{uri: bubbleUser.avatar}}
-              width={30}
-              height={30}
-              type="avatar"
-            />
+            <MCButton
+              onPress={() =>
+                NavigationService.navigate('UserProfile', {id: bubbleUser._id})
+              }>
+              <MCImage
+                round
+                image={{uri: bubbleUser.avatar}}
+                width={30}
+                height={30}
+                type="avatar"
+              />
+            </MCButton>
           )}
           {!mine && !hasAvatar && <MCView width={30} />}
 
@@ -282,30 +288,37 @@ class ChatBubbleItem extends React.Component {
                   </MCButton>
                 )}
               </MCView>
+              {bubble.reactions && (
+                <MCView
+                  row
+                  wrap
+                  width={200}
+                  ml={15}
+                  mt={1}
+                  mb={10}
+                  justify={mine ? 'flex-end' : 'flex-start'}>
+                  {this.getReactionData(bubble.reactions).map(i => {
+                    return (
+                      <MCButton
+                        onPress={() => this.onPressReactionView(i.users)}
+                        height={32}
+                        pt={1}
+                        pb={1}
+                        br={15}
+                        ph={10}
+                        mr={10}
+                        alignItems="center"
+                        justify="center"
+                        background={bubbleColor}>
+                        <H4 color={theme.colors.background}>
+                          {i.text} {i.users.length}
+                        </H4>
+                      </MCButton>
+                    );
+                  })}
+                </MCView>
+              )}
             </MCView>
-            {bubble.reactions && (
-              <MCView row wrap width={200} ml={15} mt={1} mb={10}>
-                {this.getReactionData(bubble.reactions).map(i => {
-                  return (
-                    <MCButton
-                      onPress={() => this.onPressReactionView(i.users)}
-                      height={32}
-                      pt={1}
-                      pb={1}
-                      br={15}
-                      ph={10}
-                      mr={10}
-                      alignItems="center"
-                      justify="center"
-                      background={bubbleColor}>
-                      <H4 color={theme.colors.background}>
-                        {i.text} {i.users.length}
-                      </H4>
-                    </MCButton>
-                  );
-                })}
-              </MCView>
-            )}
           </MCView>
           <RBSheet
             ref={ref => (this.RBSheet = ref)}

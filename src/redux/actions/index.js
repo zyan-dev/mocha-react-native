@@ -9,6 +9,7 @@ import * as networkActions from './network';
 import * as otherActions from './other';
 import * as resourceActions from './resource';
 import * as chatActions from './chat';
+import * as postActions from './post';
 
 export {
   routerActions,
@@ -22,4 +23,5 @@ export {
   otherActions,
   resourceActions,
   chatActions,
+  postActions,
 };

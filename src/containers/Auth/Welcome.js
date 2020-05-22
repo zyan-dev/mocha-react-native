@@ -9,6 +9,11 @@ import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {BookLightSvg, PeopleArrowSvg} from 'assets/svgs';
+import {
+  WideOvalGreenImage,
+  WideOvalYellowImage,
+} from 'components/styled/Custom';
+import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 
 class FeedWelcome extends React.Component {
   constructor(props) {
@@ -21,6 +26,8 @@ class FeedWelcome extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader hasBack={false} title={t('auth_welcome_community')} />
+        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
+        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
           <MCView mt={70}>
             <PeopleArrowSvg size={40} color={theme.colors.text} />

@@ -29,6 +29,15 @@ import {
   AnimalSeaTurtle,
   AnimalSparrowTwo,
   AnimalViper,
+  AnimalBaboon,
+  AnimalButterfly,
+  AnimalElk,
+  AnimalLeopard,
+  AnimalMonkey,
+  AnimalOctopus,
+  AnimalTit,
+  AnimalWarthog,
+  AnimalWolf,
   AnimalWalrus,
 } from '../assets/images';
 
@@ -55,7 +64,13 @@ export const FontFamilies = {
   italic: 'ProximaNova-RegularIt',
 };
 
-export const mainTabKeys = ['social', 'resources', 'tools', 'profile'];
+export const mainTabKeys = [
+  'social',
+  'resources',
+  'progress',
+  'tools',
+  'profile',
+];
 
 export const ContactProfileKeys = [
   'preferredtobecalled',
@@ -259,6 +274,22 @@ export const DaySliderValues = [
   '05:00 PM',
   '06:00 PM',
   '07:00 PM',
+];
+
+export const PostChallengeLevels = [
+  'low',
+  'low-medium',
+  'medium',
+  'medium-high',
+  'high',
+];
+
+export const PostMoraleLevels = [
+  'low',
+  'low-medium',
+  'medium',
+  'medium-high',
+  'high',
 ];
 
 export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8+'];
@@ -2149,6 +2180,60 @@ export const DiscoverValues = [
     category: 'self-direction',
     name: 'viper',
     image: AnimalViper,
+  },
+  {
+    value: 'social_order',
+    category: 'security',
+    name: 'baboon',
+    image: AnimalBaboon,
+  },
+  {
+    value: 'varied_life',
+    category: 'stimulation',
+    name: 'butterfly',
+    image: AnimalButterfly,
+  },
+  {
+    value: 'authority',
+    category: 'power',
+    name: 'elk',
+    image: AnimalElk,
+  },
+  {
+    value: 'self_discipline',
+    category: 'conformity',
+    name: 'leopard',
+    image: AnimalLeopard,
+  },
+  {
+    value: 'respect_parent',
+    category: 'conformity',
+    name: 'monkey',
+    image: AnimalMonkey,
+  },
+  {
+    value: 'capability',
+    category: 'achievement',
+    name: 'octopus',
+    image: AnimalOctopus,
+  },
+  {
+    value: 'obedience',
+    category: 'conformity',
+    name: 'tit',
+    image: AnimalTit,
+  },
+  {
+    value: 'environment',
+    category: 'universalism',
+    name: 'warthog',
+    image: AnimalWarthog,
+  },
+  {
+    value: 'broad_mindedness',
+    category: 'universalism',
+    name: 'wolf',
+    image: AnimalWolf,
   },
 ];
 

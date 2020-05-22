@@ -64,7 +64,7 @@ class HydrationScreen extends React.Component {
   };
 
   onChangeHydrationRange = range => {
-    this.props.updateSelectedReflection({cups_range: [range.start, range.end]});
+    this.props.updateSelectedReflection({cups_range: range});
   };
 
   onToggleOption = option => {
@@ -134,10 +134,7 @@ class HydrationScreen extends React.Component {
             <MCTimeSlider
               width={300}
               onChange={range => this.onChangeHydrationRange(range)}
-              range={{
-                start: cupsRange[0],
-                end: cupsRange[1],
-              }}
+              value={[cupsRange[0], cupsRange[1]]}
               values={HydrationValues}
               showBottomLabel={false}
             />

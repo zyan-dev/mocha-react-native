@@ -36,6 +36,7 @@ class AddFeedbackScreen extends React.Component {
     if (!this.validateUsers()) return;
     if (!this.validateQuestions()) return;
     this.props.requestFeedback();
+    this.setState({submitted: false});
   };
 
   validateUsers = () => {

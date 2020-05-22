@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import AddFeedbackScreen from './add';
 import SelectQuestionScreen from './SelectQuestions';
 import CompletedFeedbackScreen from './completed';
+import FeedbackScreen from '../../ProfileTab/profile/details/feedback';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ class FeedbackStack extends React.Component {
           name="CompletedFeedback"
           component={CompletedFeedbackScreen}
         />
+        <Stack.Screen name="MyFeedbacks" component={FeedbackScreen} />
       </Stack.Navigator>
     );
   }
