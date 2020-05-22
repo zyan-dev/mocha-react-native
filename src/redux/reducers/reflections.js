@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   habitResetTime: 0,
   supportedHabits: [],
   draft: {},
-  mainTabIndex: 2,
+  mainTabIndex: 3,
 };
 
 const reflectionReducer = (state = INITIAL_STATE, action) => {

@@ -52,15 +52,15 @@ class ChronotypeScreen extends React.PureComponent {
 
   onChangeNightTimeRange = range => {
     this.props.updateSelectedReflection({
-      night_sleep_offset_start: range.start,
-      night_sleep_offset_end: range.end,
+      night_sleep_offset_start: range[0],
+      night_sleep_offset_end: range[1],
     });
   };
 
   onChangeDayTimeRange = range => {
     this.props.updateSelectedReflection({
-      day_sleep_offset_start: range.start,
-      day_sleep_offset_end: range.end,
+      day_sleep_offset_start: range[0],
+      day_sleep_offset_end: range[1],
     });
   };
 
@@ -165,10 +165,7 @@ class ChronotypeScreen extends React.PureComponent {
           <MCView align="center">
             <MCTimeSlider
               width={320}
-              range={{
-                start: night_sleep_offset_start,
-                end: night_sleep_offset_end,
-              }}
+              value={[night_sleep_offset_start, night_sleep_offset_end]}
               onChange={range => this.onChangeNightTimeRange(range)}
               values={NightSliderValues}
             />
@@ -186,10 +183,7 @@ class ChronotypeScreen extends React.PureComponent {
           <MCView align="center">
             <MCTimeSlider
               width={320}
-              range={{
-                start: day_sleep_offset_start,
-                end: day_sleep_offset_end,
-              }}
+              value={[day_sleep_offset_start, day_sleep_offset_end]}
               onChange={range => this.onChangeDayTimeRange(range)}
               values={DaySliderValues}
             />

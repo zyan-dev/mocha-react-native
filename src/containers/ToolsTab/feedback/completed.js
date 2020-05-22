@@ -24,11 +24,7 @@ class CompletedFeedbackScreen extends React.Component {
           width={300}
           align="center"
           onPress={() => {
-            NavigationService.navigate('ToolsTabHome');
-            NavigationService.navigate('TabProfile', {screen: 'Profile'});
-            setTimeout(() => {
-              NavigationService.navigate('Feedbacks');
-            });
+            NavigationService.navigate('MyFeedbacks');
           }}>
           <H3>{t('button_go_to_feedback_list')}</H3>
         </MCButton>

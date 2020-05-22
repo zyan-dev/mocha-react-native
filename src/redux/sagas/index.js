@@ -10,6 +10,7 @@ import * as networkSaga from './network';
 import * as resourceSaga from './resource';
 import * as otherSaga from './other';
 import * as chatSaga from './chat';
+import * as postSaga from './post';
 
 function* mySaga() {
   // auth
@@ -119,6 +120,9 @@ function* mySaga() {
     types.CHECK_CHAT_MISSED_STATE,
     chatSaga.checkChatMissedState,
   );
+
+  // post
+  yield takeEvery(types.ADD_OR_UPDATE_POST, postSaga.addOrUpdatePost);
 }
 
 export default mySaga;

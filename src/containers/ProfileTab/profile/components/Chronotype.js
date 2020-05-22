@@ -115,11 +115,12 @@ class ChronotypeCard extends React.Component {
                 </MCView>
                 <MCTimeSlider
                   width={260}
-                  enabled={false}
-                  range={{
-                    start: chronotype.data.night_sleep_offset_start,
-                    end: chronotype.data.night_sleep_offset_end,
-                  }}
+                  enabledLeft={false}
+                  enabledRight={false}
+                  value={[
+                    chronotype.data.night_sleep_offset_start,
+                    chronotype.data.night_sleep_offset_end,
+                  ]}
                   values={NightSliderValues}
                 />
               </MCView>
@@ -131,11 +132,12 @@ class ChronotypeCard extends React.Component {
                 </MCView>
                 <MCTimeSlider
                   width={260}
-                  enabled={false}
-                  range={{
-                    start: chronotype.data.day_sleep_offset_start,
-                    end: chronotype.data.day_sleep_offset_end,
-                  }}
+                  enabledLeft={false}
+                  enabledRight={false}
+                  value={[
+                    chronotype.data.day_sleep_offset_start,
+                    chronotype.data.day_sleep_offset_end,
+                  ]}
                   values={DaySliderValues}
                 />
               </MCView>

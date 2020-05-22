@@ -67,7 +67,7 @@ class FeedbackScreen extends React.Component {
       />
     );
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: theme.colors.background}}>
         <MCHeader
           title={t('title_feedbacks')}
           onPressBack={() => NavigationService.navigate('Profile')}

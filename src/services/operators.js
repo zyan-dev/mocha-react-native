@@ -196,17 +196,9 @@ export const getStringWithOutline = (textData, params = {}) => {
       boldWord = i18next.t(`outline_${key}`);
       boldIndex = str.indexOf(boldWord);
       if (boldIndex > 0 && bigSize) {
-        snippets.push(
-          <H3 underline={underline} align={align}>
-            {str.substr(0, boldIndex)}
-          </H3>,
-        );
+        snippets.push(<H3 align={align}>{str.substr(0, boldIndex)}</H3>);
       } else if (boldIndex > 0 && !bigSize) {
-        snippets.push(
-          <H4 underline={underline} align={align}>
-            {str.substr(0, boldIndex)}
-          </H4>,
-        );
+        snippets.push(<H4 align={align}>{str.substr(0, boldIndex)}</H4>);
       }
       if (bigSize) {
         snippets.push(
@@ -231,17 +223,9 @@ export const getStringWithOutline = (textData, params = {}) => {
     });
   }
   if (bigSize) {
-    snippets.push(
-      <H3 underline={underline} align={align}>
-        {str}
-      </H3>,
-    );
+    snippets.push(<H3 align={align}>{str}</H3>);
   } else {
-    snippets.push(
-      <H4 underline={underline} align={align}>
-        {str}
-      </H4>,
-    );
+    snippets.push(<H4 align={align}>{str}</H4>);
   }
   if (bigSize) {
     return (

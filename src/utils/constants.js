@@ -55,7 +55,13 @@ export const FontFamilies = {
   italic: 'ProximaNova-RegularIt',
 };
 
-export const mainTabKeys = ['social', 'resources', 'tools', 'profile'];
+export const mainTabKeys = [
+  'social',
+  'resources',
+  'progress',
+  'tools',
+  'profile',
+];
 
 export const ContactProfileKeys = [
   'preferredtobecalled',
@@ -259,6 +265,22 @@ export const DaySliderValues = [
   '05:00 PM',
   '06:00 PM',
   '07:00 PM',
+];
+
+export const PostChallengeLevels = [
+  'low',
+  'low-medium',
+  'medium',
+  'medium-high',
+  'high',
+];
+
+export const PostMoraleLevels = [
+  'low',
+  'low-medium',
+  'medium',
+  'medium-high',
+  'high',
 ];
 
 export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8+'];

@@ -128,7 +128,9 @@ class OurCommunityRuleScreen extends React.Component {
               onChange={checked => this.onToggleCheck('community_3')}
             />
           </MCView>
-          <H4 weight="bold">{t('label_type_I_agree')}</H4>
+          <H4 weight="bold" mt={40}>
+            {t('label_type_I_agree')}
+          </H4>
           <MCView width={250}>
             <MCTextInput
               style={{width: '100%'}}
