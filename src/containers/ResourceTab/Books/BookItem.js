@@ -37,10 +37,32 @@ class BookItem extends React.Component {
   }
 
   componentDidMount() {
-    const {from, resource, allResources} = this.props;
+    const {
+      from,
+      resource,
+      allResources,
+      bookmarkedResources,
+      searchedResources,
+    } = this.props;
 
     if (from === 'global') {
       allResources.map(item => {
+        if (item.title === resource.data.title) {
+          this.setState({bookInfo: item});
+        }
+      });
+    }
+
+    if (from === 'search') {
+      searchedResources.map(item => {
+        if (item.title === resource.data.title) {
+          this.setState({bookInfo: item});
+        }
+      });
+    }
+
+    if (from === 'bookmark') {
+      bookmarkedResources.map(item => {
         if (item.title === resource.data.title) {
           this.setState({bookInfo: item});
         }
@@ -77,7 +99,7 @@ class BookItem extends React.Component {
         <MCButton
           onPress={() => this.goDetailpage(resource)}
           key={resource._id}>
-          {(from === 'global' || from === 'search') && (
+          {(from === 'global' || from === 'search' || from === 'bookmark') && (
             <MCView row justify="flex-start" width={300} mb={10}>
               {bookInfo &&
                 bookInfo.ownerInfo.slice(0, 3).map((owner, index) => {
@@ -142,7 +164,7 @@ class BookItem extends React.Component {
               </MCView>
             </MCView>
           </MCView>
-          {from != 'global' && from != 'search' && (
+          {from != 'global' && from != 'search' && from != 'bookmark' && (
             <>
               <MCView bordered mt={10} mb={10} width={300} />
               <MCView width={300}>
@@ -204,6 +226,8 @@ class BookItem extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   allResources: state.resourceReducer.allResources,
+  bookmarkedResources: state.resourceReducer.bookmarkedResources,
+  searchedResources: state.resourceReducer.searchedResources,
   profile: state.profileReducer,
 });
 

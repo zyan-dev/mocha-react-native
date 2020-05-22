@@ -29,10 +29,18 @@ class BookDetailScreen extends React.PureComponent {
 
   componentDidMount() {
     const {from, resource} = this.props.route.params;
-    const {allResources} = this.props;
+    const {allResources, bookmarkedResources, searchedResources} = this.props;
 
-    if (from === 'global') {
-      allResources.map(item => {
+    if (from === 'global' || from === 'bookmark' || from == 'search') {
+      let resources = allResources;
+      if (from === 'bookmark') {
+        resources = bookmarkedResources;
+      }
+      if (from === 'search') {
+        resources = searchedResources;
+      }
+
+      resources.map(item => {
         if (item.title === resource.data.title) {
           this.setState({bookInfo: item}, () => {
             const groupImpacts = _.groupBy(
@@ -160,48 +168,54 @@ class BookDetailScreen extends React.PureComponent {
 
             <MCView height={1} bordered width={350} mb={10} mt={10} />
             <MCView width={350} row justify="space-between">
-              {from === 'global' && bookInfo && (
-                <>
-                  <H5>
-                    {bookInfo.ownerInfo.length} of user
-                    {bookInfo.ownerInfo.length > 1 && 's'} have added this book
-                  </H5>
-                  <MCView row justify="flex-end" width={180}>
-                    {bookInfo.ownerInfo.slice(0, 3).map((owner, index) => {
-                      return (
-                        <>
-                          <MCView ml={-15}>
-                            <MCImage
-                              key={index}
-                              image={{uri: owner.avatar}}
-                              round
-                              width={30}
-                              height={30}
-                              type="avatar"
-                            />
-                          </MCView>
-                          {bookInfo.ownerInfo.length > 3 && index == 2 && (
-                            <MCView
-                              width={30}
-                              height={30}
-                              bordered
-                              br={15}
-                              background={theme.colors.text}
-                              align="center"
-                              justify="center"
-                              ml={-14}
-                              style={{opacity: 0.8}}>
-                              <H4 weight="bold" color={theme.colors.background}>
-                                +{bookInfo.ownerInfo.length - 3}
-                              </H4>
+              {(from === 'global' ||
+                from === 'search' ||
+                from === 'bookmark') &&
+                bookInfo && (
+                  <>
+                    <H5>
+                      {bookInfo.ownerInfo.length} of user
+                      {bookInfo.ownerInfo.length > 1 && 's'} have added this
+                      book
+                    </H5>
+                    <MCView row justify="flex-end" width={180}>
+                      {bookInfo.ownerInfo.slice(0, 3).map((owner, index) => {
+                        return (
+                          <>
+                            <MCView ml={-15}>
+                              <MCImage
+                                key={index}
+                                image={{uri: owner.avatar}}
+                                round
+                                width={30}
+                                height={30}
+                                type="avatar"
+                              />
                             </MCView>
-                          )}
-                        </>
-                      );
-                    })}
-                  </MCView>
-                </>
-              )}
+                            {bookInfo.ownerInfo.length > 3 && index == 2 && (
+                              <MCView
+                                width={30}
+                                height={30}
+                                bordered
+                                br={15}
+                                background={theme.colors.text}
+                                align="center"
+                                justify="center"
+                                ml={-14}
+                                style={{opacity: 0.8}}>
+                                <H4
+                                  weight="bold"
+                                  color={theme.colors.background}>
+                                  +{bookInfo.ownerInfo.length - 3}
+                                </H4>
+                              </MCView>
+                            )}
+                          </>
+                        );
+                      })}
+                    </MCView>
+                  </>
+                )}
 
               {/* {from !== 'global' && trustMemebers.length > 0 && (
                 <>
@@ -244,7 +258,7 @@ class BookDetailScreen extends React.PureComponent {
               )} */}
             </MCView>
 
-            {from == 'global' ? (
+            {from == 'global' || from == 'search' || from == 'bookmark' ? (
               <MCView width={350} mb={30} row justify="center">
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_impact')}</H4>
@@ -301,6 +315,8 @@ class BookDetailScreen extends React.PureComponent {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   allResources: state.resourceReducer.allResources,
+  bookmarkedResources: state.resourceReducer.bookmarkedResources,
+  searchedResources: state.resourceReducer.searchedResources,
   profile: state.profileReducer,
 });
 
