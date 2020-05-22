@@ -298,6 +298,8 @@ export const convertChatMessage = (msg, room) => {
     return i18next.t('chat_message_who_added_whom', {who, whom});
   } else if (msg.text === 'chat_message_deleted') {
     return i18next.t('chat_message_deleted');
+  } else if (msg.text === 'chat_message_image_attached') {
+    return i18next.t('chat_message_image_attached');
   } else if (msg.edited) {
     return i18next.t('chat_message_edited', {text: msg.text});
   } else {

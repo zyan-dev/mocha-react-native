@@ -288,30 +288,37 @@ class ChatBubbleItem extends React.Component {
                   </MCButton>
                 )}
               </MCView>
+              {bubble.reactions && (
+                <MCView
+                  row
+                  wrap
+                  width={200}
+                  ml={15}
+                  mt={1}
+                  mb={10}
+                  justify={mine ? 'flex-end' : 'flex-start'}>
+                  {this.getReactionData(bubble.reactions).map(i => {
+                    return (
+                      <MCButton
+                        onPress={() => this.onPressReactionView(i.users)}
+                        height={32}
+                        pt={1}
+                        pb={1}
+                        br={15}
+                        ph={10}
+                        mr={10}
+                        alignItems="center"
+                        justify="center"
+                        background={bubbleColor}>
+                        <H4 color={theme.colors.background}>
+                          {i.text} {i.users.length}
+                        </H4>
+                      </MCButton>
+                    );
+                  })}
+                </MCView>
+              )}
             </MCView>
-            {bubble.reactions && (
-              <MCView row wrap width={200} ml={15} mt={1} mb={10}>
-                {this.getReactionData(bubble.reactions).map(i => {
-                  return (
-                    <MCButton
-                      onPress={() => this.onPressReactionView(i.users)}
-                      height={32}
-                      pt={1}
-                      pb={1}
-                      br={15}
-                      ph={10}
-                      mr={10}
-                      alignItems="center"
-                      justify="center"
-                      background={bubbleColor}>
-                      <H4 color={theme.colors.background}>
-                        {i.text} {i.users.length}
-                      </H4>
-                    </MCButton>
-                  );
-                })}
-              </MCView>
-            )}
           </MCView>
           <RBSheet
             ref={ref => (this.RBSheet = ref)}

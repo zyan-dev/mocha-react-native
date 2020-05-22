@@ -636,14 +636,22 @@ class ChatRoomScreen extends React.Component {
         </RBSheet>
         {showEmojiView && (
           <MCView>
-            {selectedEmoji.length > 0 && (
-              <MCView
-                row
-                justify="space-between"
-                width={375}
-                align="center"
-                ph={10}>
-                <H3 style={{fontSize: 40}}>{selectedEmoji}</H3>
+            <MCView
+              row
+              justify="space-between"
+              width={375}
+              align="center"
+              height={70}
+              ph={10}>
+              <MCButton
+                bordered
+                onPress={() => this.setState({showEmojiView: false})}
+                pl={20}
+                pr={20}>
+                <H3 color={theme.colors.border}>{t('button_cancel')}</H3>
+              </MCButton>
+              <H3 style={{fontSize: 40}}>{selectedEmoji}</H3>
+              {selectedEmoji.length > 0 && (
                 <MCButton
                   bordered
                   onPress={() => this.onEmojiSelected()}
@@ -651,11 +659,17 @@ class ChatRoomScreen extends React.Component {
                   pr={20}>
                   <H3>{t('button_select')}</H3>
                 </MCButton>
-              </MCView>
-            )}
+              )}
+            </MCView>
             <EmojiSelector
               onEmojiSelected={emoji => this.setState({selectedEmoji: emoji})}
-              style={{textColor: 'red', height: dySize(300)}}
+              style={{
+                color: 'red',
+                height: dySize(300),
+                backgroundColor: theme.colors.background,
+              }}
+              placeholder="Search..."
+              color="red"
             />
           </MCView>
         )}
