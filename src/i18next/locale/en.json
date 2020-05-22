@@ -85,6 +85,7 @@
   "button_community_resources": "Community Resources",
   "by": "by",
   "who_chat_message_created_room": "{{who}} created this chat room",
+  "chat_action_member_list": "Show Members",
   "chat_action_add_member": "Add Member(s)",
   "chat_action_change_room_name": "Change Room Name",
   "chat_action_delete_message": "Delete Message",

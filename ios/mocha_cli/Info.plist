@@ -45,6 +45,8 @@
 	<string>Record Audio</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Select a picture</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Select a picture</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
