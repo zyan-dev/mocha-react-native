@@ -1,50 +1,71 @@
 import React from 'react';
+import {Image} from 'react-native';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {withTranslation} from 'react-i18next';
 import {MCRootView, MCView} from 'components/styled/View';
 import {MCImage} from 'components/common';
-import {H2, H3, H4} from 'components/styled/Text';
+import {H2, H3, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {dySize} from 'utils/responsive';
+import {
+  WideOvalGreenImage,
+  WideOvalYellowImage,
+} from 'components/styled/Custom';
+import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 import NavigationService from 'navigation/NavigationService';
-import {MochaLogo} from 'assets/images';
 
 class WelcomeToMocha extends React.PureComponent {
   render() {
-    const {t} = this.props;
+    const {t, theme} = this.props;
     return (
-      <MCRootView>
-        <MCView
-          style={{flex: 1}}
-          bordered
-          br={60}
-          ph={20}
-          pv={20}
-          mt={60}
-          mb={60}
-          justify="center"
+      <MCRootView justify="flex-start">
+        <WideOvalGreenImage
+          source={OvalGreenWide}
+          opacity={1}
+          resizeMode="stretch"
+        />
+        <WideOvalYellowImage
+          source={OvalYellowWide}
+          opacity={1}
+          resizeMode="stretch"
+        />
+        <H2 mt={60} weight="bold">
+          {t('welcome_title')}
+        </H2>
+        <H4 weight="italic" align="center" ph={60}>
+          {t('welcome_title_description')}
+        </H4>
+        <MCView style={{flex: 1}} />
+        <H4 weight="bold" mb={10}>
+          Where would you like to start?
+        </H4>
+        <MCButton
+          br={20}
+          height={40}
+          background={theme.colors.outline}
           align="center"
-          width={dySize(300)}>
-          <MCImage
-            image={MochaLogo}
-            width={200}
-            height={200}
-            resizeMode="contain"
-          />
-          <H2 mt={40}>{t('welcome_title')}</H2>
-          <H4 weight="italic" align="center">
-            {t('welcome_title_description')}
-          </H4>
-          <MCButton
-            bordered
-            mt={30}
-            width={240}
-            align="center"
-            onPress={() => NavigationService.navigate('WelcomeOnboard')}>
-            <H3>{t('welcome_reflectionpoints_buttons_continue')}</H3>
-          </MCButton>
-        </MCView>
+          pl={20}
+          pr={20}
+          onPress={() => NavigationService.navigate('VerificationStack')}>
+          <H3 color={theme.colors.background}>
+            {t('welcome_button_community')}
+          </H3>
+        </MCButton>
+        <H5>Requires SMS login</H5>
+        <MCButton
+          br={20}
+          mt={30}
+          mb={40}
+          height={40}
+          background={theme.colors.outline}
+          align="center"
+          pl={20}
+          pr={20}
+          onPress={() => NavigationService.navigate('mainStack')}>
+          <H3 color={theme.colors.background}>
+            {t('welcome_button_self_knowledge')}
+          </H3>
+        </MCButton>
       </MCRootView>
     );
   }

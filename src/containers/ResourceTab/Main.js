@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {routerActions, resourceActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {MCHeader, MCIcon} from 'components/common';
-import {H4} from 'components/styled/Text';
+import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from '../../navigation/NavigationService';
 import ResourceTabView from './TabView';
@@ -36,11 +36,13 @@ class ResourceScreen extends React.PureComponent {
     if (!profile.userToken.length) {
       return (
         <MCRootView>
-          <H4 mb={10}>{t('sign_up_required')}</H4>
+          <H3 mb={10}>{t('sign_up_required')}</H3>
           <MCButton
             bordered
-            onPress={() => NavigationService.navigate('TabFeed')}>
-            <H4>{t('button_go_to_signup')}</H4>
+            pl={20}
+            pr={20}
+            onPress={() => NavigationService.navigate('VerificationStack')}>
+            <H3>{t('button_go_to_signup')}</H3>
           </MCButton>
         </MCRootView>
       );

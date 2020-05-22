@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const HandheartSvg = ({size, theme}) => {
   let color1 = '#FFFFFF';
   let color2 = '#FF2121';
-  if (theme.colors.theme_name === 'Stone') color1 = '#5366FF';
+  if (theme.colors.theme_name === 'Bright') color1 = '#5366FF';
   return (
     <Svg
       aria-hidden="true"

@@ -191,7 +191,7 @@ class BodyAwarenessScreen extends React.Component {
           <MCView align="center" pv={80}>
             <MCImage
               image={
-                theme.colors.theme_name === 'Stone'
+                theme.colors.theme_name === 'Bright'
                   ? BodyStressWhite
                   : BodyStress
               }

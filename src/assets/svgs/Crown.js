@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const CrownSvg = ({size, theme}) => {
   let color = '#FFD700';
-  if (theme.colors.theme_name === 'Stone') color = '#997700';
+  if (theme.colors.theme_name === 'Bright') color = '#997700';
   return (
     <Svg
       aria-hidden="true"
