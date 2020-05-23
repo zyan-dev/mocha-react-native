@@ -16,7 +16,6 @@ class BookmarkResourcesScreen extends React.PureComponent {
 
   componentDidMount() {
     this.props.setBookmarkedResourcePageIndex(1);
-    this.props.getBookmarkedResources(1);
   }
 
   render() {

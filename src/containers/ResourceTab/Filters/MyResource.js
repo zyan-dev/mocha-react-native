@@ -25,7 +25,6 @@ class MyResourceScreen extends React.PureComponent {
 
   componentDidMount() {
     this.props.setMyResourcePageIndex(1);
-    this.props.getMyResources(1);
   }
 
   onPressItem = item => {

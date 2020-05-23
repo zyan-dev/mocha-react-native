@@ -32,7 +32,6 @@ class SocialResourcesScreen extends React.PureComponent {
       setTrustMemberResourcePageIndex,
     } = this.props;
     setTrustMemberResourcePageIndex(1);
-    getTrustMemberResources(1);
     this.getResourceMembers();
   }
 

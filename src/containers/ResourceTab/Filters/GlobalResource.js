@@ -2,6 +2,7 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import * as _ from 'lodash';
 
 import {resourceActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
@@ -32,7 +33,6 @@ class GlobalResourceScreen extends React.PureComponent {
     } = this.props;
     setSearchResourcePageIndex(1);
     setALLResourcePageIndex(1);
-    getAllResources(1);
   }
 
   onPressItem = item => {
@@ -42,14 +42,19 @@ class GlobalResourceScreen extends React.PureComponent {
   filterResource(searchText) {
     this.setState({searchText});
     if (searchText) {
-      const {searchResources, resourceSearchResourceIndex} = this.props;
-      searchResources({
-        title: searchText,
-        type: 'books',
-        pageIndex: resourceSearchResourceIndex,
-      });
+      this.searchBooks();
     }
   }
+
+  searchBooks = _.debounce(() => {
+    const {searchText} = this.state;
+    const {searchResources, resourceSearchResourceIndex} = this.props;
+    searchResources({
+      title: searchText,
+      type: 'books',
+      pageIndex: resourceSearchResourceIndex,
+    });
+  }, 2000);
 
   render() {
     const {focused, sort, selectedMember, searchText} = this.state;
