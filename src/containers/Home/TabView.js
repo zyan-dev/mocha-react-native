@@ -60,6 +60,10 @@ class TabView extends React.PureComponent {
       showProfileDrawer,
       showSocialDrawer,
       getUserCommits,
+      getAllResources,
+      getMyResources,
+      getBookmarkedResources,
+      getTrustMemberResources,
     } = this.props;
     const TabScreens = [
       'TabFeed',
@@ -101,6 +105,10 @@ class TabView extends React.PureComponent {
         break;
       case 1:
         // user clicked Resource Tab
+        userToken.length > 0 && getAllResources(1);
+        userToken.length > 0 && getMyResources(1);
+        userToken.length > 0 && getBookmarkedResources(1);
+        userToken.length > 0 && getTrustMemberResources(1);
         break;
       case 2:
         // user clicked Progress Tab
@@ -260,6 +268,11 @@ const mapStateToProps = state => ({
   mainTabIndex: state.routerReducer.mainTabIndex,
   setCrown: state.otherReducer.setCrown,
   hasMissedMessages: state.chatReducer.hasMissedMessages,
+  resourceAllPageIndex: state.resourceReducer.resourceAllPageIndex,
+  resourceTrustMemberPageIndex:
+    state.resourceReducer.resourceTrustMemberPageIndex,
+  resourceMyPageIndex: state.resourceReducer.resourceMyPageIndex,
+  resourceBookmarkPageIndex: state.resourceReducer.resourceBookmarkPageIndex,
 });
 
 const mapDispatchToProps = {
@@ -273,6 +286,10 @@ const mapDispatchToProps = {
   showSocialDrawer: routerActions.setSocialDrawerOpened,
   showProfileDrawer: routerActions.setProfileDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
+  getAllResources: resourceActions.getAllResources,
+  getMyResources: resourceActions.getMyResources,
+  getBookmarkedResources: resourceActions.getBookmarkedResources,
+  getTrustMemberResources: resourceActions.getTrustMemberResources,
 };
 
 export default withTranslation()(

@@ -125,6 +125,7 @@ class BookResourceScreen extends React.PureComponent {
       selectedResources.forEach(resource => {
         if (
           resource.type == 'books' &&
+          selectedMember &&
           selectedMember._id == resource.trustMember._id
         ) {
           books.push(resource);
