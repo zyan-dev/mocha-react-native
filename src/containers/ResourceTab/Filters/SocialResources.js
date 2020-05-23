@@ -75,6 +75,18 @@ class SocialResourcesScreen extends React.PureComponent {
     this.setState({sort: !this.state.sort});
   };
 
+  getNextPage = () => {
+    const {
+      pageSearching,
+      getTrustMemberResources,
+      resourceTrustMemberPageIndex,
+      resourceTrustMemberLimited,
+    } = this.props;
+
+    if (resourceTrustMemberLimited || pageSearching) return;
+    getTrustMemberResources(resourceTrustMemberPageIndex + 1);
+  };
+
   _renderListItem = ({item}) => {
     const {theme} = this.props;
     const {selectedMember} = this.state;
@@ -121,6 +133,9 @@ class SocialResourcesScreen extends React.PureComponent {
             marginTop: dySize(10),
           }}
           horizontal={true}
+          keyExtractor={item => item._id}
+          onEndReached={() => this.getNextPage()}
+          onEndReachedThreshold={0.5}
         />
         <MCView row>
           {ResourceContentRoots.map(item => (
@@ -175,8 +190,9 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
   trustMemberResources: state.resourceReducer.trustMemberResources,
-  resourceTrustMeberPageIndex:
-    state.resourceReducer.resourceTrustMeberPageIndex,
+  resourceTrustMemberPageIndex:
+    state.resourceReducer.resourceTrustMemberPageIndex,
+  resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
 });
 
 const mapDispatchToProps = {
