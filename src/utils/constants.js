@@ -2224,8 +2224,8 @@ export const DiscoverValues = [
     image: AnimalTit,
   },
   {
-    value: 'environment',
-    category: 'universalism',
+    value: 'boldness',
+    category: 'self-direction',
     name: 'warthog',
     image: AnimalWarthog,
   },
