@@ -183,7 +183,7 @@ class AddResourceScreen extends React.PureComponent {
       const {getResourceByTitle} = this.props;
       getResourceByTitle(searchText);
     }
-  }, 2000);
+  }, 1000);
 
   onPressBrowser = link => {
     Linking.canOpenURL(link).then(supported => {

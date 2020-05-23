@@ -56,7 +56,7 @@ class GlobalResourceScreen extends React.PureComponent {
       type: 'books',
       pageIndex: resourceSearchResourceIndex,
     });
-  }, 2000);
+  }, 1000);
 
   render() {
     const {focused, sort, selectedMember, searchText} = this.state;

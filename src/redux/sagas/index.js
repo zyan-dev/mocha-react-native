@@ -89,9 +89,9 @@ function* mySaga() {
   yield takeLatest(types.UPDATE_TRUST_NETWORK, networkSaga.updateNetwork);
   yield takeLatest(types.DELETE_TRUST_NETWORK, networkSaga.deleteNetwork);
 
-  // Resouurce
-  yield takeEvery(types.GET_ALL_RESOURCES, resourceSaga.getAllResources);
-  yield takeEvery(types.GET_MY_RESOURCES, resourceSaga.getMyResources);
+  // Resource
+  yield takeLatest(types.GET_ALL_RESOURCES, resourceSaga.getAllResources);
+  yield takeLatest(types.GET_MY_RESOURCES, resourceSaga.getMyResources);
   yield takeEvery(types.CREATE_RESOURCES, resourceSaga.createResources);
   yield takeEvery(types.UPDATE_RESOURCES, resourceSaga.updateResources);
   yield takeEvery(types.REMOVE_RESOURCES, resourceSaga.removeResources);
@@ -99,16 +99,19 @@ function* mySaga() {
     types.TOGGLE_BOOKMARKED_RESOURCE,
     resourceSaga.toggleBookmarkedResource,
   );
-  yield takeEvery(
+  yield takeLatest(
     types.GET_BOOKMARKED_RESOURCES,
     resourceSaga.getBookmarkedResources,
   );
-  yield takeEvery(
+  yield takeLatest(
     types.GET_TRUST_MEMBER_RESOURCES,
     resourceSaga.getTrustMemberResources,
   );
-  yield takeEvery(types.SEARCH_RESOURCES, resourceSaga.searchResources);
-  yield takeEvery(types.GET_RESOURCE_BY_TITLE, resourceSaga.getResourceByTitle);
+  yield takeLatest(types.SEARCH_RESOURCES, resourceSaga.searchResources);
+  yield takeLatest(
+    types.GET_RESOURCE_BY_TITLE,
+    resourceSaga.getResourceByTitle,
+  );
 
   // other
   yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);
