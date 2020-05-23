@@ -12,7 +12,7 @@ import {ResourceContentRoots} from 'utils/constants';
 import BookResourceScreen from '../Books/Books';
 import {dySize} from 'utils/responsive';
 
-class AllResourcesScreen extends React.PureComponent {
+class SocialResourcesScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -22,28 +22,74 @@ class AllResourcesScreen extends React.PureComponent {
       showPageIndex: 1,
       selectedMember: {},
       sort: true,
+      members: [],
     };
   }
+
+  componentDidMount() {
+    const {
+      getTrustMemberResources,
+      setTrustMemberResourcePageIndex,
+    } = this.props;
+    setTrustMemberResourcePageIndex(1);
+    this.getResourceMembers();
+  }
+
+  componentDidUpdate(preProps, preState) {
+    if (preProps.trustMemberResources !== this.props.trustMemberResources) {
+      this.getResourceMembers();
+    }
+  }
+
+  getResourceMembers = () => {
+    const {trustMemberResources} = this.props;
+    const {focused} = this.state;
+
+    let members = [];
+    trustMemberResources.forEach(resource => {
+      if (resource.type == focused && resource.data) {
+        members.forEach((member, index) => {
+          if (member._id === resource.trustMember._id) {
+            members.splice(index, 1);
+          }
+        });
+        members.push(resource.trustMember);
+      }
+    });
+    this.setState({
+      members: members,
+      selectedMember: members[0],
+    });
+  };
 
   onPressItem = item => {
     this.setState({focused: item.key});
   };
 
   selectMember = user => {
-    if (user._id == this.state.selectedMember._id) {
-      this.setState({selectedMember: {}});
-    } else {
-      this.setState({selectedMember: user});
-    }
+    this.setState({selectedMember: user});
   };
 
   sortBook = () => {
     this.setState({sort: !this.state.sort});
   };
 
+  getNextPage = () => {
+    const {
+      pageSearching,
+      getTrustMemberResources,
+      resourceTrustMemberPageIndex,
+      resourceTrustMemberLimited,
+    } = this.props;
+
+    if (resourceTrustMemberLimited || pageSearching) return;
+    getTrustMemberResources(resourceTrustMemberPageIndex + 1);
+  };
+
   _renderListItem = ({item}) => {
     const {theme} = this.props;
     const {selectedMember} = this.state;
+
     return (
       <MCButton onPress={() => this.selectMember(item)}>
         <MCView
@@ -68,43 +114,28 @@ class AllResourcesScreen extends React.PureComponent {
   };
 
   render() {
-    const {theme, t, allResources} = this.props;
-    const {focused, sort, selectedMember} = this.state;
-
-    let members = [];
-
-    allResources.forEach(resource => {
-      if (resource.type == focused && resource.data && resource.ownerName) {
-        const temp = {
-          _id: resource.ownerId,
-          name: resource.ownerName,
-          avatar: resource.ownerAvatar,
-        };
-
-        members.forEach((member, index) => {
-          if (member._id == resource.ownerId) {
-            members.splice(index, 1);
-          }
-        });
-
-        members.push(temp);
-      }
-    });
+    const {theme, t, trustMemberResources} = this.props;
+    const {focused, sort, selectedMember, members} = this.state;
 
     return (
-      <MCRootView>
-        <MCView row wrap mt={5} ph={5}>
-          <FlatList
-            data={members}
-            renderItem={this._renderListItem}
-            keyExtractor={item => item._id}
-            keyboardShouldPersistTaps="always"
-            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-            numColumns={1}
-            style={{width: dySize(350)}}
-            horizontal={true}
-          />
-        </MCView>
+      <MCRootView justify="flex-start">
+        <FlatList
+          data={members}
+          renderItem={this._renderListItem}
+          keyExtractor={item => item._id}
+          keyboardShouldPersistTaps="always"
+          ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+          numColumns={1}
+          style={{
+            width: dySize(350),
+            maxHeight: dySize(60),
+            marginTop: dySize(10),
+          }}
+          horizontal={true}
+          keyExtractor={item => item._id}
+          onEndReached={() => this.getNextPage()}
+          onEndReachedThreshold={0.5}
+        />
         <MCView row>
           {ResourceContentRoots.map(item => (
             <MCButton onPress={() => this.onPressItem(item)}>
@@ -119,7 +150,7 @@ class AllResourcesScreen extends React.PureComponent {
         </MCView>
         <MCView row width={350} justify="space-between" align="center">
           <H4 weight="bold" underline>
-            {selectedMember.name
+            {selectedMember && selectedMember.name
               ? `${selectedMember.name}'s`
               : t('resource_type_all')}{' '}
             {t('bookshelf')}
@@ -136,7 +167,12 @@ class AllResourcesScreen extends React.PureComponent {
           </MCButton>
         </MCView>
         {focused == 'books' ? (
-          <BookResourceScreen selectedMember={selectedMember} sort={sort} />
+          <BookResourceScreen
+            selectedMember={selectedMember ? selectedMember : members[0]}
+            sort={sort}
+            from="trust-member"
+            selectedResources={trustMemberResources}
+          />
         ) : (
           <MCContent>
             <MCView align="center">
@@ -151,17 +187,21 @@ class AllResourcesScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  allResources: state.resourceReducer.allResources,
   profile: state.profileReducer,
+  trustMemberResources: state.resourceReducer.trustMemberResources,
+  resourceTrustMemberPageIndex:
+    state.resourceReducer.resourceTrustMemberPageIndex,
+  resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
 });
 
 const mapDispatchToProps = {
-  getAllResources: resourceActions.getAllResources,
+  getTrustMemberResources: resourceActions.getTrustMemberResources,
+  setTrustMemberResourcePageIndex:
+    resourceActions.setTrustMemberResourcePageIndex,
 };
-
 export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(AllResourcesScreen),
+  )(SocialResourcesScreen),
 );

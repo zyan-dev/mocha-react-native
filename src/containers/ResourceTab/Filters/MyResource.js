@@ -23,6 +23,10 @@ class MyResourceScreen extends React.PureComponent {
     };
   }
 
+  componentDidMount() {
+    this.props.setMyResourcePageIndex(1);
+  }
+
   onPressItem = item => {
     this.setState({focused: item.key});
   };
@@ -36,8 +40,16 @@ class MyResourceScreen extends React.PureComponent {
   };
 
   render() {
-    const {t, theme, profile} = this.props;
+    const {t, theme, profile, myResources, resourceMyPageIndex} = this.props;
     const {focused, sort} = this.state;
+    let resources = [];
+    myResources.forEach(resource => {
+      if (resource.type == 'books' && resource.data) {
+        if (profile._id == resource.owner) {
+          resources.push(resource);
+        }
+      }
+    });
 
     return (
       <MCRootView>
@@ -69,7 +81,12 @@ class MyResourceScreen extends React.PureComponent {
           </MCButton>
         </MCView>
         {focused == 'books' ? (
-          <BookResourceScreen selectedMember={profile} sort={sort} />
+          <BookResourceScreen
+            selectedMember={profile}
+            sort={sort}
+            from="my-resource"
+            selectedResources={resources}
+          />
         ) : (
           <MCContent>
             <MCView align="center">
@@ -84,13 +101,19 @@ class MyResourceScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  allResources: state.resourceReducer.allResources,
+  myResources: state.resourceReducer.myResources,
+  resourceMyPageIndex: state.resourceReducer.resourceMyPageIndex,
   profile: state.profileReducer,
 });
+
+const mapDispatchToProps = {
+  getMyResources: resourceActions.getMyResources,
+  setMyResourcePageIndex: resourceActions.setMyResourcePageIndex,
+};
 
 export default withTranslation()(
   connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
   )(MyResourceScreen),
 );

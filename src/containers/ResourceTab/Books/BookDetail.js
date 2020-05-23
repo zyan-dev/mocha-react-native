@@ -2,6 +2,7 @@ import React from 'react';
 import {Linking, ScrollView} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
+import * as _ from 'lodash';
 
 import {routerActions, resourceActions} from 'Redux/actions';
 import {MCRootView, MCView, MCContent} from 'components/styled/View';
@@ -17,8 +18,75 @@ import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {skills, impacts} from 'utils/constants';
 class BookDetailScreen extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bookInfo: null,
+      impactsArray: [],
+      skillsArray: [],
+    };
+  }
+
+  componentDidMount() {
+    const {from, resource} = this.props.route.params;
+    const {allResources, bookmarkedResources, searchedResources} = this.props;
+
+    if (from === 'global' || from === 'bookmark' || from == 'search') {
+      let resources = allResources;
+      if (from === 'bookmark') {
+        resources = bookmarkedResources;
+      }
+      if (from === 'search') {
+        resources = searchedResources;
+      }
+
+      resources.map(item => {
+        if (item.title === resource.data.title) {
+          this.setState({bookInfo: item}, () => {
+            const groupImpacts = _.groupBy(
+              this.state.bookInfo.data,
+              v => v.data.impacts,
+            );
+            const impactsArray = [];
+            Object.keys(groupImpacts).forEach(impact => {
+              const data = {
+                [impact]: groupImpacts[impact].map(
+                  ({ownerAvatar}) => ownerAvatar,
+                ),
+              };
+              impactsArray.push(data);
+            });
+
+            const mapping = [];
+            this.state.bookInfo.data.map(book => {
+              book.data.skills.map(skill => {
+                const item = {
+                  avatar: book.ownerAvatar,
+                  skill: skill,
+                };
+                mapping.push(item);
+              });
+            });
+
+            const groupSkills = _.groupBy(mapping, v => v.skill);
+            const skillsArray = [];
+            Object.keys(groupSkills).forEach(skill => {
+              const data = {
+                [skill]: groupSkills[skill].map(({avatar}) => avatar),
+              };
+              skillsArray.push(data);
+            });
+            this.setState({impactsArray: impactsArray});
+            this.setState({skillsArray: skillsArray});
+          });
+        }
+      });
+    }
+  }
+
   onPressRight = resource => {
-    NavigationService.navigate('AddResource', {resource: resource});
+    const {from} = this.props.route.params;
+    NavigationService.navigate('AddResource', {resource: resource, from: from});
   };
 
   onPressBrowser = link => {
@@ -32,9 +100,9 @@ class BookDetailScreen extends React.PureComponent {
   };
 
   render() {
-    const {t, profile} = this.props;
-    const resource = this.props.route.params.resource;
-    const collaborators = this.props.route.params.collaborators;
+    const {t, theme} = this.props;
+    const {bookInfo, impactsArray, skillsArray} = this.state;
+    const {from, resource} = this.props.route.params;
     const index = impacts.findIndex(
       impact => impact.key === resource.data.impacts,
     );
@@ -46,7 +114,7 @@ class BookDetailScreen extends React.PureComponent {
           hasBack
           leftIcon="arrow-left"
           hasRight
-          rightIcon="edit"
+          rightIcon={from == 'my-resource' ? 'edit' : 'plus'}
           onPressRight={() => this.onPressRight(resource)}
         />
         <MCContent>
@@ -99,49 +167,137 @@ class BookDetailScreen extends React.PureComponent {
             )}
 
             <MCView height={1} bordered width={350} mb={10} mt={10} />
-            <MCView width={350} row>
-              <H5>14 of your TrustMemebers have added this book</H5>
-              <MCView row align="flex-start">
-                <H6 ml={30}>+14</H6>
-                <MCView
-                  row
-                  align="center"
-                  style={{flex: 1}}
-                  ml={26}
-                  overflow="visible">
-                  {collaborators.map(user => (
-                    <MCImage
-                      key={user._id}
-                      image={{uri: user.avatar}}
-                      round
-                      width={30}
-                      height={30}
-                      style={{marginLeft: dySize(-25)}}
+            <MCView width={350} row justify="space-between">
+              {(from === 'global' ||
+                from === 'search' ||
+                from === 'bookmark') &&
+                bookInfo && (
+                  <>
+                    <H5>
+                      {bookInfo.ownerInfo.length} of user
+                      {bookInfo.ownerInfo.length > 1 && 's'} have added this
+                      book
+                    </H5>
+                    <MCView row justify="flex-end" width={180}>
+                      {bookInfo.ownerInfo.slice(0, 3).map((owner, index) => {
+                        return (
+                          <>
+                            <MCView ml={-15}>
+                              <MCImage
+                                key={index}
+                                image={{uri: owner.avatar}}
+                                round
+                                width={30}
+                                height={30}
+                                type="avatar"
+                              />
+                            </MCView>
+                            {bookInfo.ownerInfo.length > 3 && index == 2 && (
+                              <MCView
+                                width={30}
+                                height={30}
+                                bordered
+                                br={15}
+                                background={theme.colors.text}
+                                align="center"
+                                justify="center"
+                                ml={-14}
+                                style={{opacity: 0.8}}>
+                                <H4
+                                  weight="bold"
+                                  color={theme.colors.background}>
+                                  +{bookInfo.ownerInfo.length - 3}
+                                </H4>
+                              </MCView>
+                            )}
+                          </>
+                        );
+                      })}
+                    </MCView>
+                  </>
+                )}
+
+              {/* {from !== 'global' && trustMemebers.length > 0 && (
+                <>
+                  <H5>
+                    {trustMemebers.length} of your TrustMemebers have added this
+                    book
+                  </H5>
+                  <MCView row align="flex-start">
+                    {trustMemebers.slice(0, 3).map((avatar, index) => {
+                      return (
+                        <>
+                          <MCImage
+                            key={index}
+                            image={{uri: avatar}}
+                            round
+                            width={30}
+                            height={30}
+                            style={{marginLeft: dySize(25)}}
+                          />
+                          {trustMemebers.length > 3 && index == 2 && (
+                            <MCView
+                              width={30}
+                              height={30}
+                              bordered
+                              br={15}
+                              background={theme.colors.text}
+                              align="center"
+                              justify="center"
+                              style={{opacity: 0.8}}>
+                              <H4 weight="bold" color={theme.colors.background}>
+                                +{trustMemebers.length - 3}
+                              </H4>
+                            </MCView>
+                          )}
+                        </>
+                      );
+                    })}
+                  </MCView>
+                </>
+              )} */}
+            </MCView>
+
+            {from == 'global' || from == 'search' || from == 'bookmark' ? (
+              <MCView width={350} mb={30} row justify="center">
+                <MCView align="center" style={{flex: 1}}>
+                  <H4 underline>{t('resource_type_book_impact')}</H4>
+                  {impactsArray.map(item => (
+                    <MCBookTagsView
+                      tags={[impacts[parseInt(Object.keys(item) - 1)]]}
+                      impact={true}
+                      users={item[Object.keys(item)]}
+                      t={t}
+                      theme={theme}
+                    />
+                  ))}
+                </MCView>
+                <MCView align="center" style={{flex: 1}}>
+                  <H4 underline>{t('resource_type_book_skill')}</H4>
+                  {skillsArray.map(item => (
+                    <MCBookTagsView
+                      tags={Object.keys(item)}
+                      impact={false}
+                      users={item[Object.keys(item)]}
+                      t={t}
+                      theme={theme}
                     />
                   ))}
                 </MCView>
               </MCView>
-            </MCView>
+            ) : (
+              <MCView width={350} mb={30} row justify="center">
+                <MCView align="center" style={{flex: 1}}>
+                  <H4 underline>{t('resource_type_book_impact')}</H4>
+                  <MCBookTagsView tags={[impacts[index]]} impact={true} t={t} />
+                </MCView>
+                <MCView align="center" style={{flex: 1}}>
+                  <H4 underline>{t('resource_type_book_skill')}</H4>
+                  <MCBookTagsView tags={resource.data.skills} t={t} />
+                </MCView>
+              </MCView>
+            )}
 
-            <MCView width={350} mb={30} row justify="center">
-              <MCView align="center" style={{flex: 1}}>
-                <H4 underline>{t('resource_type_book_impact')}</H4>
-                <MCBookTagsView
-                  tags={[impacts[index]]}
-                  impact={true}
-                  collaborators={collaborators}
-                  t={t}
-                />
-              </MCView>
-              <MCView align="center" style={{flex: 1}}>
-                <H4 underline>{t('resource_type_book_skill')}</H4>
-                <MCBookTagsView
-                  tags={resource.data.skills}
-                  collaborators={collaborators}
-                  t={t}
-                />
-              </MCView>
-            </MCView>
             <MCView height={1} bordered width={350} />
             <MCView pv={10} width={350}>
               <H5 weight="bold">{t('resource_type_book_description')}</H5>
@@ -158,14 +314,14 @@ class BookDetailScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  bookmarkedResources: state.resourceReducer.bookmarkedResources,
   allResources: state.resourceReducer.allResources,
+  bookmarkedResources: state.resourceReducer.bookmarkedResources,
+  searchedResources: state.resourceReducer.searchedResources,
   profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {
   showDrawer: routerActions.setProfileDrawerOpened,
-  bookmarkResource: resourceActions.bookmarkResource,
   getAllResources: resourceActions.getAllResources,
 };
 
