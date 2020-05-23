@@ -161,7 +161,7 @@ class TabView extends React.PureComponent {
                   style={{
                     position: 'absolute',
                     top: dySize(25),
-                    right: dySize(30),
+                    right: dySize(20),
                   }}
                   width={12}
                   height={12}
