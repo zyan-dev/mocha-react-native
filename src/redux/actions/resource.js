@@ -88,3 +88,7 @@ export const setSearchResourcePageIndex = index => ({
   type: types.SET_SEARCH_RESOURCE_PAGE_INDEX,
   payload: index,
 });
+
+export const resetSearchResources = () => ({
+  type: types.RESET_SEARCH_RESOURCES,
+});

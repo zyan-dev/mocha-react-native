@@ -159,6 +159,11 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
         ...state,
         resourceSearchResourceIndex: action.payload,
       };
+    case types.RESET_SEARCH_RESOURCES:
+      return {
+        ...state,
+        searchedResources: state.allResources,
+      };
 
     case types.UPDATE_SELECTED_RESOURCE:
       return {

@@ -22,6 +22,7 @@ class GlobalResourceScreen extends React.PureComponent {
       selectedMember: {},
       sort: true,
       searchText: '',
+      searched: false,
     };
   }
 
@@ -41,8 +42,11 @@ class GlobalResourceScreen extends React.PureComponent {
 
   filterResource(searchText) {
     this.setState({searchText});
+    this.setState({searched: false});
     if (searchText) {
       this.searchBooks();
+    } else {
+      this.props.resetSearchResources();
     }
   }
 
@@ -54,14 +58,15 @@ class GlobalResourceScreen extends React.PureComponent {
       type: 'books',
       pageIndex: resourceSearchResourceIndex,
     });
+    this.setState({searched: true});
   }, 2000);
 
   render() {
-    const {focused, sort, selectedMember, searchText} = this.state;
+    const {focused, sort, selectedMember, searchText, searched} = this.state;
     const {t, theme, searchedResources, allResources} = this.props;
     let resources = allResources,
       from = 'global';
-    if (searchText) {
+    if (searched) {
       resources = searchedResources;
       from = 'search';
     }
@@ -118,6 +123,7 @@ const mapDispatchToProps = {
   getAllResources: resourceActions.getAllResources,
   setALLResourcePageIndex: resourceActions.setALLResourcePageIndex,
   searchResources: resourceActions.searchResources,
+  resetSearchResources: resourceActions.resetSearchResources,
   setSearchResourcePageIndex: resourceActions.setSearchResourcePageIndex,
 };
 
