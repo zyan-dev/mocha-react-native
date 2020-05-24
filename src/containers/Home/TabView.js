@@ -23,6 +23,7 @@ import {
   routerActions,
   otherActions,
   resourceActions,
+  networkActions,
 } from 'Redux/actions';
 
 const TabBarHeight = 80;
@@ -60,6 +61,14 @@ class TabView extends React.PureComponent {
       showSocialDrawer,
       getUserCommits,
       getAllResources,
+      getMyResources,
+      getBookmarkedResources,
+      getTrustMemberResources,
+      setALLResourcePageIndex,
+      setSearchResourcePageIndex,
+      setMyResourcePageIndex,
+      setTrustMemberResourcePageIndex,
+      setBookmarkedResourcePageIndex,
     } = this.props;
     const TabScreens = [
       'TabFeed',
@@ -101,8 +110,15 @@ class TabView extends React.PureComponent {
         break;
       case 1:
         // user clicked Resource Tab
-        userToken.length > 0 && getAllResources();
-        showSocialDrawer(false);
+        userToken.length > 0 && setALLResourcePageIndex(1);
+        userToken.length > 0 && setSearchResourcePageIndex(1);
+        userToken.length > 0 && setMyResourcePageIndex(1);
+        userToken.length > 0 && setTrustMemberResourcePageIndex(1);
+        userToken.length > 0 && setBookmarkedResourcePageIndex(1);
+        userToken.length > 0 && getAllResources(1);
+        userToken.length > 0 && getMyResources(1);
+        userToken.length > 0 && getBookmarkedResources(1);
+        userToken.length > 0 && getTrustMemberResources(1);
         break;
       case 2:
         // user clicked Progress Tab
@@ -262,6 +278,11 @@ const mapStateToProps = state => ({
   mainTabIndex: state.routerReducer.mainTabIndex,
   setCrown: state.otherReducer.setCrown,
   hasMissedMessages: state.chatReducer.hasMissedMessages,
+  resourceAllPageIndex: state.resourceReducer.resourceAllPageIndex,
+  resourceTrustMemberPageIndex:
+    state.resourceReducer.resourceTrustMemberPageIndex,
+  resourceMyPageIndex: state.resourceReducer.resourceMyPageIndex,
+  resourceBookmarkPageIndex: state.resourceReducer.resourceBookmarkPageIndex,
 });
 
 const mapDispatchToProps = {
@@ -276,6 +297,16 @@ const mapDispatchToProps = {
   showProfileDrawer: routerActions.setProfileDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
   getAllResources: resourceActions.getAllResources,
+  getMyResources: resourceActions.getMyResources,
+  getBookmarkedResources: resourceActions.getBookmarkedResources,
+  getTrustMemberResources: resourceActions.getTrustMemberResources,
+  setALLResourcePageIndex: resourceActions.setALLResourcePageIndex,
+  setSearchResourcePageIndex: resourceActions.setSearchResourcePageIndex,
+  setTrustMemberResourcePageIndex:
+    resourceActions.setTrustMemberResourcePageIndex,
+  setMyResourcePageIndex: resourceActions.setMyResourcePageIndex,
+  setBookmarkedResourcePageIndex:
+    resourceActions.setBookmarkedResourcePageIndex,
 };
 
 export default withTranslation()(

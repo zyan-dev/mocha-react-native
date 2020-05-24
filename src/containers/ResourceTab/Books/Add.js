@@ -112,12 +112,12 @@ class AddResourceScreen extends React.PureComponent {
       selectedResource,
       createResources,
       updateResources,
-      searchResource,
+      resourceByTitle,
     } = this.props;
     const {selectedImpacts, selectedSkills, selectedTags} = this.state;
-
+    const {from} = this.props.route.params;
     this.setState({submitted: true});
-    let resource = searchResource;
+    let resource = resourceByTitle;
     // let type;
 
     // if (this.props.route.params.root) {
@@ -149,7 +149,8 @@ class AddResourceScreen extends React.PureComponent {
     resource.data.skills = skills;
 
     delete resource.data.type;
-    if (resource._id) {
+
+    if (resource._id && from == 'my-resource') {
       const data = {
         _id: resource._id,
         ...resource,
@@ -170,17 +171,19 @@ class AddResourceScreen extends React.PureComponent {
   };
 
   validateTitle = () => {
-    const {searchResource} = this.props;
-    return searchResource && searchResource.data && searchResource.data.title;
+    const {resourceByTitle} = this.props;
+    return (
+      resourceByTitle && resourceByTitle.data && resourceByTitle.data.title
+    );
   };
 
   searchBook = _.debounce(() => {
     const {searchText} = this.state;
     if (searchText.length > 2) {
-      const {searchResources} = this.props;
-      searchResources(searchText);
+      const {getResourceByTitle} = this.props;
+      getResourceByTitle(searchText);
     }
-  }, 2000);
+  }, 1000);
 
   onPressBrowser = link => {
     Linking.canOpenURL(link).then(supported => {
@@ -200,9 +203,9 @@ class AddResourceScreen extends React.PureComponent {
       selectedTags,
       searchText,
     } = this.state;
-    const {t, searchResource} = this.props;
+    const {t, resourceByTitle} = this.props;
 
-    let resource = searchResource;
+    let resource = resourceByTitle;
 
     if (this.props.route.params && this.props.route.params.resource) {
       resource = this.props.route.params.resource;
@@ -367,14 +370,14 @@ class AddResourceScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   selectedResource: state.resourceReducer.selectedResource,
-  searchResource: state.resourceReducer.searchResource,
+  resourceByTitle: state.resourceReducer.resourceByTitle,
 });
 
 const mapDispatchToProps = {
   updateSelectedResource: resourceActions.updateSelectedResource,
   createResources: resourceActions.createResources,
   updateResources: resourceActions.updateResources,
-  searchResources: resourceActions.searchResources,
+  getResourceByTitle: resourceActions.getResourceByTitle,
 };
 
 export default withTranslation()(

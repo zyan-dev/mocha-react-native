@@ -23,7 +23,7 @@ export default class MCBookTagsView extends React.PureComponent {
   };
 
   render() {
-    const {t, tags, impact, collaborators} = this.props;
+    const {t, tags, impact, users, theme} = this.props;
 
     return (
       <MCView column align="center">
@@ -38,7 +38,6 @@ export default class MCBookTagsView extends React.PureComponent {
               <TagView
                 key={index}
                 ph={5}
-                mb={25}
                 align="center"
                 type={impact}
                 numberOfLines={1}>
@@ -48,35 +47,41 @@ export default class MCBookTagsView extends React.PureComponent {
                   ? t(tag.slice('resource_manual_'.length))
                   : t(`resource_book_skills_${tag}`)}
               </TagView>
-              {collaborators && (
-                <MCView
-                  row
-                  align="flex-start"
-                  absolute
-                  style={{
-                    top: 28,
-                    left: 50,
-                  }}>
-                  <H6 ml={30}>+12</H6>
-                  <MCView
-                    row
-                    align="center"
-                    style={{flex: 1}}
-                    ml={15}
-                    overflow="visible">
-                    {collaborators.map(user => (
-                      <MCImage
-                        key={user._id}
-                        image={{uri: user.avatar}}
-                        round
-                        width={20}
-                        height={20}
-                        style={{marginLeft: dySize(-15)}}
-                      />
-                    ))}
-                  </MCView>
-                </MCView>
-              )}
+              <MCView row justify="flex-end" mt={-10} mb={20} width={120}>
+                {users &&
+                  users.slice(0, 3).map((avatar, index) => {
+                    return (
+                      <>
+                        <MCView ml={-14}>
+                          <MCImage
+                            key={index}
+                            image={{uri: avatar}}
+                            round
+                            width={28}
+                            height={28}
+                            type="avatar"
+                          />
+                        </MCView>
+                        {users.length > 3 && index == 2 && (
+                          <MCView
+                            width={28}
+                            height={28}
+                            bordered
+                            br={14}
+                            background={theme.colors.text}
+                            align="center"
+                            justify="center"
+                            ml={-14}
+                            style={{opacity: 0.8}}>
+                            <H4 weight="bold" color={theme.colors.background}>
+                              +{users.length - 3}
+                            </H4>
+                          </MCView>
+                        )}
+                      </>
+                    );
+                  })}
+              </MCView>
             </MCView>
           ))
         )}

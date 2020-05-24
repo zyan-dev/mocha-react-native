@@ -2224,8 +2224,8 @@ export const DiscoverValues = [
     image: AnimalTit,
   },
   {
-    value: 'environment',
-    category: 'universalism',
+    value: 'boldness',
+    category: 'self-direction',
     name: 'warthog',
     image: AnimalWarthog,
   },
@@ -2487,16 +2487,16 @@ export const ResourcesRoots = [
     icon: 'globe',
   },
   {
-    key: 'users',
+    key: 'social',
     icon: 'users',
   },
   {
-    key: 'user',
+    key: 'me',
     icon: 'user',
   },
   {
-    key: 'search',
-    icon: 'search',
+    key: 'bookmark',
+    icon: 'bookmark',
   },
 ];
 
