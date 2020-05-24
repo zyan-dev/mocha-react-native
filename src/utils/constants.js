@@ -118,7 +118,7 @@ export const ProfileSideMenuList = [
     icon: 'ios-link',
     iconType: 'Ionicon',
     title: 'profile_menu_signin',
-    redirectTo: 'Verification',
+    redirectTo: 'VerificationStack',
     registerRequired: false,
   },
   {
