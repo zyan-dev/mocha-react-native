@@ -238,7 +238,6 @@ class TabView extends React.PureComponent {
               ) : (
                 <UserLightSvg
                   size={TabIconSize}
-                  theme={theme}
                   color={
                     mainTabIndex === 4
                       ? theme.colors.outline
