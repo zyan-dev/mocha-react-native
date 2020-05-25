@@ -28,15 +28,10 @@ class ResourceTabView extends React.Component {
       getMyResources,
       getBookmarkedResources,
       getTrustMemberResources,
-      pageSearching,
       resourceAllPageIndex,
-      resourceAllPageLimited,
       resourceMyPageIndex,
-      resourceMyPageLimited,
       resourceBookmarkPageIndex,
-      resourceBookmarkLimited,
       resourceTrustMemberPageIndex,
-      resourceTrustMemberLimited,
     } = this.props;
 
     switch (index) {
@@ -62,7 +57,7 @@ class ResourceTabView extends React.Component {
   };
 
   render() {
-    const {t, theme, tabIndex, isShowingUserHabit} = this.props;
+    const {t, theme, tabIndex} = this.props;
 
     const renderScene = SceneMap({
       globe: GlobalResourceScreen,
@@ -112,10 +107,6 @@ class ResourceTabView extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   userToken: state.profileReducer.userToken,
-  resourceAllPageLimited: state.resourceReducer.resourceAllPageLimited,
-  resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
-  resourceMyPageLimited: state.resourceReducer.resourceMyPageLimited,
-  resourceBookmarkLimited: state.resourceReducer.resourceBookmarkLimited,
   resourceAllPageIndex: state.resourceReducer.resourceAllPageIndex,
   resourceTrustMemberPageIndex:
     state.resourceReducer.resourceTrustMemberPageIndex,
@@ -123,7 +114,6 @@ const mapStateToProps = state => ({
   resourceBookmarkPageIndex: state.resourceReducer.resourceBookmarkPageIndex,
   resourceSearchResourceIndex:
     state.resourceReducer.resourceSearchResourceIndex,
-  pageSearching: state.resourceReducer.pageSearching,
 });
 
 const mapDispatchToProps = {
