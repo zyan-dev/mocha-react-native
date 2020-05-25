@@ -29,6 +29,7 @@ const URL_RESOURCE = '/resource';
 const URL_CONTACT_US = '/contact-us';
 const URL_SEARCH_RESOURCE = '/resource/books';
 const URL_CHAT = '/chat';
+const URL_POST = '/posts';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -177,6 +178,8 @@ const updateChatRoom = param =>
   apiCall('patch', `${URL_CHAT}/${param._id}`, param, true);
 const deleteChatRoom = roomId =>
   apiCall('delete', `${URL_CHAT}/${roomId}`, {}, true);
+const addPosts = param => apiCall('post', `${URL_POST}`, param, true);
+const removePosts = param => apiCall('post', `${URL_POST}/remove`, param, true);
 
 export default {
   sendSMS,
@@ -228,4 +231,6 @@ export default {
   getMyChatRooms,
   updateChatRoom,
   deleteChatRoom,
+  addPosts,
+  removePosts,
 };

@@ -40,7 +40,9 @@ class ProfileSideMenu extends React.Component {
     this.props.showDrawer(false);
     if (menu.title === 'profile_menu_signout') {
       this.props.resetAllReducer();
-      NavigationService.reset('welcomeStack');
+      setTimeout(() => {
+        NavigationService.reset('welcomeStack');
+      });
       AsyncStorage.removeItem('userToken');
     } else if (menu.title === 'profile_menu_delete') {
       Alert.alert(

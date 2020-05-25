@@ -41,7 +41,7 @@ class ProfileExpertScreen extends React.Component {
             <MCIcon
               type="FontAwesome5Pro-Solid"
               name="chess-queen-alt"
-              size={50}
+              size={40}
             />
           }
           hasRight

@@ -57,7 +57,7 @@ class AddPostScreen extends React.Component {
     this.setState({submitted: true});
     if (!this.validateTitle()) return;
     if (!this.validateContent()) return;
-    alert(JSON.stringify(this.props.selectedPost));
+    this.props.addOrUpdatePost();
   };
 
   onPressAttachment = () => {
@@ -232,6 +232,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   updateSelectedPost: postActions.updateSelectedPost,
+  addOrUpdatePost: postActions.addOrUpdatePost,
 };
 
 export default withTranslation()(

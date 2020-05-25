@@ -21,3 +21,7 @@ export const updateSelectedPost = data => ({
   type: types.UPDATE_SELECTED_POST,
   payload: data,
 });
+
+export const addOrUpdatePost = () => ({
+  type: types.ADD_OR_UPDATE_POST,
+});

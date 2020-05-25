@@ -118,7 +118,7 @@ export const ProfileSideMenuList = [
     icon: 'ios-link',
     iconType: 'Ionicon',
     title: 'profile_menu_signin',
-    redirectTo: 'Verification',
+    redirectTo: 'VerificationStack',
     registerRequired: false,
   },
   {
@@ -2281,7 +2281,7 @@ export const StrengthOptions = [
     key: 'interpersonal',
     iconType: 'FontAwesome5Pro',
     icon: 'handshake',
-    width: 250,
+    width: 150,
   },
   {
     key: 'linguistic',

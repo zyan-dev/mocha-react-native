@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {Header, Left, Body, Right, Icon} from 'native-base';
-import {H2, H3, H4} from '../styled/Text';
+import {H3, H4, H5} from '../styled/Text';
 import {MCView} from '../styled/View';
 import {MCIcon} from '.';
 import {MCButton} from '../styled/Button';
@@ -23,19 +23,19 @@ const HeaderWrapper = styled(Header)`
 `;
 
 const HeaderLeft = styled(Left)`
-  flex: 1;
+  width: ${dySize(60)}px;
   justify-content: center;
   align-items: flex-start;
 `;
 
 const HeaderRight = styled(Right)`
-  flex: 1;
+  width: ${dySize(60)}px;
   justify-content: flex-end;
   align-items: center;
 `;
 
 const HeaderBody = styled(Body)`
-  flex: 6;
+  min-width: ${dySize(235)}px;
   justify-content: center;
   align-items: center;
   flex-direction: row;
@@ -106,9 +106,9 @@ class MCHeader extends React.PureComponent {
     } = this.props;
     return (
       <HeaderWrapper style={style}>
-        <HeaderLeft style={{width: 60}}>
+        <HeaderLeft>
           {hasBack && (
-            <MCButton width={70} onPress={() => onPressBack()}>
+            <MCButton onPress={() => onPressBack()}>
               <MCIcon type={leftIconType} name={leftIcon} size={leftIconSize} />
               {hasLeftBadge && (
                 <MCView
@@ -128,42 +128,28 @@ class MCHeader extends React.PureComponent {
           )}
         </HeaderLeft>
         <HeaderBody>
-          <H2 mr={6} ml={6} weight="bold" align="center" numberOfLines={2}>
+          <H3 mr={6} ml={6} weight="bold" align="center" numberOfLines={2}>
             {title}
-          </H2>
+          </H3>
           {headerIcon}
         </HeaderBody>
         <HeaderRight>
-          {hasRight && rightText.length > 0 && (
-            <MCButton
-              width={80}
-              align="flex-end"
-              onPress={() => onPressRight()}>
-              <H4>{rightText}</H4>
-            </MCButton>
-          )}
-          {hasRight && rightIcon.length > 0 && (
-            <MCButton
-              width={80}
-              rippleSize={40}
-              align="flex-end"
-              onPress={() => onPressRight()}>
+          <MCButton align="center" onPress={() => onPressRight()}>
+            {hasRight && rightIcon.length > 0 && (
               <MCIcon
                 type={rightIconType}
                 name={rightIcon}
                 size={rightIconSize}
+                padding={1}
               />
-            </MCButton>
-          )}
-          {hasRight && rightImage && (
-            <MCButton
-              width={80}
-              rippleSize={40}
-              align="flex-end"
-              onPress={() => onPressRight()}>
-              {rightImage}
-            </MCButton>
-          )}
+            )}
+            {hasRight && rightImage && rightImage}
+            {hasRight && rightText.length > 0 && (
+              <H5 align="center" pv={1}>
+                {rightText}
+              </H5>
+            )}
+          </MCButton>
         </HeaderRight>
       </HeaderWrapper>
     );
