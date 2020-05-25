@@ -264,12 +264,23 @@ export function* createResources(action) {
     if (response.data.status === 'success') {
       const {resourceReducer} = yield select();
       yield put({
-        type: types.GET_ALL_RESOURCES,
-        payload: resourceReducer.resourceAllPageIndex,
-      });
-      yield put({
         type: types.GET_MY_RESOURCES,
-        payload: resourceReducer.resourceMyPageIndex,
+        payload: 1,
+      });
+
+      yield put({
+        type: types.GET_ALL_RESOURCES,
+        payload: 1,
+      });
+
+      yield put({
+        type: types.SET_MY_RESOURCE_PAGE_INDEX,
+        payload: 1,
+      });
+
+      yield put({
+        type: types.SET_ALL_RESOURCE_PAGE_INDEX,
+        payload: 1,
       });
 
       yield put({
@@ -299,8 +310,24 @@ export function* updateResources(action) {
       const {resourceReducer} = yield select();
       yield put({
         type: types.GET_MY_RESOURCES,
-        payload: resourceReducer.resourceMyPageIndex,
+        payload: 1,
       });
+
+      yield put({
+        type: types.GET_ALL_RESOURCES,
+        payload: 1,
+      });
+
+      yield put({
+        type: types.SET_MY_RESOURCE_PAGE_INDEX,
+        payload: 1,
+      });
+
+      yield put({
+        type: types.SET_ALL_RESOURCE_PAGE_INDEX,
+        payload: 1,
+      });
+
       yield put({
         type: types.SET_RESOURCE_BY_TITLE,
         payload: {},
@@ -345,19 +372,39 @@ export function* toggleBookmarkedResource(action) {
         const {resourceReducer} = yield select();
         yield put({
           type: types.GET_BOOKMARKED_RESOURCES,
-          payload: resourceReducer.resourceBookmarkPageIndex,
+          payload: 1,
         });
         yield put({
           type: types.GET_ALL_RESOURCES,
-          payload: resourceReducer.resourceAllPageIndex,
+          payload: 1,
         });
         yield put({
           type: types.GET_MY_RESOURCES,
-          payload: resourceReducer.resourceMyPageIndex,
+          payload: 1,
         });
         yield put({
           type: types.GET_TRUST_MEMBER_RESOURCES,
-          payload: resourceReducer.resourceTrustMemberPageIndex,
+          payload: 1,
+        });
+
+        yield put({
+          type: types.SET_MY_RESOURCE_PAGE_INDEX,
+          payload: 1,
+        });
+
+        yield put({
+          type: types.SET_ALL_RESOURCE_PAGE_INDEX,
+          payload: 1,
+        });
+
+        yield put({
+          type: types.SET_BOOKMARKED_RESOURCE_PAGE_INDEX,
+          payload: 1,
+        });
+
+        yield put({
+          type: types.SET_TRUST_MEMBER_RESOURCE_PAGE_INDEX,
+          payload: 1,
         });
       } else {
         yield put({
