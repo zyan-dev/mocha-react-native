@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {withTranslation} from 'react-i18next';
 import {MCRootView, MCView} from 'components/styled/View';
-import {MCImage} from 'components/common';
+import {MCHeader} from 'components/common';
 import {H2, H3, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {
@@ -19,6 +19,7 @@ class WelcomeToMocha extends React.PureComponent {
     const {t, theme} = this.props;
     return (
       <MCRootView justify="flex-start">
+        <MCHeader hasBack={false} />
         <WideOvalGreenImage
           source={OvalGreenWide}
           opacity={0.5}
@@ -29,7 +30,7 @@ class WelcomeToMocha extends React.PureComponent {
           opacity={0.5}
           resizeMode="stretch"
         />
-        <H2 mt={100} weight="bold">
+        <H2 mt={40} weight="bold">
           {t('welcome_title')}
         </H2>
         <H4 weight="italic" align="center" ph={60}>

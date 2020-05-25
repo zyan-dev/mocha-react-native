@@ -1,4 +1,5 @@
 import React from 'react';
+import {StatusBar} from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
@@ -23,28 +24,30 @@ const HeaderWrapper = styled(Header)`
 `;
 
 const HeaderLeft = styled(Left)`
-  width: ${dySize(60)}px;
+  max-width: ${dySize(60)}px;
+  min-width: ${dySize(60)}px;
   justify-content: center;
   align-items: flex-start;
 `;
 
 const HeaderRight = styled(Right)`
-  width: ${dySize(60)}px;
+  max-width: ${dySize(60)}px;
+  min-width: ${dySize(60)}px;
   justify-content: flex-end;
   align-items: center;
 `;
 
 const HeaderBody = styled(Body)`
-  min-width: ${dySize(235)}px;
+  max-width: ${dySize(235)}px;
   justify-content: center;
   align-items: center;
   flex-direction: row;
 `;
 
-const HeaderIcon = styled(Icon)`
-  font-size: ${dySize(30)};
-  color: ${props => props.theme.colors.text};
-`;
+const StatusBarStyles = {
+  Bright: 'dark-content',
+  Dark: 'light-content',
+};
 
 class MCHeader extends React.PureComponent {
   static propTypes = {
@@ -105,7 +108,10 @@ class MCHeader extends React.PureComponent {
       theme,
     } = this.props;
     return (
-      <HeaderWrapper style={style}>
+      <HeaderWrapper
+        androidStatusBarColor={theme.colors.background}
+        style={style}>
+        <StatusBar barStyle={StatusBarStyles[theme.colors.theme_name]} />
         <HeaderLeft>
           {hasBack && (
             <MCButton onPress={() => onPressBack()}>
