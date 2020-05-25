@@ -145,14 +145,14 @@ export const ProfileSideMenuList = [
     redirectTo: 'Settings',
     registerRequired: true,
   },
-  {
-    index: 4,
-    icon: 'ios-send',
-    iconType: 'Ionicon',
-    title: 'profile_menu_cv',
-    redirectTo: 'SendMochaCV',
-    registerRequired: true,
-  },
+  // {
+  //   index: 4,
+  //   icon: 'ios-send',
+  //   iconType: 'Ionicon',
+  //   title: 'profile_menu_cv',
+  //   redirectTo: 'SendMochaCV',
+  //   registerRequired: true,
+  // },
   {
     index: 5,
     icon: 'ios-notifications-outline',
