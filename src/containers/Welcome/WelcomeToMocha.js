@@ -21,15 +21,15 @@ class WelcomeToMocha extends React.PureComponent {
       <MCRootView justify="flex-start">
         <WideOvalGreenImage
           source={OvalGreenWide}
-          opacity={1}
+          opacity={0.5}
           resizeMode="stretch"
         />
         <WideOvalYellowImage
           source={OvalYellowWide}
-          opacity={1}
+          opacity={0.5}
           resizeMode="stretch"
         />
-        <H2 mt={60} weight="bold">
+        <H2 mt={100} weight="bold">
           {t('welcome_title')}
         </H2>
         <H4 weight="italic" align="center" ph={60}>
@@ -55,7 +55,7 @@ class WelcomeToMocha extends React.PureComponent {
         <MCButton
           br={20}
           mt={30}
-          mb={40}
+          mb={100}
           height={40}
           background={theme.colors.outline}
           align="center"

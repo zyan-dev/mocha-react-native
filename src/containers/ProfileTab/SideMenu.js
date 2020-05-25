@@ -133,8 +133,11 @@ class ProfileSideMenu extends React.Component {
                 key={menu.index}
                 style={{width: '100%'}}
                 row
+                align="center"
                 onPress={() => this.onPressItem(menu)}>
-                <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
+                <MCView width={30} align="center">
+                  <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
+                </MCView>
                 <MCView>
                   <H3
                     ml={6}
