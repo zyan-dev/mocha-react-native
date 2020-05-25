@@ -12,7 +12,6 @@ export function* getAllResources(action) {
       payload: true,
     });
 
-    yield put({type: types.API_CALLING});
     const response = yield call(API.getAllResources, action.payload);
 
     if (response.data.status === 'success') {
@@ -62,7 +61,6 @@ export function* getMyResources(action) {
       payload: true,
     });
 
-    yield put({type: types.API_CALLING});
     const response = yield call(API.getMyResources, action.payload);
 
     if (response.data.status === 'success') {
@@ -113,7 +111,6 @@ export function* getBookmarkedResources(action) {
       payload: true,
     });
 
-    yield put({type: types.API_CALLING});
     const response = yield call(API.getBookmarkedResources, action.payload);
 
     if (response.data.status === 'success') {
@@ -164,7 +161,6 @@ export function* getTrustMemberResources(action) {
       payload: true,
     });
 
-    yield put({type: types.API_CALLING});
     const response = yield call(API.getTrustMemberResources, action.payload);
 
     if (response.data.status === 'success') {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Clipboard, ScrollView} from 'react-native';
+import {Clipboard, ScrollView, FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
@@ -7,7 +7,7 @@ import Swiper from 'react-native-swiper';
 
 import {MCView} from 'components/styled/View';
 import {MCBookTagsView, MCImage, MCIcon} from 'components/common';
-import {H3, H4, H5} from 'components/styled/Text';
+import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {showAlert} from 'services/operators';
 import {dySize} from 'utils/responsive';
@@ -90,6 +90,32 @@ class BookItem extends React.Component {
     });
   };
 
+  _renderListItem = ({item}) => {
+    const {theme, t} = this.props;
+
+    return (
+      <MCView
+        mr={10}
+        mb={5}
+        br={10}
+        background={theme.colors.text}
+        height={30}
+        ph={10}
+        align="center"
+        justify="center">
+        {item && item.indexOf('resource_manual_') > -1 ? (
+          <H5 color={theme.colors.background}>
+            {t(item.slice('resource_manual_'.length))}
+          </H5>
+        ) : (
+          <H5 color={theme.colors.background}>
+            {t(`resource_book_skills_${item}`)}
+          </H5>
+        )}
+      </MCView>
+    );
+  };
+
   render() {
     const {t, resource, theme, from, profile} = this.props;
     const {bookInfo} = this.state;
@@ -164,41 +190,30 @@ class BookItem extends React.Component {
               </MCView>
             </MCView>
           </MCView>
-          {from != 'global' && from != 'search' && from != 'bookmark' && (
-            <>
-              <MCView bordered mt={10} mb={10} width={300} />
-              <MCView width={300}>
-                <H4 underline>{t('resource_type_book_skill')}</H4>
-                <MCView row wrap>
-                  {resource.data.skills.map(
-                    (skill, index) =>
-                      index < 3 && (
-                        <MCView
-                          mr={10}
-                          mb={5}
-                          br={10}
-                          background={theme.colors.text}
-                          height={30}
-                          ph={10}
-                          align="center"
-                          justify="center">
-                          {skill.indexOf('resource_manual_') > -1 ? (
-                            <H5 color={theme.colors.background}>
-                              {t(skill.slice('resource_manual_'.length))}
-                            </H5>
-                          ) : (
-                            <H5 color={theme.colors.background}>
-                              {t(`resource_book_skills_${skill}`)}
-                            </H5>
-                          )}
-                        </MCView>
-                      ),
-                  )}
-                </MCView>
-              </MCView>
-            </>
-          )}
         </MCButton>
+
+        {from != 'global' && from != 'search' && from != 'bookmark' && (
+          <>
+            <MCView bordered mt={10} mb={10} width={300} />
+            <MCView width={300}>
+              <H4 underline>{t('resource_type_book_skill')}</H4>
+            </MCView>
+            <FlatList
+              data={resource.data.skills}
+              renderItem={this._renderListItem}
+              keyExtractor={item => item}
+              keyboardShouldPersistTaps="always"
+              ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+              numColumns={1}
+              style={{
+                width: dySize(300),
+                maxHeight: dySize(60),
+                marginTop: dySize(10),
+              }}
+              horizontal={true}
+            />
+          </>
+        )}
 
         <MCView width={30} height={30} absolute style={{right: 0, top: 10}}>
           <MCButton onPress={() => this.onPressBookmark(resource)}>

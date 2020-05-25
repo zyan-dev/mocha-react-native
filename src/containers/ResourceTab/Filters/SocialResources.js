@@ -32,6 +32,7 @@ class SocialResourcesScreen extends React.PureComponent {
       setTrustMemberResourcePageIndex,
     } = this.props;
     setTrustMemberResourcePageIndex(1);
+    getTrustMemberResources(1);
     this.getResourceMembers();
   }
 
@@ -132,7 +133,6 @@ class SocialResourcesScreen extends React.PureComponent {
             marginTop: dySize(10),
           }}
           horizontal={true}
-          keyExtractor={item => item._id}
           onEndReached={() => this.getNextPage()}
           onEndReachedThreshold={0.5}
         />
