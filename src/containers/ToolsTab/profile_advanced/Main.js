@@ -81,7 +81,7 @@ class ProfileAdvancedScreen extends React.Component {
             <MCIcon
               type="FontAwesome5Pro-Solid"
               name="chess-knight-alt"
-              size={50}
+              size={40}
             />
           }
           hasRight

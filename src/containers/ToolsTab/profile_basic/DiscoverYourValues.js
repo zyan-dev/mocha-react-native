@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import CardStack, {Card} from 'react-native-card-stack-swiper';
 import {isIphoneX} from 'react-native-iphone-x-helper';
+import i18next from 'i18next';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
@@ -18,7 +19,6 @@ import {
 } from 'utils/constants';
 import {KeySvg} from 'assets/svgs';
 import {showAlert, getStringWithOutline} from 'services/operators';
-import i18next from 'i18next';
 
 const cardViewHeight =
   CURRENT_HEIGHT - dySize(180) - 120 - (isIphoneX() ? 60 : 0);
@@ -31,7 +31,7 @@ class DiscoverValueScreen extends React.Component {
       swiped: [],
       coreValues: [],
       selectedValues: [], // important values
-      step: 0,
+      step: 1,
       submitted: false,
       showHowModal: false,
     };
@@ -129,20 +129,16 @@ class DiscoverValueScreen extends React.Component {
     this.setState({swiped});
   };
 
-  _onPressRefresh = () => {
-    const {swiped} = this.state;
-    for (let i = 0; i < swiped.length; i++) {
-      this.swiper.goBackFromTop();
-    }
-    this.setState({swiped: []});
-  };
-
   _onSwipe = x => {
     this.setState({swipeXOffset: x});
   };
 
   _onSwipeEnd = () => {
     this.setState({swipeXOffset: 0});
+  };
+
+  _onSwipedAll = () => {
+    this.onPressNext();
   };
 
   onPressHeaderBack = () => {
@@ -325,7 +321,7 @@ class DiscoverValueScreen extends React.Component {
           title={t('tools_tab_discover_your_values')}
           headerIcon={<KeySvg theme={theme} size={30} />}
           rightIcon={step && 'cloud-upload-alt'}
-          rightText={!step && 'View All'}
+          rightText={step ? t('button_save') : t('button_view_all')}
           onPressBack={() => this.onPressHeaderBack()}
           onPressRight={() => this.onPressRight()}
         />
@@ -353,33 +349,13 @@ class DiscoverValueScreen extends React.Component {
                 onSwipedLeft={this._onSwipedLeft}
                 onSwipedRight={this._onSwipedRight}
                 onSwipeEnd={this._onSwipeEnd}
+                onSwipedAll={this._onSwipedAll}
                 verticalThreshold={dySize(90)}
                 horizontalThreshold={dySize(90)}
                 renderNoMoreCards={() => (
-                  <>
-                    <MCEmptyText>
-                      {t('tools_tab_discover_your_values_no_more_cards')}
-                    </MCEmptyText>
-                    <MCButton
-                      bordered
-                      pl={20}
-                      pr={20}
-                      onPress={() => this._onPressRefresh()}>
-                      <MCEmptyText>
-                        {t('tools_tab_discover_your_values_refresh')}
-                      </MCEmptyText>
-                    </MCButton>
-                    <MCEmptyText>{t('label_or')}</MCEmptyText>
-                    <MCButton
-                      bordered
-                      pl={20}
-                      pr={20}
-                      onPress={() => this.onPressNext()}>
-                      <MCEmptyText>
-                        {t('tools_tab_discover_your_values_go_next')}
-                      </MCEmptyText>
-                    </MCButton>
-                  </>
+                  <MCEmptyText>
+                    {t('tools_tab_discover_your_values_no_more_cards')}
+                  </MCEmptyText>
                 )}
                 disableBottomSwipe>
                 {DiscoverValues.map((value, index) => {
@@ -442,6 +418,11 @@ class DiscoverValueScreen extends React.Component {
         ) : (
           <MCContent contentContainerStyle={{padding: dySize(20)}}>
             <H4>{t('tools_tab_core_values_explain')}</H4>
+            {selectedValues.length === 0 && (
+              <MCEmptyText mt={200}>
+                {t('error_no_value_card_selected')}
+              </MCEmptyText>
+            )}
             {!this.validateOptions() && submitted && (
               <ErrorText>{t('error_input_select_empty')}</ErrorText>
             )}
