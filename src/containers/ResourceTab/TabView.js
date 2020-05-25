@@ -28,30 +28,20 @@ class ResourceTabView extends React.Component {
       getMyResources,
       getBookmarkedResources,
       getTrustMemberResources,
-      resourceAllPageIndex,
-      resourceMyPageIndex,
-      resourceBookmarkPageIndex,
-      resourceTrustMemberPageIndex,
     } = this.props;
 
     switch (index) {
       case 0:
-        if (resourceAllPageIndex == 1) getAllResources(resourceAllPageIndex);
-        else getAllResources(resourceAllPageIndex + 1);
+        getAllResources(1);
         break;
       case 1:
-        if (resourceTrustMemberPageIndex == 1)
-          getTrustMemberResources(resourceTrustMemberPageIndex);
-        else getTrustMemberResources(resourceTrustMemberPageIndex + 1);
+        getTrustMemberResources(1);
         break;
       case 2:
-        if (resourceMyPageIndex == 1) getMyResources(resourceMyPageIndex);
-        else getMyResources(resourceMyPageIndex + 1);
+        getMyResources(1);
         break;
       case 3:
-        if (resourceBookmarkPageIndex == 1)
-          getBookmarkedResources(resourceBookmarkPageIndex);
-        else getBookmarkedResources(resourceBookmarkPageIndex + 1);
+        getBookmarkedResources(1);
         break;
     }
   };
@@ -107,13 +97,6 @@ class ResourceTabView extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   userToken: state.profileReducer.userToken,
-  resourceAllPageIndex: state.resourceReducer.resourceAllPageIndex,
-  resourceTrustMemberPageIndex:
-    state.resourceReducer.resourceTrustMemberPageIndex,
-  resourceMyPageIndex: state.resourceReducer.resourceMyPageIndex,
-  resourceBookmarkPageIndex: state.resourceReducer.resourceBookmarkPageIndex,
-  resourceSearchResourceIndex:
-    state.resourceReducer.resourceSearchResourceIndex,
 });
 
 const mapDispatchToProps = {

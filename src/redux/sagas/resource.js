@@ -32,7 +32,7 @@ export function* getAllResources(action) {
       }
       yield put({
         type: types.SET_ALL_RESOURCE_PAGE_LIMITED,
-        payload: action.payload === response.data.data.total_pages,
+        payload: action.payload >= response.data.data.total_pages,
       });
       yield put({type: types.API_FINISHED});
     } else {
