@@ -5,25 +5,59 @@ import {withTranslation} from 'react-i18next';
 import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
-import {reflectionActions, otherActions, userActions} from 'Redux/actions';
+import {resourceActions} from 'Redux/actions';
 import GlobalResourceScreen from './Filters/GlobalResource';
 import SocialResourcesScreen from './Filters/SocialResources';
 import MyResourceScreen from './Filters/MyResource';
 import BookmarkResourcesScreen from './Filters/BookmarkResource';
-import {MCHeader, MCSearchInput, MCIcon} from 'components/common';
-import {H4, H6, H5} from 'components/styled/Text';
+import {MCIcon} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {ResourcesRoots} from 'utils/constants';
-import {dySize} from 'utils/responsive';
 
 class ResourceTabView extends React.Component {
   onChangeTabIndex = i => {
+    const {userToken} = this.props;
     this.setState({index: i});
     this.props.onChangeTabIndex(i);
+    if (userToken) this.getResources(i);
+  };
+
+  getResources = index => {
+    const {
+      getAllResources,
+      getMyResources,
+      getBookmarkedResources,
+      getTrustMemberResources,
+      resourceAllPageIndex,
+      resourceMyPageIndex,
+      resourceBookmarkPageIndex,
+      resourceTrustMemberPageIndex,
+    } = this.props;
+
+    switch (index) {
+      case 0:
+        if (resourceAllPageIndex == 1) getAllResources(resourceAllPageIndex);
+        else getAllResources(resourceAllPageIndex + 1);
+        break;
+      case 1:
+        if (resourceTrustMemberPageIndex == 1)
+          getTrustMemberResources(resourceTrustMemberPageIndex);
+        else getTrustMemberResources(resourceTrustMemberPageIndex + 1);
+        break;
+      case 2:
+        if (resourceMyPageIndex == 1) getMyResources(resourceMyPageIndex);
+        else getMyResources(resourceMyPageIndex + 1);
+        break;
+      case 3:
+        if (resourceBookmarkPageIndex == 1)
+          getBookmarkedResources(resourceBookmarkPageIndex);
+        else getBookmarkedResources(resourceBookmarkPageIndex + 1);
+        break;
+    }
   };
 
   render() {
-    const {t, theme, tabIndex, isShowingUserHabit} = this.props;
+    const {t, theme, tabIndex} = this.props;
 
     const renderScene = SceneMap({
       globe: GlobalResourceScreen,
@@ -63,6 +97,7 @@ class ResourceTabView extends React.Component {
           onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}
           renderTabBar={renderTabBar}
+          swipeEnabled={false}
         />
       </View>
     );
@@ -71,9 +106,22 @@ class ResourceTabView extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
+  userToken: state.profileReducer.userToken,
+  resourceAllPageIndex: state.resourceReducer.resourceAllPageIndex,
+  resourceTrustMemberPageIndex:
+    state.resourceReducer.resourceTrustMemberPageIndex,
+  resourceMyPageIndex: state.resourceReducer.resourceMyPageIndex,
+  resourceBookmarkPageIndex: state.resourceReducer.resourceBookmarkPageIndex,
+  resourceSearchResourceIndex:
+    state.resourceReducer.resourceSearchResourceIndex,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getAllResources: resourceActions.getAllResources,
+  getMyResources: resourceActions.getMyResources,
+  getBookmarkedResources: resourceActions.getBookmarkedResources,
+  getTrustMemberResources: resourceActions.getTrustMemberResources,
+};
 
 export default withTranslation()(
   connect(
