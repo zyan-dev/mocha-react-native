@@ -484,7 +484,7 @@ class ChatRoomScreen extends React.Component {
           {topBubbleDate > 0 && showTopBubbleDate && (
             <MCView
               br={20}
-              width={200}
+              width={240}
               height={40}
               style={{
                 position: 'absolute',
@@ -527,6 +527,7 @@ class ChatRoomScreen extends React.Component {
               value={text}
               onChangeText={text => this.setState({text})}
               placeholder="Type your message here..."
+              placeholderTextColor={theme.colors.border}
               style={{flex: 1}}
               onSubmitEditing={() => this.sendMessage()}
               returnKeyType="send"
