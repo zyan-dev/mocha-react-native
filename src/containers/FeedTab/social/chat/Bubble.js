@@ -198,7 +198,7 @@ class ChatBubbleItem extends React.Component {
               />
             </MCButton>
           )}
-          {!mine && !hasAvatar && <MCView width={30} />}
+          {!mine && !hasAvatar && <MCView width={40} />}
 
           <MCView mt={-10}>
             {!mine && hasAvatar && (

@@ -17,8 +17,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 import API from 'services/api';
 import {chatActions, routerActions} from 'Redux/actions';
 import {MCRootView, MCView, DividerLine} from 'components/styled/View';
-import {MCHeader, MCImage, MCIcon, MCModal} from 'components/common';
-import {MCTextInput, H2, H3, H4, MCEmptyText} from 'components/styled/Text';
+import {MCHeader, MCImage, MCIcon} from 'components/common';
+import {MCTextInput, H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {showAlert, getDateString} from 'services/operators';
@@ -72,9 +72,9 @@ class ChatRoomScreen extends React.Component {
   }
 
   componentDidUpdate(preProps, prevState) {
-    const {refreshing, lastItem} = this.state;
+    const {refreshing, lastItem, firstLoad} = this.state;
     if (preProps.loading && !this.props.loading) {
-      if (this.mounted && !this.state.firstLoad) {
+      if (this.mounted && !firstLoad) {
         this.scrollToEnd();
         this.setState({firstLoad: true});
         console.log('Initial load');
@@ -198,10 +198,15 @@ class ChatRoomScreen extends React.Component {
   };
 
   scrollToEnd = () => {
+    const {roomMessageIds} = this.props;
     setTimeout(() => {
       this.chatList &&
-        this.chatList.scrollToEnd({animated: false, duration: 500});
-    }, 1000);
+        this.chatList.scrollToIndex({
+          index: roomMessageIds.length - 1,
+          animated: true,
+          duration: 1500,
+        });
+    }, 500);
   };
 
   scrollToItem = item => {
@@ -472,6 +477,15 @@ class ChatRoomScreen extends React.Component {
             onScrollBeginDrag={() => this.onScrollBeginDrag()}
             viewabilityConfig={this.viewabilityConfig}
             onViewableItemsChanged={this.onViewableItemsChanged}
+            onScrollToIndexFailed={info => {
+              this.chatList.scrollToIndex({
+                animated: false,
+                index: info.highestMeasuredFrameIndex,
+              });
+              setTimeout(() => {
+                this.scrollToEnd();
+              }, 500);
+            }}
             refreshControl={
               <RefreshControl
                 colors={['#9Bd35A', '#689F38']}
