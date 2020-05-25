@@ -13,20 +13,20 @@ import {BodyStress, BodyStressWhite} from 'assets/images';
 const bodyPartButtons = [
   {
     key: 'head',
-    width: 80,
-    top: 40,
-    left: 130,
+    width: 60,
+    top: 50,
+    left: 120,
   },
   {
     key: 'eyes',
     width: 65,
-    top: 55,
-    left: 55,
+    top: 60,
+    left: 35,
   },
   {
     key: 'shoulders',
-    width: 80,
-    top: 100,
+    width: 90,
+    top: 115,
     left: 0,
   },
   {
@@ -44,7 +44,7 @@ const bodyPartButtons = [
   {
     key: 'feet',
     width: 60,
-    top: 360,
+    top: 345,
     right: 0,
   },
   {
@@ -155,7 +155,9 @@ class StressAndComfortCard extends React.Component {
                       borderColor: selected
                         ? theme.colors.outline
                         : theme.colors.border,
-                    }}>
+                    }}
+                    pl={1}
+                    pr={1}>
                     <H4
                       color={
                         selected ? theme.colors.outline : theme.colors.text
