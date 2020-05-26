@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {profileActions, authActions} from 'Redux/actions';
+import {profileActions, authActions, chatActions} from 'Redux/actions';
 import {MCRootView, MCView, MCContent} from 'components/styled/View';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
@@ -19,6 +19,10 @@ class CompleteSignUp extends React.Component {
       avatarChanged: false,
       editableUsername: this.props.profile.user_id.length === 0,
     };
+  }
+
+  componentDidMount() {
+    this.props.firebaseAuthentication();
   }
 
   onFinishedProfile = () => {
@@ -111,6 +115,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   completeSignUp: authActions.completeSignUp,
   setProfileData: profileActions.setProfileData,
+  firebaseAuthentication: chatActions.firebaseAuthentication,
 };
 
 export default withTranslation()(
