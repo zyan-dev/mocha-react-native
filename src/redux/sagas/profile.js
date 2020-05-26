@@ -102,22 +102,30 @@ export function* updateContactProfile(action) {
 
 export function* getUserProfile(action) {
   try {
-    const {id, fetchRelatedData} = action.payload;
+    const {id} = action.payload;
     yield put({
       type: types.SET_USER_PROFILE,
       payload: {message: 'progress_loading_profile'},
     });
     const response = yield call(API.getUserProfile, id);
-    if (response.data.data.user) {
+    if (response.data.status === 'success') {
       yield put({
         type: types.SET_USER_PROFILE,
-        payload: response.data.data.user,
+        payload: {
+          ...response.data.data.userProfile,
+          isTrustMember: response.data.data.isTrustMember,
+        },
       });
-      if (fetchRelatedData) {
-        yield put({type: types.GET_USER_REFLECTIONS, payload: id});
-        yield put({type: types.GET_USER_FEEDBACKS, payload: id});
-        yield put({type: types.GET_USER_COMMITS, payload: id});
-      }
+      yield put({
+        type: types.SET_USER_REFLECTIONS,
+        payload: response.data.data.reflections,
+      });
+      yield put({
+        type: types.SET_USER_PROFILE_PERMISSIONS,
+        payload: response.data.data.permissions,
+      });
+      yield put({type: types.GET_USER_FEEDBACKS, payload: id});
+      yield put({type: types.GET_USER_COMMITS, payload: id});
     } else {
       yield put({
         type: types.SET_USER_PROFILE,
