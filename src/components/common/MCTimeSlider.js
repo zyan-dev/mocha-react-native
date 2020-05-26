@@ -123,7 +123,7 @@ class MCTimeSlider extends React.PureComponent {
                 {showLabel && (
                   <MarkerTextView
                     style={{
-                      right: e.currentValue !== 0 && offset < 2 ? 10 : null,
+                      right: e.currentValue !== 0 && offset < 3 ? 10 : null,
                     }}>
                     <H4 align="center">{values[e.currentValue]}</H4>
                   </MarkerTextView>
@@ -141,7 +141,7 @@ class MCTimeSlider extends React.PureComponent {
                   <MarkerTextView
                     style={{
                       left:
-                        e.currentValue !== values.length - 1 && offset < 2
+                        e.currentValue !== values.length - 1 && offset < 3
                           ? 10
                           : null,
                     }}>
