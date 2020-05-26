@@ -19,10 +19,12 @@ class OverviewCard extends React.Component {
   static propTypes = {
     editable: PropTypes.bool,
     profile: PropTypes.object.isRequired,
+    hideOverview: PropTypes.bool,
   };
 
   static defaultProps = {
     editable: true,
+    hideOverview: false,
   };
 
   constructor(props) {
@@ -54,7 +56,7 @@ class OverviewCard extends React.Component {
   };
 
   render() {
-    const {t, theme, editable, profile} = this.props;
+    const {t, theme, editable, profile, hideOverview} = this.props;
     const {editing, expandAvatar} = this.state;
     return (
       <MCView>
@@ -94,26 +96,41 @@ class OverviewCard extends React.Component {
           </MCView>
           <H4 color={theme.colors.border}>{`@${profile.user_id}`}</H4>
         </MCView>
-        <MCView width={300} mt={20}>
-          <MCEditableText
-            multiline
-            text={profile.bio}
-            maxLength={1024}
-            placeholder={
-              editable
-                ? t(`profile_card_overview_placeholder`)
-                : t('profile_card_user_overview_placeholder')
-            }
-            editable={editing}
-            onChange={value => this.onUpdateProfile('bio', value)}
-            style={{
-              lineHeight: dySize(24),
-              fontStyle: 'italic',
-              color: theme.colors.text,
-              height: editing ? dySize(200) : 'auto',
-            }}
-          />
-        </MCView>
+        {!hideOverview && (
+          <MCView width={300} mt={20}>
+            {editing ? (
+              <MCEditableText
+                multiline
+                text={profile.bio}
+                maxLength={1024}
+                placeholder={
+                  editable
+                    ? t(`profile_card_overview_placeholder`)
+                    : t('profile_card_user_overview_placeholder')
+                }
+                editable={editing}
+                onChange={value => this.onUpdateProfile('bio', value)}
+                style={{
+                  lineHeight: dySize(24),
+                  fontStyle: 'italic',
+                  color: theme.colors.text,
+                  height: editing ? dySize(200) : 'auto',
+                }}
+              />
+            ) : (
+              <H4
+                weight="italic"
+                style={{
+                  lineHeight: dySize(24),
+                }}>
+                {profile.bio ||
+                  (editable
+                    ? t(`profile_card_overview_placeholder`)
+                    : t('profile_card_user_overview_placeholder'))}
+              </H4>
+            )}
+          </MCView>
+        )}
         <MCModal
           isVisible={expandAvatar}
           onClose={() => this.setState({showModal: false})}>
