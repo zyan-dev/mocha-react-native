@@ -1,9 +1,10 @@
 import React from 'react';
+import {FlatList} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {MCRootView} from 'components/styled/View';
-import {MCHeader} from 'components/common';
-import {H3} from 'components/styled/Text';
+import {dySize} from 'utils/responsive';
+import PostItem from './components/PostItem';
 
 class ProgressSearchTab extends React.Component {
   constructor(props) {
@@ -11,17 +12,36 @@ class ProgressSearchTab extends React.Component {
     this.state = {};
   }
 
+  _renderPostItem = ({item}) => {
+    const {profile} = this.props;
+    const post = item;
+    return <PostItem post={post} />;
+  };
+
   render() {
-    const {t} = this.props;
+    const {t, userPosts} = this.props;
+    console.log({userPosts});
     return (
       <MCRootView justify="flex-start">
-        <H3>Search</H3>
+        <FlatList
+          contentContainerStyle={{
+            width: dySize(375),
+            paddingBottom: 20,
+            alignItems: 'center',
+          }}
+          data={userPosts}
+          renderItem={this._renderPostItem}
+          keyExtractor={item => item._id}
+        />
       </MCRootView>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  profile: state.profileReducer,
+  userPosts: state.postReducer.userPosts,
+});
 
 const mapDispatchToProps = {};
 

@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {FlatList} from 'react-native-gesture-handler';
 import {withTranslation} from 'react-i18next';
 import {MCRootView} from 'components/styled/View';
-import {MCHeader} from 'components/common';
-import {H3} from 'components/styled/Text';
+import PostItem from './components/PostItem';
+import {dySize} from 'utils/responsive';
 
 class ProgressOwnTab extends React.Component {
   constructor(props) {
@@ -11,17 +12,34 @@ class ProgressOwnTab extends React.Component {
     this.state = {};
   }
 
+  _renderPostItem = ({item}) => {
+    const post = item;
+    return <PostItem post={post} />;
+  };
+
   render() {
-    const {t} = this.props;
+    const {t, myPosts} = this.props;
+    console.log({myPosts});
     return (
       <MCRootView justify="flex-start">
-        <H3>My Progress</H3>
+        <FlatList
+          contentContainerStyle={{
+            width: dySize(375),
+            paddingBottom: 20,
+            alignItems: 'center',
+          }}
+          data={myPosts}
+          renderItem={this._renderPostItem}
+          keyExtractor={item => item._id}
+        />
       </MCRootView>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  myPosts: state.postReducer.myPosts,
+});
 
 const mapDispatchToProps = {};
 

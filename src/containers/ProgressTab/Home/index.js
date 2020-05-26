@@ -24,6 +24,24 @@ class ProgressScreen extends React.Component {
     NavigationService.navigate('AddPost');
   };
 
+  onChangeTabIndex = i => {
+    const {profile} = this.props;
+    this.setState({index: i});
+    switch (i) {
+      case 0:
+        break;
+      case 1:
+        break;
+      case 2:
+        this.props.getPostsById(profile._id);
+        break;
+      case 3:
+        this.props.getPosts({title: '', page: 1});
+        break;
+      default:
+    }
+  };
+
   render() {
     const {t, theme} = this.props;
     const {index} = this.state;
@@ -81,9 +99,10 @@ class ProgressScreen extends React.Component {
             own: ProgressOwnTab,
             search: ProgressSearchTab,
           })}
-          onIndexChange={i => this.setState({index: i})}
+          onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}
           renderTabBar={renderTabBar}
+          swipeEnabled={false}
         />
       </View>
     );
@@ -91,9 +110,12 @@ class ProgressScreen extends React.Component {
 }
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
+  profile: state.profileReducer,
 });
 const mapDispatchToProps = {
   setInitialPost: postActions.setInitialPost,
+  getPostsById: postActions.getPostsById,
+  getPosts: postActions.getPosts,
 };
 
 export default withTranslation()(

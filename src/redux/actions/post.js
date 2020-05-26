@@ -9,8 +9,14 @@ export const getUserPosts = () => ({
   type: types.GET_USER_POSTS,
 });
 
-export const getMyPosts = () => ({
-  type: types.GET_MY_POSTS,
+export const getPostsById = id => ({
+  type: types.GET_POSTS_BY_ID,
+  payload: id,
+});
+
+export const getPosts = param => ({
+  type: types.GET_ALL_POSTS,
+  payload: param,
 });
 
 export const setInitialPost = () => ({

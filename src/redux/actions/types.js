@@ -205,9 +205,9 @@ export const CHECK_CHAT_MISSED_STATE = 'CHECK_CHAT_MISSED_STATE';
 // Post
 export const SELECT_POST = 'SELECT_POST';
 export const SET_INITIAL_POST = 'SET_INITIAL_POST';
-export const GET_USER_POSTS = 'GET_USER_POSTS';
+export const GET_POSTS_BY_ID = 'GET_POSTS_BY_ID';
+export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const SET_USER_POSTS = 'SET_USER_POSTS';
-export const GET_MY_POSTS = 'GET_MY_POSTS';
 export const SET_MY_POSTS = 'SET_MY_POSTS';
 export const ADD_OR_UPDATE_POST = 'ADD_OR_UPDATE_POST';
 export const UPDATE_SELECTED_POST = 'UPDATE_SELECTED_POST';
