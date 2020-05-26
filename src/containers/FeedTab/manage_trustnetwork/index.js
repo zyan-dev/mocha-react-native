@@ -51,6 +51,7 @@ class MyTrustNetworkScreen extends React.Component {
                 left: 20 * index,
                 top: dySize(15),
               }}
+              type="avatar"
             />
           );
         })}
