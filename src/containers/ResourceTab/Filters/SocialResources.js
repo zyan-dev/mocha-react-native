@@ -2,6 +2,7 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import * as _ from 'lodash';
 
 import {resourceActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
@@ -56,9 +57,12 @@ class SocialResourcesScreen extends React.PureComponent {
         members.push(resource.trustMember);
       }
     });
+
     this.setState({
       members: members,
-      selectedMember: members[0],
+      selectedMember: _.isEmpty(this.state.selectedMember)
+        ? members[0]
+        : this.state.selectedMember,
     });
   };
 
@@ -107,6 +111,7 @@ class SocialResourcesScreen extends React.PureComponent {
             round
             width={50}
             height={50}
+            type="avatar"
           />
         </MCView>
       </MCButton>
@@ -168,7 +173,7 @@ class SocialResourcesScreen extends React.PureComponent {
         </MCView>
         {focused == 'books' ? (
           <BookResourceScreen
-            selectedMember={selectedMember ? selectedMember : members[0]}
+            selectedMember={selectedMember}
             sort={sort}
             from="trust-member"
             selectedResources={trustMemberResources}
