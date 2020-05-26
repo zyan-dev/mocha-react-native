@@ -60,6 +60,8 @@ class TabView extends React.PureComponent {
       showProfileDrawer,
       showSocialDrawer,
       getUserCommits,
+      getTrustMemberResources,
+      setTrustMemberResourcePageIndex,
     } = this.props;
 
     const TabScreens = [
@@ -102,6 +104,8 @@ class TabView extends React.PureComponent {
         break;
       case 1:
         // user clicked Resource Tab
+        userToken.length > 0 && setTrustMemberResourcePageIndex(1);
+        userToken.length > 0 && getTrustMemberResources(1);
         break;
       case 2:
         // user clicked Progress Tab
@@ -273,6 +277,9 @@ const mapDispatchToProps = {
   showSocialDrawer: routerActions.setSocialDrawerOpened,
   showProfileDrawer: routerActions.setProfileDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
+  getTrustMemberResources: resourceActions.getTrustMemberResources,
+  setTrustMemberResourcePageIndex:
+    resourceActions.setTrustMemberResourcePageIndex,
 };
 
 export default withTranslation()(
