@@ -30,6 +30,13 @@ const sideMenuList = [
     title: 'feed_menu_pending_requests',
     redirectTo: 'PendingRequest',
   },
+  {
+    index: 4,
+    icon: 'shield-check',
+    iconType: 'FontAwesome5Pro',
+    title: 'feed_menu_pending_requests',
+    redirectTo: 'CommunityRules',
+  },
 ];
 
 class SocialSideMenu extends React.Component {

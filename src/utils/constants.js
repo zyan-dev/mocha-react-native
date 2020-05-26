@@ -245,6 +245,17 @@ export const AdvancedPermissions = [
   'personality',
 ];
 
+export const OthherPermissions = [
+  'motivation',
+  'manual',
+  'value',
+  'emotion',
+  'need',
+  'personal_story',
+  'risk_tolerance',
+  'meaning_life',
+];
+
 export const NightSliderValues = [
   '7:00 PM',
   '8:00 PM',

@@ -411,7 +411,7 @@ class ProfileScreen extends React.Component {
     return (
       <MCButton
         key={layout.key}
-        width={50}
+        width={45}
         height={50}
         align="center"
         justify="center"
@@ -450,15 +450,15 @@ class ProfileScreen extends React.Component {
           onPressRight={() => showDrawer(true)}
         />
         <MCView row style={{flex: 1}}>
-          <MCView width={325}>
+          <MCView width={335}>
             <FlatList
               ref={ref => (this.contentScroll = ref)}
               data={profileLayout}
               renderItem={this._renderProfileSections}
               keyExtractor={item => item.key}
               contentContainerStyle={{
-                width: dySize(325),
-                paddingHorizontal: 10,
+                width: dySize(335),
+                paddingHorizontal: dySize(15),
                 paddingBottom: 200,
               }}
               viewabilityConfig={this.viewabilityConfig}
@@ -478,7 +478,7 @@ class ProfileScreen extends React.Component {
             />
           </MCView>
           <MCView
-            width={55}
+            width={45}
             justify="center"
             row
             align="center"
@@ -490,8 +490,7 @@ class ProfileScreen extends React.Component {
                 renderItem={this.renderProfileIcon}
                 keyExtractor={item => item.key}
                 contentContainerStyle={{
-                  width: dySize(55),
-                  alignItems: 'center',
+                  width: dySize(45),
                   paddingVertical: dySize(100),
                 }}
               />

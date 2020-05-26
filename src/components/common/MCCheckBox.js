@@ -9,13 +9,14 @@ class MCCheckBox extends React.Component {
   static propTypes = {
     width: PropTypes.number,
     checked: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     label: PropTypes.string.isRequired,
     bigText: PropTypes.bool,
     iconSize: PropTypes.number,
     hasLeftText: PropTypes.bool,
     textAlign: PropTypes.string,
     iconColor: PropTypes.string,
+    weight: PropTypes.string,
   };
 
   static defaultProps = {
@@ -25,6 +26,8 @@ class MCCheckBox extends React.Component {
     textAlign: 'left',
     bigText: true,
     iconColor: undefined,
+    onChange: () => undefined,
+    weight: 'regular',
   };
 
   render() {
@@ -38,6 +41,7 @@ class MCCheckBox extends React.Component {
       textAlign,
       bigText,
       iconColor,
+      weight,
     } = this.props;
     return (
       <MCButton
@@ -46,12 +50,12 @@ class MCCheckBox extends React.Component {
         width={width}
         onPress={() => onChange(!checked)}>
         {hasLeftText && bigText && (
-          <H3 ml={5} align={textAlign} style={{flex: 1}}>
+          <H3 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H3>
         )}
         {hasLeftText && !bigText && (
-          <H4 ml={5} align={textAlign} style={{flex: 1}}>
+          <H4 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H4>
         )}
@@ -64,12 +68,12 @@ class MCCheckBox extends React.Component {
           />
         </MCView>
         {!hasLeftText && bigText && (
-          <H3 ml={5} align={textAlign} style={{flex: 1}}>
+          <H3 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H3>
         )}
         {!hasLeftText && !bigText && (
-          <H4 ml={5} align={textAlign} style={{flex: 1}}>
+          <H4 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H4>
         )}

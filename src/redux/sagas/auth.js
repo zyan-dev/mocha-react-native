@@ -41,7 +41,6 @@ export function* verifySignUpSMS(action) {
       const profileData = {
         ...response.data.data.user,
         pushToken,
-        userToken: response.data.data.token,
       };
       // set Crashlytics attributes:
       crashlytics().setUserId(profileData._id.toString());
@@ -63,6 +62,16 @@ export function* verifySignUpSMS(action) {
   }
 }
 
+export function* setNewUser(action) {
+  try {
+    if (action.payload) return;
+    const token = yield call(AsyncStorage.getItem, 'userToken');
+    yield put({type: types.SET_PROFILE_DATA, payload: {userToken: token}});
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
 export function* completeSignUp(action) {
   try {
     const {profileReducer} = yield select();
@@ -78,8 +87,8 @@ export function* completeSignUp(action) {
         // existing user
         NavigationService.navigate('mainStack');
         yield put({type: types.API_FINISHED});
+        yield put({type: types.SET_NEW_USER, payload: false});
       }
-      yield put({type: types.SET_NEW_USER, payload: false});
       // track mixpanel event
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,

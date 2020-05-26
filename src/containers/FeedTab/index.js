@@ -7,6 +7,7 @@ import SendRequestScreen from './send_request';
 import MyTrustNetworkScreen from './manage_trustnetwork';
 import ManageTrustNetworkScreen from './manage_trustnetwork/Manage';
 import PendingRequestScreen from './pending';
+import CommunityRulesScreen from './CommunityRules';
 import AddPendingUserScreen from './pending/Add';
 import CreateChatRoomScreen from './social/chat/Create';
 import SelectChatMemberScreen from './social/chat/SelectMember';
@@ -51,6 +52,10 @@ class SocialStack extends React.Component {
           <Stack.Screen
             name="PendingRequest"
             component={PendingRequestScreen}
+          />
+          <Stack.Screen
+            name="CommunityRules"
+            component={CommunityRulesScreen}
           />
           <Stack.Screen
             name="AddPendingUser"

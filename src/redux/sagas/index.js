@@ -17,6 +17,7 @@ function* mySaga() {
   yield takeEvery(types.SEND_SMS, authSaga.sendSignUpSMS);
   yield takeLatest(types.VERIFY_SMS, authSaga.verifySignUpSMS);
   yield takeLatest(types.COMPLETE_SIGN_UP, authSaga.completeSignUp);
+  yield takeLatest(types.SET_NEW_USER, authSaga.setNewUser);
 
   // profile
   yield takeLatest(types.GET_MY_PROFILE, profileSaga.getMyProfile);
