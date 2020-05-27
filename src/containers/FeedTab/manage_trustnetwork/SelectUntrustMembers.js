@@ -7,21 +7,19 @@ import {userActions} from 'Redux/actions';
 import {MCHeader, MCImage, MCSearchInput, MCIcon} from 'components/common';
 import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCRootView, MCView, MCCard} from 'components/styled/View';
+import {MCRootView, MCView, NativeCard} from 'components/styled/View';
 import {dySize} from 'utils/responsive';
-import {NativeCard} from '../../components/styled/View';
 
-class SelectUserScreen extends React.Component {
+class SelectUntrustMemberScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       searchText: '',
-      isMultiple: props.route.params.multiple,
     };
   }
 
   componentDidMount() {
-    this.props.findUserByName({name: '', page: 1});
+    this.props.findUntrustUserByName({name: '', page: 1});
   }
 
   onPressUserAvatar = user => {
@@ -30,41 +28,34 @@ class SelectUserScreen extends React.Component {
 
   onChangeSearchText = text => {
     this.setState({searchText: text});
-    this.props.findUserByName({name: text, page: 1});
+    this.props.findUntrustUserByName({name: text, page: 1});
   };
 
   selectUser = user => {
-    const {isMultiple} = this.state;
-    if (isMultiple) {
-      this.props.selectUser(user);
-    } else {
-      this.props.selectSingleUser(user);
-      NavigationService.goBack();
-    }
+    this.props.selectUser(user);
   };
 
   deselectUser = user => {
-    const {isMultiple} = this.state;
-    if (isMultiple) {
-      this.props.deselectUser(user);
-    }
+    this.props.deselectUser(user);
   };
 
   searchNextPage = () => {
     const {
-      findUserByName,
+      findUntrustUserByName,
       searchPageLimited,
       searchPageIndex,
       pageSearching,
     } = this.props;
+    const {searchText} = this.state;
     if (searchPageLimited || pageSearching) return;
-    findUserByName({name: '', page: searchPageIndex + 1});
+    findUntrustUserByName({name: searchText, page: searchPageIndex + 1});
   };
 
   _renderUserItem = ({item}) => {
     const {theme, myProfile, selectedUsers} = this.props;
     const user = item;
 
+    if (!user.user_id) return;
     // skip owner's profile
     if (user._id === myProfile._id) return null;
 
@@ -152,7 +143,7 @@ class SelectUserScreen extends React.Component {
   };
 
   render() {
-    const {searchText, isMultiple} = this.state;
+    const {searchText} = this.state;
     const {
       t,
       theme,
@@ -194,7 +185,7 @@ class SelectUserScreen extends React.Component {
             onEndReachedThreshold={0.5}
           />
 
-          {isMultiple && selectedUsers.length > 0 && (
+          {selectedUsers.length > 0 && (
             <MCView height={130} align="center">
               <H4>Selected Users ( {selectedUsers.length} )</H4>
               <FlatList
@@ -231,12 +222,12 @@ const mapDispatchToProps = {
   selectUser: userActions.selectUser,
   deselectUser: userActions.deselectUser,
   selectSingleUser: userActions.selectSingleUser,
-  findUserByName: userActions.findUserByName,
+  findUntrustUserByName: userActions.findUntrustUserByName,
 };
 
 export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(SelectUserScreen),
+  )(SelectUntrustMemberScreen),
 );

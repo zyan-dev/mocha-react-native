@@ -11,7 +11,8 @@ const URL_SEND_SMS = '/auth/signup-request';
 const URL_VERIFY_SMS = '/auth/signup-confirm';
 const URL_MY_PROFILE = '/user/me';
 const URL_USER_FIND = '/user/find';
-const URL_SEARCH_USER = '/user/search-user'; // returns user who is not in trust network
+const URL_SEARCH_USER = '/user/search-user'; // returns user whom you can send request
+const URL_SEARCH_UNTRUST_USER = '/user/search-untrustuser'; // returns untrust members
 const URL_MY_PROFILE_PHONE = '/user/me/phone-number';
 const URL_REFLECTION_UPDATE = '/reflection/update';
 const URL_REFLECTION_ADD = '/reflection/add';
@@ -150,8 +151,15 @@ const findUserByName = param =>
     {},
     true,
   );
-const getUntrustmembers = param =>
+const getRequestUsers = param =>
   apiCall('get', `${URL_SEARCH_USER}?page=${param.page}`, {}, true);
+const getUntrustMembers = param =>
+  apiCall(
+    'get',
+    `${URL_SEARCH_UNTRUST_USER}?name=${param.name}&page=${param.page}`,
+    {},
+    true,
+  );
 
 const fileUploadToS3 = async ({image, type, userId}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
@@ -229,7 +237,8 @@ export default {
   getResourceByTitle,
   searchResources,
   findUserByName,
-  getUntrustmembers,
+  getRequestUsers,
+  getUntrustMembers,
   createChatRoom,
   getMyChatRooms,
   updateChatRoom,

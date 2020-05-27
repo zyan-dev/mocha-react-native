@@ -28,7 +28,7 @@ class RootNavigator extends React.Component {
   }
 
   render() {
-    const {isNewUser, isLoading} = this.props;
+    const {theme, isNewUser, isLoading} = this.props;
     return (
       <NavigationContainer ref={ref => NavigationService.setNavigator(ref)}>
         <Stack.Navigator headerMode="none">
@@ -47,7 +47,7 @@ class RootNavigator extends React.Component {
         </Stack.Navigator>
         {isLoading && (
           <ABSView>
-            <WaveIndicator color="white" />
+            <WaveIndicator color={theme.colors.text} />
           </ABSView>
         )}
       </NavigationContainer>
@@ -59,6 +59,7 @@ const mapStateToProps = state => ({
   isNewUser: state.routerReducer.isNewUser,
   isLoading: state.routerReducer.isLoading,
   profile: state.profileReducer,
+  theme: state.routerReducer.theme,
 });
 
 const mapDispatchToProps = {
