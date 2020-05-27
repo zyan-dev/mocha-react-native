@@ -418,7 +418,9 @@ class UserProfileScreen extends React.Component {
               height={200}
             />
             <H4>{profile.name}</H4>
-            <H5 color={theme.colors.border}>{`@${profile.user_id}`}</H5>
+            <H5 color={theme.colors.border} align="center">{`@${
+              profile.user_id
+            }`}</H5>
           </MCView>
         </MCModal>
       </MCRootView>
