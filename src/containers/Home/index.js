@@ -26,12 +26,7 @@ class MainHomeStack extends React.Component {
   }
 
   configurePushNotification() {
-    const {
-      setProfileData,
-      getMyFeedbacks,
-      getUserProfile,
-      getUserReflections,
-    } = this.props;
+    const {setProfileData, getMyFeedbacks, getUserProfile} = this.props;
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: async function(token) {
@@ -91,7 +86,6 @@ class MainHomeStack extends React.Component {
           case 'complete.habit':
             const userId = notification.data.userId;
             getUserProfile(userId);
-            getUserReflections(userId);
             setTimeout(() => {
               NavigationService.navigate('UserHabit', {id: userId});
             });
@@ -134,7 +128,6 @@ const mapDispatchToProps = {
   setProfileData: profileActions.setProfileData,
   getMyFeedbacks: feedbackActions.getMyFeedbacks,
   getUserProfile: profileActions.getUserProfile,
-  getUserReflections: reflectionActions.getUserReflections,
   checkCodePushUpdates: otherActions.checkCodePushUpdates,
 };
 

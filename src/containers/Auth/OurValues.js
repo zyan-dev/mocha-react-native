@@ -32,53 +32,75 @@ class OurValuesScreen extends React.PureComponent {
           </H2>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_service_1')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_service_1')}
+            </H4>
           </MCView>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_service_2')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_service_2')}
+            </H4>
           </MCView>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_service_3')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_service_3')}
+            </H4>
           </MCView>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_service_4')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_service_4')}
+            </H4>
           </MCView>
           <H2 weight="bold" color={theme.colors.outline} mt={50}>
             {t('label_community')}
           </H2>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_community_1')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_community_1')}
+            </H4>
           </MCView>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_community_2')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_community_2')}
+            </H4>
           </MCView>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_community_3')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_community_3')}
+            </H4>
           </MCView>
           <H2 weight="bold" color={theme.colors.outline} mt={50}>
             {t('label_incremental_progress')}
           </H2>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_progress_1')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_progress_1')}
+            </H4>
           </MCView>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_progress_2')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_progress_2')}
+            </H4>
           </MCView>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_progress_3')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_progress_3')}
+            </H4>
           </MCView>
           <MCView width={200} row align="center">
             <MCIcon name="ios-remove" padding={1} />
-            <H4 weight="italic">{t('auth_progress_4')}</H4>
+            <H4 weight="italic" style={{flex: 1}}>
+              {t('auth_progress_4')}
+            </H4>
           </MCView>
         </MCContent>
       </MCRootView>

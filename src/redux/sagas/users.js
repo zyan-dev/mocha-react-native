@@ -128,7 +128,7 @@ export function* approveRequest(action) {
 
 export function* findUserByName(action) {
   try {
-    if (action.payload.page === 1) {
+    if (action.payload.param.page === 1) {
       yield put({
         type: types.SET_SEARCHED_USERS,
         payload: [],
@@ -138,9 +138,12 @@ export function* findUserByName(action) {
       type: types.SET_PAGE_SEARCHING_STATE,
       payload: true,
     });
-    const response = yield call(API.findUserByName, action.payload);
+    let response = {};
+    if (action.payload.onlyUntrust)
+      response = yield call(API.getUntrustMembers, action.payload.param);
+    else response = yield call(API.findUserByName, action.payload.param);
     if (response.data.status === 'success') {
-      if (action.payload.page === 1) {
+      if (action.payload.param.page === 1) {
         yield put({
           type: types.SET_SEARCHED_USERS,
           payload: response.data.data.users,
@@ -153,7 +156,7 @@ export function* findUserByName(action) {
       }
       yield put({
         type: types.SET_SEARCH_PAGE_LIMITED,
-        payload: action.payload.page === response.data.data.total_pages,
+        payload: action.payload.param.page === response.data.data.total_pages,
       });
     } else {
       yield put({
@@ -175,7 +178,7 @@ export function* findUserByName(action) {
   }
 }
 
-export function* getUntrustmembers(action) {
+export function* getRequestUsers(action) {
   try {
     if (action.payload.page === 1) {
       yield put({
@@ -188,7 +191,7 @@ export function* getUntrustmembers(action) {
       payload: true,
     });
 
-    const response = yield call(API.getUntrustmembers, action.payload);
+    const response = yield call(API.getRequestUsers, action.payload);
     if (response.data.status === 'success') {
       if (action.payload.page === 1) {
         yield put({

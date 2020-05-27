@@ -17,6 +17,7 @@ function* mySaga() {
   yield takeEvery(types.SEND_SMS, authSaga.sendSignUpSMS);
   yield takeLatest(types.VERIFY_SMS, authSaga.verifySignUpSMS);
   yield takeLatest(types.COMPLETE_SIGN_UP, authSaga.completeSignUp);
+  yield takeLatest(types.SET_NEW_USER, authSaga.setNewUser);
 
   // profile
   yield takeLatest(types.GET_MY_PROFILE, profileSaga.getMyProfile);
@@ -81,7 +82,7 @@ function* mySaga() {
   yield takeLatest(types.DECLINE_USER_REQUEST, userSaga.declineRequest);
   yield takeLatest(types.APPROVE_REQUEST, userSaga.approveRequest);
   yield takeLatest(types.FIND_USER_BY_NAME, userSaga.findUserByName);
-  yield takeLatest(types.GET_UNTRUST_MEMBERS, userSaga.getUntrustmembers);
+  yield takeLatest(types.GET_REQUEST_USERS, userSaga.getRequestUsers);
 
   // network
   yield takeLatest(types.GET_TRUST_NETWORKS, networkSaga.getTrustNetworks);
@@ -138,6 +139,9 @@ function* mySaga() {
 
   // post
   yield takeEvery(types.ADD_OR_UPDATE_POST, postSaga.addOrUpdatePost);
+  yield takeEvery(types.GET_POSTS_BY_ID, postSaga.getPostsById);
+  yield takeEvery(types.GET_ALL_POSTS, postSaga.getPosts);
+  yield takeEvery(types.REMOVE_POSTS, postSaga.removePosts);
 }
 
 export default mySaga;

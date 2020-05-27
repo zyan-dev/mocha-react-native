@@ -39,13 +39,13 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Select a picture</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Record Audio</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Select a picture</string>
-	<key>NSCameraUsageDescription</key>
 	<string>Select a picture</string>
 	<key>UIAppFonts</key>
 	<array>

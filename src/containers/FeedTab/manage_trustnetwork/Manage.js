@@ -47,7 +47,7 @@ class ManageTrustNetworkScreen extends React.Component {
   };
 
   onPressAddMember = () => {
-    NavigationService.navigate('SelectUser', {multiple: true});
+    NavigationService.navigate('SelectUntrustMember');
   };
 
   onDelete = () => {

@@ -21,11 +21,12 @@ const INITIAL_STATE = {
     email: '',
     avatarChanged: false,
   },
+  userProfilePermissions: [],
   selectedUsers: [], // for multiple picker
   selectedUser: [], // for single picker
   searchedUsers: [], // for full search
   searchedUnTrustMembers: [], // for send request screen
-  v: false,
+  searchPageLimited: false,
   pageSearching: false,
   searchPageIndex: 1,
 };
@@ -49,6 +50,11 @@ const usersReducer = (state = INITIAL_STATE, action) => {
           ...INITIAL_STATE.userProfile,
           ...action.payload,
         },
+      };
+    case types.SET_USER_PROFILE_PERMISSIONS:
+      return {
+        ...state,
+        userProfilePermissions: action.payload,
       };
     case types.SET_SELECTED_USERS:
       return {

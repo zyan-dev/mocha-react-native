@@ -14,7 +14,7 @@ export const MCRootView = styled(Container)`
 export const DividerLine = styled.View`
   width: ${props => dySize(props.width || 350)}px;
   height: 0.5px;
-  background-color: ${props => props.theme.colors.text};
+  background-color: ${props => props.theme.colors.border};
 `;
 
 export const MCContent = styled(Content)`

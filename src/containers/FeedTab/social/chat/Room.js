@@ -199,6 +199,7 @@ class ChatRoomScreen extends React.Component {
 
   scrollToEnd = () => {
     const {roomMessageIds} = this.props;
+    if (roomMessageIds.length === 0) return;
     setTimeout(() => {
       this.chatList &&
         this.chatList.scrollToIndex({

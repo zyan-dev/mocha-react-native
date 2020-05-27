@@ -3,12 +3,17 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import ImagePicker from 'react-native-image-crop-picker';
 import i18next from 'i18next';
+import * as _ from 'lodash';
 import {dySize} from 'utils/responsive';
 import {MCButton} from 'components/styled/Button';
 import {postActions} from 'Redux/actions';
 import {H4, ErrorText} from 'components/styled/Text';
 import {getStringWithOutline} from 'services/operators';
-import {PostChallengeLevels, PostMoraleLevels, skills} from 'utils/constants';
+import {
+  PostChallengeLevels,
+  PostMoraleLevels,
+  skills as PostSkills,
+} from 'utils/constants';
 import {
   MCHeader,
   MCIcon,
@@ -78,10 +83,8 @@ class AddPostScreen extends React.Component {
   };
 
   onToggleSkill = skill => {
-    const {
-      selectedPost: {skills},
-      updateSelectedPost,
-    } = this.props;
+    const {updateSelectedPost, selectedPost} = this.props;
+    const skills = _.get(selectedPost, ['skills'], []);
     const index = skills.indexOf(skill);
     if (index < 0) skills.push(skill);
     else skills.splice(index, 1);
@@ -99,10 +102,11 @@ class AddPostScreen extends React.Component {
   render() {
     const {submitted} = this.state;
     const {t, theme, selectedPost, updateSelectedPost} = this.props;
+    const skills = _.get(selectedPost, ['skills'], []);
     return (
       <MCRootView justify="flex-start">
         <MCHeader
-          title={t('title_edit_post')}
+          title={t(selectedPost._id ? 'title_edit_post' : 'title_add_post')}
           hasRight
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onSubmit()}
@@ -194,8 +198,8 @@ class AddPostScreen extends React.Component {
               })}
             </MCView>
             <MCView row wrap justify="center">
-              {skills.map(skill => {
-                const selected = selectedPost.skills.indexOf(skill) > -1;
+              {PostSkills.map(skill => {
+                const selected = skills.indexOf(skill) > -1;
                 return (
                   <MCButton
                     mt={10}

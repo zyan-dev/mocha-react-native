@@ -3,91 +3,61 @@ import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import NavigationService from 'navigation/NavigationService';
-import {userActions, chatActions} from 'Redux/actions';
+import {userActions} from 'Redux/actions';
 import {MCHeader, MCImage, MCSearchInput, MCIcon} from 'components/common';
 import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCRootView, MCView, NativeCard} from 'components/styled/View';
 import {dySize} from 'utils/responsive';
 
-class SelectChatMemberScreen extends React.Component {
+class SelectUntrustMemberScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       searchText: '',
-      isMultiple: props.route.params.multiple,
-      type: props.route.params.type || 'create_room',
     };
   }
 
   componentDidMount() {
-    this.props.setSeletedUsers([]);
-    this.props.getTrustMembers({
-      status: 1,
-      name: '',
-      page: 1,
-    });
+    this.props.findUntrustUserByName({name: '', page: 1});
   }
-
-  onChangeSearchText = text => {
-    this.setState({searchText: text});
-    this.props.getTrustMembers({
-      status: 1,
-      name: text,
-      page: 1,
-    });
-  };
 
   onPressUserAvatar = user => {
     NavigationService.navigate('UserProfile', {id: user._id});
   };
 
-  selectUser = user => {
-    const {isMultiple} = this.state;
-    if (isMultiple) {
-      this.props.selectUser(user);
-    } else {
-      this.props.selectSingleUser(user);
-      NavigationService.goBack();
-    }
+  onChangeSearchText = text => {
+    this.setState({searchText: text});
+    this.props.findUntrustUserByName({name: text, page: 1});
   };
 
-  onAddMembersToChatRoom = () => {
-    const {selectedUsers, selectedRoom, addMemberToRoom} = this.props;
-    addMemberToRoom(selectedUsers, selectedRoom, () => {
-      NavigationService.goBack();
-    });
+  selectUser = user => {
+    this.props.selectUser(user);
   };
 
   deselectUser = user => {
-    const {isMultiple} = this.state;
-    if (isMultiple) {
-      this.props.deselectUser(user);
-    }
+    this.props.deselectUser(user);
   };
 
   searchNextPage = () => {
     const {
-      getTrustMembers,
+      findUntrustUserByName,
       searchPageLimited,
       searchPageIndex,
       pageSearching,
     } = this.props;
+    const {searchText} = this.state;
     if (searchPageLimited || pageSearching) return;
-    getTrustMembers({page: searchPageIndex + 1});
+    findUntrustUserByName({name: searchText, page: searchPageIndex + 1});
   };
 
   _renderUserItem = ({item}) => {
-    const {type} = this.state;
-    const {theme, myProfile, selectedUsers, selectedRoom} = this.props;
+    const {theme, myProfile, selectedUsers} = this.props;
     const user = item;
 
+    if (!user.user_id) return;
     // skip owner's profile
     if (user._id === myProfile._id) return null;
-    // skip original chat members when adding new members in the chat room
-    if (!selectedRoom || !selectedRoom.includes) return;
-    const find = selectedRoom.includes.find(i => i._id === user._id);
-    if (type === 'add_member' && find) return null;
 
     // check if selected
     const filtered = selectedUsers.filter(
@@ -173,23 +143,18 @@ class SelectChatMemberScreen extends React.Component {
   };
 
   render() {
-    const {type, searchText, isMultiple} = this.state;
+    const {searchText} = this.state;
     const {
       t,
       theme,
       selectedUsers,
-      trustMembers,
+      searchedUsers,
       searchPageLimited,
       isLoading,
     } = this.props;
     return (
       <MCRootView justify="flex-start">
-        <MCHeader
-          title={t('title_select_chat_member')}
-          hasRight={type === 'add_member'}
-          rightIcon="cloud-upload-alt"
-          onPressRight={() => this.onAddMembersToChatRoom()}
-        />
+        <MCHeader title={t('title_select_user')} />
         <MCSearchInput
           width={350}
           text={searchText}
@@ -203,7 +168,7 @@ class SelectChatMemberScreen extends React.Component {
               alignItems: 'center',
               paddingBottom: 100,
             }}
-            data={trustMembers}
+            data={searchedUsers}
             renderItem={this._renderUserItem}
             ListEmptyComponent={
               <MCEmptyText>
@@ -211,7 +176,7 @@ class SelectChatMemberScreen extends React.Component {
               </MCEmptyText>
             }
             ListFooterComponent={
-              searchPageLimited && trustMembers.length ? (
+              searchPageLimited && searchedUsers.length ? (
                 <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
               ) : null
             }
@@ -220,7 +185,7 @@ class SelectChatMemberScreen extends React.Component {
             onEndReachedThreshold={0.5}
           />
 
-          {isMultiple && selectedUsers.length > 0 && (
+          {selectedUsers.length > 0 && (
             <MCView height={130} align="center">
               <H4>Selected Users ( {selectedUsers.length} )</H4>
               <FlatList
@@ -244,28 +209,25 @@ class SelectChatMemberScreen extends React.Component {
 
 const mapStateToProps = state => ({
   selectedUsers: state.usersReducer.selectedUsers,
-  trustMembers: state.usersReducer.trustMembers,
+  searchedUsers: state.usersReducer.searchedUsers,
   searchPageLimited: state.usersReducer.searchPageLimited,
   searchPageIndex: state.usersReducer.searchPageIndex,
   pageSearching: state.usersReducer.pageSearching,
   myProfile: state.profileReducer,
   theme: state.routerReducer.theme,
   isLoading: state.routerReducer.isLoading,
-  selectedRoom: state.chatReducer.selectedRoom,
 });
 
 const mapDispatchToProps = {
   selectUser: userActions.selectUser,
   deselectUser: userActions.deselectUser,
   selectSingleUser: userActions.selectSingleUser,
-  getTrustMembers: userActions.getTrustMembers,
-  setSeletedUsers: userActions.setSeletedUsers,
-  addMemberToRoom: chatActions.addMemberToRoom,
+  findUntrustUserByName: userActions.findUntrustUserByName,
 };
 
 export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(SelectChatMemberScreen),
+  )(SelectUntrustMemberScreen),
 );

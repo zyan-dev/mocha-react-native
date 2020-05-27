@@ -1,5 +1,6 @@
 import database from '@react-native-firebase/database';
 import * as _ from 'lodash';
+import auth from '@react-native-firebase/auth';
 import * as types from './types';
 import {setLoading} from './route';
 import {compareTimeStampWithDate} from 'services/operators';
@@ -60,10 +61,29 @@ export const getRoomMessages = (roomId, count) => (dispatch, getState) => {
 export const startChatListener = () => (dispatch, getState) => {
   const profile = getState().profileReducer;
   if (!profile.userToken) return;
-  database()
-    .ref(`/chat_listener/${profile._id}`)
-    .on('value', snapshot => {
-      dispatch(getMyChatRooms());
+  const chatRef = database().ref(`/chat_listener/${profile._id}`);
+  if (chatRef) {
+    chatRef.off();
+    database()
+      .ref(`/chat_listener/${profile._id}`)
+      .on('value', snapshot => {
+        dispatch(getMyChatRooms());
+      });
+  }
+};
+
+export const firebaseAuthentication = () => (dispatch, getState) => {
+  const profile = getState().profileReducer;
+  if (!profile.userToken) return;
+  if (auth().currentUser) dispatch(startChatListener());
+  auth()
+    .signInWithEmailAndPassword('admin@mocha.com', 'Tian.Mocha.Firebase.Secure')
+    .then(() => {
+      console.log('Firebase Authentication successed!');
+      dispatch(startChatListener());
+    })
+    .catch(error => {
+      console.log('Firebase Authentication failed!', e.toString());
     });
 };
 

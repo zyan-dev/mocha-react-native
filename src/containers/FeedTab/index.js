@@ -7,9 +7,11 @@ import SendRequestScreen from './send_request';
 import MyTrustNetworkScreen from './manage_trustnetwork';
 import ManageTrustNetworkScreen from './manage_trustnetwork/Manage';
 import PendingRequestScreen from './pending';
+import CommunityRulesScreen from './CommunityRules';
 import AddPendingUserScreen from './pending/Add';
 import CreateChatRoomScreen from './social/chat/Create';
 import SelectChatMemberScreen from './social/chat/SelectMember';
+import SelectUntrustMemberScreen from './manage_trustnetwork/SelectUntrustMembers';
 import ChatRoomScreen from './social/chat/Room';
 import SocialSideMenu from './SideMenu';
 import {dySize} from 'utils/responsive';
@@ -53,6 +55,10 @@ class SocialStack extends React.Component {
             component={PendingRequestScreen}
           />
           <Stack.Screen
+            name="CommunityRules"
+            component={CommunityRulesScreen}
+          />
+          <Stack.Screen
             name="AddPendingUser"
             component={AddPendingUserScreen}
           />
@@ -63,6 +69,10 @@ class SocialStack extends React.Component {
           <Stack.Screen
             name="SelectChatMember"
             component={SelectChatMemberScreen}
+          />
+          <Stack.Screen
+            name="SelectUntrustMember"
+            component={SelectUntrustMemberScreen}
           />
           <Stack.Screen name="ChatRoom" component={ChatRoomScreen} />
         </Stack.Navigator>

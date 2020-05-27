@@ -11,7 +11,8 @@ const URL_SEND_SMS = '/auth/signup-request';
 const URL_VERIFY_SMS = '/auth/signup-confirm';
 const URL_MY_PROFILE = '/user/me';
 const URL_USER_FIND = '/user/find';
-const URL_SEARCH_USER = '/user/search-user'; // returns user who is not in trust network
+const URL_SEARCH_USER = '/user/search-user'; // returns user whom you can send request
+const URL_SEARCH_UNTRUST_USER = '/user/search-untrustuser'; // returns untrust members
 const URL_MY_PROFILE_PHONE = '/user/me/phone-number';
 const URL_REFLECTION_UPDATE = '/reflection/update';
 const URL_REFLECTION_ADD = '/reflection/add';
@@ -22,7 +23,7 @@ const URL_FEEDBACK = '/feedback';
 const URL_REQUEST_FEEDBACK = '/feedback/request';
 const URL_NOTIFICATION = '/notification';
 const URL_TRUST_MEMBERS = '/member';
-const URL_USER_PROFILE = '/user/profile/';
+const URL_USER_PROFILE = '/user/trust/profile/';
 const URL_NETWORK = '/network';
 const URL_COMMIT = '/commit';
 const URL_RESOURCE = '/resource';
@@ -150,8 +151,15 @@ const findUserByName = param =>
     {},
     true,
   );
-const getUntrustmembers = param =>
+const getRequestUsers = param =>
   apiCall('get', `${URL_SEARCH_USER}?page=${param.page}`, {}, true);
+const getUntrustMembers = param =>
+  apiCall(
+    'get',
+    `${URL_SEARCH_UNTRUST_USER}?name=${param.name}&page=${param.page}`,
+    {},
+    true,
+  );
 
 const fileUploadToS3 = async ({image, type, userId}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
@@ -179,6 +187,11 @@ const updateChatRoom = param =>
 const deleteChatRoom = roomId =>
   apiCall('delete', `${URL_CHAT}/${roomId}`, {}, true);
 const addPosts = param => apiCall('post', `${URL_POST}`, param, true);
+const updatePosts = param => apiCall('post', `${URL_POST}/update`, param, true);
+const getPostsById = (id, page) =>
+  apiCall('get', `${URL_POST}/${id}?page=${page}`, {}, true);
+const getPosts = (title, page) =>
+  apiCall('get', `${URL_POST}/all?title=${title}&page=${page}`, {}, true);
 const removePosts = param => apiCall('post', `${URL_POST}/remove`, param, true);
 
 export default {
@@ -226,11 +239,15 @@ export default {
   getResourceByTitle,
   searchResources,
   findUserByName,
-  getUntrustmembers,
+  getRequestUsers,
+  getUntrustMembers,
   createChatRoom,
   getMyChatRooms,
   updateChatRoom,
   deleteChatRoom,
+  getPostsById,
   addPosts,
+  updatePosts,
+  getPosts,
   removePosts,
 };

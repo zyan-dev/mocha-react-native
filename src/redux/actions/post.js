@@ -9,8 +9,14 @@ export const getUserPosts = () => ({
   type: types.GET_USER_POSTS,
 });
 
-export const getMyPosts = () => ({
-  type: types.GET_MY_POSTS,
+export const getPostsById = param => ({
+  type: types.GET_POSTS_BY_ID,
+  payload: param,
+});
+
+export const getPosts = param => ({
+  type: types.GET_ALL_POSTS,
+  payload: param,
 });
 
 export const setInitialPost = () => ({
@@ -24,4 +30,9 @@ export const updateSelectedPost = data => ({
 
 export const addOrUpdatePost = () => ({
   type: types.ADD_OR_UPDATE_POST,
+});
+
+export const removePosts = ids => ({
+  type: types.REMOVE_POSTS,
+  payload: ids,
 });

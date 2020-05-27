@@ -31,7 +31,7 @@ class DiscoverValueScreen extends React.Component {
       swiped: [],
       coreValues: [],
       selectedValues: [], // important values
-      step: 1,
+      step: 0,
       submitted: false,
       showHowModal: false,
     };
