@@ -141,6 +141,7 @@ function* mySaga() {
   yield takeEvery(types.ADD_OR_UPDATE_POST, postSaga.addOrUpdatePost);
   yield takeEvery(types.GET_POSTS_BY_ID, postSaga.getPostsById);
   yield takeEvery(types.GET_ALL_POSTS, postSaga.getPosts);
+  yield takeEvery(types.REMOVE_POSTS, postSaga.removePosts);
 }
 
 export default mySaga;

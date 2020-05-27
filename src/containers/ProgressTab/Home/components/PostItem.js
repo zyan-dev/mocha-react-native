@@ -4,18 +4,23 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {MCView, NativeCard, DividerLine} from 'components/styled/View';
-import {MCTagsView, MCReadMoreText, MCImage} from 'components/common';
+import {MCTagsView, MCReadMoreText, MCImage, MCIcon} from 'components/common';
 import {H3, H4} from 'components/styled/Text';
+import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 
 class PostItem extends React.PureComponent {
   static propTypes = {
     post: PropTypes.object.isRequired,
     editable: PropTypes.bool,
+    onPressEdit: PropTypes.func,
+    onPressRemove: PropTypes.func,
   };
 
   static defaultProps = {
     editable: true,
+    onPressEdit: () => undefined,
+    onPressRemove: () => undefined,
   };
 
   _renderAttachItem = ({item}) => {
@@ -31,7 +36,7 @@ class PostItem extends React.PureComponent {
   };
 
   render() {
-    const {t, post, editable, profile} = this.props;
+    const {t, post, editable, profile, onPressEdit, onPressRemove} = this.props;
     const isOwn = post.ownerId === profile._id;
     return (
       <NativeCard width={340} mt={15} align="flex-start">
@@ -48,7 +53,21 @@ class PostItem extends React.PureComponent {
             </MCView>
           )}
           <MCView style={{flex: 1}}>
-            <H3 weight="bold">{post.title}</H3>
+            <MCView row>
+              <H3 weight="bold" style={{flex: 1}}>
+                {post.title}
+              </H3>
+              {editable && (
+                <MCButton onPress={() => onPressEdit()} pt={1} pb={1}>
+                  <MCIcon name="ios-create" padding={1} />
+                </MCButton>
+              )}
+              {editable && (
+                <MCButton onPress={() => onPressRemove()} pt={1} pb={1}>
+                  <MCIcon name="ios-trash" padding={1} />
+                </MCButton>
+              )}
+            </MCView>
             <MCReadMoreText>
               <H4>{post.content}</H4>
             </MCReadMoreText>

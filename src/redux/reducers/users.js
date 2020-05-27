@@ -26,7 +26,7 @@ const INITIAL_STATE = {
   selectedUser: [], // for single picker
   searchedUsers: [], // for full search
   searchedUnTrustMembers: [], // for send request screen
-  v: false,
+  searchPageLimited: false,
   pageSearching: false,
   searchPageIndex: 1,
 };

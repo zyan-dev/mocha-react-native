@@ -187,7 +187,9 @@ const updateChatRoom = param =>
 const deleteChatRoom = roomId =>
   apiCall('delete', `${URL_CHAT}/${roomId}`, {}, true);
 const addPosts = param => apiCall('post', `${URL_POST}`, param, true);
-const getPostsById = id => apiCall('get', `${URL_POST}/${id}`, {}, true);
+const updatePosts = param => apiCall('post', `${URL_POST}/update`, param, true);
+const getPostsById = (id, page) =>
+  apiCall('get', `${URL_POST}/${id}?page=${page}`, {}, true);
 const getPosts = (title, page) =>
   apiCall('get', `${URL_POST}/all?title=${title}&page=${page}`, {}, true);
 const removePosts = param => apiCall('post', `${URL_POST}/remove`, param, true);
@@ -245,6 +247,7 @@ export default {
   deleteChatRoom,
   getPostsById,
   addPosts,
+  updatePosts,
   getPosts,
   removePosts,
 };

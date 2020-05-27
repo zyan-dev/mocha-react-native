@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 class VerificationStack extends React.Component {
   render() {
     return (
-      <Stack.Navigator initialRouteName="Auth_OurValues" headerMode="none">
+      <Stack.Navigator initialRouteName="Auth_SendSMS" headerMode="none">
         <Stack.Screen name="Auth_SendSMS" component={SendSMSScreen} />
         <Stack.Screen name="Auth_VerifySMS" component={VerifySMSScreen} />
         <Stack.Screen name="Auth_CompleteSignUp" component={CompleteSignUp} />

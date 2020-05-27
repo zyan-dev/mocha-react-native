@@ -17,6 +17,9 @@ const INITIAL_STATE = {
   selectedPost: emptyPost,
   userPosts: [],
   myPosts: [],
+  pageLimited: false,
+  pageSearching: false,
+  pageIndex: 1,
 };
 
 const postReducer = (state = INITIAL_STATE, action) => {
@@ -48,6 +51,21 @@ const postReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         myPosts: action.payload,
+      };
+    case types.SET_PAGE_SEARCHING_STATE:
+      return {
+        ...state,
+        pageSearching: action.payload,
+      };
+    case types.SET_SEARCH_PAGE_LIMITED:
+      return {
+        ...state,
+        pageLimited: action.payload,
+      };
+    case types.ADD_USER_POSTS:
+      return {
+        ...state,
+        userPosts: state.userPosts.concat(action.payload),
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

@@ -266,10 +266,10 @@ class ChatBubbleItem extends React.Component {
                   )}
                   {bubble.text === 'chat_message_deleted' && (
                     <H4
-                      color={mine ? 'white' : 'black'}
                       ph={5}
                       weight="italic"
-                      color={theme.colors.border}>
+                      style={{opacity: 0.5}}
+                      color={mine ? 'white' : 'black'}>
                       {convertChatMessage(bubble, selectedRoom)}
                     </H4>
                   )}

@@ -33,7 +33,7 @@ class ProgressScreen extends React.Component {
       case 1:
         break;
       case 2:
-        this.props.getPostsById(profile._id);
+        this.props.getPostsById({id: profile._id, page: 1});
         break;
       case 3:
         this.props.getPosts({title: '', page: 1});
