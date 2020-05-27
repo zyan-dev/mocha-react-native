@@ -56,11 +56,6 @@ class ResourceScreen extends React.PureComponent {
           rightIcon="plus"
           onPressRight={() => this.onPressRight()}
           hasBack={false}
-          headerIcon={
-            <MCView ml={10}>
-              <MCIcon type="FontAwesome5" name="book-reader" size={30} />
-            </MCView>
-          }
         />
         <ResourceTabView
           tabIndex={tabIndex}

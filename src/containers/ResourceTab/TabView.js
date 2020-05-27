@@ -32,7 +32,7 @@ class ResourceTabView extends React.Component {
 
     switch (index) {
       case 0:
-        getAllResources(1);
+        // getAllResources(1);
         break;
       case 1:
         getTrustMemberResources(1);
