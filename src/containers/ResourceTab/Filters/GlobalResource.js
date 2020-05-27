@@ -31,8 +31,8 @@ class GlobalResourceScreen extends React.PureComponent {
       setALLResourcePageIndex,
       setSearchResourcePageIndex,
     } = this.props;
-    setSearchResourcePageIndex(1);
-    setALLResourcePageIndex(1);
+    // setSearchResourcePageIndex(1);
+    // setALLResourcePageIndex(1);
   }
 
   onPressItem = item => {
@@ -41,11 +41,11 @@ class GlobalResourceScreen extends React.PureComponent {
 
   filterResource(searchText) {
     this.setState({searchText});
-    if (searchText) {
-      this.searchBooks();
-    } else {
-      this.props.resetSearchResources();
-    }
+    // if (searchText) {
+    //   this.searchBooks();
+    // } else {
+    //   this.props.resetSearchResources();
+    // }
   }
 
   searchBooks = _.debounce(() => {
@@ -87,7 +87,7 @@ class GlobalResourceScreen extends React.PureComponent {
             </MCButton>
           ))}
         </MCView>
-        {focused == 'books' ? (
+        {/*{focused == 'books' ? (
           <BookResourceScreen
             selectedMember={selectedMember}
             sort={sort}
@@ -100,7 +100,12 @@ class GlobalResourceScreen extends React.PureComponent {
               <H3>Coming Soon</H3>
             </MCView>
           </MCContent>
-        )}
+        )} */}
+        <MCContent>
+          <MCView align="center" mt={100}>
+            <H3>Recommendations - Coming soon</H3>
+          </MCView>
+        </MCContent>
       </MCRootView>
     );
   }
