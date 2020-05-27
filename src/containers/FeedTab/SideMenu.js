@@ -34,7 +34,7 @@ const sideMenuList = [
     index: 4,
     icon: 'shield-check',
     iconType: 'FontAwesome5Pro',
-    title: 'feed_menu_pending_requests',
+    title: 'feed_menu_community_rules',
     redirectTo: 'CommunityRules',
   },
 ];
@@ -75,7 +75,9 @@ class SocialSideMenu extends React.Component {
               align="flex-start"
               row
               onPress={() => this.onPressItem(menu)}>
-              <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
+              <MCView width={40} align="center">
+                <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
+              </MCView>
               <H3 align="right" ml={6}>
                 {t(menu.title)}
               </H3>

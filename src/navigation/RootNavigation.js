@@ -32,9 +32,7 @@ class RootNavigator extends React.Component {
     return (
       <NavigationContainer ref={ref => NavigationService.setNavigator(ref)}>
         <Stack.Navigator headerMode="none">
-          {isNewUser && (
-            <Stack.Screen name="welcomeStack" component={WelcomeStack} />
-          )}
+          {1 && <Stack.Screen name="welcomeStack" component={WelcomeStack} />}
           <Stack.Screen name="mainStack" component={MainHomeStack} />
           <Stack.Screen name="UserProfile" component={UserProfile} />
           <Stack.Screen name="UserHabit" component={UserHabitScreen} />
