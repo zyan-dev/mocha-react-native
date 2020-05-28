@@ -212,7 +212,7 @@ class ContactCard extends React.Component {
                   {profile.namepronoun.length > 0 && (
                     <MCButton
                       onPress={() => this.onTogglePlayback()}
-                      disabled={profile.namepronoun.length === 0}>
+                      disabled={profile.namepronoun.indexOf('https:') > -1}>
                       <MCIcon type="FontAwesome5Pro" name="volume" size={40} />
                     </MCButton>
                   )}
