@@ -51,9 +51,15 @@ class ProgressMembersTab extends React.Component {
   };
 
   searchNextPagePosts = () => {
-    const {pageLimited, pageSearching, pageIndex, getPostsById} = this.props;
+    const {
+      pageLimited,
+      pageSearching,
+      pageIndex,
+      getPostsById,
+      selectedUser,
+    } = this.props;
     if (pageLimited || pageSearching) return;
-    getPostsById({id: user._id, page: pageIndex + 1});
+    getPostsById({id: selectedUser._id, page: pageIndex + 1});
   };
 
   _renderAvatar = ({item}) => {
