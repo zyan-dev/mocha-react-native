@@ -320,7 +320,7 @@ class DiscoverValueScreen extends React.Component {
           hasRight
           title={t('tools_tab_discover_your_values')}
           headerIcon={<KeySvg theme={theme} size={30} />}
-          rightIcon={step && 'cloud-upload-alt'}
+          rightIcon={step ? 'cloud-upload-alt' : ''}
           rightText={step ? t('button_save') : t('button_view_all')}
           onPressBack={() => this.onPressHeaderBack()}
           onPressRight={() => this.onPressRight()}

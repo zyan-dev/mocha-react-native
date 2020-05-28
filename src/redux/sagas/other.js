@@ -117,7 +117,7 @@ export function* syncDataForNewUser(action) {
       type: types.API_FINISHED,
       payload: 'All data has been synced successfully',
     });
-    NavigationService.navigate('Auth_OurValues');
+    NavigationService.navigate('Auth_NamePronunciation');
   } catch (e) {
     yield put({
       type: types.API_FINISHED,
