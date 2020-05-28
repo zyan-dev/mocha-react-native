@@ -8,6 +8,7 @@ import {MCRootView} from 'components/styled/View';
 import {MCEmptyText} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import PostItem from './components/PostItem';
+import NavigationService from 'navigation/NavigationService';
 
 class ProgressSearchTab extends React.Component {
   constructor(props) {
@@ -33,7 +34,13 @@ class ProgressSearchTab extends React.Component {
     const {profile} = this.props;
     const post = item;
     if (post.ownerId === profile._id) return null;
-    return <PostItem post={post} editable={false} />;
+    return (
+      <PostItem
+        post={post}
+        editable={false}
+        onPressDetail={() => NavigationService.navigate('PostDetail', {post})}
+      />
+    );
   };
 
   render() {

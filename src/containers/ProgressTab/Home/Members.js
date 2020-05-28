@@ -10,6 +10,7 @@ import {H3, MCEmptyText} from 'components/styled/Text';
 import {MCContent} from 'components/styled/View';
 import PostItem from './components/PostItem';
 import {dySize} from 'utils/responsive';
+import NavigationService from 'navigation/NavigationService';
 
 class ProgressMembersTab extends React.Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class ProgressMembersTab extends React.Component {
     if (userPageLimited || userPageSearching) return;
     getTrustMembers({
       status: 1,
-      name: text,
+      name: this.state.searchName,
       page: userSearchIndex + 1,
     });
   };
@@ -50,14 +51,21 @@ class ProgressMembersTab extends React.Component {
   };
 
   searchNextPagePosts = () => {
-    const {pageLimited, pageSearching, pageIndex, getPostsById} = this.props;
+    const {
+      pageLimited,
+      pageSearching,
+      pageIndex,
+      getPostsById,
+      selectedUser,
+    } = this.props;
     if (pageLimited || pageSearching) return;
-    getPostsById({id: user._id, page: pageIndex + 1});
+    getPostsById({id: selectedUser._id, page: pageIndex + 1});
   };
 
   _renderAvatar = ({item}) => {
     const {theme, selectedUser} = this.props;
     const user = item;
+    if (!selectedUser) return null;
     const selected = selectedUser._id === user._id;
     return (
       <MCButton mr={10} onPress={() => this.onPressUser(user)} br={20}>
@@ -78,7 +86,13 @@ class ProgressMembersTab extends React.Component {
 
   _renderPostItem = ({item}) => {
     const post = item;
-    return <PostItem post={post} editable={false} />;
+    return (
+      <PostItem
+        post={post}
+        editable={false}
+        onPressDetail={() => NavigationService.navigate('PostDetail', {post})}
+      />
+    );
   };
 
   render() {

@@ -17,12 +17,17 @@ const TagView = styled(H4)`
 export default class MCTagsView extends React.PureComponent {
   static propTypes = {
     tags: PropTypes.array.isRequired,
+    more: PropTypes.node,
+  };
+
+  static defaultProps = {
+    more: null,
   };
 
   render() {
-    const {tags} = this.props;
+    const {tags, more} = this.props;
     return (
-      <MCView row wrap style={{flex: 1}}>
+      <MCView row wrap style={{width: '100%'}}>
         {!tags.length ? (
           <H4>No tags</H4>
         ) : (
@@ -32,6 +37,7 @@ export default class MCTagsView extends React.PureComponent {
             </TagView>
           ))
         )}
+        {more}
       </MCView>
     );
   }
