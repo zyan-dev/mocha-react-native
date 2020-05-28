@@ -218,7 +218,7 @@ class ContactCard extends React.Component {
                   )}
                 </MCView>
                 {status.length > 0 && <H4>{t(status)}</H4>}
-                {!editing && profile.namepronoun.length === 0 && (
+                {!editing && profile.namepronoun.indexOf('https:') < 0 && (
                   <MCEmptyText>No record</MCEmptyText>
                 )}
               </MCView>
@@ -231,7 +231,7 @@ class ContactCard extends React.Component {
               )}: `}</H4>
               <MCView width={300}>
                 <MCEditableText
-                  multiline
+                  multiline={key === 'neighborhood'}
                   text={profile[key]}
                   placeholder={t(`profile_card_${key}_placeholder`)}
                   editable={key === 'phone' ? false : editing}
