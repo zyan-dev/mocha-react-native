@@ -20,6 +20,7 @@ const INITIAL_STATE = {
   pageLimited: false,
   pageSearching: false,
   pageIndex: 1,
+  selectedUser: null,
 };
 
 const postReducer = (state = INITIAL_STATE, action) => {
@@ -41,6 +42,11 @@ const postReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         selectedPost: _.cloneDeep(emptyPost),
+      };
+    case types.SET_SELECTED_POST_USER:
+      return {
+        ...state,
+        selectedUser: action.payload,
       };
     case types.SET_USER_POSTS:
       return {

@@ -33,7 +33,7 @@ class ProgressSearchTab extends React.Component {
     const {profile} = this.props;
     const post = item;
     if (post.ownerId === profile._id) return null;
-    return <PostItem post={post} />;
+    return <PostItem post={post} editable={false} />;
   };
 
   render() {

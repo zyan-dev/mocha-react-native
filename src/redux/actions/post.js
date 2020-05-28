@@ -36,3 +36,8 @@ export const removePosts = ids => ({
   type: types.REMOVE_POSTS,
   payload: ids,
 });
+
+export const selectPostUser = user => ({
+  type: types.SET_SELECTED_POST_USER,
+  payload: user,
+});

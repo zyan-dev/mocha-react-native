@@ -16,7 +16,7 @@ export function* getTrustMembers(action) {
       type: types.SET_PAGE_SEARCHING_STATE,
       payload: true,
     });
-    // call send sms API
+
     const response = yield call(API.getTrustMembers, action.payload);
     if (response.data.status === 'success') {
       yield put({
@@ -30,6 +30,25 @@ export function* getTrustMembers(action) {
         type: types.SET_SEARCH_PAGE_LIMITED,
         payload: action.payload.page === response.data.data.total_pages,
       });
+      // select the first trust member by default for users posts screen
+      if (
+        action.payload.status === 1 &&
+        action.payload.page === 1 &&
+        response.data.data.contacts.length > 0
+      ) {
+        yield put({
+          type: types.SET_SELECTED_POST_USER,
+          payload: response.data.data.contacts[0],
+        });
+        yield put({
+          type: types.GET_POSTS_BY_ID,
+          payload: {id: response.data.data.contacts[0]._id, page: 1},
+        });
+        yield put({
+          type: types.SET_USER_POSTS,
+          payload: [],
+        });
+      }
     } else {
       yield put({
         type: types.API_FINISHED,

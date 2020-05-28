@@ -68,15 +68,6 @@ class SelectUntrustMemberScreen extends React.Component {
     return (
       <NativeCard width={350} pv={1} mt={10}>
         <MCView key={user.user_id} row align="center" shadow p={0}>
-          <MCButton onPress={() => this.onPressUserAvatar(user)}>
-            <MCImage
-              width={80}
-              height={80}
-              round
-              type="avatar"
-              image={{uri: user.avatar}}
-            />
-          </MCButton>
           <MCButton
             style={{flex: 1}}
             row
@@ -84,6 +75,13 @@ class SelectUntrustMemberScreen extends React.Component {
             onPress={() => {
               selected ? this.deselectUser(user) : this.selectUser(user);
             }}>
+            <MCImage
+              width={80}
+              height={80}
+              round
+              type="avatar"
+              image={{uri: user.avatar}}
+            />
             <MCView style={{flex: 1}} ml={10} justify="center">
               <H3>{user.name}</H3>
               <H4 padding={0} color={theme.colors.border}>

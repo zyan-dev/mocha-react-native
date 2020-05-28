@@ -4,7 +4,10 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
 import {MCHeader, MCIcon} from 'components/common';
-import {postActions} from 'Redux/actions';
+import {MCRootView} from 'components/styled/View';
+import {MCButton} from 'components/styled/Button';
+import {H3} from 'components/styled/Text';
+import {postActions, userActions} from 'Redux/actions';
 import ProgressChallengeTab from './Challenges';
 import ProgressMembersTab from './Members';
 import ProgressOwnTab from './MyProgress';
@@ -31,6 +34,11 @@ class ProgressScreen extends React.Component {
       case 0:
         break;
       case 1:
+        this.props.getTrustMembers({
+          status: 1,
+          name: '',
+          page: 1,
+        });
         break;
       case 2:
         this.props.getPostsById({id: profile._id, page: 1});
@@ -43,7 +51,7 @@ class ProgressScreen extends React.Component {
   };
 
   render() {
-    const {t, theme} = this.props;
+    const {t, theme, profile} = this.props;
     const {index} = this.state;
     const routes = [
       {
@@ -82,6 +90,22 @@ class ProgressScreen extends React.Component {
         }}
       />
     );
+
+    if (!profile.userToken) {
+      return (
+        <MCRootView>
+          <H3 mb={10}>{t('sign_up_required')}</H3>
+          <MCButton
+            bordered
+            pl={20}
+            pr={20}
+            onPress={() => NavigationService.navigate('VerificationStack')}>
+            <H3>{t('button_go_to_signup')}</H3>
+          </MCButton>
+        </MCRootView>
+      );
+    }
+
     return (
       <View style={{flex: 1, backgroundColor: theme.colors.background}}>
         <MCHeader
@@ -116,6 +140,7 @@ const mapDispatchToProps = {
   setInitialPost: postActions.setInitialPost,
   getPostsById: postActions.getPostsById,
   getPosts: postActions.getPosts,
+  getTrustMembers: userActions.getTrustMembers,
 };
 
 export default withTranslation()(

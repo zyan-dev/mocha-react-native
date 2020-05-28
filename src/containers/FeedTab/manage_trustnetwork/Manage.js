@@ -241,9 +241,7 @@ class ManageTrustNetworkScreen extends React.Component {
                 width={250}
                 bordered
                 background={theme.colors.danger}>
-                <H3 color={theme.colors.text}>
-                  {t('button_remove_trust_network')}
-                </H3>
+                <H3 color="white">{t('button_remove_trust_network')}</H3>
               </MCButton>
             </MCView>
           )}

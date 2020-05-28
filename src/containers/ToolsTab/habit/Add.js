@@ -365,7 +365,7 @@ class EditHabitScreen extends React.PureComponent {
                 width={250}
                 bordered
                 background={theme.colors.danger}>
-                <H3>{t('button_remove_habit')}</H3>
+                <H3 color="white">{t('button_remove_habit')}</H3>
               </MCButton>
             </MCView>
           )}
