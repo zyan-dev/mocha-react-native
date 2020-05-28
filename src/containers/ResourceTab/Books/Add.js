@@ -15,6 +15,7 @@ import {
   MCReadMoreText,
   MCSearchInput,
   MCImage,
+  MCIcon,
 } from 'components/common';
 import {dySize} from 'utils/responsive';
 import {skills, impacts} from 'utils/constants';
@@ -31,6 +32,7 @@ class AddResourceScreen extends React.PureComponent {
       selectedSkills: [],
       selectedTags: [],
       searchText: '',
+      added: false,
     };
   }
 
@@ -162,11 +164,13 @@ class AddResourceScreen extends React.PureComponent {
           ...resource.data,
         },
         type: 'books',
+        _id: resource._id,
+        draft: false,
       };
       createResources([data]);
     }
     this.props.updateSelectedResource({skills: []});
-    this.props.updateSelectedResource({impacts: []});
+    this.props.updateSelectedResource({impacts: ''});
     this.props.updateSelectedResource({tags: []});
   };
 
@@ -195,6 +199,51 @@ class AddResourceScreen extends React.PureComponent {
     });
   };
 
+  addResourceBookmark = () => {
+    if (!this.validateTitle()) return;
+
+    this.setState({added: !this.state.added});
+    this.setState({submitted: true});
+    const {selectedImpacts, selectedSkills, selectedTags} = this.state;
+    const {resourceByTitle, createResources} = this.props;
+    let resource = resourceByTitle;
+    // let type;
+
+    resource.data.tags = [...selectedTags];
+    let skills = [...selectedSkills];
+
+    if (selectedTags.length == 0) {
+      skills = skills.filter(skill => skill.indexOf('resource_manual_') < 0);
+    } else {
+      selectedTags.forEach(tag => {
+        if (
+          skills.indexOf(tag) == -1 &&
+          skills.indexOf(`resource_manual_${tag}`) == -1
+        ) {
+          skills.push(`resource_manual_${tag}`);
+        }
+      });
+    }
+
+    resource.data.skills = skills;
+    resource.data.impacts = selectedImpacts;
+
+    delete resource.data.type;
+
+    const data = {
+      resourceData: {
+        ...resource.data,
+      },
+      type: 'books',
+      draft: true,
+    };
+    createResources([data]);
+
+    this.props.updateSelectedResource({skills: []});
+    this.props.updateSelectedResource({impacts: ''});
+    this.props.updateSelectedResource({tags: []});
+  };
+
   render() {
     const {
       flagMore,
@@ -202,8 +251,9 @@ class AddResourceScreen extends React.PureComponent {
       selectedSkills,
       selectedTags,
       searchText,
+      added,
     } = this.state;
-    const {t, resourceByTitle} = this.props;
+    const {t, resourceByTitle, theme} = this.props;
 
     let resource = resourceByTitle;
 
@@ -245,7 +295,7 @@ class AddResourceScreen extends React.PureComponent {
                     image={{uri: resource.data.thumbnail}}
                   />
                 </MCView>
-                <MCView width={210}>
+                <MCView width={180} mr={30}>
                   <H3 weight="bold">{resource.data.title}</H3>
                   <H5 weight="bold">{t('resource_type_book_author')}</H5>
                   {resource.data.authors &&
@@ -272,6 +322,19 @@ class AddResourceScreen extends React.PureComponent {
                       ))}
                   </MCView>
                 </MCView>
+                {!resource._id && (
+                  <MCView absolute style={{right: 0}}>
+                    <MCButton
+                      align="center"
+                      onPress={() => this.addResourceBookmark()}>
+                      <MCIcon
+                        name={added ? 'ios-star' : 'ios-star-outline'}
+                        size={15}
+                        color={added && theme.colors.like}
+                      />
+                    </MCButton>
+                  </MCView>
+                )}
               </MCView>
               <MCView mt={10}>
                 <H5 weight="bold">{t('resource_type_book_description')}</H5>
@@ -371,6 +434,7 @@ class AddResourceScreen extends React.PureComponent {
 const mapStateToProps = state => ({
   selectedResource: state.resourceReducer.selectedResource,
   resourceByTitle: state.resourceReducer.resourceByTitle,
+  theme: state.routerReducer.theme,
 });
 
 const mapDispatchToProps = {

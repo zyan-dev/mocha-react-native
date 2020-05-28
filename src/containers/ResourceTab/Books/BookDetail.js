@@ -264,7 +264,11 @@ class BookDetailScreen extends React.PureComponent {
                   <H4 underline>{t('resource_type_book_impact')}</H4>
                   {impactsArray.map(item => (
                     <MCBookTagsView
-                      tags={[impacts[parseInt(Object.keys(item) - 1)]]}
+                      tags={
+                        impacts[parseInt(Object.keys(item) - 1)]
+                          ? [impacts[parseInt(Object.keys(item) - 1)]]
+                          : []
+                      }
                       impact={true}
                       users={item[Object.keys(item)]}
                       t={t}
@@ -289,7 +293,11 @@ class BookDetailScreen extends React.PureComponent {
               <MCView width={350} mb={30} row justify="center">
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_impact')}</H4>
-                  <MCBookTagsView tags={[impacts[index]]} impact={true} t={t} />
+                  <MCBookTagsView
+                    tags={impacts[index] ? [impacts[index]] : []}
+                    impact={true}
+                    t={t}
+                  />
                 </MCView>
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_skill')}</H4>
