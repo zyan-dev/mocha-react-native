@@ -1,4 +1,5 @@
 import React from 'react';
+import {Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {FlatList} from 'react-native-gesture-handler';
 import {withTranslation} from 'react-i18next';
@@ -20,7 +21,23 @@ class ProgressOwnTab extends React.Component {
   };
 
   onPressRemove = post => {
-    this.props.removePosts([post._id]);
+    const {t} = this.props;
+    Alert.alert(
+      t('alert_title_mocha'),
+      t('alert_remove_post'),
+      [
+        {
+          text: t('button_cancel'),
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: t('button_ok'),
+          onPress: () => this.props.removePosts([post._id]),
+        },
+      ],
+      {cancelable: false},
+    );
   };
 
   _renderPostItem = ({item}) => {
@@ -30,6 +47,7 @@ class ProgressOwnTab extends React.Component {
         post={post}
         onPressEdit={() => this.onPressEdit(post)}
         onPressRemove={() => this.onPressRemove(post)}
+        onPressDetail={() => NavigationService.navigate('PostDetail', {post})}
       />
     );
   };

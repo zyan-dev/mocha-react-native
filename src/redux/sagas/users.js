@@ -4,6 +4,9 @@ import API from 'services/api';
 import {showAlert} from 'services/operators';
 
 export function* getTrustMembers(action) {
+  const {
+    postReducer: {selectedUser},
+  } = yield select();
   try {
     if (action.payload.page === 1) {
       yield put({
@@ -19,12 +22,13 @@ export function* getTrustMembers(action) {
 
     const response = yield call(API.getTrustMembers, action.payload);
     if (response.data.status === 'success') {
+      const contacts = response.data.data.contacts;
       yield put({
         type:
           action.payload.status === 0
             ? types.SET_PENDING_MEMBERS
             : types.SET_TRUST_MEMBERS,
-        payload: response.data.data.contacts,
+        payload: contacts,
       });
       yield put({
         type: types.SET_SEARCH_PAGE_LIMITED,
@@ -34,20 +38,28 @@ export function* getTrustMembers(action) {
       if (
         action.payload.status === 1 &&
         action.payload.page === 1 &&
-        response.data.data.contacts.length > 0
+        contacts.length > 0
       ) {
-        yield put({
-          type: types.SET_SELECTED_POST_USER,
-          payload: response.data.data.contacts[0],
-        });
-        yield put({
-          type: types.GET_POSTS_BY_ID,
-          payload: {id: response.data.data.contacts[0]._id, page: 1},
-        });
-        yield put({
-          type: types.SET_USER_POSTS,
-          payload: [],
-        });
+        // select default user if selected user is invalid
+        if (!selectedUser || !contacts.find(i => i._id === selectedUser._id)) {
+          yield put({
+            type: types.SET_SELECTED_POST_USER,
+            payload: contacts[0],
+          });
+          yield put({
+            type: types.GET_POSTS_BY_ID,
+            payload: {id: contacts[0]._id, page: 1},
+          });
+          yield put({
+            type: types.SET_USER_POSTS,
+            payload: [],
+          });
+        } else {
+          yield put({
+            type: types.GET_POSTS_BY_ID,
+            payload: {id: selectedUser._id, page: 1},
+          });
+        }
       }
     } else {
       yield put({

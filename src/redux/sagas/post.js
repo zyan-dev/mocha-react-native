@@ -35,7 +35,7 @@ export function* addOrUpdatePost(action) {
       const response = yield call(API.updatePosts, {data: [selectedPost]});
       if (response.data.status === 'success') {
         yield put({type: types.GET_POSTS_BY_ID, payload: {id: _id, page: 1}});
-        NavigationService.goBack();
+        NavigationService.navigate('Progress');
       } else {
         yield put({
           type: types.API_FINISHED,
@@ -51,7 +51,7 @@ export function* addOrUpdatePost(action) {
       const response = yield call(API.addPosts, {data: [selectedPost]});
       if (response.data.status === 'success') {
         yield put({type: types.GET_POSTS_BY_ID, payload: {id: _id, page: 1}});
-        NavigationService.goBack();
+        NavigationService.navigate('Progress');
       } else {
         yield put({
           type: types.API_FINISHED,
@@ -102,6 +102,7 @@ export function* getPosts(action) {
       type: types.SET_PAGE_SEARCHING_STATE,
       payload: true,
     });
+    yield put({type: types.API_CALLING});
     const response = yield call(
       API.getPosts,
       action.payload.title,
@@ -123,6 +124,7 @@ export function* getPosts(action) {
         type: types.SET_SEARCH_PAGE_LIMITED,
         payload: action.payload.page === response.data.data.total_pages,
       });
+      yield put({type: types.API_FINISHED});
     } else {
       yield put({
         type: types.API_FINISHED,

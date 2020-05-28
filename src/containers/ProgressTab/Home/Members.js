@@ -10,6 +10,7 @@ import {H3, MCEmptyText} from 'components/styled/Text';
 import {MCContent} from 'components/styled/View';
 import PostItem from './components/PostItem';
 import {dySize} from 'utils/responsive';
+import NavigationService from 'navigation/NavigationService';
 
 class ProgressMembersTab extends React.Component {
   constructor(props) {
@@ -79,7 +80,13 @@ class ProgressMembersTab extends React.Component {
 
   _renderPostItem = ({item}) => {
     const post = item;
-    return <PostItem post={post} editable={false} />;
+    return (
+      <PostItem
+        post={post}
+        editable={false}
+        onPressDetail={() => NavigationService.navigate('PostDetail', {post})}
+      />
+    );
   };
 
   render() {
