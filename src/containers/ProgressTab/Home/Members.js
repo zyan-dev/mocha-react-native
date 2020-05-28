@@ -58,6 +58,7 @@ class ProgressMembersTab extends React.Component {
   _renderAvatar = ({item}) => {
     const {theme, selectedUser} = this.props;
     const user = item;
+    if (!selectedUser) return null;
     const selected = selectedUser._id === user._id;
     return (
       <MCButton mr={10} onPress={() => this.onPressUser(user)} br={20}>
