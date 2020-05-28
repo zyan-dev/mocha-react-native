@@ -15,6 +15,8 @@ import {
 import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
+import {s3_Options} from 'utils/config';
+import {showAlert} from 'services/operators';
 
 class NamePronunciationScreen extends React.Component {
   constructor(props) {
@@ -57,7 +59,7 @@ class NamePronunciationScreen extends React.Component {
   prepareRecorder = () => {
     const {profile} = this.props;
     // Preparing record
-    this.recorder = new Recorder(`pronounce_${profile._id}.mp3`, {
+    this.recorder = new Recorder(`name_pronounce.mp4`, {
       bitrate: 256000,
       channels: 2,
       sampleRate: 44100,
@@ -97,13 +99,14 @@ class NamePronunciationScreen extends React.Component {
   }
 
   onToggleRecord = async recording => {
+    if (!this.recorder) return;
     if (recording) {
       this.setState({recording, status: 'recording'});
       if (this.recorder) {
         this.recorder.destroy();
       }
       this.recorder.record(error => {
-        console.log('record start error', error);
+        if (error) console.log('record start error', error);
       });
     } else {
       this.setState({recording, status: 'record_saving'});
@@ -113,11 +116,10 @@ class NamePronunciationScreen extends React.Component {
   };
 
   uploadAudioRecorded = async () => {
-    alert(ths.state.audioFilePath);
     const file = {
       uri: this.state.audioFilePath,
-      name: `Pronounce/${this.props.profile._id}_${new Date().getTime()}.mp3`,
-      type: `audio/mp3`,
+      name: `Pronounce/${this.props.profile._id}.mp4`,
+      type: `audio/mp4`,
     };
     const response = await RNS3.put(file, s3_Options);
     if (response.status !== 201) {
@@ -125,38 +127,55 @@ class NamePronunciationScreen extends React.Component {
       this.setState({status: 'record_upload_failed'});
     } else {
       const audioURL = response.body.postResponse.location;
-      console.log({audioURL});
       this.setState({audioURL});
       this.setState({status: 'record_saved'});
     }
   };
 
   onTogglePlayback = () => {
+    const {audioURL} = this.state;
     if (this.player) {
       this.player.destroy();
     }
     this.setState({status: 'record_loading_playback'});
-    this.player = new Player(this.state.audioURL, {
+    this.player = new Player(audioURL, {
       autoDestroy: false,
-    }).prepare(err => {
+    });
+    this.player.prepare(err => {
       this.setState({status: ''});
-      if (err) showAlert('Player Prepare error: ' + err);
-      else this.player.play();
+      if (err) {
+        console.log('Player Prepare error: ', err);
+      } else {
+        console.log('Playering audio..');
+        this.player.play();
+      }
+    });
+  };
+
+  onSaveNamePronunciation = () => {
+    this.props.updateProfile({namepronoun: this.state.audioURL});
+    setTimeout(() => {
+      this.props.updateContactProfile();
+      NavigationService.navigate('Auth_OurValues');
     });
   };
 
   render() {
     const {
       t,
+      theme,
       profile: {name},
+      updateProfile,
     } = this.props;
-    const {status, recording, audioURL} = this.state;
+    console.log({name});
+    const {status, recording, audioURL, audioFilePath} = this.state;
     return (
       <MCRootView justify="flex-start">
         <MCHeader
           title={t('title_name_pronunciation')}
           hasBack={false}
           hasRight
+          rightText={t('header_skip')}
           onPressRight={() => NavigationService.navigate('Auth_OurValues')}
         />
         <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
@@ -175,21 +194,37 @@ class NamePronunciationScreen extends React.Component {
           <H3 mt={70} align="center">
             {t('name_pronun_how_say')}
           </H3>
-          <MCView row align="center">
-            <MCButton onPress={() => this.onToggleRecord(!recording)} mr={60}>
-              <MCIcon
-                type="FontAwesome5Pro"
-                name={recording ? 'stop-circle' : 'microphone'}
-                size={40}
-              />
-            </MCButton>
-            <MCButton
-              onPress={() => this.onTogglePlayback()}
-              disabled={audioURL.length === 0}>
-              <MCIcon type="FontAwesome5Pro" name="volume" size={40} />
-            </MCButton>
-          </MCView>
+          {audioFilePath.length > 0 && (
+            <MCView row align="center">
+              <MCButton onPress={() => this.onToggleRecord(!recording)} mr={60}>
+                <MCIcon
+                  type="FontAwesome5Pro"
+                  name={recording ? 'stop-circle' : 'microphone'}
+                  size={40}
+                />
+              </MCButton>
+              <MCButton
+                onPress={() => this.onTogglePlayback()}
+                disabled={audioURL.length === 0}>
+                <MCIcon type="FontAwesome5Pro" name="volume" size={40} />
+              </MCButton>
+            </MCView>
+          )}
+
           {status.length > 0 && <H4>{t(status)}</H4>}
+          <MCButton
+            br={20}
+            height={40}
+            mt={40}
+            mb={100}
+            align="center"
+            background={theme.colors.outline}
+            pl={20}
+            pr={20}
+            disabled={audioURL.length === 0}
+            onPress={() => this.onSaveNamePronunciation()}>
+            <H3 color={theme.colors.background}>{t('button_finish')}</H3>
+          </MCButton>
         </MCContent>
       </MCRootView>
     );
@@ -205,6 +240,8 @@ const mapDispatchToProps = {
   completeSignUp: authActions.completeSignUp,
   setProfileData: profileActions.setProfileData,
   firebaseAuthentication: chatActions.firebaseAuthentication,
+  updateProfile: profileActions.setProfileData,
+  updateContactProfile: profileActions.updateContactProfile,
 };
 
 export default withTranslation()(
