@@ -4,7 +4,7 @@ import {s3_Options} from '../utils/config';
 import {genetratedDate, showAlert} from './operators';
 const axios = require('axios');
 
-const BACKEND_BASE_URL = 'https://api.mocha.me/api';
+const BACKEND_BASE_URL = 'http://localhost:3002/api';
 const API_TIMEOUT = 5000;
 
 const URL_SEND_SMS = '/auth/signup-request';
@@ -140,6 +140,10 @@ const removeResources = param =>
   apiCall('post', `${URL_RESOURCE}/remove`, param, true);
 const bookmarkResources = param =>
   apiCall('patch', `${URL_RESOURCE}/bookmark`, param, true);
+const recommendResourceToMembers = param =>
+  apiCall('post', `${URL_RESOURCE}/recommends`, param, true);
+const getRecommendedResources = pageIndex =>
+  apiCall('get', `${URL_RESOURCE}/list/recommends?page=${pageIndex}`, {}, true);
 
 const getSupportedHabits = () =>
   apiCall('get', `${URL_REFLECTION}/habit-shared`, {}, true);
@@ -234,10 +238,12 @@ export default {
   bookmarkResources,
   getBookmarkedResources,
   getTrustMemberResources,
-  getSupportedHabits,
-  sendEmail,
+  recommendResourceToMembers,
+  getRecommendedResources,
   getResourceByTitle,
   searchResources,
+  getSupportedHabits,
+  sendEmail,
   findUserByName,
   getRequestUsers,
   getUntrustMembers,

@@ -10,6 +10,7 @@ import GlobalResourceScreen from './Filters/GlobalResource';
 import SocialResourcesScreen from './Filters/SocialResources';
 import MyResourceScreen from './Filters/MyResource';
 import BookmarkResourcesScreen from './Filters/BookmarkResource';
+import RecommendedResourcesScreen from './Filters/RecommendedResource';
 import {MCIcon} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {ResourcesRoots} from 'utils/constants';
@@ -28,11 +29,13 @@ class ResourceTabView extends React.Component {
       getMyResources,
       getBookmarkedResources,
       getTrustMemberResources,
+      getRecommendedResources
     } = this.props;
 
     switch (index) {
       case 0:
         // getAllResources(1);
+        getRecommendedResources(1);
         break;
       case 1:
         getTrustMemberResources(1);
@@ -50,7 +53,8 @@ class ResourceTabView extends React.Component {
     const {t, theme, tabIndex} = this.props;
 
     const renderScene = SceneMap({
-      globe: GlobalResourceScreen,
+      // globe: GlobalResourceScreen,
+      recommend: RecommendedResourcesScreen,
       bookmark: BookmarkResourcesScreen,
       social: SocialResourcesScreen,
       me: MyResourceScreen,
@@ -104,6 +108,7 @@ const mapDispatchToProps = {
   getMyResources: resourceActions.getMyResources,
   getBookmarkedResources: resourceActions.getBookmarkedResources,
   getTrustMemberResources: resourceActions.getTrustMemberResources,
+  getRecommendedResources: resourceActions.getRecommendedResources,
 };
 
 export default withTranslation()(

@@ -2494,7 +2494,7 @@ export const stressRecoveries = ['tea', 'exercise', 'meditating', 'music'];
 
 export const ResourcesRoots = [
   {
-    key: 'globe',
+    key: 'recommend',
     icon: 'hand-holding-seedling',
   },
   {

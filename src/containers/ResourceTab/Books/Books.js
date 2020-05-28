@@ -51,6 +51,7 @@ class BookResourceScreen extends React.PureComponent {
       getMyResources,
       getTrustMemberResources,
       getBookmarkedResources,
+      getRecommendedResources,
       resourceAllPageIndex,
       resourceAllPageLimited,
       resourceMyPageIndex,
@@ -61,6 +62,8 @@ class BookResourceScreen extends React.PureComponent {
       resourceTrustMemberLimited,
       resourceSearchResourceIndex,
       resourceSearchResourceLimited,
+      resourceRecommendResourceIndex,
+      resourceRcommendResourceLimited,
       searchText,
     } = this.props;
 
@@ -80,6 +83,9 @@ class BookResourceScreen extends React.PureComponent {
     } else if (from === 'bookmark') {
       if (resourceBookmarkLimited || pageSearching) return;
       getBookmarkedResources(resourceBookmarkPageIndex + 1);
+    } else if (from === 'recommended') {
+      if (resourceRcommendResourceLimited || pageSearching) return;
+      getRecommendedResources(resourceRecommendResourceIndex + 1);
     } else {
       if (resourceTrustMemberLimited || pageSearching) return;
       getTrustMemberResources(resourceTrustMemberPageIndex + 1);
@@ -99,6 +105,7 @@ class BookResourceScreen extends React.PureComponent {
       resourceBookmarkLimited,
       resourceSearchResourceLimited,
       resourceTrustMemberLimited,
+      resourceRcommendResourceLimited,
     } = this.props;
     let books = [],
       pageLimited = false;
@@ -118,13 +125,20 @@ class BookResourceScreen extends React.PureComponent {
         books.push(resource.data[0]);
       });
       pageLimited = resourceBookmarkLimited;
+    } else if (from === 'recommended') {
+      selectedResources.forEach(resource => {
+        books.push(resource.data[0]);
+      });
+      pageLimited = resourceRcommendResourceLimited;
     } else if (from === 'my-resource') {
       books = this.sortBook(selectedResources, sort);
       pageLimited = resourceMyPageLimited;
     } else {
       selectedResources.forEach(resource => {
         if (
+          resource &&
           resource.type == 'books' &&
+          resource.trustMember &&
           selectedMember &&
           selectedMember._id == resource.trustMember._id
         ) {
@@ -175,6 +189,8 @@ const mapStateToProps = state => ({
   resourceBookmarkPageIndex: state.resourceReducer.resourceBookmarkPageIndex,
   resourceSearchResourceIndex:
     state.resourceReducer.resourceSearchResourceIndex,
+  resourceRecommendResourceIndex:
+    state.resourceReducer.resourceRecommendResourceIndex,
   pageSearching: state.resourceReducer.pageSearching,
   resourceAllPageLimited: state.resourceReducer.resourceAllPageLimited,
   resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
@@ -182,6 +198,8 @@ const mapStateToProps = state => ({
   resourceBookmarkLimited: state.resourceReducer.resourceBookmarkLimited,
   resourceSearchResourceLimited:
     state.resourceReducer.resourceSearchResourceLimited,
+  resourceRcommendResourceLimited:
+    state.resourceReducer.resourceRcommendResourceLimited,
 });
 
 const mapDispatchToProps = {
@@ -190,6 +208,7 @@ const mapDispatchToProps = {
   getMyResources: resourceActions.getMyResources,
   getBookmarkedResources: resourceActions.getBookmarkedResources,
   getTrustMemberResources: resourceActions.getTrustMemberResources,
+  getRecommendedResources: resourceActions.getRecommendedResources,
   searchResources: resourceActions.searchResources,
 };
 

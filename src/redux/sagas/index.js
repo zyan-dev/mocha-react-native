@@ -113,6 +113,15 @@ function* mySaga() {
     types.GET_RESOURCE_BY_TITLE,
     resourceSaga.getResourceByTitle,
   );
+  yield takeLatest(
+    types.RECOMMEND_RESOURCE_TO_MEMBERS,
+    resourceSaga.recommendResourceToMembers,
+  );
+  yield takeLatest(
+    types.GET_RECOMMENDED_RESOURCES,
+    resourceSaga.getRecommendedResources,
+  );
+
 
   // other
   yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);

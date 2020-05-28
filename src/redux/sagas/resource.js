@@ -382,6 +382,10 @@ export function* toggleBookmarkedResource(action) {
           type: types.GET_BOOKMARKED_RESOURCES,
           payload: 1,
         });
+        yield put({
+          type: types.GET_RECOMMENDED_RESOURCES,
+          payload: 1,
+        });
         // yield put({
         //   type: types.GET_ALL_RESOURCES,
         //   payload: 1,
@@ -412,6 +416,10 @@ export function* toggleBookmarkedResource(action) {
 
         yield put({
           type: types.SET_TRUST_MEMBER_RESOURCE_PAGE_INDEX,
+          payload: 1,
+        });
+        yield put({
+          type: types.SET_RECOMMENDED_RESOURCE_PAGE_INDEX,
           payload: 1,
         });
       } else {
@@ -446,6 +454,79 @@ export function* getResourceByTitle(action) {
       });
     }
   } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
+export function* recommendResourceToMembers(action) {
+  try {
+    yield put({type: types.API_CALLING});
+    const response = yield call(API.recommendResourceToMembers, action.payload);
+
+    if (response.data.status === 'success') {
+      yield put({
+        type: types.SET_RESOURCE_BY_TITLE,
+        payload: {},
+      });
+      yield put({type: types.API_FINISHED});
+      NavigationService.navigate('Resources');
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
+export function* getRecommendedResources(action) {
+  try {
+    yield put({
+      type: types.SET_RECOMMENDED_RESOURCE_STATE,
+      payload: true,
+    });
+
+    const response = yield call(API.getRecommendedResources, action.payload);
+
+    if (response.data.status === 'success') {
+      if (action.payload === 1) {
+        yield put({
+          type: types.SET_SEARCHED_RECOMMENDED_RESOURCES,
+          payload: response.data.data.resources,
+        });
+      } else {
+        yield put({
+          type: types.ADD_RECOMMENDED_RESOURCES,
+          payload: response.data.data.resources,
+        });
+        yield put({
+          type: types.SET_RECOMMENDED_RESOURCE_PAGE_INDEX,
+          payload: action.payload,
+        });
+      }
+      yield put({
+        type: types.SET_RECOMMENDED_RESOURCE_PAGE_LIMITED,
+        payload: action.payload >= response.data.data.total_pages,
+      });
+
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+    yield put({
+      type: types.SET_RECOMMENDED_RESOURCE_STATE,
+      payload: false,
+    });
+  } catch (e) {
+    yield put({
+      type: types.SET_RECOMMENDED_RESOURCE_STATE,
+      payload: false,
+    });
     yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }

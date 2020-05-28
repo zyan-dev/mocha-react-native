@@ -20,6 +20,7 @@ import {
 import {dySize} from 'utils/responsive';
 import {skills, impacts} from 'utils/constants';
 import {getStringWithOutline} from 'services/operators';
+import NavigationService from 'navigation/NavigationService';
 
 class AddResourceScreen extends React.PureComponent {
   constructor(props) {
@@ -164,8 +165,6 @@ class AddResourceScreen extends React.PureComponent {
           ...resource.data,
         },
         type: 'books',
-        _id: resource._id,
-        draft: false,
       };
       createResources([data]);
     }
@@ -199,15 +198,14 @@ class AddResourceScreen extends React.PureComponent {
     });
   };
 
-  addResourceBookmark = () => {
+  recommendResourceToMembers = () => {
     if (!this.validateTitle()) return;
 
     this.setState({added: !this.state.added});
     this.setState({submitted: true});
     const {selectedImpacts, selectedSkills, selectedTags} = this.state;
-    const {resourceByTitle, createResources} = this.props;
+    const {resourceByTitle} = this.props;
     let resource = resourceByTitle;
-    // let type;
 
     resource.data.tags = [...selectedTags];
     let skills = [...selectedSkills];
@@ -228,20 +226,7 @@ class AddResourceScreen extends React.PureComponent {
     resource.data.skills = skills;
     resource.data.impacts = selectedImpacts;
 
-    delete resource.data.type;
-
-    const data = {
-      resourceData: {
-        ...resource.data,
-      },
-      type: 'books',
-      draft: true,
-    };
-    createResources([data]);
-
-    this.props.updateSelectedResource({skills: []});
-    this.props.updateSelectedResource({impacts: ''});
-    this.props.updateSelectedResource({tags: []});
+    NavigationService.navigate('SelectRecommendMember', {resource: resource});
   };
 
   render() {
@@ -295,7 +280,7 @@ class AddResourceScreen extends React.PureComponent {
                     image={{uri: resource.data.thumbnail}}
                   />
                 </MCView>
-                <MCView width={180} mr={30}>
+                <MCView width={170} mr={40}>
                   <H3 weight="bold">{resource.data.title}</H3>
                   <H5 weight="bold">{t('resource_type_book_author')}</H5>
                   {resource.data.authors &&
@@ -326,11 +311,12 @@ class AddResourceScreen extends React.PureComponent {
                   <MCView absolute style={{right: 0}}>
                     <MCButton
                       align="center"
-                      onPress={() => this.addResourceBookmark()}>
+                      onPress={() => this.recommendResourceToMembers()}>
                       <MCIcon
-                        name={added ? 'ios-star' : 'ios-star-outline'}
+                        type="FontAwesome5Pro"
+                        name="hand-holding-seedling"
                         size={15}
-                        color={added && theme.colors.like}
+                        color={theme.colors.outline}
                       />
                     </MCButton>
                   </MCView>
