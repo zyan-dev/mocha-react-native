@@ -67,7 +67,7 @@ class ProfileTabStack extends React.Component {
         acceptTap
         tweenDuration={100}
         panThreshold={0.08}
-        openDrawerOffset={dySize(100)}
+        openDrawerOffset={dySize(75)}
         negotiatePan
         side="left"
         tweenHandler={ratio => ({main: {opacity: (2 - ratio) / 2}})}>

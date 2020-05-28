@@ -150,10 +150,15 @@ class MCHeader extends React.PureComponent {
               />
             )}
             {hasRight && rightImage && rightImage}
-            {hasRight && rightText.length > 0 && (
+            {hasRight && rightIcon.length > 0 && rightText.length > 0 && (
               <H5 align="center" pv={1}>
                 {rightText}
               </H5>
+            )}
+            {hasRight && rightIcon.length === 0 && rightText.length > 0 && (
+              <H4 align="center" pv={1}>
+                {rightText}
+              </H4>
             )}
           </MCButton>
         </HeaderRight>
