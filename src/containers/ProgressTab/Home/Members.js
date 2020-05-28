@@ -40,7 +40,7 @@ class ProgressMembersTab extends React.Component {
     if (userPageLimited || userPageSearching) return;
     getTrustMembers({
       status: 1,
-      name: text,
+      name: this.state.searchName,
       page: userSearchIndex + 1,
     });
   };
