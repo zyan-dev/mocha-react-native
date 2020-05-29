@@ -267,10 +267,6 @@ export function* createResources(action) {
         type: types.GET_MY_RESOURCES,
         payload: 1,
       });
-      yield put({
-        type: types.GET_BOOKMARKED_RESOURCES,
-        payload: 1,
-      });
       // yield put({
       //   type: types.GET_ALL_RESOURCES,
       //   payload: 1,
@@ -283,11 +279,6 @@ export function* createResources(action) {
 
       yield put({
         type: types.SET_ALL_RESOURCE_PAGE_INDEX,
-        payload: 1,
-      });
-
-      yield put({
-        type: types.SET_BOOKMARKED_RESOURCE_PAGE_INDEX,
         payload: 1,
       });
 
@@ -396,7 +387,10 @@ export function* toggleBookmarkedResource(action) {
         });
         yield put({
           type: types.GET_TRUST_MEMBER_RESOURCES,
-          payload: 1,
+          payload: {
+            pageIndex: 1,
+            trustMember: resourceReducer.selectedTrustMemberId,
+          },
         });
 
         yield put({

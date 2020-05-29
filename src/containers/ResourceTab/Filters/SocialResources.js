@@ -40,7 +40,11 @@ class SocialResourcesScreen extends React.PureComponent {
   }
 
   getResourceMembers = () => {
-    const {trustMembers, getTrustMemberResources} = this.props;
+    const {
+      trustMembers,
+      getTrustMemberResources,
+      selectTrustMember,
+    } = this.props;
     const {selectedMember} = this.state;
 
     if (trustMembers.length > 0 && _.isEmpty(selectedMember)) {
@@ -49,6 +53,8 @@ class SocialResourcesScreen extends React.PureComponent {
         pageIndex: 1,
         trustMember: trustMembers[0]._id,
       });
+
+      selectTrustMember(trustMembers[0]._id);
     }
   };
 
@@ -57,8 +63,9 @@ class SocialResourcesScreen extends React.PureComponent {
   };
 
   selectMember = user => {
-    const {getTrustMemberResources} = this.props;
+    const {getTrustMemberResources, selectTrustMember} = this.props;
     this.setState({selectedMember: user});
+    selectTrustMember(user._id);
     getTrustMemberResources({
       pageIndex: 1,
       trustMember: user._id,
@@ -197,6 +204,7 @@ const mapDispatchToProps = {
   getTrustMemberResources: resourceActions.getTrustMemberResources,
   setTrustMemberResourcePageIndex:
     resourceActions.setTrustMemberResourcePageIndex,
+  selectTrustMember: resourceActions.selectTrustMember,
   getTrustMembers: userActions.getTrustMembers,
 };
 export default withTranslation()(

@@ -29,6 +29,7 @@ const INITIAL_STATE = {
   resourceTrustMemberLimited: false,
   resourceSearchResourceLimited: false,
   resourceRcommendResourceLimited: false,
+  selectedTrustMemberId: null,
 };
 
 const resourceReducer = (state = INITIAL_STATE, action) => {
@@ -135,6 +136,11 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         resourceTrustMemberPageIndex: action.payload,
+      };
+    case types.SELECT_TRUST_MEMBER:
+      return {
+        ...state,
+        selectedTrustMemberId: action.payload,
       };
 
     case types.SET_SEARCHED_RESOURCES:

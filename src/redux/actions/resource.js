@@ -79,6 +79,11 @@ export const setTrustMemberResourcePageIndex = index => ({
   payload: index,
 });
 
+export const selectTrustMember = id => ({
+  type: types.SELECT_TRUST_MEMBER,
+  payload: id,
+});
+
 export const searchResources = data => ({
   type: types.SEARCH_RESOURCES,
   payload: data,
