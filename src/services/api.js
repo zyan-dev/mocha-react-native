@@ -118,10 +118,12 @@ const getMyResources = pageIndex =>
   apiCall('get', `${URL_RESOURCE}?page=${pageIndex}`, {}, true);
 const getBookmarkedResources = pageIndex =>
   apiCall('get', `${URL_RESOURCE}/list/bookmark?page=${pageIndex}`, {}, true);
-const getTrustMemberResources = pageIndex =>
+const getTrustMemberResources = data =>
   apiCall(
     'get',
-    `${URL_RESOURCE}/list/trustmember?page=${pageIndex}`,
+    `${URL_RESOURCE}/list/trustmember?memberId=${data.trustMember}&page=${
+      data.pageIndex
+    }`,
     {},
     true,
   );

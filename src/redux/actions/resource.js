@@ -69,9 +69,9 @@ export const getResourceByTitle = title => ({
   payload: title,
 });
 
-export const getTrustMemberResources = pageIndex => ({
+export const getTrustMemberResources = data => ({
   type: types.GET_TRUST_MEMBER_RESOURCES,
-  payload: pageIndex,
+  payload: data,
 });
 
 export const setTrustMemberResourcePageIndex = index => ({

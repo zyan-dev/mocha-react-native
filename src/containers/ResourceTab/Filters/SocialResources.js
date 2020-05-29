@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
 
-import {resourceActions} from 'Redux/actions';
+import {resourceActions, userActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
@@ -28,43 +28,28 @@ class SocialResourcesScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    const {
-      getTrustMemberResources,
-      setTrustMemberResourcePageIndex,
-    } = this.props;
+    const {setTrustMemberResourcePageIndex} = this.props;
     setTrustMemberResourcePageIndex(1);
-    getTrustMemberResources(1);
     this.getResourceMembers();
   }
 
   componentDidUpdate(preProps, preState) {
-    if (preProps.trustMemberResources !== this.props.trustMemberResources) {
+    if (preProps.trustMembers !== this.props.trustMembers) {
       this.getResourceMembers();
     }
   }
 
   getResourceMembers = () => {
-    const {trustMemberResources} = this.props;
-    const {focused} = this.state;
+    const {trustMembers, getTrustMemberResources} = this.props;
+    const {selectedMember} = this.state;
 
-    let members = [];
-    trustMemberResources.forEach(resource => {
-      if (resource.type == focused && resource.data) {
-        members.forEach((member, index) => {
-          if (member._id === resource.trustMember._id) {
-            members.splice(index, 1);
-          }
-        });
-        members.push(resource.trustMember);
-      }
-    });
-
-    this.setState({
-      members: members,
-      selectedMember: _.isEmpty(this.state.selectedMember)
-        ? members[0]
-        : this.state.selectedMember,
-    });
+    if (trustMembers.length > 0 && _.isEmpty(selectedMember)) {
+      this.setState({selectedMember: trustMembers[0]});
+      getTrustMemberResources({
+        pageIndex: 1,
+        trustMember: trustMembers[0]._id,
+      });
+    }
   };
 
   onPressItem = item => {
@@ -72,23 +57,28 @@ class SocialResourcesScreen extends React.PureComponent {
   };
 
   selectMember = user => {
+    const {getTrustMemberResources} = this.props;
     this.setState({selectedMember: user});
+    getTrustMemberResources({
+      pageIndex: 1,
+      trustMember: user._id,
+    });
   };
 
   sortBook = () => {
     this.setState({sort: !this.state.sort});
   };
 
-  getNextPage = () => {
+  searchNextPage = () => {
     const {
+      getTrustMembers,
+      searchPageLimited,
+      searchPageIndex,
       pageSearching,
-      getTrustMemberResources,
-      resourceTrustMemberPageIndex,
-      resourceTrustMemberLimited,
     } = this.props;
 
-    if (resourceTrustMemberLimited || pageSearching) return;
-    getTrustMemberResources(resourceTrustMemberPageIndex + 1);
+    if (searchPageLimited || pageSearching) return;
+    getTrustMembers({page: searchPageIndex + 1});
   };
 
   _renderListItem = ({item}) => {
@@ -120,13 +110,13 @@ class SocialResourcesScreen extends React.PureComponent {
   };
 
   render() {
-    const {theme, t, trustMemberResources} = this.props;
-    const {focused, sort, selectedMember, members} = this.state;
+    const {theme, t, trustMemberResources, trustMembers} = this.props;
+    const {focused, sort, selectedMember} = this.state;
 
     return (
       <MCRootView justify="flex-start">
         <FlatList
-          data={members}
+          data={trustMembers}
           renderItem={this._renderListItem}
           keyExtractor={item => item._id}
           keyboardShouldPersistTaps="always"
@@ -138,7 +128,7 @@ class SocialResourcesScreen extends React.PureComponent {
             marginTop: dySize(10),
           }}
           horizontal={true}
-          onEndReached={() => this.getNextPage()}
+          onEndReached={() => this.searchNextPage()}
           onEndReachedThreshold={0.5}
         />
         <MCView row>
@@ -193,16 +183,21 @@ class SocialResourcesScreen extends React.PureComponent {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
+  trustMembers: state.usersReducer.trustMembers,
   trustMemberResources: state.resourceReducer.trustMemberResources,
   resourceTrustMemberPageIndex:
     state.resourceReducer.resourceTrustMemberPageIndex,
   resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
+  searchPageLimited: state.usersReducer.searchPageLimited,
+  searchPageIndex: state.usersReducer.searchPageIndex,
+  pageSearching: state.usersReducer.pageSearching,
 });
 
 const mapDispatchToProps = {
   getTrustMemberResources: resourceActions.getTrustMemberResources,
   setTrustMemberResourcePageIndex:
     resourceActions.setTrustMemberResourcePageIndex,
+  getTrustMembers: userActions.getTrustMembers,
 };
 export default withTranslation()(
   connect(
