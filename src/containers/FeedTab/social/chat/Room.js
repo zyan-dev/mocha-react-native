@@ -105,7 +105,7 @@ class ChatRoomScreen extends React.Component {
       getRoomMessages,
       selectedRoom,
     } = this.props;
-    if (text.length === 0) return;
+    if (text.trim().length === 0) return;
 
     const ts = new Date().getTime();
 
@@ -540,12 +540,11 @@ class ChatRoomScreen extends React.Component {
             </MCButton>
             <MCTextInput
               value={text}
+              multiline
               onChangeText={text => this.setState({text})}
               placeholder="Type your message here..."
               placeholderTextColor={theme.colors.border}
-              style={{flex: 1}}
-              onSubmitEditing={() => this.sendMessage()}
-              returnKeyType="send"
+              style={{flex: 1, minHeight: 'auto'}}
               onFocus={() => this.scrollToEnd()}
               onBlur={() => this.scrollToEnd()}
             />
