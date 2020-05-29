@@ -11,12 +11,14 @@ import {
   MCBookTagsView,
   MCReadMoreText,
   MCImage,
+  MCIcon,
 } from 'components/common';
 import {H3, H4, H5, H6} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {skills, impacts} from 'utils/constants';
+
 class BookDetailScreen extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -29,15 +31,29 @@ class BookDetailScreen extends React.PureComponent {
 
   componentDidMount() {
     const {from, resource} = this.props.route.params;
-    const {allResources, bookmarkedResources, searchedResources} = this.props;
+    const {
+      allResources,
+      bookmarkedResources,
+      searchedResources,
+      recommendedResources,
+    } = this.props;
 
-    if (from === 'global' || from === 'bookmark' || from == 'search') {
+    if (
+      from === 'global' ||
+      from === 'bookmark' ||
+      from == 'search' ||
+      from == 'recommended'
+    ) {
       let resources = allResources;
       if (from === 'bookmark') {
         resources = bookmarkedResources;
       }
       if (from === 'search') {
         resources = searchedResources;
+      }
+
+      if (from === 'recommended') {
+        resources = recommendedResources;
       }
 
       resources.map(item => {
@@ -99,6 +115,11 @@ class BookDetailScreen extends React.PureComponent {
     });
   };
 
+  recommendResourceToMembers = () => {
+    const {resource} = this.props.route.params;
+    NavigationService.navigate('SelectRecommendMember', {resource: resource});
+  };
+
   render() {
     const {t, theme} = this.props;
     const {bookInfo, impactsArray, skillsArray} = this.state;
@@ -128,7 +149,7 @@ class BookDetailScreen extends React.PureComponent {
                   resizeMode="contain"
                 />
               </MCView>
-              <MCView width={210}>
+              <MCView width={170} mr={40}>
                 <H3 weight="bold">{resource.data.title}</H3>
                 <H5 weight="bold">{t('resource_type_book_author')}</H5>
                 {resource.data.authors &&
@@ -155,6 +176,20 @@ class BookDetailScreen extends React.PureComponent {
                     ))}
                 </MCView>
               </MCView>
+              {from == 'my-resource' && (
+                <MCView absolute style={{right: 0}}>
+                  <MCButton
+                    align="center"
+                    onPress={() => this.recommendResourceToMembers()}>
+                    <MCIcon
+                      type="FontAwesome5Pro"
+                      name="hand-holding-seedling"
+                      size={15}
+                      color={theme.colors.outline}
+                    />
+                  </MCButton>
+                </MCView>
+              )}
             </MCView>
             {resource.data.readLink && (
               <MCView mt={10}>
@@ -258,13 +293,20 @@ class BookDetailScreen extends React.PureComponent {
               )} */}
             </MCView>
 
-            {from == 'global' || from == 'search' || from == 'bookmark' ? (
+            {from == 'global' ||
+            from == 'search' ||
+            from == 'bookmark' ||
+            from == 'recommended' ? (
               <MCView width={350} mb={30} row justify="center">
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_impact')}</H4>
                   {impactsArray.map(item => (
                     <MCBookTagsView
-                      tags={[impacts[parseInt(Object.keys(item) - 1)]]}
+                      tags={
+                        impacts[parseInt(Object.keys(item) - 1)]
+                          ? [impacts[parseInt(Object.keys(item) - 1)]]
+                          : []
+                      }
                       impact={true}
                       users={item[Object.keys(item)]}
                       t={t}
@@ -289,7 +331,11 @@ class BookDetailScreen extends React.PureComponent {
               <MCView width={350} mb={30} row justify="center">
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_impact')}</H4>
-                  <MCBookTagsView tags={[impacts[index]]} impact={true} t={t} />
+                  <MCBookTagsView
+                    tags={impacts[index] ? [impacts[index]] : []}
+                    impact={true}
+                    t={t}
+                  />
                 </MCView>
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_skill')}</H4>
@@ -317,6 +363,7 @@ const mapStateToProps = state => ({
   allResources: state.resourceReducer.allResources,
   bookmarkedResources: state.resourceReducer.bookmarkedResources,
   searchedResources: state.resourceReducer.searchedResources,
+  recommendedResources: state.resourceReducer.recommendedResources,
   profile: state.profileReducer,
 });
 

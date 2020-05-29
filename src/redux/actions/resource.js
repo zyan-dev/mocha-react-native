@@ -92,3 +92,18 @@ export const setSearchResourcePageIndex = index => ({
 export const resetSearchResources = () => ({
   type: types.RESET_SEARCH_RESOURCES,
 });
+
+export const recommendResourceToMembers = data => ({
+  type: types.RECOMMEND_RESOURCE_TO_MEMBERS,
+  payload: data,
+});
+
+export const getRecommendedResources = pageIndex => ({
+  type: types.GET_RECOMMENDED_RESOURCES,
+  payload: pageIndex,
+});
+
+export const setRecommendedResourcePageIndex = index => ({
+  type: types.SET_RECOMMENDED_RESOURCE_PAGE_INDEX,
+  payload: index,
+});

@@ -140,6 +140,10 @@ const removeResources = param =>
   apiCall('post', `${URL_RESOURCE}/remove`, param, true);
 const bookmarkResources = param =>
   apiCall('patch', `${URL_RESOURCE}/bookmark`, param, true);
+const recommendResourceToMembers = param =>
+  apiCall('post', `${URL_RESOURCE}/recommends`, param, true);
+const getRecommendedResources = pageIndex =>
+  apiCall('get', `${URL_RESOURCE}/list/recommends?page=${pageIndex}`, {}, true);
 
 const getSupportedHabits = () =>
   apiCall('get', `${URL_REFLECTION}/habit-shared`, {}, true);
@@ -234,10 +238,12 @@ export default {
   bookmarkResources,
   getBookmarkedResources,
   getTrustMemberResources,
-  getSupportedHabits,
-  sendEmail,
+  recommendResourceToMembers,
+  getRecommendedResources,
   getResourceByTitle,
   searchResources,
+  getSupportedHabits,
+  sendEmail,
   findUserByName,
   getRequestUsers,
   getUntrustMembers,
