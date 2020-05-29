@@ -75,9 +75,22 @@ export function* setNewUser(action) {
 export function* completeSignUp(action) {
   try {
     const {profileReducer} = yield select();
-    const {user_id, created, updated} = profileReducer;
+    const {user_id, avatar, created, updated} = profileReducer;
     yield put({type: types.API_CALLING});
-
+    if (avatar.length > 0 && avatar.indexOf('https://') < 0) {
+      // avatar should be uploaded to server
+      const fileResponse = yield call(API.fileUploadToS3, {
+        image: avatar,
+        type: 'avatar',
+        userId: profileReducer._id,
+      });
+      if (fileResponse !== 'error') {
+        profileReducer.avatar = fileResponse;
+      } else {
+        showAlert('Upload Error');
+        return;
+      }
+    }
     const response = yield call(API.updateProfile, profileReducer);
     if (response.data.status === 'success') {
       if (created === updated) {
