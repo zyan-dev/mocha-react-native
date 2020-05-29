@@ -38,7 +38,6 @@ class ChatRoomScreen extends React.Component {
       selectedImage: null,
       firstLoad: false,
       count: countPerPage,
-      refreshing: false,
       lastItem: {},
       topBubbleDate: 0,
       showTopBubbleDate: false,
@@ -72,23 +71,14 @@ class ChatRoomScreen extends React.Component {
   }
 
   componentDidUpdate(preProps, prevState) {
-    const {refreshing, lastItem, firstLoad} = this.state;
-    if (preProps.loading && !this.props.loading) {
-      if (this.mounted && !firstLoad) {
-        this.scrollToEnd();
-        this.setState({firstLoad: true});
-        console.log('Initial load');
-      } else if (refreshing) {
-        this.setState({refreshing: false});
-        console.log('Scrolling to item');
-        this.scrollToItem(lastItem);
-      } else if (
-        // scroll to end if message length has been changed
-        preProps.roomMessages.length !== this.props.roomMessages.length
-      ) {
-        console.log('Scrolling to end');
-        this.scrollToEnd();
-      }
+    const {lastItem, firstLoad} = this.state;
+    if (preProps.roomMessageIds.length !== this.props.roomMessageIds.length) {
+      if (lastItem) this.scrollToItem(lastItem);
+      else this.scrollToEnd();
+    }
+    if (preProps.loading && !this.props.loading && !firstLoad) {
+      this.scrollToEnd();
+      this.setState({firstLoad: true});
     }
   }
 
@@ -132,9 +122,14 @@ class ChatRoomScreen extends React.Component {
     }
     setLoading(false);
 
-    getRoomMessages(selectedRoom._id, count + 1);
     sendMessage(msgData, () => {
-      this.setState({text: '', selectedImage: null, count: count + 1});
+      this.setState({
+        text: '',
+        selectedImage: null,
+        lastItem: null,
+        count: count + 1,
+      });
+      getRoomMessages(selectedRoom._id, count + 1);
     });
   };
 
@@ -200,6 +195,7 @@ class ChatRoomScreen extends React.Component {
   scrollToEnd = () => {
     const {roomMessageIds} = this.props;
     if (roomMessageIds.length === 0) return;
+    console.log('Scrolling to End...', roomMessageIds.length - 1);
     setTimeout(() => {
       this.chatList &&
         this.chatList.scrollToIndex({
@@ -207,7 +203,7 @@ class ChatRoomScreen extends React.Component {
           animated: true,
           duration: 1500,
         });
-    }, 500);
+    }, 1000);
   };
 
   scrollToItem = item => {
@@ -490,7 +486,7 @@ class ChatRoomScreen extends React.Component {
             refreshControl={
               <RefreshControl
                 colors={['#9Bd35A', '#689F38']}
-                refreshing={loading}
+                refreshing={false}
                 onRefresh={this.loadMoreMessages.bind(this)}
                 title="Load more"
               />
@@ -546,7 +542,6 @@ class ChatRoomScreen extends React.Component {
               placeholderTextColor={theme.colors.border}
               style={{flex: 1, minHeight: 'auto'}}
               onFocus={() => this.scrollToEnd()}
-              onBlur={() => this.scrollToEnd()}
             />
             <MCButton onPress={() => this.sendMessage()} mr={-10}>
               <MCIcon type="FontAwesome5Pro" name="paper-plane" />

@@ -3,6 +3,7 @@ import {Platform} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {RNS3} from 'react-native-aws3/lib/RNS3';
 import {Player, Recorder} from '@react-native-community/audio-toolkit';
 import {profileActions} from 'Redux/actions';
@@ -110,7 +111,7 @@ class ContactCard extends React.Component {
         this.recorder.destroy();
       }
       this.recorder.record(error => {
-        if (error) console.log('record start error', error);
+        if (error) showAlert('record start error: ' + JSON.stringify(error));
       });
     } else {
       this.setState({recording, status: 'record_saving'});

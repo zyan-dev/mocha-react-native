@@ -14,6 +14,7 @@ import {dySize} from 'utils/responsive';
 import {convertChatMessage, getDateString, showAlert} from 'services/operators';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
+import BubbleMessageItem from './BubbleMessage';
 
 const bubbleColor = '#AAAAAA';
 const bubbleColorMine = '#303030';
@@ -49,10 +50,10 @@ class ChatBubbleItem extends React.Component {
     }
   };
 
-  onPreviewImage = () => {
+  onPreviewImage = bubble => {
     this.RBSheet && this.RBSheet.close();
     setTimeout(() => {
-      this.setState({showImagePreview: true});
+      this.setState({selectedBubble: bubble, showImagePreview: true});
     }, 1000);
   };
 
@@ -155,10 +156,7 @@ class ChatBubbleItem extends React.Component {
     const bubble = roomMessages[bubbleId];
     if (!bubble) return null;
     let bubbleUser = selectedRoom.includes.find(i => i._id === bubble.userId);
-    let mine = false;
-    if (bubble.userId === profile._id) {
-      mine = true;
-    }
+    let mine = bubble.userId === profile._id;
     if (!bubbleUser) return null;
     const timeString = moment(bubble.date).format('hh:mm A');
     return (
@@ -234,60 +232,13 @@ class ChatBubbleItem extends React.Component {
                   }}
                 />
               )}
-              <MCView row>
-                <MCButton
-                  onPress={() => this.onEditBubble(bubble, mine)}
-                  br={10}
-                  ml={10}
-                  mr={10}
-                  ph={5}
-                  pv={5}
-                  justify="center"
-                  // align={mine ? 'flex-end' : 'flex-start'}
-                  br={10}
-                  background={mine ? bubbleColorMine : bubbleColor}
-                  style={{
-                    maxWidth: dySize(240),
-                    minWidth: dySize(40),
-                    minHeight: dySize(40),
-                  }}>
-                  {bubble.image && (
-                    <MCImage
-                      image={{uri: bubble.image}}
-                      width={230}
-                      height={120}
-                      br={10}
-                    />
-                  )}
-                  {bubble.text && bubble.text !== 'chat_message_deleted' && (
-                    <H3 color={mine ? 'white' : 'black'} ph={5}>
-                      {convertChatMessage(bubble, selectedRoom)}
-                    </H3>
-                  )}
-                  {bubble.text === 'chat_message_deleted' && (
-                    <H4
-                      ph={5}
-                      weight="italic"
-                      style={{opacity: 0.5}}
-                      color={mine ? 'white' : 'black'}>
-                      {convertChatMessage(bubble, selectedRoom)}
-                    </H4>
-                  )}
-                </MCButton>
-                {!mine && (
-                  <MCButton
-                    onPress={() => onPressEmoji()}
-                    pt={1}
-                    pl={0}
-                    ml={-10}>
-                    <MCIcon
-                      type="FontAwesome5Pro"
-                      name="grin"
-                      color={theme.colors.border}
-                    />
-                  </MCButton>
-                )}
-              </MCView>
+              <BubbleMessageItem
+                bubble={bubble}
+                selectedRoom={selectedRoom}
+                onEditBubble={() => this.onEditBubble(bubble, mine)}
+                onPressEmoji={() => onPressEmoji()}
+                onPressImage={bubble => this.onPreviewImage(bubble)}
+              />
               {bubble.reactions && (
                 <MCView
                   row
@@ -318,6 +269,11 @@ class ChatBubbleItem extends React.Component {
                   })}
                 </MCView>
               )}
+              {bubble.edited && bubble.text !== 'chat_message_deleted' && (
+                <H4 weight="italic" ml={10} mr={10} color={theme.colors.border}>
+                  {t('chat_message_edited')}
+                </H4>
+              )}
             </MCView>
           </MCView>
           <RBSheet
@@ -335,9 +291,10 @@ class ChatBubbleItem extends React.Component {
               <>
                 <MCView width={300} mt={20}>
                   <MCTextInput
+                    multiline
                     value={editText}
                     onChangeText={text => this.setState({editText: text})}
-                    style={{width: '100%'}}
+                    style={{width: '100%', minHeight: 'auto'}}
                   />
                 </MCView>
                 <MCButton
@@ -360,11 +317,6 @@ class ChatBubbleItem extends React.Component {
               </>
             ) : (
               <MCView align="center" pv={20}>
-                {selectedBubble && selectedBubble.image && (
-                  <MCButton onPress={() => this.onPreviewImage()}>
-                    <H3>{t('chat_action_preview_image')}</H3>
-                  </MCButton>
-                )}
                 <MCButton onPress={() => this.onEditMessage()}>
                   <H3>{t('chat_action_edit_message')}</H3>
                 </MCButton>
@@ -376,7 +328,7 @@ class ChatBubbleItem extends React.Component {
               </MCView>
             )}
           </RBSheet>
-          {selectedBubble && selectedBubble.image && (
+          {selectedBubble && (
             <Modal visible={showImagePreview} transparent={true}>
               <ImageViewer
                 imageUrls={[{url: selectedBubble.image}]}
