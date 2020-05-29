@@ -3,7 +3,7 @@ import {Platform} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {RNS3} from 'react-native-aws3/lib/RNS3';
 import {Player, Recorder} from '@react-native-community/audio-toolkit';
 import {profileActions} from 'Redux/actions';
@@ -32,6 +32,7 @@ class ContactCard extends React.Component {
       status: '',
       recording: false,
       audioFilePath: '',
+      microphoneStatus: '',
     };
   }
 
@@ -45,21 +46,51 @@ class ContactCard extends React.Component {
   }
 
   checkRecordPermission() {
-    let recordAudioRequest;
-    if (Platform.OS == 'android') {
-      recordAudioRequest = this._requestRecordAudioPermission();
+    if (Platform.OS === 'ios') {
+      check(PERMISSIONS.IOS.MICROPHONE)
+        .then(result => {
+          if (result !== RESULTS.GRANTED) {
+            request(PERMISSIONS.IOS.MICROPHONE).then(result => {
+              // …
+              if (result !== RESULTS.GRANTED) {
+                this.setState({
+                  microphoneStatus:
+                    'You can not record your audio. Pleas go to app setting to enable manually',
+                });
+              } else {
+                this.prepareRecorder();
+              }
+            });
+          } else {
+            this.prepareRecorder();
+          }
+        })
+        .catch(error => {
+          // …
+        });
     } else {
-      recordAudioRequest = new Promise(function(resolve, reject) {
-        resolve(true);
-      });
+      check(PERMISSIONS.ANDROID.RECORD_AUDIO)
+        .then(result => {
+          if (result !== RESULTS.GRANTED) {
+            request(PERMISSIONS.ANDROID.RECORD_AUDIO).then(result => {
+              // …
+              if (result !== RESULTS.GRANTED) {
+                this.setState({
+                  microphoneStatus:
+                    'You can not record your audio. Pleas go to app setting to enable manually',
+                });
+              } else {
+                this.prepareRecorder();
+              }
+            });
+          } else {
+            this.prepareRecorder();
+          }
+        })
+        .catch(error => {
+          // …
+        });
     }
-    recordAudioRequest.then(hasPermission => {
-      if (!hasPermission) {
-        showAlert('Record Audio Permission was denied');
-        return;
-      }
-      this.prepareRecorder();
-    });
   }
 
   prepareRecorder = () => {
@@ -121,8 +152,9 @@ class ContactCard extends React.Component {
   };
 
   uploadAudioRecorded = async () => {
-    const file = {
-      uri: this.state.audioFilePath,
+    let file = {
+      uri:
+        (Platform.OS === 'android' ? 'file://' : '') + this.state.audioFilePath,
       name: `Pronounce/${this.props.profile._id}.mp4`,
       type: `audio/mp4`,
     };
@@ -162,6 +194,8 @@ class ContactCard extends React.Component {
     const {editing} = this.state;
     if (editing) {
       this.props.updateContactProfile();
+    } else {
+      this.checkRecordPermission();
     }
     this.setState({editing: !editing});
   };
@@ -172,7 +206,13 @@ class ContactCard extends React.Component {
 
   render() {
     const {t, theme, editable, profile} = this.props;
-    const {editing, status, recording, audioFilePath} = this.state;
+    const {
+      editing,
+      status,
+      recording,
+      audioFilePath,
+      microphoneStatus,
+    } = this.state;
     return (
       <MCView mt={30}>
         <MCView row align="center">
@@ -219,6 +259,9 @@ class ContactCard extends React.Component {
                 {status.length > 0 && <H4>{t(status)}</H4>}
                 {!editing && profile.namepronoun.indexOf('https:') < 0 && (
                   <MCEmptyText>No record</MCEmptyText>
+                )}
+                {microphoneStatus.length > 0 && (
+                  <MCEmptyText>{microphoneStatus}</MCEmptyText>
                 )}
               </MCView>
             );
