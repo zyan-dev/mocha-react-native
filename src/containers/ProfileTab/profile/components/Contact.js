@@ -46,27 +46,51 @@ class ContactCard extends React.Component {
   }
 
   checkRecordPermission() {
-    check(PERMISSIONS.IOS.MICROPHONE)
-      .then(result => {
-        if (result !== RESULTS.GRANTED) {
-          request(PERMISSIONS.IOS.MICROPHONE).then(result => {
-            // …
-            if (result !== RESULTS.GRANTED) {
-              this.setState({
-                microphoneStatus:
-                  'You can not record your audio. Pleas go to app setting to enable manually',
-              });
-            } else {
-              this.prepareRecorder();
-            }
-          });
-        } else {
-          this.prepareRecorder();
-        }
-      })
-      .catch(error => {
-        // …
-      });
+    if (Platform.OS === 'ios') {
+      check(PERMISSIONS.IOS.MICROPHONE)
+        .then(result => {
+          if (result !== RESULTS.GRANTED) {
+            request(PERMISSIONS.IOS.MICROPHONE).then(result => {
+              // …
+              if (result !== RESULTS.GRANTED) {
+                this.setState({
+                  microphoneStatus:
+                    'You can not record your audio. Pleas go to app setting to enable manually',
+                });
+              } else {
+                this.prepareRecorder();
+              }
+            });
+          } else {
+            this.prepareRecorder();
+          }
+        })
+        .catch(error => {
+          // …
+        });
+    } else {
+      check(PERMISSIONS.ANDROID.RECORD_AUDIO)
+        .then(result => {
+          if (result !== RESULTS.GRANTED) {
+            request(PERMISSIONS.ANDROID.RECORD_AUDIO).then(result => {
+              // …
+              if (result !== RESULTS.GRANTED) {
+                this.setState({
+                  microphoneStatus:
+                    'You can not record your audio. Pleas go to app setting to enable manually',
+                });
+              } else {
+                this.prepareRecorder();
+              }
+            });
+          } else {
+            this.prepareRecorder();
+          }
+        })
+        .catch(error => {
+          // …
+        });
+    }
   }
 
   prepareRecorder = () => {
@@ -128,8 +152,9 @@ class ContactCard extends React.Component {
   };
 
   uploadAudioRecorded = async () => {
-    const file = {
-      uri: this.state.audioFilePath,
+    let file = {
+      uri:
+        (Platform.OS === 'android' ? 'file://' : '') + this.state.audioFilePath,
       name: `Pronounce/${this.props.profile._id}.mp4`,
       type: `audio/mp4`,
     };
