@@ -32,6 +32,7 @@ class ContactCard extends React.Component {
       status: '',
       recording: false,
       audioFilePath: '',
+      microphoneStatus: '',
     };
   }
 
@@ -51,9 +52,16 @@ class ContactCard extends React.Component {
           request(PERMISSIONS.IOS.MICROPHONE).then(result => {
             // …
             if (result !== RESULTS.GRANTED) {
-              showAlert('You can not record your audio');
+              this.setState({
+                microphoneStatus:
+                  'You can not record your audio. Pleas go to app setting to enable manually',
+              });
+            } else {
+              this.prepareRecorder();
             }
           });
+        } else {
+          this.prepareRecorder();
         }
       })
       .catch(error => {
@@ -161,6 +169,8 @@ class ContactCard extends React.Component {
     const {editing} = this.state;
     if (editing) {
       this.props.updateContactProfile();
+    } else {
+      this.checkRecordPermission();
     }
     this.setState({editing: !editing});
   };
@@ -171,7 +181,13 @@ class ContactCard extends React.Component {
 
   render() {
     const {t, theme, editable, profile} = this.props;
-    const {editing, status, recording, audioFilePath} = this.state;
+    const {
+      editing,
+      status,
+      recording,
+      audioFilePath,
+      microphoneStatus,
+    } = this.state;
     return (
       <MCView mt={30}>
         <MCView row align="center">
@@ -218,6 +234,9 @@ class ContactCard extends React.Component {
                 {status.length > 0 && <H4>{t(status)}</H4>}
                 {!editing && profile.namepronoun.indexOf('https:') < 0 && (
                   <MCEmptyText>No record</MCEmptyText>
+                )}
+                {microphoneStatus.length > 0 && (
+                  <MCEmptyText>{microphoneStatus}</MCEmptyText>
                 )}
               </MCView>
             );

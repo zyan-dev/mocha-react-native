@@ -1,5 +1,5 @@
 import React from 'react';
-import {Linking} from 'react-native';
+import {Alert, Linking} from 'react-native';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
@@ -30,14 +30,31 @@ class BubbleMessageItem extends React.PureComponent {
   };
 
   openUrl = url => {
-    alert(url);
-    // Linking.canOpenURL(url).then(supported => {
-    //   if (supported) {
-    //     Linking.openURL(url);
-    //   } else {
-    //     showAlert("Don't know how to open URI: " + url);
-    //   }
-    // });
+    const {t} = this.props;
+    Alert.alert(
+      t('alert_title_mocha'),
+      t('alert_redirect_hyperlink') + '\n\n' + url,
+      [
+        {
+          text: t('button_cancel'),
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: t('button_yes'),
+          onPress: () => {
+            Linking.canOpenURL(url).then(supported => {
+              if (supported) {
+                Linking.openURL(url);
+              } else {
+                showAlert("Don't know how to open URI: " + url);
+              }
+            });
+          },
+        },
+      ],
+      {cancelable: false},
+    );
   };
 
   render() {
