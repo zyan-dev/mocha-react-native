@@ -1,4 +1,4 @@
-import {takeEvery, takeLatest} from 'redux-saga/effects';
+import {takeEvery, takeLatest, TakeEffect} from 'redux-saga/effects';
 import * as types from '../actions/types';
 import * as authSaga from './auth';
 import * as profileSaga from './profile';
@@ -122,7 +122,6 @@ function* mySaga() {
     resourceSaga.getRecommendedResources,
   );
 
-
   // other
   yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);
   yield takeLatest(types.SYNC_DATA, otherSaga.syncData);
@@ -141,6 +140,11 @@ function* mySaga() {
   yield takeLatest(types.UPDATE_CHAT_ROOM, chatSaga.updateChatRoom);
   yield takeLatest(types.DELETE_CHAT_ROOM, chatSaga.deleteChatRoom);
   yield takeLatest(types.SET_MY_CHAT_ROOMS, chatSaga.checkChatMissedState);
+  yield takeLatest(types.GET_CHAT_VISIT_STATUS, chatSaga.getChatVisitStatus);
+  yield takeLatest(
+    types.UPDATE_CHAT_VISIT_STATUS,
+    chatSaga.updateChatVisitStatus,
+  );
   yield takeLatest(
     types.CHECK_CHAT_MISSED_STATE,
     chatSaga.checkChatMissedState,

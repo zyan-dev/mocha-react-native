@@ -27,7 +27,7 @@ class SocialChatScreen extends React.Component {
   };
 
   _renderChatItem = ({item}) => {
-    const {t, theme, profile, lastMessageDateChecked} = this.props;
+    const {t, theme, profile, chatVisitStatus} = this.props;
     const chatRoom = item;
     let lastUser = chatRoom.includes.find(i => i._id === chatRoom.last_userId);
     return (
@@ -93,7 +93,7 @@ class SocialChatScreen extends React.Component {
             </H4>
           </MCView>
         </MCButton>
-        {Number(lastMessageDateChecked[chatRoom._id]) !==
+        {Number(chatVisitStatus[chatRoom._id]) !==
           new Date(chatRoom.last_updated).getTime() && (
           <MCView
             style={{
@@ -146,7 +146,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   myRooms: state.chatReducer.myRooms,
   loading: state.chatReducer.loading,
-  lastMessageDateChecked: state.chatReducer.lastMessageDateChecked,
+  chatVisitStatus: state.chatReducer.chatVisitStatus,
   profile: state.profileReducer,
 });
 

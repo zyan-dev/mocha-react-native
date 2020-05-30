@@ -21,8 +21,17 @@ const Stack = createStackNavigator();
 
 class RootNavigator extends React.Component {
   componentDidMount() {
-    this.props.setLoading(false);
-    this.props.firebaseAuthentication();
+    const {
+      setLoading,
+      firebaseAuthentication,
+      profile,
+      getChatVisitStatus,
+    } = this.props;
+
+    setLoading(false);
+    firebaseAuthentication();
+    // get unread message status
+    if (profile.userToken.length > 0) getChatVisitStatus();
     // this.props.setNewUser(false);
     Mixpanel.sharedInstanceWithToken(MixpanelToken);
   }
@@ -65,6 +74,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setLoading: routerActions.setLoading,
   firebaseAuthentication: chatActions.firebaseAuthentication,
+  getChatVisitStatus: chatActions.getChatVisitStatus,
   setNewUser: routerActions.setNewUser,
 };
 

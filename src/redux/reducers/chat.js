@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   roomMessages: {},
   blockList: [],
   loading: false,
-  lastMessageDateChecked: {},
+  chatVisitStatus: {},
   hasMissedMessages: false,
 };
 
@@ -37,13 +37,18 @@ const chatReducer = (state = INITIAL_STATE, action) => {
         ...state,
         hasMissedMessages: action.payload,
       };
-    case types.UPDATE_LAST_MESSAGE_DATE:
+    case types.UPDATE_CHAT_VISIT_STATUS:
       return {
         ...state,
-        lastMessageDateChecked: {
-          ...state.lastMessageDateChecked,
+        chatVisitStatus: {
+          ...state.chatVisitStatus,
           ...action.payload,
         },
+      };
+    case types.SET_CHAT_VISIT_STATUS:
+      return {
+        ...state,
+        chatVisitStatus: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

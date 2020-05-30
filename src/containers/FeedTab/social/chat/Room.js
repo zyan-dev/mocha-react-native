@@ -195,7 +195,6 @@ class ChatRoomScreen extends React.Component {
   scrollToEnd = () => {
     const {roomMessageIds} = this.props;
     if (roomMessageIds.length === 0) return;
-    console.log('Scrolling to End...', roomMessageIds.length - 1);
     setTimeout(() => {
       this.chatList &&
         this.chatList.scrollToIndex({
@@ -207,7 +206,6 @@ class ChatRoomScreen extends React.Component {
   };
 
   scrollToItem = item => {
-    console.log('Scrolling to item');
     setTimeout(() => {
       this.chatList &&
         this.chatList.scrollToItem({animated: false, item, viewPosition: 0});
@@ -217,7 +215,7 @@ class ChatRoomScreen extends React.Component {
   onViewableItemsChanged = ({viewableItems, changed}) => {
     const {
       selectedRoom,
-      lastMessageDateChecked,
+      chatVisitStatus,
       checkChatMissedState,
       roomMessages,
     } = this.props;
@@ -227,12 +225,9 @@ class ChatRoomScreen extends React.Component {
       topBubbleDate: _.get(roomMessages, [viewableItems[0].item, 'date'], 0),
     });
     const viewableLastDate = viewableItems[viewableItems.length - 1].item;
-    if (viewableLastDate <= lastMessageDateChecked[selectedRoom._id]) return;
-    this.props.updateLastMessageDate({
+    if (viewableLastDate <= chatVisitStatus[selectedRoom._id]) return;
+    this.props.updateChatVisitStatus({
       [selectedRoom._id]: viewableLastDate,
-    });
-    setTimeout(() => {
-      checkChatMissedState();
     });
   };
 
@@ -697,7 +692,7 @@ const mapStateToProps = state => ({
   ),
   loading: state.chatReducer.loading,
   hasMissedMessages: state.chatReducer.hasMissedMessages,
-  lastMessageDateChecked: state.chatReducer.lastMessageDateChecked,
+  chatVisitStatus: state.chatReducer.chatVisitStatus,
   profile: state.profileReducer,
 });
 
@@ -708,7 +703,7 @@ const mapDispatchToProps = {
   deleteChatRoom: chatActions.deleteChatRoom,
   updateChatRoom: chatActions.updateChatRoom,
   closeRoomMessageListener: chatActions.closeRoomMessageListener,
-  updateLastMessageDate: chatActions.updateLastMessageDate,
+  updateChatVisitStatus: chatActions.updateChatVisitStatus,
   checkChatMissedState: chatActions.checkChatMissedState,
   setRoomMessages: chatActions.setRoomMessages,
   addEmoji: chatActions.addEmoji,

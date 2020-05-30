@@ -26,7 +26,7 @@ export function* updateBasicProfile(action) {
   try {
     let response = {};
     const {
-      profileReducer: {_id, bio, name, avatar, avatarChanged, userToken},
+      profileReducer: {_id, bio, name, avatar, userToken},
     } = yield select();
     if (!userToken) return;
     let updatedProfile = {bio, name, avatar};

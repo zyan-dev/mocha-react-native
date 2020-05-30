@@ -31,8 +31,8 @@ export const setRoomMessages = messages => ({
   payload: messages,
 });
 
-export const updateLastMessageDate = data => ({
-  type: types.UPDATE_LAST_MESSAGE_DATE,
+export const updateChatVisitStatus = data => ({
+  type: types.UPDATE_CHAT_VISIT_STATUS,
   payload: data,
 });
 
@@ -43,6 +43,10 @@ export const updateChatRoom = data => ({
 
 export const checkChatMissedState = () => ({
   type: types.CHECK_CHAT_MISSED_STATE,
+});
+
+export const getChatVisitStatus = () => ({
+  type: types.GET_CHAT_VISIT_STATUS,
 });
 
 export const getRoomMessages = (roomId, count) => (dispatch, getState) => {
