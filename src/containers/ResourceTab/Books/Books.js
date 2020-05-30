@@ -65,6 +65,7 @@ class BookResourceScreen extends React.PureComponent {
       resourceRecommendResourceIndex,
       resourceRcommendResourceLimited,
       searchText,
+      selectedMember,
     } = this.props;
 
     if (from == 'global') {
@@ -88,7 +89,10 @@ class BookResourceScreen extends React.PureComponent {
       getRecommendedResources(resourceRecommendResourceIndex + 1);
     } else {
       if (resourceTrustMemberLimited || pageSearching) return;
-      getTrustMemberResources(resourceTrustMemberPageIndex + 1);
+      getTrustMemberResources({
+        pageIndex: resourceTrustMemberPageIndex + 1,
+        trustMember: selectedMember._id,
+      });
     }
   };
 
@@ -134,18 +138,7 @@ class BookResourceScreen extends React.PureComponent {
       books = this.sortBook(selectedResources, sort);
       pageLimited = resourceMyPageLimited;
     } else {
-      selectedResources.forEach(resource => {
-        if (
-          resource &&
-          resource.type == 'books' &&
-          resource.trustMember &&
-          selectedMember &&
-          selectedMember._id == resource.trustMember._id
-        ) {
-          books.push(resource);
-        }
-      });
-      books = this.sortBook(books, sort);
+      books = this.sortBook(selectedResources, sort);
       pageLimited = resourceTrustMemberLimited;
     }
 

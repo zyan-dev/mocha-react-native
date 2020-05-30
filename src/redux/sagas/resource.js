@@ -164,7 +164,7 @@ export function* getTrustMemberResources(action) {
     const response = yield call(API.getTrustMemberResources, action.payload);
 
     if (response.data.status === 'success') {
-      if (action.payload === 1) {
+      if (action.payload.pageIndex === 1) {
         yield put({
           type: types.SET_SEARCHED_TRUST_MEMBER_RESOURCES,
           payload: response.data.data.resources,
@@ -176,12 +176,12 @@ export function* getTrustMemberResources(action) {
         });
         yield put({
           type: types.SET_TRUST_MEMBER_RESOURCE_PAGE_INDEX,
-          payload: action.payload,
+          payload: action.payload.pageIndex,
         });
       }
       yield put({
         type: types.SET_TRUST_MEMBER_RESOURCE_PAGE_LIMITED,
-        payload: action.payload >= response.data.data.total_pages,
+        payload: action.payload.pageIndex >= response.data.data.total_pages,
       });
 
       yield put({type: types.API_FINISHED});
@@ -267,10 +267,6 @@ export function* createResources(action) {
         type: types.GET_MY_RESOURCES,
         payload: 1,
       });
-      yield put({
-        type: types.GET_BOOKMARKED_RESOURCES,
-        payload: 1,
-      });
       // yield put({
       //   type: types.GET_ALL_RESOURCES,
       //   payload: 1,
@@ -283,11 +279,6 @@ export function* createResources(action) {
 
       yield put({
         type: types.SET_ALL_RESOURCE_PAGE_INDEX,
-        payload: 1,
-      });
-
-      yield put({
-        type: types.SET_BOOKMARKED_RESOURCE_PAGE_INDEX,
         payload: 1,
       });
 
@@ -396,7 +387,10 @@ export function* toggleBookmarkedResource(action) {
         });
         yield put({
           type: types.GET_TRUST_MEMBER_RESOURCES,
-          payload: 1,
+          payload: {
+            pageIndex: 1,
+            trustMember: resourceReducer.selectedTrustMemberId,
+          },
         });
 
         yield put({

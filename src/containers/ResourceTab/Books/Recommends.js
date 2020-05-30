@@ -55,7 +55,7 @@ class SelectRecommendMemberScreen extends React.Component {
     const {selectedUsers, recommendResourceToMembers} = this.props;
     const resource = this.props.route.params.resource;
     const ids = selectedUsers.map(v => v._id);
-    console.log(resource, ids);
+
     recommendResourceToMembers({
       data: {resource, recommends: ids, type: 'books'},
     });
