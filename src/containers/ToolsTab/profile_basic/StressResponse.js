@@ -167,6 +167,7 @@ class BodyAwarenessScreen extends React.Component {
           <H4 mt={20}>{t('tools_tab_body_scan_description1')}</H4>
           <H4 mt={20}>{t('tools_tab_body_scan_description2')}</H4>
           <YouTube
+            apiKey="AIzaSyACbgNHAK4l0E-Cf_ceAme85BBXnplHdPs"
             videoId="q7OAlcyE5M8" // The YouTube video ID
             onError={e => this.setState({errorVideo: e.error})}
             style={{

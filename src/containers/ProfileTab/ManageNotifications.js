@@ -19,6 +19,7 @@ const NotificationKeys = [
   'addTrustMember',
   'habit',
   'reaction',
+  'chat',
 ];
 
 class ManageNotifications extends React.Component {
