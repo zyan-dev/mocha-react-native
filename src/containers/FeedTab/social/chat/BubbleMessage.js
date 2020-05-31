@@ -163,11 +163,11 @@ class BubbleMessageItem extends React.PureComponent {
             <H3 color={mine ? 'white' : 'black'} ph={5}>
               {linkMsg}
             </H3>
-          ) : (
+          ) : bubble.text.length > 0 ? (
             <H3 color={mine ? 'white' : 'black'} ph={5}>
               {bubble.text}
             </H3>
-          )}
+          ) : null}
         </MCView>
         {!mine && (
           <MCButton onPress={() => onPressEmoji()} pt={1} pl={0} ml={-10}>

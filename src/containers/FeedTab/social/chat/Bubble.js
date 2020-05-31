@@ -41,7 +41,7 @@ class ChatBubbleItem extends React.Component {
     if (bubble.text === 'who_chat_message_created_room') return;
     if (bubble.text.indexOf('chat_message_who_added_whom') > -1) return;
     if (mine) {
-      this.setState({selectedBubble: bubble});
+      this.setState({selectedBubble: bubble, editing: false});
       this.RBSheet && this.RBSheet.open();
     } else {
       //  go to preview screen directly

@@ -74,6 +74,7 @@ class AddReflectionScreen extends React.Component {
   ToolsMindCards = [
     {
       key: 'profile_basic',
+      title: i18next.t('outline_profile_basic'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-pawn-alt',
@@ -81,6 +82,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'profile_advanced',
+      title: i18next.t('outline_profile_advanced'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-knight-alt',
@@ -88,6 +90,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'profile_expert',
+      title: i18next.t('outline_profile_expert'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-queen-alt',
@@ -95,6 +98,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'personality',
+      title: i18next.t('outline_personality'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'fingerprint',
@@ -258,6 +262,7 @@ class AddReflectionScreen extends React.Component {
           this.ToolsMindCards.concat(this.ToolsSocialCards),
         ).filter(
           card =>
+            card.title &&
             card.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1,
         );
         break;

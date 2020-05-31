@@ -95,7 +95,7 @@ class ChatRoomScreen extends React.Component {
       getRoomMessages,
       selectedRoom,
     } = this.props;
-    if (text.trim().length === 0) return;
+    if (text.trim().length === 0 && !selectedImage) return;
 
     const ts = new Date().getTime();
 
