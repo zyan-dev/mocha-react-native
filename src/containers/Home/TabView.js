@@ -172,7 +172,7 @@ class TabView extends React.PureComponent {
                 <MCView
                   style={{
                     position: 'absolute',
-                    top: dySize(25),
+                    top: dySize(0),
                     right: dySize(20),
                   }}
                   width={12}

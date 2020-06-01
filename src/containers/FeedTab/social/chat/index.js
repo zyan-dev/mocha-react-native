@@ -41,34 +41,35 @@ class SocialChatScreen extends React.Component {
             <H3 weight="bold" mr={20} style={{flex: 1}} numberOfLines={2}>
               {t(chatRoom.room_name)}
             </H3>
-            {chatRoom.members.slice(0, 3).map((member, index) => {
-              const find = chatRoom.includes.find(i => i._id === member);
-              if (!find) return;
-              return (
-                <MCView mr={-15}>
-                  <MCImage
-                    image={{uri: find.avatar}}
-                    round
-                    type="avatar"
-                    width={30}
-                    height={30}
-                  />
-                  {chatRoom.members.length > 3 && index === 2 && (
-                    <MCView
-                      absolute
+            {chatRoom.includes
+              .filter(i => i._id !== profile._id)
+              .slice(0, 3)
+              .map((member, index) => {
+                return (
+                  <MCView mr={-15}>
+                    <MCImage
+                      image={{uri: member.avatar}}
+                      round
+                      type="avatar"
                       width={30}
                       height={30}
-                      br={15}
-                      background={theme.colors.background}
-                      align="center"
-                      justify="center"
-                      style={{opacity: 0.8}}>
-                      <H4 weight="bold">+{chatRoom.members.length - 3}</H4>
-                    </MCView>
-                  )}
-                </MCView>
-              );
-            })}
+                    />
+                    {chatRoom.includes.length > 4 && index === 2 && (
+                      <MCView
+                        absolute
+                        width={30}
+                        height={30}
+                        br={15}
+                        background={theme.colors.background}
+                        align="center"
+                        justify="center"
+                        style={{opacity: 0.8}}>
+                        <H4 weight="bold">+{chatRoom.includes.length - 3}</H4>
+                      </MCView>
+                    )}
+                  </MCView>
+                );
+              })}
           </MCView>
           <MCView row justify="space-between" align="center">
             <H4
