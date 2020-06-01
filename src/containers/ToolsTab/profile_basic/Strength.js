@@ -98,7 +98,7 @@ class StrengthScreen extends React.Component {
           {submitted && isErrorOption && (
             <ErrorText>{t('error_input_select_empty')}</ErrorText>
           )}
-          <MCView row wrap justify="center">
+          <MCView row wrap>
             {StrengthOptions.map(strength => {
               const selected = options.indexOf(strength.key) > -1;
               const color = selected ? theme.colors.outline : theme.colors.text;

@@ -29,7 +29,7 @@ class SendRequestScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getUntrustmembers({page: 1});
+    this.props.getRequestUsers({page: 1});
   }
 
   onPressUser = user => {
@@ -65,13 +65,13 @@ class SendRequestScreen extends React.Component {
 
   searchNextPage = () => {
     const {
-      getUntrustmembers,
+      getRequestUsers,
       searchPageLimited,
       searchPageIndex,
       pageSearching,
     } = this.props;
     if (searchPageLimited || pageSearching) return;
-    getUntrustmembers({page: searchPageIndex + 1});
+    getRequestUsers({page: searchPageIndex + 1});
   };
 
   _renderUserItem = ({item}) => {
@@ -192,7 +192,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   sendContactRequest: userActions.sendContactRequest,
-  getUntrustmembers: userActions.getUntrustmembers,
+  getRequestUsers: userActions.getRequestUsers,
 };
 
 export default withTranslation()(

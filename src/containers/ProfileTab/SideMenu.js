@@ -40,7 +40,9 @@ class ProfileSideMenu extends React.Component {
     this.props.showDrawer(false);
     if (menu.title === 'profile_menu_signout') {
       this.props.resetAllReducer();
-      NavigationService.reset('welcomeStack');
+      setTimeout(() => {
+        NavigationService.reset('welcomeStack');
+      });
       AsyncStorage.removeItem('userToken');
     } else if (menu.title === 'profile_menu_delete') {
       Alert.alert(
@@ -97,13 +99,13 @@ class ProfileSideMenu extends React.Component {
         }}>
         <ScrollView>
           <MCView mt={50} justify="space-between" ph={10} align="flex-start">
-            <MCView row justify="space-between" width={250}>
+            <MCView row justify="space-between" width={280}>
               <H3 color={systemTheme.colors.border}>{t('version')}</H3>
               <H3 color={systemTheme.colors.border}>
                 {DeviceInfo.getVersion()}
               </H3>
             </MCView>
-            <MCView row justify="space-between" width={250} mb={15}>
+            <MCView row justify="space-between" width={280} mb={15}>
               <H3 color={systemTheme.colors.border}>{t('cp_version')}</H3>
               <H3 color={systemTheme.colors.border}>{cp_version}</H3>
             </MCView>
@@ -115,7 +117,7 @@ class ProfileSideMenu extends React.Component {
               <H4>{t('codepush_check_for_update')}</H4>
             </MCButton>
             {cp_status.length > 0 && (
-              <H4 mt={10} color={systemTheme.colors.border}>
+              <H4 mt={10} ml={5} color={systemTheme.colors.border}>
                 {t(cp_status)}
               </H4>
             )}
@@ -131,8 +133,11 @@ class ProfileSideMenu extends React.Component {
                 key={menu.index}
                 style={{width: '100%'}}
                 row
+                align="center"
                 onPress={() => this.onPressItem(menu)}>
-                <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
+                <MCView width={40} align="center">
+                  <MCIcon type={menu.iconType} name={menu.icon} padding={6} />
+                </MCView>
                 <MCView>
                   <H3
                     ml={6}
@@ -155,9 +160,9 @@ class ProfileSideMenu extends React.Component {
           <MCView align="center" mt={20} mb={20}>
             <DividerLine width={275} />
           </MCView>
-          <MCView align="center" width={275} mb={20}>
-            <H3 padding={20}>{t('welcome_theme_displayText')}</H3>
-            <MCView align="center" width={240}>
+          <MCView align="center" width={300} mb={20}>
+            <H4 padding={20}>{t('welcome_theme_displayText')}</H4>
+            <MCView align="center" width={300}>
               {colorThemes.map((theme, index) => {
                 return (
                   <MCButton

@@ -28,6 +28,11 @@ class SelectUserScreen extends React.Component {
     NavigationService.navigate('UserProfile', {id: user._id});
   };
 
+  onChangeSearchText = text => {
+    this.setState({searchText: text});
+    this.props.findUserByName({name: text, page: 1});
+  };
+
   selectUser = user => {
     const {isMultiple} = this.state;
     if (isMultiple) {
@@ -57,16 +62,8 @@ class SelectUserScreen extends React.Component {
   };
 
   _renderUserItem = ({item}) => {
-    const {searchText} = this.state;
     const {theme, myProfile, selectedUsers} = this.props;
     const user = item;
-
-    // search by text
-    if (
-      user.name.toLowerCase().indexOf(searchText.toLowerCase()) < 0 &&
-      user.user_id.toLowerCase().indexOf(searchText.toLowerCase()) < 0
-    )
-      return null;
 
     // skip owner's profile
     if (user._id === myProfile._id) return null;
@@ -170,7 +167,7 @@ class SelectUserScreen extends React.Component {
         <MCSearchInput
           width={350}
           text={searchText}
-          onChange={text => this.setState({searchText: text})}
+          onChange={text => this.onChangeSearchText(text)}
         />
         <MCView width={375} style={{flex: 1}}>
           <FlatList

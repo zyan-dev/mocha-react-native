@@ -96,6 +96,8 @@ const routerReducer = (state = INITIAL_STATE, action) => {
       return {
         ...INITIAL_STATE,
         theme: state.theme,
+        visitedProfile: state.visitedProfile,
+        visitedTools: state.visitedTools,
       };
     default:
       return state;

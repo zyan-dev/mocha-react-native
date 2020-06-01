@@ -13,6 +13,21 @@ import {
 } from 'components/styled/Custom';
 import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 
+const ServiceRules = [
+  'service_1',
+  'service_2',
+  'service_3',
+  'service_4',
+  'service_5',
+];
+
+const CommunityRules = [
+  'community_1',
+  'community_2',
+  'community_3',
+  'community_4',
+];
+
 class OurCommunityRuleScreen extends React.Component {
   state = {
     checkedOptions: [],
@@ -50,85 +65,47 @@ class OurCommunityRuleScreen extends React.Component {
           <MCView width={340} row align="center">
             <H4 weight="bold">{t('auth_agree')}</H4>
           </MCView>
-          <MCView width={340} row align="center">
-            <MCIcon name="ios-remove" padding={1} />
-            <MCCheckBox
-              width={320}
-              hasLeftText
-              bigText={false}
-              iconColor={theme.colors.outline}
-              label={t('auth_service_community_rule_1')}
-              checked={checkedOptions.indexOf('service_1') > -1}
-              onChange={checked => this.onToggleCheck('service_1')}
-            />
-          </MCView>
-          <MCView width={340} row align="center">
-            <MCIcon name="ios-remove" padding={1} />
-            <MCCheckBox
-              width={320}
-              hasLeftText
-              bigText={false}
-              iconColor={theme.colors.outline}
-              label={t('auth_service_community_rule_2')}
-              checked={checkedOptions.indexOf('service_2') > -1}
-              onChange={checked => this.onToggleCheck('service_2')}
-            />
-          </MCView>
-          <MCView width={340} row align="center">
-            <MCIcon name="ios-remove" padding={1} />
-            <MCCheckBox
-              width={320}
-              hasLeftText
-              bigText={false}
-              iconColor={theme.colors.outline}
-              label={t('auth_service_community_rule_3')}
-              checked={checkedOptions.indexOf('service_3') > -1}
-              onChange={checked => this.onToggleCheck('service_3')}
-            />
-          </MCView>
+          {ServiceRules.map(rule => {
+            return (
+              <MCView width={340} row align="center">
+                <MCIcon name="ios-remove" padding={1} />
+                <MCCheckBox
+                  width={320}
+                  hasLeftText
+                  bigText={false}
+                  iconColor={theme.colors.outline}
+                  label={t(`auth_rule_${rule}`)}
+                  checked={checkedOptions.indexOf(rule) > -1}
+                  onChange={checked => this.onToggleCheck(rule)}
+                />
+              </MCView>
+            );
+          })}
           <H2 weight="bold" color={theme.colors.outline} mt={50}>
             {t('label_community')}
           </H2>
           <MCView width={340} row align="center">
             <H4 weight="bold">{t('auth_agree')}</H4>
           </MCView>
-          <MCView width={340} row align="center">
-            <MCIcon name="ios-remove" padding={1} />
-            <MCCheckBox
-              width={320}
-              hasLeftText
-              bigText={false}
-              iconColor={theme.colors.outline}
-              label={t('auth_community_rule_1')}
-              checked={checkedOptions.indexOf('community_1') > -1}
-              onChange={checked => this.onToggleCheck('community_1')}
-            />
-          </MCView>
-          <MCView width={340} row align="center">
-            <MCIcon name="ios-remove" padding={1} />
-            <MCCheckBox
-              width={320}
-              hasLeftText
-              bigText={false}
-              iconColor={theme.colors.outline}
-              label={t('auth_community_rule_2')}
-              checked={checkedOptions.indexOf('community_2') > -1}
-              onChange={checked => this.onToggleCheck('community_2')}
-            />
-          </MCView>
-          <MCView width={340} row align="center">
-            <MCIcon name="ios-remove" padding={1} />
-            <MCCheckBox
-              width={320}
-              hasLeftText
-              bigText={false}
-              iconColor={theme.colors.outline}
-              label={t('auth_community_rule_3')}
-              checked={checkedOptions.indexOf('community_3') > -1}
-              onChange={checked => this.onToggleCheck('community_3')}
-            />
-          </MCView>
-          <H4 weight="bold">{t('label_type_I_agree')}</H4>
+          {CommunityRules.map(rule => {
+            return (
+              <MCView width={340} row align="center">
+                <MCIcon name="ios-remove" padding={1} />
+                <MCCheckBox
+                  width={320}
+                  hasLeftText
+                  bigText={false}
+                  iconColor={theme.colors.outline}
+                  label={t(`auth_rule_${rule}`)}
+                  checked={checkedOptions.indexOf(rule) > -1}
+                  onChange={checked => this.onToggleCheck(rule)}
+                />
+              </MCView>
+            );
+          })}
+          <H4 weight="bold" mt={40}>
+            {t('label_type_I_agree')}
+          </H4>
           <MCView width={250}>
             <MCTextInput
               style={{width: '100%'}}

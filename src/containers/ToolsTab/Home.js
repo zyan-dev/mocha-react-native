@@ -74,10 +74,7 @@ class AddReflectionScreen extends React.Component {
   ToolsMindCards = [
     {
       key: 'profile_basic',
-      title: i18next.t('tools_card_title_profile', {
-        bold: i18next.t('outline_profile_basic'),
-      }),
-      boldWordKeys: ['profile_basic'],
+      title: i18next.t('outline_profile_basic'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-pawn-alt',
@@ -85,10 +82,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'profile_advanced',
-      title: i18next.t('tools_card_title_profile', {
-        bold: i18next.t('outline_profile_advanced'),
-      }),
-      boldWordKeys: ['profile_advanced'],
+      title: i18next.t('outline_profile_advanced'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-knight-alt',
@@ -96,10 +90,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'profile_expert',
-      title: i18next.t('tools_card_title_profile', {
-        bold: i18next.t('outline_profile_expert'),
-      }),
-      boldWordKeys: ['profile_expert'],
+      title: i18next.t('outline_profile_expert'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-queen-alt',
@@ -107,10 +98,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'personality',
-      title: i18next.t('tools_card_title_profile', {
-        bold: i18next.t('outline_personality'),
-      }),
-      boldWordKeys: ['personality'],
+      title: i18next.t('outline_personality'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'fingerprint',
@@ -274,6 +262,7 @@ class AddReflectionScreen extends React.Component {
           this.ToolsMindCards.concat(this.ToolsSocialCards),
         ).filter(
           card =>
+            card.title &&
             card.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1,
         );
         break;
@@ -321,6 +310,7 @@ class AddReflectionScreen extends React.Component {
     const {t, theme, favoriteTools} = this.props;
     const card = item;
     const exist = favoriteTools && favoriteTools.find(i => i.key === card.key);
+
     return (
       <NativeCard
         background={theme.colors.background}
@@ -336,7 +326,32 @@ class AddReflectionScreen extends React.Component {
           pt={20}
           onPress={() => this.onPressCard(card)}>
           <MCView height={80} justify="center" align="center" ph={5}>
-            {getStringWithOutline(card)}
+            {card.key === 'profile_basic' && (
+              <>
+                <H4 weight="bold">{t('outline_profile_basic')}</H4>
+                <H4>{t('tools_tab_know_yourself')}</H4>
+              </>
+            )}
+            {card.key === 'profile_advanced' && (
+              <>
+                <H4 weight="bold">{t('outline_profile_advanced')}</H4>
+                <H4>{t('tools_tab_know_yourself')}</H4>
+              </>
+            )}
+            {card.key === 'profile_expert' && (
+              <>
+                <H4 weight="bold">{t('outline_profile_expert')}</H4>
+                <H4>{t('tools_tab_know_yourself')}</H4>
+              </>
+            )}
+            {card.key === 'personality' && (
+              <>
+                <H4 weight="bold">{t('outline_personality')}</H4>
+                <H4>{t('tools_tab_know_yourself')}</H4>
+              </>
+            )}
+            {!this.ToolsMindCards.find(i => i.key === card.key) &&
+              getStringWithOutline(card)}
           </MCView>
           <MCIcon
             type={card.iconType}

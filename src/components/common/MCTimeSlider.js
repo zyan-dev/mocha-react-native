@@ -48,10 +48,13 @@ class MCTimeSlider extends React.PureComponent {
   static propTypes = {
     width: PropTypes.number,
     values: PropTypes.array.isRequired,
-    range: PropTypes.object.isRequired, // {start: 0, end: 10}
+    value: PropTypes.array.isRequired, // [start, end] or [start]
     onChange: PropTypes.func,
-    enabled: PropTypes.bool,
+    enabledLeft: PropTypes.bool,
+    enabledRight: PropTypes.bool,
     showBottomLabel: PropTypes.bool,
+    showLabel: PropTypes.bool,
+    mt: PropTypes.number,
   };
 
   static defaultProps = {
@@ -59,32 +62,35 @@ class MCTimeSlider extends React.PureComponent {
     animationIn: 'slideInLeft',
     animationOut: 'slideOutRight',
     onChange: () => undefined,
-    enabled: true,
+    enabledLeft: true,
+    enabledRight: true,
     showBottomLabel: true,
+    showLabel: true,
+    mt: 50,
   };
 
   multiSliderValuesChange = values => {
-    this.props.onChange({
-      start: values[0],
-      end: values[1],
-    });
+    this.props.onChange(values);
   };
 
   render() {
     const {
       width,
-      range: {start, end},
+      value,
       values,
-      enabled,
+      enabledLeft,
+      enabledRight,
       showBottomLabel,
+      showLabel,
+      mt,
     } = this.props;
-    const offset = end - start;
+    const offset = value.length === 1 ? 10000 : value[1] - value[0];
     return (
       <MCView
         overflow="visible"
         width={width}
         height={80}
-        mt={50}
+        mt={mt}
         justify="center">
         <MCView
           height={25}
@@ -109,34 +115,39 @@ class MCTimeSlider extends React.PureComponent {
         )}
         <MultiSlider
           isMarkersSeparated={true}
-          enabledOne={enabled}
-          enabledTwo={enabled}
+          enabledOne={enabledLeft}
+          enabledTwo={enabledRight}
           customMarkerLeft={e => {
             return (
               <MarkerContainer>
-                <MarkerTextView
-                  style={{
-                    right: e.currentValue !== 0 && offset < 2 ? 10 : null,
-                  }}>
-                  <H4 align="center">{values[e.currentValue]}</H4>
-                </MarkerTextView>
+                {showLabel && (
+                  <MarkerTextView
+                    style={{
+                      right: e.currentValue !== 0 && offset < 3 ? 10 : null,
+                    }}>
+                    <H4 align="center">{values[e.currentValue]}</H4>
+                  </MarkerTextView>
+                )}
                 <MarkerWrapper />
                 <MarkerBottomView />
               </MarkerContainer>
             );
           }}
           customMarkerRight={e => {
+            if (!showLabel) return null;
             return (
               <MarkerContainer>
-                <MarkerTextView
-                  style={{
-                    left:
-                      e.currentValue !== values.length - 1 && offset < 2
-                        ? 10
-                        : null,
-                  }}>
-                  <H4 align="center">{values[e.currentValue]}</H4>
-                </MarkerTextView>
+                {showLabel && (
+                  <MarkerTextView
+                    style={{
+                      left:
+                        e.currentValue !== values.length - 1 && offset < 3
+                          ? 10
+                          : null,
+                    }}>
+                    <H4 align="center">{values[e.currentValue]}</H4>
+                  </MarkerTextView>
+                )}
                 <MarkerWrapper />
                 <MarkerBottomView />
               </MarkerContainer>
@@ -146,7 +157,7 @@ class MCTimeSlider extends React.PureComponent {
           max={values.length - 1}
           step={1}
           sliderLength={dySize(width)}
-          values={[start, end]}
+          values={value}
           onValuesChange={this.multiSliderValuesChange}
           snapped
           containerStyle={{

@@ -45,12 +45,20 @@ export const setSearchPageIndex = index => ({
   payload: index,
 });
 
+// used in social search tab
 export const findUserByName = param => ({
   type: types.FIND_USER_BY_NAME,
-  payload: param,
+  payload: {param},
 });
 
-export const getUntrustmembers = param => ({
-  type: types.GET_UNTRUST_MEMBERS,
+// used in add trust network member screen
+export const findUntrustUserByName = param => ({
+  type: types.FIND_USER_BY_NAME,
+  payload: {onlyUntrust: true, param},
+});
+
+// used in send request screen
+export const getRequestUsers = param => ({
+  type: types.GET_REQUEST_USERS,
   payload: param,
 });

@@ -64,7 +64,13 @@ export const FontFamilies = {
   italic: 'ProximaNova-RegularIt',
 };
 
-export const mainTabKeys = ['social', 'resources', 'tools', 'profile'];
+export const mainTabKeys = [
+  'social',
+  'resources',
+  'progress',
+  'tools',
+  'profile',
+];
 
 export const ContactProfileKeys = [
   'preferredtobecalled',
@@ -109,16 +115,16 @@ export const WeekDays = [
 export const ProfileSideMenuList = [
   {
     index: 0,
-    icon: 'ios-link',
-    iconType: 'Ionicon',
+    icon: 'link',
+    iconType: 'FontAwesome5Pro',
     title: 'profile_menu_signin',
-    redirectTo: 'Verification',
+    redirectTo: 'VerificationStack',
     registerRequired: false,
   },
   {
     index: 1,
-    icon: 'ios-log-out',
-    iconType: 'Ionicon',
+    icon: 'sign-out',
+    iconType: 'FontAwesome5Pro',
     title: 'profile_menu_signout',
     redirectTo: '',
     registerRequired: true,
@@ -139,34 +145,34 @@ export const ProfileSideMenuList = [
     redirectTo: 'Settings',
     registerRequired: true,
   },
-  {
-    index: 4,
-    icon: 'ios-send',
-    iconType: 'Ionicon',
-    title: 'profile_menu_cv',
-    redirectTo: 'SendMochaCV',
-    registerRequired: true,
-  },
+  // {
+  //   index: 4,
+  //   icon: 'ios-send',
+  //   iconType: 'Ionicon',
+  //   title: 'profile_menu_cv',
+  //   redirectTo: 'SendMochaCV',
+  //   registerRequired: true,
+  // },
   {
     index: 5,
-    icon: 'ios-notifications-outline',
-    iconType: 'Ionicon',
+    icon: 'bell',
+    iconType: 'FontAwesome5Pro',
     title: 'profile_menu_manage_notifications',
     redirectTo: 'ManageNotifications',
     registerRequired: true,
   },
   {
     index: 6,
-    icon: 'logo-usd',
-    iconType: 'Ionicon',
+    icon: 'dollar-sign',
+    iconType: 'FontAwesome5Pro',
     title: 'profile_menu_purchase',
     redirectTo: 'Purchase',
     registerRequired: true,
   },
   {
     index: 7,
-    icon: 'ios-remove-circle-outline',
-    iconType: 'Ionicon',
+    icon: 'minus-circle',
+    iconType: 'FontAwesome5Pro',
     title: 'profile_menu_delete',
     redirectTo: '',
     registerRequired: true,
@@ -239,6 +245,17 @@ export const AdvancedPermissions = [
   'personality',
 ];
 
+export const OthherPermissions = [
+  'motivation',
+  'manual',
+  'value',
+  'emotion',
+  'need',
+  'personal_story',
+  'risk_tolerance',
+  'meaning_life',
+];
+
 export const NightSliderValues = [
   '7:00 PM',
   '8:00 PM',
@@ -268,6 +285,22 @@ export const DaySliderValues = [
   '05:00 PM',
   '06:00 PM',
   '07:00 PM',
+];
+
+export const PostChallengeLevels = [
+  'low',
+  'low-medium',
+  'medium',
+  'medium-high',
+  'high',
+];
+
+export const PostMoraleLevels = [
+  'low',
+  'low-medium',
+  'medium',
+  'medium-high',
+  'high',
 ];
 
 export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8+'];
@@ -2202,8 +2235,8 @@ export const DiscoverValues = [
     image: AnimalTit,
   },
   {
-    value: 'environment',
-    category: 'universalism',
+    value: 'boldness',
+    category: 'self-direction',
     name: 'warthog',
     image: AnimalWarthog,
   },
@@ -2259,7 +2292,7 @@ export const StrengthOptions = [
     key: 'interpersonal',
     iconType: 'FontAwesome5Pro',
     icon: 'handshake',
-    width: 250,
+    width: 150,
   },
   {
     key: 'linguistic',
@@ -2461,20 +2494,20 @@ export const stressRecoveries = ['tea', 'exercise', 'meditating', 'music'];
 
 export const ResourcesRoots = [
   {
-    key: 'globe',
-    icon: 'globe',
+    key: 'recommend',
+    icon: 'hand-holding-seedling',
   },
   {
-    key: 'users',
+    key: 'social',
     icon: 'users',
   },
   {
-    key: 'user',
+    key: 'me',
     icon: 'user',
   },
   {
-    key: 'search',
-    icon: 'search',
+    key: 'bookmark',
+    icon: 'bookmark',
   },
 ];
 

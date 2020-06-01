@@ -3,24 +3,18 @@ import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
-import {MCHeader, MCImage} from 'components/common';
+import {MCHeader, MCTimeSlider} from 'components/common';
+import {MCButton} from 'components/styled/Button';
+import {dySize} from 'utils/responsive';
+import {MCText, H2, H3, H5} from 'components/styled/Text';
+import {reflectionActions} from 'Redux/actions';
+import {NightSliderValues, DaySliderValues} from 'utils/constants';
 import {
   MCView,
   MCRootView,
   MCContent,
   NativeCard,
 } from 'components/styled/View';
-import {MCButton} from 'components/styled/Button';
-import {dySize} from 'utils/responsive';
-import {MCText, H2, H3, H5} from 'components/styled/Text';
-import {reflectionActions} from 'Redux/actions';
-import {
-  MorningLarkIcon,
-  FlexibleIcon,
-  NightOwlIcon,
-  DaytimeIcon,
-  NightimeIcon,
-} from 'assets/images';
 import {
   SheepSvg,
   LarkSvg,
@@ -29,8 +23,6 @@ import {
   NightSvg,
   DaySvg,
 } from 'assets/svgs';
-import {MCTimeSlider} from 'components/common';
-import {NightSliderValues, DaySliderValues} from 'utils/constants';
 
 class ChronotypeScreen extends React.PureComponent {
   componentWillMount() {
@@ -52,15 +44,15 @@ class ChronotypeScreen extends React.PureComponent {
 
   onChangeNightTimeRange = range => {
     this.props.updateSelectedReflection({
-      night_sleep_offset_start: range.start,
-      night_sleep_offset_end: range.end,
+      night_sleep_offset_start: range[0],
+      night_sleep_offset_end: range[1],
     });
   };
 
   onChangeDayTimeRange = range => {
     this.props.updateSelectedReflection({
-      day_sleep_offset_start: range.start,
-      day_sleep_offset_end: range.end,
+      day_sleep_offset_start: range[0],
+      day_sleep_offset_end: range[1],
     });
   };
 
@@ -165,10 +157,7 @@ class ChronotypeScreen extends React.PureComponent {
           <MCView align="center">
             <MCTimeSlider
               width={320}
-              range={{
-                start: night_sleep_offset_start,
-                end: night_sleep_offset_end,
-              }}
+              value={[night_sleep_offset_start, night_sleep_offset_end]}
               onChange={range => this.onChangeNightTimeRange(range)}
               values={NightSliderValues}
             />
@@ -177,27 +166,28 @@ class ChronotypeScreen extends React.PureComponent {
             </MCText>
             <H2>{t('unit_hours')}</H2>
           </MCView>
-          <MCView mt={50} row align="center">
-            <H3 mr={10} underline>
-              {t('chronotype_day_sleep_title')}
-            </H3>
-            <DaySvg size={25} color={theme.colors.text} />
-          </MCView>
-          <MCView align="center">
-            <MCTimeSlider
-              width={320}
-              range={{
-                start: day_sleep_offset_start,
-                end: day_sleep_offset_end,
-              }}
-              onChange={range => this.onChangeDayTimeRange(range)}
-              values={DaySliderValues}
-            />
-            <MCText weight="bold" style={{fontSize: dySize(80)}}>
-              {day_sleep_offset_end - day_sleep_offset_start}
-            </MCText>
-            <H2>{t('unit_hours')}</H2>
-          </MCView>
+          {(type === 'flexible' || type === 'night') && (
+            <>
+              <MCView mt={50} row align="center">
+                <H3 mr={10} underline>
+                  {t('chronotype_day_sleep_title')}
+                </H3>
+                <DaySvg size={25} color={theme.colors.text} />
+              </MCView>
+              <MCView align="center">
+                <MCTimeSlider
+                  width={320}
+                  value={[day_sleep_offset_start, day_sleep_offset_end]}
+                  onChange={range => this.onChangeDayTimeRange(range)}
+                  values={DaySliderValues}
+                />
+                <MCText weight="bold" style={{fontSize: dySize(80)}}>
+                  {day_sleep_offset_end - day_sleep_offset_start}
+                </MCText>
+                <H2>{t('unit_hours')}</H2>
+              </MCView>
+            </>
+          )}
         </MCContent>
       </MCRootView>
     );

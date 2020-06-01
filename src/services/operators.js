@@ -2,6 +2,7 @@ import React from 'react';
 import Toast from 'react-native-root-toast';
 import {MCView} from 'components/styled/View';
 import {H3, H4} from 'components/styled/Text';
+import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import moment from 'moment';
 import i18next from 'i18next';
@@ -196,17 +197,9 @@ export const getStringWithOutline = (textData, params = {}) => {
       boldWord = i18next.t(`outline_${key}`);
       boldIndex = str.indexOf(boldWord);
       if (boldIndex > 0 && bigSize) {
-        snippets.push(
-          <H3 underline={underline} align={align}>
-            {str.substr(0, boldIndex)}
-          </H3>,
-        );
+        snippets.push(<H3 align={align}>{str.substr(0, boldIndex)}</H3>);
       } else if (boldIndex > 0 && !bigSize) {
-        snippets.push(
-          <H4 underline={underline} align={align}>
-            {str.substr(0, boldIndex)}
-          </H4>,
-        );
+        snippets.push(<H4 align={align}>{str.substr(0, boldIndex)}</H4>);
       }
       if (bigSize) {
         snippets.push(
@@ -231,17 +224,9 @@ export const getStringWithOutline = (textData, params = {}) => {
     });
   }
   if (bigSize) {
-    snippets.push(
-      <H3 underline={underline} align={align}>
-        {str}
-      </H3>,
-    );
+    snippets.push(<H3 align={align}>{str}</H3>);
   } else {
-    snippets.push(
-      <H4 underline={underline} align={align}>
-        {str}
-      </H4>,
-    );
+    snippets.push(<H4 align={align}>{str}</H4>);
   }
   if (bigSize) {
     return (
@@ -298,6 +283,8 @@ export const convertChatMessage = (msg, room) => {
     return i18next.t('chat_message_who_added_whom', {who, whom});
   } else if (msg.text === 'chat_message_deleted') {
     return i18next.t('chat_message_deleted');
+  } else if (msg.text === 'chat_message_image_attached') {
+    return i18next.t('chat_message_image_attached');
   } else if (msg.edited) {
     return i18next.t('chat_message_edited', {text: msg.text});
   } else {

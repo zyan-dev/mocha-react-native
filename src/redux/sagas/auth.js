@@ -41,7 +41,6 @@ export function* verifySignUpSMS(action) {
       const profileData = {
         ...response.data.data.user,
         pushToken,
-        userToken: response.data.data.token,
       };
       // set Crashlytics attributes:
       crashlytics().setUserId(profileData._id.toString());
@@ -63,12 +62,35 @@ export function* verifySignUpSMS(action) {
   }
 }
 
+export function* setNewUser(action) {
+  try {
+    if (action.payload) return;
+    const token = yield call(AsyncStorage.getItem, 'userToken');
+    yield put({type: types.SET_PROFILE_DATA, payload: {userToken: token}});
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
 export function* completeSignUp(action) {
   try {
     const {profileReducer} = yield select();
-    const {user_id, created, updated} = profileReducer;
+    const {user_id, avatar, created, updated} = profileReducer;
     yield put({type: types.API_CALLING});
-
+    if (avatar.length > 0 && avatar.indexOf('https://') < 0) {
+      // avatar should be uploaded to server
+      const fileResponse = yield call(API.fileUploadToS3, {
+        image: avatar,
+        type: 'avatar',
+        userId: profileReducer._id,
+      });
+      if (fileResponse !== 'error') {
+        profileReducer.avatar = fileResponse;
+      } else {
+        showAlert('Upload Error');
+        return;
+      }
+    }
     const response = yield call(API.updateProfile, profileReducer);
     if (response.data.status === 'success') {
       if (created === updated) {
@@ -78,8 +100,8 @@ export function* completeSignUp(action) {
         // existing user
         NavigationService.navigate('mainStack');
         yield put({type: types.API_FINISHED});
+        yield put({type: types.SET_NEW_USER, payload: false});
       }
-      yield put({type: types.SET_NEW_USER, payload: false});
       // track mixpanel event
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,

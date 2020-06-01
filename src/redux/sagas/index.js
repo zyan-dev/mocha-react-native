@@ -1,4 +1,4 @@
-import {takeEvery, takeLatest} from 'redux-saga/effects';
+import {takeEvery, takeLatest, TakeEffect} from 'redux-saga/effects';
 import * as types from '../actions/types';
 import * as authSaga from './auth';
 import * as profileSaga from './profile';
@@ -10,12 +10,14 @@ import * as networkSaga from './network';
 import * as resourceSaga from './resource';
 import * as otherSaga from './other';
 import * as chatSaga from './chat';
+import * as postSaga from './post';
 
 function* mySaga() {
   // auth
   yield takeEvery(types.SEND_SMS, authSaga.sendSignUpSMS);
   yield takeLatest(types.VERIFY_SMS, authSaga.verifySignUpSMS);
   yield takeLatest(types.COMPLETE_SIGN_UP, authSaga.completeSignUp);
+  yield takeLatest(types.SET_NEW_USER, authSaga.setNewUser);
 
   // profile
   yield takeLatest(types.GET_MY_PROFILE, profileSaga.getMyProfile);
@@ -80,7 +82,7 @@ function* mySaga() {
   yield takeLatest(types.DECLINE_USER_REQUEST, userSaga.declineRequest);
   yield takeLatest(types.APPROVE_REQUEST, userSaga.approveRequest);
   yield takeLatest(types.FIND_USER_BY_NAME, userSaga.findUserByName);
-  yield takeLatest(types.GET_UNTRUST_MEMBERS, userSaga.getUntrustmembers);
+  yield takeLatest(types.GET_REQUEST_USERS, userSaga.getRequestUsers);
 
   // network
   yield takeLatest(types.GET_TRUST_NETWORKS, networkSaga.getTrustNetworks);
@@ -88,14 +90,37 @@ function* mySaga() {
   yield takeLatest(types.UPDATE_TRUST_NETWORK, networkSaga.updateNetwork);
   yield takeLatest(types.DELETE_TRUST_NETWORK, networkSaga.deleteNetwork);
 
-  // Resouurce
-  yield takeEvery(types.GET_ALL_RESOURCES, resourceSaga.getAllResources);
-  yield takeEvery(types.GET_MY_RESOURCES, resourceSaga.getMyResources);
+  // Resource
+  yield takeLatest(types.GET_ALL_RESOURCES, resourceSaga.getAllResources);
+  yield takeLatest(types.GET_MY_RESOURCES, resourceSaga.getMyResources);
   yield takeEvery(types.CREATE_RESOURCES, resourceSaga.createResources);
   yield takeEvery(types.UPDATE_RESOURCES, resourceSaga.updateResources);
   yield takeEvery(types.REMOVE_RESOURCES, resourceSaga.removeResources);
-  yield takeEvery(types.BOOKMARK_RESOURCE, resourceSaga.bookmarkResource);
-  yield takeEvery(types.SEARCH_RESOURCES, resourceSaga.searchResources);
+  yield takeEvery(
+    types.TOGGLE_BOOKMARKED_RESOURCE,
+    resourceSaga.toggleBookmarkedResource,
+  );
+  yield takeLatest(
+    types.GET_BOOKMARKED_RESOURCES,
+    resourceSaga.getBookmarkedResources,
+  );
+  yield takeLatest(
+    types.GET_TRUST_MEMBER_RESOURCES,
+    resourceSaga.getTrustMemberResources,
+  );
+  yield takeLatest(types.SEARCH_RESOURCES, resourceSaga.searchResources);
+  yield takeLatest(
+    types.GET_RESOURCE_BY_TITLE,
+    resourceSaga.getResourceByTitle,
+  );
+  yield takeLatest(
+    types.RECOMMEND_RESOURCE_TO_MEMBERS,
+    resourceSaga.recommendResourceToMembers,
+  );
+  yield takeLatest(
+    types.GET_RECOMMENDED_RESOURCES,
+    resourceSaga.getRecommendedResources,
+  );
 
   // other
   yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);
@@ -115,10 +140,21 @@ function* mySaga() {
   yield takeLatest(types.UPDATE_CHAT_ROOM, chatSaga.updateChatRoom);
   yield takeLatest(types.DELETE_CHAT_ROOM, chatSaga.deleteChatRoom);
   yield takeLatest(types.SET_MY_CHAT_ROOMS, chatSaga.checkChatMissedState);
+  yield takeLatest(types.GET_CHAT_VISIT_STATUS, chatSaga.getChatVisitStatus);
+  yield takeLatest(
+    types.UPDATE_CHAT_VISIT_STATUS,
+    chatSaga.updateChatVisitStatus,
+  );
   yield takeLatest(
     types.CHECK_CHAT_MISSED_STATE,
     chatSaga.checkChatMissedState,
   );
+
+  // post
+  yield takeEvery(types.ADD_OR_UPDATE_POST, postSaga.addOrUpdatePost);
+  yield takeEvery(types.GET_POSTS_BY_ID, postSaga.getPostsById);
+  yield takeEvery(types.GET_ALL_POSTS, postSaga.getPosts);
+  yield takeEvery(types.REMOVE_POSTS, postSaga.removePosts);
 }
 
 export default mySaga;

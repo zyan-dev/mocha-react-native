@@ -14,15 +14,6 @@ import {MCView} from '../../../components/styled/View';
 import {impacts} from '../../../utils/constants';
 
 class BookResourceScreen extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchText: '',
-      viewAll: true,
-      filterTypes: [],
-    };
-  }
-
   sortBook = (books, flag) => {
     let direction = 'asc';
     if (!flag) {
@@ -33,59 +24,147 @@ class BookResourceScreen extends React.PureComponent {
   };
 
   _renderListItem = ({item}) => {
-    const {bookmarkedResources} = this.props;
+    const {from} = this.props;
 
-    const bookmarked = bookmarkedResources.indexOf(item._id) > -1;
     return (
       <MCView align="center">
         <NativeCard width={320} mt={10} mb={10} ml={10} mr={10}>
           <BookItem
             resource={item}
-            bookmarked={bookmarked}
-            onPressBookmark={id => {
-              this.props.bookmarkResource(id);
+            onPressBookmark={data => {
+              this.props.toggleBookmarkedResource(data);
               this.forceUpdate();
             }}
             editable={false}
+            from={from}
           />
         </NativeCard>
       </MCView>
     );
   };
 
+  getNextPage = () => {
+    const {
+      from,
+      pageSearching,
+      getAllResources,
+      getMyResources,
+      getTrustMemberResources,
+      getBookmarkedResources,
+      getRecommendedResources,
+      resourceAllPageIndex,
+      resourceAllPageLimited,
+      resourceMyPageIndex,
+      resourceMyPageLimited,
+      resourceBookmarkPageIndex,
+      resourceBookmarkLimited,
+      resourceTrustMemberPageIndex,
+      resourceTrustMemberLimited,
+      resourceSearchResourceIndex,
+      resourceSearchResourceLimited,
+      resourceRecommendResourceIndex,
+      resourceRcommendResourceLimited,
+      searchText,
+      selectedMember,
+    } = this.props;
+
+    if (from == 'global') {
+      if (resourceAllPageLimited || pageSearching) return;
+      getAllResources(resourceAllPageIndex + 1);
+    } else if (from == 'search') {
+      if (resourceSearchResourceLimited || pageSearching) return;
+      searchResources({
+        title: searchText,
+        type: 'books',
+        pageIndex: resourceSearchResourceIndex + 1,
+      });
+    } else if (from === 'my-resource') {
+      if (resourceMyPageLimited || pageSearching) return;
+      getMyResources(resourceMyPageIndex + 1);
+    } else if (from === 'bookmark') {
+      if (resourceBookmarkLimited || pageSearching) return;
+      getBookmarkedResources(resourceBookmarkPageIndex + 1);
+    } else if (from === 'recommended') {
+      if (resourceRcommendResourceLimited || pageSearching) return;
+      getRecommendedResources(resourceRecommendResourceIndex + 1);
+    } else {
+      if (resourceTrustMemberLimited || pageSearching) return;
+      getTrustMemberResources({
+        pageIndex: resourceTrustMemberPageIndex + 1,
+        trustMember: selectedMember._id,
+      });
+    }
+  };
+
   render() {
     const {
       t,
-      bookmarkedResources,
-      allResources,
       selectedMember,
       sort,
+      from,
+      selectedResources,
+      pageSearching,
+      resourceAllPageLimited,
+      resourceMyPageLimited,
+      resourceBookmarkLimited,
+      resourceSearchResourceLimited,
+      resourceTrustMemberLimited,
+      resourceRcommendResourceLimited,
     } = this.props;
-    let books = [];
+    let books = [],
+      pageLimited = false;
 
-    allResources.forEach(resource => {
-      if (resource.type == 'books' && resource.data) {
-        if (selectedMember._id == resource.ownerId) {
-          books.push(resource);
-        } else if (_.isEmpty(selectedMember)) {
-          books.push(resource);
-        }
-      }
-    });
-
-    const orderedBooks = this.sortBook(books, sort);
+    if (from === 'global') {
+      selectedResources.forEach(resource => {
+        books.push(resource.data[0]);
+      });
+      pageLimited = resourceAllPageLimited;
+    } else if (from === 'search') {
+      selectedResources.forEach(resource => {
+        books.push(resource.data[0]);
+      });
+      pageLimited = resourceSearchResourceLimited;
+    } else if (from === 'bookmark') {
+      selectedResources.forEach(resource => {
+        books.push(resource.data[0]);
+      });
+      pageLimited = resourceBookmarkLimited;
+    } else if (from === 'recommended') {
+      selectedResources.forEach(resource => {
+        books.push(resource.data[0]);
+      });
+      pageLimited = resourceRcommendResourceLimited;
+    } else if (from === 'my-resource') {
+      books = this.sortBook(selectedResources, sort);
+      pageLimited = resourceMyPageLimited;
+    } else {
+      books = this.sortBook(selectedResources, sort);
+      pageLimited = resourceTrustMemberLimited;
+    }
 
     return (
       <MCRootView align="center">
         <FlatList
-          extraData={bookmarkedResources}
-          data={orderedBooks}
+          data={books}
           renderItem={this._renderListItem}
           keyExtractor={item => item._id}
           keyboardShouldPersistTaps="always"
-          ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+          ListEmptyComponent={
+            <MCEmptyText>
+              {pageSearching ? t('progress_loading') : t('no_result')}
+            </MCEmptyText>
+          }
           numColumns={1}
           style={{width: dySize(350)}}
+          ListFooterComponent={
+            pageLimited &&
+            books.length && (
+              <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
+            )
+          }
+          keyExtractor={item => item._id}
+          onEndReached={() => this.getNextPage()}
+          onEndReachedThreshold={0.5}
         />
       </MCRootView>
     );
@@ -94,14 +173,36 @@ class BookResourceScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  bookmarkedResources: state.resourceReducer.bookmarkedResources,
   allResources: state.resourceReducer.allResources,
   profile: state.profileReducer,
+  resourceAllPageIndex: state.resourceReducer.resourceAllPageIndex,
+  resourceTrustMemberPageIndex:
+    state.resourceReducer.resourceTrustMemberPageIndex,
+  resourceMyPageIndex: state.resourceReducer.resourceMyPageIndex,
+  resourceBookmarkPageIndex: state.resourceReducer.resourceBookmarkPageIndex,
+  resourceSearchResourceIndex:
+    state.resourceReducer.resourceSearchResourceIndex,
+  resourceRecommendResourceIndex:
+    state.resourceReducer.resourceRecommendResourceIndex,
+  pageSearching: state.resourceReducer.pageSearching,
+  resourceAllPageLimited: state.resourceReducer.resourceAllPageLimited,
+  resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
+  resourceMyPageLimited: state.resourceReducer.resourceMyPageLimited,
+  resourceBookmarkLimited: state.resourceReducer.resourceBookmarkLimited,
+  resourceSearchResourceLimited:
+    state.resourceReducer.resourceSearchResourceLimited,
+  resourceRcommendResourceLimited:
+    state.resourceReducer.resourceRcommendResourceLimited,
 });
 
 const mapDispatchToProps = {
-  bookmarkResource: resourceActions.bookmarkResource,
+  toggleBookmarkedResource: resourceActions.toggleBookmarkedResource,
   getAllResources: resourceActions.getAllResources,
+  getMyResources: resourceActions.getMyResources,
+  getBookmarkedResources: resourceActions.getBookmarkedResources,
+  getTrustMemberResources: resourceActions.getTrustMemberResources,
+  getRecommendedResources: resourceActions.getRecommendedResources,
+  searchResources: resourceActions.searchResources,
 };
 
 export default withTranslation()(

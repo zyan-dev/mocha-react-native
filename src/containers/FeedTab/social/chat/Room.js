@@ -17,8 +17,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 import API from 'services/api';
 import {chatActions, routerActions} from 'Redux/actions';
 import {MCRootView, MCView, DividerLine} from 'components/styled/View';
-import {MCHeader, MCImage, MCIcon, MCModal} from 'components/common';
-import {MCTextInput, H2, H3, H4, MCEmptyText} from 'components/styled/Text';
+import {MCHeader, MCImage, MCIcon} from 'components/common';
+import {MCTextInput, H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {showAlert, getDateString} from 'services/operators';
@@ -34,10 +34,10 @@ class ChatRoomScreen extends React.Component {
       roomName: '',
       text: '',
       updatingRoomName: false,
+      showMemberList: false,
       selectedImage: null,
       firstLoad: false,
       count: countPerPage,
-      refreshing: false,
       lastItem: {},
       topBubbleDate: 0,
       showTopBubbleDate: false,
@@ -71,23 +71,14 @@ class ChatRoomScreen extends React.Component {
   }
 
   componentDidUpdate(preProps, prevState) {
-    const {refreshing, lastItem} = this.state;
-    if (preProps.loading && !this.props.loading) {
-      if (this.mounted && !this.state.firstLoad) {
-        this.scrollToEnd();
-        this.setState({firstLoad: true});
-        console.log('Initial load');
-      } else if (refreshing) {
-        this.setState({refreshing: false});
-        console.log('Scrolling to item');
-        this.scrollToItem(lastItem);
-      } else if (
-        // scroll to end if message length has been changed
-        preProps.roomMessages.length !== this.props.roomMessages.length
-      ) {
-        console.log('Scrolling to end');
-        this.scrollToEnd();
-      }
+    const {lastItem, firstLoad} = this.state;
+    if (preProps.roomMessageIds.length !== this.props.roomMessageIds.length) {
+      if (lastItem) this.scrollToItem(lastItem);
+      else this.scrollToEnd();
+    }
+    if (preProps.loading && !this.props.loading && !firstLoad) {
+      this.scrollToEnd();
+      this.setState({firstLoad: true});
     }
   }
 
@@ -104,7 +95,7 @@ class ChatRoomScreen extends React.Component {
       getRoomMessages,
       selectedRoom,
     } = this.props;
-    if (text.length === 0) return;
+    if (text.trim().length === 0 && !selectedImage) return;
 
     const ts = new Date().getTime();
 
@@ -131,14 +122,23 @@ class ChatRoomScreen extends React.Component {
     }
     setLoading(false);
 
-    getRoomMessages(selectedRoom._id, count + 1);
     sendMessage(msgData, () => {
-      this.setState({text: '', selectedImage: null, count: count + 1});
+      this.setState({
+        text: '',
+        selectedImage: null,
+        lastItem: null,
+        count: count + 1,
+      });
+      getRoomMessages(selectedRoom._id, count + 1);
     });
   };
 
   openActionSheet = () => {
     this.RBSheet && this.RBSheet.open();
+  };
+
+  onPressMembersList = () => {
+    this.setState({showMemberList: true});
   };
 
   onPressAddMember = () => {
@@ -186,20 +186,26 @@ class ChatRoomScreen extends React.Component {
   };
 
   closeActionSheet = () => {
-    const {updatingRoomName} = this.state;
+    const {updatingRoomName, showMemberList} = this.state;
     if (updatingRoomName) this.setState({updatingRoomName: false});
+    else if (showMemberList) this.setState({showMemberList: false});
     else this.RBSheet.close();
   };
 
   scrollToEnd = () => {
+    const {roomMessageIds} = this.props;
+    if (roomMessageIds.length === 0) return;
     setTimeout(() => {
       this.chatList &&
-        this.chatList.scrollToEnd({animated: false, duration: 500});
+        this.chatList.scrollToIndex({
+          index: roomMessageIds.length - 1,
+          animated: true,
+          duration: 1500,
+        });
     }, 1000);
   };
 
   scrollToItem = item => {
-    console.log('Scrolling to item');
     setTimeout(() => {
       this.chatList &&
         this.chatList.scrollToItem({animated: false, item, viewPosition: 0});
@@ -209,7 +215,7 @@ class ChatRoomScreen extends React.Component {
   onViewableItemsChanged = ({viewableItems, changed}) => {
     const {
       selectedRoom,
-      lastMessageDateChecked,
+      chatVisitStatus,
       checkChatMissedState,
       roomMessages,
     } = this.props;
@@ -219,12 +225,9 @@ class ChatRoomScreen extends React.Component {
       topBubbleDate: _.get(roomMessages, [viewableItems[0].item, 'date'], 0),
     });
     const viewableLastDate = viewableItems[viewableItems.length - 1].item;
-    if (viewableLastDate <= lastMessageDateChecked[selectedRoom._id]) return;
-    this.props.updateLastMessageDate({
+    if (viewableLastDate <= chatVisitStatus[selectedRoom._id]) return;
+    this.props.updateChatVisitStatus({
       [selectedRoom._id]: viewableLastDate,
-    });
-    setTimeout(() => {
-      checkChatMissedState();
     });
   };
 
@@ -329,6 +332,24 @@ class ChatRoomScreen extends React.Component {
     );
   };
 
+  _renderAvatarItem = ({item}) => {
+    const userId = item;
+    const {selectedRoom} = this.props;
+    const findUser = selectedRoom.includes.find(i => i._id === userId);
+    return (
+      <MCButton
+        align="center"
+        width={80}
+        onPress={() => {
+          NavigationService.navigate('UserProfile', {id: findUser._id});
+          this.RBSheet.close();
+        }}>
+        <MCImage image={{uri: findUser.avatar}} width={60} height={60} round />
+        <H4 align="center">{findUser.name}</H4>
+      </MCButton>
+    );
+  };
+
   render() {
     const {
       text,
@@ -339,6 +360,7 @@ class ChatRoomScreen extends React.Component {
       showTopBubbleDate,
       showEmojiView,
       selectedEmoji,
+      showMemberList,
     } = this.state;
     const {
       t,
@@ -447,10 +469,19 @@ class ChatRoomScreen extends React.Component {
             onScrollBeginDrag={() => this.onScrollBeginDrag()}
             viewabilityConfig={this.viewabilityConfig}
             onViewableItemsChanged={this.onViewableItemsChanged}
+            onScrollToIndexFailed={info => {
+              this.chatList.scrollToIndex({
+                animated: false,
+                index: info.highestMeasuredFrameIndex,
+              });
+              setTimeout(() => {
+                this.scrollToEnd();
+              }, 500);
+            }}
             refreshControl={
               <RefreshControl
                 colors={['#9Bd35A', '#689F38']}
-                refreshing={loading}
+                refreshing={false}
                 onRefresh={this.loadMoreMessages.bind(this)}
                 title="Load more"
               />
@@ -459,7 +490,7 @@ class ChatRoomScreen extends React.Component {
           {topBubbleDate > 0 && showTopBubbleDate && (
             <MCView
               br={20}
-              width={200}
+              width={240}
               height={40}
               style={{
                 position: 'absolute',
@@ -500,13 +531,12 @@ class ChatRoomScreen extends React.Component {
             </MCButton>
             <MCTextInput
               value={text}
+              multiline
               onChangeText={text => this.setState({text})}
               placeholder="Type your message here..."
-              style={{flex: 1}}
-              onSubmitEditing={() => this.sendMessage()}
-              returnKeyType="send"
+              placeholderTextColor={theme.colors.border}
+              style={{flex: 1, minHeight: 'auto'}}
               onFocus={() => this.scrollToEnd()}
-              onBlur={() => this.scrollToEnd()}
             />
             <MCButton onPress={() => this.sendMessage()} mr={-10}>
               <MCIcon type="FontAwesome5Pro" name="paper-plane" />
@@ -534,10 +564,17 @@ class ChatRoomScreen extends React.Component {
               height: 'auto',
             },
           }}>
-          <MCView align="center" pv={20}>
+          <MCView align="center" pv={10}>
+            <H3 width={300} mb={10} align="center" color={theme.colors.border}>
+              {selectedRoom.room_name}
+            </H3>
+            <DividerLine />
+
             {updatingRoomName ? (
               <MCView width={300} align="center">
-                <H3>{t('chat_action_change_room_name')}</H3>
+                <H4 weight="italic" mt={10} color={theme.colors.border}>
+                  {t('chat_action_change_room_name')}
+                </H4>
                 <MCView width={300} mt={10}>
                   <MCTextInput
                     value={roomName}
@@ -548,6 +585,7 @@ class ChatRoomScreen extends React.Component {
                 <MCButton
                   bordered
                   mt={20}
+                  mb={20}
                   pl={20}
                   pr={20}
                   onPress={() => this.updateRoomName()}
@@ -555,19 +593,22 @@ class ChatRoomScreen extends React.Component {
                   <H3>{t('button_update')}</H3>
                 </MCButton>
               </MCView>
+            ) : showMemberList ? (
+              <FlatList
+                horizontal
+                contentContainerStyle={{paddingVertical: 40}}
+                data={selectedRoom.members}
+                renderItem={this._renderAvatarItem}
+                keyExtractor={item => item}
+              />
             ) : (
               <>
-                <H4 width={300} align="center" color={theme.colors.border}>
-                  {selectedRoom.room_name}
-                </H4>
-                <H4
-                  mb={10}
-                  width={300}
-                  align="center"
-                  color={theme.colors.border}>
-                  ({selectedRoom.members.length} {t('network_members')})
-                </H4>
-                <DividerLine />
+                <MCButton onPress={() => this.onPressMembersList()}>
+                  <H3>
+                    {t('chat_action_member_list')} (
+                    {selectedRoom.members.length})
+                  </H3>
+                </MCButton>
                 {selectedRoom.type === 'group' && (
                   <MCButton onPress={() => this.onPressAddMember()}>
                     <H3>{t('chat_action_add_member')}</H3>
@@ -600,14 +641,22 @@ class ChatRoomScreen extends React.Component {
         </RBSheet>
         {showEmojiView && (
           <MCView>
-            {selectedEmoji.length > 0 && (
-              <MCView
-                row
-                justify="space-between"
-                width={375}
-                align="center"
-                ph={10}>
-                <H3 style={{fontSize: 40}}>{selectedEmoji}</H3>
+            <MCView
+              row
+              justify="space-between"
+              width={375}
+              align="center"
+              height={70}
+              ph={10}>
+              <MCButton
+                bordered
+                onPress={() => this.setState({showEmojiView: false})}
+                pl={20}
+                pr={20}>
+                <H3 color={theme.colors.border}>{t('button_cancel')}</H3>
+              </MCButton>
+              <H3 style={{fontSize: 40}}>{selectedEmoji}</H3>
+              {selectedEmoji.length > 0 && (
                 <MCButton
                   bordered
                   onPress={() => this.onEmojiSelected()}
@@ -615,11 +664,17 @@ class ChatRoomScreen extends React.Component {
                   pr={20}>
                   <H3>{t('button_select')}</H3>
                 </MCButton>
-              </MCView>
-            )}
+              )}
+            </MCView>
             <EmojiSelector
               onEmojiSelected={emoji => this.setState({selectedEmoji: emoji})}
-              style={{textColor: 'red', height: dySize(300)}}
+              style={{
+                color: 'red',
+                height: dySize(300),
+                backgroundColor: theme.colors.background,
+              }}
+              placeholder="Search..."
+              color="red"
             />
           </MCView>
         )}
@@ -637,7 +692,7 @@ const mapStateToProps = state => ({
   ),
   loading: state.chatReducer.loading,
   hasMissedMessages: state.chatReducer.hasMissedMessages,
-  lastMessageDateChecked: state.chatReducer.lastMessageDateChecked,
+  chatVisitStatus: state.chatReducer.chatVisitStatus,
   profile: state.profileReducer,
 });
 
@@ -648,7 +703,7 @@ const mapDispatchToProps = {
   deleteChatRoom: chatActions.deleteChatRoom,
   updateChatRoom: chatActions.updateChatRoom,
   closeRoomMessageListener: chatActions.closeRoomMessageListener,
-  updateLastMessageDate: chatActions.updateLastMessageDate,
+  updateChatVisitStatus: chatActions.updateChatVisitStatus,
   checkChatMissedState: chatActions.checkChatMissedState,
   setRoomMessages: chatActions.setRoomMessages,
   addEmoji: chatActions.addEmoji,

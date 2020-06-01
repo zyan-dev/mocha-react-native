@@ -134,9 +134,10 @@ android {
         applicationId "com.mocha.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 51
-        versionName "1.5.1"
+        versionCode 53
+        versionName "1.5.3"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     splits {
         abi {

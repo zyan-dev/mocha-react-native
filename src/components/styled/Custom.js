@@ -8,7 +8,7 @@ export const WideOvalGreenImage = styled(Image)`
   right: 0px;
   height: ${dySize(124)}px;
   width: ${dySize(76)}px;
-  opacity: ${props => props.opacity || 0.3};
+  opacity: ${props => props.opacity || 0.1};
 `;
 
 export const WideOvalYellowImage = styled(Image)`
@@ -17,5 +17,5 @@ export const WideOvalYellowImage = styled(Image)`
   left: 0px;
   height: ${dySize(232)}px;
   width: ${dySize(161)}px;
-  opacity: ${props => props.opacity || 0.3};
+  opacity: ${props => props.opacity || 0.1};
 `;

@@ -15,10 +15,12 @@ import {
   MCReadMoreText,
   MCSearchInput,
   MCImage,
+  MCIcon,
 } from 'components/common';
 import {dySize} from 'utils/responsive';
 import {skills, impacts} from 'utils/constants';
 import {getStringWithOutline} from 'services/operators';
+import NavigationService from 'navigation/NavigationService';
 
 class AddResourceScreen extends React.PureComponent {
   constructor(props) {
@@ -31,6 +33,7 @@ class AddResourceScreen extends React.PureComponent {
       selectedSkills: [],
       selectedTags: [],
       searchText: '',
+      added: false,
     };
   }
 
@@ -112,12 +115,12 @@ class AddResourceScreen extends React.PureComponent {
       selectedResource,
       createResources,
       updateResources,
-      searchResource,
+      resourceByTitle,
     } = this.props;
     const {selectedImpacts, selectedSkills, selectedTags} = this.state;
-
+    const {from} = this.props.route.params;
     this.setState({submitted: true});
-    let resource = searchResource;
+    let resource = resourceByTitle;
     // let type;
 
     // if (this.props.route.params.root) {
@@ -149,7 +152,8 @@ class AddResourceScreen extends React.PureComponent {
     resource.data.skills = skills;
 
     delete resource.data.type;
-    if (resource._id) {
+
+    if (resource._id && from == 'my-resource') {
       const data = {
         _id: resource._id,
         ...resource,
@@ -165,22 +169,24 @@ class AddResourceScreen extends React.PureComponent {
       createResources([data]);
     }
     this.props.updateSelectedResource({skills: []});
-    this.props.updateSelectedResource({impacts: []});
+    this.props.updateSelectedResource({impacts: ''});
     this.props.updateSelectedResource({tags: []});
   };
 
   validateTitle = () => {
-    const {searchResource} = this.props;
-    return searchResource && searchResource.data && searchResource.data.title;
+    const {resourceByTitle} = this.props;
+    return (
+      resourceByTitle && resourceByTitle.data && resourceByTitle.data.title
+    );
   };
 
   searchBook = _.debounce(() => {
     const {searchText} = this.state;
     if (searchText.length > 2) {
-      const {searchResources} = this.props;
-      searchResources(searchText);
+      const {getResourceByTitle} = this.props;
+      getResourceByTitle(searchText);
     }
-  }, 2000);
+  }, 1000);
 
   onPressBrowser = link => {
     Linking.canOpenURL(link).then(supported => {
@@ -192,6 +198,37 @@ class AddResourceScreen extends React.PureComponent {
     });
   };
 
+  recommendResourceToMembers = () => {
+    if (!this.validateTitle()) return;
+
+    this.setState({added: !this.state.added});
+    this.setState({submitted: true});
+    const {selectedImpacts, selectedSkills, selectedTags} = this.state;
+    const {resourceByTitle} = this.props;
+    let resource = resourceByTitle;
+
+    resource.data.tags = [...selectedTags];
+    let skills = [...selectedSkills];
+
+    if (selectedTags.length == 0) {
+      skills = skills.filter(skill => skill.indexOf('resource_manual_') < 0);
+    } else {
+      selectedTags.forEach(tag => {
+        if (
+          skills.indexOf(tag) == -1 &&
+          skills.indexOf(`resource_manual_${tag}`) == -1
+        ) {
+          skills.push(`resource_manual_${tag}`);
+        }
+      });
+    }
+
+    resource.data.skills = skills;
+    resource.data.impacts = selectedImpacts;
+
+    NavigationService.navigate('SelectRecommendMember', {resource: resource});
+  };
+
   render() {
     const {
       flagMore,
@@ -199,10 +236,11 @@ class AddResourceScreen extends React.PureComponent {
       selectedSkills,
       selectedTags,
       searchText,
+      added,
     } = this.state;
-    const {t, searchResource} = this.props;
+    const {t, resourceByTitle, theme} = this.props;
 
-    let resource = searchResource;
+    let resource = resourceByTitle;
 
     if (this.props.route.params && this.props.route.params.resource) {
       resource = this.props.route.params.resource;
@@ -242,7 +280,7 @@ class AddResourceScreen extends React.PureComponent {
                     image={{uri: resource.data.thumbnail}}
                   />
                 </MCView>
-                <MCView width={210}>
+                <MCView width={170} mr={40}>
                   <H3 weight="bold">{resource.data.title}</H3>
                   <H5 weight="bold">{t('resource_type_book_author')}</H5>
                   {resource.data.authors &&
@@ -269,6 +307,20 @@ class AddResourceScreen extends React.PureComponent {
                       ))}
                   </MCView>
                 </MCView>
+                {!resource._id && (
+                  <MCView absolute style={{right: 0}}>
+                    <MCButton
+                      align="center"
+                      onPress={() => this.recommendResourceToMembers()}>
+                      <MCIcon
+                        type="FontAwesome5Pro"
+                        name="hand-holding-seedling"
+                        size={15}
+                        color={theme.colors.outline}
+                      />
+                    </MCButton>
+                  </MCView>
+                )}
               </MCView>
               <MCView mt={10}>
                 <H5 weight="bold">{t('resource_type_book_description')}</H5>
@@ -367,14 +419,15 @@ class AddResourceScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   selectedResource: state.resourceReducer.selectedResource,
-  searchResource: state.resourceReducer.searchResource,
+  resourceByTitle: state.resourceReducer.resourceByTitle,
+  theme: state.routerReducer.theme,
 });
 
 const mapDispatchToProps = {
   updateSelectedResource: resourceActions.updateSelectedResource,
   createResources: resourceActions.createResources,
   updateResources: resourceActions.updateResources,
-  searchResources: resourceActions.searchResources,
+  getResourceByTitle: resourceActions.getResourceByTitle,
 };
 
 export default withTranslation()(

@@ -69,7 +69,7 @@ class ProfileBasicScreen extends React.Component {
             <MCIcon
               type="FontAwesome5Pro-Solid"
               name="chess-pawn-alt"
-              size={50}
+              size={40}
             />
           }
           hasRight
@@ -233,26 +233,26 @@ class ProfileBasicScreen extends React.Component {
           </MCView>
         </MCModal>
         <MCModal
-          br={50}
-          width={250}
+          br={30}
+          width={320}
           hasCloseButton={false}
           isVisible={
             (showWelcomeBasicProfile && !completedBasicProfile) ||
             showWelcomeModal
           }>
-          <MCView width={280} mt={20} align="center">
-            <MCView align="center" pv={40} ph={10} width={270}>
+          <MCView width={300} mt={10} align="center">
+            <MCView align="center" pv={10} ph={10}>
               <MCView row wrap align="center">
-                <H4 underline weight="italic">
+                <H3 underline weight="italic">
                   {t('welcome_profile_basic')}
-                </H4>
+                </H3>
                 <MCIcon
                   type="FontAwesome5Pro-Solid"
                   name="chess-pawn-alt"
                   size={20}
                 />
               </MCView>
-              <H4 width={220} align="center" mt={20} mb={20}>
+              <H4 width={280} align="center" mt={20} mb={20}>
                 {t('profile_basic_modal_title')}
               </H4>
               <MCView align="center">
@@ -260,6 +260,9 @@ class ProfileBasicScreen extends React.Component {
                 {getStringWithOutline(this.question2)}
                 {getStringWithOutline(this.question3)}
               </MCView>
+              <H4 width={280} align="center" mt={20} mb={20}>
+                {t('profile_basic_modal_title_3')}
+              </H4>
               <MCButton
                 bordered
                 mt={20}

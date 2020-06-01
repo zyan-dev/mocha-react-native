@@ -21,13 +21,23 @@ const Stack = createStackNavigator();
 
 class RootNavigator extends React.Component {
   componentDidMount() {
-    this.props.setLoading(false);
-    this.props.startChatListener();
+    const {
+      setLoading,
+      firebaseAuthentication,
+      profile,
+      getChatVisitStatus,
+    } = this.props;
+
+    setLoading(false);
+    firebaseAuthentication();
+    // get unread message status
+    if (profile.userToken.length > 0) getChatVisitStatus();
+    // this.props.setNewUser(false);
     Mixpanel.sharedInstanceWithToken(MixpanelToken);
   }
 
   render() {
-    const {isNewUser, isLoading} = this.props;
+    const {theme, isNewUser, isLoading} = this.props;
     return (
       <NavigationContainer ref={ref => NavigationService.setNavigator(ref)}>
         <Stack.Navigator headerMode="none">
@@ -46,7 +56,7 @@ class RootNavigator extends React.Component {
         </Stack.Navigator>
         {isLoading && (
           <ABSView>
-            <WaveIndicator color="white" />
+            <WaveIndicator color={theme.colors.text} />
           </ABSView>
         )}
       </NavigationContainer>
@@ -58,11 +68,14 @@ const mapStateToProps = state => ({
   isNewUser: state.routerReducer.isNewUser,
   isLoading: state.routerReducer.isLoading,
   profile: state.profileReducer,
+  theme: state.routerReducer.theme,
 });
 
 const mapDispatchToProps = {
   setLoading: routerActions.setLoading,
-  startChatListener: chatActions.startChatListener,
+  firebaseAuthentication: chatActions.firebaseAuthentication,
+  getChatVisitStatus: chatActions.getChatVisitStatus,
+  setNewUser: routerActions.setNewUser,
 };
 
 export default connect(

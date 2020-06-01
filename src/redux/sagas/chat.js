@@ -30,13 +30,13 @@ export function* getMyChatRooms(action) {
 
 export function* checkChatMissedState(action) {
   const {
-    chatReducer: {lastMessageDateChecked, myRooms},
+    chatReducer: {chatVisitStatus, myRooms},
   } = yield select();
   // check updated chat status
   const rooms = action.payload || myRooms;
   const find = rooms.find(room => {
     return !compareTimeStampWithDate(
-      lastMessageDateChecked[room._id],
+      chatVisitStatus[room._id],
       room.last_updated,
     );
   });
@@ -44,6 +44,75 @@ export function* checkChatMissedState(action) {
     yield put({type: types.SET_CHAT_MISSED_STATE, payload: true});
   } else {
     yield put({type: types.SET_CHAT_MISSED_STATE, payload: false});
+  }
+}
+
+export function* getChatVisitStatus(action) {
+  try {
+    const response = yield call(API.getChatVisitStatus);
+    if (response.data.status === 'success') {
+      const temp = response.data.data.chatVisits.lastVisits || []; // array
+      let status = {};
+      temp.map(i => {
+        status[i.roomId] = i.last_visit;
+      });
+      yield put({
+        type: types.SET_CHAT_VISIT_STATUS,
+        payload: status, // json {roomId: last_visit}
+      });
+    } else {
+      showAlert(response.data.data.message);
+    }
+  } catch (e) {
+    showAlert(e.toString());
+  }
+}
+
+export function* updateChatVisitStatus(action) {
+  try {
+    const {
+      chatReducer: {chatVisitStatus},
+    } = yield select();
+    const updatedChatVisitStatus = {
+      ...chatVisitStatus,
+      ...action.payload,
+    };
+
+    // get chatVisit param by converting json to array
+    let lastVisits = [];
+    Object.keys(updatedChatVisitStatus).map(roomId => {
+      lastVisits.push({roomId, last_visit: updatedChatVisitStatus[roomId]});
+    });
+
+    const {
+      chatReducer: {myRooms},
+    } = yield select();
+    // get chat badge number
+    const filtered = myRooms.filter(room => {
+      return !compareTimeStampWithDate(
+        updatedChatVisitStatus[room._id],
+        room.last_updated,
+      );
+    });
+
+    const response = yield call(API.updateChatVisitStatus, {
+      lastVisits,
+      badge: filtered.length,
+    });
+    if (response.data.status === 'success') {
+      yield put({
+        type: types.SET_CHAT_VISIT_STATUS,
+        payload: updatedChatVisitStatus,
+      });
+      yield put({
+        type: types.SET_CHAT_MISSED_STATE,
+        payload: filtered.length > 0,
+      });
+    } else {
+      showAlert(response.data.data.message);
+    }
+  } catch (e) {
+    showAlert(e.toString());
   }
 }
 

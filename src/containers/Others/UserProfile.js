@@ -2,9 +2,9 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {profileActions} from 'Redux/actions';
-import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H2, H4, H5} from 'components/styled/Text';
+import {profileActions, userActions} from 'Redux/actions';
+import {MCRootView, MCView} from 'components/styled/View';
+import {H3, H4, H5} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCImage, MCModal, MCIcon} from 'components/common';
 import {selector} from 'Redux/selectors';
@@ -62,7 +62,7 @@ class UserProfileScreen extends React.Component {
 
   componentDidMount() {
     const {id} = this.props.route.params;
-    this.props.getUserProfile(id, true);
+    this.props.getUserProfile(id);
   }
 
   onPressProfileIcon = (icon, index) => {
@@ -135,9 +135,11 @@ class UserProfileScreen extends React.Component {
       comfort,
       meaning,
       commits,
+      permissions,
     } = this.props;
     const key = item.key;
     if (item.disabled) return null;
+    if (permissions.indexOf(key) < 0 && key !== 'overview') return null;
     if (key === 'overview')
       return <OverviewCard profile={profile} editable={false} />;
     if (key === 'contact')
@@ -248,16 +250,18 @@ class UserProfileScreen extends React.Component {
 
   renderProfileIcon = ({item, index}) => {
     const {viewableItems, focusedIndex} = this.state;
-    const {theme} = this.props;
+    const {theme, permissions} = this.props;
     const layout = item;
     const selected =
       viewableItems.length && viewableItems[0].key === layout.key;
     const size = selected ? 30 : 20;
     const color = selected ? theme.colors.outline : theme.colors.text;
+    if (permissions.indexOf(layout.key) < 0 && layout.key !== 'overview')
+      return null;
     return (
       <MCButton
         key={layout.key}
-        width={50}
+        width={45}
         height={50}
         align="center"
         justify="center"
@@ -283,7 +287,7 @@ class UserProfileScreen extends React.Component {
 
   render() {
     const {selected, showAvatarModal, focusedIndex} = this.state;
-    const {t, theme, profile} = this.props;
+    const {t, theme, profile, permissions, sendContactRequest} = this.props;
     if (profile.message) {
       return (
         <MCRootView justify="flex-start">
@@ -312,55 +316,97 @@ class UserProfileScreen extends React.Component {
           }
           onPressRight={() => this.onPressHeaderAvatar()}
         />
-        <MCView row style={{flex: 1}}>
-          <MCView width={325}>
-            <FlatList
-              ref={ref => (this.contentScroll = ref)}
-              data={profileIcons}
-              renderItem={this._renderProfileSections}
-              keyExtractor={item => item.key}
-              contentContainerStyle={{
-                width: dySize(325),
-                paddingHorizontal: 10,
-                paddingBottom: 200,
-              }}
-              viewabilityConfig={this.viewabilityConfig}
-              onViewableItemsChanged={this.onViewableItemsChanged}
-              onScrollToIndexFailed={info => {
-                this.contentScroll.scrollToIndex({
-                  animated: false,
-                  index: info.highestMeasuredFrameIndex,
-                });
-                setTimeout(() => {
-                  this.contentScroll.scrollToIndex({
-                    animated: false,
-                    index: focusedIndex,
-                  });
-                }, 1000);
-              }}
-            />
-          </MCView>
-          <MCView
-            width={55}
-            justify="center"
-            row
-            align="center"
-            style={{height: '100%'}}>
-            <MCView height={250}>
+        {permissions.length > 0 && (
+          <MCView row style={{flex: 1}}>
+            <MCView width={335}>
               <FlatList
-                ref={ref => (this.iconScroll = ref)}
+                ref={ref => (this.contentScroll = ref)}
                 data={profileIcons}
-                renderItem={this.renderProfileIcon}
+                renderItem={this._renderProfileSections}
                 keyExtractor={item => item.key}
                 contentContainerStyle={{
-                  width: dySize(55),
-                  alignItems: 'center',
-                  paddingVertical: dySize(100),
+                  width: dySize(335),
+                  paddingHorizontal: dySize(15),
+                  paddingBottom: 200,
+                }}
+                viewabilityConfig={this.viewabilityConfig}
+                onViewableItemsChanged={this.onViewableItemsChanged}
+                onScrollToIndexFailed={info => {
+                  this.contentScroll.scrollToIndex({
+                    animated: false,
+                    index: info.highestMeasuredFrameIndex,
+                  });
+                  setTimeout(() => {
+                    this.contentScroll.scrollToIndex({
+                      animated: false,
+                      index: focusedIndex,
+                    });
+                  }, 1000);
                 }}
               />
             </MCView>
+
+            <MCView
+              width={45}
+              justify="center"
+              row
+              align="center"
+              style={{height: '100%'}}>
+              <MCView height={250}>
+                <FlatList
+                  ref={ref => (this.iconScroll = ref)}
+                  data={profileIcons}
+                  renderItem={this.renderProfileIcon}
+                  keyExtractor={item => item.key}
+                  contentContainerStyle={{
+                    width: dySize(45),
+                    alignItems: 'center',
+                    paddingVertical: dySize(100),
+                  }}
+                />
+              </MCView>
+            </MCView>
           </MCView>
-        </MCView>
+        )}
+        {!profile.isTrustMember && (
+          <>
+            <OverviewCard profile={profile} editable={false} hideOverview />
+            <MCView mt={30} align="center">
+              <MCView
+                bordered
+                br={30}
+                mb={20}
+                width={60}
+                height={60}
+                style={{borderColor: theme.colors.text}}
+                align="center"
+                justify="center">
+                <MCIcon type="FontAwesome5Pro" name="lock" size={30} />
+              </MCView>
+              <H3>This Account is Private</H3>
+              <H4>Send a Trust Request to see their profile content</H4>
+              <MCButton
+                row
+                align="center"
+                bordered
+                height={50}
+                br={25}
+                mt={30}
+                pl={20}
+                pr={20}
+                onPress={() => {
+                  sendContactRequest({to: profile._id});
+                  NavigationService.goBack();
+                }}
+                style={{
+                  borderColor: theme.colors.outline,
+                }}>
+                <MCIcon name="ios-send" />
+                <H3>Send Request</H3>
+              </MCButton>
+            </MCView>
+          </>
+        )}
         <MCModal
           isVisible={showAvatarModal}
           onClose={() => this.setState({showAvatarModal: false})}>
@@ -372,7 +418,9 @@ class UserProfileScreen extends React.Component {
               height={200}
             />
             <H4>{profile.name}</H4>
-            <H5 color={theme.colors.border}>{`@${profile.user_id}`}</H5>
+            <H5 color={theme.colors.border} align="center">{`@${
+              profile.user_id
+            }`}</H5>
           </MCView>
         </MCModal>
       </MCRootView>
@@ -462,10 +510,12 @@ const mapStateToProps = state => ({
     'MeaningLife',
   ),
   commits: state.otherReducer.commits,
+  permissions: state.usersReducer.userProfilePermissions,
 });
 
 const mapDispatchToProps = {
   getUserProfile: profileActions.getUserProfile,
+  sendContactRequest: userActions.sendContactRequest,
 };
 
 export default withTranslation()(

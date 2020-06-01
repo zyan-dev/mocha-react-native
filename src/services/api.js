@@ -11,7 +11,8 @@ const URL_SEND_SMS = '/auth/signup-request';
 const URL_VERIFY_SMS = '/auth/signup-confirm';
 const URL_MY_PROFILE = '/user/me';
 const URL_USER_FIND = '/user/find';
-const URL_SEARCH_USER = '/user/search-user'; // returns user who is not in trust network
+const URL_SEARCH_USER = '/user/search-user'; // returns user whom you can send request
+const URL_SEARCH_UNTRUST_USER = '/user/search-untrustuser'; // returns untrust members
 const URL_MY_PROFILE_PHONE = '/user/me/phone-number';
 const URL_REFLECTION_UPDATE = '/reflection/update';
 const URL_REFLECTION_ADD = '/reflection/add';
@@ -22,13 +23,15 @@ const URL_FEEDBACK = '/feedback';
 const URL_REQUEST_FEEDBACK = '/feedback/request';
 const URL_NOTIFICATION = '/notification';
 const URL_TRUST_MEMBERS = '/member';
-const URL_USER_PROFILE = '/user/profile/';
+const URL_USER_PROFILE = '/user/trust/profile/';
 const URL_NETWORK = '/network';
 const URL_COMMIT = '/commit';
 const URL_RESOURCE = '/resource';
 const URL_CONTACT_US = '/contact-us';
 const URL_SEARCH_RESOURCE = '/resource/books';
 const URL_CHAT = '/chat';
+const URL_POST = '/posts';
+const URL_CHAT_VISIT = '/chat-visit';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -110,15 +113,41 @@ const removeReflection = param =>
 const updateCommits = param => apiCall('patch', URL_COMMIT, param, true);
 const getUserCommits = userId =>
   apiCall('get', `${URL_COMMIT}/${userId}`, {}, true);
-const getAllResources = () =>
-  apiCall('get', `${URL_RESOURCE}/list/all`, {}, true);
-const getMyResources = () => apiCall('get', `${URL_RESOURCE}`, {}, true);
+const getAllResources = pageIndex =>
+  apiCall('get', `${URL_RESOURCE}/list/all?page=${pageIndex}`, {}, true);
+const getMyResources = pageIndex =>
+  apiCall('get', `${URL_RESOURCE}?page=${pageIndex}`, {}, true);
+const getBookmarkedResources = pageIndex =>
+  apiCall('get', `${URL_RESOURCE}/list/bookmark?page=${pageIndex}`, {}, true);
+const getTrustMemberResources = data =>
+  apiCall(
+    'get',
+    `${URL_RESOURCE}/list/trustmember?memberId=${data.trustMember}&page=${
+      data.pageIndex
+    }`,
+    {},
+    true,
+  );
+const searchResources = params =>
+  apiCall(
+    'post',
+    `${URL_RESOURCE}/list/search?page=${params.pageIndex}`,
+    params,
+    true,
+  );
 const createResources = param =>
   apiCall('post', `${URL_RESOURCE}`, param, true);
 const updateResources = param =>
   apiCall('patch', `${URL_RESOURCE}`, param, true);
 const removeResources = param =>
   apiCall('post', `${URL_RESOURCE}/remove`, param, true);
+const bookmarkResources = param =>
+  apiCall('patch', `${URL_RESOURCE}/bookmark`, param, true);
+const recommendResourceToMembers = param =>
+  apiCall('post', `${URL_RESOURCE}/recommends`, param, true);
+const getRecommendedResources = pageIndex =>
+  apiCall('get', `${URL_RESOURCE}/list/recommends?page=${pageIndex}`, {}, true);
+
 const getSupportedHabits = () =>
   apiCall('get', `${URL_REFLECTION}/habit-shared`, {}, true);
 const sendEmail = param => apiCall('post', `${URL_CONTACT_US}`, param);
@@ -129,8 +158,15 @@ const findUserByName = param =>
     {},
     true,
   );
-const getUntrustmembers = param =>
+const getRequestUsers = param =>
   apiCall('get', `${URL_SEARCH_USER}?page=${param.page}`, {}, true);
+const getUntrustMembers = param =>
+  apiCall(
+    'get',
+    `${URL_SEARCH_UNTRUST_USER}?name=${param.name}&page=${param.page}`,
+    {},
+    true,
+  );
 
 const fileUploadToS3 = async ({image, type, userId}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
@@ -149,7 +185,7 @@ const fileUploadToS3 = async ({image, type, userId}) => {
   }
 };
 
-const searchResources = resource =>
+const getResourceByTitle = resource =>
   apiCall('get', `${URL_SEARCH_RESOURCE}/${resource}`, {}, true);
 const createChatRoom = param => apiCall('post', `${URL_CHAT}`, param, true);
 const getMyChatRooms = () => apiCall('get', `${URL_CHAT}`, {}, true);
@@ -157,6 +193,16 @@ const updateChatRoom = param =>
   apiCall('patch', `${URL_CHAT}/${param._id}`, param, true);
 const deleteChatRoom = roomId =>
   apiCall('delete', `${URL_CHAT}/${roomId}`, {}, true);
+const addPosts = param => apiCall('post', `${URL_POST}`, param, true);
+const updatePosts = param => apiCall('post', `${URL_POST}/update`, param, true);
+const getPostsById = (id, page) =>
+  apiCall('get', `${URL_POST}/${id}?page=${page}`, {}, true);
+const getPosts = (title, page) =>
+  apiCall('get', `${URL_POST}/all?title=${title}&page=${page}`, {}, true);
+const removePosts = param => apiCall('post', `${URL_POST}/remove`, param, true);
+const getChatVisitStatus = () => apiCall('get', `${URL_CHAT_VISIT}`, {}, true);
+const updateChatVisitStatus = param =>
+  apiCall('patch', `${URL_CHAT_VISIT}`, param, true);
 
 export default {
   sendSMS,
@@ -195,13 +241,27 @@ export default {
   createResources,
   updateResources,
   removeResources,
+  bookmarkResources,
+  getBookmarkedResources,
+  getTrustMemberResources,
+  recommendResourceToMembers,
+  getRecommendedResources,
+  getResourceByTitle,
+  searchResources,
   getSupportedHabits,
   sendEmail,
-  searchResources,
   findUserByName,
-  getUntrustmembers,
+  getRequestUsers,
+  getUntrustMembers,
   createChatRoom,
   getMyChatRooms,
   updateChatRoom,
   deleteChatRoom,
+  getPostsById,
+  addPosts,
+  updatePosts,
+  getPosts,
+  removePosts,
+  getChatVisitStatus,
+  updateChatVisitStatus,
 };

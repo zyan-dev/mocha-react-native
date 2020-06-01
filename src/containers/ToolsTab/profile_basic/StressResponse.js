@@ -17,27 +17,27 @@ import {HeadPhoneSvg} from 'assets/svgs';
 const bodyPartButtons = [
   {
     key: 'head',
-    width: 80,
-    top: 40,
-    left: 130,
+    width: 60,
+    top: 50,
+    left: 140,
   },
   {
     key: 'eyes',
     width: 65,
-    top: 55,
+    top: 60,
     left: 55,
   },
   {
     key: 'shoulders',
-    width: 80,
-    top: 100,
+    width: 90,
+    top: 110,
     left: 0,
   },
   {
     key: 'hips',
     width: 60,
     top: 200,
-    left: 0,
+    left: 30,
   },
   {
     key: 'legs',
@@ -48,7 +48,7 @@ const bodyPartButtons = [
   {
     key: 'feet',
     width: 60,
-    top: 360,
+    top: 350,
     right: 0,
   },
   {
@@ -67,7 +67,7 @@ const bodyPartButtons = [
     key: 'neck',
     width: 60,
     top: 100,
-    right: 0,
+    right: 10,
   },
 ];
 
@@ -167,6 +167,7 @@ class BodyAwarenessScreen extends React.Component {
           <H4 mt={20}>{t('tools_tab_body_scan_description1')}</H4>
           <H4 mt={20}>{t('tools_tab_body_scan_description2')}</H4>
           <YouTube
+            apiKey="AIzaSyACbgNHAK4l0E-Cf_ceAme85BBXnplHdPs"
             videoId="q7OAlcyE5M8" // The YouTube video ID
             onError={e => this.setState({errorVideo: e.error})}
             style={{
@@ -216,7 +217,9 @@ class BodyAwarenessScreen extends React.Component {
                     borderColor: selected
                       ? theme.colors.outline
                       : theme.colors.border,
-                  }}>
+                  }}
+                  pl={1}
+                  pr={1}>
                   <H4
                     color={selected ? theme.colors.outline : theme.colors.text}>
                     {t(`tools_tab_body_stress_${part.key}`)}

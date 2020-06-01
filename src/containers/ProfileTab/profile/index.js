@@ -10,7 +10,7 @@ import {
   reflectionActions,
   otherActions,
 } from 'Redux/actions';
-import {MCRootView, MCContent, MCView} from 'components/styled/View';
+import {MCRootView, MCView} from 'components/styled/View';
 import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
@@ -46,12 +46,11 @@ import HydrationCard from './components/Hydration';
 import DreamCard from './components/Dream';
 import NavigationService from 'navigation/NavigationService';
 import {showAlert, getStringWithOutline} from 'services/operators';
-import {profileIcons} from 'utils/constants';
 import {dySize} from 'utils/responsive';
 import {
   FaucetWhiteSvg,
   FutureSvg,
-  UserCrownSvg,
+  UserLightSvg,
   SkullCowSvg,
 } from 'assets/svgs';
 import {OvalYellow, OvalGreen} from 'assets/images';
@@ -412,7 +411,7 @@ class ProfileScreen extends React.Component {
     return (
       <MCButton
         key={layout.key}
-        width={50}
+        width={45}
         height={50}
         align="center"
         justify="center"
@@ -451,15 +450,15 @@ class ProfileScreen extends React.Component {
           onPressRight={() => showDrawer(true)}
         />
         <MCView row style={{flex: 1}}>
-          <MCView width={325}>
+          <MCView width={335}>
             <FlatList
               ref={ref => (this.contentScroll = ref)}
               data={profileLayout}
               renderItem={this._renderProfileSections}
               keyExtractor={item => item.key}
               contentContainerStyle={{
-                width: dySize(325),
-                paddingHorizontal: 10,
+                width: dySize(335),
+                paddingHorizontal: dySize(15),
                 paddingBottom: 200,
               }}
               viewabilityConfig={this.viewabilityConfig}
@@ -479,7 +478,7 @@ class ProfileScreen extends React.Component {
             />
           </MCView>
           <MCView
-            width={55}
+            width={45}
             justify="center"
             row
             align="center"
@@ -491,8 +490,7 @@ class ProfileScreen extends React.Component {
                 renderItem={this.renderProfileIcon}
                 keyExtractor={item => item.key}
                 contentContainerStyle={{
-                  width: dySize(55),
-                  alignItems: 'center',
+                  width: dySize(45),
                   paddingVertical: dySize(100),
                 }}
               />
@@ -507,7 +505,7 @@ class ProfileScreen extends React.Component {
             <H3 mb={10} underline>
               {t('welcome_profile_title')}
             </H3>
-            <UserCrownSvg size={30} color={theme.colors.text} />
+            <UserLightSvg size={30} color={theme.colors.text} />
             <H4 mt={20} pv={1}>
               {t('welcome_tools_take_a_look')}
             </H4>

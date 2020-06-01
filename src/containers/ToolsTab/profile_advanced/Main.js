@@ -81,7 +81,7 @@ class ProfileAdvancedScreen extends React.Component {
             <MCIcon
               type="FontAwesome5Pro-Solid"
               name="chess-knight-alt"
-              size={50}
+              size={40}
             />
           }
           hasRight
@@ -248,29 +248,29 @@ class ProfileAdvancedScreen extends React.Component {
           </MCView>
         </MCModal>
         <MCModal
-          br={50}
-          width={280}
+          br={30}
+          width={320}
           hasCloseButton={false}
           isVisible={
             (showWelcomeAdvanceProfile && !completedAdvanceProfile) ||
             showWelcomeModal
           }>
-          <MCView width={280} mt={20} align="center">
-            <MCView align="center" pv={40} ph={10} width={270}>
+          <MCView width={300} mt={10} align="center">
+            <MCView align="center" pv={10} ph={10}>
               <MCView row wrap align="center">
-                <H4 underline weight="italic">
+                <H3 underline weight="italic">
                   {t('welcome_profile_advance')}
-                </H4>
+                </H3>
                 <MCIcon
                   type="FontAwesome5Pro-Solid"
                   name="chess-knight-alt"
                   size={20}
                 />
               </MCView>
-              <H4 width={220} align="center" mt={20}>
+              <H4 width={280} align="center" mt={20}>
                 {t('profile_advance_modal_title_1')}
               </H4>
-              <H4 width={220} align="center" mb={20}>
+              <H4 width={280} align="center" mb={20}>
                 {t('profile_advance_modal_title_2')}
               </H4>
               <MCView align="center">

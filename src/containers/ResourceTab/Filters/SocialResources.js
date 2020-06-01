@@ -2,8 +2,9 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import * as _ from 'lodash';
 
-import {resourceActions} from 'Redux/actions';
+import {resourceActions, userActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
@@ -12,7 +13,7 @@ import {ResourceContentRoots} from 'utils/constants';
 import BookResourceScreen from '../Books/Books';
 import {dySize} from 'utils/responsive';
 
-class AllResourcesScreen extends React.PureComponent {
+class SocialResourcesScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -22,28 +23,75 @@ class AllResourcesScreen extends React.PureComponent {
       showPageIndex: 1,
       selectedMember: {},
       sort: true,
+      members: [],
     };
   }
+
+  componentDidMount() {
+    const {setTrustMemberResourcePageIndex} = this.props;
+    setTrustMemberResourcePageIndex(1);
+    this.getResourceMembers();
+  }
+
+  componentDidUpdate(preProps, preState) {
+    if (preProps.trustMembers !== this.props.trustMembers) {
+      this.getResourceMembers();
+    }
+  }
+
+  getResourceMembers = () => {
+    const {
+      trustMembers,
+      getTrustMemberResources,
+      selectTrustMember,
+    } = this.props;
+    const {selectedMember} = this.state;
+
+    if (trustMembers.length > 0 && _.isEmpty(selectedMember)) {
+      this.setState({selectedMember: trustMembers[0]});
+      getTrustMemberResources({
+        pageIndex: 1,
+        trustMember: trustMembers[0]._id,
+      });
+
+      selectTrustMember(trustMembers[0]._id);
+    }
+  };
 
   onPressItem = item => {
     this.setState({focused: item.key});
   };
 
   selectMember = user => {
-    if (user._id == this.state.selectedMember._id) {
-      this.setState({selectedMember: {}});
-    } else {
-      this.setState({selectedMember: user});
-    }
+    const {getTrustMemberResources, selectTrustMember} = this.props;
+    this.setState({selectedMember: user});
+    selectTrustMember(user._id);
+    getTrustMemberResources({
+      pageIndex: 1,
+      trustMember: user._id,
+    });
   };
 
   sortBook = () => {
     this.setState({sort: !this.state.sort});
   };
 
+  searchNextPage = () => {
+    const {
+      getTrustMembers,
+      searchPageLimited,
+      searchPageIndex,
+      pageSearching,
+    } = this.props;
+
+    if (searchPageLimited || pageSearching) return;
+    getTrustMembers({page: searchPageIndex + 1});
+  };
+
   _renderListItem = ({item}) => {
     const {theme} = this.props;
     const {selectedMember} = this.state;
+
     return (
       <MCButton onPress={() => this.selectMember(item)}>
         <MCView
@@ -61,6 +109,7 @@ class AllResourcesScreen extends React.PureComponent {
             round
             width={50}
             height={50}
+            type="avatar"
           />
         </MCView>
       </MCButton>
@@ -68,43 +117,27 @@ class AllResourcesScreen extends React.PureComponent {
   };
 
   render() {
-    const {theme, t, allResources} = this.props;
+    const {theme, t, trustMemberResources, trustMembers} = this.props;
     const {focused, sort, selectedMember} = this.state;
 
-    let members = [];
-
-    allResources.forEach(resource => {
-      if (resource.type == focused && resource.data && resource.ownerName) {
-        const temp = {
-          _id: resource.ownerId,
-          name: resource.ownerName,
-          avatar: resource.ownerAvatar,
-        };
-
-        members.forEach((member, index) => {
-          if (member._id == resource.ownerId) {
-            members.splice(index, 1);
-          }
-        });
-
-        members.push(temp);
-      }
-    });
-
     return (
-      <MCRootView>
-        <MCView row wrap mt={5} ph={5}>
-          <FlatList
-            data={members}
-            renderItem={this._renderListItem}
-            keyExtractor={item => item._id}
-            keyboardShouldPersistTaps="always"
-            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-            numColumns={1}
-            style={{width: dySize(350)}}
-            horizontal={true}
-          />
-        </MCView>
+      <MCRootView justify="flex-start">
+        <FlatList
+          data={trustMembers}
+          renderItem={this._renderListItem}
+          keyExtractor={item => item._id}
+          keyboardShouldPersistTaps="always"
+          ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+          numColumns={1}
+          style={{
+            width: dySize(350),
+            maxHeight: dySize(60),
+            marginTop: dySize(10),
+          }}
+          horizontal={true}
+          onEndReached={() => this.searchNextPage()}
+          onEndReachedThreshold={0.5}
+        />
         <MCView row>
           {ResourceContentRoots.map(item => (
             <MCButton onPress={() => this.onPressItem(item)}>
@@ -119,7 +152,7 @@ class AllResourcesScreen extends React.PureComponent {
         </MCView>
         <MCView row width={350} justify="space-between" align="center">
           <H4 weight="bold" underline>
-            {selectedMember.name
+            {selectedMember && selectedMember.name
               ? `${selectedMember.name}'s`
               : t('resource_type_all')}{' '}
             {t('bookshelf')}
@@ -136,7 +169,12 @@ class AllResourcesScreen extends React.PureComponent {
           </MCButton>
         </MCView>
         {focused == 'books' ? (
-          <BookResourceScreen selectedMember={selectedMember} sort={sort} />
+          <BookResourceScreen
+            selectedMember={selectedMember}
+            sort={sort}
+            from="trust-member"
+            selectedResources={trustMemberResources}
+          />
         ) : (
           <MCContent>
             <MCView align="center">
@@ -151,17 +189,27 @@ class AllResourcesScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  allResources: state.resourceReducer.allResources,
   profile: state.profileReducer,
+  trustMembers: state.usersReducer.trustMembers,
+  trustMemberResources: state.resourceReducer.trustMemberResources,
+  resourceTrustMemberPageIndex:
+    state.resourceReducer.resourceTrustMemberPageIndex,
+  resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
+  searchPageLimited: state.usersReducer.searchPageLimited,
+  searchPageIndex: state.usersReducer.searchPageIndex,
+  pageSearching: state.usersReducer.pageSearching,
 });
 
 const mapDispatchToProps = {
-  getAllResources: resourceActions.getAllResources,
+  getTrustMemberResources: resourceActions.getTrustMemberResources,
+  setTrustMemberResourcePageIndex:
+    resourceActions.setTrustMemberResourcePageIndex,
+  selectTrustMember: resourceActions.selectTrustMember,
+  getTrustMembers: userActions.getTrustMembers,
 };
-
 export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(AllResourcesScreen),
+  )(SocialResourcesScreen),
 );
