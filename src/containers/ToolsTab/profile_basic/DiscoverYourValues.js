@@ -7,7 +7,7 @@ import i18next from 'i18next';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H3, H4, H5, ErrorText, MCEmptyText} from 'components/styled/Text';
+import {H3, H4, H5, H6, ErrorText, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCImage, MCModal, MCIcon} from 'components/common';
 import {dySize, CURRENT_HEIGHT} from 'utils/responsive';
@@ -266,8 +266,7 @@ class DiscoverValueScreen extends React.Component {
           height: dySize(220),
           alignItems: 'center',
           justifyContent: 'center',
-          borderWidth: 1,
-          borderColor: selected ? theme.colors.outline : 'white',
+          borderColor: selected ? theme.colors.outline : theme.colors.card,
           backgroundColor: ValueCardBackgrounds[index % 3],
           borderRadius: 10,
           borderWidth: dySize(6),
@@ -294,12 +293,12 @@ class DiscoverValueScreen extends React.Component {
             />
           )}
         </MCView>
-        <H5
+        <H6
           align="center"
           style={{letterSpacing: 5}}
           color={ValueCardTextColor}>
           {t(`value_name_${value.name}`).toUpperCase()}
-        </H5>
+        </H6>
       </MCButton>
     );
   };
