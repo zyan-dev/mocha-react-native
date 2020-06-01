@@ -49,6 +49,11 @@ export const getChatVisitStatus = () => ({
   type: types.GET_CHAT_VISIT_STATUS,
 });
 
+export const gotoChatRoom = roomID => ({
+  type: types.GO_TO_CHAT_ROOM_BY_ID,
+  payload: roomID,
+});
+
 export const getRoomMessages = (roomId, count) => (dispatch, getState) => {
   dispatch(closeRoomMessageListener());
   database()
