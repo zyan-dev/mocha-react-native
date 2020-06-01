@@ -3,6 +3,7 @@ import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {Footer} from 'native-base';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import {MCView, NativeCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {MCIcon} from 'components/common';
@@ -26,7 +27,7 @@ import {
   networkActions,
 } from 'Redux/actions';
 
-const TabBarHeight = 80;
+const TabBarHeight = isIphoneX() ? dySize(80) : dySize(100);
 const TabIconSize = 30;
 const TabWrapper = styled(Footer)`
   height: ${dySize(TabBarHeight)}px;
