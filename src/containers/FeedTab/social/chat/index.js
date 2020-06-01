@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import {chatActions} from 'Redux/actions';
 import {MCRootView, MCView, NativeCard} from 'components/styled/View';
 import {MCImage} from 'components/common';
-import {H3, H4} from 'components/styled/Text';
+import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
@@ -128,6 +128,11 @@ class SocialChatScreen extends React.Component {
           }}
           data={myRooms}
           renderItem={this._renderChatItem}
+          ListEmptyComponent={
+            <MCEmptyText mt={50}>
+              {loading ? t('progress_loading') : t('no_chat_rooms')}
+            </MCEmptyText>
+          }
           keyExtractor={item => item._id}
           refreshControl={
             <RefreshControl

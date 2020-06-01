@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {FloatingAction} from 'react-native-floating-action';
+import ImageResizer from 'react-native-image-resizer';
 import EmojiSelector from 'react-native-emoji-selector';
 import moment from 'moment';
 import * as _ from 'lodash';
@@ -108,29 +109,82 @@ class ChatRoomScreen extends React.Component {
     // upload media file if attached
     if (selectedImage) {
       setLoading(true);
-      const uploadedURL = await API.fileUploadToS3({
-        image: selectedImage.path,
-        type: 'chat_attachment',
-        userId: msgData.userId,
-      });
-      if (uploadedURL === 'error') {
-        showAlert(i18next.t('error_upload_file_failed'));
-        setLoading(false);
-        return;
-      }
-      msgData.image = uploadedURL;
-    }
-    setLoading(false);
 
-    sendMessage(msgData, () => {
-      this.setState({
-        text: '',
-        selectedImage: null,
-        lastItem: null,
-        count: count + 1,
+      // upload small image by resizing
+      try {
+        ImageResizer.createResizedImage(
+          selectedImage.path, // Image Path
+          300, // maxWidth
+          300, // maxHeight
+          'JPEG', // compressFormat
+          50, // quality
+          0, // rotation
+          null, //outputPath if null, it will be stored in cache folder
+        )
+          .then(async response => {
+            // response.uri is the URI of the new image that can now be displayed, uploaded...
+            // response.path is the path of the new image
+            // response.name is the name of the new image with the extension
+            // response.size is the size of the new image
+            const uploadedSmallURL = await API.fileUploadToS3({
+              image: response.path,
+              type: 'chat_attachment_small',
+              userId: msgData.userId,
+            });
+            if (uploadedSmallURL === 'error') {
+              showAlert(i18next.t('error_upload_file_failed'));
+              setLoading(false);
+              return;
+            }
+
+            console.log({uploadedSmallURL});
+            // upload big image
+            const uploadedURL = await API.fileUploadToS3({
+              image: selectedImage.path,
+              type: 'chat_attachment',
+              userId: msgData.userId,
+            });
+            if (uploadedURL === 'error') {
+              showAlert(i18next.t('error_upload_file_failed'));
+              setLoading(false);
+              return;
+            }
+            console.log({uploadedURL});
+            msgData.image = uploadedURL;
+            msgData.imageSmall = uploadedSmallURL;
+            setLoading(false);
+
+            sendMessage(msgData, () => {
+              this.setState({
+                text: '',
+                selectedImage: null,
+                lastItem: null,
+                count: count + 1,
+              });
+              getRoomMessages(selectedRoom._id, count + 1);
+            });
+          })
+          .catch(err => {
+            // Oops, something went wrong. Check that the filename is correct and
+            // inspect err to get more details.
+          });
+      } catch (e) {
+        setLoading(false);
+        showAlert(e.toString());
+      }
+    } else {
+      setLoading(false);
+
+      sendMessage(msgData, () => {
+        this.setState({
+          text: '',
+          selectedImage: null,
+          lastItem: null,
+          count: count + 1,
+        });
+        getRoomMessages(selectedRoom._id, count + 1);
       });
-      getRoomMessages(selectedRoom._id, count + 1);
-    });
+    }
   };
 
   openActionSheet = () => {
@@ -231,12 +285,15 @@ class ChatRoomScreen extends React.Component {
     });
   };
 
+  onPressAttachment = () => {
+    Keyboard.dismiss();
+    this.floatingAction.animateButton();
+  };
+
   onAttachmentItem = name => {
     if (name === 'image') {
       ImagePicker.openPicker({
-        width: 400,
-        height: 600,
-        cropping: true,
+        cropping: false,
         includeBase64: true,
       }).then(image => {
         // image object (path, data ...)
@@ -245,9 +302,7 @@ class ChatRoomScreen extends React.Component {
       });
     } else if (name === 'camera') {
       ImagePicker.openCamera({
-        width: 400,
-        height: 600,
-        cropping: true,
+        cropping: false,
         includeBase64: true,
       }).then(image => {
         // image object (path, data ...)
@@ -349,6 +404,8 @@ class ChatRoomScreen extends React.Component {
       </MCButton>
     );
   };
+
+  // =======================================   Rendering  ==========================================
 
   render() {
     const {
@@ -524,9 +581,7 @@ class ChatRoomScreen extends React.Component {
           )}
 
           <MCView row align="center" width={350} pv={10}>
-            <MCButton
-              onPress={() => this.floatingAction.animateButton()}
-              ml={-10}>
+            <MCButton onPress={() => this.onPressAttachment()} ml={-10}>
               <MCIcon type="FontAwesome5Pro" name="plus-circle" />
             </MCButton>
             <MCTextInput

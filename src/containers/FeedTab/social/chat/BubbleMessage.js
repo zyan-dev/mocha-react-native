@@ -134,7 +134,7 @@ class BubbleMessageItem extends React.PureComponent {
           {bubble.image && (
             <MCButton onPress={() => onPressImage(bubble)}>
               <MCImage
-                image={{uri: bubble.image}}
+                image={{uri: bubble.imageSmall}}
                 width={220}
                 height={120}
                 br={10}
