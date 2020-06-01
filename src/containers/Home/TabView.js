@@ -151,6 +151,7 @@ class TabView extends React.PureComponent {
               elevation: 11,
               shadowOffset: {width: 0, height: -10},
               backgroundColor: theme.colors.background,
+              paddingTop: 5,
             }}>
             <MCButton
               rippleCentered
