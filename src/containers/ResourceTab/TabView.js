@@ -29,7 +29,8 @@ class ResourceTabView extends React.Component {
       getMyResources,
       getBookmarkedResources,
       getTrustMemberResources,
-      getRecommendedResources
+      getRecommendedResources,
+      myResources,
     } = this.props;
 
     switch (index) {
@@ -41,7 +42,7 @@ class ResourceTabView extends React.Component {
         getTrustMemberResources(1);
         break;
       case 2:
-        getMyResources(1);
+        if (myResources.length == 0) getMyResources(1);
         break;
       case 3:
         getBookmarkedResources(1);
@@ -101,6 +102,7 @@ class ResourceTabView extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   userToken: state.profileReducer.userToken,
+  myResources: state.resourceReducer.myResources,
 });
 
 const mapDispatchToProps = {

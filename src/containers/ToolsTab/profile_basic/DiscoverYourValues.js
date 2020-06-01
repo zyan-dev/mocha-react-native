@@ -7,7 +7,7 @@ import i18next from 'i18next';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H3, H4, H5, ErrorText, MCEmptyText} from 'components/styled/Text';
+import {H3, H4, H5, H6, ErrorText, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCImage, MCModal, MCIcon} from 'components/common';
 import {dySize, CURRENT_HEIGHT} from 'utils/responsive';
@@ -17,11 +17,11 @@ import {
   ValueCardBackgrounds,
   ValueCardTextColor,
 } from 'utils/constants';
-import {KeySvg} from 'assets/svgs';
+import {KeySvg, SwipeSvg} from 'assets/svgs';
 import {showAlert, getStringWithOutline} from 'services/operators';
 
 const cardViewHeight =
-  CURRENT_HEIGHT - dySize(180) - 120 - (isIphoneX() ? 60 : 0);
+  CURRENT_HEIGHT - dySize(180) - 140 - (isIphoneX() ? 60 : 0);
 
 class DiscoverValueScreen extends React.Component {
   constructor(props) {
@@ -266,8 +266,7 @@ class DiscoverValueScreen extends React.Component {
           height: dySize(220),
           alignItems: 'center',
           justifyContent: 'center',
-          borderWidth: 1,
-          borderColor: selected ? theme.colors.outline : 'white',
+          borderColor: selected ? theme.colors.outline : theme.colors.card,
           backgroundColor: ValueCardBackgrounds[index % 3],
           borderRadius: 10,
           borderWidth: dySize(6),
@@ -294,12 +293,12 @@ class DiscoverValueScreen extends React.Component {
             />
           )}
         </MCView>
-        <H5
+        <H6
           align="center"
           style={{letterSpacing: 5}}
           color={ValueCardTextColor}>
           {t(`value_name_${value.name}`).toUpperCase()}
-        </H5>
+        </H6>
       </MCButton>
     );
   };
@@ -329,9 +328,6 @@ class DiscoverValueScreen extends React.Component {
           <>
             <MCView row align="center">
               <H4>{t('tools_tab_discover_your_values_question')}</H4>
-              <MCButton align="center" onPress={() => this._onPressHow()}>
-                <MCIcon type="FontAwesome5" name="question-circle" />
-              </MCButton>
             </MCView>
             <MCView align="center">
               <CardStack
@@ -363,8 +359,8 @@ class DiscoverValueScreen extends React.Component {
                 })}
               </CardStack>
             </MCView>
-            <MCView row align="center" width={375} height={100}>
-              <MCView style={{flex: 1}} align="center">
+            <MCView row align="center" justify="center" width={375} height={70}>
+              {/* <MCView style={{flex: 1}} align="center">
                 <MCView
                   align="center"
                   justify="center"
@@ -382,7 +378,7 @@ class DiscoverValueScreen extends React.Component {
                     color={theme.colors.danger}
                   />
                 </MCView>
-              </MCView>
+              </MCView> */}
               <MCButton
                 row
                 align="center"
@@ -394,7 +390,10 @@ class DiscoverValueScreen extends React.Component {
                 onPress={() => this._onPressBack()}>
                 <MCIcon type="FontAwesome5" name="undo" />
               </MCButton>
-              <MCView style={{flex: 1}} align="center">
+              <MCView ml={40}>
+                <SwipeSvg color={theme.colors.text} size={50} />
+              </MCView>
+              {/* <MCView style={{flex: 1}} align="center">
                 <MCView
                   align="center"
                   justify="center"
@@ -412,7 +411,13 @@ class DiscoverValueScreen extends React.Component {
                     color={theme.colors.outline}
                   />
                 </MCView>
-              </MCView>
+              </MCView> */}
+            </MCView>
+            <MCView row align="center">
+              <H4>{t('tools_tab_discover_your_values_help')}</H4>
+              <MCButton align="center" onPress={() => this._onPressHow()}>
+                <MCIcon type="FontAwesome5" name="question-circle" />
+              </MCButton>
             </MCView>
           </>
         ) : (

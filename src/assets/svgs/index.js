@@ -41,6 +41,7 @@ import CommentsLightSvg from './CommentsLight';
 import RulerLightSvg from './RulerLight';
 import UserLightSvg from './UserLight';
 import UserCrownSvg from './UserCrown';
+import SwipeSvg from './Swipe';
 
 export {
   AppleSvg,
@@ -86,4 +87,5 @@ export {
   RulerLightSvg,
   UserLightSvg,
   UserCrownSvg,
+  SwipeSvg,
 };
