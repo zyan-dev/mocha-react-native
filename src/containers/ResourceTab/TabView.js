@@ -5,31 +5,60 @@ import {withTranslation} from 'react-i18next';
 import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
-import {reflectionActions, otherActions, userActions} from 'Redux/actions';
-import FeaturedResourceScreen from './Filters/Featured';
-import AllResourcesScreen from './Filters/AllResources';
+import {resourceActions} from 'Redux/actions';
+import GlobalResourceScreen from './Filters/GlobalResource';
+import SocialResourcesScreen from './Filters/SocialResources';
 import MyResourceScreen from './Filters/MyResource';
-import SearchResourceScreen from './Filters/Search';
-import {MCHeader, MCSearchInput, MCIcon} from 'components/common';
-import {H4, H6, H5} from 'components/styled/Text';
+import BookmarkResourcesScreen from './Filters/BookmarkResource';
+import RecommendedResourcesScreen from './Filters/RecommendedResource';
+import {MCIcon} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {ResourcesRoots} from 'utils/constants';
-import {dySize} from 'utils/responsive';
 
 class ResourceTabView extends React.Component {
   onChangeTabIndex = i => {
+    const {userToken} = this.props;
     this.setState({index: i});
     this.props.onChangeTabIndex(i);
+    if (userToken) this.getResources(i);
+  };
+
+  getResources = index => {
+    const {
+      getAllResources,
+      getMyResources,
+      getBookmarkedResources,
+      getTrustMemberResources,
+      getRecommendedResources,
+      myResources,
+    } = this.props;
+
+    switch (index) {
+      case 0:
+        // getAllResources(1);
+        getRecommendedResources(1);
+        break;
+      case 1:
+        getTrustMemberResources(1);
+        break;
+      case 2:
+        if (myResources.length == 0) getMyResources(1);
+        break;
+      case 3:
+        getBookmarkedResources(1);
+        break;
+    }
   };
 
   render() {
-    const {t, theme, tabIndex, isShowingUserHabit} = this.props;
+    const {t, theme, tabIndex} = this.props;
 
     const renderScene = SceneMap({
-      globe: FeaturedResourceScreen,
-      search: SearchResourceScreen,
-      users: AllResourcesScreen,
-      user: MyResourceScreen,
+      // globe: GlobalResourceScreen,
+      recommend: RecommendedResourcesScreen,
+      bookmark: BookmarkResourcesScreen,
+      social: SocialResourcesScreen,
+      me: MyResourceScreen,
     });
 
     const renderTabBar = props => (
@@ -63,6 +92,7 @@ class ResourceTabView extends React.Component {
           onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}
           renderTabBar={renderTabBar}
+          swipeEnabled={false}
         />
       </View>
     );
@@ -71,9 +101,17 @@ class ResourceTabView extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
+  userToken: state.profileReducer.userToken,
+  myResources: state.resourceReducer.myResources,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getAllResources: resourceActions.getAllResources,
+  getMyResources: resourceActions.getMyResources,
+  getBookmarkedResources: resourceActions.getBookmarkedResources,
+  getTrustMemberResources: resourceActions.getTrustMemberResources,
+  getRecommendedResources: resourceActions.getRecommendedResources,
+};
 
 export default withTranslation()(
   connect(
