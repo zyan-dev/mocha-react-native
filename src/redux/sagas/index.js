@@ -141,6 +141,7 @@ function* mySaga() {
   yield takeLatest(types.DELETE_CHAT_ROOM, chatSaga.deleteChatRoom);
   yield takeLatest(types.SET_MY_CHAT_ROOMS, chatSaga.checkChatMissedState);
   yield takeLatest(types.GET_CHAT_VISIT_STATUS, chatSaga.getChatVisitStatus);
+  yield takeLatest(types.GO_TO_CHAT_ROOM_BY_ID, chatSaga.goToChatRoom);
   yield takeLatest(
     types.UPDATE_CHAT_VISIT_STATUS,
     chatSaga.updateChatVisitStatus,

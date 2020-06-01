@@ -68,6 +68,37 @@ export function* getChatVisitStatus(action) {
   }
 }
 
+export function* goToChatRoom(action) {
+  try {
+    yield put({type: types.SET_CHAT_LOADING, payload: true});
+    const response = yield call(API.getMyChatRooms);
+    if (response.data.status === 'success') {
+      const myRooms = response.data.data.chats;
+      yield put({
+        type: types.SET_MY_CHAT_ROOMS,
+        payload: myRooms,
+      });
+      const find = myRooms.find(i => i._id === action.payload);
+      yield put({
+        type: types.SELECT_CHAT_ROOM,
+        payload: find,
+      });
+      NavigationService.navigate('TabFeed');
+      setTimeout(() => {
+        NavigationService.navigate('ChatRoom');
+      });
+      // end chat loading
+      yield put({type: types.SET_CHAT_LOADING, payload: false});
+    } else {
+      yield put({type: types.SET_CHAT_LOADING, payload: false});
+      showAlert(response.data.data.message);
+    }
+  } catch (e) {
+    yield put({type: types.SET_CHAT_LOADING, payload: false});
+    showAlert(e.toString());
+  }
+}
+
 export function* updateChatVisitStatus(action) {
   try {
     const {
