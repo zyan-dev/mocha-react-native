@@ -48,7 +48,7 @@ class MainHomeStack extends React.Component {
   };
 
   savePushToken = async () => {
-    const fcmToken = await firebase.messaging().getToken();
+    const fcmToken = await messaging().getToken();
     this.props.setProfileData({pushToken: fcmToken});
     setTimeout(() => {
       this.props.updateBasicProfile();
@@ -56,6 +56,9 @@ class MainHomeStack extends React.Component {
   };
 
   setUpNotificationListener = () => {
+    // messaging().onMessage(remoteMessage => {
+    //   alert(JSON.stringify(remoteMessage));
+    // });
     messaging().onNotificationOpenedApp(remoteMessage => {
       this.processNotification(remoteMessage);
     });

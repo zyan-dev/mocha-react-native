@@ -57,6 +57,9 @@ class FeedScreen extends React.Component {
   onChangeTabIndex = i => {
     this.setState({index: i});
     switch (i) {
+      case 0:
+        this.props.findUserByName({name: '', page: 1});
+        break;
       case 1:
         this.props.getMyChatRooms();
         break;
@@ -92,7 +95,7 @@ class FeedScreen extends React.Component {
     const routes = [
       {
         key: 'search',
-        icon: 'search',
+        icon: 'users',
       },
       {
         key: 'chat',
