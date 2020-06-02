@@ -83,7 +83,6 @@ class SelectChatMemberScreen extends React.Component {
     const user = item;
     // skip owner's profile
     if (user._id === myProfile._id) return null;
-    console.log({user});
     // skip original chat members when adding new members in the chat room
     if (selectedRoom) {
       const find = selectedRoom.includes.find(i => i._id === user._id);
