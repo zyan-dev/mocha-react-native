@@ -15,7 +15,7 @@ export function* getMyChatRooms(action) {
         type: types.SET_MY_CHAT_ROOMS,
         payload: response.data.data.chats,
       });
-
+      yield put({type: types.UPDATE_CHAT_VISIT_STATUS, payload: {}});
       // end chat loading
       yield put({type: types.SET_CHAT_LOADING, payload: false});
     } else {

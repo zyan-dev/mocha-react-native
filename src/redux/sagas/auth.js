@@ -99,8 +99,10 @@ export function* completeSignUp(action) {
       } else {
         // existing user
         NavigationService.navigate('mainStack');
-        yield put({type: types.API_FINISHED});
         yield put({type: types.SET_NEW_USER, payload: false});
+        yield put({type: types.GET_MY_CHAT_ROOMS});
+        yield put({type: types.GET_CHAT_VISIT_STATUS});
+        yield put({type: types.API_FINISHED});
       }
       // track mixpanel event
       yield put({

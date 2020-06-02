@@ -73,13 +73,20 @@ class ChatRoomScreen extends React.Component {
 
   componentDidUpdate(preProps, prevState) {
     const {lastItem, firstLoad} = this.state;
-    if (preProps.roomMessageIds.length !== this.props.roomMessageIds.length) {
-      if (lastItem) this.scrollToItem(lastItem);
-      else this.scrollToEnd();
+    if (
+      preProps.roomMessageIds.length !== this.props.roomMessageIds.length &&
+      firstLoad
+    ) {
+      if (lastItem) {
+        this.scrollToItem(lastItem);
+      } else {
+        this.scrollToEnd();
+      }
     }
     if (preProps.loading && !this.props.loading && !firstLoad) {
-      this.scrollToEnd();
-      this.setState({firstLoad: true});
+      this.setState({firstLoad: true}, () => {
+        this.scrollToEnd();
+      });
     }
   }
 
@@ -256,7 +263,7 @@ class ChatRoomScreen extends React.Component {
           animated: true,
           duration: 1500,
         });
-    }, 1000);
+    }, 500);
   };
 
   scrollToItem = item => {
@@ -267,12 +274,7 @@ class ChatRoomScreen extends React.Component {
   };
 
   onViewableItemsChanged = ({viewableItems, changed}) => {
-    const {
-      selectedRoom,
-      chatVisitStatus,
-      checkChatMissedState,
-      roomMessages,
-    } = this.props;
+    const {selectedRoom, chatVisitStatus, roomMessages} = this.props;
     if (viewableItems.length === 0) return;
 
     this.setState({
@@ -315,12 +317,16 @@ class ChatRoomScreen extends React.Component {
   loadMoreMessages = () => {
     const {count} = this.state;
     const {selectedRoom, getRoomMessages, roomMessageIds} = this.props;
-    getRoomMessages(selectedRoom._id, count + countPerPage); // page: 1
-    this.setState({
-      refreshing: true,
-      lastItem: roomMessageIds[0],
-      count: count + countPerPage,
-    });
+    this.setState(
+      {
+        refreshing: true,
+        lastItem: roomMessageIds[0],
+        count: count + countPerPage,
+      },
+      () => {
+        getRoomMessages(selectedRoom._id, count + countPerPage); // page: 1
+      },
+    );
   };
 
   onScrollBeginDrag = () => {
@@ -538,7 +544,6 @@ class ChatRoomScreen extends React.Component {
             refreshControl={
               <RefreshControl
                 colors={['#9Bd35A', '#689F38']}
-                refreshing={false}
                 onRefresh={this.loadMoreMessages.bind(this)}
                 title="Load more"
               />
@@ -759,7 +764,6 @@ const mapDispatchToProps = {
   updateChatRoom: chatActions.updateChatRoom,
   closeRoomMessageListener: chatActions.closeRoomMessageListener,
   updateChatVisitStatus: chatActions.updateChatVisitStatus,
-  checkChatMissedState: chatActions.checkChatMissedState,
   setRoomMessages: chatActions.setRoomMessages,
   addEmoji: chatActions.addEmoji,
 };
