@@ -182,7 +182,6 @@ class ProfileScreen extends React.Component {
       stressRecovery,
       strength,
       coreValues,
-      valueStory,
       dream,
       dailyHabits,
       weeklyHabits,
@@ -255,7 +254,6 @@ class ProfileScreen extends React.Component {
         <CoreValuesCard
           theme={theme}
           coreValues={coreValues}
-          valueStory={valueStory}
           onPressEdit={() => NavigationService.navigate('EditCoreValues')}
           onPressEditValueStory={value =>
             NavigationService.navigate('EditValueStory', {value})
@@ -557,10 +555,6 @@ const mapStateToProps = state => ({
   coreValues: selector.reflections.findMySpecialReflections(
     state,
     'CoreValues',
-  ),
-  valueStory: selector.reflections.findMySpecialReflections(
-    state,
-    'ValueStory',
   ),
   dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
   dailyHabits: selector.reflections

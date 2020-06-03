@@ -116,7 +116,6 @@ class UserProfileScreen extends React.Component {
       stressRecovery,
       strength,
       coreValues,
-      valueStory,
       dream,
       dailyHabits,
       weeklyHabits,
@@ -174,7 +173,6 @@ class UserProfileScreen extends React.Component {
         <CoreValuesCard
           theme={theme}
           coreValues={coreValues}
-          valueStory={valueStory}
           editable={false}
         />
       );
@@ -455,10 +453,6 @@ const mapStateToProps = state => ({
   coreValues: selector.reflections.findUserSpecialReflections(
     state,
     'CoreValues',
-  ),
-  valueStory: selector.reflections.findUserSpecialReflections(
-    state,
-    'ValueStory',
   ),
   dream: selector.reflections.findUserSpecialReflections(state, 'Dreams'),
   dailyHabits: selector.reflections

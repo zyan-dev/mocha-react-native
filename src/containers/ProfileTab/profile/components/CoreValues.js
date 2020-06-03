@@ -19,7 +19,6 @@ import {
 class CoreValuesCard extends React.Component {
   static propTypes = {
     coreValues: PropTypes.object,
-    valueStory: PropTypes.object,
     onPressEdit: PropTypes.func,
     onPressEditValueStory: PropTypes.func,
     editable: PropTypes.bool,
@@ -28,7 +27,6 @@ class CoreValuesCard extends React.Component {
   static defaultProps = {
     editable: true,
     coreValues: {},
-    valueStory: {},
     onPressEdit: () => undefined,
     onPressEditValueStory: () => undefined,
   };
@@ -59,13 +57,12 @@ class CoreValuesCard extends React.Component {
       t,
       theme,
       coreValues,
-      valueStory,
       editable,
       onPressEdit,
       onPressEditValueStory,
     } = this.props;
     const core = _.get(coreValues, ['data', 'core'], []);
-    const stories = _.get(valueStory, ['data', 'story'], {});
+    const stories = _.get(coreValues, ['data', 'story'], {});
     return (
       <MCView mt={30}>
         <MCView row align="center">
@@ -111,11 +108,19 @@ class CoreValuesCard extends React.Component {
                   borderColor: theme.colors.card,
                   padding: dySize(5),
                 }}>
-                <H4 weight="bold" align="center" color={ValueCardTextColor}>
-                  {t(`tools_tab_value_${value.value}`)}
-                </H4>
+                <MCView height={50}>
+                  <H4
+                    weight="bold"
+                    align="center"
+                    color={ValueCardTextColor}
+                    numberOfLines={2}>
+                    {value.category === 'custom'
+                      ? value.value.replace(/_/g, ' ')
+                      : t(`tools_tab_value_${value.value}`)}
+                  </H4>
+                </MCView>
                 <MCView style={{flex: 1}} align="center" justify="center">
-                  {value.image && (
+                  {value.image && value.category !== 'custom' && (
                     <MCImage
                       image={_.get(
                         DiscoverValues.find(i => i.value === value.value),
@@ -124,6 +129,15 @@ class CoreValuesCard extends React.Component {
                       )}
                       width={120}
                       height={100}
+                      resizeMode="contain"
+                    />
+                  )}
+                  {value.image && value.category === 'custom' && (
+                    <MCImage
+                      image={{uri: value.image}}
+                      width={100}
+                      height={100}
+                      br={10}
                       resizeMode="contain"
                     />
                   )}
@@ -136,12 +150,16 @@ class CoreValuesCard extends React.Component {
                     />
                   )}
                 </MCView>
-                <H6
-                  align="center"
-                  style={{letterSpacing: 5}}
-                  color={ValueCardTextColor}>
-                  {t(`value_name_${value.name}`).toUpperCase()}
-                </H6>
+                {value.category !== 'custom' && (
+                  <MCView height={50} justify="flex-end">
+                    <H6
+                      align="center"
+                      style={{letterSpacing: 5}}
+                      color={ValueCardTextColor}>
+                      {t(`value_name_${value.name}`).toUpperCase()}
+                    </H6>
+                  </MCView>
+                )}
               </MCButton>
               <MCView
                 style={{
@@ -158,7 +176,11 @@ class CoreValuesCard extends React.Component {
                   <H5 color="black">
                     {_.get(
                       stories,
-                      [value.value],
+                      [
+                        `${value.category === 'custom' ? 'custom_' : ''}${
+                          value.value
+                        }`,
+                      ],
                       t('profile_card_no_value_story'),
                     )}
                   </H5>

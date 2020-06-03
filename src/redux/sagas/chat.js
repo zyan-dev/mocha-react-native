@@ -156,10 +156,12 @@ export function* updateChatRoom(action) {
     const response = yield call(API.updateChatRoom, action.payload);
     if (response.data.status === 'success') {
       yield put({type: types.GET_MY_CHAT_ROOMS});
-      yield put({
-        type: types.SELECT_CHAT_ROOM,
-        payload: response.data.data.chat,
-      });
+      if (response.data.data.chat) {
+        yield put({
+          type: types.SELECT_CHAT_ROOM,
+          payload: response.data.data.chat,
+        });
+      }
       selectedRoom.includes.map(user => {
         if (user._id === profileReducer._id) return;
         // update last message date for all members

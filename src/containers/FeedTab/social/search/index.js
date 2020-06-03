@@ -1,13 +1,12 @@
 import React from 'react';
-import {View} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {FlatList} from 'react-native-gesture-handler';
 import {routerActions, userActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {H3, H4, MCEmptyText} from 'components/styled/Text';
-import {MCHeader, MCSearchInput, MCImage} from 'components/common';
+import {H3, MCEmptyText} from 'components/styled/Text';
+import {MCSearchInput, MCImage} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 
@@ -57,19 +56,19 @@ class SocialSearchScreen extends React.Component {
         pb={10}
         pl={10}
         pr={10}
-        onPress={() => this.onPressUserAvatar(user)}
-        style={{
-          borderBottomWidth: 0.2,
-          borderColor: theme.colors.border,
-        }}>
+        onPress={() => this.onPressUserAvatar(user)}>
         <MCImage
-          width={60}
-          height={60}
+          width={80}
+          height={80}
           round
           type="avatar"
           image={{uri: user.avatar}}
         />
-        <H3 align="center">{user.name}</H3>
+        <MCView height={60} justify="center">
+          <H3 align="center" numberOfLines={2}>
+            {user.name}
+          </H3>
+        </MCView>
       </MCButton>
     );
   };
@@ -97,6 +96,7 @@ class SocialSearchScreen extends React.Component {
           contentContainerStyle={{
             width: dySize(350),
             paddingTop: dySize(20),
+            paddingBottom: dySize(50),
           }}
           numColumns={3}
           keyboardShouldPersistTaps="always"
