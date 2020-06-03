@@ -112,7 +112,7 @@ class CoachingFeedbackScreen extends React.Component {
           {submitted && !this.validateOptions() && (
             <ErrorText>{t('error_input_habits')}</ErrorText>
           )}
-          <MCView row wrap width={345} justify="center">
+          <MCView row wrap width={350} justify="center">
             {CoachingFeedbackOptions.map(option => {
               const selected = options.indexOf(option.key) > -1;
               const borderColor = selected
@@ -123,7 +123,7 @@ class CoachingFeedbackScreen extends React.Component {
                   bordered
                   width={option.width}
                   onPress={() => this.onPressOption(option)}
-                  height={120}
+                  height={150}
                   pl={10}
                   ml={10}
                   mr={10}
