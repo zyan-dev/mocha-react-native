@@ -27,10 +27,14 @@ class ChallengesBehaviorCard extends React.Component {
     return (
       <MCView mt={30}>
         <MCView row align="center" mb={20}>
-          <MCView row align="center" wrap width={240}>
-            <H3 weight="bold" mr={10}>
-              {t('profile_subtitle_challenges_concerns')}{' '}
-              <ExclamationSvg size={25} />
+          <MCView row align="center" wrap width={270}>
+            <H3>
+              <H3 weight="bold">
+                {t('profile_subtitle_challenges_concerns')}{' '}
+              </H3>
+              <MCView mt={-5} width={25} height={22}>
+                <ExclamationSvg size={25} />
+              </MCView>
             </H3>
           </MCView>
           {editable && (
