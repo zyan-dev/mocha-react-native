@@ -10,7 +10,7 @@ import EmotionScreen from './emotion';
 import NeedScreen from './need';
 import EditNeedScreen from './need/edit';
 import TapToCountScreen from './tab_to_count';
-import EditEmotionScreen from './emotion/Edit';
+import EditEmotionScreen from './emotion/EditEmotion';
 import EmotionPickerScreen from './emotion/EmotionPicker';
 import ProfileBasicStack from './profile_basic';
 import ProfileAdvanceStack from './profile_advanced';
