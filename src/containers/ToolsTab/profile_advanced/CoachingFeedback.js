@@ -123,7 +123,7 @@ class CoachingFeedbackScreen extends React.Component {
                   bordered
                   width={option.width}
                   onPress={() => this.onPressOption(option)}
-                  height={150}
+                  height={140}
                   pl={10}
                   ml={10}
                   mr={10}
