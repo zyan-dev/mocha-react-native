@@ -4,11 +4,14 @@ import {connect} from 'react-redux';
 import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
-import {MCHeader, MCPicker, MCTextFormInput} from 'components/common';
+import {MCHeader, MCPicker, MCTextFormInput, MCImage} from 'components/common';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
-import {H4} from 'components/styled/Text';
+import {H3, H4} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import {EmotionHow, EMOTIONS} from 'utils/constants';
+import {MCButton} from 'components/styled/Button';
+import NavigationService from 'navigation/NavigationService';
+import {EmotionPickerIcon} from 'assets/images';
 
 class EditEmotionScreen extends React.PureComponent {
   constructor(props) {
@@ -37,6 +40,7 @@ class EditEmotionScreen extends React.PureComponent {
     const emotion = _.get(selectedReflection, ['data', 'emotion'], '');
     const how = _.get(selectedReflection, ['data', 'how'], '');
     const story = _.get(selectedReflection, ['data', 'story'], '');
+    console.log({emotion});
     return (
       <MCRootView>
         <MCHeader
@@ -49,17 +53,20 @@ class EditEmotionScreen extends React.PureComponent {
           <H4 width={350} align="left">
             {t('emotion_select')}
           </H4>
-          <MCPicker
-            items={EMOTIONS.map(value => ({
-              label: t(`mocha_emotion_${value.replace(/ /g, '_')}`),
-              value,
-            }))}
-            onChange={itemValue => {
-              if (itemValue) updateSelectedReflection({emotion: itemValue});
-              else updateSelectedReflection({emotion: ''});
-            }}
-            value={emotion}
-          />
+          <MCButton
+            bordered
+            br={4}
+            pt={10}
+            pb={10}
+            row
+            justify="space-between"
+            align="center"
+            onPress={() =>
+              NavigationService.navigate('EmotionPicker', {emotion})
+            }>
+            <H3>{t(`mocha_emotion_${emotion}`)}</H3>
+            <MCImage image={EmotionPickerIcon} width={30} height={30} />
+          </MCButton>
           {emotion.length > 0 && (
             <>
               <H4 width={350} align="left" mt={20}>

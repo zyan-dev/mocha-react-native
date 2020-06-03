@@ -10,7 +10,8 @@ import EmotionScreen from './emotion';
 import NeedScreen from './need';
 import EditNeedScreen from './need/edit';
 import TapToCountScreen from './tab_to_count';
-import EditEmotionScreen from './emotion/edit';
+import EditEmotionScreen from './emotion/Edit';
+import EmotionPickerScreen from './emotion/EmotionPicker';
 import ProfileBasicStack from './profile_basic';
 import ProfileAdvanceStack from './profile_advanced';
 import ProfileExpertStack from './profile_expert';
@@ -33,6 +34,7 @@ class ToolsTabStack extends React.Component {
         <Stack.Screen name="EditHabit" component={EditHabitScreen} />
         <Stack.Screen name="Emotions" component={EmotionScreen} />
         <Stack.Screen name="EditEmotion" component={EditEmotionScreen} />
+        <Stack.Screen name="EmotionPicker" component={EmotionPickerScreen} />
         <Stack.Screen name="Needs" component={NeedScreen} />
         <Stack.Screen name="EditNeed" component={EditNeedScreen} />
         <Stack.Screen name="TapToCounts" component={TapToCountScreen} />

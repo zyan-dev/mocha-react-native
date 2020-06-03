@@ -10,6 +10,7 @@ export const WelcomeOnboardImage3 = require('./images/common/welcome_onboard_3.j
 export const BookImgage = require('./images/common/book.jpg');
 
 // Add Reflection Icons
+export const EmotionPickerIcon = require('./images/add/emotion.png');
 export const AddEmotionIcon = require('./images/add/icon_emotion.png');
 export const AddFeedbackIcon = require('./images/add/icon_feedback.png');
 export const AddGoalIcon = require('./images/add/icon_goal.png');

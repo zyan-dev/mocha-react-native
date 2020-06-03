@@ -160,9 +160,11 @@ class TabView extends React.PureComponent {
               align="center"
               height={TabBarHeight}
               style={{flex: 1}}>
-              <CommentsLightSvg
-                theme={theme}
+              <MCIcon
                 size={TabIconSize}
+                type="FontAwesome5Pro"
+                name="users"
+                padding={1}
                 color={
                   mainTabIndex === 0 ? theme.colors.outline : theme.colors.text
                 }
