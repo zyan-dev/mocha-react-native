@@ -9,10 +9,9 @@ import {reflectionActions} from 'Redux/actions';
 import {EMOTIONS} from 'utils/constants';
 import {hslToRgb} from 'services/operators';
 import {MCButton} from 'components/styled/Button';
-import {H3} from 'components/styled/Text';
+import {H3, H4} from 'components/styled/Text';
 import {MCRootView, MCView} from 'components/styled/View';
 import {MCHeader, MCIcon} from 'components/common';
-import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 
 const PieChartWrapper = styled(Animated.View)`
@@ -33,7 +32,7 @@ class EmotionPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentAngle: new Animated.Value(),
+      currentAngle: new Animated.Value(0),
       scale: 1.5,
       selectedValue: '',
     };
@@ -44,6 +43,7 @@ class EmotionPicker extends Component {
   chartData = EMOTIONS.map((EMOTIONSET, index) => ({
     innerRadius: innerRadiuses[index],
     items: EMOTIONSET.map((EMOTION, emotionIndex) => ({
+      emotion: EMOTION,
       label: this.props.t(`mocha_emotion_${EMOTION}`),
       value: EMOTIONS[index + 1]
         ? EMOTIONS[index + 1].filter(item => item.startsWith(EMOTION)).length
@@ -60,7 +60,7 @@ class EmotionPicker extends Component {
   componentDidMount() {
     const {emotion} = this.props.route.params;
     const index = EMOTIONS[2].indexOf(emotion);
-    this.onAngleChange(-ANGLE_INTERVAL * (EMOTIONS[2].length + 1));
+    this.onAngleChange(-ANGLE_INTERVAL * (index + 1));
   }
 
   onAngleChange = offset => {
@@ -104,6 +104,22 @@ class EmotionPicker extends Component {
   onPressRight = () => {
     this.props.updateSelectedReflection({emotion: this.state.selectedValue});
     NavigationService.goBack();
+  };
+
+  onPressCategory = label => {
+    // const emotionCategories = EMOTIONS[0].map(i =>
+    //   this.props.t(`mocha_emotion_${i}`),
+    // );
+    const isCategory = EMOTIONS[0].indexOf(label) > -1;
+    if (!isCategory) return;
+    const count = EMOTIONS[2].filter(i => i.indexOf(`${label}_`) > -1).length;
+    const firstIndex = EMOTIONS[2].findIndex(i => i.indexOf(`${label}_`) > -1);
+    const focusIndex = firstIndex + Math.floor(count / 2);
+    const currentSelectedIndex = EMOTIONS[2].indexOf(this.state.selectedValue);
+    console.log({focusIndex});
+    this.onAngleChange(
+      -ANGLE_INTERVAL * (focusIndex - currentSelectedIndex + 1),
+    );
   };
 
   render() {
@@ -167,7 +183,7 @@ class EmotionPicker extends Component {
                 (
                   {
                     path,
-                    data: {stroke, fill, label},
+                    data: {stroke, fill, label, emotion},
                     startAngle,
                     endAngle,
                     innerRadius,
@@ -186,14 +202,16 @@ class EmotionPicker extends Component {
                       Angel: this.currentAngle % 360,
                     });
                   return (
-                    <Fragment key={index}>
+                    <Text
+                      key={index}
+                      onPress={() => this.onPressCategory(emotion)}>
                       <Path
                         d={path}
                         fill={fill}
                         stroke={stroke}
                         strokeWidth={0.5}
                       />
-                      <G rotation={rotation}>
+                      <G rotation={rotation} color="0xaarrggbb">
                         <Text
                           x={cx}
                           y={cy}
@@ -201,6 +219,7 @@ class EmotionPicker extends Component {
                           textAnchor="middle"
                           originX={cx}
                           originY={0}
+                          fill="black"
                           rotation={
                             Math.abs(angel + rotation + 90) % 360 < 180
                               ? 0
@@ -209,7 +228,7 @@ class EmotionPicker extends Component {
                           {label}
                         </Text>
                       </G>
-                    </Fragment>
+                    </Text>
                   );
                 },
               )}
