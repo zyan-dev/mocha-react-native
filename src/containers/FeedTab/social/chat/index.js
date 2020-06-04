@@ -118,7 +118,8 @@ class SocialChatScreen extends React.Component {
   };
 
   render() {
-    const {t, myRooms, loading} = this.props;
+    const {t, myRooms, loading, chatVisitStatus} = this.props;
+    console.log({chatVisitStatus});
     return (
       <MCRootView justify="flex-start" background="transparent">
         <FlatList

@@ -2,6 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  check,
+  request,
+  PERMISSIONS,
+  RESULTS,
+  checkNotifications,
+  requestNotifications,
+} from 'react-native-permissions';
 import FeedTabStack from '../FeedTab';
 import ToolsTabStack from '../ToolsTab';
 import ProfileTabStack from '../ProfileTab';
@@ -26,25 +34,23 @@ class MainHomeStack extends React.Component {
   }
 
   checkPermission = async () => {
-    const enabled = await messaging().hasPermission();
-    if (enabled) {
-      // We've the permission
-      this.savePushToken();
-      this.setUpNotificationListener();
-    } else {
-      // user doesn't have permission
-      try {
-        const enabled = await messaging().requestPermission();
-        if (enabled) {
-          this.savePushToken();
-          this.setUpNotificationListener();
-        }
-      } catch (error) {
-        showAlert(
-          'Unable to access the Notification permission. Please enable the Notification Permission from the settings',
+    checkNotifications().then(({status, settings}) => {
+      // …
+      if (status !== RESULTS.GRANTED) {
+        requestNotifications(['alert', 'badge', 'sound']).then(
+          ({status, settings}) => {
+            // …
+            if (status === RESULTS.GRANTED) {
+              this.savePushToken();
+              this.setUpNotificationListener();
+            }
+          },
         );
+      } else {
+        this.savePushToken();
+        this.setUpNotificationListener();
       }
-    }
+    });
   };
 
   savePushToken = async () => {

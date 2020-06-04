@@ -162,7 +162,7 @@ class TabView extends React.PureComponent {
               style={{flex: 1}}>
               <MCIcon
                 size={TabIconSize}
-                type="FontAwesome5Pro"
+                type="FontAwesome5Pro-Light"
                 name="users"
                 padding={1}
                 color={
@@ -209,7 +209,7 @@ class TabView extends React.PureComponent {
               height={TabBarHeight}>
               <MCIcon
                 size={TabIconSize}
-                type="FontAwesome5Pro"
+                type="FontAwesome5Pro-Light"
                 name="arrow-circle-up"
                 padding={1}
                 color={
