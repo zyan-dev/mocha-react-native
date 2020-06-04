@@ -102,7 +102,7 @@ export function* goToChatRoom(action) {
 export function* updateChatVisitStatus(action) {
   try {
     const {
-      chatReducer: {chatVisitStatus},
+      chatReducer: {chatVisitStatus, myRooms},
     } = yield select();
     const updatedChatVisitStatus = {
       ...chatVisitStatus,
@@ -112,12 +112,11 @@ export function* updateChatVisitStatus(action) {
     // get chatVisit param by converting json to array
     let lastVisits = [];
     Object.keys(updatedChatVisitStatus).map(roomId => {
-      lastVisits.push({roomId, last_visit: updatedChatVisitStatus[roomId]});
+      const find = myRooms.find(i => i._id === roomId);
+      if (find)
+        lastVisits.push({roomId, last_visit: updatedChatVisitStatus[roomId]});
     });
 
-    const {
-      chatReducer: {myRooms},
-    } = yield select();
     // get chat badge number
     const filtered = myRooms.filter(room => {
       return !compareTimeStampWithDate(
