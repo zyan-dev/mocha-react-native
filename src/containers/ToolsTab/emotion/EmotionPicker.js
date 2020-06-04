@@ -40,6 +40,7 @@ class EmotionPicker extends Component {
   }
 
   currentAngle = 0;
+  animating = false;
   chartData = EMOTIONS.map((EMOTIONSET, index) => ({
     innerRadius: innerRadiuses[index],
     items: EMOTIONSET.map((EMOTION, emotionIndex) => ({
@@ -59,11 +60,12 @@ class EmotionPicker extends Component {
   componentDidMount() {
     const {emotion} = this.props.route.params;
     const index = EMOTIONS[2].indexOf(emotion);
-    this.onAngleChange(ANGLE_INTERVAL * (EMOTIONS[2].length - index - 1));
+    this.onAngleChange(-ANGLE_INTERVAL * (EMOTIONS[2].length + 1));
   }
 
   onAngleChange = offset => {
-    if (!this.panel) return;
+    if (!this.panel || this.animating) return;
+    this.animating = true;
     Animated.timing(
       this.state.currentAngle, // The value to drive
       {
@@ -71,6 +73,7 @@ class EmotionPicker extends Component {
         tension: 150,
         friction: 5,
         useNativeDriver: true,
+        duration: 200,
       },
     ).start(() => {
       this.currentAngle += offset;
@@ -79,6 +82,8 @@ class EmotionPicker extends Component {
       const index = EMOTIONS[2].length - 1 - angle / ANGLE_INTERVAL;
       const selectedValue = EMOTIONS[2][Math.round(index)];
       this.setState({selectedValue});
+      this.animating = false;
+      this.forceUpdate();
     });
   };
 
@@ -174,6 +179,12 @@ class EmotionPicker extends Component {
                     ((startAngle + endAngle - Math.PI) * 90) / Math.PI;
                   const cx = (innerRadius + outerRadius) / 2;
                   const cy = 2;
+                  let angel = this.currentAngle % 360;
+                  if (angel < 0) angel += 360;
+                  if (label === 'Hateful')
+                    console.log({
+                      Angel: this.currentAngle % 360,
+                    });
                   return (
                     <Fragment key={index}>
                       <Path
@@ -191,7 +202,7 @@ class EmotionPicker extends Component {
                           originX={cx}
                           originY={0}
                           rotation={
-                            Math.abs(rotation + (this.currentAngle % 360)) < 90
+                            Math.abs(angel + rotation + 90) % 360 < 180
                               ? 0
                               : 180
                           }>

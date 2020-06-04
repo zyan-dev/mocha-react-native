@@ -157,18 +157,6 @@ class AddReflectionScreen extends React.Component {
       registerRequired: false,
     },
     {
-      key: 'value',
-      duration: '5',
-      title: i18next.t('tools_card_title_value', {
-        bold: i18next.t('outline_value'),
-      }),
-      boldWordKeys: ['value'],
-      iconType: 'Ionicon',
-      icon: 'ios-key',
-      navigateTo: 'Values',
-      registerRequired: false,
-    },
-    {
       key: 'feedback',
       duration: '2 min',
       title: i18next.t('tools_card_title_request_feedback', {

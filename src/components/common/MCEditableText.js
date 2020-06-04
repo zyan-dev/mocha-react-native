@@ -93,6 +93,7 @@ class MCEditableText extends React.Component {
           fontFamily: FontFamilies.regular,
           textAlign,
           ...style,
+          textAlignVertical: 'top',
         }}
       />
     );
