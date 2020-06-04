@@ -214,13 +214,19 @@ export function* createChatRoom(action) {
 
 export function* deleteChatRoom(action) {
   try {
+    const {
+      chatReducer: {chatVisitStatus},
+    } = yield select();
     yield put({type: types.API_CALLING});
     const response = yield call(API.deleteChatRoom, action.payload);
     if (response.data.status === 'success') {
-      // if success go to verify sms screen
+      delete chatVisitStatus[action.payload];
+      yield put({
+        type: types.UPDATE_CHAT_VISIT_STATUS,
+        payload: chatVisitStatus,
+      });
       yield put({type: types.GET_MY_CHAT_ROOMS});
 
-      // Add chat room to firebase
       const CTS = new Date().getTime();
       database()
         .ref(`/chatrooms/${action.payload}`)
