@@ -10,6 +10,10 @@ const INITIAL_STATE = {
     name: '',
     vulnerability: 1,
   },
+  pageSearching: false,
+  networkPageIndex: 1,
+  networksWithResourcePermission: [],
+  networksPageLimited: false,
 };
 
 const networkReducer = (state = INITIAL_STATE, action) => {
@@ -39,6 +43,33 @@ const networkReducer = (state = INITIAL_STATE, action) => {
           ...state.selectedNetwork,
           ...action.payload,
         },
+      };
+    case types.SET_SEARCHED_OWNERS_WITH_RESOURCE_PERMISSION:
+      return {
+        ...state,
+        networksWithResourcePermission: action.payload,
+      };
+    case types.ADD_OWNERS_WITH_RESOURCE_PERMISSION:
+      return {
+        ...state,
+        networksWithResourcePermission: state.networksWithResourcePermission.concat(
+          action.payload,
+        ),
+      };
+    case types.SET_OWNERS_WITH_RESOURCE_PERMISSION_PAGE_LIMITED:
+      return {
+        ...state,
+        networksPageLimited: action.payload,
+      };
+    case types.SET_OWNERS_WITH_RESOURCE_PERMISSION_STATE:
+      return {
+        ...state,
+        pageSearching: action.payload,
+      };
+    case types.SET_SEARCH_OWNERS_WITH_RESOURCE_PERMISSION_INDEX:
+      return {
+        ...state,
+        networkPageIndex: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

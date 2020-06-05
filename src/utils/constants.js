@@ -220,6 +220,8 @@ export const SampleFeedbackQuestions = [
   'mocha_feedback_best_self',
 ];
 
+export const SocialPermissions = ['resources', 'progress'];
+
 export const BasicPermissions = [
   'contact',
   'chronotype',

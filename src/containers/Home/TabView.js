@@ -24,6 +24,7 @@ import {
   routerActions,
   otherActions,
   resourceActions,
+  networkActions,
 } from 'Redux/actions';
 
 const TabBarHeight = isIphoneX() ? dySize(80) : dySize(100);
@@ -60,10 +61,8 @@ class TabView extends React.PureComponent {
       getMyFeedbacks,
       showSocialDrawer,
       getUserCommits,
-      getTrustMembers,
-      setSearchPageIndex,
-      showToolsDrawer,
-      showProfileDrawer,
+      getOwnersWithResourcePermission,
+      setSearchOwnersWithResourcePermissionIndex,
     } = this.props;
 
     const TabScreens = [
@@ -108,13 +107,8 @@ class TabView extends React.PureComponent {
         break;
       case 1:
         // user clicked Resource Tab
-        userToken.length > 0 && setSearchPageIndex(1);
-        userToken.length > 0 &&
-          getTrustMembers({
-            status: 1,
-            name: '',
-            page: 1,
-          });
+        userToken.length > 0 && setSearchOwnersWithResourcePermissionIndex(1);
+        userToken.length > 0 && getOwnersWithResourcePermission(1);
         break;
       case 2:
         // user clicked Progress Tab
@@ -286,10 +280,10 @@ const mapDispatchToProps = {
   changeToolsTab: otherActions.changeToolsTab,
   showSocialDrawer: routerActions.setSocialDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
-  getTrustMembers: userActions.getTrustMembers,
-  setSearchPageIndex: userActions.setSearchPageIndex,
-  showProfileDrawer: routerActions.setProfileDrawerOpened,
-  showToolsDrawer: routerActions.setToolsDrawerOpened,
+  getOwnersWithResourcePermission:
+    networkActions.getOwnersWithResourcePermission,
+  setSearchOwnersWithResourcePermissionIndex:
+    networkActions.setSearchOwnersWithResourcePermissionIndex,
 };
 
 export default withTranslation()(
