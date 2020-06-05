@@ -10,6 +10,7 @@ import resourceReducer from './resource';
 import otherReducer from './other';
 import chatReducer from './chat';
 import postReducer from './post';
+import challengeReducer from './challenge';
 
 export {
   routerReducer,
@@ -24,4 +25,5 @@ export {
   otherReducer,
   chatReducer,
   postReducer,
+  challengeReducer,
 };

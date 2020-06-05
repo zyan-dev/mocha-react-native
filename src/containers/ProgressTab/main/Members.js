@@ -11,6 +11,7 @@ import {MCContent} from 'components/styled/View';
 import PostItem from './components/PostItem';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
+import MyPosts from './components/MyPosts';
 
 class ProgressMembersTab extends React.Component {
   constructor(props) {
@@ -68,7 +69,7 @@ class ProgressMembersTab extends React.Component {
     if (!selectedUser) return null;
     const selected = selectedUser._id === user._id;
     return (
-      <MCButton mr={10} onPress={() => this.onPressUser(user)} br={20}>
+      <MCButton onPress={() => this.onPressUser(user)} br={20}>
         <MCImage
           image={{uri: user.avatar}}
           type="avatar"
@@ -96,7 +97,14 @@ class ProgressMembersTab extends React.Component {
   };
 
   render() {
-    const {t, trustMembers, selectedUser, userPosts, pageLimited} = this.props;
+    const {
+      t,
+      profile,
+      trustMembers,
+      selectedUser,
+      userPosts,
+      pageLimited,
+    } = this.props;
     const {searchName} = this.state;
     return (
       <MCRootView justify="flex-start">
@@ -106,7 +114,9 @@ class ProgressMembersTab extends React.Component {
           onChange={text => this.onChangeSearchName(text)}
           placeholder={t('placeholder_search_by_name')}
         />
-        <MCView width={350} height={60} justify="center">
+        <MCView width={350} height={60} justify="center" row>
+          {this._renderAvatar({item: profile})}
+          <MCView width={40} />
           <FlatList
             data={trustMembers}
             horizontal
@@ -116,7 +126,7 @@ class ProgressMembersTab extends React.Component {
             onEndReachedThreshold={0.5}
           />
         </MCView>
-        {selectedUser && (
+        {selectedUser._id !== profile._id ? (
           <FlatList
             contentContainerStyle={{
               width: dySize(375),
@@ -144,6 +154,8 @@ class ProgressMembersTab extends React.Component {
               </H3>
             }
           />
+        ) : (
+          <MyPosts />
         )}
       </MCRootView>
     );
@@ -161,6 +173,7 @@ const mapStateToProps = state => ({
   pageIndex: state.postReducer.pageIndex,
   pageLimited: state.postReducer.pageLimited,
   pageSearching: state.postReducer.pageSearching,
+  profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {

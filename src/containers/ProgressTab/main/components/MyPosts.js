@@ -5,11 +5,11 @@ import {FlatList} from 'react-native-gesture-handler';
 import {withTranslation} from 'react-i18next';
 import {postActions} from 'Redux/actions';
 import {MCRootView} from 'components/styled/View';
-import PostItem from './components/PostItem';
+import PostItem from './PostItem';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 
-class ProgressOwnTab extends React.Component {
+class MyPosts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -85,5 +85,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(ProgressOwnTab),
+  )(MyPosts),
 );

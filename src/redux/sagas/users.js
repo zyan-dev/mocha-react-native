@@ -41,25 +41,10 @@ export function* getTrustMembers(action) {
         contacts.length > 0
       ) {
         // select default user if selected user is invalid
-        if (!selectedUser || !contacts.find(i => i._id === selectedUser._id)) {
-          yield put({
-            type: types.SET_SELECTED_POST_USER,
-            payload: contacts[0],
-          });
-          yield put({
-            type: types.GET_POSTS_BY_ID,
-            payload: {id: contacts[0]._id, page: 1},
-          });
-          yield put({
-            type: types.SET_USER_POSTS,
-            payload: [],
-          });
-        } else {
-          yield put({
-            type: types.GET_POSTS_BY_ID,
-            payload: {id: selectedUser._id, page: 1},
-          });
-        }
+        yield put({
+          type: types.GET_POSTS_BY_ID,
+          payload: {id: selectedUser._id, page: 1},
+        });
       }
     } else {
       yield put({

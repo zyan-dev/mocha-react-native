@@ -2,9 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import ProgressScreen from './Home';
+import ProgressScreen from './main';
 import AddPostScreen from './AddPost';
 import PostDetailScreen from './PostDetail';
+import SelectTeammatesScreen from './main/add_challenge/SelectTeammates';
+import SelectSkillsScreen from './main/add_challenge/SelectSkills';
+import CompleteChallengeScreen from './main/add_challenge/CompleteChallenge';
+import SelectChallengesScreen from './main/add_challenge/SelectChallenges';
+import SelectDurationScreen from './main/add_challenge/SelectDuration';
 import {routerActions} from 'Redux/actions';
 
 const Stack = createStackNavigator();
@@ -16,6 +21,20 @@ class ProgressTabStack extends React.Component {
         <Stack.Screen name="Progress" component={ProgressScreen} />
         <Stack.Screen name="AddPost" component={AddPostScreen} />
         <Stack.Screen name="PostDetail" component={PostDetailScreen} />
+        <Stack.Screen
+          name="SelectTeammates"
+          component={SelectTeammatesScreen}
+        />
+        <Stack.Screen name="SelectSkills" component={SelectSkillsScreen} />
+        <Stack.Screen
+          name="CompleteChallenge"
+          component={CompleteChallengeScreen}
+        />
+        <Stack.Screen
+          name="SelectChallenges"
+          component={SelectChallengesScreen}
+        />
+        <Stack.Screen name="SelectDuration" component={SelectDurationScreen} />
       </Stack.Navigator>
     );
   }
