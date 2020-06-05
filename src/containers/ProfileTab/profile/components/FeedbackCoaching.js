@@ -53,7 +53,7 @@ class CoachingFeedbackCard extends React.Component {
               const find = CoachingFeedbackOptions.find(i => i.key === option);
               if (!find) return null;
               return (
-                <MCCard align="center" width={140} height={150} mt={15}>
+                <MCCard align="center" width={140} height={180} mt={15}>
                   {find.key === 'accountability' ? (
                     <PeopleArrowSvg size={25} color={theme.colors.text} />
                   ) : (

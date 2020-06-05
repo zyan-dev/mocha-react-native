@@ -182,7 +182,6 @@ class ProfileScreen extends React.Component {
       stressRecovery,
       strength,
       coreValues,
-      valueStory,
       dream,
       dailyHabits,
       weeklyHabits,
@@ -205,6 +204,7 @@ class ProfileScreen extends React.Component {
     } = this.props;
     const key = item.key;
     if (item.disabled) return null;
+    if (item.signinRequired && !profile.userToken.length) return null;
     if (key === 'overview') return <OverviewCard profile={profile} />;
     if (key === 'contact') return <ContactCard profile={profile} />;
     if (key === 'chronotype')
@@ -254,7 +254,6 @@ class ProfileScreen extends React.Component {
         <CoreValuesCard
           theme={theme}
           coreValues={coreValues}
-          valueStory={valueStory}
           onPressEdit={() => NavigationService.navigate('EditCoreValues')}
           onPressEditValueStory={value =>
             NavigationService.navigate('EditValueStory', {value})
@@ -406,12 +405,12 @@ class ProfileScreen extends React.Component {
     if (layout.disabled) return null;
     const selected =
       viewableItems.length && viewableItems[0].key === layout.key;
-    const size = selected ? 30 : 20;
+    const size = selected ? 25 : 20;
     const color = selected ? theme.colors.outline : theme.colors.text;
     return (
       <MCButton
         key={layout.key}
-        width={45}
+        width={50}
         height={50}
         align="center"
         justify="center"
@@ -423,6 +422,13 @@ class ProfileScreen extends React.Component {
           <FutureSvg size={size} color={color} />
         ) : layout.key === 'meaning_life' ? (
           <SkullCowSvg size={size} color={color} />
+        ) : layout.key === 'chronotype' ? (
+          <MCIcon
+            type={layout.iconType}
+            name={layout.icon}
+            size={size * 0.8}
+            color={color}
+          />
         ) : (
           <MCIcon
             type={layout.iconType}
@@ -549,10 +555,6 @@ const mapStateToProps = state => ({
   coreValues: selector.reflections.findMySpecialReflections(
     state,
     'CoreValues',
-  ),
-  valueStory: selector.reflections.findMySpecialReflections(
-    state,
-    'ValueStory',
   ),
   dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
   dailyHabits: selector.reflections

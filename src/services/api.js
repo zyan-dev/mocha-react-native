@@ -31,6 +31,7 @@ const URL_CONTACT_US = '/contact-us';
 const URL_SEARCH_RESOURCE = '/resource/books';
 const URL_CHAT = '/chat';
 const URL_POST = '/posts';
+const URL_CHAT_VISIT = '/chat-visit';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -199,6 +200,9 @@ const getPostsById = (id, page) =>
 const getPosts = (title, page) =>
   apiCall('get', `${URL_POST}/all?title=${title}&page=${page}`, {}, true);
 const removePosts = param => apiCall('post', `${URL_POST}/remove`, param, true);
+const getChatVisitStatus = () => apiCall('get', `${URL_CHAT_VISIT}`, {}, true);
+const updateChatVisitStatus = param =>
+  apiCall('patch', `${URL_CHAT_VISIT}`, param, true);
 
 export default {
   sendSMS,
@@ -258,4 +262,6 @@ export default {
   updatePosts,
   getPosts,
   removePosts,
+  getChatVisitStatus,
+  updateChatVisitStatus,
 };

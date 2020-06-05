@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import i18next from 'i18next';
 import {selector} from 'Redux/selectors';
 import {otherActions} from 'Redux/actions';
 import {MCView, MCRootView, MCContent} from 'components/styled/View';
@@ -10,9 +9,7 @@ import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
 import ProfileBasicCard from '../profile_basic/components/ProfileBasicCard';
 import {IceCreamSvg, UserCrownSvg, CrownSvg} from 'assets/svgs';
-import {getStringWithOutline} from 'services/operators';
 import {ProfileExpertCards} from 'utils/constants';
-import {dySize} from 'utils/responsive';
 
 class ProfileExpertScreen extends React.Component {
   checkCompletedBestSelf = () => {
@@ -29,7 +26,7 @@ class ProfileExpertScreen extends React.Component {
       t,
       theme,
       meaning,
-      valueStory,
+      coreValues,
       completedExpertProfile,
       checkCompletedExpertProfile,
     } = this.props;
@@ -60,7 +57,7 @@ class ProfileExpertScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileExpertCards.core_values}
-            completed={valueStory}
+            completed={coreValues}
             theme={theme}
           />
 
@@ -73,7 +70,7 @@ class ProfileExpertScreen extends React.Component {
           </MCView>
           <ProfileBasicCard
             data={ProfileExpertCards.strength}
-            locked={!valueStory}
+            locked={!coreValues}
             completed={this.checkCompletedBestSelf()}
           />
 
@@ -95,7 +92,7 @@ class ProfileExpertScreen extends React.Component {
           hasCloseButton={false}
           isVisible={
             !completedExpertProfile &&
-            valueStory &&
+            coreValues &&
             meaning &&
             this.checkCompletedBestSelf()
           }>
@@ -151,10 +148,6 @@ const mapStateToProps = state => ({
   coreValues: selector.reflections.findMySpecialReflections(
     state,
     'CoreValues',
-  ),
-  valueStory: selector.reflections.findMySpecialReflections(
-    state,
-    'ValueStory',
   ),
   strength: selector.reflections.findMySpecialReflections(state, 'Strengths'),
   meaning: selector.reflections.findMySpecialReflections(state, 'MeaningLife'),

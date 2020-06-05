@@ -20,6 +20,7 @@ import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {getStringWithOutline} from 'services/operators';
 import {OvalYellow, OvalGreen} from 'assets/images';
+import {EmotionWheelSvg} from '../../assets/svgs';
 
 export const OvalGreenImage = styled(Image)`
   position: absolute;
@@ -74,6 +75,7 @@ class AddReflectionScreen extends React.Component {
   ToolsMindCards = [
     {
       key: 'profile_basic',
+      title: i18next.t('outline_profile_basic'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-pawn-alt',
@@ -81,6 +83,7 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'profile_advanced',
+      title: i18next.t('outline_profile_advanced'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-knight-alt',
@@ -88,17 +91,24 @@ class AddReflectionScreen extends React.Component {
     },
     {
       key: 'profile_expert',
+      title: i18next.t('outline_profile_expert'),
       duration: '15 - 30',
       iconType: 'FontAwesome5Pro-Light',
       icon: 'chess-queen-alt',
       navigateTo: 'ProfileExpert',
     },
     {
-      key: 'personality',
-      duration: '15 - 30',
-      iconType: 'FontAwesome5Pro-Light',
-      icon: 'fingerprint',
-      navigateTo: 'EditPersonality',
+      key: 'mood_and_emotion',
+      duration: '1',
+      title: i18next.t('tools_card_title_mood_and_emotion', {
+        bold1: i18next.t('outline_mood'),
+        bold2: i18next.t('outline_emotions'),
+      }),
+      boldWordKeys: ['mood', 'emotions'],
+      iconType: 'FontAwesome5',
+      icon: 'tire',
+      navigateTo: 'Emotions',
+      registerRequired: false,
     },
   ];
 
@@ -147,18 +157,6 @@ class AddReflectionScreen extends React.Component {
       registerRequired: false,
     },
     {
-      key: 'value',
-      duration: '5',
-      title: i18next.t('tools_card_title_value', {
-        bold: i18next.t('outline_value'),
-      }),
-      boldWordKeys: ['value'],
-      iconType: 'Ionicon',
-      icon: 'ios-key',
-      navigateTo: 'Values',
-      registerRequired: false,
-    },
-    {
       key: 'feedback',
       duration: '2 min',
       title: i18next.t('tools_card_title_request_feedback', {
@@ -182,18 +180,15 @@ class AddReflectionScreen extends React.Component {
       navigateTo: 'Habits',
       registerRequired: true,
     },
+
     {
-      key: 'mood_and_emotion',
-      duration: '2 - 4',
-      title: i18next.t('tools_card_title_mood_and_emotion', {
-        bold1: i18next.t('outline_mood'),
-        bold2: i18next.t('outline_emotions'),
-      }),
-      boldWordKeys: ['mood', 'emotions'],
-      iconType: 'FontAwesome5',
-      icon: 'comment',
-      navigateTo: 'Emotions',
-      registerRequired: false,
+      key: 'personality',
+      title: i18next.t('outline_personality'),
+      boldWordKeys: ['personality'],
+      duration: '15 - 30',
+      iconType: 'FontAwesome5Pro-Light',
+      icon: 'fingerprint',
+      navigateTo: 'EditPersonality',
     },
     {
       key: 'need',
@@ -258,6 +253,7 @@ class AddReflectionScreen extends React.Component {
           this.ToolsMindCards.concat(this.ToolsSocialCards),
         ).filter(
           card =>
+            card.title &&
             card.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1,
         );
         break;
@@ -339,21 +335,27 @@ class AddReflectionScreen extends React.Component {
                 <H4>{t('tools_tab_know_yourself')}</H4>
               </>
             )}
-            {card.key === 'personality' && (
+            {card.key === 'mood_and_emotion' && (
               <>
-                <H4 weight="bold">{t('outline_personality')}</H4>
+                <H4 weight="bold">{t('outline_emotions')}</H4>
                 <H4>{t('tools_tab_know_yourself')}</H4>
               </>
             )}
             {!this.ToolsMindCards.find(i => i.key === card.key) &&
               getStringWithOutline(card)}
           </MCView>
-          <MCIcon
-            type={card.iconType}
-            name={card.icon}
-            size={60}
-            color={theme.colors.outline}
-          />
+          <MCView height={80} justify="center" align="center">
+            {card.key === 'mood_and_emotion' ? (
+              <EmotionWheelSvg size={60} color={theme.colors.outline} />
+            ) : (
+              <MCIcon
+                type={card.iconType}
+                name={card.icon}
+                size={60}
+                color={theme.colors.outline}
+              />
+            )}
+          </MCView>
           <MCView row align="center" mt={20}>
             <MCIcon type="FontAwesome" name="clock-o" />
             <H4>{`${card.duration} ${t('unit_min')}`}</H4>

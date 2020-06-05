@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {chatActions} from 'Redux/actions';
 import {withTranslation} from 'react-i18next';
 import moment from 'moment';
+import {SkypeIndicator} from 'react-native-indicators';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {MCView, DividerLine} from 'components/styled/View';
@@ -41,7 +42,7 @@ class ChatBubbleItem extends React.Component {
     if (bubble.text === 'who_chat_message_created_room') return;
     if (bubble.text.indexOf('chat_message_who_added_whom') > -1) return;
     if (mine) {
-      this.setState({selectedBubble: bubble});
+      this.setState({selectedBubble: bubble, editing: false});
       this.RBSheet && this.RBSheet.open();
     } else {
       //  go to preview screen directly
@@ -333,6 +334,9 @@ class ChatBubbleItem extends React.Component {
               <ImageViewer
                 imageUrls={[{url: selectedBubble.image}]}
                 renderHeader={() => null}
+                loadingRender={() => (
+                  <SkypeIndicator color={theme.colors.text} />
+                )}
               />
               <MCButton
                 style={{

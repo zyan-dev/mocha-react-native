@@ -3,6 +3,7 @@ import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {Footer} from 'native-base';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import {MCView, NativeCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {MCIcon} from 'components/common';
@@ -26,12 +27,13 @@ import {
   networkActions,
 } from 'Redux/actions';
 
-const TabBarHeight = 80;
+const TabBarHeight = isIphoneX() ? dySize(80) : dySize(100);
 const TabIconSize = 30;
 const TabWrapper = styled(Footer)`
-  height: ${TabBarHeight};
+  height: ${dySize(TabBarHeight)}px;
   background-color: ${props => props.theme.colors.background};
   border-top-width: 0px;
+  margin-bottom: ${dySize(-30)}px;
 `;
 
 class TabView extends React.PureComponent {
@@ -149,18 +151,20 @@ class TabView extends React.PureComponent {
               elevation: 11,
               shadowOffset: {width: 0, height: -10},
               backgroundColor: theme.colors.background,
+              paddingTop: 5,
             }}>
             <MCButton
               rippleCentered
               rippleSize={dySize(100)}
               onPress={() => this.onClickTab(0)}
-              justify="center"
               align="center"
               height={TabBarHeight}
               style={{flex: 1}}>
-              <CommentsLightSvg
-                theme={theme}
+              <MCIcon
                 size={TabIconSize}
+                type="FontAwesome5Pro-Light"
+                name="users"
+                padding={1}
                 color={
                   mainTabIndex === 0 ? theme.colors.outline : theme.colors.text
                 }
@@ -170,7 +174,7 @@ class TabView extends React.PureComponent {
                 <MCView
                   style={{
                     position: 'absolute',
-                    top: dySize(25),
+                    top: dySize(0),
                     right: dySize(20),
                   }}
                   width={12}
@@ -185,9 +189,8 @@ class TabView extends React.PureComponent {
               rippleCentered
               rippleSize={dySize(100)}
               align="center"
-              justify="center"
               onPress={() => this.onClickTab(1)}
-              style={{flex: 1}}
+              style={{flex: 1, paddingTop: 10}}
               height={TabBarHeight}>
               <BookLightSvg
                 size={TabIconSize}
@@ -201,14 +204,14 @@ class TabView extends React.PureComponent {
               rippleCentered
               rippleSize={dySize(100)}
               align="center"
-              justify="center"
               onPress={() => this.onClickTab(2)}
               style={{flex: 1}}
               height={TabBarHeight}>
               <MCIcon
                 size={TabIconSize}
-                type="FontAwesome5Pro"
+                type="FontAwesome5Pro-Light"
                 name="arrow-circle-up"
+                padding={1}
                 color={
                   mainTabIndex === 2 ? theme.colors.outline : theme.colors.text
                 }
@@ -218,9 +221,8 @@ class TabView extends React.PureComponent {
               rippleCentered
               rippleSize={dySize(100)}
               align="center"
-              justify="center"
               onPress={() => this.onClickTab(3)}
-              style={{flex: 1}}
+              style={{flex: 1, paddingTop: 10}}
               height={TabBarHeight}>
               <RulerLightSvg
                 size={TabIconSize}
@@ -233,9 +235,8 @@ class TabView extends React.PureComponent {
               rippleCentered
               rippleSize={dySize(100)}
               align="center"
-              justify="center"
               onPress={() => this.onClickTab(4)}
-              style={{flex: 1}}
+              style={{flex: 1, paddingTop: 10}}
               height={TabBarHeight}>
               {setCrown ? (
                 <UserCrownSvg

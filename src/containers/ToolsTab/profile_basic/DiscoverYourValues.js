@@ -4,10 +4,11 @@ import {withTranslation} from 'react-i18next';
 import CardStack, {Card} from 'react-native-card-stack-swiper';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import i18next from 'i18next';
+import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H3, H4, H5, ErrorText, MCEmptyText} from 'components/styled/Text';
+import {H3, H4, H5, H6, ErrorText, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCImage, MCModal, MCIcon} from 'components/common';
 import {dySize, CURRENT_HEIGHT} from 'utils/responsive';
@@ -17,11 +18,11 @@ import {
   ValueCardBackgrounds,
   ValueCardTextColor,
 } from 'utils/constants';
-import {KeySvg} from 'assets/svgs';
+import {KeySvg, SwipeSvg} from 'assets/svgs';
 import {showAlert, getStringWithOutline} from 'services/operators';
 
 const cardViewHeight =
-  CURRENT_HEIGHT - dySize(180) - 120 - (isIphoneX() ? 60 : 0);
+  CURRENT_HEIGHT - dySize(180) - 140 - (isIphoneX() ? 60 : 0);
 
 class DiscoverValueScreen extends React.Component {
   constructor(props) {
@@ -87,8 +88,7 @@ class DiscoverValueScreen extends React.Component {
   };
 
   _onSwiped = index => {
-    const {swipeXOffset} = this.state;
-    // this.setState({swipeXOffset: 0});
+    this.setState({swipeXOffset: 0});
   };
 
   _onSwipedTop = index => {
@@ -155,46 +155,51 @@ class DiscoverValueScreen extends React.Component {
   };
 
   onPressNext = () => {
-    this.setState({step: 1});
     const {swiped} = this.state;
     const selectedValues = swiped.filter(value => value.how > 0);
     const coreValues = swiped.filter(value => value.how > 1);
-    this.setState({selectedValues: selectedValues.map(value => value.value)});
-    this.setState({coreValues: coreValues.map(value => value.value)});
+    this.props.updateSelectedReflection({
+      selected: selectedValues.map(value => value.value),
+      core: coreValues.map(value => value.value),
+    });
+    setTimeout(() => {
+      this.setState({step: 1});
+    }, 1000);
   };
 
   onPressCoreItem = value => {
-    const {t} = this.props;
-    const {coreValues} = this.state;
-    const index = coreValues.indexOf(value);
-    if (index < 0 && coreValues.length < 6) coreValues.push(value);
-    else if (index > -1) coreValues.splice(index, 1);
+    const {t, selectedReflection, updateSelectedReflection} = this.props;
+    const core = _.get(selectedReflection, ['data', 'core'], []);
+    const index = core.indexOf(value);
+    if (value.category === 'add_custom') {
+      NavigationService.navigate('AddValue');
+    } else if (index < 0 && core.length < 6) core.push(value);
+    else if (index > -1) core.splice(index, 1);
     else {
       showAlert(t('error_selected_max_core_values'));
     }
-    this.setState({coreValues});
+    updateSelectedReflection({core});
   };
 
   onPressRight = () => {
     const {step} = this.state;
     if (!step) {
       // pressed View All
-      this.setState({selectedValues: DiscoverValues, coreValues: [], step: 1});
+      this.props.updateSelectedReflection({
+        selected: DiscoverValues,
+        core: [],
+      });
+      this.setState({step: 1});
     } else {
       this.setState({submitted: true});
       if (!this.validateOptions()) return;
-      this.props.updateSelectedReflection({
-        selected: this.state.selectedValues,
-        core: this.state.coreValues,
-      });
-      setTimeout(() => {
-        this.props.addOrUpdateReflection();
-      });
+      this.props.addOrUpdateReflection();
     }
   };
 
   validateOptions = () => {
-    return this.state.coreValues.length > 0;
+    const core = _.get(this.props.selectedReflection, ['data', 'core'], []);
+    return core.length > 0;
   };
 
   renderValueCard = (value, index) => {
@@ -253,9 +258,11 @@ class DiscoverValueScreen extends React.Component {
   };
 
   renderSelectedValueCard = (value, index) => {
-    const {coreValues} = this.state;
-    const {t, theme} = this.props;
-    const selected = coreValues.indexOf(value) > -1;
+    const {t, theme, selectedReflection} = this.props;
+    const core = _.get(selectedReflection, ['data', 'core'], []);
+    const selected = core.indexOf(value) > -1;
+    const isCustomCard = value.category === 'add_custom';
+    const custom = value.category === 'custom';
     return (
       <MCButton
         key={value.value + theme.colors.theme_name}
@@ -266,18 +273,31 @@ class DiscoverValueScreen extends React.Component {
           height: dySize(220),
           alignItems: 'center',
           justifyContent: 'center',
-          borderWidth: 1,
-          borderColor: selected ? theme.colors.outline : 'white',
-          backgroundColor: ValueCardBackgrounds[index % 3],
+          borderColor: selected ? theme.colors.outline : theme.colors.card,
+          backgroundColor: isCustomCard
+            ? '#FFDDBB'
+            : ValueCardBackgrounds[index % 3],
           borderRadius: 10,
           borderWidth: dySize(6),
           padding: dySize(5),
         }}>
         <H4 weight="bold" align="center" color={ValueCardTextColor}>
-          {t(`tools_tab_value_${value.value}`)}
+          {isCustomCard
+            ? t('value_custom_title')
+            : custom
+            ? value.value.replace(/_/g, ' ')
+            : t(`tools_tab_value_${value.value}`)}
         </H4>
         <MCView style={{flex: 1}} align="center" justify="center">
-          {value.image && (
+          {isCustomCard && (
+            <MCIcon
+              type="FontAwesome5"
+              name="plus"
+              size={50}
+              color={ValueCardTextColor}
+            />
+          )}
+          {value.image && !isCustomCard && !custom && (
             <MCImage
               image={value.image}
               width={dySize(125)}
@@ -285,7 +305,16 @@ class DiscoverValueScreen extends React.Component {
               resizeMode="contain"
             />
           )}
-          {value.icon && (
+          {value.image && !isCustomCard && custom && (
+            <MCImage
+              image={{uri: value.image}}
+              width={dySize(100)}
+              height={dySize(100)}
+              br={10}
+              resizeMode="contain"
+            />
+          )}
+          {value.icon && !isCustomCard && (
             <MCIcon
               type="FontAwesome5"
               name={value.icon}
@@ -294,26 +323,26 @@ class DiscoverValueScreen extends React.Component {
             />
           )}
         </MCView>
-        <H5
-          align="center"
-          style={{letterSpacing: 5}}
-          color={ValueCardTextColor}>
-          {t(`value_name_${value.name}`).toUpperCase()}
-        </H5>
+        {!custom && (
+          <H6
+            align="center"
+            style={{letterSpacing: 5}}
+            color={ValueCardTextColor}>
+            {isCustomCard
+              ? t('value_custom_name')
+              : t(`value_name_${value.name}`).toUpperCase()}
+          </H6>
+        )}
       </MCButton>
     );
   };
 
   render() {
-    const {
-      swiped,
-      step,
-      coreValues,
-      submitted,
-      showHowModal,
-      selectedValues,
-    } = this.state;
-    const {t, theme} = this.props;
+    const {swiped, step, submitted, showHowModal} = this.state;
+    const {t, theme, selectedReflection} = this.props;
+    const selected = _.get(selectedReflection, ['data', 'selected'], []);
+    console.log({selectedReflection});
+    const custom = _.get(selectedReflection, ['data', 'custom'], []);
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -329,9 +358,6 @@ class DiscoverValueScreen extends React.Component {
           <>
             <MCView row align="center">
               <H4>{t('tools_tab_discover_your_values_question')}</H4>
-              <MCButton align="center" onPress={() => this._onPressHow()}>
-                <MCIcon type="FontAwesome5" name="question-circle" />
-              </MCButton>
             </MCView>
             <MCView align="center">
               <CardStack
@@ -363,8 +389,8 @@ class DiscoverValueScreen extends React.Component {
                 })}
               </CardStack>
             </MCView>
-            <MCView row align="center" width={375} height={100}>
-              <MCView style={{flex: 1}} align="center">
+            <MCView row align="center" justify="center" width={375} height={70}>
+              {/* <MCView style={{flex: 1}} align="center">
                 <MCView
                   align="center"
                   justify="center"
@@ -382,7 +408,7 @@ class DiscoverValueScreen extends React.Component {
                     color={theme.colors.danger}
                   />
                 </MCView>
-              </MCView>
+              </MCView> */}
               <MCButton
                 row
                 align="center"
@@ -394,7 +420,10 @@ class DiscoverValueScreen extends React.Component {
                 onPress={() => this._onPressBack()}>
                 <MCIcon type="FontAwesome5" name="undo" />
               </MCButton>
-              <MCView style={{flex: 1}} align="center">
+              <MCView ml={40}>
+                <SwipeSvg color={theme.colors.text} size={50} />
+              </MCView>
+              {/* <MCView style={{flex: 1}} align="center">
                 <MCView
                   align="center"
                   justify="center"
@@ -412,24 +441,28 @@ class DiscoverValueScreen extends React.Component {
                     color={theme.colors.outline}
                   />
                 </MCView>
-              </MCView>
+              </MCView> */}
+            </MCView>
+            <MCView row align="center">
+              <H4>{t('tools_tab_discover_your_values_help')}</H4>
+              <MCButton align="center" onPress={() => this._onPressHow()}>
+                <MCIcon type="FontAwesome5" name="question-circle" />
+              </MCButton>
             </MCView>
           </>
         ) : (
           <MCContent contentContainerStyle={{padding: dySize(20)}}>
             <H4>{t('tools_tab_core_values_explain')}</H4>
-            {selectedValues.length === 0 && (
-              <MCEmptyText mt={200}>
-                {t('error_no_value_card_selected')}
-              </MCEmptyText>
-            )}
             {!this.validateOptions() && submitted && (
               <ErrorText>{t('error_input_select_empty')}</ErrorText>
             )}
             <MCView row wrap justify="space-between" mt={20}>
-              {selectedValues.map((item, index) => {
-                return this.renderSelectedValueCard(item, index);
-              })}
+              {[{category: 'add_custom'}]
+                .concat(custom)
+                .concat(selected)
+                .map((item, index) => {
+                  return this.renderSelectedValueCard(item, index);
+                })}
             </MCView>
           </MCContent>
         )}
@@ -466,7 +499,7 @@ class DiscoverValueScreen extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  selectedReflection: state.reflectionReducer.selectedReflection,
+  selectedReflection: selector.reflections.getSelectedReflection(state),
   coreValues: selector.reflections.findMySpecialReflections(
     state,
     'CoreValues',
