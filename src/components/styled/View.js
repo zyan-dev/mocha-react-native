@@ -66,9 +66,8 @@ export const ABSView = styled.View`
 `;
 
 export const NativeCard = styled(Card)`
-  background-color: ${props =>
-    props.background || props.theme.colors.background};
-  shadow-color: black;
+  background-color: ${props => props.background || props.theme.colors.card};
+  shadow-color: #353535;
   shadow-opacity: 0.2;
   shadow-offset: 2px -2px;
   shadow-radius: 5;
