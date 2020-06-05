@@ -15,6 +15,13 @@ class SelectTeammatesScreen extends React.Component {
     const {t} = this.props;
     return (
       <MCRootView justify="flex-start">
+        <MCHeader
+          title={t('title_progress_tab_select_teammates')}
+          hasRight
+          rightIcon="arrow-right"
+          rightText={t('button_next')}
+          onPressRight={() => {}}
+        />
         <H3>Select Teammates</H3>
       </MCRootView>
     );

@@ -4,18 +4,22 @@ import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
 import {FlatList} from 'react-native-gesture-handler';
 import {challengeActions} from 'Redux/actions';
-import {MCRootView, MCView} from 'components/styled/View';
 import {MCTagsView, MCIcon} from 'components/common';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {NativeCard, DividerLine} from 'components/styled/View';
+import {dySize} from 'utils/responsive';
+import NavigationService from 'navigation/NavigationService';
+import {
+  MCRootView,
+  MCView,
+  NativeCard,
+  DividerLine,
+} from 'components/styled/View';
 import {
   TemplateChallenges,
   ChallengeIconData,
   EmptyChallenge,
 } from 'utils/constants';
-import {dySize} from 'utils/responsive';
-import NavigationService from 'navigation/NavigationService';
 
 class SelectTemplateScreen extends React.Component {
   constructor(props) {
@@ -54,7 +58,7 @@ class SelectTemplateScreen extends React.Component {
           <MCButton
             align="center"
             width={160}
-            height={160}
+            height={200}
             justify="center"
             onPress={() => this.onPressCustom()}>
             <MCIcon type="FontAwesome5Pro-Light" name="plus" size={50} />
@@ -75,7 +79,9 @@ class SelectTemplateScreen extends React.Component {
           <MCButton
             align="center"
             width={160}
-            height={160}
+            height={200}
+            pt={20}
+            pb={20}
             onPress={() => this.onSelectTemplate(item)}>
             <H3 weight="bold">{item.title}</H3>
             <H3 weight="bold">{item.duration} Days</H3>

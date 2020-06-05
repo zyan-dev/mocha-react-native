@@ -15,6 +15,13 @@ class SelectDurationScreen extends React.Component {
     const {t} = this.props;
     return (
       <MCRootView justify="flex-start">
+        <MCHeader
+          title={t('title_progress_tab_select_duration')}
+          hasRight
+          rightIcon="arrow-right"
+          rightText={t('button_next')}
+          onPressRight={() => {}}
+        />
         <H3>Select Duration</H3>
       </MCRootView>
     );
