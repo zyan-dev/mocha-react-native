@@ -162,12 +162,7 @@ export function* getTrustMemberResources(action) {
     });
 
     const response = yield call(API.getTrustMemberResources, action.payload);
-    console.log(
-      123123,
-      response.data.data.resources,
-      response.data.status,
-      action.payload,
-    );
+
     if (response.data.status === 'success') {
       if (action.payload.pageIndex === 1) {
         yield put({

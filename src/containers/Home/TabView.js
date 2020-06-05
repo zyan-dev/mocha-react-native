@@ -24,6 +24,7 @@ import {
   routerActions,
   otherActions,
   resourceActions,
+  networkActions,
 } from 'Redux/actions';
 
 const TabBarHeight = isIphoneX() ? dySize(80) : dySize(100);
@@ -275,9 +276,6 @@ const mapDispatchToProps = {
   changeToolsTab: otherActions.changeToolsTab,
   showSocialDrawer: routerActions.setSocialDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
-  getTrustMemberResources: resourceActions.getTrustMemberResources,
-  setTrustMemberResourcePageIndex:
-    resourceActions.setTrustMemberResourcePageIndex,
   getOwnersWithResourcePermission:
     networkActions.getOwnersWithResourcePermission,
   setSearchOwnersWithResourcePermissionIndex:
