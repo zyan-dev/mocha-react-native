@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {dySize} from 'utils/responsive';
 import {MCTextInput, H4, H5} from '../styled/Text';
 import {MCView} from '../styled/View';
 
