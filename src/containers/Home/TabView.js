@@ -60,6 +60,8 @@ class TabView extends React.PureComponent {
       getMyReflections,
       getMyFeedbacks,
       showSocialDrawer,
+      showToolsDrawer,
+      showProfileDrawer,
       getUserCommits,
       getOwnersWithResourcePermission,
       setSearchOwnersWithResourcePermissionIndex,
@@ -279,6 +281,8 @@ const mapDispatchToProps = {
   changeProfileTab: otherActions.changeProfileTab,
   changeToolsTab: otherActions.changeToolsTab,
   showSocialDrawer: routerActions.setSocialDrawerOpened,
+  showProfileDrawer: routerActions.setProfileDrawerOpened,
+  showToolsDrawer: routerActions.setToolsDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
   getOwnersWithResourcePermission:
     networkActions.getOwnersWithResourcePermission,
