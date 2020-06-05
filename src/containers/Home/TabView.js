@@ -62,6 +62,8 @@ class TabView extends React.PureComponent {
       getUserCommits,
       getTrustMembers,
       setSearchPageIndex,
+      showToolsDrawer,
+      showProfileDrawer,
     } = this.props;
 
     const TabScreens = [
@@ -85,8 +87,10 @@ class TabView extends React.PureComponent {
     if (this.tabIndex === index && new Date().getTime() - this.lastTime < 800) {
       // double clicked
       NavigationService.navigate(TabHomeScreens[index].name);
-      if (index === 3) this.props.changeToolsTab(0);
-      else if (index === 4) this.props.changeProfileTab('overview');
+      if (index === 3) {
+        this.props.changeToolsTab(0);
+        showToolsDrawer(false);
+      } else if (index === 4) this.props.changeProfileTab('overview');
     } else {
       // one time clicked
       NavigationService.navigate(TabScreens[index]);
@@ -117,10 +121,12 @@ class TabView extends React.PureComponent {
         break;
       case 3:
         // user clicked Tools Tab
+        showToolsDrawer(false);
         userToken.length > 0 && getMyReflections();
         break;
       case 4:
         // user clicked Profile Tab
+        showProfileDrawer(false);
         userToken.length > 0 && getMyProfile();
         userToken.length > 0 && getMyReflections();
         userToken.length > 0 && getMyFeedbacks();
@@ -282,6 +288,8 @@ const mapDispatchToProps = {
   setMainTabIndex: routerActions.setMainTabIndex,
   getTrustMembers: userActions.getTrustMembers,
   setSearchPageIndex: userActions.setSearchPageIndex,
+  showProfileDrawer: routerActions.setProfileDrawerOpened,
+  showToolsDrawer: routerActions.setToolsDrawerOpened,
 };
 
 export default withTranslation()(
