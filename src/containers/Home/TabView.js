@@ -1,4 +1,5 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
@@ -11,7 +12,6 @@ import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {
   BookLightSvg,
-  CommentsLightSvg,
   RulerLightSvg,
   UserLightSvg,
   UserCrownSvg,
@@ -24,7 +24,6 @@ import {
   routerActions,
   otherActions,
   resourceActions,
-  networkActions,
 } from 'Redux/actions';
 
 const TabBarHeight = isIphoneX() ? dySize(80) : dySize(100);
@@ -59,11 +58,8 @@ class TabView extends React.PureComponent {
       getMyProfile,
       getMyReflections,
       getMyFeedbacks,
-      showProfileDrawer,
       showSocialDrawer,
       getUserCommits,
-      getTrustMemberResources,
-      setTrustMemberResourcePageIndex,
       getTrustMembers,
       setSearchPageIndex,
     } = this.props;
@@ -190,7 +186,7 @@ class TabView extends React.PureComponent {
               rippleSize={dySize(100)}
               align="center"
               onPress={() => this.onClickTab(1)}
-              style={{flex: 1, paddingTop: 10}}
+              style={{flex: 1, paddingTop: Platform.OS === 'ios' ? 5 : 10}}
               height={TabBarHeight}>
               <BookLightSvg
                 size={TabIconSize}
@@ -222,7 +218,7 @@ class TabView extends React.PureComponent {
               rippleSize={dySize(100)}
               align="center"
               onPress={() => this.onClickTab(3)}
-              style={{flex: 1, paddingTop: 10}}
+              style={{flex: 1, paddingTop: Platform.OS === 'ios' ? 5 : 10}}
               height={TabBarHeight}>
               <RulerLightSvg
                 size={TabIconSize}
@@ -236,7 +232,7 @@ class TabView extends React.PureComponent {
               rippleSize={dySize(100)}
               align="center"
               onPress={() => this.onClickTab(4)}
-              style={{flex: 1, paddingTop: 10}}
+              style={{flex: 1, paddingTop: Platform.OS === 'ios' ? 5 : 10}}
               height={TabBarHeight}>
               {setCrown ? (
                 <UserCrownSvg
@@ -283,11 +279,7 @@ const mapDispatchToProps = {
   changeProfileTab: otherActions.changeProfileTab,
   changeToolsTab: otherActions.changeToolsTab,
   showSocialDrawer: routerActions.setSocialDrawerOpened,
-  showProfileDrawer: routerActions.setProfileDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
-  getTrustMemberResources: resourceActions.getTrustMemberResources,
-  setTrustMemberResourcePageIndex:
-    resourceActions.setTrustMemberResourcePageIndex,
   getTrustMembers: userActions.getTrustMembers,
   setSearchPageIndex: userActions.setSearchPageIndex,
 };

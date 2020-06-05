@@ -119,7 +119,11 @@ class CoreValuesCard extends React.Component {
                       : t(`tools_tab_value_${value.value}`)}
                   </H4>
                 </MCView>
-                <MCView style={{flex: 1}} align="center" justify="center">
+                <MCView
+                  style={{flex: 1}}
+                  align="center"
+                  justify="center"
+                  overflow="visible">
                   {value.image && value.category !== 'custom' && (
                     <MCImage
                       image={_.get(

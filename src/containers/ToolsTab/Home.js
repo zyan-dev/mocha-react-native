@@ -303,14 +303,7 @@ class AddReflectionScreen extends React.Component {
     const exist = favoriteTools && favoriteTools.find(i => i.key === card.key);
 
     return (
-      <NativeCard
-        background={theme.colors.background}
-        width={155}
-        mt={10}
-        mb={10}
-        mr={10}
-        ml={10}
-        br={10}>
+      <NativeCard width={155} mt={10} mb={10} mr={10} ml={10} br={10}>
         <MCButton
           width={160}
           align="center"
