@@ -104,6 +104,8 @@ const deleteNetwork = networkId =>
   apiCall('delete', `${URL_NETWORK}/${networkId}`, {}, true);
 const updateNetwork = network =>
   apiCall('patch', `${URL_NETWORK}/${network._id}`, network, true);
+const getOwnersWithResourcePermission = pageIndex =>
+  apiCall('get', `${URL_NETWORK}/resource/me?page=${pageIndex}`, {}, true);
 const addReflections = param =>
   apiCall('post', URL_REFLECTION_ADD, param, true);
 const updateReflections = param =>
@@ -264,4 +266,5 @@ export default {
   removePosts,
   getChatVisitStatus,
   updateChatVisitStatus,
+  getOwnersWithResourcePermission,
 };
