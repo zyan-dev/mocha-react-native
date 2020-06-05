@@ -84,7 +84,6 @@ class SelectChallengsScreen extends React.Component {
         measures,
       },
     });
-    console.log({measures});
   };
 
   onAddCustomChallenge = () => {

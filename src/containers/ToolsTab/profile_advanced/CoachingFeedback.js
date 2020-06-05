@@ -110,7 +110,7 @@ class CoachingFeedbackScreen extends React.Component {
           </MCView>
           <H4 mt={20}>{t('select_all_that_apply')}</H4>
           {submitted && !this.validateOptions() && (
-            <ErrorText>{t('error_input_habits')}</ErrorText>
+            <ErrorText>{t('error_input_add_nothing')}</ErrorText>
           )}
           <MCView row wrap width={350} justify="center">
             {CoachingFeedbackOptions.map(option => {

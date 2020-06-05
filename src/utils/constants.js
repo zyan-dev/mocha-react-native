@@ -952,6 +952,12 @@ export const DefaultReflections = {
       options: [],
     },
   },
+  triggers: {
+    type: 'Triggers',
+    data: {
+      options: [''],
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1409,8 +1415,8 @@ export const profileIcons = [
   },
   {
     key: 'triggers',
-    iconType: 'Ionicon',
-    icon: 'ios-warning',
+    iconType: 'FontAwesome5Pro',
+    icon: 'siren-on',
     signinRequired: true,
     hasSvg: false,
   },
