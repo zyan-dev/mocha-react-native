@@ -190,7 +190,7 @@ class TabView extends React.PureComponent {
               rippleSize={dySize(100)}
               align="center"
               onPress={() => this.onClickTab(1)}
-              style={{flex: 1}}
+              style={{flex: 1, paddingTop: 10}}
               height={TabBarHeight}>
               <BookLightSvg
                 size={TabIconSize}
@@ -222,7 +222,7 @@ class TabView extends React.PureComponent {
               rippleSize={dySize(100)}
               align="center"
               onPress={() => this.onClickTab(3)}
-              style={{flex: 1}}
+              style={{flex: 1, paddingTop: 10}}
               height={TabBarHeight}>
               <RulerLightSvg
                 size={TabIconSize}
@@ -236,7 +236,7 @@ class TabView extends React.PureComponent {
               rippleSize={dySize(100)}
               align="center"
               onPress={() => this.onClickTab(4)}
-              style={{flex: 1}}
+              style={{flex: 1, paddingTop: 10}}
               height={TabBarHeight}>
               {setCrown ? (
                 <UserCrownSvg

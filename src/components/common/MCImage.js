@@ -62,6 +62,7 @@ export default class MCImage extends React.PureComponent {
       width: dySize(width),
       height: dySize(height),
       borderRadius: round ? dySize(width) / 2 : 0,
+      overflow: 'hidden',
     };
     return (
       <MCView

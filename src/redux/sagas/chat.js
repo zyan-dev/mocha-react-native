@@ -1,5 +1,6 @@
 import {call, put, select} from 'redux-saga/effects';
 import database from '@react-native-firebase/database';
+var PushNotification = require('react-native-push-notification');
 import * as _ from 'lodash';
 import * as types from '../actions/types';
 import NavigationService from 'navigation/NavigationService';
@@ -124,6 +125,8 @@ export function* updateChatVisitStatus(action) {
         room.last_updated,
       );
     });
+
+    PushNotification.setApplicationIconBadgeNumber(filtered.length);
 
     const response = yield call(API.updateChatVisitStatus, {
       lastVisits,

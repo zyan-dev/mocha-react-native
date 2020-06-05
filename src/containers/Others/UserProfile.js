@@ -369,7 +369,7 @@ class UserProfileScreen extends React.Component {
         {!profile.isTrustMember && (
           <>
             <OverviewCard profile={profile} editable={false} hideOverview />
-            <MCView mt={30} align="center">
+            <MCView mt={30} align="center" width={250}>
               <MCView
                 bordered
                 br={30}
@@ -382,7 +382,9 @@ class UserProfileScreen extends React.Component {
                 <MCIcon type="FontAwesome5Pro" name="lock" size={30} />
               </MCView>
               <H3>This Account is Private</H3>
-              <H4>Send a Trust Request to see their profile content</H4>
+              <H4 align="center">
+                Send a Trust Request to see their profile content
+              </H4>
               <MCButton
                 row
                 align="center"
