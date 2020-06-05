@@ -1996,7 +1996,7 @@ export const TemplateDailyChallenges = [
   },
   {
     category: 'sleep',
-    measures: ['1_extra_hour', '2_extra_hour', '3_extra_hour', 'Natural'],
+    measures: ['1_extra', '2_extra', '3_extra', 'natural'],
   },
   {
     category: 'hydrating',
@@ -2031,12 +2031,12 @@ export const TemplateDailyChallenges = [
   },
   {
     category: 'gratitude',
-    measures: ['gratitude_journal'],
+    measures: ['journal'],
   },
   {
     category: 'writing',
     measures: [
-      'daily_journaling',
+      'daily_journal',
       '10_minutes',
       '20_minutes',
       '30_minutes',
@@ -2057,11 +2057,11 @@ export const TemplateDailyChallenges = [
   },
   {
     category: 'intermittent-fasting',
-    measures: ['8_hours', '10_hours', '16_hours'],
+    measures: ['8', '10', '16'],
   },
   {
     category: 'cold-exposure',
-    measures: ['cold_shower'],
+    measures: ['shower'],
   },
 ];
 
