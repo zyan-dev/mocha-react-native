@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
 
-import {resourceActions, userActions} from 'Redux/actions';
+import {resourceActions, networkActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
@@ -34,27 +34,33 @@ class SocialResourcesScreen extends React.PureComponent {
   }
 
   componentDidUpdate(preProps, preState) {
-    if (preProps.trustMembers !== this.props.trustMembers) {
+    if (
+      preProps.networksWithResourcePermission !==
+      this.props.networksWithResourcePermission
+    ) {
       this.getResourceMembers();
     }
   }
 
   getResourceMembers = () => {
     const {
-      trustMembers,
+      networksWithResourcePermission,
       getTrustMemberResources,
       selectTrustMember,
     } = this.props;
     const {selectedMember} = this.state;
 
-    if (trustMembers.length > 0 && _.isEmpty(selectedMember)) {
-      this.setState({selectedMember: trustMembers[0]});
+    if (
+      networksWithResourcePermission.length > 0 &&
+      _.isEmpty(selectedMember)
+    ) {
+      this.setState({selectedMember: networksWithResourcePermission[0]});
       getTrustMemberResources({
         pageIndex: 1,
-        trustMember: trustMembers[0]._id,
+        trustMember: networksWithResourcePermission[0]._id,
       });
 
-      selectTrustMember(trustMembers[0]._id);
+      selectTrustMember(networksWithResourcePermission[0]._id);
     }
   };
 
@@ -78,14 +84,14 @@ class SocialResourcesScreen extends React.PureComponent {
 
   searchNextPage = () => {
     const {
-      getTrustMembers,
-      searchPageLimited,
-      searchPageIndex,
+      networksPageLimited,
+      networkPageIndex,
       pageSearching,
+      getOwnersWithResourcePermission,
     } = this.props;
 
-    if (searchPageLimited || pageSearching) return;
-    getTrustMembers({page: searchPageIndex + 1});
+    if (networksPageLimited || pageSearching) return;
+    getOwnersWithResourcePermission(networkPageIndex + 1);
   };
 
   _renderListItem = ({item}) => {
@@ -117,17 +123,22 @@ class SocialResourcesScreen extends React.PureComponent {
   };
 
   render() {
-    const {theme, t, trustMemberResources, trustMembers} = this.props;
+    const {
+      theme,
+      t,
+      trustMemberResources,
+      networksWithResourcePermission,
+    } = this.props;
     const {focused, sort, selectedMember} = this.state;
 
     return (
       <MCRootView justify="flex-start">
         <FlatList
-          data={trustMembers}
+          data={networksWithResourcePermission}
           renderItem={this._renderListItem}
           keyExtractor={item => item._id}
           keyboardShouldPersistTaps="always"
-          ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+          ListEmptyComponent={<MCEmptyText>{t('no_members')}</MCEmptyText>}
           numColumns={1}
           style={{
             width: dySize(350),
@@ -190,14 +201,15 @@ class SocialResourcesScreen extends React.PureComponent {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
-  trustMembers: state.usersReducer.trustMembers,
   trustMemberResources: state.resourceReducer.trustMemberResources,
   resourceTrustMemberPageIndex:
     state.resourceReducer.resourceTrustMemberPageIndex,
   resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
-  searchPageLimited: state.usersReducer.searchPageLimited,
-  searchPageIndex: state.usersReducer.searchPageIndex,
-  pageSearching: state.usersReducer.pageSearching,
+  networksPageLimited: state.networkReducer.networksPageLimited,
+  networkPageIndex: state.networkReducer.networkPageIndex,
+  pageSearching: state.networkReducer.pageSearching,
+  networksWithResourcePermission:
+    state.networkReducer.networksWithResourcePermission,
 });
 
 const mapDispatchToProps = {
@@ -205,7 +217,8 @@ const mapDispatchToProps = {
   setTrustMemberResourcePageIndex:
     resourceActions.setTrustMemberResourcePageIndex,
   selectTrustMember: resourceActions.selectTrustMember,
-  getTrustMembers: userActions.getTrustMembers,
+  getOwnersWithResourcePermission:
+    networkActions.getOwnersWithResourcePermission,
 };
 export default withTranslation()(
   connect(

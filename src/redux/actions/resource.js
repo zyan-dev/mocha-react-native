@@ -74,6 +74,10 @@ export const getTrustMemberResources = data => ({
   payload: data,
 });
 
+export const resetTrustMemberResources = () => ({
+  type: types.RESET_TRUST_MEMBER_RESOURCES,
+});
+
 export const setTrustMemberResourcePageIndex = index => ({
   type: types.SET_TRUST_MEMBER_RESOURCE_PAGE_INDEX,
   payload: index,

@@ -13,6 +13,7 @@ import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import NetworkBasicPermissions from './BasicPermissions';
 import NetworkAdvancedPermissions from './AdvancedPermissions';
+import NetworkSocialPermissions from './SocialPermissions';
 import {BasicPermissions, AdvancedPermissions} from 'utils/constants';
 
 class ManageTrustNetworkScreen extends React.Component {
@@ -192,7 +193,15 @@ class ManageTrustNetworkScreen extends React.Component {
           {isErrorMember && submitted && (
             <ErrorText>{t('error_input_trustnetwork_members')}</ErrorText>
           )}
-          <H3 mt={20}>{t('feed_network_edit_viewpermission')}</H3>
+          <H3 mt={20}>{t('feed_network_edit_social_viewpermission')}</H3>
+          <H4 color={theme.colors.border}>
+            {t('feed_network_edit_viewpermission_displayText')}
+          </H4>
+          <NetworkSocialPermissions
+            permissions={selectedNetwork.permissions}
+            onToggleCheck={key => this.onToggleCheck(key)}
+          />
+          <H3 mt={20}>{t('feed_network_edit_profile_viewpermission')}</H3>
           <H4 color={theme.colors.border}>
             {t('feed_network_edit_viewpermission_displayText')}
           </H4>
