@@ -112,6 +112,12 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
         resourceBookmarkPageIndex: action.payload,
       };
 
+    case types.RESET_TRUST_MEMBER_RESOURCES:
+      return {
+        ...state,
+        trustMemberResources: [],
+      };
+
     case types.SET_SEARCHED_TRUST_MEMBER_RESOURCES:
       return {
         ...state,

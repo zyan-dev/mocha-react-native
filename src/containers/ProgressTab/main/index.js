@@ -8,10 +8,9 @@ import {MCRootView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3} from 'components/styled/Text';
 import {postActions, userActions} from 'Redux/actions';
-import ProgressChallengeTab from './Challenges';
+import ProgressChallengeTab from './MyChallenges';
 import ProgressMembersTab from './Members';
-import ProgressOwnTab from './MyProgress';
-import ProgressSearchTab from './Search';
+import AddChallengeScreen from './AddChallenge';
 import NavigationService from 'navigation/NavigationService';
 
 class ProgressScreen extends React.Component {
@@ -39,12 +38,9 @@ class ProgressScreen extends React.Component {
           name: '',
           page: 1,
         });
-        break;
-      case 2:
         this.props.getPostsById({id: profile._id, page: 1});
         break;
-      case 3:
-        this.props.getPosts({title: '', page: 1});
+      case 2:
         break;
       default:
     }
@@ -56,19 +52,15 @@ class ProgressScreen extends React.Component {
     const routes = [
       {
         key: 'challenge',
-        title: 'mountain',
-      },
-      {
-        key: 'trustmember',
-        title: 'users',
-      },
-      {
-        key: 'own',
         title: 'user',
       },
       {
-        key: 'search',
-        title: 'search',
+        key: 'progress',
+        title: 'users',
+      },
+      {
+        key: 'add_challenge',
+        title: 'mountain',
       },
     ];
     const renderTabBar = props => (
@@ -109,7 +101,7 @@ class ProgressScreen extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: theme.colors.background}}>
         <MCHeader
-          title={t('title_progress')}
+          title={t(`title_progress_tab_${routes[index].key}`)}
           hasBack={false}
           hasRight
           rightIcon="plus"
@@ -119,9 +111,8 @@ class ProgressScreen extends React.Component {
           navigationState={{index, routes}}
           renderScene={SceneMap({
             challenge: ProgressChallengeTab,
-            trustmember: ProgressMembersTab,
-            own: ProgressOwnTab,
-            search: ProgressSearchTab,
+            progress: ProgressMembersTab,
+            add_challenge: AddChallengeScreen,
           })}
           onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}

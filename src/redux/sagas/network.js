@@ -111,3 +111,54 @@ export function* deleteNetwork(action) {
     yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }
+
+export function* getOwnersWithResourcePermission(action) {
+  try {
+    yield put({
+      type: types.SET_OWNERS_WITH_RESOURCE_PERMISSION_STATE,
+      payload: true,
+    });
+
+    const response = yield call(
+      API.getOwnersWithResourcePermission,
+      action.payload,
+    );
+    if (response.data.status === 'success') {
+      if (action.payload === 1) {
+        yield put({
+          type: types.SET_SEARCHED_OWNERS_WITH_RESOURCE_PERMISSION,
+          payload: response.data.data.networks,
+        });
+      } else {
+        yield put({
+          type: types.ADD_OWNERS_WITH_RESOURCE_PERMISSION,
+          payload: response.data.data.networks,
+        });
+        yield put({
+          type: types.SET_SEARCH_OWNERS_WITH_RESOURCE_PERMISSION_INDEX,
+          payload: action.payload,
+        });
+      }
+      yield put({
+        type: types.SET_OWNERS_WITH_RESOURCE_PERMISSION_PAGE_LIMITED,
+        payload: action.payload >= response.data.data.total_pages,
+      });
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+    yield put({
+      type: types.SET_OWNERS_WITH_RESOURCE_PERMISSION_STATE,
+      payload: false,
+    });
+  } catch (e) {
+    yield put({
+      type: types.SET_OWNERS_WITH_RESOURCE_PERMISSION_STATE,
+      payload: false,
+    });
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}

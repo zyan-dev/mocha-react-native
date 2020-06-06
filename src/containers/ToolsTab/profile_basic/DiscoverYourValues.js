@@ -217,7 +217,7 @@ class DiscoverValueScreen extends React.Component {
           backgroundColor: ValueCardBackgrounds[index % 3],
           borderRadius: 10,
           borderWidth: dySize(12),
-          borderColor: theme.colors.card,
+          borderColor: theme.colors.card_border,
           padding: dySize(5),
         }}>
         <H5 style={{letterSpacing: 5}} color={ValueCardTextColor}>
@@ -273,7 +273,9 @@ class DiscoverValueScreen extends React.Component {
           height: dySize(220),
           alignItems: 'center',
           justifyContent: 'center',
-          borderColor: selected ? theme.colors.outline : theme.colors.card,
+          borderColor: selected
+            ? theme.colors.outline
+            : theme.colors.card_border,
           backgroundColor: isCustomCard
             ? '#FFDDBB'
             : ValueCardBackgrounds[index % 3],

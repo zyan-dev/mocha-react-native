@@ -105,7 +105,7 @@ class CoreValuesCard extends React.Component {
                   backgroundColor: ValueCardBackgrounds[index % 3],
                   borderRadius: 6,
                   borderWidth: dySize(5),
-                  borderColor: theme.colors.card,
+                  borderColor: theme.colors.card_border,
                   padding: dySize(5),
                 }}>
                 <MCView height={50}>
@@ -172,7 +172,7 @@ class CoreValuesCard extends React.Component {
                   backgroundColor: ValueCardBackgrounds[index % 3],
                   borderRadius: 6,
                   borderWidth: dySize(5),
-                  borderColor: theme.colors.card,
+                  borderColor: theme.colors.card_border,
                   padding: dySize(5),
                 }}>
                 <ScrollView

@@ -1,8 +1,6 @@
 import React from 'react';
 import Toast from 'react-native-root-toast';
-import {MCView} from 'components/styled/View';
 import {H3, H4} from 'components/styled/Text';
-import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import moment from 'moment';
 import i18next from 'i18next';

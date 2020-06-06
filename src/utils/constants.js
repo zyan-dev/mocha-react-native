@@ -220,6 +220,8 @@ export const SampleFeedbackQuestions = [
   'mocha_feedback_best_self',
 ];
 
+export const SocialPermissions = ['resources', 'progress'];
+
 export const BasicPermissions = [
   'contact',
   'chronotype',
@@ -952,6 +954,12 @@ export const DefaultReflections = {
       options: [],
     },
   },
+  triggers: {
+    type: 'Triggers',
+    data: {
+      options: [''],
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1409,8 +1417,8 @@ export const profileIcons = [
   },
   {
     key: 'triggers',
-    iconType: 'Ionicon',
-    icon: 'ios-warning',
+    iconType: 'FontAwesome5Pro',
+    icon: 'siren-on',
     signinRequired: true,
     hasSvg: false,
   },
@@ -1978,3 +1986,153 @@ export const ResourceContentRoots = [
     icon: 'video',
   },
 ];
+
+export const EmptyChallenge = {
+  title: '',
+  challenges: [],
+  duration: 7,
+  teammates: [],
+  skills: [],
+};
+
+export const TemplateDailyChallenges = [
+  {
+    category: 'eating',
+    measures: ['1_meal', '2_meal', '3_meal', 'every_meal'],
+  },
+  {
+    category: 'sleep',
+    measures: ['1_extra', '2_extra', '3_extra', 'natural'],
+  },
+  {
+    category: 'hydrating',
+    measures: ['4_6', '6_plus'],
+  },
+  {
+    category: 'exercising',
+    measures: [
+      '10_pushups',
+      '50_pushups',
+      '10_sit_ups',
+      '50_sit_ups',
+      'walk',
+      'jog',
+      'yoga',
+    ],
+  },
+  {
+    category: 'meditation',
+    measures: [
+      '1_minute',
+      '4_minutes',
+      '10_minutes',
+      '20_minutes',
+      '30_minutes',
+      '1_hour',
+    ],
+  },
+  {
+    category: 'self-compassion',
+    measures: ['15_minutes', '30_minutes', 'metta_practice'],
+  },
+  {
+    category: 'gratitude',
+    measures: ['journal'],
+  },
+  {
+    category: 'writing',
+    measures: [
+      'daily_journal',
+      '10_minutes',
+      '20_minutes',
+      '30_minutes',
+      '1_hour',
+      '1_poem',
+    ],
+  },
+  {
+    category: 'reading',
+    measures: [
+      '10_pages',
+      '25_pages',
+      '100_pages',
+      '1_book',
+      '10_books',
+      '100_books',
+    ],
+  },
+  {
+    category: 'intermittent-fasting',
+    measures: ['8', '10', '16'],
+  },
+  {
+    category: 'cold-exposure',
+    measures: ['shower'],
+  },
+];
+
+export const TemplateChallenges = [
+  {
+    index: 1,
+    title: '#75Hard',
+    challenges: [
+      {category: 'eating', measure: 'every_meal'},
+      {category: 'hydrating', measure: '4_6'},
+      {category: 'exercising', measure: '50_pushups'},
+      {category: 'reading', measure: '100_pages'},
+    ],
+    duration: 75,
+    skills: ['grit', 'pain-tolerance'],
+  },
+  {
+    index: 2,
+    title: '#25Hard',
+    challenges: [
+      {category: 'eating', measure: 'every_meal'},
+      {category: 'hydrating', measure: '6_plus'},
+      {category: 'exercising', measure: '50_pushups'},
+      {category: 'reading', measure: '100_pages'},
+    ],
+    duration: 25,
+    skills: ['grit', 'pain-tolerance'],
+  },
+  {
+    index: 3,
+    title: '#Mindful10',
+    challenges: [
+      {category: 'gratitude', measure: 'gratitude_journal'},
+      {category: 'writing', measure: '20_minutes'},
+      {category: 'eating', measure: '2_meal'},
+      {category: 'hydrating', measure: '4_6'},
+    ],
+    duration: 10,
+    skills: ['grit', 'pain-tolerance'],
+  },
+  {
+    index: 4,
+    title: '#Mindful30',
+    challenges: [
+      {category: 'gratitude', measure: 'gratitude_journal'},
+      {category: 'writing', measure: '30_minutes'},
+      {category: 'eating', measure: '3_meal'},
+      {category: 'hydrating', measure: '4_6'},
+    ],
+    duration: 30,
+    skills: ['grit', 'pain-tolerance'],
+  },
+];
+
+export const ChallengeIconData = {
+  custom: 'mountain',
+  eating: 'carrot',
+  sleep: 'bed',
+  hydrating: 'glass',
+  exercising: 'running',
+  meditation: 'praying-hands',
+  'self-compassion': 'heart',
+  gratitude: 'hands-heart',
+  writing: 'pencil',
+  reading: 'book',
+  'intermittent-fasting': 'tachometer-slowest',
+  'cold-exposure': 'snowflakes',
+};

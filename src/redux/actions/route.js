@@ -34,6 +34,11 @@ export const setProfileDrawerOpened = opened => ({
   payload: opened,
 });
 
+export const setToolsDrawerOpened = opened => ({
+  type: types.SET_TOOLS_DRAWER_OPENED,
+  payload: opened,
+});
+
 export const setNetworkStatus = status => ({
   type: types.SET_NETWORK_STATUS,
   payload: status,

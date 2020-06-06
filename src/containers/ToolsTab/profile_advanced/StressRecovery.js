@@ -119,7 +119,7 @@ class StressRecoveryScreen extends React.Component {
             </MCView>
             <H4>{t('write_methods')}</H4>
             {submitted && !this.validateMethods() && (
-              <ErrorText>{t('error_input_habits')}</ErrorText>
+              <ErrorText>{t('error_input_add_nothing')}</ErrorText>
             )}
             <MCTagInput tags={methods} updateState={this.onUpdateMethod} />
           </MCView>

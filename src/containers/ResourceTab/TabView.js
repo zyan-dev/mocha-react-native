@@ -31,6 +31,9 @@ class ResourceTabView extends React.Component {
       getTrustMemberResources,
       getRecommendedResources,
       myResources,
+      networksWithResourcePermission,
+      resetTrustMemberResources,
+      setTrustMemberResourcePageIndex,
     } = this.props;
 
     switch (index) {
@@ -39,7 +42,13 @@ class ResourceTabView extends React.Component {
         getRecommendedResources(1);
         break;
       case 1:
-        getTrustMemberResources(1);
+        setTrustMemberResourcePageIndex(1);
+        networksWithResourcePermission.length > 0
+          ? getTrustMemberResources({
+              pageIndex: 1,
+              trustMember: networksWithResourcePermission[0]._id,
+            })
+          : resetTrustMemberResources();
         break;
       case 2:
         if (myResources.length == 0) getMyResources(1);
@@ -103,6 +112,8 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   userToken: state.profileReducer.userToken,
   myResources: state.resourceReducer.myResources,
+  networksWithResourcePermission:
+    state.networkReducer.networksWithResourcePermission,
 });
 
 const mapDispatchToProps = {
@@ -110,7 +121,10 @@ const mapDispatchToProps = {
   getMyResources: resourceActions.getMyResources,
   getBookmarkedResources: resourceActions.getBookmarkedResources,
   getTrustMemberResources: resourceActions.getTrustMemberResources,
+  resetTrustMemberResources: resourceActions.resetTrustMemberResources,
   getRecommendedResources: resourceActions.getRecommendedResources,
+  setTrustMemberResourcePageIndex:
+    resourceActions.setTrustMemberResourcePageIndex,
 };
 
 export default withTranslation()(

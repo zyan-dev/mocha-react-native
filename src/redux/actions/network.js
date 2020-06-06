@@ -30,3 +30,13 @@ export const updateNetwork = () => ({
 export const deleteNetwork = () => ({
   type: types.DELETE_TRUST_NETWORK,
 });
+
+export const getOwnersWithResourcePermission = pageIndex => ({
+  type: types.GET_OWNERS_WITH_RESOURCE_PERMISSION,
+  payload: pageIndex,
+});
+
+export const setSearchOwnersWithResourcePermissionIndex = index => ({
+  type: types.SET_SEARCH_OWNERS_WITH_RESOURCE_PERMISSION_INDEX,
+  payload: index,
+});

@@ -89,6 +89,10 @@ function* mySaga() {
   yield takeLatest(types.CREATE_TRUST_NETWORK, networkSaga.createNetwork);
   yield takeLatest(types.UPDATE_TRUST_NETWORK, networkSaga.updateNetwork);
   yield takeLatest(types.DELETE_TRUST_NETWORK, networkSaga.deleteNetwork);
+  yield takeLatest(
+    types.GET_OWNERS_WITH_RESOURCE_PERMISSION,
+    networkSaga.getOwnersWithResourcePermission,
+  );
 
   // Resource
   yield takeLatest(types.GET_ALL_RESOURCES, resourceSaga.getAllResources);

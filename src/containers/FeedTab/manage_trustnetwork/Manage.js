@@ -13,7 +13,12 @@ import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import NetworkBasicPermissions from './BasicPermissions';
 import NetworkAdvancedPermissions from './AdvancedPermissions';
-import {BasicPermissions, AdvancedPermissions} from 'utils/constants';
+import NetworkSocialPermissions from './SocialPermissions';
+import {
+  BasicPermissions,
+  AdvancedPermissions,
+  SocialPermissions,
+} from 'utils/constants';
 
 class ManageTrustNetworkScreen extends React.Component {
   constructor(props) {
@@ -93,14 +98,19 @@ class ManageTrustNetworkScreen extends React.Component {
     } = this.props;
     if (
       permissions.length ===
-      BasicPermissions.length + AdvancedPermissions.length
+      BasicPermissions.length +
+        AdvancedPermissions.length +
+        SocialPermissions.length
     ) {
       // if it was selected all, unset all
       updateSelectedTrustNetwork({permissions: []});
     } else {
       // set all permissions
       updateSelectedTrustNetwork({
-        permissions: BasicPermissions.concat(AdvancedPermissions),
+        permissions: BasicPermissions.concat(
+          AdvancedPermissions,
+          SocialPermissions,
+        ),
       });
     }
   };
@@ -192,7 +202,15 @@ class ManageTrustNetworkScreen extends React.Component {
           {isErrorMember && submitted && (
             <ErrorText>{t('error_input_trustnetwork_members')}</ErrorText>
           )}
-          <H3 mt={20}>{t('feed_network_edit_viewpermission')}</H3>
+          <H3 mt={20}>{t('feed_network_edit_social_viewpermission')}</H3>
+          <H4 color={theme.colors.border}>
+            {t('feed_network_edit_viewpermission_displayText')}
+          </H4>
+          <NetworkSocialPermissions
+            permissions={selectedNetwork.permissions}
+            onToggleCheck={key => this.onToggleCheck(key)}
+          />
+          <H3 mt={20}>{t('feed_network_edit_profile_viewpermission')}</H3>
           <H4 color={theme.colors.border}>
             {t('feed_network_edit_viewpermission_displayText')}
           </H4>
@@ -241,7 +259,9 @@ class ManageTrustNetworkScreen extends React.Component {
                 width={250}
                 bordered
                 background={theme.colors.danger}>
-                <H3 color="white">{t('button_remove_trust_network')}</H3>
+                <H3 color="white" align="center">
+                  {t('button_remove_trust_network')}
+                </H3>
               </MCButton>
             </MCView>
           )}
