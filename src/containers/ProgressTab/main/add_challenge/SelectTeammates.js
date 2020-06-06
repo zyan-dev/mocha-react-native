@@ -4,6 +4,8 @@ import {withTranslation} from 'react-i18next';
 import {MCRootView} from 'components/styled/View';
 import {MCHeader} from 'components/common';
 import {H3} from 'components/styled/Text';
+import {OvalYellow, OvalGreen} from 'assets/images';
+import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 
 class SelectTeammatesScreen extends React.Component {
   constructor(props) {
@@ -15,6 +17,8 @@ class SelectTeammatesScreen extends React.Component {
     const {t} = this.props;
     return (
       <MCRootView justify="flex-start">
+        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
+        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
         <MCHeader
           title={t('title_progress_tab_select_teammates')}
           hasRight

@@ -107,7 +107,7 @@ class ProgressMembersTab extends React.Component {
     } = this.props;
     const {searchName} = this.state;
     return (
-      <MCRootView justify="flex-start">
+      <MCRootView justify="flex-start" background="transparent">
         <MCSearchInput
           width={350}
           text={searchName}

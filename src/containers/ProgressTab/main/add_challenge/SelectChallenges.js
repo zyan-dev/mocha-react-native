@@ -5,15 +5,15 @@ import {withTranslation} from 'react-i18next';
 import i18next from 'i18next';
 import * as _ from 'lodash';
 import {challengeActions} from 'Redux/actions';
-import {MCCheckBox, MCIcon, MCHeader, MCTextFormInput} from 'components/common';
-import {H3, H4, MCTextInput} from 'components/styled/Text';
+import {MCCheckBox, MCIcon, MCHeader} from 'components/common';
+import {H3, MCTextInput} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCRootView, MCView, MCContent} from 'components/styled/View';
-import {getStringWithOutline} from 'services/operators';
+import {getStringWithOutline, showAlert} from 'services/operators';
 import {TemplateDailyChallenges, ChallengeIconData} from 'utils/constants';
-import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {showAlert} from '../../../../services/operators';
+import {OvalYellow, OvalGreen} from 'assets/images';
+import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 
 class SelectChallengsScreen extends React.Component {
   constructor(props) {
@@ -124,6 +124,15 @@ class SelectChallengsScreen extends React.Component {
     else return this.props.t(`progress_measure_${category}_${measure}`);
   };
 
+  onPressNext = () => {
+    const {t, selectedChallenge} = this.props;
+    if (selectedChallenge.challenges.length === 0) {
+      showAlert(t('error_input_select_empty'));
+      return;
+    }
+    NavigationService.navigate('SelectDuration');
+  };
+
   render() {
     const {customChallenges, tempChallenge} = this.state;
     const {t, selectedChallenge} = this.props;
@@ -131,12 +140,14 @@ class SelectChallengsScreen extends React.Component {
     const challenges = _.get(selectedChallenge, ['challenges'], []);
     return (
       <MCRootView justify="flex-start">
+        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
+        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
         <MCHeader
           title={t('title_progress_tab_select_challenges')}
           hasRight
           rightIcon="arrow-right"
           rightText={t('button_next')}
-          onPressRight={() => NavigationService.navigate('SelectDuration')}
+          onPressRight={() => this.onPressNext()}
         />
         <H3 mt={10} mb={10}>
           {getStringWithOutline(this.title, {align: 'center'})}

@@ -14,7 +14,7 @@ class ProgressChallengeTab extends React.Component {
   render() {
     const {t} = this.props;
     return (
-      <MCRootView justify="flex-start">
+      <MCRootView justify="flex-start" background="transparent">
         <H3>Challenges</H3>
       </MCRootView>
     );

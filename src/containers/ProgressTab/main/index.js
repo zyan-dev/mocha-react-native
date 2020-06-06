@@ -12,6 +12,8 @@ import ProgressChallengeTab from './MyChallenges';
 import ProgressMembersTab from './Members';
 import AddChallengeScreen from './AddChallenge';
 import NavigationService from 'navigation/NavigationService';
+import {OvalYellow, OvalGreen} from 'assets/images';
+import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 
 class ProgressScreen extends React.Component {
   constructor(props) {
@@ -100,6 +102,8 @@ class ProgressScreen extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: theme.colors.background}}>
+        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
+        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
         <MCHeader
           title={t(`title_progress_tab_${routes[index].key}`)}
           hasBack={false}

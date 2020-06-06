@@ -54,7 +54,7 @@ class SelectTemplateScreen extends React.Component {
           ph={1}
           mr={6}
           ml={6}
-          mt={10}>
+          mt={15}>
           <MCButton
             align="center"
             width={160}
@@ -75,7 +75,7 @@ class SelectTemplateScreen extends React.Component {
           ph={1}
           mr={6}
           ml={6}
-          mt={10}>
+          mt={15}>
           <MCButton
             align="center"
             width={160}
@@ -103,7 +103,7 @@ class SelectTemplateScreen extends React.Component {
   render() {
     const {t} = this.props;
     return (
-      <MCRootView justify="flex-start">
+      <MCRootView justify="flex-start" background="transparent">
         <FlatList
           contentContainerStyle={{
             width: dySize(375),
