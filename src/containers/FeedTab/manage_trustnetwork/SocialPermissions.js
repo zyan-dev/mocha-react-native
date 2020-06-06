@@ -6,7 +6,7 @@ import {MCView} from 'components/styled/View';
 import {MCIcon} from 'components/common';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {SocialPermissions, AdvancedPermissions} from 'utils/constants';
+import {SocialPermissions} from 'utils/constants';
 import {BookLightSvg} from 'assets/svgs';
 
 class NetworkSocialPermissions extends React.Component {
@@ -40,7 +40,13 @@ class NetworkSocialPermissions extends React.Component {
                 {t(`trustnetwork_permissions_${p}`)}
               </H3>
               <MCView width={60} align="center">
-                {p === 'resources' && <BookLightSvg theme={theme} size={30} />}
+                {p === 'resources' && (
+                  <BookLightSvg
+                    theme={theme}
+                    color={theme.colors.text}
+                    size={30}
+                  />
+                )}
                 {p === 'progress' && (
                   <MCIcon
                     type="FontAwesome5Pro-Light"
