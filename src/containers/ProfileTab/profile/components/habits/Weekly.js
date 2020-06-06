@@ -18,7 +18,7 @@ const ReactionView = styled(MCView)`
   margin-right: 10px;
   margin-bottom: 10px;
   padding-horizontal: 10px;
-  background-color: ${props => props.theme.colors.card};
+  background-color: ${props => props.theme.colors.card_border};
 `;
 
 class WeeklyHabitScreen extends React.Component {

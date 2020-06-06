@@ -115,7 +115,7 @@ class BestSelfSubmitScreen extends React.Component {
               const selected = skills.indexOf(skill) > -1;
               const background = selected
                 ? theme.colors.outline
-                : theme.colors.card;
+                : theme.colors.card_border;
               const textColor = selected
                 ? theme.colors.background
                 : theme.colors.text;

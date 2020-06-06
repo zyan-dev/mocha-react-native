@@ -210,7 +210,7 @@ class AddPostScreen extends React.Component {
                     bordered
                     onPress={() => this.onToggleSkill(skill)}
                     background={
-                      selected ? theme.colors.outline : theme.colors.card
+                      selected ? theme.colors.outline : theme.colors.card_border
                     }>
                     <H4
                       ph={10}

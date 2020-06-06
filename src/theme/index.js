@@ -24,7 +24,8 @@ export const colorThemes = [
     border: '#BABABA',
     navbar: '#4E4848',
     profileIcon: '#4E4848',
-    card: '#f5f5f5',
+    card: '#FFFFFF',
+    card_border: '#f5f5f5',
   },
   {
     ...commonTheme,
@@ -32,6 +33,7 @@ export const colorThemes = [
     text: '#FFFFFF',
     background: '#121212',
     card: '#1d1d1d',
+    card_border: '#1d1d1d',
     profileIcon: '#FFFFFF',
     navbar: '#FFFFFF',
     border: '#B2B2B2',
