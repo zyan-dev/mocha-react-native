@@ -100,7 +100,7 @@ class CriticismFeedbackScreen extends React.Component {
           {getStringWithOutline(this.title, {align: 'left'})}
           <H4 mb={20}>{t(`select_all_that_apply`)}</H4>
           {submitted && !this.validateOptions() && (
-            <ErrorText>{t('error_input_habits')}</ErrorText>
+            <ErrorText>{t('error_input_add_nothing')}</ErrorText>
           )}
           <MCView row wrap justify="space-between">
             {NegativeFeedbackPreferences.map((key, index) => {

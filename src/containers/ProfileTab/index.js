@@ -46,6 +46,7 @@ import EditMeaningLifeScreen from '../ToolsTab/profile_expert/MeaningLife';
 import EditValueStoryScreen from '../ToolsTab/profile_expert/ValueStory';
 import EditPersonalityScreen from './profile/details/personality';
 import BestSelfSubmitScreen from './profile/details/feedback/BestSelf';
+import EditTriggersScreen from './profile/EditTriggers';
 import VerificationStack from '../Auth';
 
 const Stack = createStackNavigator();
@@ -113,6 +114,7 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen name="EditHydration" component={EditHydrationScreen} />
           <Stack.Screen name="EditStrengths" component={EditStrengthScreen} />
           <Stack.Screen name="EditDreams" component={EditDreamScreen} />
+          <Stack.Screen name="EditTriggers" component={EditTriggersScreen} />
           <Stack.Screen
             name="EditCoreValues"
             component={EditCoreValuesScreen}

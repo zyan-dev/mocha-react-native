@@ -67,7 +67,7 @@ class ProgressMembersTab extends React.Component {
     const {theme, selectedUser} = this.props;
     const user = item;
     if (!selectedUser) return null;
-    const selected = selectedUser._id === user._id;
+    const selected = selectedUser && selectedUser._id === user._id;
     return (
       <MCButton onPress={() => this.onPressUser(user)} br={20}>
         <MCImage
@@ -126,7 +126,7 @@ class ProgressMembersTab extends React.Component {
             onEndReachedThreshold={0.5}
           />
         </MCView>
-        {selectedUser._id !== profile._id ? (
+        {selectedUser && selectedUser._id !== profile._id ? (
           <FlatList
             contentContainerStyle={{
               width: dySize(375),
