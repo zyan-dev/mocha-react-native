@@ -10,7 +10,7 @@ const TagView = styled(H4)`
   border-radius: ${dySize(8)}px;
   height: ${dySize(30)}px;
   color: ${props => props.theme.colors.text};
-  background-color: ${props => props.theme.colors.card};
+  background-color: ${props => props.theme.colors.card_border};
   overflow: hidden;
 `;
 

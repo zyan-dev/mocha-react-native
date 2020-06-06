@@ -105,7 +105,12 @@ const deleteNetwork = networkId =>
 const updateNetwork = network =>
   apiCall('patch', `${URL_NETWORK}/${network._id}`, network, true);
 const getOwnersWithResourcePermission = pageIndex =>
-  apiCall('get', `${URL_NETWORK}/resource/me?page=${pageIndex}`, {}, true);
+  apiCall(
+    'get',
+    `${URL_NETWORK}/permission/me?page=${pageIndex}&permission=resources`,
+    {},
+    true,
+  );
 const addReflections = param =>
   apiCall('post', URL_REFLECTION_ADD, param, true);
 const updateReflections = param =>

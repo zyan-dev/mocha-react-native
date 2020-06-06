@@ -14,7 +14,11 @@ import NavigationService from 'navigation/NavigationService';
 import NetworkBasicPermissions from './BasicPermissions';
 import NetworkAdvancedPermissions from './AdvancedPermissions';
 import NetworkSocialPermissions from './SocialPermissions';
-import {BasicPermissions, AdvancedPermissions} from 'utils/constants';
+import {
+  BasicPermissions,
+  AdvancedPermissions,
+  SocialPermissions,
+} from 'utils/constants';
 
 class ManageTrustNetworkScreen extends React.Component {
   constructor(props) {
@@ -94,14 +98,19 @@ class ManageTrustNetworkScreen extends React.Component {
     } = this.props;
     if (
       permissions.length ===
-      BasicPermissions.length + AdvancedPermissions.length
+      BasicPermissions.length +
+        AdvancedPermissions.length +
+        SocialPermissions.length
     ) {
       // if it was selected all, unset all
       updateSelectedTrustNetwork({permissions: []});
     } else {
       // set all permissions
       updateSelectedTrustNetwork({
-        permissions: BasicPermissions.concat(AdvancedPermissions),
+        permissions: BasicPermissions.concat(
+          AdvancedPermissions,
+          SocialPermissions,
+        ),
       });
     }
   };
