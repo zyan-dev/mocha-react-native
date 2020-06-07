@@ -35,11 +35,7 @@ class ProgressScreen extends React.Component {
       case 0:
         break;
       case 1:
-        this.props.getTrustMembers({
-          status: 1,
-          name: '',
-          page: 1,
-        });
+        this.props.getPostTrustMembers({page: 1});
         this.props.getPostsById({id: profile._id, page: 1});
         break;
       case 2:
@@ -135,7 +131,7 @@ const mapDispatchToProps = {
   setInitialPost: postActions.setInitialPost,
   getPostsById: postActions.getPostsById,
   getPosts: postActions.getPosts,
-  getTrustMembers: userActions.getTrustMembers,
+  getPostTrustMembers: postActions.getPostTrustMembers,
 };
 
 export default withTranslation()(

@@ -120,8 +120,9 @@ export function* getOwnersWithResourcePermission(action) {
     });
 
     const response = yield call(
-      API.getOwnersWithResourcePermission,
+      API.getOwnersWithPermission,
       action.payload,
+      'resources',
     );
     if (response.data.status === 'success') {
       if (action.payload === 1) {

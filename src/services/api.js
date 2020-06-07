@@ -104,10 +104,10 @@ const deleteNetwork = networkId =>
   apiCall('delete', `${URL_NETWORK}/${networkId}`, {}, true);
 const updateNetwork = network =>
   apiCall('patch', `${URL_NETWORK}/${network._id}`, network, true);
-const getOwnersWithResourcePermission = pageIndex =>
+const getOwnersWithPermission = (page, permission) =>
   apiCall(
     'get',
-    `${URL_NETWORK}/permission/me?page=${pageIndex}&permission=resources`,
+    `${URL_NETWORK}/permission/me?page=${page}&permission=${permission}`,
     {},
     true,
   );
@@ -271,5 +271,5 @@ export default {
   removePosts,
   getChatVisitStatus,
   updateChatVisitStatus,
-  getOwnersWithResourcePermission,
+  getOwnersWithPermission,
 };
