@@ -10,13 +10,13 @@ import {OvalYellow, OvalGreen} from 'assets/images';
 import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import NavigationService from 'navigation/NavigationService';
 
-const Durations = ['7d', '10d', '14d', '20d', '30d', '60d', '90d', '10w'];
+const Durations = [7, 10, 14, 20, 30, 60, 90];
 
 class SelectDurationScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      duration: '30d',
+      duration: 7,
     };
   }
 
@@ -53,7 +53,7 @@ class SelectDurationScreen extends React.Component {
               <MCCheckBox
                 checked={duration === d}
                 onChange={checked => this.onPressOption(d)}
-                label={t(`option_duration_${d}`)}
+                label={t('label_duration_day', {num: d})}
                 width={250}
               />
             );

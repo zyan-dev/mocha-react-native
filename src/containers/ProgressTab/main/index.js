@@ -7,7 +7,7 @@ import {MCHeader, MCIcon} from 'components/common';
 import {MCRootView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3} from 'components/styled/Text';
-import {postActions, userActions} from 'Redux/actions';
+import {postActions, challengeActions} from 'Redux/actions';
 import ProgressChallengeTab from './MyChallenges';
 import ProgressMembersTab from './Members';
 import AddChallengeScreen from './AddChallenge';
@@ -33,6 +33,7 @@ class ProgressScreen extends React.Component {
     this.setState({index: i});
     switch (i) {
       case 0:
+        this.props.getUserChallenges(profile._id);
         break;
       case 1:
         this.props.getPostTrustMembers({page: 1});
@@ -132,6 +133,7 @@ const mapDispatchToProps = {
   getPostsById: postActions.getPostsById,
   getPosts: postActions.getPosts,
   getPostTrustMembers: postActions.getPostTrustMembers,
+  getUserChallenges: challengeActions.getUserChallenges,
 };
 
 export default withTranslation()(

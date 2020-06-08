@@ -59,8 +59,8 @@ export default class MCImage extends React.PureComponent {
     } = this.props;
     const defaultImage = type === 'avatar' ? DefaultAvatar : DefaultPicture;
     const imageStyle = {
-      width: dySize(width),
-      height: dySize(height),
+      width: dySize(width) - 4,
+      height: dySize(height) - 4,
       borderRadius: round ? dySize(width) / 2 : 0,
       overflow: 'hidden',
     };

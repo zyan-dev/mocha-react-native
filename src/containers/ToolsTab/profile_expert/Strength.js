@@ -3,15 +3,13 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
 import i18next from 'i18next';
-import {selector} from 'Redux/selectors';
-import {reflectionActions, userActions, feedbackActions} from 'Redux/actions';
+import {userActions, feedbackActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
-import {H3, H4, ErrorText, MCTextInput} from 'components/styled/Text';
+import {H4, ErrorText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCHeader, MCIcon, MCImage} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-import {KeySvg} from 'assets/svgs';
 import {getStringWithOutline} from 'services/operators';
 
 class BestSelfScreen extends React.Component {

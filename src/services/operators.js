@@ -339,3 +339,30 @@ export const hslToRgb = (h, s, l) => {
 
   return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 };
+
+export const getChallengeCategory = category => {
+  const isCustom = category.indexOf('custom_') > -1;
+  if (isCustom) return category.split('custom_')[1];
+  else return i18next.t(`progress_challenge_title_${category}`);
+};
+
+export const getChallengeMeasure = (category, measure) => {
+  const isCustom = category.indexOf('custom_') > -1;
+  if (isCustom) return measure;
+  else return i18next.t(`progress_measure_${category}_${measure}`);
+};
+
+export const combineChallenges = challenges => {
+  let result = {};
+  challenges.map(i => {
+    if (result[i.category]) {
+      result[i.category].push(i.measure);
+    } else {
+      result[i.category] = [i.measure];
+    }
+  });
+  return Object.keys(result).map(key => ({
+    category: key,
+    measures: result[key],
+  }));
+};

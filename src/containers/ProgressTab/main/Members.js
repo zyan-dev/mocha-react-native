@@ -2,12 +2,11 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {userActions, postActions} from 'Redux/actions';
+import {postActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {MCSearchInput, MCImage} from 'components/common';
+import {MCImage} from 'components/common';
 import {H3, MCEmptyText} from 'components/styled/Text';
-import {MCContent} from 'components/styled/View';
 import PostItem from './components/PostItem';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
@@ -159,7 +158,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getPostTrustMembers: userActions.getPostTrustMembers,
+  getPostTrustMembers: postActions.getPostTrustMembers,
   selectPostUser: postActions.selectPostUser,
   getPostsById: postActions.getPostsById,
 };

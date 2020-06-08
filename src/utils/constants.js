@@ -1832,6 +1832,27 @@ export const skills = [
   'critical_thinking',
 ];
 
+export const challengeSkills = [
+  'empathy',
+  'service',
+  'leadership',
+  'forgiveness',
+  'transcendence',
+  'spirituality',
+  'perspective_taking',
+  'humility',
+  'community',
+  'belonging',
+  'citizenship',
+  'critical_thinking',
+  'thinking',
+  'optimism',
+  'transcendence',
+  'courage',
+  'curiosity',
+  'character_development',
+];
+
 export const impacts = [
   {
     key: 1,
@@ -1991,6 +2012,7 @@ export const EmptyChallenge = {
   title: '',
   challenges: [],
   duration: 7,
+  invites: [],
   teammates: [],
   skills: [],
 };

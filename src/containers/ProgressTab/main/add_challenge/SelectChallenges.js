@@ -9,7 +9,12 @@ import {MCCheckBox, MCIcon, MCHeader} from 'components/common';
 import {H3, MCTextInput} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {MCRootView, MCView, MCContent} from 'components/styled/View';
-import {getStringWithOutline, showAlert} from 'services/operators';
+import {
+  getStringWithOutline,
+  showAlert,
+  getChallengeCategory,
+  getChallengeMeasure,
+} from 'services/operators';
 import {TemplateDailyChallenges, ChallengeIconData} from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
 import {OvalYellow, OvalGreen} from 'assets/images';
@@ -92,7 +97,7 @@ class SelectChallengsScreen extends React.Component {
     if (tempChallenge.measures.filter(i => i.length > 0).length === 0) return;
     const duplicated = TemplateDailyChallenges.concat(customChallenges).find(
       i =>
-        this.getCategory(i.category).toLowerCase() ===
+        getChallengeCategory(i.category).toLowerCase() ===
           tempChallenge.category.toLowerCase() ||
         i.category.toLowerCase() ===
           `custom_${tempChallenge.category.toLowerCase()}`,
@@ -109,18 +114,6 @@ class SelectChallengsScreen extends React.Component {
       customChallenges,
       tempChallenge: {category: '', measures: ['']},
     });
-  };
-
-  getCategory = category => {
-    const isCustom = category.indexOf('custom_') > -1;
-    if (isCustom) return category.split('custom_')[1];
-    else return this.props.t(`progress_challenge_title_${category}`);
-  };
-
-  getMeasure = (category, measure) => {
-    const isCustom = category.indexOf('custom_') > -1;
-    if (isCustom) return measure;
-    else return this.props.t(`progress_measure_${category}_${measure}`);
   };
 
   onPressNext = () => {
@@ -176,7 +169,7 @@ class SelectChallengsScreen extends React.Component {
                       />
                     </MCView>
                     <H3 underline ml={20} weight="bold">
-                      {this.getCategory(challenge.category)}
+                      {getChallengeCategory(challenge.category)}
                     </H3>
                   </MCView>
                   <MCView ml={60}>
@@ -196,7 +189,10 @@ class SelectChallengsScreen extends React.Component {
                               checked,
                             )
                           }
-                          label={this.getMeasure(challenge.category, measure)}
+                          label={getChallengeMeasure(
+                            challenge.category,
+                            measure,
+                          )}
                           width={200}
                         />
                       );

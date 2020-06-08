@@ -180,7 +180,10 @@ export function* getPostTrustMembers(action) {
       type: types.SET_PAGE_SEARCHING_STATE,
       payload: true,
     });
-    const response = yield call(API.getOwnersWithPermission, page, 'progress');
+    const response = yield call(API.getOwnersWithPermission, {
+      page,
+      permission: 'progress',
+    });
     if (response.data.status === 'success') {
       if (page === 1) {
         yield put({
