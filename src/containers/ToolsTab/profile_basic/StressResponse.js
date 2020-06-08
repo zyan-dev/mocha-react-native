@@ -1,7 +1,8 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import YouTube from 'react-native-youtube';
+import YouTube, {YouTubeStandaloneAndroid} from 'react-native-youtube';
 import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
@@ -127,6 +128,17 @@ class BodyAwarenessScreen extends React.Component {
     NavigationService.goBack();
   };
 
+  playVideoOnAndroid = () => {
+    YouTubeStandaloneAndroid.playVideo({
+      apiKey: 'AIzaSyACbgNHAK4l0E-Cf_ceAme85BBXnplHdPs', // Your YouTube Developer API Key
+      videoId: 'q7OAlcyE5M8', // YouTube video ID
+      autoplay: true, // Autoplay the video
+      startTime: 0, // Starting point of video (in seconds)
+    })
+      .then(() => console.log('Standalone Player Exited'))
+      .catch(errorMessage => console.error(errorMessage));
+  };
+
   onPressSubmit = () => {
     this.setState({submitted: true});
     if (!this.validateParts()) return;
@@ -166,20 +178,36 @@ class BodyAwarenessScreen extends React.Component {
           </H3>
           <H4 mt={20}>{t('tools_tab_body_scan_description1')}</H4>
           <H4 mt={20}>{t('tools_tab_body_scan_description2')}</H4>
-          <YouTube
-            apiKey="AIzaSyACbgNHAK4l0E-Cf_ceAme85BBXnplHdPs"
-            videoId="q7OAlcyE5M8" // The YouTube video ID
-            onError={e => this.setState({errorVideo: e.error})}
-            style={{
-              alignSelf: 'center',
-              width: dySize(320),
-              height: dySize(200),
-              backgroundColor: 'white',
-            }}
-          />
-          {errorVideo.length > 0 && (
-            <ErrorText>{t('error_input_select_empty')}</ErrorText>
+          {Platform.OS === 'android' && (
+            <MCButton
+              width={335}
+              height={200}
+              align="center"
+              justify="center"
+              background={theme.colors.text}
+              onPress={() => this.playVideoOnAndroid()}>
+              <MCIcon
+                name="ios-play"
+                color={theme.colors.background}
+                size={40}
+              />
+            </MCButton>
           )}
+          {Platform.OS === 'ios' && (
+            <YouTube
+              apiKey="AIzaSyACbgNHAK4l0E-Cf_ceAme85BBXnplHdPs"
+              videoId="q7OAlcyE5M8" // The YouTube video ID
+              play
+              onError={e => this.setState({errorVideo: e.error})}
+              style={{
+                alignSelf: 'center',
+                width: dySize(320),
+                height: dySize(200),
+                backgroundColor: 'white',
+              }}
+            />
+          )}
+          {errorVideo.length > 0 && <ErrorText>{errorVideo}</ErrorText>}
           <MCView row justify="center" align="center" mt={40} mb={20}>
             <H3 weight="bold">{t('tools_tab_body_stress_title')}</H3>
             <MCIcon type="FontAwesome5Pro-light" name="fragile" size={30} />

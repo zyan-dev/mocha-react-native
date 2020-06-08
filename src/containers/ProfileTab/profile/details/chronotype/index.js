@@ -15,14 +15,7 @@ import {
   MCContent,
   NativeCard,
 } from 'components/styled/View';
-import {
-  SheepSvg,
-  LarkSvg,
-  DayAndNightSvg,
-  OwlSvg,
-  NightSvg,
-  DaySvg,
-} from 'assets/svgs';
+import {LarkSvg, DayAndNightSvg, OwlSvg, NightSvg, DaySvg} from 'assets/svgs';
 
 class ChronotypeScreen extends React.PureComponent {
   state = {
