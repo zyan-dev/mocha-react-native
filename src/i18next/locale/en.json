@@ -1279,7 +1279,7 @@
   "motivation_edit_headerTitle": "Edit Motivation",
   "motivation_image_placeholder": "Upload an icon image or video to describe the motivation",
   "name": "name",
-  "name_pronun_almost_done": "Thanks {{name}}! Almost done.",
+  "name_pronun_almost_done": "Thanks, {{name}}! \n Almost done.",
   "name_pronun_easy_hard": "Some names are easy to pronounce, and some are hard.",
   "name_pronun_how_say": "How do you say your name?",
   "name_pronun_private": "This is private by default.",
