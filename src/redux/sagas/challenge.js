@@ -117,7 +117,6 @@ export function* addOrUpdateChallenge(action) {
     } else {
       if (userToken && isInternetReachable) {
         // online add
-        alert('online add');
         response = yield call(API.addChallenges, {
           data: [selectedChallenge],
         });

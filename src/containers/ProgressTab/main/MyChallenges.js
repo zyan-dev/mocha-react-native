@@ -2,7 +2,7 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {MCRootView} from 'components/styled/View';
+import {MCRootView, NativeCard} from 'components/styled/View';
 import {MCHeader} from 'components/common';
 import {H3, MCEmptyText} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
@@ -14,7 +14,11 @@ class ProgressChallengeTab extends React.Component {
   }
 
   _renderChallengeItem = ({item}) => {
-    return <H3>{item.title}</H3>;
+    return (
+      <NativeCard width={200} mr={20} mt={20}>
+        <H3>{item.title}</H3>
+      </NativeCard>
+    );
   };
 
   render() {
@@ -23,9 +27,10 @@ class ProgressChallengeTab extends React.Component {
       <MCRootView justify="flex-start" background="transparent">
         <FlatList
           horizontal
+          style={{height: dySize(150)}}
           contentContainerStyle={{
-            width: dySize(375),
             paddingHorizontal: dySize(15),
+            height: dySize(150),
           }}
           data={myChallenges}
           renderItem={this._renderChallengeItem}
