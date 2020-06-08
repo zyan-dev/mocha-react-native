@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   trustMemberResources: [],
   searchedResources: [],
   selectedResource: [],
+  recommendedResources: [],
   initialResource: {
     title: '',
     link: '',
@@ -21,11 +22,14 @@ const INITIAL_STATE = {
   resourceBookmarkPageIndex: 1,
   resourceTrustMemberPageIndex: 1,
   resourceSearchResourceIndex: 1,
+  resourceRecommendResourceIndex: 1,
   resourceAllPageLimited: false,
   resourceMyPageLimited: false,
   resourceBookmarkLimited: false,
   resourceTrustMemberLimited: false,
   resourceSearchResourceLimited: false,
+  resourceRcommendResourceLimited: false,
+  selectedTrustMemberId: null,
 };
 
 const resourceReducer = (state = INITIAL_STATE, action) => {
@@ -108,6 +112,12 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
         resourceBookmarkPageIndex: action.payload,
       };
 
+    case types.RESET_TRUST_MEMBER_RESOURCES:
+      return {
+        ...state,
+        trustMemberResources: [],
+      };
+
     case types.SET_SEARCHED_TRUST_MEMBER_RESOURCES:
       return {
         ...state,
@@ -132,6 +142,11 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         resourceTrustMemberPageIndex: action.payload,
+      };
+    case types.SELECT_TRUST_MEMBER:
+      return {
+        ...state,
+        selectedTrustMemberId: action.payload,
       };
 
     case types.SET_SEARCHED_RESOURCES:
@@ -163,6 +178,32 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         searchedResources: state.allResources,
+      };
+
+    case types.SET_SEARCHED_RECOMMENDED_RESOURCES:
+      return {
+        ...state,
+        recommendedResources: action.payload,
+      };
+    case types.ADD_RECOMMENDED_RESOURCES:
+      return {
+        ...state,
+        recommendedResources: state.recommendedResources.concat(action.payload),
+      };
+    case types.SET_RECOMMENDED_RESOURCE_PAGE_LIMITED:
+      return {
+        ...state,
+        resourceRcommendResourceLimited: action.payload,
+      };
+    case types.SET_RECOMMENDED_RESOURCE_STATE:
+      return {
+        ...state,
+        pageSearching: action.payload,
+      };
+    case types.SET_RECOMMENDED_RESOURCE_PAGE_INDEX:
+      return {
+        ...state,
+        resourceRecommendResourceIndex: action.payload,
       };
 
     case types.UPDATE_SELECTED_RESOURCE:

@@ -75,9 +75,22 @@ export function* setNewUser(action) {
 export function* completeSignUp(action) {
   try {
     const {profileReducer} = yield select();
-    const {user_id, created, updated} = profileReducer;
+    const {user_id, avatar, created, updated} = profileReducer;
     yield put({type: types.API_CALLING});
-
+    if (avatar.length > 0 && avatar.indexOf('https://') < 0) {
+      // avatar should be uploaded to server
+      const fileResponse = yield call(API.fileUploadToS3, {
+        image: avatar,
+        type: 'avatar',
+        userId: profileReducer._id,
+      });
+      if (fileResponse !== 'error') {
+        profileReducer.avatar = fileResponse;
+      } else {
+        showAlert('Upload Error');
+        return;
+      }
+    }
     const response = yield call(API.updateProfile, profileReducer);
     if (response.data.status === 'success') {
       if (created === updated) {
@@ -86,8 +99,10 @@ export function* completeSignUp(action) {
       } else {
         // existing user
         NavigationService.navigate('mainStack');
-        yield put({type: types.API_FINISHED});
         yield put({type: types.SET_NEW_USER, payload: false});
+        yield put({type: types.GET_MY_CHAT_ROOMS});
+        yield put({type: types.GET_CHAT_VISIT_STATUS});
+        yield put({type: types.API_FINISHED});
       }
       // track mixpanel event
       yield put({

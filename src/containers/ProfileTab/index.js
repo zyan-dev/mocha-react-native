@@ -19,8 +19,6 @@ import ChronotypeScreen from './profile/details/chronotype';
 import MotivationListScreen from './profile/details/motivations';
 import CreateMotivationScreen from './profile/details/motivations/create';
 import PersonalityScreen from './profile/details/personality';
-import ValueScreen from '../ToolsTab/value';
-import EditValueScreen from '../ToolsTab/value/edit';
 import UserManualScreen from '../ToolsTab/usermanual';
 import EditUserManualScreen from '../ToolsTab/usermanual/edit';
 import HabitScreen from '../ToolsTab/habit';
@@ -32,6 +30,7 @@ import EditNutritionScreen from '../ToolsTab/profile_basic/Nutrition';
 import EditHydrationScreen from '../ToolsTab/profile_basic/Hydration';
 import EditStrengthScreen from '../ToolsTab/profile_basic/Strength';
 import EditBodyStressScreen from '../ToolsTab/profile_basic/StressResponse';
+import AddValueScreen from '../ToolsTab/value/Add';
 import EditDreamScreen from '../ToolsTab/profile_basic/Dream';
 import EditCoreValuesScreen from '../ToolsTab/profile_basic/DiscoverYourValues';
 import EditCoachingFeedbackScreen from '../ToolsTab/profile_advanced/CoachingFeedback';
@@ -47,6 +46,7 @@ import EditMeaningLifeScreen from '../ToolsTab/profile_expert/MeaningLife';
 import EditValueStoryScreen from '../ToolsTab/profile_expert/ValueStory';
 import EditPersonalityScreen from './profile/details/personality';
 import BestSelfSubmitScreen from './profile/details/feedback/BestSelf';
+import EditTriggersScreen from './profile/EditTriggers';
 import VerificationStack from '../Auth';
 
 const Stack = createStackNavigator();
@@ -73,8 +73,6 @@ class ProfileTabStack extends React.Component {
         tweenHandler={ratio => ({main: {opacity: (2 - ratio) / 2}})}>
         <Stack.Navigator headerMode="none">
           <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen name="Values" component={ValueScreen} />
-          <Stack.Screen name="EditValue" component={EditValueScreen} />
           <Stack.Screen name="UserManuals" component={UserManualScreen} />
           <Stack.Screen
             name="EditUserManual"
@@ -116,6 +114,7 @@ class ProfileTabStack extends React.Component {
           <Stack.Screen name="EditHydration" component={EditHydrationScreen} />
           <Stack.Screen name="EditStrengths" component={EditStrengthScreen} />
           <Stack.Screen name="EditDreams" component={EditDreamScreen} />
+          <Stack.Screen name="EditTriggers" component={EditTriggersScreen} />
           <Stack.Screen
             name="EditCoreValues"
             component={EditCoreValuesScreen}
@@ -167,6 +166,7 @@ class ProfileTabStack extends React.Component {
             name="SubmitBestSelfFeedback"
             component={BestSelfSubmitScreen}
           />
+          <Stack.Screen name="AddValue" component={AddValueScreen} />
         </Stack.Navigator>
       </Drawer>
     );

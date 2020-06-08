@@ -53,21 +53,32 @@ class PersonalizeValueScreen extends React.Component {
           alignItems: 'center',
           justifyContent: 'center',
           borderWidth: 1,
-          borderColor: theme.colors.card,
+          borderColor: theme.colors.card_border,
           backgroundColor: ValueCardBackgrounds[index % 3],
           borderRadius: 10,
           borderWidth: dySize(6),
           padding: dySize(5),
         }}>
         <H4 weight="bold" align="center" color={ValueCardTextColor}>
-          {t(`tools_tab_value_${value.value}`)}
+          {value.category === 'custom'
+            ? value.value.replace(/_/g, ' ')
+            : t(`tools_tab_value_${value.value}`)}
         </H4>
         <MCView style={{flex: 1}} align="center" justify="center">
-          {value.image && (
+          {value.image && value.category !== 'custom' && (
             <MCImage
               image={value.image}
               width={dySize(125)}
               height={dySize(100)}
+              resizeMode="contain"
+            />
+          )}
+          {value.image && value.category === 'custom' && (
+            <MCImage
+              image={{uri: value.image}}
+              width={dySize(100)}
+              height={dySize(100)}
+              br={10}
               resizeMode="contain"
             />
           )}
@@ -80,12 +91,14 @@ class PersonalizeValueScreen extends React.Component {
             />
           )}
         </MCView>
-        <H5
-          align="center"
-          style={{letterSpacing: 5}}
-          color={ValueCardTextColor}>
-          {t(`value_name_${value.name}`).toUpperCase()}
-        </H5>
+        {value.category !== 'custom' && (
+          <H5
+            align="center"
+            style={{letterSpacing: 5}}
+            color={ValueCardTextColor}>
+            {t(`value_name_${value.name}`).toUpperCase()}
+          </H5>
+        )}
       </MCButton>
     );
   };
@@ -112,6 +125,7 @@ class PersonalizeValueScreen extends React.Component {
           <MCButton
             bordered
             width={250}
+            align="center"
             onPress={() => NavigationService.navigate('PE_CoreValues')}>
             {getStringWithOutline(this.resetButtonTitle)}
           </MCButton>

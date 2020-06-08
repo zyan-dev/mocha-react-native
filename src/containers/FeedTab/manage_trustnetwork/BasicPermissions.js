@@ -6,7 +6,11 @@ import {MCView} from 'components/styled/View';
 import {MCIcon} from 'components/common';
 import {H3} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {BasicPermissions, AdvancedPermissions} from 'utils/constants';
+import {
+  BasicPermissions,
+  AdvancedPermissions,
+  SocialPermissions,
+} from 'utils/constants';
 import {
   SheepSvg,
   CarrotSvg,
@@ -32,7 +36,9 @@ class NetworkBasicPermissions extends React.Component {
     const {t, theme, permissions, onToggleCheck, onSelectAll} = this.props;
     const selectedAll =
       permissions.length ===
-      BasicPermissions.length + AdvancedPermissions.length;
+      BasicPermissions.length +
+        AdvancedPermissions.length +
+        SocialPermissions.length;
     return (
       <MCView>
         <MCButton row align="center" onPress={() => onSelectAll()}>

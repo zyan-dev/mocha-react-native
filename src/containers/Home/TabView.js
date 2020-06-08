@@ -1,8 +1,10 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {Footer} from 'native-base';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import {MCView, NativeCard} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {MCIcon} from 'components/common';
@@ -10,7 +12,6 @@ import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {
   BookLightSvg,
-  CommentsLightSvg,
   RulerLightSvg,
   UserLightSvg,
   UserCrownSvg,
@@ -26,12 +27,13 @@ import {
   networkActions,
 } from 'Redux/actions';
 
-const TabBarHeight = 80;
+const TabBarHeight = isIphoneX() ? dySize(80) : dySize(100);
 const TabIconSize = 30;
 const TabWrapper = styled(Footer)`
-  height: ${TabBarHeight};
+  height: ${dySize(TabBarHeight)}px;
   background-color: ${props => props.theme.colors.background};
   border-top-width: 0px;
+  margin-bottom: ${dySize(-30)}px;
 `;
 
 class TabView extends React.PureComponent {
@@ -57,11 +59,12 @@ class TabView extends React.PureComponent {
       getMyProfile,
       getMyReflections,
       getMyFeedbacks,
-      showProfileDrawer,
       showSocialDrawer,
+      showToolsDrawer,
+      showProfileDrawer,
       getUserCommits,
-      getTrustMemberResources,
-      setTrustMemberResourcePageIndex,
+      getOwnersWithResourcePermission,
+      setSearchOwnersWithResourcePermissionIndex,
     } = this.props;
 
     const TabScreens = [
@@ -85,8 +88,10 @@ class TabView extends React.PureComponent {
     if (this.tabIndex === index && new Date().getTime() - this.lastTime < 800) {
       // double clicked
       NavigationService.navigate(TabHomeScreens[index].name);
-      if (index === 3) this.props.changeToolsTab(0);
-      else if (index === 4) this.props.changeProfileTab('overview');
+      if (index === 3) {
+        this.props.changeToolsTab(0);
+        showToolsDrawer(false);
+      } else if (index === 4) this.props.changeProfileTab('overview');
     } else {
       // one time clicked
       NavigationService.navigate(TabScreens[index]);
@@ -104,18 +109,20 @@ class TabView extends React.PureComponent {
         break;
       case 1:
         // user clicked Resource Tab
-        userToken.length > 0 && setTrustMemberResourcePageIndex(1);
-        userToken.length > 0 && getTrustMemberResources(1);
+        userToken.length > 0 && setSearchOwnersWithResourcePermissionIndex(1);
+        userToken.length > 0 && getOwnersWithResourcePermission(1);
         break;
       case 2:
         // user clicked Progress Tab
         break;
       case 3:
         // user clicked Tools Tab
+        showToolsDrawer(false);
         userToken.length > 0 && getMyReflections();
         break;
       case 4:
         // user clicked Profile Tab
+        showProfileDrawer(false);
         userToken.length > 0 && getMyProfile();
         userToken.length > 0 && getMyReflections();
         userToken.length > 0 && getMyFeedbacks();
@@ -142,18 +149,20 @@ class TabView extends React.PureComponent {
               elevation: 11,
               shadowOffset: {width: 0, height: -10},
               backgroundColor: theme.colors.background,
+              paddingTop: 5,
             }}>
             <MCButton
               rippleCentered
               rippleSize={dySize(100)}
               onPress={() => this.onClickTab(0)}
-              justify="center"
               align="center"
               height={TabBarHeight}
               style={{flex: 1}}>
-              <CommentsLightSvg
-                theme={theme}
+              <MCIcon
                 size={TabIconSize}
+                type="FontAwesome5Pro-Light"
+                name="users"
+                padding={1}
                 color={
                   mainTabIndex === 0 ? theme.colors.outline : theme.colors.text
                 }
@@ -163,7 +172,7 @@ class TabView extends React.PureComponent {
                 <MCView
                   style={{
                     position: 'absolute',
-                    top: dySize(25),
+                    top: dySize(0),
                     right: dySize(20),
                   }}
                   width={12}
@@ -178,9 +187,8 @@ class TabView extends React.PureComponent {
               rippleCentered
               rippleSize={dySize(100)}
               align="center"
-              justify="center"
               onPress={() => this.onClickTab(1)}
-              style={{flex: 1}}
+              style={{flex: 1, paddingTop: Platform.OS === 'ios' ? 5 : 10}}
               height={TabBarHeight}>
               <BookLightSvg
                 size={TabIconSize}
@@ -194,14 +202,14 @@ class TabView extends React.PureComponent {
               rippleCentered
               rippleSize={dySize(100)}
               align="center"
-              justify="center"
               onPress={() => this.onClickTab(2)}
               style={{flex: 1}}
               height={TabBarHeight}>
               <MCIcon
                 size={TabIconSize}
-                type="FontAwesome5Pro"
+                type="FontAwesome5Pro-Light"
                 name="arrow-circle-up"
+                padding={1}
                 color={
                   mainTabIndex === 2 ? theme.colors.outline : theme.colors.text
                 }
@@ -211,9 +219,8 @@ class TabView extends React.PureComponent {
               rippleCentered
               rippleSize={dySize(100)}
               align="center"
-              justify="center"
               onPress={() => this.onClickTab(3)}
-              style={{flex: 1}}
+              style={{flex: 1, paddingTop: Platform.OS === 'ios' ? 5 : 10}}
               height={TabBarHeight}>
               <RulerLightSvg
                 size={TabIconSize}
@@ -226,9 +233,8 @@ class TabView extends React.PureComponent {
               rippleCentered
               rippleSize={dySize(100)}
               align="center"
-              justify="center"
               onPress={() => this.onClickTab(4)}
-              style={{flex: 1}}
+              style={{flex: 1, paddingTop: Platform.OS === 'ios' ? 5 : 10}}
               height={TabBarHeight}>
               {setCrown ? (
                 <UserCrownSvg
@@ -276,10 +282,12 @@ const mapDispatchToProps = {
   changeToolsTab: otherActions.changeToolsTab,
   showSocialDrawer: routerActions.setSocialDrawerOpened,
   showProfileDrawer: routerActions.setProfileDrawerOpened,
+  showToolsDrawer: routerActions.setToolsDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
-  getTrustMemberResources: resourceActions.getTrustMemberResources,
-  setTrustMemberResourcePageIndex:
-    resourceActions.setTrustMemberResourcePageIndex,
+  getOwnersWithResourcePermission:
+    networkActions.getOwnersWithResourcePermission,
+  setSearchOwnersWithResourcePermissionIndex:
+    networkActions.setSearchOwnersWithResourcePermissionIndex,
 };
 
 export default withTranslation()(

@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   },
   isSocialDrawerOpened: false,
   isProfileDrawerOpened: false,
+  isToolsDrawerOpened: false,
   isInternetReachable: true,
   visitedTools: false,
   visitedProfile: false,
@@ -53,6 +54,11 @@ const routerReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isProfileDrawerOpened: action.payload,
+      };
+    case types.SET_TOOLS_DRAWER_OPENED:
+      return {
+        ...state,
+        isToolsDrawerOpened: action.payload,
       };
     case types.API_CALLING:
       return {

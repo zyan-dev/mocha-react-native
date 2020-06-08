@@ -124,6 +124,7 @@ class AddPostScreen extends React.Component {
                 onChange={text => updateSelectedPost({title: text})}
                 style={{flex: 1}}
                 placeholder="Post Title"
+                maxLength={256}
               />
               <MCButton onPress={() => this.onPressAttachment()}>
                 <MCIcon type="FontAwesome5Pro" name="file-upload" />
@@ -146,7 +147,7 @@ class AddPostScreen extends React.Component {
               placeholder="Write your post here"
               maxLength={1024}
             />
-            <MCView row wrap width={320} justify="center">
+            <MCView row wrap width={320}>
               {selectedPost.attachments.map(path => {
                 return (
                   <MCImage
@@ -209,7 +210,7 @@ class AddPostScreen extends React.Component {
                     bordered
                     onPress={() => this.onToggleSkill(skill)}
                     background={
-                      selected ? theme.colors.outline : theme.colors.card
+                      selected ? theme.colors.outline : theme.colors.card_border
                     }>
                     <H4
                       ph={10}

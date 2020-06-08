@@ -69,14 +69,23 @@ export const getResourceByTitle = title => ({
   payload: title,
 });
 
-export const getTrustMemberResources = pageIndex => ({
+export const getTrustMemberResources = data => ({
   type: types.GET_TRUST_MEMBER_RESOURCES,
-  payload: pageIndex,
+  payload: data,
+});
+
+export const resetTrustMemberResources = () => ({
+  type: types.RESET_TRUST_MEMBER_RESOURCES,
 });
 
 export const setTrustMemberResourcePageIndex = index => ({
   type: types.SET_TRUST_MEMBER_RESOURCE_PAGE_INDEX,
   payload: index,
+});
+
+export const selectTrustMember = id => ({
+  type: types.SELECT_TRUST_MEMBER,
+  payload: id,
 });
 
 export const searchResources = data => ({
@@ -91,4 +100,19 @@ export const setSearchResourcePageIndex = index => ({
 
 export const resetSearchResources = () => ({
   type: types.RESET_SEARCH_RESOURCES,
+});
+
+export const recommendResourceToMembers = data => ({
+  type: types.RECOMMEND_RESOURCE_TO_MEMBERS,
+  payload: data,
+});
+
+export const getRecommendedResources = pageIndex => ({
+  type: types.GET_RECOMMENDED_RESOURCES,
+  payload: pageIndex,
+});
+
+export const setRecommendedResourcePageIndex = index => ({
+  type: types.SET_RECOMMENDED_RESOURCE_PAGE_INDEX,
+  payload: index,
 });

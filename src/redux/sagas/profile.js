@@ -26,10 +26,10 @@ export function* updateBasicProfile(action) {
   try {
     let response = {};
     const {
-      profileReducer: {_id, bio, name, avatar, avatarChanged, userToken},
+      profileReducer: {_id, bio, name, avatar, userToken, pushToken},
     } = yield select();
     if (!userToken) return;
-    let updatedProfile = {bio, name, avatar};
+    let updatedProfile = {bio, name, avatar, pushToken};
     yield put({type: types.API_CALLING});
     if (avatar.length && avatar.indexOf('https://') < 0) {
       // avatar Changed

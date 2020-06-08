@@ -11,6 +11,7 @@ import HydrationScreen from './Hydration';
 import StrengthScreen from './Strength';
 import DreamScreen from './Dream';
 import ChronotypeScreen from '../../ProfileTab/profile/details/chronotype';
+import AddValueScreen from '../value/Add';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ class ProfileBasicStack extends React.Component {
         <Stack.Screen name="PB_Hydration" component={HydrationScreen} />
         <Stack.Screen name="PB_Strengths" component={StrengthScreen} />
         <Stack.Screen name="PB_Dream" component={DreamScreen} />
+        <Stack.Screen name="AddValue" component={AddValueScreen} />
       </Stack.Navigator>
     );
   }

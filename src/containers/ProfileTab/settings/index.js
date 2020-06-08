@@ -36,7 +36,7 @@ class SettingsScreen extends React.Component {
                 pb={2}
                 ml={10}
                 mb={10}
-                width={220}
+                width={300}
                 justify="center">
                 <MCIcon type={item.iconType} name={item.icon} />
                 <H3>{t(item.title)}</H3>

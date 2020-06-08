@@ -52,6 +52,7 @@ import {
   FutureSvg,
   UserLightSvg,
   SkullCowSvg,
+  SirenOnSvg,
 } from 'assets/svgs';
 import {OvalYellow, OvalGreen} from 'assets/images';
 import {FlatList} from 'react-native-gesture-handler';
@@ -182,7 +183,6 @@ class ProfileScreen extends React.Component {
       stressRecovery,
       strength,
       coreValues,
-      valueStory,
       dream,
       dailyHabits,
       weeklyHabits,
@@ -202,9 +202,11 @@ class ProfileScreen extends React.Component {
       meaning,
       behaviorPreference,
       commits,
+      triggers,
     } = this.props;
     const key = item.key;
     if (item.disabled) return null;
+    if (item.signinRequired && !profile.userToken.length) return null;
     if (key === 'overview') return <OverviewCard profile={profile} />;
     if (key === 'contact') return <ContactCard profile={profile} />;
     if (key === 'chronotype')
@@ -254,7 +256,6 @@ class ProfileScreen extends React.Component {
         <CoreValuesCard
           theme={theme}
           coreValues={coreValues}
-          valueStory={valueStory}
           onPressEdit={() => NavigationService.navigate('EditCoreValues')}
           onPressEditValueStory={value =>
             NavigationService.navigate('EditValueStory', {value})
@@ -395,7 +396,14 @@ class ProfileScreen extends React.Component {
       );
     if (key === 'risks') return <RiskToleranceCard onPressEdit={() => {}} />;
     if (key === 'quirks') return <QuirksCard onPressEdit={() => {}} />;
-    if (key === 'triggers') return <TriggersCard onPressEdit={() => {}} />;
+    if (key === 'triggers')
+      return (
+        <TriggersCard
+          onPressEdit={() => NavigationService.navigate('EditTriggers')}
+          theme={theme}
+          triggers={triggers}
+        />
+      );
   };
 
   renderProfileIcon = ({item, index}) => {
@@ -406,12 +414,12 @@ class ProfileScreen extends React.Component {
     if (layout.disabled) return null;
     const selected =
       viewableItems.length && viewableItems[0].key === layout.key;
-    const size = selected ? 30 : 20;
+    const size = selected ? 25 : 20;
     const color = selected ? theme.colors.outline : theme.colors.text;
     return (
       <MCButton
         key={layout.key}
-        width={45}
+        width={50}
         height={50}
         align="center"
         justify="center"
@@ -423,6 +431,15 @@ class ProfileScreen extends React.Component {
           <FutureSvg size={size} color={color} />
         ) : layout.key === 'meaning_life' ? (
           <SkullCowSvg size={size} color={color} />
+        ) : layout.key === 'chronotype' ? (
+          <MCIcon
+            type={layout.iconType}
+            name={layout.icon}
+            size={size * 0.8}
+            color={color}
+          />
+        ) : layout.key === 'triggers' ? (
+          <SirenOnSvg size={size} color={color} />
         ) : (
           <MCIcon
             type={layout.iconType}
@@ -550,10 +567,6 @@ const mapStateToProps = state => ({
     state,
     'CoreValues',
   ),
-  valueStory: selector.reflections.findMySpecialReflections(
-    state,
-    'ValueStory',
-  ),
   dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
   dailyHabits: selector.reflections
     .getMySpecialReflections(state, 'Habit')
@@ -596,6 +609,7 @@ const mapStateToProps = state => ({
   ),
   comfort: selector.reflections.findMySpecialReflections(state, 'Comfort'),
   meaning: selector.reflections.findMySpecialReflections(state, 'MeaningLife'),
+  triggers: selector.reflections.findMySpecialReflections(state, 'Triggers'),
   commits: state.otherReducer.commits,
 });
 

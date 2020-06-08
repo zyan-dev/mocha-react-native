@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import {chatActions} from 'Redux/actions';
 import {MCRootView, MCView, NativeCard} from 'components/styled/View';
 import {MCImage} from 'components/common';
-import {H3, H4} from 'components/styled/Text';
+import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
@@ -27,7 +27,7 @@ class SocialChatScreen extends React.Component {
   };
 
   _renderChatItem = ({item}) => {
-    const {t, theme, profile, lastMessageDateChecked} = this.props;
+    const {t, theme, profile, chatVisitStatus} = this.props;
     const chatRoom = item;
     let lastUser = chatRoom.includes.find(i => i._id === chatRoom.last_userId);
     return (
@@ -41,34 +41,35 @@ class SocialChatScreen extends React.Component {
             <H3 weight="bold" mr={20} style={{flex: 1}} numberOfLines={2}>
               {t(chatRoom.room_name)}
             </H3>
-            {chatRoom.members.slice(0, 3).map((member, index) => {
-              const find = chatRoom.includes.find(i => i._id === member);
-              if (!find) return;
-              return (
-                <MCView mr={-15}>
-                  <MCImage
-                    image={{uri: find.avatar}}
-                    round
-                    type="avatar"
-                    width={30}
-                    height={30}
-                  />
-                  {chatRoom.members.length > 3 && index === 2 && (
-                    <MCView
-                      absolute
+            {chatRoom.includes
+              .filter(i => i._id !== profile._id)
+              .slice(0, 3)
+              .map((member, index) => {
+                return (
+                  <MCView mr={-15}>
+                    <MCImage
+                      image={{uri: member.avatar}}
+                      round
+                      type="avatar"
                       width={30}
                       height={30}
-                      br={15}
-                      background={theme.colors.background}
-                      align="center"
-                      justify="center"
-                      style={{opacity: 0.8}}>
-                      <H4 weight="bold">+{chatRoom.members.length - 3}</H4>
-                    </MCView>
-                  )}
-                </MCView>
-              );
-            })}
+                    />
+                    {chatRoom.includes.length > 4 && index === 2 && (
+                      <MCView
+                        absolute
+                        width={30}
+                        height={30}
+                        br={15}
+                        background={theme.colors.background}
+                        align="center"
+                        justify="center"
+                        style={{opacity: 0.8}}>
+                        <H4 weight="bold">+{chatRoom.includes.length - 3}</H4>
+                      </MCView>
+                    )}
+                  </MCView>
+                );
+              })}
           </MCView>
           <MCView row justify="space-between" align="center">
             <H4
@@ -93,7 +94,7 @@ class SocialChatScreen extends React.Component {
             </H4>
           </MCView>
         </MCButton>
-        {Number(lastMessageDateChecked[chatRoom._id]) !==
+        {Number(chatVisitStatus[chatRoom._id]) !==
           new Date(chatRoom.last_updated).getTime() && (
           <MCView
             style={{
@@ -117,7 +118,8 @@ class SocialChatScreen extends React.Component {
   };
 
   render() {
-    const {t, myRooms, loading} = this.props;
+    const {t, myRooms, loading, chatVisitStatus} = this.props;
+    console.log({chatVisitStatus});
     return (
       <MCRootView justify="flex-start" background="transparent">
         <FlatList
@@ -128,6 +130,11 @@ class SocialChatScreen extends React.Component {
           }}
           data={myRooms}
           renderItem={this._renderChatItem}
+          ListEmptyComponent={
+            <MCEmptyText mt={50}>
+              {loading ? t('progress_loading') : t('no_chat_rooms')}
+            </MCEmptyText>
+          }
           keyExtractor={item => item._id}
           refreshControl={
             <RefreshControl
@@ -146,7 +153,7 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   myRooms: state.chatReducer.myRooms,
   loading: state.chatReducer.loading,
-  lastMessageDateChecked: state.chatReducer.lastMessageDateChecked,
+  chatVisitStatus: state.chatReducer.chatVisitStatus,
   profile: state.profileReducer,
 });
 

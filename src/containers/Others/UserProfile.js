@@ -116,7 +116,6 @@ class UserProfileScreen extends React.Component {
       stressRecovery,
       strength,
       coreValues,
-      valueStory,
       dream,
       dailyHabits,
       weeklyHabits,
@@ -174,7 +173,6 @@ class UserProfileScreen extends React.Component {
         <CoreValuesCard
           theme={theme}
           coreValues={coreValues}
-          valueStory={valueStory}
           editable={false}
         />
       );
@@ -371,7 +369,7 @@ class UserProfileScreen extends React.Component {
         {!profile.isTrustMember && (
           <>
             <OverviewCard profile={profile} editable={false} hideOverview />
-            <MCView mt={30} align="center">
+            <MCView mt={30} align="center" width={250}>
               <MCView
                 bordered
                 br={30}
@@ -384,7 +382,9 @@ class UserProfileScreen extends React.Component {
                 <MCIcon type="FontAwesome5Pro" name="lock" size={30} />
               </MCView>
               <H3>This Account is Private</H3>
-              <H4>Send a Trust Request to see their profile content</H4>
+              <H4 align="center">
+                Send a Trust Request to see their profile content
+              </H4>
               <MCButton
                 row
                 align="center"
@@ -455,10 +455,6 @@ const mapStateToProps = state => ({
   coreValues: selector.reflections.findUserSpecialReflections(
     state,
     'CoreValues',
-  ),
-  valueStory: selector.reflections.findUserSpecialReflections(
-    state,
-    'ValueStory',
   ),
   dream: selector.reflections.findUserSpecialReflections(state, 'Dreams'),
   dailyHabits: selector.reflections

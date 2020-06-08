@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
+import i18next from 'i18next';
 import {selector} from 'Redux/selectors';
 import {reflectionActions, userActions, feedbackActions} from 'Redux/actions';
 import {MCRootView, MCContent, MCView, MCCard} from 'components/styled/View';
@@ -11,8 +12,16 @@ import {MCHeader, MCIcon, MCImage} from 'components/common';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {KeySvg} from 'assets/svgs';
+import {getStringWithOutline} from 'services/operators';
 
 class BestSelfScreen extends React.Component {
+  title = {
+    title: i18next.t('tools_tab_self_best_title', {
+      bold: i18next.t('outline_capital_strengths'),
+    }),
+    boldWordKeys: ['capital_strengths'],
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -96,7 +105,7 @@ class BestSelfScreen extends React.Component {
             alignItems: 'center',
           }}>
           <MCView align="center" ph={20}>
-            <H4 align="center">{t('tools_tab_self_best_title')}</H4>
+            <H4 align="center">{getStringWithOutline(this.title)}</H4>
             <MCCard width={280} mt={20} p={10}>
               <H4>{t('mocha_feedback_my-strenhths')}</H4>
             </MCCard>

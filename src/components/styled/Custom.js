@@ -19,3 +19,21 @@ export const WideOvalYellowImage = styled(Image)`
   width: ${dySize(161)}px;
   opacity: ${props => props.opacity || 0.1};
 `;
+
+export const OvalGreenImage = styled.Image`
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  height: 128px;
+  width: 62px;
+  opacity: 0.2;
+`;
+
+export const OvalYellowImage = styled.Image`
+  position: absolute;
+  top: 100px;
+  right: 0px;
+  height: 149px;
+  width: 33px;
+  opacity: 0.2;
+`;

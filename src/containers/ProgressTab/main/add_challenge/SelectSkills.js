@@ -5,7 +5,7 @@ import {MCRootView} from 'components/styled/View';
 import {MCHeader} from 'components/common';
 import {H3} from 'components/styled/Text';
 
-class SocialHomeScreen extends React.Component {
+class SelectSkillsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -14,8 +14,8 @@ class SocialHomeScreen extends React.Component {
   render() {
     const {t} = this.props;
     return (
-      <MCRootView justify="flex-start" background="transparent">
-        <H3>coming sooon</H3>
+      <MCRootView justify="flex-start">
+        <H3>Select Skills</H3>
       </MCRootView>
     );
   }
@@ -29,5 +29,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(SocialHomeScreen),
+  )(SelectSkillsScreen),
 );

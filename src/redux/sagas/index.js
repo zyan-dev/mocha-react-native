@@ -1,4 +1,4 @@
-import {takeEvery, takeLatest} from 'redux-saga/effects';
+import {takeEvery, takeLatest, TakeEffect} from 'redux-saga/effects';
 import * as types from '../actions/types';
 import * as authSaga from './auth';
 import * as profileSaga from './profile';
@@ -89,6 +89,10 @@ function* mySaga() {
   yield takeLatest(types.CREATE_TRUST_NETWORK, networkSaga.createNetwork);
   yield takeLatest(types.UPDATE_TRUST_NETWORK, networkSaga.updateNetwork);
   yield takeLatest(types.DELETE_TRUST_NETWORK, networkSaga.deleteNetwork);
+  yield takeLatest(
+    types.GET_OWNERS_WITH_RESOURCE_PERMISSION,
+    networkSaga.getOwnersWithResourcePermission,
+  );
 
   // Resource
   yield takeLatest(types.GET_ALL_RESOURCES, resourceSaga.getAllResources);
@@ -113,6 +117,14 @@ function* mySaga() {
     types.GET_RESOURCE_BY_TITLE,
     resourceSaga.getResourceByTitle,
   );
+  yield takeLatest(
+    types.RECOMMEND_RESOURCE_TO_MEMBERS,
+    resourceSaga.recommendResourceToMembers,
+  );
+  yield takeLatest(
+    types.GET_RECOMMENDED_RESOURCES,
+    resourceSaga.getRecommendedResources,
+  );
 
   // other
   yield takeLatest(types.PURCHASE_SUBSCRIPTION, otherSaga.purchaseSubscription);
@@ -132,6 +144,12 @@ function* mySaga() {
   yield takeLatest(types.UPDATE_CHAT_ROOM, chatSaga.updateChatRoom);
   yield takeLatest(types.DELETE_CHAT_ROOM, chatSaga.deleteChatRoom);
   yield takeLatest(types.SET_MY_CHAT_ROOMS, chatSaga.checkChatMissedState);
+  yield takeLatest(types.GET_CHAT_VISIT_STATUS, chatSaga.getChatVisitStatus);
+  yield takeLatest(types.GO_TO_CHAT_ROOM_BY_ID, chatSaga.goToChatRoom);
+  yield takeLatest(
+    types.UPDATE_CHAT_VISIT_STATUS,
+    chatSaga.updateChatVisitStatus,
+  );
   yield takeLatest(
     types.CHECK_CHAT_MISSED_STATE,
     chatSaga.checkChatMissedState,
@@ -142,6 +160,7 @@ function* mySaga() {
   yield takeEvery(types.GET_POSTS_BY_ID, postSaga.getPostsById);
   yield takeEvery(types.GET_ALL_POSTS, postSaga.getPosts);
   yield takeEvery(types.REMOVE_POSTS, postSaga.removePosts);
+  yield takeEvery(types.GET_POST_TRUST_MEMBERS, postSaga.getPostTrustMembers);
 }
 
 export default mySaga;

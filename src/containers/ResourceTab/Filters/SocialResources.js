@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
 
-import {resourceActions} from 'Redux/actions';
+import {resourceActions, networkActions} from 'Redux/actions';
 import {MCContent, MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
@@ -28,43 +28,40 @@ class SocialResourcesScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    const {
-      getTrustMemberResources,
-      setTrustMemberResourcePageIndex,
-    } = this.props;
+    const {setTrustMemberResourcePageIndex} = this.props;
     setTrustMemberResourcePageIndex(1);
-    getTrustMemberResources(1);
     this.getResourceMembers();
   }
 
   componentDidUpdate(preProps, preState) {
-    if (preProps.trustMemberResources !== this.props.trustMemberResources) {
+    if (
+      preProps.networksWithResourcePermission !==
+      this.props.networksWithResourcePermission
+    ) {
       this.getResourceMembers();
     }
   }
 
   getResourceMembers = () => {
-    const {trustMemberResources} = this.props;
-    const {focused} = this.state;
+    const {
+      networksWithResourcePermission,
+      getTrustMemberResources,
+      selectTrustMember,
+    } = this.props;
+    const {selectedMember} = this.state;
 
-    let members = [];
-    trustMemberResources.forEach(resource => {
-      if (resource.type == focused && resource.data) {
-        members.forEach((member, index) => {
-          if (member._id === resource.trustMember._id) {
-            members.splice(index, 1);
-          }
-        });
-        members.push(resource.trustMember);
-      }
-    });
+    if (
+      networksWithResourcePermission.length > 0 &&
+      _.isEmpty(selectedMember)
+    ) {
+      this.setState({selectedMember: networksWithResourcePermission[0]});
+      getTrustMemberResources({
+        pageIndex: 1,
+        trustMember: networksWithResourcePermission[0]._id,
+      });
 
-    this.setState({
-      members: members,
-      selectedMember: _.isEmpty(this.state.selectedMember)
-        ? members[0]
-        : this.state.selectedMember,
-    });
+      selectTrustMember(networksWithResourcePermission[0]._id);
+    }
   };
 
   onPressItem = item => {
@@ -72,23 +69,29 @@ class SocialResourcesScreen extends React.PureComponent {
   };
 
   selectMember = user => {
+    const {getTrustMemberResources, selectTrustMember} = this.props;
     this.setState({selectedMember: user});
+    selectTrustMember(user._id);
+    getTrustMemberResources({
+      pageIndex: 1,
+      trustMember: user._id,
+    });
   };
 
   sortBook = () => {
     this.setState({sort: !this.state.sort});
   };
 
-  getNextPage = () => {
+  searchNextPage = () => {
     const {
+      networksPageLimited,
+      networkPageIndex,
       pageSearching,
-      getTrustMemberResources,
-      resourceTrustMemberPageIndex,
-      resourceTrustMemberLimited,
+      getOwnersWithResourcePermission,
     } = this.props;
 
-    if (resourceTrustMemberLimited || pageSearching) return;
-    getTrustMemberResources(resourceTrustMemberPageIndex + 1);
+    if (networksPageLimited || pageSearching) return;
+    getOwnersWithResourcePermission(networkPageIndex + 1);
   };
 
   _renderListItem = ({item}) => {
@@ -120,17 +123,22 @@ class SocialResourcesScreen extends React.PureComponent {
   };
 
   render() {
-    const {theme, t, trustMemberResources} = this.props;
-    const {focused, sort, selectedMember, members} = this.state;
+    const {
+      theme,
+      t,
+      trustMemberResources,
+      networksWithResourcePermission,
+    } = this.props;
+    const {focused, sort, selectedMember} = this.state;
 
     return (
       <MCRootView justify="flex-start">
         <FlatList
-          data={members}
+          data={networksWithResourcePermission}
           renderItem={this._renderListItem}
           keyExtractor={item => item._id}
           keyboardShouldPersistTaps="always"
-          ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+          ListEmptyComponent={<MCEmptyText>{t('no_members')}</MCEmptyText>}
           numColumns={1}
           style={{
             width: dySize(350),
@@ -138,7 +146,7 @@ class SocialResourcesScreen extends React.PureComponent {
             marginTop: dySize(10),
           }}
           horizontal={true}
-          onEndReached={() => this.getNextPage()}
+          onEndReached={() => this.searchNextPage()}
           onEndReachedThreshold={0.5}
         />
         <MCView row>
@@ -197,12 +205,20 @@ const mapStateToProps = state => ({
   resourceTrustMemberPageIndex:
     state.resourceReducer.resourceTrustMemberPageIndex,
   resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
+  networksPageLimited: state.networkReducer.networksPageLimited,
+  networkPageIndex: state.networkReducer.networkPageIndex,
+  pageSearching: state.networkReducer.pageSearching,
+  networksWithResourcePermission:
+    state.networkReducer.networksWithResourcePermission,
 });
 
 const mapDispatchToProps = {
   getTrustMemberResources: resourceActions.getTrustMemberResources,
   setTrustMemberResourcePageIndex:
     resourceActions.setTrustMemberResourcePageIndex,
+  selectTrustMember: resourceActions.selectTrustMember,
+  getOwnersWithResourcePermission:
+    networkActions.getOwnersWithResourcePermission,
 };
 export default withTranslation()(
   connect(

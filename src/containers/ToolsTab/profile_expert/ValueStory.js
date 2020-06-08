@@ -20,22 +20,19 @@ class PersonalizeValueScreen extends React.Component {
     };
   }
   componentWillMount() {
-    const {valueStory, selectReflection, setInitialReflection} = this.props;
-    if (valueStory) {
-      selectReflection(valueStory);
-    } else {
-      setInitialReflection('value_story');
-    }
+    const {coreValues, selectReflection, setInitialReflection} = this.props;
+    selectReflection(coreValues);
   }
 
   onChangeValueStory = text => {
     const {value} = this.props.route.params;
     const {updateSelectedReflection, selectedReflection} = this.props;
-    const {story} = selectedReflection.data;
+    const story = _.get(selectedReflection, ['data', 'story'], {});
+    const custom = value.category === 'custom';
     updateSelectedReflection({
       story: {
         ...story,
-        [value.value]: text,
+        [`${custom ? 'custom_' : ''}${value.value}`]: text,
       },
     });
   };
@@ -50,12 +47,17 @@ class PersonalizeValueScreen extends React.Component {
     const {value} = this.props.route.params;
     const {selectedReflection} = this.props;
     const story = _.get(selectedReflection, ['data', 'story'], {});
-    return story[value.value] && story[value.value].length > 0;
+    const custom = value.category === 'custom';
+    return (
+      story[`${custom ? 'custom_' : ''}${value.value}`] &&
+      story[`${custom ? 'custom_' : ''}${value.value}`].length > 0
+    );
   };
 
   renderSelectedValueCard = () => {
     const {value} = this.props.route.params;
     const {t, theme} = this.props;
+    const custom = value.category === 'custom';
     return (
       <MCButton
         key={value.value + theme.colors.theme_name}
@@ -66,27 +68,41 @@ class PersonalizeValueScreen extends React.Component {
           alignItems: 'center',
           justifyContent: 'center',
           borderWidth: 1,
-          borderColor: theme.colors.card,
+          borderColor: theme.colors.card_border,
           backgroundColor: ValueCardBackgrounds[0],
           borderRadius: 10,
           borderWidth: dySize(6),
           padding: dySize(5),
         }}>
-        <H4
-          align="center"
-          color={ValueCardTextColor}
-          style={{letterSpacing: 5}}>
-          {t(`value_category_${value.category}`).toUpperCase()}
-        </H4>
+        {!custom && (
+          <H4
+            align="center"
+            color={ValueCardTextColor}
+            style={{letterSpacing: 5}}>
+            {t(`value_category_${value.category}`).toUpperCase()}
+          </H4>
+        )}
+
         <H4 weight="bold" align="center" color={ValueCardTextColor}>
-          {t(`tools_tab_value_${value.value}`)}
+          {custom
+            ? value.value.replace(/_/g, ' ')
+            : t(`tools_tab_value_${value.value}`)}
         </H4>
         <MCView style={{flex: 1}} align="center" justify="center">
-          {value.image && (
+          {value.image && !custom && (
             <MCImage
               image={value.image}
               width={dySize(200)}
               height={dySize(160)}
+              resizeMode="contain"
+            />
+          )}
+          {value.image && custom && (
+            <MCImage
+              image={{uri: value.image}}
+              width={dySize(200)}
+              height={dySize(200)}
+              br={10}
               resizeMode="contain"
             />
           )}
@@ -99,15 +115,19 @@ class PersonalizeValueScreen extends React.Component {
             />
           )}
         </MCView>
-        <H5
-          align="center"
-          style={{letterSpacing: 5}}
-          color={ValueCardTextColor}>
-          {t(`value_name_${value.name}`).toUpperCase()}
-        </H5>
-        <H5 color={ValueCardTextColor} weight="italic" align="center">
-          {t(`value_name_${value.name}_description`)}
-        </H5>
+        {!custom && (
+          <>
+            <H5
+              align="center"
+              style={{letterSpacing: 5}}
+              color={ValueCardTextColor}>
+              {t(`value_name_${value.name}`).toUpperCase()}
+            </H5>
+            <H5 color={ValueCardTextColor} weight="italic" align="center">
+              {t(`value_name_${value.name}_description`)}
+            </H5>
+          </>
+        )}
       </MCButton>
     );
   };
@@ -118,6 +138,7 @@ class PersonalizeValueScreen extends React.Component {
     const {value} = this.props.route.params;
     if (!selectedReflection) return null;
     const story = _.get(selectedReflection, ['data', 'story'], {});
+    const custom = value.category === 'custom';
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -143,7 +164,7 @@ class PersonalizeValueScreen extends React.Component {
             multiline
             submitted={submitted}
             isInvalid={!this.validateStory()}
-            value={story[value.value]}
+            value={story[`${custom ? 'custom_' : ''}${value.value}`]}
             placeholder="Add a personal story here"
             errorText={t('error_input_required')}
           />
@@ -156,9 +177,9 @@ class PersonalizeValueScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   selectedReflection: selector.reflections.getSelectedReflection(state),
-  valueStory: selector.reflections.findMySpecialReflections(
+  coreValues: selector.reflections.findMySpecialReflections(
     state,
-    'ValueStory',
+    'CoreValues',
   ),
 });
 

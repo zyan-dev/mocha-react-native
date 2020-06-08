@@ -2,6 +2,7 @@ import {call, put, select} from 'redux-saga/effects';
 import * as types from '../actions/types';
 import API from 'services/api';
 import {showAlert} from 'services/operators';
+import {INITIAL_STATE} from '../reducers/notifications';
 
 export function* getNotificationSettings(action) {
   try {
@@ -13,7 +14,10 @@ export function* getNotificationSettings(action) {
     ) {
       yield put({
         type: types.SET_NOTIFICATION_SETTINGS,
-        payload: response.data.data.notificationSetting,
+        payload: {
+          ...INITIAL_STATE,
+          ...response.data.data.notificationSetting,
+        },
       });
     } else if (response.data.data.notificationSetting === null) {
       yield call(API.createNotificationSettings, notificationReducer);

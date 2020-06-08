@@ -4,6 +4,9 @@ import API from 'services/api';
 import {showAlert} from 'services/operators';
 
 export function* getTrustMembers(action) {
+  const {
+    postReducer: {selectedUser},
+  } = yield select();
   try {
     if (action.payload.page === 1) {
       yield put({
@@ -16,20 +19,33 @@ export function* getTrustMembers(action) {
       type: types.SET_PAGE_SEARCHING_STATE,
       payload: true,
     });
-    // call send sms API
+
     const response = yield call(API.getTrustMembers, action.payload);
     if (response.data.status === 'success') {
+      const contacts = response.data.data.contacts;
       yield put({
         type:
           action.payload.status === 0
             ? types.SET_PENDING_MEMBERS
             : types.SET_TRUST_MEMBERS,
-        payload: response.data.data.contacts,
+        payload: contacts,
       });
       yield put({
         type: types.SET_SEARCH_PAGE_LIMITED,
         payload: action.payload.page === response.data.data.total_pages,
       });
+      // select the first trust member by default for users posts screen
+      if (
+        action.payload.status === 1 &&
+        action.payload.page === 1 &&
+        contacts.length > 0
+      ) {
+        // select default user if selected user is invalid
+        yield put({
+          type: types.GET_POSTS_BY_ID,
+          payload: {id: selectedUser._id, page: 1},
+        });
+      }
     } else {
       yield put({
         type: types.API_FINISHED,

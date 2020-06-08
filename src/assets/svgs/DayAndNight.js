@@ -15,7 +15,6 @@ const DayAndNightSvg = ({size, color}) => {
       viewBox="0 0 512 512"
       width={size}
       height={size}
-      stro
       // style={{ marginBottom: 8 }}
     >
       <Path

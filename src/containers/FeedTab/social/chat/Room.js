@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {FloatingAction} from 'react-native-floating-action';
+import ImageResizer from 'react-native-image-resizer';
 import EmojiSelector from 'react-native-emoji-selector';
 import moment from 'moment';
 import * as _ from 'lodash';
@@ -38,7 +39,6 @@ class ChatRoomScreen extends React.Component {
       selectedImage: null,
       firstLoad: false,
       count: countPerPage,
-      refreshing: false,
       lastItem: {},
       topBubbleDate: 0,
       showTopBubbleDate: false,
@@ -72,23 +72,21 @@ class ChatRoomScreen extends React.Component {
   }
 
   componentDidUpdate(preProps, prevState) {
-    const {refreshing, lastItem, firstLoad} = this.state;
-    if (preProps.loading && !this.props.loading) {
-      if (this.mounted && !firstLoad) {
-        this.scrollToEnd();
-        this.setState({firstLoad: true});
-        console.log('Initial load');
-      } else if (refreshing) {
-        this.setState({refreshing: false});
-        console.log('Scrolling to item');
+    const {lastItem, firstLoad} = this.state;
+    if (
+      preProps.roomMessageIds.length !== this.props.roomMessageIds.length &&
+      firstLoad
+    ) {
+      if (lastItem) {
         this.scrollToItem(lastItem);
-      } else if (
-        // scroll to end if message length has been changed
-        preProps.roomMessages.length !== this.props.roomMessages.length
-      ) {
-        console.log('Scrolling to end');
+      } else {
         this.scrollToEnd();
       }
+    }
+    if (preProps.loading && !this.props.loading && !firstLoad) {
+      this.setState({firstLoad: true}, () => {
+        this.scrollToEnd();
+      });
     }
   }
 
@@ -105,7 +103,7 @@ class ChatRoomScreen extends React.Component {
       getRoomMessages,
       selectedRoom,
     } = this.props;
-    if (text.length === 0) return;
+    if (text.trim().length === 0 && !selectedImage) return;
 
     const ts = new Date().getTime();
 
@@ -118,24 +116,82 @@ class ChatRoomScreen extends React.Component {
     // upload media file if attached
     if (selectedImage) {
       setLoading(true);
-      const uploadedURL = await API.fileUploadToS3({
-        image: selectedImage.path,
-        type: 'chat_attachment',
-        userId: msgData.userId,
-      });
-      if (uploadedURL === 'error') {
-        showAlert(i18next.t('error_upload_file_failed'));
-        setLoading(false);
-        return;
-      }
-      msgData.image = uploadedURL;
-    }
-    setLoading(false);
 
-    getRoomMessages(selectedRoom._id, count + 1);
-    sendMessage(msgData, () => {
-      this.setState({text: '', selectedImage: null, count: count + 1});
-    });
+      // upload small image by resizing
+      try {
+        ImageResizer.createResizedImage(
+          selectedImage.path, // Image Path
+          300, // maxWidth
+          300, // maxHeight
+          'JPEG', // compressFormat
+          50, // quality
+          0, // rotation
+          null, //outputPath if null, it will be stored in cache folder
+        )
+          .then(async response => {
+            // response.uri is the URI of the new image that can now be displayed, uploaded...
+            // response.path is the path of the new image
+            // response.name is the name of the new image with the extension
+            // response.size is the size of the new image
+            const uploadedSmallURL = await API.fileUploadToS3({
+              image: response.path,
+              type: 'chat_attachment_small',
+              userId: msgData.userId,
+            });
+            if (uploadedSmallURL === 'error') {
+              showAlert(i18next.t('error_upload_file_failed'));
+              setLoading(false);
+              return;
+            }
+
+            console.log({uploadedSmallURL});
+            // upload big image
+            const uploadedURL = await API.fileUploadToS3({
+              image: selectedImage.path,
+              type: 'chat_attachment',
+              userId: msgData.userId,
+            });
+            if (uploadedURL === 'error') {
+              showAlert(i18next.t('error_upload_file_failed'));
+              setLoading(false);
+              return;
+            }
+            console.log({uploadedURL});
+            msgData.image = uploadedURL;
+            msgData.imageSmall = uploadedSmallURL;
+            setLoading(false);
+
+            sendMessage(msgData, () => {
+              this.setState({
+                text: '',
+                selectedImage: null,
+                lastItem: null,
+                count: count + 1,
+              });
+              getRoomMessages(selectedRoom._id, count + 1);
+            });
+          })
+          .catch(err => {
+            // Oops, something went wrong. Check that the filename is correct and
+            // inspect err to get more details.
+          });
+      } catch (e) {
+        setLoading(false);
+        showAlert(e.toString());
+      }
+    } else {
+      setLoading(false);
+
+      sendMessage(msgData, () => {
+        this.setState({
+          text: '',
+          selectedImage: null,
+          lastItem: null,
+          count: count + 1,
+        });
+        getRoomMessages(selectedRoom._id, count + 1);
+      });
+    }
   };
 
   openActionSheet = () => {
@@ -211,7 +267,6 @@ class ChatRoomScreen extends React.Component {
   };
 
   scrollToItem = item => {
-    console.log('Scrolling to item');
     setTimeout(() => {
       this.chatList &&
         this.chatList.scrollToItem({animated: false, item, viewPosition: 0});
@@ -219,33 +274,28 @@ class ChatRoomScreen extends React.Component {
   };
 
   onViewableItemsChanged = ({viewableItems, changed}) => {
-    const {
-      selectedRoom,
-      lastMessageDateChecked,
-      checkChatMissedState,
-      roomMessages,
-    } = this.props;
+    const {selectedRoom, chatVisitStatus, roomMessages} = this.props;
     if (viewableItems.length === 0) return;
 
     this.setState({
       topBubbleDate: _.get(roomMessages, [viewableItems[0].item, 'date'], 0),
     });
     const viewableLastDate = viewableItems[viewableItems.length - 1].item;
-    if (viewableLastDate <= lastMessageDateChecked[selectedRoom._id]) return;
-    this.props.updateLastMessageDate({
+    if (viewableLastDate <= chatVisitStatus[selectedRoom._id]) return;
+    this.props.updateChatVisitStatus({
       [selectedRoom._id]: viewableLastDate,
     });
-    setTimeout(() => {
-      checkChatMissedState();
-    });
+  };
+
+  onPressAttachment = () => {
+    Keyboard.dismiss();
+    this.floatingAction.animateButton();
   };
 
   onAttachmentItem = name => {
     if (name === 'image') {
       ImagePicker.openPicker({
-        width: 400,
-        height: 600,
-        cropping: true,
+        cropping: false,
         includeBase64: true,
       }).then(image => {
         // image object (path, data ...)
@@ -254,9 +304,7 @@ class ChatRoomScreen extends React.Component {
       });
     } else if (name === 'camera') {
       ImagePicker.openCamera({
-        width: 400,
-        height: 600,
-        cropping: true,
+        cropping: false,
         includeBase64: true,
       }).then(image => {
         // image object (path, data ...)
@@ -269,12 +317,16 @@ class ChatRoomScreen extends React.Component {
   loadMoreMessages = () => {
     const {count} = this.state;
     const {selectedRoom, getRoomMessages, roomMessageIds} = this.props;
-    getRoomMessages(selectedRoom._id, count + countPerPage); // page: 1
-    this.setState({
-      refreshing: true,
-      lastItem: roomMessageIds[0],
-      count: count + countPerPage,
-    });
+    this.setState(
+      {
+        refreshing: true,
+        lastItem: roomMessageIds[0],
+        count: count + countPerPage,
+      },
+      () => {
+        getRoomMessages(selectedRoom._id, count + countPerPage); // page: 1
+      },
+    );
   };
 
   onScrollBeginDrag = () => {
@@ -358,6 +410,8 @@ class ChatRoomScreen extends React.Component {
       </MCButton>
     );
   };
+
+  // =======================================   Rendering  ==========================================
 
   render() {
     const {
@@ -490,7 +544,6 @@ class ChatRoomScreen extends React.Component {
             refreshControl={
               <RefreshControl
                 colors={['#9Bd35A', '#689F38']}
-                refreshing={loading}
                 onRefresh={this.loadMoreMessages.bind(this)}
                 title="Load more"
               />
@@ -533,21 +586,17 @@ class ChatRoomScreen extends React.Component {
           )}
 
           <MCView row align="center" width={350} pv={10}>
-            <MCButton
-              onPress={() => this.floatingAction.animateButton()}
-              ml={-10}>
+            <MCButton onPress={() => this.onPressAttachment()} ml={-10}>
               <MCIcon type="FontAwesome5Pro" name="plus-circle" />
             </MCButton>
             <MCTextInput
               value={text}
+              multiline
               onChangeText={text => this.setState({text})}
               placeholder="Type your message here..."
               placeholderTextColor={theme.colors.border}
-              style={{flex: 1}}
-              onSubmitEditing={() => this.sendMessage()}
-              returnKeyType="send"
+              style={{flex: 1, minHeight: 'auto'}}
               onFocus={() => this.scrollToEnd()}
-              onBlur={() => this.scrollToEnd()}
             />
             <MCButton onPress={() => this.sendMessage()} mr={-10}>
               <MCIcon type="FontAwesome5Pro" name="paper-plane" />
@@ -703,7 +752,7 @@ const mapStateToProps = state => ({
   ),
   loading: state.chatReducer.loading,
   hasMissedMessages: state.chatReducer.hasMissedMessages,
-  lastMessageDateChecked: state.chatReducer.lastMessageDateChecked,
+  chatVisitStatus: state.chatReducer.chatVisitStatus,
   profile: state.profileReducer,
 });
 
@@ -714,8 +763,7 @@ const mapDispatchToProps = {
   deleteChatRoom: chatActions.deleteChatRoom,
   updateChatRoom: chatActions.updateChatRoom,
   closeRoomMessageListener: chatActions.closeRoomMessageListener,
-  updateLastMessageDate: chatActions.updateLastMessageDate,
-  checkChatMissedState: chatActions.checkChatMissedState,
+  updateChatVisitStatus: chatActions.updateChatVisitStatus,
   setRoomMessages: chatActions.setRoomMessages,
   addEmoji: chatActions.addEmoji,
 };

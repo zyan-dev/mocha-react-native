@@ -36,3 +36,13 @@ export const removePosts = ids => ({
   type: types.REMOVE_POSTS,
   payload: ids,
 });
+
+export const selectPostUser = user => ({
+  type: types.SET_SELECTED_POST_USER,
+  payload: user,
+});
+
+export const getPostTrustMembers = param => ({
+  type: types.GET_POST_TRUST_MEMBERS,
+  payload: param,
+});

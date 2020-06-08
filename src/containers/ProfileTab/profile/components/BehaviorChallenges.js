@@ -26,15 +26,17 @@ class ChallengesBehaviorCard extends React.Component {
     const options = _.get(challenges, ['data', 'bookmarked'], []);
     return (
       <MCView mt={30}>
-        <MCView row align="center" mb={20}>
-          <MCView row align="center" style={{flex: 1}}>
-            <H3 weight="bold" mr={10}>
-              {t('profile_subtitle_challenges_concerns')}
+        <MCView row mb={20}>
+          <MCView row align="center" wrap width={270}>
+            <H3>
+              <H3 weight="bold">
+                {t('profile_subtitle_challenges_concerns')}{' '}
+              </H3>
+              <ExclamationSvg size={25} />
             </H3>
-            <ExclamationSvg size={25} />
           </MCView>
           {editable && (
-            <MCButton onPress={() => onPressEdit()}>
+            <MCButton onPress={() => onPressEdit()} pt={1}>
               <MCIcon type="FontAwesome5" name="edit" />
             </MCButton>
           )}

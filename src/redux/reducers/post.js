@@ -17,9 +17,11 @@ const INITIAL_STATE = {
   selectedPost: emptyPost,
   userPosts: [],
   myPosts: [],
+  trustMembers: [],
   pageLimited: false,
   pageSearching: false,
   pageIndex: 1,
+  selectedUser: null,
 };
 
 const postReducer = (state = INITIAL_STATE, action) => {
@@ -41,6 +43,21 @@ const postReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         selectedPost: _.cloneDeep(emptyPost),
+      };
+    case types.SET_SELECTED_POST_USER:
+      return {
+        ...state,
+        selectedUser: action.payload,
+      };
+    case types.SET_POST_TRUST_MEMBERS:
+      return {
+        ...state,
+        trustMembers: action.payload,
+      };
+    case types.ADD_POST_TRUST_MEMBERS:
+      return {
+        ...state,
+        trustMembers: state.trustMembers.concat(action.payload),
       };
     case types.SET_USER_POSTS:
       return {

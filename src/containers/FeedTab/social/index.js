@@ -9,9 +9,8 @@ import {MCHeader, MCIcon} from 'components/common';
 import {MCView, MCRootView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3} from 'components/styled/Text';
-import SocialHomeScreen from './home';
+import PendingUsersScreen from './pending';
 import SocialChatScreen from './chat';
-import SocialAccountabilityScreen from './accountability';
 import SocialSearchScreen from './search';
 import {PeopleArrowSvg} from 'assets/svgs';
 import {OvalYellow, OvalGreen} from 'assets/images';
@@ -58,8 +57,18 @@ class FeedScreen extends React.Component {
   onChangeTabIndex = i => {
     this.setState({index: i});
     switch (i) {
+      case 0:
+        this.props.findUserByName({name: '', page: 1});
+        break;
       case 1:
         this.props.getMyChatRooms();
+        break;
+      case 2:
+        this.props.getTrustMembers({
+          status: 0,
+          name: '',
+          page: 1,
+        });
         break;
       default:
         break;
@@ -85,20 +94,16 @@ class FeedScreen extends React.Component {
     }
     const routes = [
       {
-        key: 'home',
-        icon: 'home-lg-alt',
+        key: 'search',
+        icon: 'users',
       },
       {
         key: 'chat',
         icon: 'comments-alt',
       },
       {
-        key: 'accountability',
+        key: 'pending',
         icon: 'people-arrows',
-      },
-      {
-        key: 'search',
-        icon: 'search',
       },
     ];
     const renderTabBar = props => (
@@ -111,7 +116,7 @@ class FeedScreen extends React.Component {
         }}
         renderLabel={({route, focused, color}) => {
           const iconColor = focused ? theme.colors.outline : theme.colors.text;
-          if (route.key === 'accountability') {
+          if (route.key === 'pending') {
             return <PeopleArrowSvg color={iconColor} size={25} />;
           }
           return (
@@ -157,10 +162,9 @@ class FeedScreen extends React.Component {
         <TabView
           navigationState={{index, routes}}
           renderScene={SceneMap({
-            home: SocialHomeScreen,
-            chat: SocialChatScreen,
-            accountability: SocialAccountabilityScreen,
             search: SocialSearchScreen,
+            chat: SocialChatScreen,
+            pending: PendingUsersScreen,
           })}
           onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}
@@ -185,6 +189,7 @@ const mapDispatchToProps = {
   showDrawer: routerActions.setSocialDrawerOpened,
   findUserByName: userActions.findUserByName,
   setSearchPageIndex: userActions.setSearchPageIndex,
+  getTrustMembers: userActions.getTrustMembers,
   getMyChatRooms: chatActions.getMyChatRooms,
 };
 

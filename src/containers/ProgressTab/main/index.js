@@ -4,12 +4,16 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {TabBar, TabView, SceneMap} from 'react-native-tab-view';
 import {MCHeader, MCIcon} from 'components/common';
-import {postActions} from 'Redux/actions';
-import ProgressChallengeTab from './Challenges';
+import {MCRootView} from 'components/styled/View';
+import {MCButton} from 'components/styled/Button';
+import {H3} from 'components/styled/Text';
+import {postActions, userActions} from 'Redux/actions';
+import ProgressChallengeTab from './MyChallenges';
 import ProgressMembersTab from './Members';
-import ProgressOwnTab from './MyProgress';
-import ProgressSearchTab from './Search';
+import AddChallengeScreen from './AddChallenge';
 import NavigationService from 'navigation/NavigationService';
+import {OvalYellow, OvalGreen} from 'assets/images';
+import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 
 class ProgressScreen extends React.Component {
   constructor(props) {
@@ -31,36 +35,30 @@ class ProgressScreen extends React.Component {
       case 0:
         break;
       case 1:
-        break;
-      case 2:
+        this.props.getPostTrustMembers({page: 1});
         this.props.getPostsById({id: profile._id, page: 1});
         break;
-      case 3:
-        this.props.getPosts({title: '', page: 1});
+      case 2:
         break;
       default:
     }
   };
 
   render() {
-    const {t, theme} = this.props;
+    const {t, theme, profile} = this.props;
     const {index} = this.state;
     const routes = [
       {
         key: 'challenge',
-        title: 'mountain',
-      },
-      {
-        key: 'trustmember',
-        title: 'users',
-      },
-      {
-        key: 'own',
         title: 'user',
       },
       {
-        key: 'search',
-        title: 'search',
+        key: 'progress',
+        title: 'users',
+      },
+      {
+        key: 'add_challenge',
+        title: 'mountain',
       },
     ];
     const renderTabBar = props => (
@@ -82,10 +80,28 @@ class ProgressScreen extends React.Component {
         }}
       />
     );
+
+    if (!profile.userToken) {
+      return (
+        <MCRootView>
+          <H3 mb={10}>{t('sign_up_required')}</H3>
+          <MCButton
+            bordered
+            pl={20}
+            pr={20}
+            onPress={() => NavigationService.navigate('VerificationStack')}>
+            <H3>{t('button_go_to_signup')}</H3>
+          </MCButton>
+        </MCRootView>
+      );
+    }
+
     return (
       <View style={{flex: 1, backgroundColor: theme.colors.background}}>
+        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
+        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
         <MCHeader
-          title={t('title_progress')}
+          title={t(`title_progress_tab_${routes[index].key}`)}
           hasBack={false}
           hasRight
           rightIcon="plus"
@@ -95,9 +111,8 @@ class ProgressScreen extends React.Component {
           navigationState={{index, routes}}
           renderScene={SceneMap({
             challenge: ProgressChallengeTab,
-            trustmember: ProgressMembersTab,
-            own: ProgressOwnTab,
-            search: ProgressSearchTab,
+            progress: ProgressMembersTab,
+            add_challenge: AddChallengeScreen,
           })}
           onIndexChange={i => this.onChangeTabIndex(i)}
           initialLayout={Dimensions.get('window')}
@@ -116,6 +131,7 @@ const mapDispatchToProps = {
   setInitialPost: postActions.setInitialPost,
   getPostsById: postActions.getPostsById,
   getPosts: postActions.getPosts,
+  getPostTrustMembers: postActions.getPostTrustMembers,
 };
 
 export default withTranslation()(

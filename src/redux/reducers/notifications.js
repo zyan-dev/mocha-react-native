@@ -1,6 +1,6 @@
 import * as types from '../actions/types';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   supportReminder: {
     daily_time: '00:00:00.000Z',
     enabled: true,
@@ -26,6 +26,9 @@ const INITIAL_STATE = {
     enabled: true,
   },
   reaction: {
+    enabled: true,
+  },
+  chat: {
     enabled: true,
   },
 };

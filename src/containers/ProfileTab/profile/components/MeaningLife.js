@@ -29,7 +29,7 @@ class MeaningLifeCard extends React.Component {
 
   static defaultProps = {
     editable: true,
-    meaning: [],
+    meaning: {},
     onPressEdit: () => undefined,
   };
 

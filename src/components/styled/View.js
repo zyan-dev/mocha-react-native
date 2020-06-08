@@ -51,7 +51,7 @@ export const MCCard = styled(MCView)`
   border-radius: ${props => dySize(props.br || 10)}px;
   border-width: ${props => (props.shadow ? 0 : 1)};
   background-color: ${props =>
-    props.shadow ? props.theme.colors.card : 'transparent'};
+    props.shadow ? props.theme.colors.card_border : 'transparent'};
   padding: ${props => dySize(props.p || 5)}px;
 `;
 
@@ -66,9 +66,8 @@ export const ABSView = styled.View`
 `;
 
 export const NativeCard = styled(Card)`
-  background-color: ${props =>
-    props.background || props.theme.colors.background};
-  shadow-color: black;
+  background-color: ${props => props.background || props.theme.colors.card};
+  shadow-color: #353535;
   shadow-opacity: 0.2;
   shadow-offset: 2px -2px;
   shadow-radius: 5;

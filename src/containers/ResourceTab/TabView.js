@@ -10,6 +10,7 @@ import GlobalResourceScreen from './Filters/GlobalResource';
 import SocialResourcesScreen from './Filters/SocialResources';
 import MyResourceScreen from './Filters/MyResource';
 import BookmarkResourcesScreen from './Filters/BookmarkResource';
+import RecommendedResourcesScreen from './Filters/RecommendedResource';
 import {MCIcon} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {ResourcesRoots} from 'utils/constants';
@@ -28,17 +29,29 @@ class ResourceTabView extends React.Component {
       getMyResources,
       getBookmarkedResources,
       getTrustMemberResources,
+      getRecommendedResources,
+      myResources,
+      networksWithResourcePermission,
+      resetTrustMemberResources,
+      setTrustMemberResourcePageIndex,
     } = this.props;
 
     switch (index) {
       case 0:
         // getAllResources(1);
+        getRecommendedResources(1);
         break;
       case 1:
-        getTrustMemberResources(1);
+        setTrustMemberResourcePageIndex(1);
+        networksWithResourcePermission.length > 0
+          ? getTrustMemberResources({
+              pageIndex: 1,
+              trustMember: networksWithResourcePermission[0]._id,
+            })
+          : resetTrustMemberResources();
         break;
       case 2:
-        getMyResources(1);
+        if (myResources.length == 0) getMyResources(1);
         break;
       case 3:
         getBookmarkedResources(1);
@@ -50,7 +63,8 @@ class ResourceTabView extends React.Component {
     const {t, theme, tabIndex} = this.props;
 
     const renderScene = SceneMap({
-      globe: GlobalResourceScreen,
+      // globe: GlobalResourceScreen,
+      recommend: RecommendedResourcesScreen,
       bookmark: BookmarkResourcesScreen,
       social: SocialResourcesScreen,
       me: MyResourceScreen,
@@ -97,6 +111,9 @@ class ResourceTabView extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   userToken: state.profileReducer.userToken,
+  myResources: state.resourceReducer.myResources,
+  networksWithResourcePermission:
+    state.networkReducer.networksWithResourcePermission,
 });
 
 const mapDispatchToProps = {
@@ -104,6 +121,10 @@ const mapDispatchToProps = {
   getMyResources: resourceActions.getMyResources,
   getBookmarkedResources: resourceActions.getBookmarkedResources,
   getTrustMemberResources: resourceActions.getTrustMemberResources,
+  resetTrustMemberResources: resourceActions.resetTrustMemberResources,
+  getRecommendedResources: resourceActions.getRecommendedResources,
+  setTrustMemberResourcePageIndex:
+    resourceActions.setTrustMemberResourcePageIndex,
 };
 
 export default withTranslation()(

@@ -15,10 +15,12 @@ import {
   MCReadMoreText,
   MCSearchInput,
   MCImage,
+  MCIcon,
 } from 'components/common';
 import {dySize} from 'utils/responsive';
 import {skills, impacts} from 'utils/constants';
 import {getStringWithOutline} from 'services/operators';
+import NavigationService from 'navigation/NavigationService';
 
 class AddResourceScreen extends React.PureComponent {
   constructor(props) {
@@ -31,6 +33,7 @@ class AddResourceScreen extends React.PureComponent {
       selectedSkills: [],
       selectedTags: [],
       searchText: '',
+      added: false,
     };
   }
 
@@ -166,7 +169,7 @@ class AddResourceScreen extends React.PureComponent {
       createResources([data]);
     }
     this.props.updateSelectedResource({skills: []});
-    this.props.updateSelectedResource({impacts: []});
+    this.props.updateSelectedResource({impacts: ''});
     this.props.updateSelectedResource({tags: []});
   };
 
@@ -195,6 +198,37 @@ class AddResourceScreen extends React.PureComponent {
     });
   };
 
+  recommendResourceToMembers = () => {
+    if (!this.validateTitle()) return;
+
+    this.setState({added: !this.state.added});
+    this.setState({submitted: true});
+    const {selectedImpacts, selectedSkills, selectedTags} = this.state;
+    const {resourceByTitle} = this.props;
+    let resource = resourceByTitle;
+
+    resource.data.tags = [...selectedTags];
+    let skills = [...selectedSkills];
+
+    if (selectedTags.length == 0) {
+      skills = skills.filter(skill => skill.indexOf('resource_manual_') < 0);
+    } else {
+      selectedTags.forEach(tag => {
+        if (
+          skills.indexOf(tag) == -1 &&
+          skills.indexOf(`resource_manual_${tag}`) == -1
+        ) {
+          skills.push(`resource_manual_${tag}`);
+        }
+      });
+    }
+
+    resource.data.skills = skills;
+    resource.data.impacts = selectedImpacts;
+
+    NavigationService.navigate('SelectRecommendMember', {resource: resource});
+  };
+
   render() {
     const {
       flagMore,
@@ -202,8 +236,9 @@ class AddResourceScreen extends React.PureComponent {
       selectedSkills,
       selectedTags,
       searchText,
+      added,
     } = this.state;
-    const {t, resourceByTitle} = this.props;
+    const {t, resourceByTitle, theme} = this.props;
 
     let resource = resourceByTitle;
 
@@ -245,7 +280,7 @@ class AddResourceScreen extends React.PureComponent {
                     image={{uri: resource.data.thumbnail}}
                   />
                 </MCView>
-                <MCView width={210}>
+                <MCView width={170} mr={40}>
                   <H3 weight="bold">{resource.data.title}</H3>
                   <H5 weight="bold">{t('resource_type_book_author')}</H5>
                   {resource.data.authors &&
@@ -272,6 +307,20 @@ class AddResourceScreen extends React.PureComponent {
                       ))}
                   </MCView>
                 </MCView>
+                {!resource._id && (
+                  <MCView absolute style={{right: 0}}>
+                    <MCButton
+                      align="center"
+                      onPress={() => this.recommendResourceToMembers()}>
+                      <MCIcon
+                        type="FontAwesome5Pro"
+                        name="hand-holding-seedling"
+                        size={15}
+                        color={theme.colors.outline}
+                      />
+                    </MCButton>
+                  </MCView>
+                )}
               </MCView>
               <MCView mt={10}>
                 <H5 weight="bold">{t('resource_type_book_description')}</H5>
@@ -371,6 +420,7 @@ class AddResourceScreen extends React.PureComponent {
 const mapStateToProps = state => ({
   selectedResource: state.resourceReducer.selectedResource,
   resourceByTitle: state.resourceReducer.resourceByTitle,
+  theme: state.routerReducer.theme,
 });
 
 const mapDispatchToProps = {

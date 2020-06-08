@@ -73,13 +73,15 @@ class AddFeedbackScreen extends React.Component {
           rightIcon="paper-plane"
           onPressRight={() => this.onPressSend()}
         />
-        <MCContent contentContainerStyle={{padding: dySize(10)}}>
+        <MCContent
+          contentContainerStyle={{padding: dySize(10), width: dySize(375)}}>
           <H3>{t('add_feedback_who')}</H3>
           <MCView row wrap mt={10}>
             {selectedUsers.map(user => (
               <MCView key={user._id} mr={10} align="center">
                 <MCImage
                   round
+                  type="avatar"
                   width={60}
                   height={60}
                   image={{uri: user.avatar}}
