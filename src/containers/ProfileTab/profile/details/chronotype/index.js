@@ -3,7 +3,7 @@ import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
-import {MCHeader, MCTimeSlider} from 'components/common';
+import {MCHeader, MCTimeSlider, MCIcon, MCCheckBox} from 'components/common';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {MCText, H2, H3, H5} from 'components/styled/Text';
@@ -25,6 +25,9 @@ import {
 } from 'assets/svgs';
 
 class ChronotypeScreen extends React.PureComponent {
+  state = {
+    showDaySleep: false,
+  };
   componentWillMount() {
     const {myChronotype} = this.props;
     if (myChronotype) {
@@ -57,6 +60,7 @@ class ChronotypeScreen extends React.PureComponent {
   };
 
   render() {
+    const {showDaySleep} = this.state;
     const {t, theme, selectedReflection} = this.props;
     if (!selectedReflection) return null;
     const type = _.get(selectedReflection, ['data', 'type'], '');
@@ -89,14 +93,18 @@ class ChronotypeScreen extends React.PureComponent {
     return (
       <MCRootView>
         <MCHeader
-          title={t('profile_card_chronotype')}
-          headerIcon={<SheepSvg theme={theme} size={30} />}
+          title={t('title_sleep')}
+          headerIcon={<MCIcon type="FontAwesome5Pro" name="bed" size={30} />}
           hasRight
           rightIcon="cloud-upload-alt"
           onPressRight={() => this.onSaveMyChronotype()}
         />
-        <MCContent contentContainerStyle={{padding: dySize(10)}}>
-          <H3 underline>{t('profile_card_chronotype')}</H3>
+        <MCContent
+          contentContainerStyle={{
+            padding: dySize(10),
+            paddingBottom: dySize(100),
+          }}>
+          <H3 underline>{t('label_sleep_type')}</H3>
           <MCView row align="center" justify="center">
             <MCButton onPress={() => this.onSelectType('morning')}>
               <NativeCard
@@ -166,27 +174,32 @@ class ChronotypeScreen extends React.PureComponent {
             </MCText>
             <H2>{t('unit_hours')}</H2>
           </MCView>
-          {(type === 'flexible' || type === 'night') && (
-            <>
-              <MCView mt={50} row align="center">
-                <H3 mr={10} underline>
-                  {t('chronotype_day_sleep_title')}
-                </H3>
-                <DaySvg size={25} color={theme.colors.text} />
-              </MCView>
-              <MCView align="center">
-                <MCTimeSlider
-                  width={320}
-                  value={[day_sleep_offset_start, day_sleep_offset_end]}
-                  onChange={range => this.onChangeDayTimeRange(range)}
-                  values={DaySliderValues}
-                />
-                <MCText weight="bold" style={{fontSize: dySize(80)}}>
-                  {day_sleep_offset_end - day_sleep_offset_start}
-                </MCText>
-                <H2>{t('unit_hours')}</H2>
-              </MCView>
-            </>
+          <MCView mt={50} row align="center">
+            <H3 mr={10} underline>
+              {t('chronotype_day_sleep_title')}
+            </H3>
+            <DaySvg size={25} color={theme.colors.text} />
+            <MCCheckBox
+              width={40}
+              label=""
+              bigText={false}
+              checked={showDaySleep}
+              onChange={() => this.setState({showDaySleep: !showDaySleep})}
+            />
+          </MCView>
+          {showDaySleep && (
+            <MCView align="center">
+              <MCTimeSlider
+                width={320}
+                value={[day_sleep_offset_start, day_sleep_offset_end]}
+                onChange={range => this.onChangeDayTimeRange(range)}
+                values={DaySliderValues}
+              />
+              <MCText weight="bold" style={{fontSize: dySize(80)}}>
+                {day_sleep_offset_end - day_sleep_offset_start}
+              </MCText>
+              <H2>{t('unit_hours')}</H2>
+            </MCView>
           )}
         </MCContent>
       </MCRootView>

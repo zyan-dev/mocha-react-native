@@ -220,9 +220,9 @@ class DiscoverValueScreen extends React.Component {
           borderColor: theme.colors.card_border,
           padding: dySize(5),
         }}>
-        <H5 style={{letterSpacing: 5}} color={ValueCardTextColor}>
+        {/* <H5 style={{letterSpacing: 5}} color={ValueCardTextColor}>
           {t(`value_category_${value.category}`).toUpperCase()}
-        </H5>
+        </H5> */}
         <H3 weight="bold" align="center" color={ValueCardTextColor}>
           {t(`tools_tab_value_${value.value}`)}
         </H3>

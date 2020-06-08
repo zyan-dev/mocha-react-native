@@ -305,7 +305,7 @@ export const PostMoraleLevels = [
   'high',
 ];
 
-export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8+'];
+export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8+', '16+'];
 
 export const SampleReflectionSections = {
   needs: [

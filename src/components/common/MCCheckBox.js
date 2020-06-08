@@ -43,36 +43,39 @@ class MCCheckBox extends React.Component {
       iconColor,
       weight,
     } = this.props;
+    const hasLabel = label.length > 0;
     return (
       <MCButton
         row
         align="center"
         width={width}
         onPress={() => onChange(!checked)}>
-        {hasLeftText && bigText && (
+        {hasLeftText && bigText && hasLabel && (
           <H3 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H3>
         )}
-        {hasLeftText && !bigText && (
+        {hasLeftText && !bigText && hasLabel && (
           <H4 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H4>
         )}
-        <MCView mr={hasLeftText ? 0 : 20} ml={hasLeftText ? 20 : 0}>
+        {!hasLeftText && hasLabel && <MCView width={20} />}
+        <MCView>
           <MCIcon
             type="FontAwesome5Pro-Light"
             name={checked ? 'check-square' : 'square'}
             size={iconSize}
             color={iconColor}
           />
+          {hasLeftText && hasLabel && <MCView width={20} />}
         </MCView>
-        {!hasLeftText && bigText && (
+        {!hasLeftText && bigText && hasLabel && (
           <H3 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H3>
         )}
-        {!hasLeftText && !bigText && (
+        {!hasLeftText && !bigText && hasLabel && (
           <H4 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H4>
