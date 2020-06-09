@@ -94,7 +94,7 @@ class ProgressMembersTab extends React.Component {
     } = this.props;
     return (
       <MCRootView justify="flex-start" background="transparent">
-        <MCView width={350} height={60} justify="center" row>
+        <MCView row width={350} height={60} justify="center" align="center">
           {this._renderAvatar({item: profile})}
           <MCView width={40} />
           <FlatList

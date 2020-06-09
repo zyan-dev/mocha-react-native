@@ -79,7 +79,7 @@ class SelectTemplateScreen extends React.Component {
           <MCButton
             align="center"
             width={160}
-            height={200}
+            height={220}
             pt={20}
             pb={20}
             onPress={() => this.onSelectTemplate(item)}>
@@ -91,8 +91,8 @@ class SelectTemplateScreen extends React.Component {
               })}
             </MCView>
             <DividerLine width={150} />
-            <MCView width={150} mt={10}>
-              <MCTagsView tags={item.skills} style={{backgrounColor: 'red'}} />
+            <MCView width={150} mt={10} height={70}>
+              <MCTagsView tags={item.skills} />
             </MCView>
           </MCButton>
         </NativeCard>

@@ -8,7 +8,7 @@ import {MCRootView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3} from 'components/styled/Text';
 import {postActions, challengeActions} from 'Redux/actions';
-import ProgressChallengeTab from './MyChallenges';
+import MyChallengesScreen from './MyChallenges';
 import ProgressMembersTab from './Members';
 import AddChallengeScreen from './AddChallenge';
 import NavigationService from 'navigation/NavigationService';
@@ -103,7 +103,11 @@ class ProgressScreen extends React.Component {
         <TabView
           navigationState={{index, routes}}
           renderScene={SceneMap({
-            challenge: ProgressChallengeTab,
+            challenge: () => (
+              <MyChallengesScreen
+                onPressAdd={() => this.setState({index: 2})}
+              />
+            ),
             progress: ProgressMembersTab,
             add_challenge: AddChallengeScreen,
           })}

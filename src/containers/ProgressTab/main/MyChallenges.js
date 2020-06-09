@@ -20,7 +20,7 @@ import {combineChallenges} from 'services/operators';
 import ChallengeItem from './components/ChallengeItem';
 import NavigationService from 'navigation/NavigationService';
 
-class ProgressChallengeTab extends React.Component {
+class MyChallenges extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -56,6 +56,10 @@ class ProgressChallengeTab extends React.Component {
     const {selectedChallenge} = this.props;
     this.props.setInitialPost(selectedChallenge._id);
     NavigationService.navigate('AddPost');
+  };
+
+  onPressAddChallenge = () => {
+    this.props.onPressAdd();
   };
 
   _renderChallengeItem = ({item}) => {
@@ -126,7 +130,19 @@ class ProgressChallengeTab extends React.Component {
             data={myChallenges}
             renderItem={this._renderChallengeItem}
             keyExtractor={item => item._id}
-            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+            ListEmptyComponent={
+              <MCView width={345} align="center">
+                <MCButton
+                  onPress={() => this.onPressAddChallenge()}
+                  bordered
+                  br={10}
+                  pl={40}
+                  pr={40}
+                  pv={10}>
+                  <MCEmptyText>{t('no_challenge')}</MCEmptyText>
+                </MCButton>
+              </MCView>
+            }
             keyExtractor={item => item._id}
           />
         </MCView>
@@ -162,5 +178,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(ProgressChallengeTab),
+  )(MyChallenges),
 );

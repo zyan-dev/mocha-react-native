@@ -1303,6 +1303,7 @@
   "no_selected": "No selected",
   "no_more_result": "No more results",
   "no_feeds": "No feeds",
+  "no_challenge": "You have no challenge now. \nClick to add your challenge.",
   "notification_addTrustMember_description": "Be notified when you've built trust",
   "notification_addTrustMember_title": "Add Trust Member",
   "notification_supportReminder_description": "Opt-in for reminders to submit your daily accomplishments",
