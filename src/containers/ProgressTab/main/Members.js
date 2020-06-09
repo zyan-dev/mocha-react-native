@@ -92,7 +92,6 @@ class ProgressMembersTab extends React.Component {
       userPosts,
       pageLimited,
     } = this.props;
-    const {searchName} = this.state;
     return (
       <MCRootView justify="flex-start" background="transparent">
         <MCView width={350} height={60} justify="center" row>

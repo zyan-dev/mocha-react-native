@@ -9,12 +9,11 @@ import {profileActions, authActions, chatActions} from 'Redux/actions';
 import {MCRootView, MCView, MCContent} from 'components/styled/View';
 import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCEditableText, MCIcon, MCHeader} from 'components/common';
+import {MCIcon, MCHeader} from 'components/common';
 import {
   WideOvalGreenImage,
   WideOvalYellowImage,
 } from 'components/styled/Custom';
-import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {s3_Options} from 'utils/config';
@@ -210,14 +209,14 @@ class NamePronunciationScreen extends React.Component {
           rightText={t('header_skip')}
           onPressRight={() => NavigationService.navigate('Auth_OurValues')}
         />
-        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
-        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
+        <WideOvalGreenImage />
+        <WideOvalYellowImage />
         <MCContent
           contentContainerStyle={{
             alignItems: 'center',
             paddingHorizontal: dySize(60),
           }}>
-          <H3 mt={70}>
+          <H3 mt={70} align="center">
             {t('name_pronun_almost_done', {name: name.split(' '[0])})}
           </H3>
           <H3 mt={15} align="center">
@@ -227,9 +226,7 @@ class NamePronunciationScreen extends React.Component {
             {t('name_pronun_how_say')}
           </H3>
           <MCView row align="center">
-            <MCButton
-              onPress={() => this.checkRecordPermission(!recording)}
-              mr={60}>
+            <MCButton onPress={() => this.checkRecordPermission(!recording)}>
               <MCIcon
                 type="FontAwesome5Pro"
                 name={recording ? 'stop-circle' : 'microphone'}
@@ -238,6 +235,7 @@ class NamePronunciationScreen extends React.Component {
             </MCButton>
             {audioFilePath.length > 0 && (
               <MCButton
+                ml={60}
                 onPress={() => this.onTogglePlayback()}
                 disabled={audioURL.length === 0}>
                 <MCIcon type="FontAwesome5Pro" name="volume" size={40} />

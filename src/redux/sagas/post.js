@@ -169,6 +169,7 @@ export function* removePosts(action) {
 
 export function* getPostTrustMembers(action) {
   try {
+    const {profileReducer} = yield select();
     const {page} = action.payload;
     if (page === 1) {
       yield put({
@@ -197,6 +198,10 @@ export function* getPostTrustMembers(action) {
           payload: response.data.data.networks,
         });
       }
+      yield put({
+        type: types.SET_SELECTED_POST_USER,
+        payload: profileReducer,
+      });
       yield put({
         type: types.SET_SEARCH_PAGE_INDEX,
         payload: page,

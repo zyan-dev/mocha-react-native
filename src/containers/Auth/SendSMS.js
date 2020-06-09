@@ -12,7 +12,6 @@ import {
   WideOvalGreenImage,
   WideOvalYellowImage,
 } from 'components/styled/Custom';
-import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 
 class SendSMSScreen extends React.Component {
   constructor(props) {
@@ -37,8 +36,8 @@ class SendSMSScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader title={t('title_sms_verification')} />
-        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
-        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
+        <WideOvalGreenImage />
+        <WideOvalYellowImage />
         <MCView mt={dySize(20)} width={300} align="center">
           <H3 align="center" mb={30}>
             {t('auth_signup_displayText')}

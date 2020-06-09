@@ -139,7 +139,7 @@ class MainHomeStack extends React.Component {
     return (
       <Tab.Navigator
         tabBar={props => <TabView {...props} />}
-        initialRouteName="TabTools"
+        initialRouteName="TabProgress"
         backBehavior="none" // not handle back button
         headerMode="none">
         <Tab.Screen name="TabFeed" component={FeedTabStack} />

@@ -5,12 +5,11 @@ import moment from 'moment';
 import {routerActions} from 'Redux/actions';
 import {MCHeader, MCIcon, MCCheckBox} from 'components/common';
 import {MCRootView, MCContent, MCView} from 'components/styled/View';
-import {H2, H4} from 'components/styled/Text';
+import {H4} from 'components/styled/Text';
 import {
   WideOvalGreenImage,
   WideOvalYellowImage,
 } from 'components/styled/Custom';
-import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 
 const ServiceRules = [
   'service_1',
@@ -33,8 +32,8 @@ class OurCommunityRuleScreen extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader title={t('title_our_community_rules')} />
-        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
-        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
+        <WideOvalGreenImage />
+        <WideOvalYellowImage />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
           <MCView width={340} mt={40} row align="center">
             <H4 weight="bold">{t('auth_agree')}</H4>

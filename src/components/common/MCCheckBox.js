@@ -17,6 +17,7 @@ class MCCheckBox extends React.Component {
     textAlign: PropTypes.string,
     iconColor: PropTypes.string,
     weight: PropTypes.string,
+    round: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -28,6 +29,7 @@ class MCCheckBox extends React.Component {
     iconColor: undefined,
     onChange: () => undefined,
     weight: 'regular',
+    round: false,
   };
 
   render() {
@@ -42,8 +44,11 @@ class MCCheckBox extends React.Component {
       bigText,
       iconColor,
       weight,
+      round,
     } = this.props;
     const hasLabel = label.length > 0;
+    const checkedIcon = round ? 'check-circle' : 'check-square';
+    const unCheckedIcon = round ? 'circle' : 'square';
     return (
       <MCButton
         row
@@ -64,7 +69,7 @@ class MCCheckBox extends React.Component {
         <MCView>
           <MCIcon
             type="FontAwesome5Pro-Light"
-            name={checked ? 'check-square' : 'square'}
+            name={checked ? checkedIcon : unCheckedIcon}
             size={iconSize}
             color={iconColor}
           />
