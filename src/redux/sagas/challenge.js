@@ -19,6 +19,17 @@ export function* getUserChallenges(action) {
           type: types.SET_MY_CHALLENGES,
           payload: response.data.data.challenges,
         });
+        if (response.data.data.challenges.length > 0) {
+          yield put({
+            type: types.SELECT_CHALLENGE,
+            payload: response.data.data.challenges[0],
+          });
+        } else {
+          yield put({
+            type: types.SELECT_CHALLENGE,
+            payload: null,
+          });
+        }
       }
       yield put({type: types.API_FINISHED});
     } else {

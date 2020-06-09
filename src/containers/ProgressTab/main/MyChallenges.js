@@ -60,6 +60,7 @@ class ProgressChallengeTab extends React.Component {
 
   _renderChallengeItem = ({item}) => {
     const {t, theme, selectedChallenge} = this.props;
+    if (!selectedChallenge) return null;
     const selected = selectedChallenge._id === item._id;
     return (
       <MCButton

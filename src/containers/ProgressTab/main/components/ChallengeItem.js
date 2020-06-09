@@ -48,6 +48,7 @@ class ChallengeItem extends React.PureComponent {
       onToggleCheckMeasure,
       onPressAddPost,
     } = this.props;
+    if (!item || !item.challenges) return null;
     return (
       <MCView width={345} align="center" pv={10}>
         <MCView row pv={10} ph={5} height={180}>
