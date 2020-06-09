@@ -182,6 +182,7 @@ export function* getPostTrustMembers(action) {
     });
     const response = yield call(API.getOwnersWithPermission, {
       page,
+      name: '',
       permission: 'progress',
     });
     if (response.data.status === 'success') {

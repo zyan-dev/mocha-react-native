@@ -23,11 +23,6 @@ class ProgressScreen extends React.Component {
     };
   }
 
-  onPressAddPost = () => {
-    this.props.setInitialPost();
-    NavigationService.navigate('AddPost');
-  };
-
   onChangeTabIndex = i => {
     const {profile} = this.props;
     this.setState({index: i});
@@ -104,9 +99,6 @@ class ProgressScreen extends React.Component {
         <MCHeader
           title={t(`title_progress_tab_${routes[index].key}`)}
           hasBack={false}
-          hasRight
-          rightIcon="plus"
-          onPressRight={() => this.onPressAddPost()}
         />
         <TabView
           navigationState={{index, routes}}
@@ -129,7 +121,6 @@ const mapStateToProps = state => ({
   profile: state.profileReducer,
 });
 const mapDispatchToProps = {
-  setInitialPost: postActions.setInitialPost,
   getPostsById: postActions.getPostsById,
   getPosts: postActions.getPosts,
   getPostTrustMembers: postActions.getPostTrustMembers,

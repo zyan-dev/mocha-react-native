@@ -42,7 +42,10 @@ const postReducer = (state = INITIAL_STATE, action) => {
     case types.SET_INITIAL_POST:
       return {
         ...state,
-        selectedPost: _.cloneDeep(emptyPost),
+        selectedPost: _.cloneDeep({
+          ...emptyPost,
+          challengeId: action.payload,
+        }),
       };
     case types.SET_SELECTED_POST_USER:
       return {

@@ -12,8 +12,7 @@ import {
   DividerLine,
 } from 'components/styled/View';
 import {MCHeader, MCIcon, MCImage, MCTagsView} from 'components/common';
-import {H2, H3, H4, MCTextInput} from 'components/styled/Text';
-import {MCButton} from 'components/styled/Button';
+import {H2, H3, H4, MCTextInput, ErrorText} from 'components/styled/Text';
 import {OvalYellow, OvalGreen} from 'assets/images';
 import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import {dySize} from 'utils/responsive';
@@ -23,7 +22,6 @@ import {
   getChallengeMeasure,
 } from 'services/operators';
 import {ChallengeIconData} from 'utils/constants';
-import {ErrorText} from '../../../../components/styled/Text';
 
 class CompleteChallengeScreen extends React.Component {
   constructor(props) {
@@ -36,6 +34,7 @@ class CompleteChallengeScreen extends React.Component {
   onSubmit = () => {
     this.setState({submitted: true});
     if (!this.validateTitle()) return;
+    // console.log(JSON.stringify(this.props.selectedChallenge));
     this.props.addOrUpdateChallenge();
   };
 

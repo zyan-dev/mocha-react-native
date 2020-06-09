@@ -2105,6 +2105,8 @@ export const TemplateChallenges = [
     ],
     duration: 75,
     skills: ['grit', 'pain-tolerance'],
+    teammates: [],
+    invites: [],
   },
   {
     index: 2,
@@ -2117,6 +2119,8 @@ export const TemplateChallenges = [
     ],
     duration: 25,
     skills: ['grit', 'pain-tolerance'],
+    teammates: [],
+    invites: [],
   },
   {
     index: 3,
@@ -2129,6 +2133,8 @@ export const TemplateChallenges = [
     ],
     duration: 10,
     skills: ['grit', 'pain-tolerance'],
+    teammates: [],
+    invites: [],
   },
   {
     index: 4,
@@ -2141,6 +2147,8 @@ export const TemplateChallenges = [
     ],
     duration: 30,
     skills: ['grit', 'pain-tolerance'],
+    teammates: [],
+    invites: [],
   },
 ];
 

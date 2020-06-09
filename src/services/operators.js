@@ -366,3 +366,12 @@ export const combineChallenges = challenges => {
     measures: result[key],
   }));
 };
+
+export const getDayOf = t => {
+  const CT = moment(t).format('YYYY-MM-DD') + 'T00:00:00.000Z'; // challenge date
+  const Today = moment().format('YYYY-MM-DD') + 'T00:00:00.000Z';
+  const CST = new Date(CT).getTime();
+  const TodayTS = new Date(Today).getTime();
+  const offset = (TodayTS - CST) / (3600 * 24 * 1000);
+  return offset + 1;
+};

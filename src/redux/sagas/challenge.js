@@ -92,7 +92,7 @@ export function* addOrUpdateChallenge(action) {
     const {
       challengeReducer: {selectedChallenge, myChallenges},
       routerReducer: {isInternetReachable},
-      profileReducer: {userToken},
+      profileReducer: {userToken, _id},
     } = yield select();
     yield put({type: types.API_CALLING});
     if (!selectedChallenge) {
@@ -132,7 +132,7 @@ export function* addOrUpdateChallenge(action) {
       }
     }
     if (response.data && response.data.status === 'success') {
-      yield put({type: types.GET_MY_REFLECTIONS});
+      yield put({type: types.GET_USER_CHALLENGES, payload: {id: _id}});
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
