@@ -91,7 +91,13 @@ class PostItem extends React.PureComponent {
             Skills
           </H4>
           <MCTagsView
-            tags={skills.slice(0, 3).map(s => t(`resource_book_skills_${s}`))}
+            tags={skills
+              .slice(0, 3)
+              .map(s =>
+                s.indexOf('custom_') < 0
+                  ? t(`resource_book_skills_${s}`)
+                  : s.split('custom_')[1],
+              )}
             more={
               skills.length > 3 ? (
                 <H4 color={theme.colors.border}>

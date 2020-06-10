@@ -20,6 +20,7 @@ import {
   MCEditableText,
   MCTimeSlider,
   MCImage,
+  MCTagInput,
 } from 'components/common';
 import {
   MCRootView,
@@ -34,7 +35,20 @@ class AddPostScreen extends React.Component {
     super(props);
     this.state = {
       submitted: false,
+      customTagInputs: [],
+      customTags: [],
     };
+  }
+
+  componentDidMount() {
+    const {selectedPost} = this.props;
+    const skills = _.get(selectedPost, ['skills'], []);
+    const customTags = skills.filter(s => s.indexOf('custom_') > -1);
+    const customTagInputs = customTags.map(tag => tag.split('custom_')[1]);
+    this.setState({
+      customTags,
+      customTagInputs,
+    });
   }
 
   ChallengeText = {
@@ -62,6 +76,9 @@ class AddPostScreen extends React.Component {
     this.setState({submitted: true});
     if (!this.validateTitle()) return;
     if (!this.validateContent()) return;
+    const {updateSelectedPost, selectedPost} = this.props;
+    const skills = _.get(selectedPost, ['skills'], []);
+    console.log({skills});
     this.props.addOrUpdatePost();
   };
 
@@ -91,6 +108,20 @@ class AddPostScreen extends React.Component {
     updateSelectedPost({skills});
   };
 
+  updateTagState = state => {
+    const customTags = state.tagsArray.map(tag => `custom_${tag}`);
+    this.setState({
+      customTags: customTags,
+      customTagInputs: state.tagsArray,
+    });
+    const {updateSelectedPost, selectedPost} = this.props;
+    const skills = _.get(selectedPost, ['skills'], []);
+    const filtered = skills.filter(
+      s => s.indexOf('custom_') < 0 || customTags.find(i => i === s),
+    );
+    updateSelectedPost({skills: filtered});
+  };
+
   validateTitle = () => {
     return this.props.selectedPost.title.length > 0;
   };
@@ -100,9 +131,10 @@ class AddPostScreen extends React.Component {
   };
 
   render() {
-    const {submitted} = this.state;
+    const {submitted, customTagInputs, customTags} = this.state;
     const {t, theme, selectedPost, updateSelectedPost} = this.props;
     const skills = _.get(selectedPost, ['skills'], []);
+    console.log({skills});
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -199,8 +231,9 @@ class AddPostScreen extends React.Component {
               })}
             </MCView>
             <MCView row wrap justify="center">
-              {PostSkills.map(skill => {
+              {PostSkills.concat(customTags).map(skill => {
                 const selected = skills.indexOf(skill) > -1;
+                const custom = skill.indexOf('custom_') > -1;
                 return (
                   <MCButton
                     mt={10}
@@ -217,11 +250,20 @@ class AddPostScreen extends React.Component {
                       color={
                         selected ? theme.colors.background : theme.colors.text
                       }>
-                      {t(`resource_book_skills_${skill}`)}
+                      {custom
+                        ? skill.split('custom_')[1]
+                        : t(`resource_book_skills_${skill}`)}
                     </H4>
                   </MCButton>
                 );
               })}
+            </MCView>
+            <MCView width={350} mt={40}>
+              <H4>Add custom skills:</H4>
+              <MCTagInput
+                tags={customTagInputs}
+                updateState={this.updateTagState}
+              />
             </MCView>
           </NativeCard>
         </MCContent>
