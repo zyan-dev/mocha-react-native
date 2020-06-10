@@ -69,7 +69,6 @@ class MyChallenges extends React.Component {
     return (
       <MCButton
         mr={20}
-        mt={20}
         pt={1}
         pb={1}
         pl={1}
@@ -80,10 +79,10 @@ class MyChallenges extends React.Component {
           borderWidth: 2,
           borderColor: selected ? theme.colors.outline : 'transparent',
         }}>
-        <NativeCard width={200} justify="flex-start">
+        <NativeCard width={250} justify="flex-start" pv={1}>
           <H3 weight="bold">{item.title}</H3>
           <MCView row>
-            <MCView width={130} align="center">
+            <MCView width={150} align="center">
               <MCView row wrap mb={10}>
                 {combineChallenges(item.challenges)
                   .slice(0, 4)
@@ -100,12 +99,12 @@ class MyChallenges extends React.Component {
                     );
                   })}
               </MCView>
-              <DividerLine width={100} />
+              <DividerLine width={120} />
               <H3 mt={10}>
                 {item.skills.length} {t('outline_skills')}
               </H3>
             </MCView>
-            <MCView width={70} align="center">
+            <MCView width={100} align="center">
               <H4>{t('label_days_left')}</H4>
               <H1 weight="bold">{item.duration}</H1>
             </MCView>
@@ -119,7 +118,7 @@ class MyChallenges extends React.Component {
     const {t, myChallenges, selectedChallenge} = this.props;
     return (
       <MCRootView justify="flex-start" background="transparent">
-        <MCView height={170} justify="center">
+        <MCView height={150} justify="center">
           <FlatList
             horizontal
             style={{width: dySize(345)}}

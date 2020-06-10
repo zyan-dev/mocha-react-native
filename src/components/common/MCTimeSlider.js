@@ -10,19 +10,19 @@ import {withTranslation} from 'react-i18next';
 const MarkerWrapper = styled.View`
   width: ${dySize(24)}px;
   height: ${dySize(24)}px;
-  background-color: green;
+  background-color: ${props => props.theme.colors.outline};
   border-radius: ${dySize(12)}px;
-  border-width: 8px;
+  border-width: 1px;
   border-color: ${props => props.theme.colors.text};
 `;
 
-const MarkerTextView = styled.View`
+const MarkerTextView = styled.Text`
   text-align: center;
   position: absolute;
-  margin-top: -60px;
-  width: 70px;
-  height: 50px;
-  justify-content: flex-end;
+  margin-top: -40px;
+  width: 40px;
+  height: 70px;
+  justify-content: center;
 `;
 
 const MarkerBottomView = styled.View`
@@ -55,6 +55,7 @@ class MCTimeSlider extends React.PureComponent {
     showBottomLabel: PropTypes.bool,
     showLabel: PropTypes.bool,
     mt: PropTypes.number,
+    hideScale: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -67,6 +68,7 @@ class MCTimeSlider extends React.PureComponent {
     showBottomLabel: true,
     showLabel: true,
     mt: 50,
+    hideScale: false,
   };
 
   multiSliderValuesChange = values => {
@@ -83,6 +85,7 @@ class MCTimeSlider extends React.PureComponent {
       showBottomLabel,
       showLabel,
       mt,
+      hideScale,
     } = this.props;
     const offset = value.length === 1 ? 10000 : value[1] - value[0];
     return (
@@ -92,16 +95,18 @@ class MCTimeSlider extends React.PureComponent {
         height={80}
         mt={mt}
         justify="center">
-        <MCView
-          height={25}
-          width={width}
-          row
-          justify="space-between"
-          overflow="visible">
-          {values.map(value => (
-            <Scale key={value} />
-          ))}
-        </MCView>
+        {!hideScale && (
+          <MCView
+            height={25}
+            width={width}
+            row
+            justify="space-between"
+            overflow="visible">
+            {values.map(value => (
+              <Scale key={value} />
+            ))}
+          </MCView>
+        )}
         {showBottomLabel && (
           <MCView
             row
@@ -123,9 +128,9 @@ class MCTimeSlider extends React.PureComponent {
                 {showLabel && (
                   <MarkerTextView
                     style={{
-                      right: e.currentValue !== 0 && offset < 3 ? 10 : null,
+                      right: 10,
                     }}>
-                    <H4 align="center">{values[e.currentValue]}</H4>
+                    {values[e.currentValue]}
                   </MarkerTextView>
                 )}
                 <MarkerWrapper />
@@ -140,12 +145,9 @@ class MCTimeSlider extends React.PureComponent {
                 {showLabel && (
                   <MarkerTextView
                     style={{
-                      left:
-                        e.currentValue !== values.length - 1 && offset < 3
-                          ? 10
-                          : null,
+                      left: 10,
                     }}>
-                    <H4 align="center">{values[e.currentValue]}</H4>
+                    {values[e.currentValue]}
                   </MarkerTextView>
                 )}
                 <MarkerWrapper />

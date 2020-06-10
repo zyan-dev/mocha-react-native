@@ -59,7 +59,7 @@ class SelectTemplateScreen extends React.Component {
         align="center"
         width={160}
         pv={1}
-        ph={1}
+        ph={5}
         mr={6}
         ml={6}
         mt={15}>
@@ -78,7 +78,7 @@ class SelectTemplateScreen extends React.Component {
             })}
           </MCView>
           <DividerLine width={150} />
-          <MCView width={150} mt={10} height={70}>
+          <MCView width={140} mt={10} height={70}>
             <MCTagsView tags={item.skills} />
           </MCView>
         </MCButton>
@@ -95,7 +95,12 @@ class SelectTemplateScreen extends React.Component {
             alignItems: 'center',
             paddingVertical: dySize(20),
           }}>
-          <NativeCard width={240} pv={1} ph={1} align="center" justify="center">
+          <NativeCard
+            width={240}
+            pv={10}
+            ph={1}
+            align="center"
+            justify="center">
             <MCButton
               align="center"
               width={240}
