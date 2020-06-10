@@ -1085,8 +1085,8 @@ export const AnalyzeDummyData = {
 };
 
 export const ProfileBasicCards = {
-  chronotype: {
-    title: 'sleep_chronotype',
+  sleep: {
+    title: 'sleep',
     minutes: 2,
     width: 250,
     redirectTo: 'PB_SleepChronotype',
