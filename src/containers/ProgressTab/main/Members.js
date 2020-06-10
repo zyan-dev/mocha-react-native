@@ -2,12 +2,11 @@ import React from 'react';
 import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import {userActions, postActions} from 'Redux/actions';
+import {postActions} from 'Redux/actions';
 import {MCRootView, MCView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {MCSearchInput, MCImage} from 'components/common';
+import {MCImage} from 'components/common';
 import {H3, MCEmptyText} from 'components/styled/Text';
-import {MCContent} from 'components/styled/View';
 import PostItem from './components/PostItem';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
@@ -21,27 +20,15 @@ class ProgressMembersTab extends React.Component {
     };
   }
 
-  onChangeSearchName = text => {
-    const {getTrustMembers} = this.props;
-    this.setState({searchName: text});
-    getTrustMembers({
-      status: 1,
-      name: text,
-      page: 1,
-    });
-  };
-
   searchNextPageUsers = () => {
     const {
       userPageLimited,
       userPageSearching,
       userSearchIndex,
-      getTrustMembers,
+      getPostTrustMembers,
     } = this.props;
     if (userPageLimited || userPageSearching) return;
-    getTrustMembers({
-      status: 1,
-      name: this.state.searchName,
+    getPostTrustMembers({
       page: userSearchIndex + 1,
     });
   };
@@ -105,16 +92,9 @@ class ProgressMembersTab extends React.Component {
       userPosts,
       pageLimited,
     } = this.props;
-    const {searchName} = this.state;
     return (
-      <MCRootView justify="flex-start">
-        <MCSearchInput
-          width={350}
-          text={searchName}
-          onChange={text => this.onChangeSearchName(text)}
-          placeholder={t('placeholder_search_by_name')}
-        />
-        <MCView width={350} height={60} justify="center" row>
+      <MCRootView justify="flex-start" background="transparent">
+        <MCView row width={350} height={60} justify="center" align="center">
           {this._renderAvatar({item: profile})}
           <MCView width={40} />
           <FlatList
@@ -164,7 +144,6 @@ class ProgressMembersTab extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  trustMembers: state.usersReducer.trustMembers,
   userSearchIndex: state.usersReducer.searchPageIndex,
   userPageLimited: state.usersReducer.searchPageLimited,
   userPageSearching: state.usersReducer.pageSearching,
@@ -173,11 +152,12 @@ const mapStateToProps = state => ({
   pageIndex: state.postReducer.pageIndex,
   pageLimited: state.postReducer.pageLimited,
   pageSearching: state.postReducer.pageSearching,
+  trustMembers: state.postReducer.trustMembers,
   profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {
-  getTrustMembers: userActions.getTrustMembers,
+  getPostTrustMembers: postActions.getPostTrustMembers,
   selectPostUser: postActions.selectPostUser,
   getPostsById: postActions.getPostsById,
 };

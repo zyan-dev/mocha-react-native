@@ -13,7 +13,6 @@ import {
   WideOvalGreenImage,
   WideOvalYellowImage,
 } from 'components/styled/Custom';
-import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 
 const styles = StyleSheet.create({
   underlineStyleBase: {
@@ -66,8 +65,8 @@ class VerifySMS extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader title={t('title_sms_verification')} />
-        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
-        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
+        <WideOvalGreenImage />
+        <WideOvalYellowImage />
         <OTPInputView
           style={{width: '80%', height: 100, marginTop: dySize(100)}}
           pinCount={6}

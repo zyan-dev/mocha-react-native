@@ -328,7 +328,7 @@ class EditHabitScreen extends React.PureComponent {
             </MCButton>
           </MCView>
           {isErrorHabits && submitted && (
-            <ErrorText>{t('error_input_habits')}</ErrorText>
+            <ErrorText>{t('error_input_add_nothing')}</ErrorText>
           )}
           <MCView row align="center" justify="space-between" mt={20}>
             <MCView row align="center">

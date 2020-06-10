@@ -8,25 +8,13 @@ import {H2, H3, H4, MCTextInput} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import NavigationService from 'navigation/NavigationService';
 import {
-  WideOvalGreenImage,
-  WideOvalYellowImage,
+  CornerOvalYellowA,
+  CornerOvalYellowB,
+  CornerOvalGreenA,
+  CornerOvalGreenB,
 } from 'components/styled/Custom';
-import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 
-const ServiceRules = [
-  'service_1',
-  'service_2',
-  'service_3',
-  'service_4',
-  'service_5',
-];
-
-const CommunityRules = [
-  'community_1',
-  'community_2',
-  'community_3',
-  'community_4',
-];
+const ServiceRules = ['authenticity', 'belonging', 'coaching', 'determination'];
 
 class OurCommunityRuleScreen extends React.Component {
   state = {
@@ -55,20 +43,16 @@ class OurCommunityRuleScreen extends React.Component {
     const {checkedOptions, agreeText} = this.state;
     return (
       <MCRootView justify="flex-start">
+        <CornerOvalYellowA />
+        <CornerOvalYellowB />
+        <CornerOvalGreenA />
+        <CornerOvalGreenB />
         <MCHeader title={t('title_our_community_rules')} />
-        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
-        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
-        <MCContent contentContainerStyle={{alignItems: 'center'}}>
-          <H2 weight="bold" mt={40} color={theme.colors.outline}>
-            {t('label_service')}
-          </H2>
-          <MCView width={340} row align="center">
-            <H4 weight="bold">{t('auth_agree')}</H4>
-          </MCView>
+        <MCContent
+          contentContainerStyle={{alignItems: 'center', paddingTop: 30}}>
           {ServiceRules.map(rule => {
             return (
-              <MCView width={340} row align="center">
-                <MCIcon name="ios-remove" padding={1} />
+              <MCView width={340} row align="center" mt={25}>
                 <MCCheckBox
                   width={320}
                   hasLeftText
@@ -77,28 +61,7 @@ class OurCommunityRuleScreen extends React.Component {
                   label={t(`auth_rule_${rule}`)}
                   checked={checkedOptions.indexOf(rule) > -1}
                   onChange={checked => this.onToggleCheck(rule)}
-                />
-              </MCView>
-            );
-          })}
-          <H2 weight="bold" color={theme.colors.outline} mt={50}>
-            {t('label_community')}
-          </H2>
-          <MCView width={340} row align="center">
-            <H4 weight="bold">{t('auth_agree')}</H4>
-          </MCView>
-          {CommunityRules.map(rule => {
-            return (
-              <MCView width={340} row align="center">
-                <MCIcon name="ios-remove" padding={1} />
-                <MCCheckBox
-                  width={320}
-                  hasLeftText
-                  bigText={false}
-                  iconColor={theme.colors.outline}
-                  label={t(`auth_rule_${rule}`)}
-                  checked={checkedOptions.indexOf(rule) > -1}
-                  onChange={checked => this.onToggleCheck(rule)}
+                  round
                 />
               </MCView>
             );
@@ -122,7 +85,7 @@ class OurCommunityRuleScreen extends React.Component {
             background={theme.colors.outline}
             pl={20}
             pr={20}
-            disabled={agreeText !== t('I_agree') || checkedOptions.length < 6}
+            disabled={agreeText !== t('I_agree') || checkedOptions.length < 4}
             onPress={() => this.continue()}>
             <H3 color={theme.colors.background}>{t('button_continue')}</H3>
           </MCButton>

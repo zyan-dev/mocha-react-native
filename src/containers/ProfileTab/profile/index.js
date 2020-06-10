@@ -52,6 +52,7 @@ import {
   FutureSvg,
   UserLightSvg,
   SkullCowSvg,
+  SirenOnSvg,
 } from 'assets/svgs';
 import {OvalYellow, OvalGreen} from 'assets/images';
 import {FlatList} from 'react-native-gesture-handler';
@@ -201,6 +202,7 @@ class ProfileScreen extends React.Component {
       meaning,
       behaviorPreference,
       commits,
+      triggers,
     } = this.props;
     const key = item.key;
     if (item.disabled) return null;
@@ -394,7 +396,14 @@ class ProfileScreen extends React.Component {
       );
     if (key === 'risks') return <RiskToleranceCard onPressEdit={() => {}} />;
     if (key === 'quirks') return <QuirksCard onPressEdit={() => {}} />;
-    if (key === 'triggers') return <TriggersCard onPressEdit={() => {}} />;
+    if (key === 'triggers')
+      return (
+        <TriggersCard
+          onPressEdit={() => NavigationService.navigate('EditTriggers')}
+          theme={theme}
+          triggers={triggers}
+        />
+      );
   };
 
   renderProfileIcon = ({item, index}) => {
@@ -429,6 +438,8 @@ class ProfileScreen extends React.Component {
             size={size * 0.8}
             color={color}
           />
+        ) : layout.key === 'triggers' ? (
+          <SirenOnSvg size={size} color={color} />
         ) : (
           <MCIcon
             type={layout.iconType}
@@ -598,6 +609,7 @@ const mapStateToProps = state => ({
   ),
   comfort: selector.reflections.findMySpecialReflections(state, 'Comfort'),
   meaning: selector.reflections.findMySpecialReflections(state, 'MeaningLife'),
+  triggers: selector.reflections.findMySpecialReflections(state, 'Triggers'),
   commits: state.otherReducer.commits,
 });
 

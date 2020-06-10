@@ -1,8 +1,8 @@
 import React from 'react';
-import {Linking} from 'react-native';
+import {Linking, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import YouTube from 'react-native-youtube';
+import YouTube, {YouTubeStandaloneAndroid} from 'react-native-youtube';
 import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions} from 'Redux/actions';
@@ -74,6 +74,17 @@ class AttachmentPatternScreen extends React.Component {
     }
   };
 
+  playVideoOnAndroid = () => {
+    YouTubeStandaloneAndroid.playVideo({
+      apiKey: 'AIzaSyACbgNHAK4l0E-Cf_ceAme85BBXnplHdPs', // Your YouTube Developer API Key
+      videoId: '2s9ACDMcpjA', // YouTube video ID
+      autoplay: true, // Autoplay the video
+      startTime: 0, // Starting point of video (in seconds)
+    })
+      .then(() => console.log('Standalone Player Exited'))
+      .catch(errorMessage => console.error(errorMessage));
+  };
+
   onPressBack = () => {
     const {selectedReflection, saveReflectionDraft} = this.props;
     if (this.isNew) {
@@ -127,16 +138,35 @@ class AttachmentPatternScreen extends React.Component {
           <H4 width={320} mt={15} ml={5} mb={10}>
             {t('tools_tab_attachment_link_explain')}
           </H4>
-          <YouTube
-            videoId="2s9ACDMcpjA" // The YouTube video ID
-            onError={e => this.setState({errorVideo: e.error})}
-            style={{
-              alignSelf: 'center',
-              width: dySize(320),
-              height: dySize(200),
-              backgroundColor: 'white',
-            }}
-          />
+          {Platform.OS === 'android' && (
+            <MCButton
+              width={335}
+              height={200}
+              align="center"
+              justify="center"
+              background={theme.colors.text}
+              onPress={() => this.playVideoOnAndroid()}>
+              <MCIcon
+                name="ios-play"
+                color={theme.colors.background}
+                size={40}
+              />
+            </MCButton>
+          )}
+          {Platform.OS === 'ios' && (
+            <YouTube
+              apiKey="AIzaSyACbgNHAK4l0E-Cf_ceAme85BBXnplHdPs"
+              videoId="2s9ACDMcpjA" // The YouTube video ID
+              play
+              onError={e => this.setState({errorVideo: e.error})}
+              style={{
+                alignSelf: 'center',
+                width: dySize(320),
+                height: dySize(200),
+                backgroundColor: 'white',
+              }}
+            />
+          )}
           <H4 mt={10} ml={5}>
             {t(`select_all_that_apply`)}
           </H4>

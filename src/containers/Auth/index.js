@@ -22,11 +22,11 @@ class VerificationStack extends React.Component {
           component={NamePronunciationScreen}
         />
         <Stack.Screen name="Auth_OurValues" component={OurValuesScreen} />
-        <Stack.Screen name="Auth_Welcome" component={WelcomeScreen} />
         <Stack.Screen
           name="Auth_OurCommunityRule"
           component={OurCommunityRuleScreen}
         />
+        <Stack.Screen name="Auth_Welcome" component={WelcomeScreen} />
       </Stack.Navigator>
     );
   }

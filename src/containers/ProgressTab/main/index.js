@@ -7,11 +7,13 @@ import {MCHeader, MCIcon} from 'components/common';
 import {MCRootView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3} from 'components/styled/Text';
-import {postActions, userActions} from 'Redux/actions';
-import ProgressChallengeTab from './MyChallenges';
+import {postActions, challengeActions} from 'Redux/actions';
+import MyChallengesScreen from './MyChallenges';
 import ProgressMembersTab from './Members';
 import AddChallengeScreen from './AddChallenge';
 import NavigationService from 'navigation/NavigationService';
+import {OvalYellow, OvalGreen} from 'assets/images';
+import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 
 class ProgressScreen extends React.Component {
   constructor(props) {
@@ -21,23 +23,15 @@ class ProgressScreen extends React.Component {
     };
   }
 
-  onPressAddPost = () => {
-    this.props.setInitialPost();
-    NavigationService.navigate('AddPost');
-  };
-
   onChangeTabIndex = i => {
     const {profile} = this.props;
     this.setState({index: i});
     switch (i) {
       case 0:
+        this.props.getUserChallenges(profile._id);
         break;
       case 1:
-        this.props.getTrustMembers({
-          status: 1,
-          name: '',
-          page: 1,
-        });
+        this.props.getPostTrustMembers({page: 1});
         this.props.getPostsById({id: profile._id, page: 1});
         break;
       case 2:
@@ -100,17 +94,20 @@ class ProgressScreen extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: theme.colors.background}}>
+        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
+        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
         <MCHeader
           title={t(`title_progress_tab_${routes[index].key}`)}
           hasBack={false}
-          hasRight
-          rightIcon="plus"
-          onPressRight={() => this.onPressAddPost()}
         />
         <TabView
           navigationState={{index, routes}}
           renderScene={SceneMap({
-            challenge: ProgressChallengeTab,
+            challenge: () => (
+              <MyChallengesScreen
+                onPressAdd={() => this.setState({index: 2})}
+              />
+            ),
             progress: ProgressMembersTab,
             add_challenge: AddChallengeScreen,
           })}
@@ -128,10 +125,10 @@ const mapStateToProps = state => ({
   profile: state.profileReducer,
 });
 const mapDispatchToProps = {
-  setInitialPost: postActions.setInitialPost,
   getPostsById: postActions.getPostsById,
   getPosts: postActions.getPosts,
-  getTrustMembers: userActions.getTrustMembers,
+  getPostTrustMembers: postActions.getPostTrustMembers,
+  getUserChallenges: challengeActions.getUserChallenges,
 };
 
 export default withTranslation()(

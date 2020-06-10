@@ -15,6 +15,7 @@ export const DividerLine = styled.View`
   width: ${props => dySize(props.width || 350)}px;
   height: 0.5px;
   background-color: ${props => props.theme.colors.border};
+  margin-top: ${props => props.mt || 0}px;
 `;
 
 export const MCContent = styled(Content)`
@@ -51,7 +52,7 @@ export const MCCard = styled(MCView)`
   border-radius: ${props => dySize(props.br || 10)}px;
   border-width: ${props => (props.shadow ? 0 : 1)};
   background-color: ${props =>
-    props.shadow ? props.theme.colors.card : 'transparent'};
+    props.shadow ? props.theme.colors.card_border : 'transparent'};
   padding: ${props => dySize(props.p || 5)}px;
 `;
 

@@ -10,7 +10,7 @@ const TagView = styled(H4)`
   border-radius: ${dySize(8)}px;
   height: ${dySize(30)}px;
   color: ${props => props.theme.colors.text};
-  background-color: ${props => props.theme.colors.card};
+  background-color: ${props => props.theme.colors.card_border};
   overflow: hidden;
 `;
 
@@ -18,18 +18,20 @@ export default class MCTagsView extends React.PureComponent {
   static propTypes = {
     tags: PropTypes.array.isRequired,
     more: PropTypes.node,
+    justify: PropTypes.string,
     style: PropTypes.object,
   };
 
   static defaultProps = {
     more: null,
     style: {},
+    justify: 'flex-start',
   };
 
   render() {
-    const {tags, more, style} = this.props;
+    const {tags, more, justify, style} = this.props;
     return (
-      <MCView row wrap style={{width: '100%'}}>
+      <MCView row wrap style={{width: '100%'}} justify={justify}>
         {!tags.length ? (
           <H4>No tags</H4>
         ) : (

@@ -16,12 +16,19 @@ import {
   NativeCard,
   MCView,
   MCContent,
-  DividerLine,
 } from 'components/styled/View';
-import {postActions} from 'Redux/actions';
-import {PostChallengeLevels, PostMoraleLevels} from 'utils/constants';
-import {getStringWithOutline} from 'services/operators';
-import {H3, H4} from 'components/styled/Text';
+import {postActions, challengeActions} from 'Redux/actions';
+import {
+  PostChallengeLevels,
+  PostMoraleLevels,
+  ChallengeIconData,
+} from 'utils/constants';
+import {
+  getStringWithOutline,
+  combineChallenges,
+  getDayOf,
+} from 'services/operators';
+import {H1, H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
@@ -83,10 +90,16 @@ class PostDetailScreen extends React.Component {
     );
   };
 
+  onPressChallenge = challenge => {
+    this.props.selectChallenge(challenge);
+    NavigationService.navigate('ChallengeDetail');
+  };
+
   render() {
     const {post} = this.state;
-    const {t, theme, profile} = this.props;
+    const {t, theme, profile, myChallenges} = this.props;
     const mine = post.ownerId === profile._id;
+    const relatedChallenge = myChallenges.find(c => c._id === post.challengeId);
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -158,6 +171,41 @@ class PostDetailScreen extends React.Component {
               enabledLeft={false}
             />
           </NativeCard>
+          {relatedChallenge && (
+            <NativeCard width={350} mt={20} pv={1}>
+              <MCButton
+                width={350}
+                align="center"
+                onPress={() => this.onPressChallenge(relatedChallenge)}>
+                <H3 weight="bold">{relatedChallenge.title}</H3>
+                <MCView row wrap mb={10}>
+                  {combineChallenges(relatedChallenge.challenges)
+                    .slice(0, 4)
+                    .map(i => {
+                      return (
+                        <MCIcon
+                          type="FontAwesome5Pro-Light"
+                          name={
+                            i.category.indexOf('custom_') < 0
+                              ? ChallengeIconData[i.category]
+                              : 'mountain'
+                          }
+                          size={30}
+                        />
+                      );
+                    })}
+                </MCView>
+                <MCView row align="center">
+                  <H3>{t('unit_day')}: </H3>
+                  <H1 weight="bold">
+                    {getDayOf(relatedChallenge.created_at)}
+                    <H3> /{relatedChallenge.duration}</H3>
+                  </H1>
+                </MCView>
+              </MCButton>
+            </NativeCard>
+          )}
+
           <NativeCard width={350} mt={20}>
             <MCView width={320}>
               {getStringWithOutline(this.SkillText, {
@@ -188,11 +236,13 @@ class PostDetailScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
+  myChallenges: state.challengeReducer.myChallenges,
 });
 
 const mapDispatchToProps = {
   selectPost: postActions.selectPost,
   removePosts: postActions.removePosts,
+  selectChallenge: challengeActions.selectChallenge,
 };
 
 export default withTranslation()(

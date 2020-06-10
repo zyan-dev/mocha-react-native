@@ -11,6 +11,7 @@ import * as resourceSaga from './resource';
 import * as otherSaga from './other';
 import * as chatSaga from './chat';
 import * as postSaga from './post';
+import * as challengeSaga from './challenge';
 
 function* mySaga() {
   // auth
@@ -160,6 +161,18 @@ function* mySaga() {
   yield takeEvery(types.GET_POSTS_BY_ID, postSaga.getPostsById);
   yield takeEvery(types.GET_ALL_POSTS, postSaga.getPosts);
   yield takeEvery(types.REMOVE_POSTS, postSaga.removePosts);
+  yield takeEvery(types.GET_POST_TRUST_MEMBERS, postSaga.getPostTrustMembers);
+
+  // challenge
+  yield takeEvery(
+    types.GET_AVAILBLE_TEAMMATES,
+    challengeSaga.getAvailableTeammates,
+  );
+  yield takeEvery(
+    types.ADD_OR_UPDATE_CHALLENGE,
+    challengeSaga.addOrUpdateChallenge,
+  );
+  yield takeEvery(types.GET_USER_CHALLENGES, challengeSaga.getUserChallenges);
 }
 
 export default mySaga;

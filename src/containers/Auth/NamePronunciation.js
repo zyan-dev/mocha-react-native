@@ -2,18 +2,18 @@ import React from 'react';
 import {Platform, PermissionsAndroid} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {RNS3} from 'react-native-aws3/lib/RNS3';
 import {Player, Recorder} from '@react-native-community/audio-toolkit';
 import {profileActions, authActions, chatActions} from 'Redux/actions';
 import {MCRootView, MCView, MCContent} from 'components/styled/View';
 import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {MCEditableText, MCIcon, MCHeader} from 'components/common';
+import {MCIcon, MCHeader} from 'components/common';
 import {
   WideOvalGreenImage,
   WideOvalYellowImage,
 } from 'components/styled/Custom';
-import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {s3_Options} from 'utils/config';
@@ -32,32 +32,61 @@ class NamePronunciationScreen extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
-    this.checkRecordPermission();
   }
 
   componentWillUnmount() {
     this.mounted = false;
   }
 
-  checkRecordPermission() {
-    let recordAudioRequest;
-    if (Platform.OS == 'android') {
-      recordAudioRequest = this._requestRecordAudioPermission();
+  checkRecordPermission(recording) {
+    if (Platform.OS === 'ios') {
+      check(PERMISSIONS.IOS.MICROPHONE)
+        .then(result => {
+          if (result !== RESULTS.GRANTED) {
+            request(PERMISSIONS.IOS.MICROPHONE).then(result => {
+              // …
+              if (result !== RESULTS.GRANTED) {
+                this.setState({
+                  microphoneStatus:
+                    'You can not record your audio. Pleas go to app setting to enable manually',
+                });
+              } else {
+                this.prepareRecorder(recording);
+              }
+            });
+          } else {
+            this.prepareRecorder(recording);
+          }
+        })
+        .catch(error => {
+          // …
+        });
     } else {
-      recordAudioRequest = new Promise(function(resolve, reject) {
-        resolve(true);
-      });
+      check(PERMISSIONS.ANDROID.RECORD_AUDIO)
+        .then(result => {
+          if (result !== RESULTS.GRANTED) {
+            request(PERMISSIONS.ANDROID.RECORD_AUDIO).then(result => {
+              // …
+              if (result !== RESULTS.GRANTED) {
+                this.setState({
+                  microphoneStatus:
+                    'You can not record your audio. Pleas go to app setting to enable manually',
+                });
+              } else {
+                this.prepareRecorder(recording);
+              }
+            });
+          } else {
+            this.prepareRecorder(recording);
+          }
+        })
+        .catch(error => {
+          // …
+        });
     }
-    recordAudioRequest.then(hasPermission => {
-      if (!hasPermission) {
-        showAlert('Record Audio Permission was denied');
-        return;
-      }
-      this.prepareRecorder();
-    });
   }
 
-  prepareRecorder = () => {
+  prepareRecorder = recording => {
     const {profile} = this.props;
     // Preparing record
     this.recorder = new Recorder(`name_pronounce.mp4`, {
@@ -68,9 +97,10 @@ class NamePronunciationScreen extends React.Component {
     }).prepare((err, fsPath) => {
       if (err) {
         console.log('Recorder Prepare error: ', err);
-        this.mounted && this.prepareRecorder();
+        this.mounted && this.prepareRecorder(recording);
       } else {
         this.setState({audioFilePath: fsPath}); // for example
+        this.onToggleRecord(recording);
       }
     });
   };
@@ -179,14 +209,14 @@ class NamePronunciationScreen extends React.Component {
           rightText={t('header_skip')}
           onPressRight={() => NavigationService.navigate('Auth_OurValues')}
         />
-        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
-        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
+        <WideOvalGreenImage />
+        <WideOvalYellowImage />
         <MCContent
           contentContainerStyle={{
             alignItems: 'center',
             paddingHorizontal: dySize(60),
           }}>
-          <H3 mt={70}>
+          <H3 mt={70} align="center">
             {t('name_pronun_almost_done', {name: name.split(' '[0])})}
           </H3>
           <H3 mt={15} align="center">
@@ -195,22 +225,23 @@ class NamePronunciationScreen extends React.Component {
           <H3 mt={70} align="center">
             {t('name_pronun_how_say')}
           </H3>
-          {audioFilePath.length > 0 && (
-            <MCView row align="center">
-              <MCButton onPress={() => this.onToggleRecord(!recording)} mr={60}>
-                <MCIcon
-                  type="FontAwesome5Pro"
-                  name={recording ? 'stop-circle' : 'microphone'}
-                  size={40}
-                />
-              </MCButton>
+          <MCView row align="center">
+            <MCButton onPress={() => this.checkRecordPermission(!recording)}>
+              <MCIcon
+                type="FontAwesome5Pro"
+                name={recording ? 'stop-circle' : 'microphone'}
+                size={40}
+              />
+            </MCButton>
+            {audioFilePath.length > 0 && (
               <MCButton
+                ml={60}
                 onPress={() => this.onTogglePlayback()}
                 disabled={audioURL.length === 0}>
                 <MCIcon type="FontAwesome5Pro" name="volume" size={40} />
               </MCButton>
-            </MCView>
-          )}
+            )}
+          </MCView>
 
           {status.length > 0 && <H4>{t(status)}</H4>}
           <MCButton

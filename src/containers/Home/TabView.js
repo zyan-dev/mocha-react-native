@@ -19,11 +19,10 @@ import {
 import {
   profileActions,
   reflectionActions,
-  userActions,
+  challengeActions,
   feedbackActions,
   routerActions,
   otherActions,
-  resourceActions,
   networkActions,
 } from 'Redux/actions';
 
@@ -60,6 +59,8 @@ class TabView extends React.PureComponent {
       getMyReflections,
       getMyFeedbacks,
       showSocialDrawer,
+      showToolsDrawer,
+      showProfileDrawer,
       getUserCommits,
       getOwnersWithResourcePermission,
       setSearchOwnersWithResourcePermissionIndex,
@@ -112,6 +113,7 @@ class TabView extends React.PureComponent {
         break;
       case 2:
         // user clicked Progress Tab
+        this.props.getUserChallenges(profile._id);
         break;
       case 3:
         // user clicked Tools Tab
@@ -279,7 +281,10 @@ const mapDispatchToProps = {
   changeProfileTab: otherActions.changeProfileTab,
   changeToolsTab: otherActions.changeToolsTab,
   showSocialDrawer: routerActions.setSocialDrawerOpened,
+  showProfileDrawer: routerActions.setProfileDrawerOpened,
+  showToolsDrawer: routerActions.setToolsDrawerOpened,
   setMainTabIndex: routerActions.setMainTabIndex,
+  getUserChallenges: challengeActions.getUserChallenges,
   getOwnersWithResourcePermission:
     networkActions.getOwnersWithResourcePermission,
   setSearchOwnersWithResourcePermissionIndex:

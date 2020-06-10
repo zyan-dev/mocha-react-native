@@ -19,8 +19,9 @@ export const getPosts = param => ({
   payload: param,
 });
 
-export const setInitialPost = () => ({
+export const setInitialPost = challengeId => ({
   type: types.SET_INITIAL_POST,
+  payload: challengeId,
 });
 
 export const updateSelectedPost = data => ({
@@ -40,4 +41,9 @@ export const removePosts = ids => ({
 export const selectPostUser = user => ({
   type: types.SET_SELECTED_POST_USER,
   payload: user,
+});
+
+export const getPostTrustMembers = param => ({
+  type: types.GET_POST_TRUST_MEMBERS,
+  payload: param,
 });

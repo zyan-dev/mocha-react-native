@@ -114,17 +114,18 @@ export function* deleteNetwork(action) {
 
 export function* getOwnersWithResourcePermission(action) {
   try {
+    const {page} = action.payload;
     yield put({
       type: types.SET_OWNERS_WITH_RESOURCE_PERMISSION_STATE,
       payload: true,
     });
 
-    const response = yield call(
-      API.getOwnersWithResourcePermission,
-      action.payload,
-    );
+    const response = yield call(API.getOwnersWithPermission, {
+      page,
+      permission: 'resources',
+    });
     if (response.data.status === 'success') {
-      if (action.payload === 1) {
+      if (page === 1) {
         yield put({
           type: types.SET_SEARCHED_OWNERS_WITH_RESOURCE_PERMISSION,
           payload: response.data.data.networks,
@@ -136,12 +137,12 @@ export function* getOwnersWithResourcePermission(action) {
         });
         yield put({
           type: types.SET_SEARCH_OWNERS_WITH_RESOURCE_PERMISSION_INDEX,
-          payload: action.payload,
+          payload: page,
         });
       }
       yield put({
         type: types.SET_OWNERS_WITH_RESOURCE_PERMISSION_PAGE_LIMITED,
-        payload: action.payload >= response.data.data.total_pages,
+        payload: page >= response.data.data.total_pages,
       });
       yield put({type: types.API_FINISHED});
     } else {

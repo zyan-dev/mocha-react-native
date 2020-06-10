@@ -38,7 +38,7 @@ class WelcomeToMocha extends React.PureComponent {
         </H4>
         <MCView style={{flex: 1}} />
         <H4 weight="bold" mb={10}>
-          Where would you like to start?
+          {t('welcome_title_start')}
         </H4>
         <MCButton
           br={20}
@@ -52,7 +52,7 @@ class WelcomeToMocha extends React.PureComponent {
             {t('welcome_button_community')}
           </H3>
         </MCButton>
-        <H5>Requires SMS login</H5>
+        <H5 weight="italic">{t('welcome_label_require_sms')}</H5>
         <MCButton
           br={20}
           mt={30}

@@ -32,6 +32,7 @@ const URL_SEARCH_RESOURCE = '/resource/books';
 const URL_CHAT = '/chat';
 const URL_POST = '/posts';
 const URL_CHAT_VISIT = '/chat-visit';
+const URL_CHALLENGE = '/challenge';
 
 const apiCall = async (type, url, param, withToken = false, options = {}) => {
   let opt = {
@@ -85,9 +86,9 @@ const createNotificationSettings = param =>
 const getTrustMembers = param =>
   apiCall(
     'get',
-    `${URL_TRUST_MEMBERS}?status=${param.status}&name=${param.name}&page=${
-      param.page
-    }`,
+    `${URL_TRUST_MEMBERS}?status=${param.status}&me=${param.me}&name=${
+      param.name
+    }&page=${param.page}`,
     {},
     true,
   );
@@ -104,8 +105,15 @@ const deleteNetwork = networkId =>
   apiCall('delete', `${URL_NETWORK}/${networkId}`, {}, true);
 const updateNetwork = network =>
   apiCall('patch', `${URL_NETWORK}/${network._id}`, network, true);
-const getOwnersWithResourcePermission = pageIndex =>
-  apiCall('get', `${URL_NETWORK}/resource/me?page=${pageIndex}`, {}, true);
+const getOwnersWithPermission = param =>
+  apiCall(
+    'get',
+    `${URL_NETWORK}/permission/me?me=${param.me}&page=${param.page}&name=${
+      param.name
+    }&permission=${param.permission}`,
+    {},
+    true,
+  );
 const addReflections = param =>
   apiCall('post', URL_REFLECTION_ADD, param, true);
 const updateReflections = param =>
@@ -205,6 +213,11 @@ const removePosts = param => apiCall('post', `${URL_POST}/remove`, param, true);
 const getChatVisitStatus = () => apiCall('get', `${URL_CHAT_VISIT}`, {}, true);
 const updateChatVisitStatus = param =>
   apiCall('patch', `${URL_CHAT_VISIT}`, param, true);
+const updateChallenges = param =>
+  apiCall('post', `${URL_CHALLENGE}/update`, param, true);
+const addChallenges = param => apiCall('post', `${URL_CHALLENGE}`, param, true);
+const getUserChallenges = id =>
+  apiCall('get', `${URL_CHALLENGE}/${id}`, {}, true);
 
 export default {
   sendSMS,
@@ -266,5 +279,8 @@ export default {
   removePosts,
   getChatVisitStatus,
   updateChatVisitStatus,
-  getOwnersWithResourcePermission,
+  getOwnersWithPermission,
+  updateChallenges,
+  addChallenges,
+  getUserChallenges,
 };

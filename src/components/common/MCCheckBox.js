@@ -17,6 +17,7 @@ class MCCheckBox extends React.Component {
     textAlign: PropTypes.string,
     iconColor: PropTypes.string,
     weight: PropTypes.string,
+    round: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -28,6 +29,7 @@ class MCCheckBox extends React.Component {
     iconColor: undefined,
     onChange: () => undefined,
     weight: 'regular',
+    round: false,
   };
 
   render() {
@@ -42,37 +44,43 @@ class MCCheckBox extends React.Component {
       bigText,
       iconColor,
       weight,
+      round,
     } = this.props;
+    const hasLabel = label.length > 0;
+    const checkedIcon = round ? 'check-circle' : 'check-square';
+    const unCheckedIcon = round ? 'circle' : 'square';
     return (
       <MCButton
         row
         align="center"
         width={width}
         onPress={() => onChange(!checked)}>
-        {hasLeftText && bigText && (
+        {hasLeftText && bigText && hasLabel && (
           <H3 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H3>
         )}
-        {hasLeftText && !bigText && (
+        {hasLeftText && !bigText && hasLabel && (
           <H4 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H4>
         )}
-        <MCView mr={hasLeftText ? 0 : 20} ml={hasLeftText ? 20 : 0}>
+        {!hasLeftText && hasLabel && <MCView width={20} />}
+        <MCView>
           <MCIcon
             type="FontAwesome5Pro-Light"
-            name={checked ? 'check-square' : 'square'}
+            name={checked ? checkedIcon : unCheckedIcon}
             size={iconSize}
             color={iconColor}
           />
+          {hasLeftText && hasLabel && <MCView width={20} />}
         </MCView>
-        {!hasLeftText && bigText && (
+        {!hasLeftText && bigText && hasLabel && (
           <H3 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H3>
         )}
-        {!hasLeftText && !bigText && (
+        {!hasLeftText && !bigText && hasLabel && (
           <H4 ml={5} weight={weight} align={textAlign} style={{flex: 1}}>
             {label}
           </H4>

@@ -50,6 +50,7 @@ class PostItem extends React.PureComponent {
       onPressDetail,
     } = this.props;
     const isOwn = post.ownerId === profile._id;
+    const skills = _.get(post, ['skills'], []);
     return (
       <NativeCard width={340} mt={15} align="flex-start">
         <MCButton pl={1} pr={1} onPress={() => onPressDetail()}>
@@ -90,11 +91,11 @@ class PostItem extends React.PureComponent {
             Skills
           </H4>
           <MCTagsView
-            tags={_.get(post, ['skills'], []).slice(0, 3)}
+            tags={skills.slice(0, 3).map(s => t(`resource_book_skills_${s}`))}
             more={
-              post.skills.length > 3 ? (
+              skills.length > 3 ? (
                 <H4 color={theme.colors.border}>
-                  {t('more_skills', {num: post.skills.length - 3})}
+                  {t('more_skills', {num: skills.length - 3})}
                 </H4>
               ) : null
             }

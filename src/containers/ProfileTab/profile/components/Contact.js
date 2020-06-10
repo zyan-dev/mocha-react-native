@@ -38,14 +38,13 @@ class ContactCard extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
-    this.checkRecordPermission();
   }
 
   componentWillUnmount() {
     this.mounted = false;
   }
 
-  checkRecordPermission() {
+  checkRecordPermission(recording) {
     if (Platform.OS === 'ios') {
       check(PERMISSIONS.IOS.MICROPHONE)
         .then(result => {
@@ -58,11 +57,11 @@ class ContactCard extends React.Component {
                     'You can not record your audio. Pleas go to app setting to enable manually',
                 });
               } else {
-                this.prepareRecorder();
+                this.prepareRecorder(recording);
               }
             });
           } else {
-            this.prepareRecorder();
+            this.prepareRecorder(recording);
           }
         })
         .catch(error => {
@@ -80,11 +79,11 @@ class ContactCard extends React.Component {
                     'You can not record your audio. Pleas go to app setting to enable manually',
                 });
               } else {
-                this.prepareRecorder();
+                this.prepareRecorder(recording);
               }
             });
           } else {
-            this.prepareRecorder();
+            this.prepareRecorder(recording);
           }
         })
         .catch(error => {
@@ -93,7 +92,7 @@ class ContactCard extends React.Component {
     }
   }
 
-  prepareRecorder = () => {
+  prepareRecorder = recording => {
     // Preparing record
     this.recorder = new Recorder(`name_pronounce.mp4`, {
       bitrate: 256000,
@@ -106,6 +105,7 @@ class ContactCard extends React.Component {
         this.mounted && this.prepareRecorder();
       } else {
         this.setState({audioFilePath: fsPath}); // for example
+        this.onToggleRecord(recording);
       }
     });
   };
@@ -194,8 +194,6 @@ class ContactCard extends React.Component {
     const {editing} = this.state;
     if (editing) {
       this.props.updateContactProfile();
-    } else {
-      this.checkRecordPermission();
     }
     this.setState({editing: !editing});
   };
@@ -239,9 +237,9 @@ class ContactCard extends React.Component {
                   `profile_card_${key}`,
                 )}: `}</H4>
                 <MCView width={300} row align="center">
-                  {audioFilePath.length > 0 && editing && (
+                  {editing && (
                     <MCButton
-                      onPress={() => this.onToggleRecord(!recording)}
+                      onPress={() => this.checkRecordPermission(!recording)}
                       mr={30}>
                       <MCIcon
                         type="FontAwesome5Pro"

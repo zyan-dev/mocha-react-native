@@ -81,7 +81,7 @@ class MCTagInput extends React.Component {
             height: dySize(30),
             borderRadius: dySize(8),
             maxWidth: 'auto',
-            backgroundColor: theme.colors.card,
+            backgroundColor: theme.colors.card_border,
             borderColor: theme.colors.border,
           }}
           tagTextStyle={{

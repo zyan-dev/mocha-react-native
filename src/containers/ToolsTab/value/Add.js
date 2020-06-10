@@ -5,18 +5,11 @@ import * as _ from 'lodash';
 import {selector} from 'Redux/selectors';
 import {reflectionActions, routerActions} from 'Redux/actions';
 import API from 'services/api';
-import {showAlert, getTitleByKey} from 'services/operators';
-import {
-  MCHeader,
-  MCImagePicker,
-  MCPicker,
-  MCTextFormInput,
-  MCIcon,
-} from 'components/common';
+import {showAlert} from 'services/operators';
+import {MCHeader, MCImagePicker, MCTextFormInput} from 'components/common';
 import {DiscoverValues} from 'utils/constants';
 import {MCView, MCRootView, MCContent, MCCard} from 'components/styled/View';
-import {MCButton} from 'components/styled/Button';
-import {H3, H4, MCTextInput, ErrorText} from 'components/styled/Text';
+import {H3, H4, ErrorText} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 
@@ -112,7 +105,7 @@ class EditValueScreen extends React.PureComponent {
             <MCCard shadow br={1} p={10} style={{width: '100%'}}>
               <MCTextFormInput
                 style={{width: dySize(333)}}
-                placeholder={t('label_title')}
+                placeholder={t('placeholder_type_value_title')}
                 placeholderTextColor="gray"
                 textAlignVertical="top"
                 value={value}

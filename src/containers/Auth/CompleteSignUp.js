@@ -10,7 +10,6 @@ import {
   WideOvalGreenImage,
   WideOvalYellowImage,
 } from 'components/styled/Custom';
-import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 
 class CompleteSignUp extends React.Component {
   constructor(props) {
@@ -45,8 +44,8 @@ class CompleteSignUp extends React.Component {
     return (
       <MCRootView justify="flex-start">
         <MCHeader title={t('footer_profile')} hasBack={false} />
-        <WideOvalGreenImage source={OvalGreenWide} resizeMode="stretch" />
-        <WideOvalYellowImage source={OvalYellowWide} resizeMode="stretch" />
+        <WideOvalGreenImage />
+        <WideOvalYellowImage />
         <MCContent contentContainerStyle={{alignItems: 'center'}}>
           <MCView width={350} align="center">
             <H3 align="center" mt={30} mb={20}>

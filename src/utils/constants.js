@@ -305,7 +305,7 @@ export const PostMoraleLevels = [
   'high',
 ];
 
-export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8+'];
+export const HydrationValues = ['2', '3', '4', '5', '6', '7', '8+', '16+'];
 
 export const SampleReflectionSections = {
   needs: [
@@ -954,6 +954,12 @@ export const DefaultReflections = {
       options: [],
     },
   },
+  triggers: {
+    type: 'Triggers',
+    data: {
+      options: [''],
+    },
+  },
 };
 
 export const ResourceTypes = [
@@ -1411,8 +1417,8 @@ export const profileIcons = [
   },
   {
     key: 'triggers',
-    iconType: 'Ionicon',
-    icon: 'ios-warning',
+    iconType: 'FontAwesome5Pro',
+    icon: 'siren-on',
     signinRequired: true,
     hasSvg: false,
   },
@@ -1826,6 +1832,27 @@ export const skills = [
   'critical_thinking',
 ];
 
+export const challengeSkills = [
+  'empathy',
+  'service',
+  'leadership',
+  'forgiveness',
+  'transcendence',
+  'spirituality',
+  'perspective_taking',
+  'humility',
+  'community',
+  'belonging',
+  'citizenship',
+  'critical_thinking',
+  'thinking',
+  'optimism',
+  'transcendence',
+  'courage',
+  'curiosity',
+  'character_development',
+];
+
 export const impacts = [
   {
     key: 1,
@@ -1985,6 +2012,7 @@ export const EmptyChallenge = {
   title: '',
   challenges: [],
   duration: 7,
+  invites: [],
   teammates: [],
   skills: [],
 };
@@ -2077,6 +2105,8 @@ export const TemplateChallenges = [
     ],
     duration: 75,
     skills: ['grit', 'pain-tolerance'],
+    teammates: [],
+    invites: [],
   },
   {
     index: 2,
@@ -2089,6 +2119,8 @@ export const TemplateChallenges = [
     ],
     duration: 25,
     skills: ['grit', 'pain-tolerance'],
+    teammates: [],
+    invites: [],
   },
   {
     index: 3,
@@ -2101,6 +2133,8 @@ export const TemplateChallenges = [
     ],
     duration: 10,
     skills: ['grit', 'pain-tolerance'],
+    teammates: [],
+    invites: [],
   },
   {
     index: 4,
@@ -2113,6 +2147,8 @@ export const TemplateChallenges = [
     ],
     duration: 30,
     skills: ['grit', 'pain-tolerance'],
+    teammates: [],
+    invites: [],
   },
 ];
 

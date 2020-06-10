@@ -166,3 +166,57 @@ export function* removePosts(action) {
     yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }
+
+export function* getPostTrustMembers(action) {
+  try {
+    const {profileReducer} = yield select();
+    const {page} = action.payload;
+    if (page === 1) {
+      yield put({
+        type: types.SET_POST_TRUST_MEMBERS,
+        payload: [],
+      });
+    }
+    yield put({
+      type: types.SET_PAGE_SEARCHING_STATE,
+      payload: true,
+    });
+    const response = yield call(API.getOwnersWithPermission, {
+      page,
+      name: '',
+      permission: 'progress',
+    });
+    if (response.data.status === 'success') {
+      if (page === 1) {
+        yield put({
+          type: types.SET_POST_TRUST_MEMBERS,
+          payload: response.data.data.networks,
+        });
+      } else {
+        yield put({
+          type: types.ADD_POST_TRUST_MEMBERS,
+          payload: response.data.data.networks,
+        });
+      }
+      yield put({
+        type: types.SET_SELECTED_POST_USER,
+        payload: profileReducer,
+      });
+      yield put({
+        type: types.SET_SEARCH_PAGE_INDEX,
+        payload: page,
+      });
+      yield put({
+        type: types.SET_SEARCH_PAGE_LIMITED,
+        payload: page === response.data.data.total_pages,
+      });
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}

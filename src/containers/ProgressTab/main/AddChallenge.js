@@ -54,7 +54,7 @@ class SelectTemplateScreen extends React.Component {
           ph={1}
           mr={6}
           ml={6}
-          mt={10}>
+          mt={15}>
           <MCButton
             align="center"
             width={160}
@@ -75,11 +75,11 @@ class SelectTemplateScreen extends React.Component {
           ph={1}
           mr={6}
           ml={6}
-          mt={10}>
+          mt={15}>
           <MCButton
             align="center"
             width={160}
-            height={200}
+            height={220}
             pt={20}
             pb={20}
             onPress={() => this.onSelectTemplate(item)}>
@@ -91,8 +91,8 @@ class SelectTemplateScreen extends React.Component {
               })}
             </MCView>
             <DividerLine width={150} />
-            <MCView width={150} mt={10}>
-              <MCTagsView tags={item.skills} style={{backgrounColor: 'red'}} />
+            <MCView width={150} mt={10} height={70}>
+              <MCTagsView tags={item.skills} />
             </MCView>
           </MCButton>
         </NativeCard>
@@ -103,7 +103,7 @@ class SelectTemplateScreen extends React.Component {
   render() {
     const {t} = this.props;
     return (
-      <MCRootView justify="flex-start">
+      <MCRootView justify="flex-start" background="transparent">
         <FlatList
           contentContainerStyle={{
             width: dySize(375),
