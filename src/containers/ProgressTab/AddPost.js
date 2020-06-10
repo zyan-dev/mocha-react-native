@@ -39,9 +39,9 @@ class AddPostScreen extends React.Component {
 
   ChallengeText = {
     title: i18next.t('post_question_challenge', {
-      bold: i18next.t('outline_challenge'),
+      bold: i18next.t('outline_challenging'),
     }),
-    boldWordKeys: ['challenge'],
+    boldWordKeys: ['challenging'],
   };
 
   MoraleText = {

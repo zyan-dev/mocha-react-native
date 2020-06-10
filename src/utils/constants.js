@@ -1847,7 +1847,6 @@ export const challengeSkills = [
   'critical_thinking',
   'thinking',
   'optimism',
-  'transcendence',
   'courage',
   'curiosity',
   'character_development',

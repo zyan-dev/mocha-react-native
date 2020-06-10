@@ -16,6 +16,7 @@ export const DividerLine = styled.View`
   height: 0.5px;
   background-color: ${props => props.theme.colors.border};
   margin-top: ${props => props.mt || 0}px;
+  margin-bottom: ${props => props.mb || 0}px;
 `;
 
 export const MCContent = styled(Content)`

@@ -12,7 +12,14 @@ import {
   DividerLine,
 } from 'components/styled/View';
 import {MCHeader, MCIcon, MCImage, MCTagsView} from 'components/common';
-import {H2, H3, H4, MCTextInput, ErrorText} from 'components/styled/Text';
+import {
+  H2,
+  H3,
+  H4,
+  MCTextInput,
+  ErrorText,
+  MCEmptyText,
+} from 'components/styled/Text';
 import {OvalYellow, OvalGreen} from 'assets/images';
 import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import {dySize} from 'utils/responsive';
@@ -145,6 +152,9 @@ class CompleteChallengeScreen extends React.Component {
                 );
               })}
             </MCView>
+            {invites.length === 0 && (
+              <MCEmptyText>{t('no_members')}</MCEmptyText>
+            )}
           </NativeCard>
           <NativeCard mt={20} width={345}>
             <H3 weight="bold" align="center" mb={10}>
@@ -153,7 +163,11 @@ class CompleteChallengeScreen extends React.Component {
               })}
             </H3>
             <MCTagsView
-              tags={skills.map(s => t(`resource_book_skills_${s}`))}
+              tags={skills.map(s =>
+                s.indexOf('custom_') < 0
+                  ? t(`resource_book_skills_${s}`)
+                  : s.split('custom_')[1],
+              )}
               justify="center"
             />
           </NativeCard>

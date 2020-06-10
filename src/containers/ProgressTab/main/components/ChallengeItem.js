@@ -195,7 +195,11 @@ class ChallengeItem extends React.PureComponent {
             :
           </H4>
           <MCTagsView
-            tags={item.skills.map(s => t(`resource_book_skills_${s}`))}
+            tags={item.skills.map(s =>
+              s.indexOf('custom_') < 0
+                ? t(`resource_book_skills_${s}`)
+                : s.split('custom_')[1],
+            )}
           />
         </NativeCard>
       </MCView>
