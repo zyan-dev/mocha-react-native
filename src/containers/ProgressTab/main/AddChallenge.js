@@ -90,17 +90,6 @@ class SelectTemplateScreen extends React.Component {
     const {t} = this.props;
     return (
       <MCRootView justify="flex-start" background="transparent">
-        {/* <FlatList
-          contentContainerStyle={{
-            width: dySize(375),
-            paddingHorizontal: dySize(15),
-          }}
-          data={[{index: 0, custom: true}].concat(TemplateChallenges)}
-          renderItem={this._renderChallengeCard}
-          keyExtractor={item => item.index}
-          numColumns={2}
-        /> */}
-
         <MCContent
           contentContainerStyle={{
             alignItems: 'center',

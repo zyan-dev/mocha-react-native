@@ -149,21 +149,24 @@ class MyChallenges extends React.Component {
         <DividerLine width={335} />
         <MCContent
           contentContainerStyle={{alignItems: 'center', paddingBottom: 50}}>
-          <MCView row mt={20} width={345}>
-            <MCImage
-              image={{uri: selectedChallenge.ownerAvatar}}
-              type="avatar"
-              round
-              width={70}
-              height={70}
-            />
-            <MCView ml={10} style={{flex: 1}}>
-              <H3 weight="bold" underline>
-                {selectedChallenge.ownerName}
-              </H3>
-              <H2 numberOfLines={1}>{selectedChallenge.title}</H2>
+          {selectedChallenge && (
+            <MCView row mt={20} width={345}>
+              <MCImage
+                image={{uri: selectedChallenge.ownerAvatar}}
+                type="avatar"
+                round
+                width={70}
+                height={70}
+              />
+              <MCView ml={10} style={{flex: 1}}>
+                <H3 weight="bold" underline>
+                  {selectedChallenge.ownerName}
+                </H3>
+                <H2 numberOfLines={1}>{selectedChallenge.title}</H2>
+              </MCView>
             </MCView>
-          </MCView>
+          )}
+
           <ChallengeItem
             item={selectedChallenge}
             onToggleCheckMeasure={this._onToggleCheckMeasure}

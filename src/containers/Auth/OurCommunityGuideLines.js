@@ -16,7 +16,7 @@ import {
 
 const ServiceRules = ['authenticity', 'belonging', 'coaching', 'determination'];
 
-class OurCommunityRuleScreen extends React.Component {
+class OurCommunityGuidelineScreen extends React.Component {
   state = {
     checkedOptions: [],
     agreeText: '',
@@ -47,7 +47,7 @@ class OurCommunityRuleScreen extends React.Component {
         <CornerOvalYellowB />
         <CornerOvalGreenA />
         <CornerOvalGreenB />
-        <MCHeader title={t('title_our_community_rules')} />
+        <MCHeader title={t('title_our_community_guidelines')} />
         <MCContent
           contentContainerStyle={{alignItems: 'center', paddingTop: 30}}>
           {ServiceRules.map(rule => {
@@ -107,5 +107,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(OurCommunityRuleScreen),
+  )(OurCommunityGuidelineScreen),
 );

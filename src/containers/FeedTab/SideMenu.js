@@ -34,8 +34,8 @@ const sideMenuList = [
     index: 4,
     icon: 'shield-check',
     iconType: 'FontAwesome5Pro',
-    title: 'feed_menu_community_rules',
-    redirectTo: 'CommunityRules',
+    title: 'feed_menu_community_guidelines',
+    redirectTo: 'CommunityGuideLines',
   },
 ];
 

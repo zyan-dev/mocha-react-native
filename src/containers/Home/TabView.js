@@ -36,11 +36,11 @@ const TabWrapper = styled(Footer)`
 `;
 
 class TabView extends React.PureComponent {
-  tabIndex = 3;
+  tabIndex = 2;
   lastTime = 0;
 
   componentWillMount() {
-    this.props.setMainTabIndex(3);
+    this.props.setMainTabIndex(2);
   }
 
   componentDidMount() {
