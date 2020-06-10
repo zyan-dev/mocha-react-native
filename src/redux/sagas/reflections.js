@@ -109,6 +109,15 @@ export function* addOrUpdateReflection(action) {
       yield put({type: types.API_FINISHED, payload: 'Empty'});
     } else if (selectedTempReflection._id) {
       if (userToken && isInternetReachable) {
+        // update local reflection before calling api (should be reverted if api is failed)
+        const updated = myReflections.map(r =>
+          selectedTempReflection._id === r._id ? selectedTempReflection : r,
+        );
+        yield put({
+          type: types.SET_MY_REFLECTIONS,
+          payload: updated,
+        });
+
         // online update
         response = yield call(API.updateReflections, {
           data: [selectedTempReflection],
@@ -166,6 +175,10 @@ export function* addOrUpdateReflection(action) {
       yield put({
         type: types.API_FINISHED,
         payload: response.data.data.message,
+      });
+      yield put({
+        type: types.SET_MY_REFLECTIONS,
+        payload: myReflections,
       });
     }
   } catch (e) {
