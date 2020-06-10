@@ -258,7 +258,7 @@ class AddPostScreen extends React.Component {
                 );
               })}
             </MCView>
-            <MCView width={350} mt={40}>
+            <MCView width={320} mt={40}>
               <H4>Add custom skills:</H4>
               <MCTagInput
                 tags={customTagInputs}

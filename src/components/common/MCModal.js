@@ -20,6 +20,7 @@ const ModalWrapper = styled(MCCard)`
 
 const ModalContent = styled(ScrollView)`
   max-height: ${dySize(600)};
+  margin-top: 20px;
   margin-bottom: 20px;
   width: 100%;
 `;
