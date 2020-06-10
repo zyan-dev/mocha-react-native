@@ -46,9 +46,9 @@ class ChronotypeCard extends React.Component {
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>
-              {t('profile_subtitle_chronotype')}
+              {t('profile_subtitle_sleep')}
             </H3>
-            <SheepSvg theme={theme} size={30} />
+            <MCIcon type="FontAwesome5Pro" name="bed" size={25} />
           </MCView>
           {editable && (
             <MCButton onPress={() => onPressEdit()}>
