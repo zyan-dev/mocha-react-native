@@ -16,6 +16,8 @@ const INITIAL_STATE = {
   reflectionSections: SampleReflectionSections,
   habitResetTime: 0,
   supportedHabits: [],
+  supportedHabitOwners: [],
+  selectedHabitUser: {},
   draft: {},
   mainTabIndex: 3,
 };
@@ -71,6 +73,16 @@ const reflectionReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         supportedHabits: action.payload,
+      };
+    case types.SET_SUPPORTED_HABIT_USER:
+      return {
+        ...state,
+        selectedHabitUser: action.payload,
+      };
+    case types.SET_SUPPORTED_HABIT_OWNERS:
+      return {
+        ...state,
+        supportedHabitOwners: action.payload,
       };
     case types.UPDATE_SELECTED_REFLECTION:
       const key = [mainTabKeys[state.mainTabIndex]];

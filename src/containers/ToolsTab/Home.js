@@ -281,7 +281,9 @@ class AddReflectionScreen extends React.Component {
             )}
             {card.key === 'profile_advanced' && (
               <>
-                <H4 weight="bold">{t('outline_profile_advanced')}</H4>
+                <H4 weight="bold" align="center">
+                  {t('outline_profile_advanced')}
+                </H4>
                 <H4>{t('tools_tab_know_yourself')}</H4>
               </>
             )}

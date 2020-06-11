@@ -15,28 +15,8 @@ class SupportHabitScreen extends React.Component {
     super(props);
     this.state = {
       index: 0,
-      selectedOwner: '',
-      owners: [],
     };
   }
-
-  componentDidMount() {
-    this.initialize();
-  }
-
-  componentDidUpdate(preProps, prevState) {
-    if (preProps.supportedHabits !== this.props.supportedHabits) {
-      this.initialize();
-    }
-  }
-
-  initialize = () => {
-    const {selectedOwner} = this.state;
-    const owners = this.getHabitOwners();
-    this.setState({owners});
-    if (owners.length > 0 && !selectedOwner.length)
-      this.setState({selectedOwner: owners[0]});
-  };
 
   onPressEmoji = (item, reaction) => {
     this.props.reactToHabit({
@@ -49,28 +29,19 @@ class SupportHabitScreen extends React.Component {
     });
   };
 
-  getHabitOwners = () => {
-    const {supportedHabits} = this.props;
-    let owners = [];
-    supportedHabits.map(habit => {
-      const find = owners.find(user => user._id === habit.owner);
-      if (!find) owners.push(habit.owner_profile);
-    });
-    return owners;
-  };
-
   _renderOwnerItem = ({item}) => {
-    const {selectedOwner} = this.state;
-    const {theme} = this.props;
+    const {theme, selectedHabitUser} = this.props;
     const owner = item;
-    const selected = selectedOwner._id === owner._id;
+    const selected = selectedHabitUser._id === owner._id;
     return (
-      <MCButton pl={1} onPress={() => this.setState({selectedOwner: owner})}>
+      <MCButton pl={1} onPress={() => this.props.selectHabitUser(owner)}>
         <MCView
           mr={5}
           br={21}
           width={44}
           height={44}
+          align="center"
+          justify="center"
           bordered={selected}
           style={{
             borderColor: theme.colors.outline,
@@ -162,8 +133,13 @@ class SupportHabitScreen extends React.Component {
   };
 
   render() {
-    const {owners, selectedOwner} = this.state;
-    const {t, theme, supportedHabits} = this.props;
+    const {
+      t,
+      supportedHabitOwners,
+      supportedHabits,
+      selectedHabitUser,
+    } = this.props;
+    const owners = supportedHabitOwners;
     return (
       <MCRootView justify="flex-start" align="center">
         {owners.length > 0 && (
@@ -184,14 +160,14 @@ class SupportHabitScreen extends React.Component {
             <MCView row width={350} mt={20} mb={10} align="center">
               <MCView bordered br={15}>
                 <MCImage
-                  image={{uri: selectedOwner.avatar}}
+                  image={{uri: selectedHabitUser.avatar}}
                   width={30}
                   height={30}
                   round
                 />
               </MCView>
               <H3 ml={10}>
-                {t('habit_supporting_on', {name: selectedOwner.name})}
+                {t('habit_supporting_on', {name: selectedHabitUser.name})}
               </H3>
             </MCView>
           </>
@@ -203,7 +179,7 @@ class SupportHabitScreen extends React.Component {
               alignItems: 'center',
             }}
             data={supportedHabits.filter(
-              habit => habit.owner === selectedOwner._id,
+              habit => habit.owner === selectedHabitUser._id,
             )}
             renderItem={this._renderHabitItem}
             keyExtractor={item => item._id}
@@ -219,10 +195,13 @@ class SupportHabitScreen extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   supportedHabits: state.reflectionReducer.supportedHabits,
+  supportedHabitOwners: state.reflectionReducer.supportedHabitOwners,
+  selectedHabitUser: state.reflectionReducer.selectedHabitUser,
 });
 
 const mapDispatchToProps = {
   reactToHabit: reflectionActions.reactToHabit,
+  selectHabitUser: reflectionActions.selectHabitUser,
 };
 
 export default withTranslation()(
