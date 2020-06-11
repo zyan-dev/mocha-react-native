@@ -43,6 +43,7 @@
     "react-i18next": "^11.3.3",
     "react-native": "0.61.5",
     "react-native-appearance": "^0.3.3",
+    "react-native-audio-record": "^0.2.2",
     "react-native-aws3": "^0.0.9",
     "react-native-card-flip": "^1.0.6",
     "react-native-card-stack-swiper": "^1.2.4",
