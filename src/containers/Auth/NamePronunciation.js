@@ -138,8 +138,8 @@ class NamePronunciationScreen extends React.Component {
     const file = {
       uri:
         (Platform.OS === 'android' ? 'file://' : '') + this.state.audioFilePath,
-      name: `Pronounce/${this.props.profile._id}.mp4`,
-      type: `audio/mp4`,
+      name: `Pronounce/${this.props.profile._id}.wav`,
+      type: `audio/wav`,
     };
     const response = await RNS3.put(file, s3_Options);
     if (response.status !== 201) {

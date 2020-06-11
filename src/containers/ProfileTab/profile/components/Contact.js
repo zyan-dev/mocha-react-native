@@ -144,8 +144,8 @@ class ContactCard extends React.Component {
     let file = {
       uri:
         (Platform.OS === 'android' ? 'file://' : '') + this.state.audioFilePath,
-      name: `Pronounce/${this.props.profile._id}.mp4`,
-      type: `audio/mp4`,
+      name: `Pronounce/${this.props.profile._id}.wav`,
+      type: `audio/wav`,
     };
     const response = await RNS3.put(file, s3_Options).progress(e =>
       console.log(e.total),
