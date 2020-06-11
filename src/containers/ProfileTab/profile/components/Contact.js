@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {RNS3} from 'react-native-aws3/lib/RNS3';
-import {Player, Recorder} from '@react-native-community/audio-toolkit';
+import {Player} from '@react-native-community/audio-toolkit';
 import AudioRecord from 'react-native-audio-record';
 import {profileActions} from 'Redux/actions';
 import {MCView} from 'components/styled/View';

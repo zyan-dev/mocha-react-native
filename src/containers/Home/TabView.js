@@ -45,6 +45,8 @@ class TabView extends React.PureComponent {
 
   componentDidMount() {
     this.mounted = true;
+    const {userToken, profile, getUserChallenges} = this.props;
+    userToken.length > 0 && getUserChallenges(profile._id);
   }
 
   componentWillUnmount() {
@@ -113,7 +115,7 @@ class TabView extends React.PureComponent {
         break;
       case 2:
         // user clicked Progress Tab
-        this.props.getUserChallenges(profile._id);
+        userToken.length > 0 && this.props.getUserChallenges(profile._id);
         break;
       case 3:
         // user clicked Tools Tab
