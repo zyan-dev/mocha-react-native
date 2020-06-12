@@ -16,7 +16,7 @@ import {H1, H2, H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {ChallengeIconData} from 'utils/constants';
-import {combineChallenges} from 'services/operators';
+import {combineChallenges, getDayOf} from 'services/operators';
 import ChallengeItem from './components/ChallengeItem';
 import NavigationService from 'navigation/NavigationService';
 
@@ -106,7 +106,7 @@ class MyChallenges extends React.Component {
             </MCView>
             <MCView width={100} align="center">
               <H4>{t('label_days_left')}</H4>
-              <H1 weight="bold">{item.duration}</H1>
+              <H1 weight="bold">{item.duration - getDayOf(item.created)}</H1>
             </MCView>
           </MCView>
         </NativeCard>

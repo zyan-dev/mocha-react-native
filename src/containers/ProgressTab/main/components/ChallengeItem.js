@@ -15,12 +15,13 @@ import {
   getChallengeMeasure,
   getChallengeCategory,
   getStringWithOutline,
+  getDayOf,
 } from 'services/operators';
 
 class ChallengeItem extends React.PureComponent {
   static propTypes = {
     item: PropTypes.object.isRequired,
-    mine: PropTypes.bool,
+    isMember: PropTypes.bool,
     onToggleCheckMeasure: PropTypes.func,
     onPressAddPost: PropTypes.func,
   };
@@ -28,7 +29,7 @@ class ChallengeItem extends React.PureComponent {
   static defaultProps = {
     onToggleCheckMeasure: () => undefined,
     onPressAddPost: () => undefined,
-    mine: true,
+    isMember: true,
   };
 
   SkillText = {
@@ -44,7 +45,7 @@ class ChallengeItem extends React.PureComponent {
       theme,
       profile,
       item,
-      mine,
+      isMember,
       onToggleCheckMeasure,
       onPressAddPost,
     } = this.props;
@@ -55,15 +56,16 @@ class ChallengeItem extends React.PureComponent {
           <NativeCard width={230} mr={15} justify="flex-start" height={160}>
             <H2>
               <H1 weight="bold">{t('unit_day').toUpperCase()}</H1>
-              {t('label_day_of', {index: 2, duration: item.duration})}
+              {t('label_day_of', {
+                index: getDayOf(item.created),
+                duration: item.duration,
+              })}
             </H2>
             <DividerLine width={200} />
             <MCView row width={200} mt={15}>
               <MCView width={100} ph={10}>
                 <H4>{t('label_started')}:</H4>
-                <H4 weight="italic">
-                  {moment(item.created_at).format('MMM Do')}
-                </H4>
+                <H4 weight="italic">{moment(item.created).format('MMM Do')}</H4>
               </MCView>
               <MCView
                 width={100}
@@ -74,14 +76,14 @@ class ChallengeItem extends React.PureComponent {
                 }}>
                 <H4>{t('label_ending')}:</H4>
                 <H4 weight="italic">
-                  {moment(item.created_at)
+                  {moment(item.created)
                     .add(item.duration, 'days')
                     .format('MMM Do')}
                 </H4>
               </MCView>
             </MCView>
           </NativeCard>
-          {mine ? (
+          {isMember ? (
             <NativeCard height={160} width={90} ph={2}>
               <MCButton
                 align="center"
@@ -100,7 +102,7 @@ class ChallengeItem extends React.PureComponent {
                 justify="center"
                 height={160}
                 width={90}
-                onPress={() => onPressAddPost(item._id)}>
+                onPress={() => onPressJoin()}>
                 <MCIcon type="FontAwesome5Pro-Light" name="sign-in" size={40} />
                 <H2 align="center">{t('button_join')}</H2>
               </MCButton>
@@ -174,7 +176,7 @@ class ChallengeItem extends React.PureComponent {
           )}
           {item.invites.length === 0 ? (
             <MCEmptyText>{t('empty_teammates')}</MCEmptyText>
-          ) : mine ? (
+          ) : isMember ? (
             <MCButton
               width={200}
               row

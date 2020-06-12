@@ -191,18 +191,26 @@ export function* createChatRoom(action) {
       yield put({type: types.GET_MY_CHAT_ROOMS});
 
       // Add chat room to firebase
-      const CTS = new Date().getTime();
-      database()
-        .ref(`/chatrooms/${response.data.data.chat._id}/history`)
-        .set({
-          [CTS]: {
-            userId: profileReducer._id,
-            date: CTS,
-            text: 'who_chat_message_created_room',
-          },
-        });
+      const room = response.data.data.chat;
+      const CTS = new Date(room.last_updated).getTime();
+      console.log('Created Chat: ', response.data.data.chat);
+      if (room.last_message === '') {
+        // if created chat room
+        database()
+          .ref(`/chatrooms/${response.data.data.chat._id}/history`)
+          .set({
+            [CTS]: {
+              userId: profileReducer._id,
+              date: CTS,
+              text: 'who_chat_message_created_room',
+            },
+          });
+      }
+      yield put({type: types.SELECT_CHAT_ROOM, payload: room});
+      setTimeout(() => {
+        NavigationService.navigate('ChatRoom');
+      });
       yield put({type: types.API_FINISHED});
-      NavigationService.goBack();
     } else {
       yield put({
         type: types.API_FINISHED,
