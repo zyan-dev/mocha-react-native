@@ -159,10 +159,10 @@ class MyChallenges extends React.Component {
                   height={70}
                 />
                 <MCView ml={10} style={{flex: 1}}>
-                  <H3 weight="bold" underline>
+                  <H4 weight="bold" underline>
                     {focusedChallenge.ownerName}
-                  </H3>
-                  <H2 numberOfLines={1}>{focusedChallenge.title}</H2>
+                  </H4>
+                  <H3 numberOfLines={1}>{focusedChallenge.title}</H3>
                 </MCView>
               </MCView>
               <ChallengeItem

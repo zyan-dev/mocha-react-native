@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import i18next from 'i18next';
 import {challengeActions} from 'Redux/actions';
 import {MCTagsView, MCIcon} from 'components/common';
-import {H3} from 'components/styled/Text';
+import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
 import {getStringWithOutline} from 'services/operators';
@@ -70,8 +70,8 @@ class SelectTemplateScreen extends React.Component {
           pt={20}
           pb={20}
           onPress={() => this.onSelectTemplate(item)}>
-          <H3 weight="bold">{item.title}</H3>
-          <H3 weight="bold">{item.duration} Days</H3>
+          <H4 weight="bold">{item.title}</H4>
+          <H4 weight="bold">{item.duration} Days</H4>
           <MCView row align="center" justify="center" mb={10}>
             {item.challenges.map(i => {
               return this.renderChallengeIcon(i.category);
@@ -108,7 +108,7 @@ class SelectTemplateScreen extends React.Component {
               justify="center"
               onPress={() => this.onPressCustom()}>
               <MCIcon type="FontAwesome5Pro-Light" name="plus" size={50} />
-              <H3 align="center">{t('button_create_challenge')}</H3>
+              <H4 align="center">{t('button_create_challenge')}</H4>
               <MCIcon type="FontAwesome5Pro-Light" name="mountain" size={30} />
               <DividerLine width={160} mt={10} mb={20} />
               <MCTagsView
@@ -118,7 +118,7 @@ class SelectTemplateScreen extends React.Component {
             </MCButton>
           </NativeCard>
           <DividerLine width={350} mt={30} mb={20} />
-          {getStringWithOutline(this.ChooseText, {bigSize: true})}
+          {getStringWithOutline(this.ChooseText)}
           <MCView row wrap justify="center">
             {TemplateChallenges.map(challenge => {
               return this._renderChallengeCard(challenge);
