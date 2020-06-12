@@ -32,12 +32,12 @@ class MyChallenges extends React.Component {
 
   _onToggleCheckMeasure = (category, measure) => {
     const {
-      selectedChallenge,
-      updateSelectedChallenge,
+      focusedChallenge,
+      updateFocusedChallenge,
       addOrUpdateChallenge,
       profile,
     } = this.props;
-    const challenges = _.cloneDeep(selectedChallenge.challenges);
+    const challenges = _.cloneDeep(focusedChallenge.challenges);
     const findIndex = challenges.findIndex(
       i => i.category === category && i.measure === measure,
     );
@@ -46,15 +46,15 @@ class MyChallenges extends React.Component {
     if (userIndex < 0) completedUsers.push(profile._id);
     else completedUsers.splice(userIndex, 1);
     challenges[findIndex].completedUsers = completedUsers;
-    updateSelectedChallenge({challenges});
+    updateFocusedChallenge({challenges});
     setTimeout(() => {
       addOrUpdateChallenge();
     });
   };
 
   onPressAddPost = () => {
-    const {selectedChallenge} = this.props;
-    this.props.setInitialPost(selectedChallenge._id);
+    const {focusedChallenge} = this.props;
+    this.props.setInitialPost(focusedChallenge._id);
     NavigationService.navigate('AddPost');
   };
 
@@ -63,9 +63,9 @@ class MyChallenges extends React.Component {
   };
 
   _renderChallengeItem = ({item}) => {
-    const {t, theme, selectedChallenge} = this.props;
-    if (!selectedChallenge) return null;
-    const selected = selectedChallenge._id === item._id;
+    const {t, theme, focusedChallenge} = this.props;
+    if (!focusedChallenge) return null;
+    const selected = focusedChallenge._id === item._id;
     return (
       <MCButton
         mr={20}
@@ -115,7 +115,7 @@ class MyChallenges extends React.Component {
   };
 
   render() {
-    const {t, myChallenges, selectedChallenge} = this.props;
+    const {t, myChallenges, focusedChallenge} = this.props;
     return (
       <MCRootView justify="flex-start" background="transparent">
         <MCView height={150} justify="center">
@@ -148,11 +148,11 @@ class MyChallenges extends React.Component {
         <DividerLine width={335} />
         <MCContent
           contentContainerStyle={{alignItems: 'center', paddingBottom: 50}}>
-          {selectedChallenge && (
+          {focusedChallenge && (
             <>
               <MCView row mt={20} width={345}>
                 <MCImage
-                  image={{uri: selectedChallenge.ownerAvatar}}
+                  image={{uri: focusedChallenge.ownerAvatar}}
                   type="avatar"
                   round
                   width={70}
@@ -160,13 +160,13 @@ class MyChallenges extends React.Component {
                 />
                 <MCView ml={10} style={{flex: 1}}>
                   <H3 weight="bold" underline>
-                    {selectedChallenge.ownerName}
+                    {focusedChallenge.ownerName}
                   </H3>
-                  <H2 numberOfLines={1}>{selectedChallenge.title}</H2>
+                  <H2 numberOfLines={1}>{focusedChallenge.title}</H2>
                 </MCView>
               </MCView>
               <ChallengeItem
-                item={selectedChallenge}
+                item={focusedChallenge}
                 onToggleCheckMeasure={this._onToggleCheckMeasure}
                 onPressAddPost={() => this.onPressAddPost()}
               />
@@ -182,12 +182,12 @@ const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
   myChallenges: state.challengeReducer.myChallenges,
-  selectedChallenge: state.challengeReducer.selectedChallenge,
+  focusedChallenge: state.challengeReducer.focusedChallenge,
 });
 
 const mapDispatchToProps = {
   selectChallenge: challengeActions.selectChallenge,
-  updateSelectedChallenge: challengeActions.updateSelectedChallenge,
+  updateFocusedChallenge: challengeActions.updateFocusedChallenge,
   addOrUpdateChallenge: challengeActions.addOrUpdateChallenge,
   setInitialPost: postActions.setInitialPost,
 };

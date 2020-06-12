@@ -21,12 +21,12 @@ export function* getUserChallenges(action) {
         });
         if (response.data.data.challenges.length > 0) {
           yield put({
-            type: types.SELECT_CHALLENGE,
+            type: types.FOCUS_CHALLENGE,
             payload: response.data.data.challenges[0],
           });
         } else {
           yield put({
-            type: types.SELECT_CHALLENGE,
+            type: types.FOCUS_CHALLENGE,
             payload: null,
           });
         }

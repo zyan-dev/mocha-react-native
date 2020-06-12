@@ -89,7 +89,7 @@ class CompleteChallengeScreen extends React.Component {
               align="flex-start"
               justify="flex-start"
               style={{flex: 1, minHeight: dySize(250)}}>
-              <H3 weight="bold">Daily Challenge</H3>
+              <H4 weight="bold">Daily Challenge</H4>
               {combineChallenges(challenges).map(i => {
                 return (
                   <MCView row>
@@ -117,19 +117,21 @@ class CompleteChallengeScreen extends React.Component {
               width={100}
               ml={20}
               style={{height: '100%'}}>
-              <H3 weight="bold">Duration</H3>
+              <H4 weight="bold">Duration</H4>
               <H2 align="center" width={80}>
                 {t('label_duration_day', {num: duration})}
               </H2>
               <DividerLine width={80} />
-              <H4 mt={15}>{t('Starting')}:</H4>
-              <H3 weight="italic">{moment().format('MMM Do')}</H3>
-              <H4>{t('Ending')}:</H4>
-              <H3 weight="italic">
+              <H4 mt={15} underline>
+                {t('Starting')}:
+              </H4>
+              <H4 weight="italic">{moment().format('MMM Do')}</H4>
+              <H4 underline>{t('Ending')}:</H4>
+              <H4 weight="italic">
                 {moment()
                   .add(duration, 'days')
                   .format('MMM Do')}
-              </H3>
+              </H4>
             </NativeCard>
           </MCView>
           <NativeCard mt={20} width={345}>

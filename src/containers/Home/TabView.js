@@ -53,6 +53,10 @@ class TabView extends React.PureComponent {
     this.mounted = false;
   }
 
+  componentWillReceiveProps(props) {
+    props.state && this.props.setMainTabIndex(props.state.index);
+  }
+
   onClickTab = index => {
     const {
       profile,
