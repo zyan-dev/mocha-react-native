@@ -218,6 +218,7 @@ const mapDispatchToProps = {
   gotoChatRoom: chatActions.gotoChatRoom,
   checkCodePushUpdates: otherActions.checkCodePushUpdates,
   selectHabitUser: reflectionActions.selectHabitUser,
+  setMainTabIndex: routerActions.setMainTabIndex,
 };
 
 export default connect(

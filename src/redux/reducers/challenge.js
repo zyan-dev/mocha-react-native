@@ -4,6 +4,7 @@ import {EmptyChallenge} from 'utils/constants';
 
 const INITIAL_STATE = {
   selectedChallenge: EmptyChallenge,
+  focusedChallenge: null,
   myChallenges: [],
   teammates: [],
   pageIndex: 1,
@@ -14,16 +15,29 @@ const INITIAL_STATE = {
 const challengeReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.SELECT_CHALLENGE:
-      console.log(action.payload);
       return {
         ...state,
         selectedChallenge: action.payload,
+      };
+    case types.FOCUS_CHALLENGE:
+      return {
+        ...state,
+        focusedChallenge: action.payload,
       };
     case types.UPDATE_SELECTED_CHALLENGE:
       return {
         ...state,
         selectedChallenge: {
           ...state.selectedChallenge,
+          ...action.payload,
+        },
+      };
+      break;
+    case types.UPDATE_FOCUSED_CHALLENGE:
+      return {
+        ...state,
+        focusedChallenge: {
+          ...state.focusedChallenge,
           ...action.payload,
         },
       };
