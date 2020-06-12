@@ -96,6 +96,7 @@ class MCSpeedoMeter extends React.Component {
             align="center"
             style={{
               width: dySize(50),
+              height: dySize(25),
               transform: [{rotate: '-90deg'}],
             }}>
             {value}

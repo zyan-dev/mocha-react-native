@@ -1446,13 +1446,13 @@ export const profileIcons = [
     signinRequired: false,
     hasSvg: false,
   },
-  {
-    key: 'purposes',
-    iconType: 'Ionicon',
-    icon: 'ios-body',
-    signinRequired: true,
-    hasSvg: false,
-  },
+  // {
+  //   key: 'purposes',
+  //   iconType: 'Ionicon',
+  //   icon: 'ios-body',
+  //   signinRequired: true,
+  //   hasSvg: false,
+  // },
   {
     key: 'motivations',
     iconType: 'Ionicon',
@@ -1474,26 +1474,26 @@ export const profileIcons = [
     signinRequired: false,
     hasSvg: false,
   },
-  {
-    key: 'risks',
-    iconType: 'FontAwesome5',
-    icon: 'skiing',
-    signinRequired: true,
-    hasSvg: false,
-  },
-  {
-    key: 'quirks',
-    iconType: 'Ionicon',
-    icon: 'ios-bowtie',
-    signinRequired: true,
-    hasSvg: false,
-  },
+  // {
+  //   key: 'risks',
+  //   iconType: 'FontAwesome5',
+  //   icon: 'skiing',
+  //   signinRequired: true,
+  //   hasSvg: false,
+  // },
+  // {
+  //   key: 'quirks',
+  //   iconType: 'Ionicon',
+  //   icon: 'ios-bowtie',
+  //   signinRequired: true,
+  //   hasSvg: false,
+  // },
   {
     key: 'triggers',
     iconType: 'FontAwesome5Pro',
     icon: 'siren-on',
     signinRequired: true,
-    hasSvg: false,
+    hasSvg: true,
   },
 ];
 
