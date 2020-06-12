@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import Swiper from 'react-native-swiper';
+import * as _ from 'lodash';
 
 import {MCView} from 'components/styled/View';
 import {MCBookTagsView, MCImage, MCIcon} from 'components/common';
@@ -12,7 +13,7 @@ import {MCButton} from 'components/styled/Button';
 import {showAlert} from 'services/operators';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
-
+import {resourceActions} from 'Redux/actions';
 class BookItem extends React.Component {
   static propTypes = {
     resource: PropTypes.object.isRequired,
@@ -43,7 +44,6 @@ class BookItem extends React.Component {
       allResources,
       bookmarkedResources,
       searchedResources,
-      recommendedResources,
     } = this.props;
 
     if (from === 'global') {
@@ -70,13 +70,13 @@ class BookItem extends React.Component {
       });
     }
 
-    if (from === 'recommended') {
-      recommendedResources.map(item => {
-        if (item.title === resource.data.title) {
-          this.setState({bookInfo: item});
-        }
-      });
-    }
+    // if (from === 'recommended') {
+    //   recommendedResources.map(item => {
+    //     if (item.title === resource.data.title) {
+    //       this.setState({bookInfo: item});
+    //     }
+    //   });
+    // }
   }
 
   onPressCopyLink = link => {
@@ -99,7 +99,14 @@ class BookItem extends React.Component {
     });
   };
 
-  _renderListItem = ({item}) => {
+  addResource = resource => {
+    NavigationService.navigate('AddResource', {
+      resource: resource,
+      from: this.props.from,
+    });
+  };
+
+  _renderSkillItem = ({item}) => {
     const {theme, t} = this.props;
 
     return (
@@ -107,37 +114,104 @@ class BookItem extends React.Component {
         mr={10}
         mb={5}
         br={10}
-        background={theme.colors.text}
+        background="#FFE482"
         height={30}
         ph={10}
         align="center"
         justify="center">
         {item && item.indexOf('resource_manual_') > -1 ? (
-          <H5 color={theme.colors.background}>
+          <H5 color={theme.colors.text}>
             {t(item.slice('resource_manual_'.length))}
           </H5>
         ) : (
-          <H5 color={theme.colors.background}>
-            {t(`resource_book_skills_${item}`)}
-          </H5>
+          <H5 color={theme.colors.text}>{t(`resource_book_skills_${item}`)}</H5>
         )}
       </MCView>
     );
   };
 
+  _renderImpactItem = ({item}) => {
+    const {theme, t} = this.props;
+    return (
+      <MCView
+        mr={10}
+        mb={5}
+        br={10}
+        background="#C1F1D8"
+        width={80}
+        ph={10}
+        align="center"
+        justify="center">
+        <H5 color={theme.colors.text} align="center">
+          {t(`resource_book_impact_${item}`)}
+        </H5>
+      </MCView>
+    );
+  };
+
   render() {
-    const {t, resource, theme, from, profile} = this.props;
+    const {
+      t,
+      resource,
+      theme,
+      from,
+      profile,
+      removeRecommendedResource,
+      hiddenRecommendedResource,
+    } = this.props;
     const {bookInfo} = this.state;
+    let allImpacts = [];
+    allImpacts = _.concat(
+      allImpacts,
+      resource.data.mostImpacts || [],
+      resource.data.veryImpacts || [],
+      resource.data.impacts || [],
+    );
 
     return (
       <>
+        {from === 'recommended' && (
+          <MCView
+            row
+            justify="space-around"
+            align="center"
+            width={300}
+            height={50}
+            alsoute
+            style={{
+              right: 0,
+              top: 10,
+              borderBottomWidth: 1,
+              borderColor: '#dddddd',
+            }}>
+            <MCButton
+              align="center"
+              onPress={() => removeRecommendedResource(resource._id)}>
+              <MCIcon name="times" type="FontAwesome5Pro" size={20} />
+              <H5>Remove</H5>
+            </MCButton>
+            <MCButton
+              align="center"
+              onPress={() => hiddenRecommendedResource(resource._id)}>
+              <MCIcon name="eye-slash" type="FontAwesome5Pro" size={20} />
+              <H5>Hide</H5>
+            </MCButton>
+            <MCButton align="center" onPress={() => this.addResource(resource)}>
+              <MCIcon name="plus" type="FontAwesome5Pro" size={20} />
+              <H5>Add</H5>
+            </MCButton>
+            <MCButton
+              align="center"
+              onPress={() => this.onPressBookmark(resource)}>
+              <MCIcon name="bookmark" type="FontAwesome5Pro" size={20} />
+              <H5>Bookmark</H5>
+            </MCButton>
+          </MCView>
+        )}
         <MCButton
           onPress={() => this.goDetailpage(resource)}
           key={resource._id}>
-          {(from === 'global' ||
-            from === 'search' ||
-            from === 'bookmark' ||
-            from === 'recommended') && (
+          {/* {(from === 'global' || from === 'search' || from === 'bookmark') && (
             <MCView row justify="flex-start" width={300} mb={10}>
               {bookInfo &&
                 bookInfo.ownerInfo.slice(0, 3).map((owner, index) => {
@@ -173,7 +247,7 @@ class BookItem extends React.Component {
                   );
                 })}
             </MCView>
-          )}
+          )} */}
           <MCView
             width={300}
             row
@@ -203,48 +277,116 @@ class BookItem extends React.Component {
             </MCView>
           </MCView>
         </MCButton>
+        <MCView style={{borderTopWidth: 1, borderColor: '#dddddd'}}>
+          <H4 underline>{t('resource_type_book_impact')}</H4>
+          <FlatList
+            data={allImpacts}
+            renderItem={this._renderImpactItem}
+            keyExtractor={item => item}
+            keyboardShouldPersistTaps="always"
+            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+            numColumns={1}
+            style={{
+              width: dySize(300),
+              maxHeight: dySize(60),
+              marginTop: dySize(10),
+            }}
+            horizontal={true}
+          />
+        </MCView>
+        <MCView>
+          <H4 underline>{t('resource_type_book_skill')}</H4>
+          <FlatList
+            data={resource.data.skills}
+            renderItem={this._renderSkillItem}
+            keyExtractor={item => item}
+            keyboardShouldPersistTaps="always"
+            ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
+            numColumns={1}
+            style={{
+              width: dySize(300),
+              maxHeight: dySize(60),
+              marginTop: dySize(10),
+            }}
+            horizontal={true}
+          />
+        </MCView>
 
-        {(from == 'trust-member' || from == 'my-resource') && (
+        {from === 'bookmark' &&
+        resource &&
+        resource.recommended &&
+        resource.recommends.indexOf(profile._id) > -1 ? (
           <>
-            <MCView bordered mt={10} mb={10} width={300} />
-            <MCView width={300}>
-              <H4 underline>{t('resource_type_book_skill')}</H4>
+            <MCView
+              row
+              justify="center"
+              style={{borderTopWidth: 1, borderColor: '#dddddd'}}
+              width={320}
+              pv={5}>
+              <MCIcon
+                name="hand-holding-seedling"
+                type="FontAwesome5Pro"
+                size={20}
+              />
+              <H4 ml={10} mr={10}>
+                Recommended by {resource.ownerName}
+              </H4>
+              <MCImage
+                image={{uri: resource.ownerAvatar}}
+                round
+                width={30}
+                height={30}
+                type="avatar"
+              />
             </MCView>
-            <FlatList
-              data={resource.data.skills}
-              renderItem={this._renderListItem}
-              keyExtractor={item => item}
-              keyboardShouldPersistTaps="always"
-              ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
-              numColumns={1}
-              style={{
-                width: dySize(300),
-                maxHeight: dySize(60),
-                marginTop: dySize(10),
-              }}
-              horizontal={true}
-            />
           </>
+        ) : (
+          from === 'bookmark' && (
+            <>
+              <MCView
+                row
+                justify="center"
+                style={{borderTopWidth: 1, borderColor: '#dddddd'}}
+                width={320}
+                pv={5}>
+                <MCIcon name="book" type="FontAwesome5Pro" size={20} />
+                <H4 ml={10} mr={10}>
+                  From {resource.ownerName}'s Bookshelf
+                </H4>
+                <MCImage
+                  image={{uri: resource.ownerAvatar}}
+                  round
+                  width={30}
+                  height={30}
+                  type="avatar"
+                />
+              </MCView>
+            </>
+          )
         )}
 
-        <MCView width={30} height={30} absolute style={{right: 0, top: 10}}>
-          <MCButton onPress={() => this.onPressBookmark(resource)}>
-            <MCIcon
-              padding={1}
-              name={
-                resource.bookedBy && resource.bookedBy.indexOf(profile._id) > -1
-                  ? 'ios-star'
-                  : 'ios-star-outline'
-              }
-              color={
-                resource.bookedBy && resource.bookedBy.indexOf(profile._id) > -1
-                  ? theme.colors.like
-                  : theme.colors.text
-              }
-              size={15}
-            />
-          </MCButton>
-        </MCView>
+        {from !== 'recommended' && (
+          <MCView width={30} height={30} absolute style={{right: 0, top: 10}}>
+            <MCButton onPress={() => this.onPressBookmark(resource)}>
+              <MCIcon
+                padding={1}
+                name={
+                  resource.bookedBy &&
+                  resource.bookedBy.indexOf(profile._id) > -1
+                    ? 'ios-star'
+                    : 'ios-star-outline'
+                }
+                color={
+                  resource.bookedBy &&
+                  resource.bookedBy.indexOf(profile._id) > -1
+                    ? theme.colors.like
+                    : theme.colors.text
+                }
+                size={15}
+              />
+            </MCButton>
+          </MCView>
+        )}
       </>
     );
   }
@@ -255,13 +397,17 @@ const mapStateToProps = state => ({
   allResources: state.resourceReducer.allResources,
   bookmarkedResources: state.resourceReducer.bookmarkedResources,
   searchedResources: state.resourceReducer.searchedResources,
-  recommendedResources: state.resourceReducer.recommendedResources,
   profile: state.profileReducer,
 });
+
+const mapDispatchToProps = {
+  hiddenRecommendedResource: resourceActions.hiddenRecommendedResource,
+  removeRecommendedResource: resourceActions.removeRecommendedResource,
+};
 
 export default withTranslation()(
   connect(
     mapStateToProps,
-    undefined,
+    mapDispatchToProps,
   )(BookItem),
 );

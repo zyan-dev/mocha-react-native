@@ -3,33 +3,33 @@ import * as types from '../actions/types';
 
 const INITIAL_STATE = {
   allResources: [],
-  myResources: [],
   bookmarkedResources: [],
-  trustMemberResources: [],
+  selectedMemberResources: [],
   searchedResources: [],
   selectedResource: [],
   recommendedResources: [],
+  recommededOwners: [],
   initialResource: {
     title: '',
     link: '',
     type: 'book',
     tags: [],
   },
-  resourceByTitle: null,
+  searchedResourceByTitle: null,
   pageSearching: false,
   resourceAllPageIndex: 1,
-  resourceMyPageIndex: 1,
   resourceBookmarkPageIndex: 1,
-  resourceTrustMemberPageIndex: 1,
+  resourceMemberPageIndex: 1,
   resourceSearchResourceIndex: 1,
   resourceRecommendResourceIndex: 1,
+  resourceRecommendOwnersIndex: 1,
   resourceAllPageLimited: false,
-  resourceMyPageLimited: false,
   resourceBookmarkLimited: false,
-  resourceTrustMemberLimited: false,
+  resourceMemberLimited: false,
   resourceSearchResourceLimited: false,
   resourceRcommendResourceLimited: false,
-  selectedTrustMemberId: null,
+  resourceRcommendOwnersLimited: false,
+  selectedMemberId: null,
 };
 
 const resourceReducer = (state = INITIAL_STATE, action) => {
@@ -60,30 +60,30 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
         resourceAllPageIndex: action.payload,
       };
 
-    case types.SET_SEARCHED_MY_RESOURCES:
+    case types.SET_SEARCHED_RECOMMENDED_OWNERS:
       return {
         ...state,
-        myResources: action.payload,
+        recommededOwners: action.payload,
       };
-    case types.ADD_MY_RESOURCES:
+    case types.ADD_RECOMMENDED_OWNERS:
       return {
         ...state,
-        myResources: state.myResources.concat(action.payload),
+        recommededOwners: state.recommededOwners.concat(action.payload),
       };
-    case types.SET_MY_RESOURCE_STATE:
+    case types.SET_RECOMMENDED_OWNERS_PAGE_LIMITED:
+      return {
+        ...state,
+        resourceRcommendOwnersLimited: action.payload,
+      };
+    case types.SET_RECOMMENDED_OWNERS_STATE:
       return {
         ...state,
         pageSearching: action.payload,
       };
-    case types.SET_MY_RESOURCE_PAGE_LIMITED:
+    case types.SET_RECOMMENDED_OWNERS_PAGE_INDEX:
       return {
         ...state,
-        resourceMyPageLimited: action.payload,
-      };
-    case types.SET_MY_RESOURCE_PAGE_INDEX:
-      return {
-        ...state,
-        resourceMyPageIndex: action.payload,
+        resourceRecommendOwnersIndex: action.payload,
       };
 
     case types.SET_SEARCHED_BOOKMARKED_RESOURCES:
@@ -112,41 +112,43 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
         resourceBookmarkPageIndex: action.payload,
       };
 
-    case types.RESET_TRUST_MEMBER_RESOURCES:
+    case types.RESET_MEMBER_RESOURCES:
       return {
         ...state,
-        trustMemberResources: [],
+        selectedMemberResources: [],
       };
 
-    case types.SET_SEARCHED_TRUST_MEMBER_RESOURCES:
+    case types.SET_SEARCHED_MEMBER_RESOURCES:
       return {
         ...state,
-        trustMemberResources: action.payload,
+        selectedMemberResources: action.payload,
       };
-    case types.ADD_TRUST_MEMBER_RESOURCES:
+    case types.ADD_MEMBER_RESOURCES:
       return {
         ...state,
-        trustMemberResources: state.trustMemberResources.concat(action.payload),
+        selectedMemberResources: state.selectedMemberResources.concat(
+          action.payload,
+        ),
       };
-    case types.SET_TRUST_MEMBER_RESOURCE_PAGE_LIMITED:
+    case types.SET_MEMBER_RESOURCE_PAGE_LIMITED:
       return {
         ...state,
-        resourceTrustMemberLimited: action.payload,
+        resourceMemberLimited: action.payload,
       };
-    case types.SET_TRUST_MEMBER_RESOURCE_STATE:
+    case types.SET_MEMBER_RESOURCE_STATE:
       return {
         ...state,
         pageSearching: action.payload,
       };
-    case types.SET_TRUST_MEMBER_RESOURCE_PAGE_INDEX:
+    case types.SET_MEMBER_RESOURCE_PAGE_INDEX:
       return {
         ...state,
-        resourceTrustMemberPageIndex: action.payload,
+        resourceMemberPageIndex: action.payload,
       };
-    case types.SELECT_TRUST_MEMBER:
+    case types.SELECT_MEMBER:
       return {
         ...state,
-        selectedTrustMemberId: action.payload,
+        selectedMemberId: action.payload,
       };
 
     case types.SET_SEARCHED_RESOURCES:
@@ -177,33 +179,7 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
     case types.RESET_SEARCH_RESOURCES:
       return {
         ...state,
-        searchedResources: state.allResources,
-      };
-
-    case types.SET_SEARCHED_RECOMMENDED_RESOURCES:
-      return {
-        ...state,
-        recommendedResources: action.payload,
-      };
-    case types.ADD_RECOMMENDED_RESOURCES:
-      return {
-        ...state,
-        recommendedResources: state.recommendedResources.concat(action.payload),
-      };
-    case types.SET_RECOMMENDED_RESOURCE_PAGE_LIMITED:
-      return {
-        ...state,
-        resourceRcommendResourceLimited: action.payload,
-      };
-    case types.SET_RECOMMENDED_RESOURCE_STATE:
-      return {
-        ...state,
-        pageSearching: action.payload,
-      };
-    case types.SET_RECOMMENDED_RESOURCE_PAGE_INDEX:
-      return {
-        ...state,
-        resourceRecommendResourceIndex: action.payload,
+        searchedResources: state.bookmarkedResources,
       };
 
     case types.UPDATE_SELECTED_RESOURCE:
@@ -233,7 +209,7 @@ const resourceReducer = (state = INITIAL_STATE, action) => {
     case types.SET_RESOURCE_BY_TITLE:
       return {
         ...state,
-        resourceByTitle: action.payload,
+        searchedResourceByTitle: action.payload,
       };
 
     default:

@@ -114,7 +114,7 @@ export function* deleteNetwork(action) {
 
 export function* getOwnersWithResourcePermission(action) {
   try {
-    const {page} = action.payload;
+    const page = action.payload;
     yield put({
       type: types.SET_OWNERS_WITH_RESOURCE_PERMISSION_STATE,
       payload: true,
@@ -123,7 +123,10 @@ export function* getOwnersWithResourcePermission(action) {
     const response = yield call(API.getOwnersWithPermission, {
       page,
       permission: 'resources',
+      me: '',
+      name: '',
     });
+
     if (response.data.status === 'success') {
       if (page === 1) {
         yield put({
