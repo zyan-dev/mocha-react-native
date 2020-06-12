@@ -4,8 +4,7 @@ import {s3_Options} from '../utils/config';
 import {showAlert} from './operators';
 const axios = require('axios');
 
-// const BACKEND_BASE_URL = 'https://api.mocha.me/api';
-const BACKEND_BASE_URL = 'http://localhost:3002/api';
+const BACKEND_BASE_URL = 'https://api.mocha.me/api';
 const API_TIMEOUT = 5000;
 
 const URL_SEND_SMS = '/auth/signup-request';
