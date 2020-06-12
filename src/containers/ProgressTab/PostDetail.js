@@ -1,7 +1,9 @@
 import React from 'react';
-import {Alert} from 'react-native';
+import {Alert, Modal} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import {SkypeIndicator} from 'react-native-indicators';
 import i18next from 'i18next';
 import * as _ from 'lodash';
 import {
@@ -38,6 +40,8 @@ class PostDetailScreen extends React.Component {
     super(props);
     this.state = {
       post: props.route.params.post,
+      selectedImageUrl: null,
+      showImagePreview: false,
     };
   }
 
@@ -95,8 +99,18 @@ class PostDetailScreen extends React.Component {
     NavigationService.navigate('ChallengeDetail');
   };
 
+  getGallaryImages = () => {
+    return this.state.post.attachments.map(i => ({url: i}));
+  };
+
+  getSelectedImageIndex = () => {
+    const {post, selectedImageUrl} = this.state;
+    const index = post.attachments.findIndex(i => i === selectedImageUrl);
+    return index;
+  };
+
   render() {
-    const {post} = this.state;
+    const {post, selectedImageUrl, showImagePreview} = this.state;
     const {t, theme, profile, myChallenges} = this.props;
     const mine = post.ownerId === profile._id;
     const relatedChallenge = myChallenges.find(c => c._id === post.challengeId);
@@ -132,13 +146,25 @@ class PostDetailScreen extends React.Component {
             <MCView row wrap width={340}>
               {post.attachments.map(path => {
                 return (
-                  <MCImage
-                    image={{uri: path}}
-                    width={100}
-                    height={100}
-                    br={10}
-                    style={{marginRight: dySize(10)}}
-                  />
+                  <MCButton
+                    pt={1}
+                    pb={1}
+                    pl={1}
+                    pr={1}
+                    onPress={() =>
+                      this.setState({
+                        selectedImageUrl: path,
+                        showImagePreview: true,
+                      })
+                    }>
+                    <MCImage
+                      image={{uri: path}}
+                      width={100}
+                      height={100}
+                      br={10}
+                      style={{marginRight: dySize(10)}}
+                    />
+                  </MCButton>
                 );
               })}
             </MCView>
@@ -234,6 +260,31 @@ class PostDetailScreen extends React.Component {
             </MCView>
           )}
         </MCContent>
+        {selectedImageUrl && (
+          <Modal visible={showImagePreview} transparent={true}>
+            <ImageViewer
+              index={this.getSelectedImageIndex()}
+              imageUrls={this.getGallaryImages()}
+              renderHeader={() => null}
+              loadingRender={() => <SkypeIndicator color={theme.colors.text} />}
+            />
+            <MCButton
+              style={{
+                position: 'absolute',
+                top: 40,
+                right: 20,
+                width: 50,
+                height: 50,
+                borderRadius: 25,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: theme.colors.background,
+              }}
+              onPress={() => this.setState({showImagePreview: false})}>
+              <MCIcon type="FontAwesome5Pro" name="times" size={20} />
+            </MCButton>
+          </Modal>
+        )}
       </MCRootView>
     );
   }
