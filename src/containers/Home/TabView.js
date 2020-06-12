@@ -39,6 +39,13 @@ class TabView extends React.PureComponent {
   tabIndex = 2;
   lastTime = 0;
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabIndex: props.initialIndex,
+    };
+  }
+
   componentWillMount() {
     this.props.setMainTabIndex(2);
   }
@@ -47,14 +54,21 @@ class TabView extends React.PureComponent {
     this.mounted = true;
     const {userToken, profile, getUserChallenges} = this.props;
     userToken.length > 0 && getUserChallenges(profile._id);
+    setTimeout(() => {
+      this.onClickTab(this.props.initialIndex);
+    }, 1500);
   }
 
   componentWillUnmount() {
     this.mounted = false;
   }
 
-  componentWillReceiveProps(props) {
-    props.state && this.props.setMainTabIndex(props.state.index);
+  componentDidUpdate(preProps, prevState) {
+    if (preProps.state.index !== this.props.state.index) {
+      this.props.setMainTabIndex(this.props.state.index);
+      this.onClickTab(this.props.state.index);
+      this.setState({tabIndex: this.props.state.indexs});
+    }
   }
 
   onClickTab = index => {

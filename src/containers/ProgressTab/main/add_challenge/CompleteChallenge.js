@@ -20,7 +20,6 @@ import {
   ErrorText,
   MCEmptyText,
 } from 'components/styled/Text';
-import {OvalYellow, OvalGreen} from 'assets/images';
 import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import {dySize} from 'utils/responsive';
 import {
@@ -60,8 +59,8 @@ class CompleteChallengeScreen extends React.Component {
     const invites = _.get(selectedChallenge, ['invites'], []);
     return (
       <MCRootView justify="flex-start">
-        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
-        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
+        <OvalGreenImage />
+        <OvalYellowImage />
         <MCHeader
           title={t('title_progress_tab_review_challenge')}
           hasRight
@@ -72,6 +71,7 @@ class CompleteChallengeScreen extends React.Component {
           contentContainerStyle={{
             alignItems: 'center',
             paddingBottom: 100,
+            paddingTop: dySize(20),
             paddingHorizontal: dySize(15),
           }}>
           <MCTextInput
@@ -125,9 +125,13 @@ class CompleteChallengeScreen extends React.Component {
               <H4 mt={15} underline>
                 {t('Starting')}:
               </H4>
-              <H4 weight="italic">{moment().format('MMM Do')}</H4>
-              <H4 underline>{t('Ending')}:</H4>
-              <H4 weight="italic">
+              <H4 weight="italic" width={80} align="center">
+                {moment().format('MMM Do')}
+              </H4>
+              <H4 underline mt={20}>
+                {t('Ending')}:
+              </H4>
+              <H4 weight="italic" width={80} align="center">
                 {moment()
                   .add(duration, 'days')
                   .format('MMM Do')}

@@ -72,8 +72,3 @@ export const AnimalTit = require('./images/tools/tit.png');
 export const AnimalWarthog = require('./images/tools/warthog.png');
 export const AnimalWolf = require('./images/tools/wolf.png');
 export const AnimalWalrus = require('./images/tools/walrus.png');
-
-export const OvalYellow = require('./images/tools/oval_yellow.png');
-export const OvalGreen = require('./images/tools/oval_green.png');
-export const OvalGreenWide = require('./images/tools/oval_green_wide.png');
-export const OvalYellowWide = require('./images/tools/oval_yellow_wide.png');

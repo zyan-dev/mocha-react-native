@@ -13,26 +13,8 @@ import PendingUsersScreen from './pending';
 import SocialChatScreen from './chat';
 import SocialSearchScreen from './search';
 import {PeopleArrowSvg} from 'assets/svgs';
-import {OvalYellow, OvalGreen} from 'assets/images';
+import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import NavigationService from 'navigation/NavigationService';
-
-export const OvalGreenImage = styled(Image)`
-  position: absolute;
-  top: -20px;
-  left: -20px;
-  height: 128px;
-  width: 62px;
-  opacity: 0.2;
-`;
-
-export const OvalYellowImage = styled(Image)`
-  position: absolute;
-  top: 100px;
-  right: 0px;
-  height: 149px;
-  width: 33px;
-  opacity: 0.2;
-`;
 
 class FeedScreen extends React.Component {
   constructor(props) {
@@ -149,8 +131,8 @@ class FeedScreen extends React.Component {
     );
     return (
       <View style={{flex: 1, backgroundColor: theme.colors.background}}>
-        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
-        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
+        <OvalGreenImage />
+        <OvalYellowImage />
         <MCHeader
           hasRight={index === 1}
           title={t('feed_headerTitle')}

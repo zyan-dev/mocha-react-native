@@ -8,7 +8,6 @@ import {MCRootView, MCView} from 'components/styled/View';
 import {MCHeader, MCImage, MCSearchInput, MCIcon} from 'components/common';
 import {H3, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {OvalYellow, OvalGreen} from 'assets/images';
 import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
@@ -107,8 +106,8 @@ class SelectTeammatesScreen extends React.Component {
     const invites = _.get(selectedChallenge, ['invites'], []);
     return (
       <MCRootView justify="flex-start">
-        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
-        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
+        <OvalGreenImage />
+        <OvalYellowImage />
         <MCHeader
           title={t('title_progress_tab_select_teammates')}
           hasRight

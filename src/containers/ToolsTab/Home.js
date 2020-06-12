@@ -1,44 +1,20 @@
 import React from 'react';
-import {FlatList, Image} from 'react-native';
+import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
-import styled from 'styled-components';
 import {otherActions, routerActions} from 'Redux/actions';
 import i18next from 'i18next';
-import {
-  MCView,
-  MCRootView,
-  MCContent,
-  NativeCard,
-} from 'components/styled/View';
-import {H3, H4, H5, MCEmptyText} from 'components/styled/Text';
+import {MCView, MCRootView, NativeCard} from 'components/styled/View';
+import {H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCHeader, MCSearchInput, MCIcon, MCModal} from 'components/common';
 import {RulerLightSvg} from 'assets/svgs';
 import {ToolsSideTabs} from 'utils/constants';
 import {MCButton} from 'components/styled/Button';
+import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import NavigationService from 'navigation/NavigationService';
 import {dySize} from 'utils/responsive';
 import {getStringWithOutline} from 'services/operators';
-import {OvalYellow, OvalGreen} from 'assets/images';
 import {EmotionWheelSvg} from '../../assets/svgs';
-
-export const OvalGreenImage = styled(Image)`
-  position: absolute;
-  top: -20px;
-  left: -20px;
-  height: 128px;
-  width: 62px;
-  opacity: 0.2;
-`;
-
-export const OvalYellowImage = styled(Image)`
-  position: absolute;
-  top: 100px;
-  right: 0px;
-  height: 149px;
-  width: 33px;
-  opacity: 0.2;
-`;
 
 class AddReflectionScreen extends React.Component {
   constructor(props) {
@@ -351,8 +327,8 @@ class AddReflectionScreen extends React.Component {
           hasRight
           onPressRight={() => this.showSideMenu()}
         />
-        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
-        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
+        <OvalGreenImage />
+        <OvalYellowImage />
         <H3 align="center">
           {t(`tools_tab_side_${ToolsSideTabs[toolsTab].key}`)}
         </H3>

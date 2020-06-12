@@ -27,7 +27,7 @@ class MyChallenges extends React.Component {
   }
 
   onPressChallenge = item => {
-    this.props.selectChallenge(item);
+    this.props.focusChallenge(item);
   };
 
   _onToggleCheckMeasure = (category, measure) => {
@@ -100,9 +100,9 @@ class MyChallenges extends React.Component {
                   })}
               </MCView>
               <DividerLine width={120} />
-              <H3 mt={10}>
+              <H4 mt={10}>
                 {item.skills.length} {t('outline_skills')}
-              </H3>
+              </H4>
             </MCView>
             <MCView width={100} align="center">
               <H4>{t('label_days_left')}</H4>
@@ -159,10 +159,10 @@ class MyChallenges extends React.Component {
                   height={70}
                 />
                 <MCView ml={10} style={{flex: 1}}>
-                  <H3 weight="bold" underline>
+                  <H4 weight="bold" underline>
                     {focusedChallenge.ownerName}
-                  </H3>
-                  <H2 numberOfLines={1}>{focusedChallenge.title}</H2>
+                  </H4>
+                  <H4 numberOfLines={1}>{focusedChallenge.title}</H4>
                 </MCView>
               </MCView>
               <ChallengeItem
@@ -186,7 +186,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  selectChallenge: challengeActions.selectChallenge,
+  focusChallenge: challengeActions.focusChallenge,
   updateFocusedChallenge: challengeActions.updateFocusedChallenge,
   addOrUpdateChallenge: challengeActions.addOrUpdateChallenge,
   setInitialPost: postActions.setInitialPost,

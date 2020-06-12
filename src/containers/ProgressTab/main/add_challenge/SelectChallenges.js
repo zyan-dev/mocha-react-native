@@ -17,7 +17,6 @@ import {
 } from 'services/operators';
 import {TemplateDailyChallenges, ChallengeIconData} from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
-import {OvalYellow, OvalGreen} from 'assets/images';
 import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 
 class SelectChallengsScreen extends React.Component {
@@ -132,8 +131,8 @@ class SelectChallengsScreen extends React.Component {
     const challenges = _.get(selectedChallenge, ['challenges'], []);
     return (
       <MCRootView justify="flex-start">
-        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
-        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
+        <OvalGreenImage />
+        <OvalYellowImage />
         <MCHeader
           title={t('title_progress_tab_select_challenges')}
           hasRight

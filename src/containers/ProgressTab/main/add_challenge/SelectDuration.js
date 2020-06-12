@@ -6,7 +6,6 @@ import {MCRootView} from 'components/styled/View';
 import {MCHeader, MCCheckBox} from 'components/common';
 import {H4} from 'components/styled/Text';
 import {MCContent} from 'components/styled/View';
-import {OvalYellow, OvalGreen} from 'assets/images';
 import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import NavigationService from 'navigation/NavigationService';
 
@@ -34,8 +33,8 @@ class SelectDurationScreen extends React.Component {
     const {t} = this.props;
     return (
       <MCRootView justify="flex-start">
-        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
-        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
+        <OvalGreenImage />
+        <OvalYellowImage />
         <MCHeader
           title={t('title_progress_tab_select_duration')}
           hasRight

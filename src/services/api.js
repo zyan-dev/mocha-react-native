@@ -41,8 +41,9 @@ const apiCall = async (type, url, param, withToken = false, options = {}) => {
     ...options,
   };
   const token = await AsyncStorage.getItem('userToken');
-  console.log(`API calling: [${type}]`, url, param);
-  console.log({token});
+  console.log(`API calling: [${type}]`, url);
+  // console.log({token});
+  // console.log({param});
   if (withToken) {
     opt = {
       ...opt,
