@@ -29,7 +29,6 @@ class ResourceTabView extends React.Component {
       getSelectedMemberResources,
 
       getRecommendedOwners,
-      myResources,
       networksWithResourcePermission,
       resetMemberResources,
       setMemberResourcePageIndex,
@@ -44,7 +43,6 @@ class ResourceTabView extends React.Component {
       case 1:
         setMemberResourcePageIndex(1);
         profile &&
-          myResources.length === 0 &&
           getSelectedMemberResources({
             member: profile._id,
             pageIndex: 1,
@@ -106,7 +104,6 @@ class ResourceTabView extends React.Component {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   userToken: state.profileReducer.userToken,
-  myResources: state.resourceReducer.myResources,
   networksWithResourcePermission:
     state.networkReducer.networksWithResourcePermission,
   profile: state.profileReducer,

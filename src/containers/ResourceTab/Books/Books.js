@@ -27,7 +27,7 @@ class BookResourceScreen extends React.PureComponent {
 
     return (
       <MCView align="center">
-        <NativeCard width={320} mt={10} mb={10} ml={10} mr={10}>
+        <NativeCard width={340} mt={10} mb={10} ml={10} mr={10} pv={5}>
           <BookItem
             resource={item}
             onPressBookmark={data => {
@@ -117,28 +117,33 @@ class BookResourceScreen extends React.PureComponent {
 
     return (
       <MCRootView align="center">
-        <FlatList
-          data={books}
-          renderItem={this._renderListItem}
-          keyExtractor={item => item._id}
-          keyboardShouldPersistTaps="always"
-          ListEmptyComponent={
-            <MCEmptyText>
-              {pageSearching ? t('progress_loading') : t('no_result')}
-            </MCEmptyText>
-          }
-          numColumns={1}
-          style={{width: dySize(350)}}
-          ListFooterComponent={
-            pageLimited &&
-            books.length && (
-              <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
-            )
-          }
-          keyExtractor={item => item._id}
-          onEndReached={() => this.getNextPage()}
-          onEndReachedThreshold={0.5}
-        />
+        <MCView style={{flex: 1}}>
+          <FlatList
+            data={books}
+            renderItem={this._renderListItem}
+            keyExtractor={item => item._id}
+            keyboardShouldPersistTaps="always"
+            ListEmptyComponent={
+              <MCEmptyText>
+                {pageSearching ? t('progress_loading') : t('no_result')}
+              </MCEmptyText>
+            }
+            numColumns={1}
+            style={{width: dySize(350)}}
+            contentContainerStyle={{
+              paddingBottom: 80,
+            }}
+            ListFooterComponent={
+              pageLimited &&
+              books.length && (
+                <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
+              )
+            }
+            keyExtractor={item => item._id}
+            onEndReached={() => this.getNextPage()}
+            onEndReachedThreshold={0.5}
+          />
+        </MCView>
       </MCRootView>
     );
   }

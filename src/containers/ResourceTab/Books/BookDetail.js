@@ -51,27 +51,30 @@ class BookDetailScreen extends React.PureComponent {
           this.setState({bookInfo: item}, () => {
             const mappingImpacts = [];
             this.state.bookInfo.data.forEach(book => {
-              book.data.impacts.forEach(impact => {
-                const item = {
-                  avatar: book.ownerAvatar,
-                  impact: impact,
-                };
-                mappingImpacts.push(item);
-              });
-              book.data.veryImpacts.forEach(impact => {
-                const item = {
-                  avatar: book.ownerAvatar,
-                  impact: impact,
-                };
-                mappingImpacts.push(item);
-              });
-              book.data.mostImpacts.forEach(impact => {
-                const item = {
-                  avatar: book.ownerAvatar,
-                  impact: impact,
-                };
-                mappingImpacts.push(item);
-              });
+              book.data.impacts &&
+                book.data.impacts.forEach(impact => {
+                  const item = {
+                    avatar: book.ownerAvatar,
+                    impact: impact,
+                  };
+                  mappingImpacts.push(item);
+                });
+              book.data.veryImpacts &&
+                book.data.veryImpacts.forEach(impact => {
+                  const item = {
+                    avatar: book.ownerAvatar,
+                    impact: impact,
+                  };
+                  mappingImpacts.push(item);
+                });
+              book.data.mostImpacts &&
+                book.data.mostImpacts.forEach(impact => {
+                  const item = {
+                    avatar: book.ownerAvatar,
+                    impact: impact,
+                  };
+                  mappingImpacts.push(item);
+                });
             });
 
             const groupImpacts = _.groupBy(mappingImpacts, v => v.impact);

@@ -34,6 +34,8 @@ class BookItem extends React.Component {
     super(props);
     this.state = {
       bookInfo: null,
+      impactsArray: [],
+      skillsArray: [],
     };
   }
 
@@ -46,28 +48,82 @@ class BookItem extends React.Component {
       searchedResources,
     } = this.props;
 
-    if (from === 'global') {
-      allResources.map(item => {
-        if (item.title === resource.data.title) {
-          this.setState({bookInfo: item});
-        }
-      });
-    }
+    if (from === 'global' || from === 'bookmark' || from == 'search') {
+      let resources = allResources;
+      if (from === 'global') {
+        allResources.map(item => {
+          if (item.title === resource.data.title) {
+            this.setState({bookInfo: item});
+          }
+        });
+      }
 
-    if (from === 'search') {
-      searchedResources.map(item => {
-        if (item.title === resource.data.title) {
-          this.setState({bookInfo: item});
-        }
-      });
-    }
+      if (from === 'search') {
+        searchedResources.map(item => {
+          if (item.title === resource.data.title) {
+            this.setState({bookInfo: item});
+          }
+        });
 
-    if (from === 'bookmark') {
-      bookmarkedResources.map(item => {
+        resources = searchedResources;
+      }
+
+      if (from === 'bookmark') {
+        bookmarkedResources.map(item => {
+          if (item.title === resource.data.title) {
+            this.setState({bookInfo: item});
+          }
+        });
+
+        resources = bookmarkedResources;
+      }
+
+      resources.map(item => {
         if (item.title === resource.data.title) {
-          this.setState({bookInfo: item});
+          this.setState({bookInfo: item}, () => {
+            const mappingImpacts = [];
+            this.state.bookInfo.data.forEach(book => {
+              book.data.impacts &&
+                book.data.impacts.forEach(impact => {
+                  mappingImpacts.push(impact);
+                });
+              book.data.veryImpacts &&
+                book.data.veryImpacts.forEach(impact => {
+                  mappingImpacts.push(impact);
+                });
+              book.data.mostImpacts &&
+                book.data.mostImpacts.forEach(impact => {
+                  mappingImpacts.push(impact);
+                });
+            });
+
+            const impactsArray = _.uniqBy(mappingImpacts);
+
+            const mappingSkills = [];
+            this.state.bookInfo.data.map(book => {
+              book.data.skills.map(skill => {
+                mappingSkills.push(skill);
+              });
+            });
+
+            const skillsArray = _.uniqBy(mappingSkills);
+
+            this.setState({impactsArray});
+            this.setState({skillsArray});
+          });
         }
       });
+    } else {
+      let allImpacts = [];
+      allImpacts = _.concat(
+        allImpacts,
+        resource.data.mostImpacts || [],
+        resource.data.veryImpacts || [],
+        resource.data.impacts || [],
+      );
+
+      this.setState({impactsArray: allImpacts});
+      this.setState({skillsArray: resource.data.skills});
     }
 
     // if (from === 'recommended') {
@@ -149,6 +205,46 @@ class BookItem extends React.Component {
     );
   };
 
+  showAvatars = avatars => {
+    const {theme} = this.props;
+    return (
+      <MCView row justify="flex-end" style={{paddingLeft: dySize(30)}}>
+        {avatars.slice(0, 3).map((owner, index) => {
+          return (
+            <>
+              <MCView ml={-15}>
+                <MCImage
+                  key={index}
+                  image={{uri: owner.avatar}}
+                  round
+                  width={30}
+                  height={30}
+                  type="avatar"
+                />
+              </MCView>
+              {avatars.length > 3 && index == 2 && (
+                <MCView
+                  width={30}
+                  height={30}
+                  bordered
+                  br={15}
+                  background={theme.colors.text}
+                  align="center"
+                  justify="center"
+                  ml={-14}
+                  style={{opacity: 0.8}}>
+                  <H4 weight="bold" color={theme.colors.background}>
+                    +{avatars.length - 3}
+                  </H4>
+                </MCView>
+              )}
+            </>
+          );
+        })}
+      </MCView>
+    );
+  };
+
   render() {
     const {
       t,
@@ -159,23 +255,17 @@ class BookItem extends React.Component {
       removeRecommendedResource,
       hiddenRecommendedResource,
     } = this.props;
-    const {bookInfo} = this.state;
-    let allImpacts = [];
-    allImpacts = _.concat(
-      allImpacts,
-      resource.data.mostImpacts || [],
-      resource.data.veryImpacts || [],
-      resource.data.impacts || [],
-    );
-
+    const {bookInfo, impactsArray, skillsArray} = this.state;
+    let recommendedOwners = [],
+      bookshelfOwners = [];
     return (
-      <>
-        {from === 'recommended' && (
+      <MCView>
+        {from === 'recommended' ? (
           <MCView
             row
             justify="space-around"
             align="center"
-            width={300}
+            width={320}
             height={50}
             alsoute
             style={{
@@ -207,49 +297,33 @@ class BookItem extends React.Component {
               <H5>Bookmark</H5>
             </MCButton>
           </MCView>
+        ) : (
+          <MCView width={30} height={30} absolute style={{right: 0, top: 10}}>
+            <MCButton onPress={() => this.onPressBookmark(resource)}>
+              <MCIcon
+                padding={1}
+                name={
+                  resource.bookedBy &&
+                  resource.bookedBy.indexOf(profile._id) > -1
+                    ? 'ios-star'
+                    : 'ios-star-outline'
+                }
+                color={
+                  resource.bookedBy &&
+                  resource.bookedBy.indexOf(profile._id) > -1
+                    ? theme.colors.like
+                    : theme.colors.text
+                }
+                size={15}
+              />
+            </MCButton>
+          </MCView>
         )}
         <MCButton
           onPress={() => this.goDetailpage(resource)}
           key={resource._id}>
-          {/* {(from === 'global' || from === 'search' || from === 'bookmark') && (
-            <MCView row justify="flex-start" width={300} mb={10}>
-              {bookInfo &&
-                bookInfo.ownerInfo.slice(0, 3).map((owner, index) => {
-                  return (
-                    <>
-                      <MCView mr={-15}>
-                        <MCImage
-                          key={index}
-                          image={{uri: owner.avatar}}
-                          round
-                          width={30}
-                          height={30}
-                          type="avatar"
-                        />
-                      </MCView>
-                      {bookInfo.ownerInfo.length > 3 && index == 2 && (
-                        <MCView
-                          width={30}
-                          height={30}
-                          bordered
-                          br={15}
-                          background={theme.colors.text}
-                          align="center"
-                          justify="center"
-                          mr={-14}
-                          style={{opacity: 0.8}}>
-                          <H4 weight="bold" color={theme.colors.background}>
-                            +{bookInfo.ownerInfo.length - 3}
-                          </H4>
-                        </MCView>
-                      )}
-                    </>
-                  );
-                })}
-            </MCView>
-          )} */}
           <MCView
-            width={300}
+            width={320}
             row
             justify="space-between"
             align="flex-start"
@@ -280,14 +354,14 @@ class BookItem extends React.Component {
         <MCView style={{borderTopWidth: 1, borderColor: '#dddddd'}}>
           <H4 underline>{t('resource_type_book_impact')}</H4>
           <FlatList
-            data={allImpacts}
+            data={impactsArray}
             renderItem={this._renderImpactItem}
             keyExtractor={item => item}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
             numColumns={1}
             style={{
-              width: dySize(300),
+              width: dySize(320),
               maxHeight: dySize(60),
               marginTop: dySize(10),
             }}
@@ -297,97 +371,81 @@ class BookItem extends React.Component {
         <MCView>
           <H4 underline>{t('resource_type_book_skill')}</H4>
           <FlatList
-            data={resource.data.skills}
+            data={skillsArray}
             renderItem={this._renderSkillItem}
             keyExtractor={item => item}
             keyboardShouldPersistTaps="always"
             ListEmptyComponent={<MCEmptyText>{t('no_result')}</MCEmptyText>}
             numColumns={1}
             style={{
-              width: dySize(300),
-              maxHeight: dySize(60),
-              marginTop: dySize(10),
+              width: dySize(320),
+              maxHeight: dySize(40),
             }}
             horizontal={true}
           />
         </MCView>
 
         {from === 'bookmark' &&
-        resource &&
-        resource.recommended &&
-        resource.recommends.indexOf(profile._id) > -1 ? (
-          <>
-            <MCView
-              row
-              justify="center"
-              style={{borderTopWidth: 1, borderColor: '#dddddd'}}
-              width={320}
-              pv={5}>
-              <MCIcon
-                name="hand-holding-seedling"
-                type="FontAwesome5Pro"
-                size={20}
-              />
-              <H4 ml={10} mr={10}>
-                Recommended by {resource.ownerName}
-              </H4>
-              <MCImage
-                image={{uri: resource.ownerAvatar}}
-                round
-                width={30}
-                height={30}
-                type="avatar"
-              />
-            </MCView>
-          </>
-        ) : (
-          from === 'bookmark' && (
-            <>
-              <MCView
-                row
-                justify="center"
-                style={{borderTopWidth: 1, borderColor: '#dddddd'}}
-                width={320}
-                pv={5}>
-                <MCIcon name="book" type="FontAwesome5Pro" size={20} />
-                <H4 ml={10} mr={10}>
-                  From {resource.ownerName}'s Bookshelf
-                </H4>
-                <MCImage
-                  image={{uri: resource.ownerAvatar}}
-                  round
-                  width={30}
-                  height={30}
-                  type="avatar"
-                />
-              </MCView>
-            </>
-          )
-        )}
-
-        {from !== 'recommended' && (
-          <MCView width={30} height={30} absolute style={{right: 0, top: 10}}>
-            <MCButton onPress={() => this.onPressBookmark(resource)}>
-              <MCIcon
-                padding={1}
-                name={
-                  resource.bookedBy &&
-                  resource.bookedBy.indexOf(profile._id) > -1
-                    ? 'ios-star'
-                    : 'ios-star-outline'
-                }
-                color={
-                  resource.bookedBy &&
-                  resource.bookedBy.indexOf(profile._id) > -1
-                    ? theme.colors.like
-                    : theme.colors.text
-                }
-                size={15}
-              />
-            </MCButton>
+          bookInfo &&
+          bookInfo.data.map(v => {
+            if (v.recommends && v.recommends.indexOf(profile._id) > -1) {
+              const item = {
+                name: v.ownerName,
+                avatar: v.ownerAvatar,
+              };
+              recommendedOwners.push(item);
+            } else {
+              const item = {
+                name: v.ownerName,
+                avatar: v.ownerAvatar,
+              };
+              bookshelfOwners.push(item);
+            }
+          })}
+        {from == 'bookmark' && recommendedOwners.length > 0 && (
+          <MCView
+            row
+            align="center"
+            style={{borderTopWidth: 1, borderColor: '#dddddd'}}
+            width={320}
+            pv={5}>
+            <MCIcon name="book" type="FontAwesome5Pro" size={20} />
+            <H4
+              ml={10}
+              mr={10}
+              style={{flex: 1}}
+              numberOfLines={2}
+              align="center">
+              Recommended by {recommendedOwners[0].name}
+              {recommendedOwners.length > 1 &&
+                ` and ${recommendedOwners.length - 1} others`}
+            </H4>
+            {this.showAvatars(recommendedOwners)}
           </MCView>
         )}
-      </>
+        {from == 'bookmark' && bookshelfOwners.length > 0 && (
+          <MCView
+            row
+            align="center"
+            style={{borderTopWidth: 1, borderColor: '#dddddd'}}
+            width={320}
+            pv={5}>
+            <MCIcon name="book" type="FontAwesome5Pro" size={20} />
+            <H4
+              ml={10}
+              mr={10}
+              style={{flex: 1}}
+              numberOfLines={2}
+              align="center">
+              From {bookshelfOwners[0].name}'s
+              {bookshelfOwners.length > 1 &&
+                `and ${bookshelfOwners.length - 1} other's`}{' '}
+              Bookshelf
+            </H4>
+            {this.showAvatars(bookshelfOwners)}
+          </MCView>
+        )}
+      </MCView>
     );
   }
 }
