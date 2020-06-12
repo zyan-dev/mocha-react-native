@@ -20,7 +20,6 @@ import {
   ErrorText,
   MCEmptyText,
 } from 'components/styled/Text';
-import {OvalYellow, OvalGreen} from 'assets/images';
 import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import {dySize} from 'utils/responsive';
 import {
@@ -60,8 +59,8 @@ class CompleteChallengeScreen extends React.Component {
     const invites = _.get(selectedChallenge, ['invites'], []);
     return (
       <MCRootView justify="flex-start">
-        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
-        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
+        <OvalGreenImage />
+        <OvalYellowImage />
         <MCHeader
           title={t('title_progress_tab_review_challenge')}
           hasRight

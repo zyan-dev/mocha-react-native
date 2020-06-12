@@ -98,7 +98,7 @@ export function* completeSignUp(action) {
         yield put({type: types.SYNC_DATA_FOR_NEW_USER, payload: true});
       } else {
         // existing user
-        NavigationService.navigate('mainStack');
+        NavigationService.navigate('mainStack', {index: 2});
         yield put({type: types.SET_NEW_USER, payload: false});
         yield put({type: types.GET_MY_CHAT_ROOMS});
         yield put({type: types.GET_CHAT_VISIT_STATUS});

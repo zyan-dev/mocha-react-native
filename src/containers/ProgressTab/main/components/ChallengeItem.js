@@ -122,7 +122,7 @@ class ChallengeItem extends React.PureComponent {
                       }
                     />
                   </MCView>
-                  <H3 underline>{getChallengeCategory(challenge.category)}</H3>
+                  <H4 underline>{getChallengeCategory(challenge.category)}</H4>
                 </MCView>
                 <MCView ml={60} width={325}>
                   {challenge.measures.map(measure => {
@@ -144,6 +144,7 @@ class ChallengeItem extends React.PureComponent {
                         label={getChallengeMeasure(challenge.category, measure)}
                         width={280}
                         hasLeftText
+                        bigText={false}
                       />
                     );
                   })}
@@ -183,7 +184,7 @@ class ChallengeItem extends React.PureComponent {
               bordered
               br={10}>
               <MCIcon type="FontAwesome5Pro-Light" name="comments-alt" />
-              <H3>{t('button_start_chat')}</H3>
+              <H4>{t('button_start_chat')}</H4>
             </MCButton>
           ) : null}
         </NativeCard>

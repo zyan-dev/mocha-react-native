@@ -11,7 +11,6 @@ import {
   WideOvalGreenImage,
   WideOvalYellowImage,
 } from 'components/styled/Custom';
-import {OvalYellowWide, OvalGreenWide} from 'assets/images';
 import NavigationService from 'navigation/NavigationService';
 
 class WelcomeToMocha extends React.PureComponent {
@@ -20,16 +19,8 @@ class WelcomeToMocha extends React.PureComponent {
     return (
       <MCRootView justify="flex-start">
         <MCHeader hasBack={false} />
-        <WideOvalGreenImage
-          source={OvalGreenWide}
-          opacity={0.5}
-          resizeMode="stretch"
-        />
-        <WideOvalYellowImage
-          source={OvalYellowWide}
-          opacity={0.5}
-          resizeMode="stretch"
-        />
+        <WideOvalGreenImage opacity={0.5} />
+        <WideOvalYellowImage opacity={0.5} />
         <H2 mt={40} weight="bold">
           {t('welcome_title')}
         </H2>
@@ -62,7 +53,7 @@ class WelcomeToMocha extends React.PureComponent {
           align="center"
           pl={20}
           pr={20}
-          onPress={() => NavigationService.navigate('mainStack')}>
+          onPress={() => NavigationService.navigate('mainStack', {index: 3})}>
           <H3 color={theme.colors.background}>
             {t('welcome_button_self_knowledge')}
           </H3>

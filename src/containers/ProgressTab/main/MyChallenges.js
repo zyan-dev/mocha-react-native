@@ -100,9 +100,9 @@ class MyChallenges extends React.Component {
                   })}
               </MCView>
               <DividerLine width={120} />
-              <H3 mt={10}>
+              <H4 mt={10}>
                 {item.skills.length} {t('outline_skills')}
-              </H3>
+              </H4>
             </MCView>
             <MCView width={100} align="center">
               <H4>{t('label_days_left')}</H4>
@@ -162,7 +162,7 @@ class MyChallenges extends React.Component {
                   <H4 weight="bold" underline>
                     {focusedChallenge.ownerName}
                   </H4>
-                  <H3 numberOfLines={1}>{focusedChallenge.title}</H3>
+                  <H4 numberOfLines={1}>{focusedChallenge.title}</H4>
                 </MCView>
               </MCView>
               <ChallengeItem

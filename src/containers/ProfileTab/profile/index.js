@@ -1,9 +1,8 @@
 import React from 'react';
-import {Image} from 'react-native';
 import {connect} from 'react-redux';
 import i18next from 'i18next';
-import styled from 'styled-components';
 import {withTranslation} from 'react-i18next';
+import {FlatList} from 'react-native-gesture-handler';
 import {
   feedbackActions,
   routerActions,
@@ -13,6 +12,7 @@ import {
 import {MCRootView, MCView} from 'components/styled/View';
 import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
+import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import {MCHeader, MCIcon, MCModal} from 'components/common';
 import {selector} from 'Redux/selectors';
 import OverviewCard from './components/Overview';
@@ -54,26 +54,6 @@ import {
   SkullCowSvg,
   SirenOnSvg,
 } from 'assets/svgs';
-import {OvalYellow, OvalGreen} from 'assets/images';
-import {FlatList} from 'react-native-gesture-handler';
-
-export const OvalGreenImage = styled(Image)`
-  position: absolute;
-  top: -20px;
-  left: -20px;
-  height: 128px;
-  width: 62px;
-  opacity: 0.2;
-`;
-
-export const OvalYellowImage = styled(Image)`
-  position: absolute;
-  top: 100px;
-  right: 0px;
-  height: 149px;
-  width: 33px;
-  opacity: 0.2;
-`;
 
 const opacityArray = [1, 0.5, 0.2];
 
@@ -452,8 +432,8 @@ class ProfileScreen extends React.Component {
     const {focusedIndex} = this.state;
     return (
       <MCRootView justify="flex-start">
-        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
-        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
+        <OvalGreenImage />
+        <OvalYellowImage />
         <MCHeader
           hasBack={false}
           hasRight

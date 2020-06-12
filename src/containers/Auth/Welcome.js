@@ -135,7 +135,7 @@ class FeedWelcome extends React.Component {
             pl={20}
             pr={20}
             mb={60}
-            onPress={() => NavigationService.navigate('mainStack')}>
+            onPress={() => NavigationService.navigate('mainStack', {index: 2})}>
             <H3 color={theme.colors.background}>
               {t('welcome_nextButtonText')}
             </H3>

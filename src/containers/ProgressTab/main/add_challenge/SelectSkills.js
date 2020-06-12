@@ -9,7 +9,6 @@ import {MCHeader, MCTagInput} from 'components/common';
 import {H4} from 'components/styled/Text';
 import {MCView, MCContent} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
-import {OvalYellow, OvalGreen} from 'assets/images';
 import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
 import {challengeSkills} from 'utils/constants';
 import {getStringWithOutline} from 'services/operators';
@@ -60,8 +59,8 @@ class SelectSkillsScreen extends React.Component {
     const selectedSkills = _.get(selectedChallenge, ['skills'], []);
     return (
       <MCRootView justify="flex-start">
-        <OvalGreenImage source={OvalGreen} resizeMode="stretch" />
-        <OvalYellowImage source={OvalYellow} resizeMode="stretch" />
+        <OvalGreenImage />
+        <OvalYellowImage />
         <MCHeader
           title={t('title_progress_tab_select_skills')}
           hasRight
