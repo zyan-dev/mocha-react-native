@@ -5,6 +5,11 @@ export const selectChallenge = data => ({
   payload: data,
 });
 
+export const focusChallenge = data => ({
+  type: types.FOCUS_CHALLENGE,
+  payload: data,
+});
+
 export const updateFocusedChallenge = data => ({
   type: types.UPDATE_FOCUSED_CHALLENGE,
   payload: data,

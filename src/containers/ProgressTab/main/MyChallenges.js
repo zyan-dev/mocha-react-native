@@ -27,7 +27,7 @@ class MyChallenges extends React.Component {
   }
 
   onPressChallenge = item => {
-    this.props.selectChallenge(item);
+    this.props.focusChallenge(item);
   };
 
   _onToggleCheckMeasure = (category, measure) => {
@@ -186,7 +186,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  selectChallenge: challengeActions.selectChallenge,
+  focusChallenge: challengeActions.focusChallenge,
   updateFocusedChallenge: challengeActions.updateFocusedChallenge,
   addOrUpdateChallenge: challengeActions.addOrUpdateChallenge,
   setInitialPost: postActions.setInitialPost,

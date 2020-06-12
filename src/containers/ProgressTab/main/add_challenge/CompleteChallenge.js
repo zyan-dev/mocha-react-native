@@ -72,6 +72,7 @@ class CompleteChallengeScreen extends React.Component {
           contentContainerStyle={{
             alignItems: 'center',
             paddingBottom: 100,
+            paddingTop: dySize(20),
             paddingHorizontal: dySize(15),
           }}>
           <MCTextInput
@@ -125,9 +126,13 @@ class CompleteChallengeScreen extends React.Component {
               <H4 mt={15} underline>
                 {t('Starting')}:
               </H4>
-              <H4 weight="italic">{moment().format('MMM Do')}</H4>
-              <H4 underline>{t('Ending')}:</H4>
-              <H4 weight="italic">
+              <H4 weight="italic" width={80} align="center">
+                {moment().format('MMM Do')}
+              </H4>
+              <H4 underline mt={20}>
+                {t('Ending')}:
+              </H4>
+              <H4 weight="italic" width={80} align="center">
                 {moment()
                   .add(duration, 'days')
                   .format('MMM Do')}
