@@ -126,7 +126,7 @@ class ProfileBasicScreen extends React.Component {
             <MCIcon type="FontAwesome5Pro" name="mountain" />
           </MCView>
           <ProfileBasicCard
-            data={ProfileBasicCards.chronotype}
+            data={ProfileBasicCards.sleep}
             completed={chronotype}
             theme={theme}
             locked={!dream}

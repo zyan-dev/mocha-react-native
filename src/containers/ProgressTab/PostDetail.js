@@ -43,9 +43,9 @@ class PostDetailScreen extends React.Component {
 
   ChallengeText = {
     title: i18next.t('post_question_challenge', {
-      bold: i18next.t('outline_challenge'),
+      bold: i18next.t('outline_challenging'),
     }),
-    boldWordKeys: ['challenge'],
+    boldWordKeys: ['challenging'],
   };
 
   MoraleText = {
@@ -213,7 +213,13 @@ class PostDetailScreen extends React.Component {
                 underline: true,
               })}
             </MCView>
-            <MCTagsView tags={_.get(post, ['skills'], [])} />
+            <MCTagsView
+              tags={post.skills.map(s =>
+                s.indexOf('custom_') < 0
+                  ? t(`resource_book_skills_${s}`)
+                  : s.split('custom_')[1],
+              )}
+            />
           </NativeCard>
           {mine && (
             <MCView mt={50} mb={30} align="center">

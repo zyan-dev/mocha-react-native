@@ -5,7 +5,7 @@ import i18next from 'i18next';
 import * as _ from 'lodash';
 import {challengeActions} from 'Redux/actions';
 import {MCRootView} from 'components/styled/View';
-import {MCHeader} from 'components/common';
+import {MCHeader, MCTagInput} from 'components/common';
 import {H4} from 'components/styled/Text';
 import {MCView, MCContent} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
@@ -18,7 +18,10 @@ import NavigationService from 'navigation/NavigationService';
 class SelectSkillsScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      customTagInputs: [],
+      customTags: [],
+    };
   }
 
   SkillText = {
@@ -37,7 +40,22 @@ class SelectSkillsScreen extends React.Component {
     updateSelectedChallenge({skills});
   };
 
+  updateTagState = state => {
+    const customTags = state.tagsArray.map(tag => `custom_${tag}`);
+    this.setState({
+      customTags: customTags,
+      customTagInputs: state.tagsArray,
+    });
+    const {updateSelectedChallenge, selectedChallenge} = this.props;
+    const skills = _.get(selectedChallenge, ['skills'], []);
+    const filtered = skills.filter(
+      s => s.indexOf('custom_') < 0 || customTags.find(i => i === s),
+    );
+    updateSelectedChallenge({skills: filtered});
+  };
+
   render() {
+    const {customTags, customTagInputs} = this.state;
     const {t, theme, selectedChallenge} = this.props;
     const selectedSkills = _.get(selectedChallenge, ['skills'], []);
     return (
@@ -60,8 +78,9 @@ class SelectSkillsScreen extends React.Component {
             })}
           </MCView>
           <MCView row wrap justify="center">
-            {challengeSkills.map(skill => {
+            {challengeSkills.concat(customTags).map(skill => {
               const selected = selectedSkills.indexOf(skill) > -1;
+              const custom = skill.indexOf('custom_') > -1;
               return (
                 <MCButton
                   mt={10}
@@ -78,11 +97,20 @@ class SelectSkillsScreen extends React.Component {
                     color={
                       selected ? theme.colors.background : theme.colors.text
                     }>
-                    {t(`resource_book_skills_${skill}`)}
+                    {custom
+                      ? skill.split('custom_')[1]
+                      : t(`resource_book_skills_${skill}`)}
                   </H4>
                 </MCButton>
               );
             })}
+          </MCView>
+          <MCView width={350} mt={40}>
+            <H4>Add custom skills:</H4>
+            <MCTagInput
+              tags={customTagInputs}
+              updateState={this.updateTagState}
+            />
           </MCView>
         </MCContent>
       </MCRootView>

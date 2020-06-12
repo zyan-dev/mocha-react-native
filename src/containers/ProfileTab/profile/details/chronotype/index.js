@@ -30,8 +30,20 @@ class ChronotypeScreen extends React.PureComponent {
     }
   }
 
+  componentDidMount() {
+    const {myChronotype} = this.props;
+    if (!myChronotype) return;
+    console.log({myChronotype});
+    if (myChronotype.data.hasDayTime) {
+      this.setState({showDaySleep: true});
+    }
+  }
+
   onSaveMyChronotype = () => {
-    this.props.addOrUpdateReflection();
+    this.props.updateSelectedReflection({hasDayTime: this.state.showDaySleep});
+    setTimeout(() => {
+      this.props.addOrUpdateReflection();
+    });
   };
 
   onSelectType = type => {
@@ -157,13 +169,14 @@ class ChronotypeScreen extends React.PureComponent {
           </MCView>
           <MCView align="center">
             <MCTimeSlider
-              width={320}
+              width={260}
               value={[night_sleep_offset_start, night_sleep_offset_end]}
               onChange={range => this.onChangeNightTimeRange(range)}
               values={NightSliderValues}
+              hideScale
             />
             <MCText weight="bold" style={{fontSize: dySize(80)}}>
-              {night_sleep_offset_end - night_sleep_offset_start}
+              {(night_sleep_offset_end - night_sleep_offset_start) / 4}
             </MCText>
             <H2>{t('unit_hours')}</H2>
           </MCView>
@@ -183,13 +196,14 @@ class ChronotypeScreen extends React.PureComponent {
           {showDaySleep && (
             <MCView align="center">
               <MCTimeSlider
-                width={320}
+                width={260}
                 value={[day_sleep_offset_start, day_sleep_offset_end]}
                 onChange={range => this.onChangeDayTimeRange(range)}
                 values={DaySliderValues}
+                hideScale
               />
               <MCText weight="bold" style={{fontSize: dySize(80)}}>
-                {day_sleep_offset_end - day_sleep_offset_start}
+                {(day_sleep_offset_end - day_sleep_offset_start) / 4}
               </MCText>
               <H2>{t('unit_hours')}</H2>
             </MCView>

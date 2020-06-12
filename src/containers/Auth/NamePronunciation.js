@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {RNS3} from 'react-native-aws3/lib/RNS3';
-import {Player, Recorder} from '@react-native-community/audio-toolkit';
+import {Player} from '@react-native-community/audio-toolkit';
+import AudioRecord from 'react-native-audio-record';
 import {profileActions, authActions, chatActions} from 'Redux/actions';
 import {MCRootView, MCView, MCContent} from 'components/styled/View';
 import {H3, H4} from 'components/styled/Text';
@@ -32,6 +33,14 @@ class NamePronunciationScreen extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
+    const options = {
+      sampleRate: 16000, // default 44100
+      channels: 1, // 1 or 2, default 1
+      bitsPerSample: 16, // 8 or 16, default 16
+      audioSource: 6, // android only (see below)
+      wavFile: 'test.wav', // default 'audio.wav'
+    };
+    AudioRecord.init(options);
   }
 
   componentWillUnmount() {
@@ -86,23 +95,19 @@ class NamePronunciationScreen extends React.Component {
     }
   }
 
-  prepareRecorder = recording => {
-    const {profile} = this.props;
-    // Preparing record
-    this.recorder = new Recorder(`name_pronounce.mp4`, {
-      bitrate: 256000,
-      channels: 2,
-      sampleRate: 44100,
-      quality: 'max',
-    }).prepare((err, fsPath) => {
-      if (err) {
-        console.log('Recorder Prepare error: ', err);
-        this.mounted && this.prepareRecorder(recording);
-      } else {
-        this.setState({audioFilePath: fsPath}); // for example
-        this.onToggleRecord(recording);
-      }
-    });
+  prepareRecorder = async recording => {
+    if (recording) {
+      this.setState({recording, status: 'recording'});
+      AudioRecord.start();
+    } else {
+      this.setState({recording, status: 'record_saving'});
+      console.log('stopping recording...');
+      const audioFile = await AudioRecord.stop();
+      console.log({audioFile});
+      this.setState({audioFilePath: audioFile}, () => {
+        this.uploadAudioRecorded();
+      });
+    }
   };
 
   async _requestRecordAudioPermission() {
@@ -129,28 +134,12 @@ class NamePronunciationScreen extends React.Component {
     }
   }
 
-  onToggleRecord = async recording => {
-    if (!this.recorder) return;
-    if (recording) {
-      this.setState({recording, status: 'recording'});
-      if (this.recorder) {
-        this.recorder.destroy();
-      }
-      this.recorder.record(error => {
-        if (error) console.log('record start error', error);
-      });
-    } else {
-      this.setState({recording, status: 'record_saving'});
-      await this.recorder.stop();
-      this.uploadAudioRecorded();
-    }
-  };
-
   uploadAudioRecorded = async () => {
     const file = {
-      uri: this.state.audioFilePath,
-      name: `Pronounce/${this.props.profile._id}.mp4`,
-      type: `audio/mp4`,
+      uri:
+        (Platform.OS === 'android' ? 'file://' : '') + this.state.audioFilePath,
+      name: `Pronounce/${this.props.profile._id}.wav`,
+      type: `audio/wav`,
     };
     const response = await RNS3.put(file, s3_Options);
     if (response.status !== 201) {

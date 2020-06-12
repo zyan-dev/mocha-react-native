@@ -94,7 +94,9 @@ class ProfileBasicCard extends React.Component {
           align="center"
           justify="center">
           {title === 'habits' && <AppleSvg size={30} />}
-          {title === 'sleep_chronotype' && <SheepSvg theme={theme} size={50} />}
+          {title === 'sleep' && (
+            <MCIcon type="FontAwesome5Pro" name="bed" size={25} />
+          )}
           {title === 'nutrition' && <CarrotSvg size={50} />}
           {title === 'hydration' && <FaucetSvg size={50} />}
           {title === 'stress_response' && <FragileSvg size={50} />}

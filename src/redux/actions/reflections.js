@@ -53,6 +53,11 @@ export const resetMyHabits = () => ({
   type: types.RESET_MY_HABITS,
 });
 
+export const selectHabitUser = user => ({
+  type: types.SET_SUPPORTED_HABIT_USER,
+  payload: user,
+});
+
 export const getSupportedHabits = () => ({
   type: types.GET_SUPPORTED_HABITS,
 });

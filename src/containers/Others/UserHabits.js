@@ -40,7 +40,7 @@ class UserHabitScreen extends React.Component {
     const {t, user, theme} = this.props;
     const {tabIndex} = this.props.route.params;
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: 'transparent'}}>
         <MCHeader
           title={t('whos_habit', {who: user.name.split(' ')[0]})}
           hasRight

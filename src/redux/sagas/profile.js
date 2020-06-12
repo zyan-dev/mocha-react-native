@@ -28,7 +28,6 @@ export function* updateBasicProfile(action) {
     const {
       profileReducer: {_id, bio, name, avatar, userToken, pushToken},
     } = yield select();
-    if (!userToken) return;
     let updatedProfile = {bio, name, avatar, pushToken};
     yield put({type: types.API_CALLING});
     if (avatar.length && avatar.indexOf('https://') < 0) {
@@ -72,7 +71,6 @@ export function* updateBasicProfile(action) {
 export function* updateContactProfile(action) {
   try {
     const {profileReducer} = yield select();
-    if (!profileReducer.userToken) return;
     yield put({type: types.API_CALLING});
     const updatedProfile = _.pick(profileReducer, ContactProfileKeys);
     const response = yield call(API.updateProfile, updatedProfile);

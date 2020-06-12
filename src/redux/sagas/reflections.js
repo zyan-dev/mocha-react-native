@@ -109,6 +109,15 @@ export function* addOrUpdateReflection(action) {
       yield put({type: types.API_FINISHED, payload: 'Empty'});
     } else if (selectedTempReflection._id) {
       if (userToken && isInternetReachable) {
+        // update local reflection before calling api (should be reverted if api is failed)
+        const updated = myReflections.map(r =>
+          selectedTempReflection._id === r._id ? selectedTempReflection : r,
+        );
+        yield put({
+          type: types.SET_MY_REFLECTIONS,
+          payload: updated,
+        });
+
         // online update
         response = yield call(API.updateReflections, {
           data: [selectedTempReflection],
@@ -166,6 +175,10 @@ export function* addOrUpdateReflection(action) {
       yield put({
         type: types.API_FINISHED,
         payload: response.data.data.message,
+      });
+      yield put({
+        type: types.SET_MY_REFLECTIONS,
+        payload: myReflections,
       });
     }
   } catch (e) {
@@ -283,13 +296,49 @@ export function* updateTapToCounts(action) {
 
 export function* getSupportedHabits(action) {
   try {
+    const {
+      reflectionReducer: {selectedHabitUser},
+    } = yield select();
     yield put({type: types.API_CALLING});
     const response = yield call(API.getSupportedHabits);
     if (response.data.status === 'success') {
+      const habits = response.data.data.reflections;
+
+      // check if original selected user is exist
+      const find = habits.find(habit => habit.owner === selectedHabitUser._id);
+
+      // get habit owners
+      let owners = [];
+      habits.map(habit => {
+        const find = owners.find(user => user._id === habit.owner);
+        if (!find) owners.push(habit.owner_profile);
+      });
+
       yield put({
         type: types.SET_SUPPORTED_HABITS,
-        payload: response.data.data.reflections,
+        payload: habits,
       });
+      yield put({
+        type: types.SET_SUPPORTED_HABIT_OWNERS,
+        payload: owners,
+      });
+
+      if (habits.length === 0) {
+        yield put({
+          type: types.SET_SUPPORTED_HABIT_USER,
+          payload: {},
+        });
+      } else if (!find) {
+        yield put({
+          type: types.SET_SUPPORTED_HABIT_USER,
+          payload: habits[0].owner_profile,
+        });
+      } else {
+        yield put({
+          type: types.SET_SUPPORTED_HABIT_USER,
+          payload: find.owner_profile,
+        });
+      }
       yield put({type: types.API_FINISHED});
     } else {
       yield put({

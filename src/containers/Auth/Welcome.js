@@ -150,7 +150,6 @@ class FeedWelcome extends React.Component {
 
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
-  userToken: state.profileReducer.userToken,
 });
 
 export default withTranslation()(

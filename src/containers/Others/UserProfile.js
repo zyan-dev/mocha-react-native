@@ -271,6 +271,10 @@ class UserProfileScreen extends React.Component {
           <FutureSvg size={size} color={color} />
         ) : layout.key === 'meaning_life' ? (
           <SkullCowSvg size={size} color={color} />
+        ) : layout.key === 'chronotype' ? (
+          <MCIcon type="FontAwesome5Pro" name="bed" color={color} />
+        ) : layout.key === 'triggers' ? (
+          <SirenOnSvg size={size} color={color} />
         ) : (
           <MCIcon
             type={layout.iconType}

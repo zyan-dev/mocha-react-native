@@ -35,6 +35,7 @@ class ChronotypeCard extends React.Component {
     const data = _.get(chronotype, ['data'], {});
     const {
       type,
+      hasDayTime,
       night_sleep_offset_end,
       night_sleep_offset_start,
       day_sleep_offset_end,
@@ -45,9 +46,9 @@ class ChronotypeCard extends React.Component {
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>
-              {t('profile_subtitle_chronotype')}
+              {t('profile_subtitle_sleep')}
             </H3>
-            <SheepSvg theme={theme} size={30} />
+            <MCIcon type="FontAwesome5Pro" name="bed" size={25} />
           </MCView>
           {editable && (
             <MCButton onPress={() => onPressEdit()}>
@@ -99,12 +100,13 @@ class ChronotypeCard extends React.Component {
                       fontSize: dySize(60),
                       fontFamily: null,
                     }}>
-                    {type === 'morning'
-                      ? night_sleep_offset_end - night_sleep_offset_start
-                      : night_sleep_offset_end -
-                        night_sleep_offset_start +
-                        day_sleep_offset_end -
-                        day_sleep_offset_start}
+                    {!hasDayTime
+                      ? (night_sleep_offset_end - night_sleep_offset_start) / 4
+                      : (night_sleep_offset_end -
+                          night_sleep_offset_start +
+                          day_sleep_offset_end -
+                          day_sleep_offset_start) /
+                        4}
                   </MCText>
                 </MCView>
                 <H4 align="center">{t('hours_sleep')}</H4>
@@ -121,10 +123,11 @@ class ChronotypeCard extends React.Component {
                   enabledRight={false}
                   value={[night_sleep_offset_start, night_sleep_offset_end]}
                   values={NightSliderValues}
+                  hideScale
                 />
               </MCView>
             </NativeCard>
-            {(type === 'flexible' || type === 'night') && (
+            {hasDayTime && (
               <NativeCard width={300} mt={10} ml={8} mr={8} mb={10}>
                 <MCView overflow="visible" align="center">
                   <MCView width={280}>
@@ -136,6 +139,7 @@ class ChronotypeCard extends React.Component {
                     enabledRight={false}
                     value={[day_sleep_offset_start, day_sleep_offset_end]}
                     values={DaySliderValues}
+                    hideScale
                   />
                 </MCView>
               </NativeCard>

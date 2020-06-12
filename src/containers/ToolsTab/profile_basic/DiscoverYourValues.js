@@ -35,6 +35,8 @@ class DiscoverValueScreen extends React.Component {
       step: 0,
       submitted: false,
       showHowModal: false,
+      showCardModal: false,
+      selectedCard: {},
     };
   }
 
@@ -202,6 +204,11 @@ class DiscoverValueScreen extends React.Component {
     return core.length > 0;
   };
 
+  onLongPressSelectedCard = value => {
+    if (value.category === 'custom' || value.category === 'add_custom') return;
+    this.setState({showCardModal: true, selectedCard: value});
+  };
+
   renderValueCard = (value, index) => {
     const {t, theme} = this.props;
     return (
@@ -268,6 +275,7 @@ class DiscoverValueScreen extends React.Component {
         key={value.value + theme.colors.theme_name}
         mb={15}
         onPress={() => this.onPressCoreItem(value)}
+        onLongPress={() => this.onLongPressSelectedCard(value)}
         style={{
           width: dySize(160),
           height: dySize(220),
@@ -340,7 +348,14 @@ class DiscoverValueScreen extends React.Component {
   };
 
   render() {
-    const {swiped, step, submitted, showHowModal} = this.state;
+    const {
+      swiped,
+      step,
+      submitted,
+      showHowModal,
+      showCardModal,
+      selectedCard,
+    } = this.state;
     const {t, theme, selectedReflection} = this.props;
     const selected = _.get(selectedReflection, ['data', 'selected'], []);
     console.log({selectedReflection});
@@ -493,6 +508,12 @@ class DiscoverValueScreen extends React.Component {
               <H3>{t('welcome_reflectionpoints_buttons_continue')}</H3>
             </MCButton>
           </MCView>
+        </MCModal>
+        <MCModal
+          br={10}
+          isVisible={showCardModal}
+          onClose={() => this.setState({showCardModal: false})}>
+          {this.renderValueCard(selectedCard, 0)}
         </MCModal>
       </MCRootView>
     );

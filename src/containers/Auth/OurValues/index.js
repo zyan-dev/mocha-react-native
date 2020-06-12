@@ -35,7 +35,7 @@ class OurValuesScreen extends React.PureComponent {
           title={t('title_our_values')}
           rightIcon="arrow-right"
           onPressRight={() => {
-            NavigationService.navigate('Auth_OurCommunityRule');
+            NavigationService.navigate('Auth_OurCommunityGuideLine');
           }}
         />
         <Swiper

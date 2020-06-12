@@ -5,7 +5,7 @@ import VerifySMSScreen from './VerifySMS';
 import CompleteSignUp from './CompleteSignUp';
 import NamePronunciationScreen from './NamePronunciation';
 import OurValuesScreen from './OurValues';
-import OurCommunityRuleScreen from './OurCommunityRules';
+import OurCommunityGuidelineScreen from './OurCommunityGuideLines';
 import WelcomeScreen from './Welcome';
 
 const Stack = createStackNavigator();
@@ -23,8 +23,8 @@ class VerificationStack extends React.Component {
         />
         <Stack.Screen name="Auth_OurValues" component={OurValuesScreen} />
         <Stack.Screen
-          name="Auth_OurCommunityRule"
-          component={OurCommunityRuleScreen}
+          name="Auth_OurCommunityGuideLine"
+          component={OurCommunityGuidelineScreen}
         />
         <Stack.Screen name="Auth_Welcome" component={WelcomeScreen} />
       </Stack.Navigator>

@@ -80,6 +80,7 @@ class AttachmentPatternScreen extends React.Component {
       videoId: '2s9ACDMcpjA', // YouTube video ID
       autoplay: true, // Autoplay the video
       startTime: 0, // Starting point of video (in seconds)
+      lightboxMode: true,
     })
       .then(() => console.log('Standalone Player Exited'))
       .catch(errorMessage => console.error(errorMessage));

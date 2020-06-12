@@ -432,12 +432,7 @@ class ProfileScreen extends React.Component {
         ) : layout.key === 'meaning_life' ? (
           <SkullCowSvg size={size} color={color} />
         ) : layout.key === 'chronotype' ? (
-          <MCIcon
-            type={layout.iconType}
-            name={layout.icon}
-            size={size * 0.8}
-            color={color}
-          />
+          <MCIcon type="FontAwesome5Pro" name="bed" color={color} />
         ) : layout.key === 'triggers' ? (
           <SirenOnSvg size={size} color={color} />
         ) : (

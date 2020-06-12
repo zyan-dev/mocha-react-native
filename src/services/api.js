@@ -1,7 +1,7 @@
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, Platform} from 'react-native';
 import {RNS3} from 'react-native-aws3/lib/RNS3';
 import {s3_Options} from '../utils/config';
-import {genetratedDate, showAlert} from './operators';
+import {showAlert} from './operators';
 const axios = require('axios');
 
 // const BACKEND_BASE_URL = 'https://api.mocha.me/api';
@@ -186,11 +186,13 @@ const fileUploadToS3 = async ({image, type, userId}) => {
   const imageType = image.includes('.jpg') ? 'jpg' : 'png';
   const imageName = `${type}/${userId}_${new Date().getTime()}.${imageType}`;
   const file = {
-    uri: image,
+    uri: (Platform.OS === 'android' ? 'file://' : '') + image,
     name: imageName,
     type: `image/${imageType}`,
   };
-  const response = await RNS3.put(file, s3_Options);
+  const response = await RNS3.put(file, s3_Options).progress(e =>
+    console.log(e),
+  );
   if (response.status !== 201) {
     showAlert('Failed to upload image to S3');
     return 'error';
