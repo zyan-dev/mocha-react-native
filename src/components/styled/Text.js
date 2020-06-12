@@ -39,22 +39,22 @@ export const FAProIcon = styled(FontAwesome5Pro)`
 `;
 
 export const H1 = styled(MCText)`
-  font-size: ${props => props.theme.base.FONT_SIZE_MASSIVE}px;
+  font-size: ${props => dySize(props.theme.base.FONT_SIZE_MASSIVE)}px;
 `;
 export const H2 = styled(MCText)`
-  font-size: ${props => props.theme.base.FONT_SIZE_EXTRA_LARGE}px;
+  font-size: ${props => dySize(props.theme.base.FONT_SIZE_EXTRA_LARGE)}px;
 `;
 export const H3 = styled(MCText)`
-  font-size: ${props => props.theme.base.FONT_SIZE_LARGE}px;
+  font-size: ${props => dySize(props.theme.base.FONT_SIZE_LARGE)}px;
 `;
 export const H4 = styled(MCText)`
-  font-size: ${props => props.theme.base.FONT_SIZE_MEDIUM}px;
+  font-size: ${props => dySize(props.theme.base.FONT_SIZE_MEDIUM)}px;
 `;
 export const H5 = styled(MCText)`
-  font-size: ${props => props.theme.base.FONT_SIZE_SMALL}px;
+  font-size: ${props => dySize(props.theme.base.FONT_SIZE_SMALL)}px;
 `;
 export const H6 = styled(MCText)`
-  font-size: ${props => props.theme.base.FONT_SIZE_TINY}px;
+  font-size: ${props => dySize(props.theme.base.FONT_SIZE_TINY)}px;
 `;
 
 export const MCEmptyText = styled(H4)`
