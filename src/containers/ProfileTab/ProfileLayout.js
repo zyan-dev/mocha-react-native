@@ -27,7 +27,7 @@ import {
   ExclamationSvg,
   BoxingSvg,
   HandheartSvg,
-  TeaSvg,
+  SirenOnSvg,
   SkullCowSvg,
 } from 'assets/svgs';
 import {profileIcons} from 'utils/constants';
@@ -103,6 +103,9 @@ class ProfileLayoutScreen extends React.Component {
           {item.key === 'comfort' && <HandheartSvg theme={theme} size={20} />}
           {item.key === 'meaning_life' && (
             <SkullCowSvg color={theme.colors.text} size={20} />
+          )}
+          {item.key === 'triggers' && (
+            <SirenOnSvg size={20} color={theme.colors.text} />
           )}
         </MCView>
         <H4 mr={10} style={{flex: 1}}>

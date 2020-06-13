@@ -160,27 +160,29 @@ class ProfileScreen extends React.Component {
       nutrition,
       hydration,
       stress,
-      stressRecovery,
-      strength,
-      coreValues,
-      dream,
+      stress_recovery,
+      strengths,
+      core_values,
+      dreams,
+      habits,
       dailyHabits,
       weeklyHabits,
       values,
       feedbacks,
       motivations,
-      manuals,
+      beliefs,
       personality,
-      coaching,
-      criticism,
-      praise,
-      qualities,
-      challenges,
-      approach,
-      attachment,
+      coaching_feedback,
+      criticism_feedback,
+      praise_feedback,
+      qualities_character,
+      challenges_concerns,
+      approach_to_conflict,
+      attachment_pattern,
       comfort,
-      meaning,
+      meaning_life,
       behaviorPreference,
+      languages,
       commits,
       triggers,
     } = this.props;
@@ -189,6 +191,7 @@ class ProfileScreen extends React.Component {
     if (item.signinRequired && !profile.userToken.length) return null;
     if (key === 'overview') return <OverviewCard profile={profile} />;
     if (key === 'contact') return <ContactCard profile={profile} />;
+    if (!this.props[key] || this.props[key].length === 0) return null;
     if (key === 'chronotype')
       return (
         <ChronotypeCard
@@ -217,7 +220,7 @@ class ProfileScreen extends React.Component {
         <StressCard
           theme={theme}
           stress={stress}
-          stressRecovery={stressRecovery}
+          stressRecovery={stress_recovery}
           onPressEditParts={() => NavigationService.navigate('EditBodyStress')}
           onPressEditRecovery={() =>
             NavigationService.navigate('EditStressRecovery')
@@ -227,7 +230,7 @@ class ProfileScreen extends React.Component {
     if (key === 'strengths')
       return (
         <SkillsCard
-          strength={strength}
+          strength={strengths}
           onPressEdit={() => NavigationService.navigate('EditStrengths')}
         />
       );
@@ -235,7 +238,7 @@ class ProfileScreen extends React.Component {
       return (
         <CoreValuesCard
           theme={theme}
-          coreValues={coreValues}
+          coreValues={core_values}
           onPressEdit={() => NavigationService.navigate('EditCoreValues')}
           onPressEditValueStory={value =>
             NavigationService.navigate('EditValueStory', {value})
@@ -245,7 +248,7 @@ class ProfileScreen extends React.Component {
     if (key === 'dreams')
       return (
         <DreamCard
-          dream={dream}
+          dream={dreams}
           onPressEdit={() => NavigationService.navigate('EditDreams')}
         />
       );
@@ -262,7 +265,7 @@ class ProfileScreen extends React.Component {
     if (key === 'coaching_feedback')
       return (
         <CoachingFeedbackCard
-          coaching={coaching}
+          coaching={coaching_feedback}
           theme={theme}
           onPressEdit={() => NavigationService.navigate('EditCoachingFeedback')}
         />
@@ -270,7 +273,7 @@ class ProfileScreen extends React.Component {
     if (key === 'criticism_feedback')
       return (
         <CriticismFeedbackCard
-          criticism={criticism}
+          criticism={criticism_feedback}
           theme={theme}
           onPressEdit={() =>
             NavigationService.navigate('EditCriticismFeedback')
@@ -280,7 +283,7 @@ class ProfileScreen extends React.Component {
     if (key === 'praise_feedback')
       return (
         <PraiseFeedbackCard
-          praise={praise}
+          praise={praise_feedback}
           theme={theme}
           onPressEdit={() => NavigationService.navigate('EditPraiseFeedback')}
         />
@@ -288,7 +291,7 @@ class ProfileScreen extends React.Component {
     if (key === 'qualities_character')
       return (
         <QualitiesBehaviorCard
-          qualities={qualities}
+          qualities={qualities_character}
           behaviorPreference={behaviorPreference}
           theme={theme}
           onPressEdit={() => NavigationService.navigate('EditQualities')}
@@ -297,7 +300,7 @@ class ProfileScreen extends React.Component {
     if (key === 'challenges_concerns')
       return (
         <ChallengesBehaviorCard
-          challenges={challenges}
+          challenges={challenges_concerns}
           behaviorPreference={behaviorPreference}
           onPressEdit={() => NavigationService.navigate('EditChallenges')}
         />
@@ -305,14 +308,14 @@ class ProfileScreen extends React.Component {
     if (key === 'approach_to_conflict')
       return (
         <ApproachCard
-          approach={approach}
+          approach={approach_to_conflict}
           onPressEdit={() => NavigationService.navigate('EditApproach')}
         />
       );
     if (key === 'attachment_pattern')
       return (
         <AttachmentCard
-          attachment={attachment}
+          attachment={attachment_pattern}
           onPressEdit={() => NavigationService.navigate('EditAttachment')}
         />
       );
@@ -327,7 +330,7 @@ class ProfileScreen extends React.Component {
     if (key === 'meaning_life')
       return (
         <MeaningLifeCard
-          meaning={meaning}
+          meaning={meaning_life}
           onPressEdit={() => NavigationService.navigate('EditMeaningLife')}
           theme={theme}
         />
@@ -355,8 +358,8 @@ class ProfileScreen extends React.Component {
           onPressNew={() => NavigationService.navigate('RequestFeedback')}
         />
       );
-    if (key === 'purposes')
-      return <PurposesCard onPressDetails={() => this.onPressAllPurposes()} />;
+    // if (key === 'purposes')
+    //   return <PurposesCard onPressDetails={() => this.onPressAllPurposes()} />;
     if (key === 'motivations')
       return (
         <MotivationCard
@@ -365,17 +368,18 @@ class ProfileScreen extends React.Component {
           onPressNew={() => this.onPressNewMotivation()}
         />
       );
-    if (key === 'languages') return <LanguagesCard onPressDetails={() => {}} />;
+    if (key === 'languages')
+      return <LanguagesCard languages={languages} onPressDetails={() => {}} />;
     if (key === 'beliefs')
       return (
         <UserManualsCard
-          manuals={manuals}
+          manuals={beliefs}
           onPressDetails={() => this.onPressAllUserManuals()}
           onPressNew={() => this.onPressNewUserManual()}
         />
       );
-    if (key === 'risks') return <RiskToleranceCard onPressEdit={() => {}} />;
-    if (key === 'quirks') return <QuirksCard onPressEdit={() => {}} />;
+    // if (key === 'risks') return <RiskToleranceCard onPressEdit={() => {}} />;
+    // if (key === 'quirks') return <QuirksCard onPressEdit={() => {}} />;
     if (key === 'triggers')
       return (
         <TriggersCard
@@ -388,32 +392,38 @@ class ProfileScreen extends React.Component {
 
   renderProfileIcon = ({item, index}) => {
     const {viewableItems, focusedIndex} = this.state;
-    const {theme, profile, profileTab} = this.props;
+    const {theme, profile} = this.props;
     const layout = item;
+    const key = layout.key;
     if (layout.signinRequired && !profile.userToken.length) return null;
     if (layout.disabled) return null;
-    const selected =
-      viewableItems.length && viewableItems[0].key === layout.key;
+    if (
+      key !== 'overview' &&
+      key !== 'contact' &&
+      (!this.props[key] || this.props[key].length === 0)
+    )
+      return null;
+    const selected = viewableItems.length && viewableItems[0].key === key;
     const size = selected ? 25 : 20;
     const color = selected ? theme.colors.outline : theme.colors.text;
     return (
       <MCButton
-        key={layout.key}
+        key={key}
         width={50}
         height={50}
         align="center"
         justify="center"
         onPress={() => this.onPressProfileIcon(layout, index)}
-        style={{opacity: opacityArray[Math.abs(focusedIndex - index) % 3]}}>
-        {layout.key === 'hydration' ? (
+        style={{opacity: focusedIndex === index ? 1 : 0.5}}>
+        {key === 'hydration' ? (
           <FaucetWhiteSvg size={size} color={color} />
-        ) : layout.key === 'dreams' ? (
+        ) : key === 'dreams' ? (
           <FutureSvg size={size} color={color} />
-        ) : layout.key === 'meaning_life' ? (
+        ) : key === 'meaning_life' ? (
           <SkullCowSvg size={size} color={color} />
-        ) : layout.key === 'chronotype' ? (
+        ) : key === 'chronotype' ? (
           <MCIcon type="FontAwesome5Pro" name="bed" color={color} />
-        ) : layout.key === 'triggers' ? (
+        ) : key === 'triggers' ? (
           <SirenOnSvg size={size} color={color} />
         ) : (
           <MCIcon
@@ -533,57 +543,68 @@ const mapStateToProps = state => ({
     state,
     'StressResponse',
   ),
-  stressRecovery: selector.reflections.findMySpecialReflections(
+  stress_recovery: selector.reflections.findMySpecialReflections(
     state,
     'StressRecovery',
   ),
-  strength: selector.reflections.findMySpecialReflections(state, 'Strengths'),
-  coreValues: selector.reflections.findMySpecialReflections(
+  strengths: selector.reflections.findMySpecialReflections(state, 'Strengths'),
+  core_values: selector.reflections.findMySpecialReflections(
     state,
     'CoreValues',
   ),
-  dream: selector.reflections.findMySpecialReflections(state, 'Dreams'),
+  dreams: selector.reflections.findMySpecialReflections(state, 'Dreams'),
+  habits: selector.reflections.getMySpecialReflections(state, 'Habit'),
   dailyHabits: selector.reflections
     .getMySpecialReflections(state, 'Habit')
     .filter(({data}) => data.isDaily),
   weeklyHabits: selector.reflections
     .getMySpecialReflections(state, 'Habit')
     .filter(({data}) => !data.isDaily),
-  manuals: selector.reflections.getMySpecialReflections(state, 'Manual'),
+  beliefs: selector.reflections.getMySpecialReflections(state, 'Manual'),
   values: selector.reflections.getMySpecialReflections(state, 'Value'),
   motivations: selector.reflections.getMySpecialReflections(
     state,
     'Motivation',
   ),
+  languages: selector.reflections.findMySpecialReflections(state, 'Languages'),
   feedbacks: selector.feedbacks.getMyFeedbacks(state).received,
   personality: selector.reflections.findMySpecialReflections(
     state,
     'Personality',
   ),
-  coaching: selector.reflections.findMySpecialReflections(
+  coaching_feedback: selector.reflections.findMySpecialReflections(
     state,
     'CoachingFeedback',
   ),
-  criticism: selector.reflections.findMySpecialReflections(
+  criticism_feedback: selector.reflections.findMySpecialReflections(
     state,
     'CriticismFeedback',
   ),
-  praise: selector.reflections.findMySpecialReflections(
+  praise_feedback: selector.reflections.findMySpecialReflections(
     state,
     'PraiseFeedback',
   ),
-  qualities: selector.reflections.findMySpecialReflections(state, 'Qualities'),
-  challenges: selector.reflections.findMySpecialReflections(
+  qualities_character: selector.reflections.findMySpecialReflections(
+    state,
+    'Qualities',
+  ),
+  challenges_concerns: selector.reflections.findMySpecialReflections(
     state,
     'Challenges',
   ),
-  approach: selector.reflections.findMySpecialReflections(state, 'Approach'),
-  attachment: selector.reflections.findMySpecialReflections(
+  approach_to_conflict: selector.reflections.findMySpecialReflections(
+    state,
+    'Approach',
+  ),
+  attachment_pattern: selector.reflections.findMySpecialReflections(
     state,
     'Attachment',
   ),
   comfort: selector.reflections.findMySpecialReflections(state, 'Comfort'),
-  meaning: selector.reflections.findMySpecialReflections(state, 'MeaningLife'),
+  meaning_life: selector.reflections.findMySpecialReflections(
+    state,
+    'MeaningLife',
+  ),
   triggers: selector.reflections.findMySpecialReflections(state, 'Triggers'),
   commits: state.otherReducer.commits,
 });

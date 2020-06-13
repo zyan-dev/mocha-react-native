@@ -224,7 +224,7 @@ class PostDetailScreen extends React.Component {
                 <MCView row align="center">
                   <H3>{t('unit_day')}: </H3>
                   <H1 weight="bold">
-                    {getDayOf(relatedChallenge.created_at)}
+                    {getDayOf(relatedChallenge.created)}
                     <H3> /{relatedChallenge.duration}</H3>
                   </H1>
                 </MCView>

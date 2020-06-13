@@ -476,6 +476,7 @@ class ChatRoomScreen extends React.Component {
           rightIconType="Ionicon"
           rightIcon="md-more"
           onPressRight={() => this.openActionSheet()}
+          onPressBack={() => NavigationService.navigate('Feed')}
           hasLeftBadge={hasMissedMessages}
         />
         {selectedRoom.type === 'group' && (
