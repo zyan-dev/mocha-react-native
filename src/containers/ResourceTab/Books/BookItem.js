@@ -194,11 +194,9 @@ class BookItem extends React.Component {
         align="center"
         justify="center">
         {item && item.indexOf('resource_manual_') > -1 ? (
-          <H5 color={theme.colors.text}>
-            {t(item.slice('resource_manual_'.length))}
-          </H5>
+          <H5 color="#000000">{t(item.slice('resource_manual_'.length))}</H5>
         ) : (
-          <H5 color={theme.colors.text}>{t(`resource_book_skills_${item}`)}</H5>
+          <H5 color="#000000">{t(`resource_book_skills_${item}`)}</H5>
         )}
       </MCView>
     );
@@ -212,11 +210,11 @@ class BookItem extends React.Component {
         mb={5}
         br={10}
         background="#C1F1D8"
-        width={80}
+        width={120}
         ph={10}
         align="center"
         justify="center">
-        <H5 color={theme.colors.text} align="center">
+        <H5 color="#000000" align="center">
           {t(`resource_book_impact_${item}`)}
         </H5>
       </MCView>
