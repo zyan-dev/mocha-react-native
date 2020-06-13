@@ -129,6 +129,7 @@ class AddResourceScreen extends React.PureComponent {
     }
 
     const {
+      profile,
       selectedResource,
       createResources,
       updateResources,
@@ -183,7 +184,11 @@ class AddResourceScreen extends React.PureComponent {
 
     delete resource.data.type;
 
-    if (resource._id && from == 'my-resource') {
+    if (
+      resource._id &&
+      from == 'trust-member' &&
+      profile._id == resource.owner
+    ) {
       const data = {
         _id: resource._id,
         ...resource,
@@ -275,8 +280,8 @@ class AddResourceScreen extends React.PureComponent {
       searchText,
       added,
     } = this.state;
-    const {t, searchedResourceByTitle, theme, from} = this.props;
-
+    const {t, searchedResourceByTitle, theme, profile} = this.props;
+    const {from} = this.props.route.params;
     let resource = searchedResourceByTitle;
 
     if (this.props.route.params && this.props.route.params.resource) {
@@ -287,7 +292,7 @@ class AddResourceScreen extends React.PureComponent {
       <MCRootView>
         <MCHeader
           title={
-            resource && resource._id && from == 'my-resource'
+            resource && resource.owner == profile._id && from == 'trust-member'
               ? t('resources_edit_headerTitle')
               : t('resources_add_headerTitle')
           }
@@ -518,6 +523,7 @@ const mapStateToProps = state => ({
   selectedResource: state.resourceReducer.selectedResource,
   searchedResourceByTitle: state.resourceReducer.searchedResourceByTitle,
   theme: state.routerReducer.theme,
+  profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {

@@ -135,7 +135,7 @@ class BookDetailScreen extends React.PureComponent {
   };
 
   render() {
-    const {t, theme} = this.props;
+    const {t, theme, profile} = this.props;
     const {bookInfo, impactsArray, skillsArray} = this.state;
     const {from, resource} = this.props.route.params;
     let allImpacts = [];
@@ -153,7 +153,11 @@ class BookDetailScreen extends React.PureComponent {
           hasBack
           leftIcon="arrow-left"
           hasRight
-          rightIcon={from == 'my-resource' ? 'edit' : 'plus'}
+          rightIcon={
+            from == 'trust-member' && resource.owner == profile._id
+              ? 'edit'
+              : 'plus'
+          }
           onPressRight={() => this.onPressRight(resource)}
         />
         <MCContent>

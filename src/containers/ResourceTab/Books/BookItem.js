@@ -135,6 +135,24 @@ class BookItem extends React.Component {
     // }
   }
 
+  componentDidUpdate(preProps, preState) {
+    if (
+      preProps.resource !== this.props.resource &&
+      this.props.from == 'trust-member'
+    ) {
+      let allImpacts = [];
+      allImpacts = _.concat(
+        allImpacts,
+        this.props.resource.data.mostImpacts || [],
+        this.props.resource.data.veryImpacts || [],
+        this.props.resource.data.impacts || [],
+      );
+
+      this.setState({impactsArray: allImpacts});
+      this.setState({skillsArray: this.props.resource.data.skills});
+    }
+  }
+
   onPressCopyLink = link => {
     const {t} = this.props;
     Clipboard.setString(link);
@@ -258,6 +276,7 @@ class BookItem extends React.Component {
     const {bookInfo, impactsArray, skillsArray} = this.state;
     let recommendedOwners = [],
       bookshelfOwners = [];
+
     return (
       <MCView>
         {from === 'recommended' ? (

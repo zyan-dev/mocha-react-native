@@ -26,6 +26,7 @@ class ResourceScreen extends React.PureComponent {
   onPressRight = () => {
     NavigationService.navigate('AddResource', {
       root: ResourcesRoots[this.state.tabIndex],
+      from: 'trust-member',
     });
   };
 

@@ -14,9 +14,7 @@ class RecommendedResourcesScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      selectedMember: {
-        data: [],
-      },
+      selectedMember: {},
       sort: true,
       focused: ResourceContentRoots[0].key,
     };
@@ -30,22 +28,18 @@ class RecommendedResourcesScreen extends React.PureComponent {
     if (preProps.recommededOwners !== this.props.recommededOwners) {
       if (this.props.recommededOwners.length === 0) {
         this.setState({
-          selectedMember: {
-            data: [],
-          },
+          selectedMember: {},
         });
       } else {
-        this.props.recommededOwners.forEach(v => {
-          if (v.ownerId == this.state.selectedMember.ownerId) {
-            return this.setState({selectedMember: v});
+        for (let recommededOwner of this.props.recommededOwners) {
+          if (recommededOwner.ownerId == this.state.selectedMember.ownerId) {
+            return this.setState({selectedMember: recommededOwner});
           } else {
             this.setState({
-              selectedMember: {
-                data: [],
-              },
+              selectedMember: {},
             });
           }
-        });
+        }
       }
     }
   }
@@ -155,7 +149,7 @@ class RecommendedResourcesScreen extends React.PureComponent {
             selectedMember={selectedMember}
             sort={sort}
             from="recommended"
-            selectedResources={selectedMember.data}
+            selectedResources={selectedMember.data || []}
           />
         ) : (
           <MCContent>
