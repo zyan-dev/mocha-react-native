@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList} from 'react-native';
+import {Alert, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
@@ -62,6 +62,35 @@ class MyChallenges extends React.Component {
     this.props.onPressAdd();
   };
 
+  onPressEditChallenge = () => {
+    this.props.selectChallenge(this.props.focusedChallenge);
+    setTimeout(() => {
+      NavigationService.navigate('SelectChallenges');
+    });
+  };
+
+  onPressRemoveChallenge = () => {
+    const {t, focusedChallenge} = this.props;
+    Alert.alert(
+      t('alert_title_mocha'),
+      t('alert_remove_challenge', {title: focusedChallenge.title}),
+      [
+        {
+          text: t('button_cancel'),
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: t('button_ok'),
+          onPress: () => {
+            this.props.removeChallenge(focusedChallenge._id);
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   _renderChallengeItem = ({item}) => {
     const {t, theme, focusedChallenge} = this.props;
     if (!focusedChallenge) return null;
@@ -115,7 +144,7 @@ class MyChallenges extends React.Component {
   };
 
   render() {
-    const {t, myChallenges, focusedChallenge} = this.props;
+    const {t, profile, myChallenges, focusedChallenge} = this.props;
     return (
       <MCRootView justify="flex-start" background="transparent">
         <MCView height={150} justify="center">
@@ -164,6 +193,22 @@ class MyChallenges extends React.Component {
                   </H4>
                   <H4 numberOfLines={1}>{focusedChallenge.title}</H4>
                 </MCView>
+                {focusedChallenge.ownerId === profile._id && (
+                  <>
+                    <MCButton
+                      onPress={() => this.onPressEditChallenge()}
+                      pt={1}
+                      pb={1}>
+                      <MCIcon name="ios-create" padding={1} />
+                    </MCButton>
+                    <MCButton
+                      onPress={() => this.onPressRemoveChallenge()}
+                      pt={1}
+                      pb={1}>
+                      <MCIcon name="ios-trash" padding={1} />
+                    </MCButton>
+                  </>
+                )}
               </MCView>
               <ChallengeItem
                 item={focusedChallenge}
@@ -189,6 +234,8 @@ const mapDispatchToProps = {
   focusChallenge: challengeActions.focusChallenge,
   updateFocusedChallenge: challengeActions.updateFocusedChallenge,
   addOrUpdateChallenge: challengeActions.addOrUpdateChallenge,
+  selectChallenge: challengeActions.selectChallenge,
+  removeChallenge: challengeActions.removeChallenge,
   setInitialPost: postActions.setInitialPost,
 };
 

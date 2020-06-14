@@ -221,6 +221,8 @@ const updateChallenges = param =>
 const addChallenges = param => apiCall('post', `${URL_CHALLENGE}`, param, true);
 const getUserChallenges = id =>
   apiCall('get', `${URL_CHALLENGE}/${id}`, {}, true);
+const removeChallenge = param =>
+  apiCall('post', `${URL_CHALLENGE}/remove`, param, true);
 
 export default {
   sendSMS,
@@ -286,4 +288,5 @@ export default {
   updateChallenges,
   addChallenges,
   getUserChallenges,
+  removeChallenge,
 };
