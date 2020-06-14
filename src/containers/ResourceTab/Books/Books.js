@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import * as _ from 'lodash';
 
 import {resourceActions} from 'Redux/actions';
-import {getStringIndexOf} from 'services/operators';
 import {MCEmptyText} from 'components/styled/Text';
 import {MCRootView, NativeCard} from 'components/styled/View';
 import BookItem from './BookItem';
@@ -20,7 +19,7 @@ class BookResourceScreen extends React.PureComponent {
       direction = 'desc';
     }
 
-    return _.orderBy(books, ['data.impacts'], [direction]);
+    return _.orderBy(books, ['data.score'], [direction]);
   };
 
   _renderListItem = ({item}) => {
@@ -28,7 +27,7 @@ class BookResourceScreen extends React.PureComponent {
 
     return (
       <MCView align="center">
-        <NativeCard width={320} mt={10} mb={10} ml={10} mr={10}>
+        <NativeCard width={340} mt={10} mb={10} ml={10} mr={10} pv={5}>
           <BookItem
             resource={item}
             onPressBookmark={data => {
@@ -47,51 +46,37 @@ class BookResourceScreen extends React.PureComponent {
     const {
       from,
       pageSearching,
-      getAllResources,
-      getMyResources,
-      getTrustMemberResources,
+      getSelectedMemberResources,
       getBookmarkedResources,
-      getRecommendedResources,
-      resourceAllPageIndex,
-      resourceAllPageLimited,
-      resourceMyPageIndex,
-      resourceMyPageLimited,
       resourceBookmarkPageIndex,
       resourceBookmarkLimited,
-      resourceTrustMemberPageIndex,
-      resourceTrustMemberLimited,
+      resourceMemberPageIndex,
+      resourceMemberLimited,
       resourceSearchResourceIndex,
       resourceSearchResourceLimited,
-      resourceRecommendResourceIndex,
-      resourceRcommendResourceLimited,
       searchText,
       selectedMember,
     } = this.props;
 
-    if (from == 'global') {
-      if (resourceAllPageLimited || pageSearching) return;
-      getAllResources(resourceAllPageIndex + 1);
-    } else if (from == 'search') {
+    if (from == 'search') {
       if (resourceSearchResourceLimited || pageSearching) return;
       searchResources({
         title: searchText,
         type: 'books',
         pageIndex: resourceSearchResourceIndex + 1,
       });
-    } else if (from === 'my-resource') {
-      if (resourceMyPageLimited || pageSearching) return;
-      getMyResources(resourceMyPageIndex + 1);
     } else if (from === 'bookmark') {
       if (resourceBookmarkLimited || pageSearching) return;
       getBookmarkedResources(resourceBookmarkPageIndex + 1);
     } else if (from === 'recommended') {
-      if (resourceRcommendResourceLimited || pageSearching) return;
-      getRecommendedResources(resourceRecommendResourceIndex + 1);
+      return;
+      // if (resourceRcommendResourceLimited || pageSearching) return;
+      // getRecommendedResources(resourceRecommendResourceIndex + 1);
     } else {
-      if (resourceTrustMemberLimited || pageSearching) return;
-      getTrustMemberResources({
-        pageIndex: resourceTrustMemberPageIndex + 1,
-        trustMember: selectedMember._id,
+      if (resourceMemberLimited || pageSearching) return;
+      getSelectedMemberResources({
+        pageIndex: resourceMemberPageIndex + 1,
+        member: selectedMember._id,
       });
     }
   };
@@ -104,22 +89,15 @@ class BookResourceScreen extends React.PureComponent {
       from,
       selectedResources,
       pageSearching,
-      resourceAllPageLimited,
-      resourceMyPageLimited,
       resourceBookmarkLimited,
       resourceSearchResourceLimited,
-      resourceTrustMemberLimited,
+      resourceMemberLimited,
       resourceRcommendResourceLimited,
     } = this.props;
     let books = [],
       pageLimited = false;
 
-    if (from === 'global') {
-      selectedResources.forEach(resource => {
-        books.push(resource.data[0]);
-      });
-      pageLimited = resourceAllPageLimited;
-    } else if (from === 'search') {
+    if (from === 'search') {
       selectedResources.forEach(resource => {
         books.push(resource.data[0]);
       });
@@ -130,42 +108,42 @@ class BookResourceScreen extends React.PureComponent {
       });
       pageLimited = resourceBookmarkLimited;
     } else if (from === 'recommended') {
-      selectedResources.forEach(resource => {
-        books.push(resource.data[0]);
-      });
-      pageLimited = resourceRcommendResourceLimited;
-    } else if (from === 'my-resource') {
       books = this.sortBook(selectedResources, sort);
-      pageLimited = resourceMyPageLimited;
+      pageLimited = resourceRcommendResourceLimited;
     } else {
       books = this.sortBook(selectedResources, sort);
-      pageLimited = resourceTrustMemberLimited;
+      pageLimited = resourceMemberLimited;
     }
 
     return (
       <MCRootView align="center">
-        <FlatList
-          data={books}
-          renderItem={this._renderListItem}
-          keyExtractor={item => item._id}
-          keyboardShouldPersistTaps="always"
-          ListEmptyComponent={
-            <MCEmptyText>
-              {pageSearching ? t('progress_loading') : t('no_result')}
-            </MCEmptyText>
-          }
-          numColumns={1}
-          style={{width: dySize(350)}}
-          ListFooterComponent={
-            pageLimited &&
-            books.length && (
-              <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
-            )
-          }
-          keyExtractor={item => item._id}
-          onEndReached={() => this.getNextPage()}
-          onEndReachedThreshold={0.5}
-        />
+        <MCView style={{flex: 1}}>
+          <FlatList
+            data={books}
+            renderItem={this._renderListItem}
+            keyExtractor={item => item._id}
+            keyboardShouldPersistTaps="always"
+            ListEmptyComponent={
+              <MCEmptyText>
+                {pageSearching ? t('progress_loading') : t('no_result')}
+              </MCEmptyText>
+            }
+            numColumns={1}
+            style={{width: dySize(350)}}
+            contentContainerStyle={{
+              paddingBottom: 80,
+            }}
+            ListFooterComponent={
+              pageLimited &&
+              books.length && (
+                <MCEmptyText weight="italic">{t('no_more_result')}</MCEmptyText>
+              )
+            }
+            keyExtractor={item => item._id}
+            onEndReached={() => this.getNextPage()}
+            onEndReachedThreshold={0.5}
+          />
+        </MCView>
       </MCRootView>
     );
   }
@@ -176,18 +154,13 @@ const mapStateToProps = state => ({
   allResources: state.resourceReducer.allResources,
   profile: state.profileReducer,
   resourceAllPageIndex: state.resourceReducer.resourceAllPageIndex,
-  resourceTrustMemberPageIndex:
-    state.resourceReducer.resourceTrustMemberPageIndex,
-  resourceMyPageIndex: state.resourceReducer.resourceMyPageIndex,
+  resourceMemberPageIndex: state.resourceReducer.resourceMemberPageIndex,
   resourceBookmarkPageIndex: state.resourceReducer.resourceBookmarkPageIndex,
   resourceSearchResourceIndex:
     state.resourceReducer.resourceSearchResourceIndex,
-  resourceRecommendResourceIndex:
-    state.resourceReducer.resourceRecommendResourceIndex,
   pageSearching: state.resourceReducer.pageSearching,
   resourceAllPageLimited: state.resourceReducer.resourceAllPageLimited,
-  resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
-  resourceMyPageLimited: state.resourceReducer.resourceMyPageLimited,
+  resourceMemberLimited: state.resourceReducer.resourceMemberLimited,
   resourceBookmarkLimited: state.resourceReducer.resourceBookmarkLimited,
   resourceSearchResourceLimited:
     state.resourceReducer.resourceSearchResourceLimited,
@@ -198,10 +171,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   toggleBookmarkedResource: resourceActions.toggleBookmarkedResource,
   getAllResources: resourceActions.getAllResources,
-  getMyResources: resourceActions.getMyResources,
   getBookmarkedResources: resourceActions.getBookmarkedResources,
-  getTrustMemberResources: resourceActions.getTrustMemberResources,
-  getRecommendedResources: resourceActions.getRecommendedResources,
+  getSelectedMemberResources: resourceActions.getSelectedMemberResources,
   searchResources: resourceActions.searchResources,
 };
 

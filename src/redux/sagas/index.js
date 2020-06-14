@@ -97,7 +97,6 @@ function* mySaga() {
 
   // Resource
   yield takeLatest(types.GET_ALL_RESOURCES, resourceSaga.getAllResources);
-  yield takeLatest(types.GET_MY_RESOURCES, resourceSaga.getMyResources);
   yield takeEvery(types.CREATE_RESOURCES, resourceSaga.createResources);
   yield takeEvery(types.UPDATE_RESOURCES, resourceSaga.updateResources);
   yield takeEvery(types.REMOVE_RESOURCES, resourceSaga.removeResources);
@@ -110,8 +109,8 @@ function* mySaga() {
     resourceSaga.getBookmarkedResources,
   );
   yield takeLatest(
-    types.GET_TRUST_MEMBER_RESOURCES,
-    resourceSaga.getTrustMemberResources,
+    types.GET_SELECTED_MEMBER_RESOURCES,
+    resourceSaga.getSelectedMemberResources,
   );
   yield takeLatest(types.SEARCH_RESOURCES, resourceSaga.searchResources);
   yield takeLatest(
@@ -122,9 +121,20 @@ function* mySaga() {
     types.RECOMMEND_RESOURCE_TO_MEMBERS,
     resourceSaga.recommendResourceToMembers,
   );
+
   yield takeLatest(
-    types.GET_RECOMMENDED_RESOURCES,
-    resourceSaga.getRecommendedResources,
+    types.GET_RECOMMENDED_OWNERS,
+    resourceSaga.getRecommendedOwners,
+  );
+
+  yield takeLatest(
+    types.REMOVE_RECOMMENDED_RESOURCE,
+    resourceSaga.removeRecommendedResource,
+  );
+
+  yield takeLatest(
+    types.HIDDEN_RECOMMENDED_RESOURCE,
+    resourceSaga.hiddenRecommendedResource,
   );
 
   // other

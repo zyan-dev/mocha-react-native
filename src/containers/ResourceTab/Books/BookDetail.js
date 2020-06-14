@@ -31,19 +31,9 @@ class BookDetailScreen extends React.PureComponent {
 
   componentDidMount() {
     const {from, resource} = this.props.route.params;
-    const {
-      allResources,
-      bookmarkedResources,
-      searchedResources,
-      recommendedResources,
-    } = this.props;
+    const {allResources, bookmarkedResources, searchedResources} = this.props;
 
-    if (
-      from === 'global' ||
-      from === 'bookmark' ||
-      from == 'search' ||
-      from == 'recommended'
-    ) {
+    if (from === 'global' || from === 'bookmark' || from == 'search') {
       let resources = allResources;
       if (from === 'bookmark') {
         resources = bookmarkedResources;
@@ -52,39 +42,62 @@ class BookDetailScreen extends React.PureComponent {
         resources = searchedResources;
       }
 
-      if (from === 'recommended') {
-        resources = recommendedResources;
-      }
+      // if (from === 'recommended') {
+      //   resources = recommendedResources;
+      // }
 
       resources.map(item => {
         if (item.title === resource.data.title) {
           this.setState({bookInfo: item}, () => {
-            const groupImpacts = _.groupBy(
-              this.state.bookInfo.data,
-              v => v.data.impacts,
-            );
+            const mappingImpacts = [];
+            this.state.bookInfo.data.forEach(book => {
+              book.data.impacts &&
+                book.data.impacts.forEach(impact => {
+                  const item = {
+                    avatar: book.ownerAvatar,
+                    impact: impact,
+                  };
+                  mappingImpacts.push(item);
+                });
+              book.data.veryImpacts &&
+                book.data.veryImpacts.forEach(impact => {
+                  const item = {
+                    avatar: book.ownerAvatar,
+                    impact: impact,
+                  };
+                  mappingImpacts.push(item);
+                });
+              book.data.mostImpacts &&
+                book.data.mostImpacts.forEach(impact => {
+                  const item = {
+                    avatar: book.ownerAvatar,
+                    impact: impact,
+                  };
+                  mappingImpacts.push(item);
+                });
+            });
+
+            const groupImpacts = _.groupBy(mappingImpacts, v => v.impact);
             const impactsArray = [];
             Object.keys(groupImpacts).forEach(impact => {
               const data = {
-                [impact]: groupImpacts[impact].map(
-                  ({ownerAvatar}) => ownerAvatar,
-                ),
+                [impact]: groupImpacts[impact].map(({avatar}) => avatar),
               };
               impactsArray.push(data);
             });
 
-            const mapping = [];
+            const mappingSkills = [];
             this.state.bookInfo.data.map(book => {
               book.data.skills.map(skill => {
                 const item = {
                   avatar: book.ownerAvatar,
                   skill: skill,
                 };
-                mapping.push(item);
+                mappingSkills.push(item);
               });
             });
 
-            const groupSkills = _.groupBy(mapping, v => v.skill);
+            const groupSkills = _.groupBy(mappingSkills, v => v.skill);
             const skillsArray = [];
             Object.keys(groupSkills).forEach(skill => {
               const data = {
@@ -92,8 +105,9 @@ class BookDetailScreen extends React.PureComponent {
               };
               skillsArray.push(data);
             });
-            this.setState({impactsArray: impactsArray});
-            this.setState({skillsArray: skillsArray});
+
+            this.setState({impactsArray});
+            this.setState({skillsArray});
           });
         }
       });
@@ -121,11 +135,15 @@ class BookDetailScreen extends React.PureComponent {
   };
 
   render() {
-    const {t, theme} = this.props;
+    const {t, theme, profile} = this.props;
     const {bookInfo, impactsArray, skillsArray} = this.state;
     const {from, resource} = this.props.route.params;
-    const index = impacts.findIndex(
-      impact => impact.key === resource.data.impacts,
+    let allImpacts = [];
+    allImpacts = _.concat(
+      allImpacts,
+      resource.data.mostImpacts,
+      resource.data.veryImpacts,
+      resource.data.impacts,
     );
 
     return (
@@ -135,7 +153,11 @@ class BookDetailScreen extends React.PureComponent {
           hasBack
           leftIcon="arrow-left"
           hasRight
-          rightIcon={from == 'my-resource' ? 'edit' : 'plus'}
+          rightIcon={
+            from == 'trust-member' && resource.owner == profile._id
+              ? 'edit'
+              : 'plus'
+          }
           onPressRight={() => this.onPressRight(resource)}
         />
         <MCContent>
@@ -251,62 +273,15 @@ class BookDetailScreen extends React.PureComponent {
                     </MCView>
                   </>
                 )}
-
-              {/* {from !== 'global' && trustMemebers.length > 0 && (
-                <>
-                  <H5>
-                    {trustMemebers.length} of your TrustMemebers have added this
-                    book
-                  </H5>
-                  <MCView row align="flex-start">
-                    {trustMemebers.slice(0, 3).map((avatar, index) => {
-                      return (
-                        <>
-                          <MCImage
-                            key={index}
-                            image={{uri: avatar}}
-                            round
-                            width={30}
-                            height={30}
-                            style={{marginLeft: dySize(25)}}
-                          />
-                          {trustMemebers.length > 3 && index == 2 && (
-                            <MCView
-                              width={30}
-                              height={30}
-                              bordered
-                              br={15}
-                              background={theme.colors.text}
-                              align="center"
-                              justify="center"
-                              style={{opacity: 0.8}}>
-                              <H4 weight="bold" color={theme.colors.background}>
-                                +{trustMemebers.length - 3}
-                              </H4>
-                            </MCView>
-                          )}
-                        </>
-                      );
-                    })}
-                  </MCView>
-                </>
-              )} */}
             </MCView>
 
-            {from == 'global' ||
-            from == 'search' ||
-            from == 'bookmark' ||
-            from == 'recommended' ? (
+            {from == 'global' || from == 'search' || from == 'bookmark' ? (
               <MCView width={350} mb={30} row justify="center">
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_impact')}</H4>
                   {impactsArray.map(item => (
                     <MCBookTagsView
-                      tags={
-                        impacts[parseInt(Object.keys(item) - 1)]
-                          ? [impacts[parseInt(Object.keys(item) - 1)]]
-                          : []
-                      }
+                      tags={Object.keys(item)}
                       impact={true}
                       users={item[Object.keys(item)]}
                       t={t}
@@ -331,11 +306,7 @@ class BookDetailScreen extends React.PureComponent {
               <MCView width={350} mb={30} row justify="center">
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_impact')}</H4>
-                  <MCBookTagsView
-                    tags={impacts[index] ? [impacts[index]] : []}
-                    impact={true}
-                    t={t}
-                  />
+                  <MCBookTagsView tags={allImpacts} impact={true} t={t} />
                 </MCView>
                 <MCView align="center" style={{flex: 1}}>
                   <H4 underline>{t('resource_type_book_skill')}</H4>
@@ -363,7 +334,6 @@ const mapStateToProps = state => ({
   allResources: state.resourceReducer.allResources,
   bookmarkedResources: state.resourceReducer.bookmarkedResources,
   searchedResources: state.resourceReducer.searchedResources,
-  recommendedResources: state.resourceReducer.recommendedResources,
   profile: state.profileReducer,
 });
 

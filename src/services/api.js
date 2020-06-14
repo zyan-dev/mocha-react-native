@@ -124,26 +124,21 @@ const removeReflection = param =>
 const updateCommits = param => apiCall('patch', URL_COMMIT, param, true);
 const getUserCommits = userId =>
   apiCall('get', `${URL_COMMIT}/${userId}`, {}, true);
-const getAllResources = pageIndex =>
-  apiCall('get', `${URL_RESOURCE}/list/all?page=${pageIndex}`, {}, true);
-const getMyResources = pageIndex =>
-  apiCall('get', `${URL_RESOURCE}?page=${pageIndex}`, {}, true);
-const getBookmarkedResources = pageIndex =>
-  apiCall('get', `${URL_RESOURCE}/list/bookmark?page=${pageIndex}`, {}, true);
-const getTrustMemberResources = data =>
+const getAllResources = param =>
   apiCall(
     'get',
-    `${URL_RESOURCE}/list/trustmember?memberId=${data.trustMember}&page=${
-      data.pageIndex
-    }`,
+    `${URL_RESOURCE}?page=${param.pageIndex}&title=${param.title}&type=${
+      param.type
+    }&bookmark=${param.bookmark}&recommended=${param.recommended}`,
     {},
     true,
   );
-const searchResources = params =>
+
+const getSelectedMemberResources = data =>
   apiCall(
-    'post',
-    `${URL_RESOURCE}/list/search?page=${params.pageIndex}`,
-    params,
+    'get',
+    `${URL_RESOURCE}?ownerId=${data.member}&page=${data.pageIndex}`,
+    {},
     true,
   );
 const createResources = param =>
@@ -156,9 +151,17 @@ const bookmarkResources = param =>
   apiCall('patch', `${URL_RESOURCE}/bookmark`, param, true);
 const recommendResourceToMembers = param =>
   apiCall('post', `${URL_RESOURCE}/recommends`, param, true);
-const getRecommendedResources = pageIndex =>
-  apiCall('get', `${URL_RESOURCE}/list/recommends?page=${pageIndex}`, {}, true);
-
+const getRecommendedOwners = pageIndex =>
+  apiCall(
+    'get',
+    `${URL_RESOURCE}/list/recommendedOwners?page=${pageIndex}`,
+    {},
+    true,
+  );
+const removeRecommendedResource = param =>
+  apiCall('post', `${URL_RESOURCE}/remove`, param, true);
+const hiddenRecommendedResource = param =>
+  apiCall('post', `${URL_RESOURCE}/setHidden`, param, true);
 const getSupportedHabits = () =>
   apiCall('get', `${URL_REFLECTION}/habit-shared`, {}, true);
 const sendEmail = param => apiCall('post', `${URL_CONTACT_US}`, param);
@@ -257,17 +260,16 @@ export default {
   updateCommits,
   getUserCommits,
   getAllResources,
-  getMyResources,
   createResources,
   updateResources,
   removeResources,
   bookmarkResources,
-  getBookmarkedResources,
-  getTrustMemberResources,
+  getSelectedMemberResources,
   recommendResourceToMembers,
-  getRecommendedResources,
+  getRecommendedOwners,
+  removeRecommendedResource,
+  hiddenRecommendedResource,
   getResourceByTitle,
-  searchResources,
   getSupportedHabits,
   sendEmail,
   findUserByName,

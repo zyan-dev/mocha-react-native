@@ -54,67 +54,24 @@ export function* getAllResources(action) {
   }
 }
 
-export function* getMyResources(action) {
-  try {
-    yield put({
-      type: types.SET_MY_RESOURCE_STATE,
-      payload: true,
-    });
-
-    const response = yield call(API.getMyResources, action.payload);
-
-    if (response.data.status === 'success') {
-      if (action.payload === 1) {
-        yield put({
-          type: types.SET_SEARCHED_MY_RESOURCES,
-          payload: response.data.data.resources,
-        });
-      } else {
-        yield put({
-          type: types.ADD_MY_RESOURCES,
-          payload: response.data.data.resources,
-        });
-        yield put({
-          type: types.SET_MY_RESOURCE_PAGE_INDEX,
-          payload: action.payload,
-        });
-      }
-      yield put({
-        type: types.SET_MY_RESOURCE_PAGE_LIMITED,
-        payload: action.payload >= response.data.data.total_pages,
-      });
-
-      yield put({type: types.API_FINISHED});
-    } else {
-      yield put({
-        type: types.API_FINISHED,
-        payload: response.data.data.message,
-      });
-    }
-    yield put({
-      type: types.SET_MY_RESOURCE_STATE,
-      payload: false,
-    });
-  } catch (e) {
-    yield put({
-      type: types.SET_MY_RESOURCE_STATE,
-      payload: false,
-    });
-    yield put({type: types.API_FINISHED, payload: e.toString()});
-  }
-}
-
 export function* getBookmarkedResources(action) {
   try {
+    const page = action.payload;
     yield put({
       type: types.SET_BOOKMARKED_RESOURCE_STATE,
       payload: true,
     });
 
-    const response = yield call(API.getBookmarkedResources, action.payload);
+    const response = yield call(API.getAllResources, {
+      page,
+      title: '',
+      type: 'books',
+      bookmark: true,
+      recommended: false,
+    });
 
     if (response.data.status === 'success') {
-      if (action.payload === 1) {
+      if (page === 1) {
         yield put({
           type: types.SET_SEARCHED_BOOKMARKED_RESOURCES,
           payload: response.data.data.resources,
@@ -126,12 +83,12 @@ export function* getBookmarkedResources(action) {
         });
         yield put({
           type: types.SET_BOOKMARKED_RESOURCE_PAGE_INDEX,
-          payload: action.payload,
+          payload: page,
         });
       }
       yield put({
         type: types.SET_BOOKMARKED_RESOURCE_PAGE_LIMITED,
-        payload: action.payload >= response.data.data.total_pages,
+        payload: page >= response.data.data.total_pages,
       });
 
       yield put({type: types.API_FINISHED});
@@ -154,33 +111,34 @@ export function* getBookmarkedResources(action) {
   }
 }
 
-export function* getTrustMemberResources(action) {
+export function* getSelectedMemberResources(action) {
   try {
+    yield put({type: types.API_CALLING});
     yield put({
-      type: types.SET_TRUST_MEMBER_RESOURCE_STATE,
+      type: types.SET_MEMBER_RESOURCE_STATE,
       payload: true,
     });
 
-    const response = yield call(API.getTrustMemberResources, action.payload);
+    const response = yield call(API.getSelectedMemberResources, action.payload);
 
     if (response.data.status === 'success') {
       if (action.payload.pageIndex === 1) {
         yield put({
-          type: types.SET_SEARCHED_TRUST_MEMBER_RESOURCES,
+          type: types.SET_SEARCHED_MEMBER_RESOURCES,
           payload: response.data.data.resources,
         });
       } else {
         yield put({
-          type: types.ADD_TRUST_MEMBER_RESOURCES,
+          type: types.ADD_MEMBER_RESOURCES,
           payload: response.data.data.resources,
         });
         yield put({
-          type: types.SET_TRUST_MEMBER_RESOURCE_PAGE_INDEX,
+          type: types.SET_MEMBER_RESOURCE_PAGE_INDEX,
           payload: action.payload.pageIndex,
         });
       }
       yield put({
-        type: types.SET_TRUST_MEMBER_RESOURCE_PAGE_LIMITED,
+        type: types.SET_MEMBER_RESOURCE_PAGE_LIMITED,
         payload: action.payload.pageIndex >= response.data.data.total_pages,
       });
 
@@ -192,12 +150,12 @@ export function* getTrustMemberResources(action) {
       });
     }
     yield put({
-      type: types.SET_TRUST_MEMBER_RESOURCE_STATE,
+      type: types.SET_MEMBER_RESOURCE_STATE,
       payload: false,
     });
   } catch (e) {
     yield put({
-      type: types.SET_TRUST_MEMBER_RESOURCE_STATE,
+      type: types.SET_MEMBER_RESOURCE_STATE,
       payload: false,
     });
     yield put({type: types.API_FINISHED, payload: e.toString()});
@@ -212,7 +170,13 @@ export function* searchResources(action) {
     });
 
     yield put({type: types.API_CALLING});
-    const response = yield call(API.searchResources, action.payload);
+    const response = yield call(API.getAllResources, {
+      page: action.payload.pageIndex,
+      title: action.payload.title,
+      type: action.payload.type,
+      bookmark: false,
+      recommended: false,
+    });
 
     if (response.data.status === 'success') {
       if (action.payload.pageIndex === 1) {
@@ -262,18 +226,33 @@ export function* createResources(action) {
       data: action.payload,
     });
     if (response.data.status === 'success') {
-      const {resourceReducer} = yield select();
-      yield put({
-        type: types.GET_MY_RESOURCES,
-        payload: 1,
-      });
-      // yield put({
-      //   type: types.GET_ALL_RESOURCES,
-      //   payload: 1,
-      // });
+      const {resourceReducer, profileReducer} = yield select();
 
       yield put({
-        type: types.SET_MY_RESOURCE_PAGE_INDEX,
+        type: types.GET_SELECTED_MEMBER_RESOURCES,
+        payload: {
+          pageIndex: 1,
+          member: profileReducer._id,
+        },
+      });
+
+      yield put({
+        type: types.GET_RECOMMENDED_OWNERS,
+        payload: 1,
+      });
+
+      yield put({
+        type: types.GET_BOOKMARKED_RESOURCES,
+        payload: 1,
+      });
+
+      yield put({
+        type: types.SET_MEMBER_RESOURCE_PAGE_INDEX,
+        payload: 1,
+      });
+
+      yield put({
+        type: types.SET_RECOMMENDED_OWNERS_PAGE_INDEX,
         payload: 1,
       });
 
@@ -306,19 +285,18 @@ export function* updateResources(action) {
       data: action.payload,
     });
     if (response.data.status === 'success') {
-      const {resourceReducer} = yield select();
+      const {profileReducer} = yield select();
+
       yield put({
-        type: types.GET_MY_RESOURCES,
-        payload: 1,
+        type: types.GET_SELECTED_MEMBER_RESOURCES,
+        payload: {
+          pageIndex: 1,
+          member: profileReducer._id,
+        },
       });
 
-      // yield put({
-      //   type: types.GET_ALL_RESOURCES,
-      //   payload: 1,
-      // });
-
       yield put({
-        type: types.SET_MY_RESOURCE_PAGE_INDEX,
+        type: types.SET_MEMBER_RESOURCE_PAGE_INDEX,
         payload: 1,
       });
 
@@ -374,28 +352,20 @@ export function* toggleBookmarkedResource(action) {
           payload: 1,
         });
         yield put({
-          type: types.GET_RECOMMENDED_RESOURCES,
+          type: types.GET_RECOMMENDED_OWNERS,
           payload: 1,
         });
         // yield put({
         //   type: types.GET_ALL_RESOURCES,
         //   payload: 1,
         // });
-        yield put({
-          type: types.GET_MY_RESOURCES,
-          payload: 1,
-        });
-        yield put({
-          type: types.GET_TRUST_MEMBER_RESOURCES,
-          payload: {
-            pageIndex: 1,
-            trustMember: resourceReducer.selectedTrustMemberId,
-          },
-        });
 
         yield put({
-          type: types.SET_MY_RESOURCE_PAGE_INDEX,
-          payload: 1,
+          type: types.GET_SELECTED_MEMBER_RESOURCES,
+          payload: {
+            pageIndex: 1,
+            member: resourceReducer.selectedMemberId,
+          },
         });
 
         yield put({
@@ -409,11 +379,12 @@ export function* toggleBookmarkedResource(action) {
         });
 
         yield put({
-          type: types.SET_TRUST_MEMBER_RESOURCE_PAGE_INDEX,
+          type: types.SET_MEMBER_RESOURCE_PAGE_INDEX,
           payload: 1,
         });
+
         yield put({
-          type: types.SET_RECOMMENDED_RESOURCE_PAGE_INDEX,
+          type: types.SET_RECOMMENDED_OWNERS_PAGE_INDEX,
           payload: 1,
         });
       } else {
@@ -475,34 +446,35 @@ export function* recommendResourceToMembers(action) {
   }
 }
 
-export function* getRecommendedResources(action) {
+export function* getRecommendedOwners(action) {
   try {
+    const page = action.payload;
     yield put({
-      type: types.SET_RECOMMENDED_RESOURCE_STATE,
+      type: types.SET_RECOMMENDED_OWNERS_STATE,
       payload: true,
     });
 
-    const response = yield call(API.getRecommendedResources, action.payload);
+    const response = yield call(API.getRecommendedOwners, page);
 
     if (response.data.status === 'success') {
-      if (action.payload === 1) {
+      if (page === 1) {
         yield put({
-          type: types.SET_SEARCHED_RECOMMENDED_RESOURCES,
-          payload: response.data.data.resources,
+          type: types.SET_SEARCHED_RECOMMENDED_OWNERS,
+          payload: response.data.data.owners,
         });
       } else {
         yield put({
-          type: types.ADD_RECOMMENDED_RESOURCES,
-          payload: response.data.data.resources,
+          type: types.ADD_RECOMMENDED_OWNERS,
+          payload: response.data.data.owners,
         });
         yield put({
-          type: types.SET_RECOMMENDED_RESOURCE_PAGE_INDEX,
-          payload: action.payload,
+          type: types.SET_RECOMMENDED_OWNERS_PAGE_INDEX,
+          payload: page,
         });
       }
       yield put({
-        type: types.SET_RECOMMENDED_RESOURCE_PAGE_LIMITED,
-        payload: action.payload >= response.data.data.total_pages,
+        type: types.SET_RECOMMENDED_OWNERS_PAGE_LIMITED,
+        payload: page >= response.data.data.total_pages,
       });
 
       yield put({type: types.API_FINISHED});
@@ -513,14 +485,74 @@ export function* getRecommendedResources(action) {
       });
     }
     yield put({
-      type: types.SET_RECOMMENDED_RESOURCE_STATE,
+      type: types.SET_RECOMMENDED_OWNERS_STATE,
       payload: false,
     });
   } catch (e) {
     yield put({
-      type: types.SET_RECOMMENDED_RESOURCE_STATE,
+      type: types.SET_RECOMMENDED_OWNERS_STATE,
       payload: false,
     });
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
+export function* removeRecommendedResource(action) {
+  try {
+    yield put({type: types.API_CALLING});
+    let ids = [];
+    ids.push(action.payload);
+    const response = yield call(API.removeRecommendedResource, {ids});
+
+    if (response.data.status === 'success') {
+      //get recommedOwenerAPI call
+      yield put({
+        type: types.SET_RECOMMENDED_OWNERS_PAGE_INDEX,
+        payload: 1,
+      });
+      yield put({
+        type: types.GET_RECOMMENDED_OWNERS,
+        payload: 1,
+      });
+
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
+export function* hiddenRecommendedResource(action) {
+  try {
+    yield put({type: types.API_CALLING});
+    let ids = [];
+    ids.push(action.payload);
+    const response = yield call(API.hiddenRecommendedResource, {ids});
+
+    if (response.data.status === 'success') {
+      //get recommedOwenerAPI call
+      yield put({
+        type: types.SET_RECOMMENDED_OWNERS_PAGE_INDEX,
+        payload: 1,
+      });
+      yield put({
+        type: types.GET_RECOMMENDED_OWNERS,
+        payload: 1,
+      });
+
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
     yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }

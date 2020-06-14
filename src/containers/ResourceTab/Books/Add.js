@@ -18,7 +18,7 @@ import {
   MCIcon,
 } from 'components/common';
 import {dySize} from 'utils/responsive';
-import {skills, impacts} from 'utils/constants';
+import {skills, impacts, veryImpacts, mostImpacts} from 'utils/constants';
 import {getStringWithOutline} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 
@@ -29,7 +29,9 @@ class AddResourceScreen extends React.PureComponent {
     this.state = {
       submitted: false,
       flagMore: false,
-      selectedImpacts: '',
+      selectedImpacts: [],
+      selectedVeryImpacts: [],
+      selectedMostImpacts: [],
       selectedSkills: [],
       selectedTags: [],
       searchText: '',
@@ -52,20 +54,29 @@ class AddResourceScreen extends React.PureComponent {
   };
 
   componentDidMount() {
-    const {tags, impacts, skills} = this.props.selectedResource;
+    const {
+      tags,
+      selectedImpacts,
+      selectedVeryImpacts,
+      selectedMostImpacts,
+      skills,
+    } = this.props.selectedResource;
     this.setState({
-      selectedImpacts: impacts,
+      selectedImpacts: selectedImpacts || [],
+      selectedVeryImpacts: selectedVeryImpacts || [],
+      selectedMostImpacts: selectedMostImpacts || [],
       selectedSkills: skills || [],
       selectedTags: tags || [],
     });
-
     if (this.props.route.params.resource) {
       const resource = this.props.route.params.resource;
       this.setState({resource: resource});
       this.setState({
-        selectedImpacts: resource.data.impacts,
-        selectedSkills: resource.data.skills,
-        selectedTags: resource.data.tags,
+        selectedImpacts: resource.data.impacts || [],
+        selectedVeryImpacts: resource.data.veryImpacts || [],
+        selectedMostImpacts: resource.data.mostImpacts || [],
+        selectedSkills: resource.data.skills || [],
+        selectedTags: resource.data.tags || [],
       });
     }
   }
@@ -87,9 +98,16 @@ class AddResourceScreen extends React.PureComponent {
     this.props.updateSelectedResource({tags: newTags});
   };
 
-  updateSelectedImpacts = impact => {
-    this.setState({selectedImpacts: impact.key});
-    this.props.updateSelectedResource({impacts: impact.key});
+  updateSelectedImpacts = (type, impact) => {
+    const newImpacts = Object.assign([], this.state[type]);
+    const index = newImpacts.indexOf(impact);
+    if (index >= 0) {
+      newImpacts.splice(index, 1);
+    } else {
+      newImpacts.push(impact);
+    }
+    this.setState({[type]: newImpacts});
+    this.props.updateSelectedResource({[type]: newImpacts});
   };
 
   updateSelectedSkills = skill => {
@@ -108,19 +126,25 @@ class AddResourceScreen extends React.PureComponent {
   onPressRight = () => {
     if (!this.props.route.params.resource) {
       if (!this.validateTitle()) return;
-      if (this.state.selectedImpacts == '') return;
     }
 
     const {
+      profile,
       selectedResource,
       createResources,
       updateResources,
-      resourceByTitle,
+      searchedResourceByTitle,
     } = this.props;
-    const {selectedImpacts, selectedSkills, selectedTags} = this.state;
+    const {
+      selectedImpacts,
+      selectedVeryImpacts,
+      selectedMostImpacts,
+      selectedSkills,
+      selectedTags,
+    } = this.state;
     const {from} = this.props.route.params;
     this.setState({submitted: true});
-    let resource = resourceByTitle;
+    let resource = searchedResourceByTitle;
     // let type;
 
     // if (this.props.route.params.root) {
@@ -133,6 +157,8 @@ class AddResourceScreen extends React.PureComponent {
     }
 
     resource.data.impacts = selectedImpacts;
+    resource.data.veryImpacts = selectedVeryImpacts;
+    resource.data.mostImpacts = selectedMostImpacts;
     resource.data.tags = [...selectedTags];
     let skills = [...selectedSkills];
 
@@ -148,12 +174,21 @@ class AddResourceScreen extends React.PureComponent {
         }
       });
     }
-
     resource.data.skills = skills;
+
+    const score =
+      resource.data.impacts.length +
+      resource.data.veryImpacts.length * 5 +
+      resource.data.mostImpacts.length * 10;
+    resource.data.score = score;
 
     delete resource.data.type;
 
-    if (resource._id && from == 'my-resource') {
+    if (
+      resource._id &&
+      from == 'trust-member' &&
+      profile._id == resource.owner
+    ) {
       const data = {
         _id: resource._id,
         ...resource,
@@ -165,18 +200,23 @@ class AddResourceScreen extends React.PureComponent {
           ...resource.data,
         },
         type: 'books',
+        _id: resource._id,
       };
       createResources([data]);
     }
+    this.props.updateSelectedResource({selectedImpacts: []});
+    this.props.updateSelectedResource({selectedVeryImpacts: []});
+    this.props.updateSelectedResource({selectedMostImpacts: []});
     this.props.updateSelectedResource({skills: []});
-    this.props.updateSelectedResource({impacts: ''});
     this.props.updateSelectedResource({tags: []});
   };
 
   validateTitle = () => {
-    const {resourceByTitle} = this.props;
+    const {searchedResourceByTitle} = this.props;
     return (
-      resourceByTitle && resourceByTitle.data && resourceByTitle.data.title
+      searchedResourceByTitle &&
+      searchedResourceByTitle.data &&
+      searchedResourceByTitle.data.title
     );
   };
 
@@ -204,8 +244,8 @@ class AddResourceScreen extends React.PureComponent {
     this.setState({added: !this.state.added});
     this.setState({submitted: true});
     const {selectedImpacts, selectedSkills, selectedTags} = this.state;
-    const {resourceByTitle} = this.props;
-    let resource = resourceByTitle;
+    const {searchedResourceByTitle} = this.props;
+    let resource = searchedResourceByTitle;
 
     resource.data.tags = [...selectedTags];
     let skills = [...selectedSkills];
@@ -233,14 +273,16 @@ class AddResourceScreen extends React.PureComponent {
     const {
       flagMore,
       selectedImpacts,
+      selectedVeryImpacts,
+      selectedMostImpacts,
       selectedSkills,
       selectedTags,
       searchText,
       added,
     } = this.state;
-    const {t, resourceByTitle, theme} = this.props;
-
-    let resource = resourceByTitle;
+    const {t, searchedResourceByTitle, theme, profile} = this.props;
+    const {from} = this.props.route.params;
+    let resource = searchedResourceByTitle;
 
     if (this.props.route.params && this.props.route.params.resource) {
       resource = this.props.route.params.resource;
@@ -250,7 +292,7 @@ class AddResourceScreen extends React.PureComponent {
       <MCRootView>
         <MCHeader
           title={
-            resource && resource._id
+            resource && resource.owner == profile._id && from == 'trust-member'
               ? t('resources_edit_headerTitle')
               : t('resources_add_headerTitle')
           }
@@ -342,48 +384,22 @@ class AddResourceScreen extends React.PureComponent {
               )}
             </>
           )}
-          <MCView mt={10}>
-            <MCView width={350} pv={5}>
-              {getStringWithOutline(this.ResourceTypeQuestion, {
-                align: 'left',
-                underline: true,
-                bigSize: true,
-              })}
-            </MCView>
-            <MCView row wrap>
-              {impacts.map((impact, index) => (
-                <MCButton
-                  key={index}
-                  onPress={() => this.updateSelectedImpacts(impact)}
-                  row
-                  align="center"
-                  background="#6f4c4b"
-                  mr={5}
-                  mb={5}
-                  style={{
-                    opacity: selectedImpacts == impact.key ? 1 : 0.5,
-                  }}>
-                  <H4>{t(`resource_book_impact_${impact.value}`)}</H4>
-                </MCButton>
-              ))}
-            </MCView>
-          </MCView>
           <MCView mt={5}>
             <MCView width={350} pv={5}>
               {getStringWithOutline(this.PersonalDevelopmentQuestion, {
-                align: 'left',
+                align: 'center',
                 underline: true,
                 bigSize: true,
               })}
             </MCView>
-            <MCView row wrap>
+            <MCView row wrap justify="center">
               {skills.map((skill, index) => (
                 <MCButton
                   key={index}
                   onPress={() => this.updateSelectedSkills(skill)}
                   row
                   align="center"
-                  background="#3d5164"
+                  background="#FFE482"
                   mr={5}
                   mb={5}
                   style={{
@@ -395,22 +411,108 @@ class AddResourceScreen extends React.PureComponent {
                   <H4>{t(`resource_book_skills_${skill}`)}</H4>
                 </MCButton>
               ))}
+              <MCButton
+                onPress={() => this.setState({flagMore: !flagMore})}
+                row
+                align="center"
+                ml={5}
+                mt={20}>
+                <MCReadMoreText>
+                  <H5>{t('button_more')}...</H5>
+                </MCReadMoreText>
+              </MCButton>
             </MCView>
-
-            <MCButton
-              onPress={() => this.setState({flagMore: !flagMore})}
-              row
-              align="center"
-              mr={5}
-              mb={5}>
-              <MCReadMoreText>
-                <H5>{t('button_more')}...</H5>
-              </MCReadMoreText>
-            </MCButton>
           </MCView>
           {flagMore && (
             <MCTagInput tags={selectedTags} updateState={this.updateTagState} />
           )}
+          <MCView mt={10}>
+            <MCView width={350} pv={5}>
+              {getStringWithOutline(this.ResourceTypeQuestion, {
+                align: 'center',
+                underline: true,
+                bigSize: true,
+              })}
+            </MCView>
+            <MCView>
+              <H4>{t('resource_book_impact_type_one')}</H4>
+            </MCView>
+            <MCView row wrap>
+              {impacts.map((impact, index) => (
+                <MCButton
+                  key={index}
+                  onPress={() =>
+                    this.updateSelectedImpacts('selectedImpacts', impact)
+                  }
+                  row
+                  align="center"
+                  justify="center"
+                  background="#C1F1D8"
+                  mr={5}
+                  ml={5}
+                  mb={5}
+                  width={160}
+                  height={80}
+                  style={{
+                    opacity: selectedImpacts.indexOf(impact) > -1 ? 1 : 0.5,
+                  }}>
+                  <H4 align="center">{t(`resource_book_impact_${impact}`)}</H4>
+                </MCButton>
+              ))}
+            </MCView>
+            <MCView>
+              <H4>{t('resource_book_impact_type_two')}</H4>
+            </MCView>
+            <MCView row wrap>
+              {veryImpacts.map((impact, index) => (
+                <MCButton
+                  key={index}
+                  onPress={() =>
+                    this.updateSelectedImpacts('selectedVeryImpacts', impact)
+                  }
+                  row
+                  align="center"
+                  justify="center"
+                  background="#C1F1D8"
+                  mr={5}
+                  ml={5}
+                  mb={5}
+                  width={160}
+                  height={80}
+                  style={{
+                    opacity: selectedVeryImpacts.indexOf(impact) > -1 ? 1 : 0.5,
+                  }}>
+                  <H4 align="center">{t(`resource_book_impact_${impact}`)}</H4>
+                </MCButton>
+              ))}
+            </MCView>
+            <MCView>
+              <H4>{t('resource_book_impact_type_three')}</H4>
+            </MCView>
+            <MCView row wrap>
+              {mostImpacts.map((impact, index) => (
+                <MCButton
+                  key={index}
+                  onPress={() =>
+                    this.updateSelectedImpacts('selectedMostImpacts', impact)
+                  }
+                  row
+                  align="center"
+                  justify="center"
+                  background="#C1F1D8"
+                  mr={5}
+                  ml={5}
+                  mb={5}
+                  width={160}
+                  height={80}
+                  style={{
+                    opacity: selectedMostImpacts.indexOf(impact) > -1 ? 1 : 0.5,
+                  }}>
+                  <H4 align="center">{t(`resource_book_impact_${impact}`)}</H4>
+                </MCButton>
+              ))}
+            </MCView>
+          </MCView>
         </MCContent>
       </MCRootView>
     );
@@ -419,8 +521,9 @@ class AddResourceScreen extends React.PureComponent {
 
 const mapStateToProps = state => ({
   selectedResource: state.resourceReducer.selectedResource,
-  resourceByTitle: state.resourceReducer.resourceByTitle,
+  searchedResourceByTitle: state.resourceReducer.searchedResourceByTitle,
   theme: state.routerReducer.theme,
+  profile: state.profileReducer,
 });
 
 const mapDispatchToProps = {

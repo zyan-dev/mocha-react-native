@@ -1888,17 +1888,6 @@ export const skills = [
   'spirituality',
   'self_control',
   'appreciation_of_beauty',
-  'social_intelligence',
-  'kindness',
-  'gratitude',
-  'integrity',
-  'prudence',
-  'humor',
-  'perseverance',
-  'love_of_learning',
-  'influence',
-  'persuasion',
-  'confidence',
   'psychology',
   'public_speaking',
   'thinking',
@@ -1926,62 +1915,45 @@ export const challengeSkills = [
 ];
 
 export const impacts = [
-  {
-    key: 1,
-    value: 'impactful',
-  },
-  {
-    key: 2,
-    value: 'therapeutic',
-  },
-  {
-    key: 3,
-    value: 'self_discovery',
-  },
-  {
-    key: 4,
-    value: 'cathartic',
-  },
-  {
-    key: 5,
-    value: 'life_changing',
-  },
-  {
-    key: 6,
-    value: 'explanatory',
-  },
-  {
-    key: 7,
-    value: 'important',
-  },
-  {
-    key: 8,
-    value: 'helpful',
-  },
-  {
-    key: 9,
-    value: 'life_saving',
-  },
-  {
-    key: 10,
-    value: 'must_read',
-  },
-  {
-    key: 11,
-    value: 'every_year',
-  },
-  {
-    key: 12,
-    value: 'very_important',
-  },
-  {
-    key: 13,
-    value: 'essential',
-  },
-  {
-    key: 14,
-    value: 'remarkable',
-  },
+  'perspective_shifting',
+  'found_inspiration',
+  'spirit',
+  'taught_me',
+  'motivated_me',
+  'fall_in_love',
+  'changed_interested_in',
+  'changed_my_life',
+  'changed_read',
+  'helped_me',
+  'influenced_act',
+  'influenced_look',
+  'influenced_think',
+  'cathartic_therapeutic',
+  'changed_me',
+];
+
+export const veryImpacts = [
+  'life_transforming',
+  'blew_my_mind',
+  'punch_gut',
+  'essential_me',
+  'still_impactful_months',
+  'still_impactful_years',
+  'development',
+  'allowed_me',
+  'caused_shift',
+  'still_guide',
+  'recommend_everyone',
+  'listens',
+];
+
+export const mostImpacts = [
+  'consciousness',
+  'read_every_year',
+  'catalyst_process',
+  'changed_me_want',
+  'meaning_purpose',
+  'profound_important',
 ];
 
 export const CoachingFeedbackOptions = [
@@ -2046,10 +2018,6 @@ export const ResourcesRoots = [
   {
     key: 'social',
     icon: 'users',
-  },
-  {
-    key: 'me',
-    icon: 'user',
   },
   {
     key: 'bookmark',
