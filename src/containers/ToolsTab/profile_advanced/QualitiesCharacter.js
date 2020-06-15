@@ -86,6 +86,8 @@ class QualitiesCharacterScreen extends React.Component {
           headerIcon={<MedalSvg theme={theme} size={25} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => addOrUpdateReflection()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>

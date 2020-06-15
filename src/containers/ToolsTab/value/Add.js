@@ -86,7 +86,7 @@ class EditValueScreen extends React.PureComponent {
   };
 
   render() {
-    const {t, selectedReflection} = this.props;
+    const {t, theme, selectedReflection} = this.props;
     const {submitted, value, phrase, image} = this.state;
     if (!selectedReflection) return null;
     const isErrorValue = !this.validateValue();
@@ -98,6 +98,8 @@ class EditValueScreen extends React.PureComponent {
           title={t('title_add_value')}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>
@@ -156,6 +158,7 @@ class EditValueScreen extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
   selectedReflection: selector.reflections.getSelectedReflection(state),
   profile: state.profileReducer,
 });

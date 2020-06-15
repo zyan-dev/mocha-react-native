@@ -104,6 +104,8 @@ class EditTriggersScreen extends React.Component {
           headerIcon={<SirenOnSvg size={25} color={theme.colors.text} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <KeyboardAvoidingView

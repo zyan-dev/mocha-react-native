@@ -46,14 +46,17 @@ class ProgressScreen extends React.Component {
       {
         key: 'challenge',
         title: 'user',
+        iconSize: 20,
       },
       {
         key: 'progress',
-        title: 'users',
+        title: 'arrow-circle-up',
+        iconSize: 25,
       },
       {
         key: 'add_challenge',
         title: 'mountain',
+        iconSize: 20,
       },
     ];
     const renderTabBar = props => (
@@ -69,6 +72,7 @@ class ProgressScreen extends React.Component {
             <MCIcon
               type="FontAwesome5Pro"
               name={route.title}
+              size={route.iconSize}
               color={focused ? theme.colors.outline : theme.colors.text}
             />
           );

@@ -94,6 +94,8 @@ class CriticismFeedbackScreen extends React.Component {
           headerIcon={<PointDownSvg theme={theme} size={25} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>

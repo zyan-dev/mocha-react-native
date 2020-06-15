@@ -111,7 +111,6 @@ class PersonalizeValueScreen extends React.Component {
         <MCHeader
           title={t('tools_tab_discover_your_values')}
           headerIcon={<KeySvg theme={theme} size={25} />}
-          rightIcon="cloud-upload-alt"
         />
         <MCContent
           contentContainerStyle={{padding: dySize(20), alignItems: 'center'}}>

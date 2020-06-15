@@ -38,7 +38,7 @@ class CreateMotivationScreen extends React.PureComponent {
 
   render() {
     const {submitted} = this.state;
-    const {t, selectedReflection, updateSelectedReflection} = this.props;
+    const {t, theme, selectedReflection, updateSelectedReflection} = this.props;
     if (!selectedReflection) return null;
     const title = _.get(selectedReflection, ['data', 'title'], '');
     const description = _.get(selectedReflection, ['data', 'description'], '');
@@ -52,6 +52,8 @@ class CreateMotivationScreen extends React.PureComponent {
           title={t('motivation_edit_headerTitle')}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>

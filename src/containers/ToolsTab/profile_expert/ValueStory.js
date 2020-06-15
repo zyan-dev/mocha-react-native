@@ -146,6 +146,8 @@ class PersonalizeValueScreen extends React.Component {
           title={t('tools_tab_discover_your_values')}
           headerIcon={<KeySvg theme={theme} size={25} />}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent

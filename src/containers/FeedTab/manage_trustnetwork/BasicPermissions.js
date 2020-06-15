@@ -69,7 +69,9 @@ class NetworkBasicPermissions extends React.Component {
                 {p === 'contact' && (
                   <MCIcon type="FontAwesome5" name="phone" size={25} />
                 )}
-                {p === 'chronotype' && <SheepSvg theme={theme} size={30} />}
+                {p === 'chronotype' && (
+                  <MCIcon type="FontAwesome5Pro" name="bed" size={25} />
+                )}
                 {p === 'nutrition' && <CarrotSvg size={30} />}
                 {p === 'hydration' && <FaucetSvg size={30} />}
                 {p === 'stress_response' && <FragileSvg size={30} />}

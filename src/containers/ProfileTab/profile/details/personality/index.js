@@ -86,7 +86,7 @@ class PersonalityScreen extends React.PureComponent {
   };
 
   render() {
-    const {t, selectedReflection} = this.props;
+    const {t, theme, selectedReflection} = this.props;
     if (!selectedReflection || !selectedReflection.data) return null;
     return (
       <MCRootView>
@@ -94,6 +94,8 @@ class PersonalityScreen extends React.PureComponent {
           hasRight
           title={t('profile_subtitle_personality')}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onSubmit()}
           onPressBack={() => this.onPressBack()}
         />

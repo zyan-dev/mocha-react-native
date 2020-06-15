@@ -78,6 +78,7 @@ class RootNavigator extends React.Component {
   savePushToken = async () => {
     const fcmToken = await messaging().getToken();
     this.props.setProfileData({pushToken: fcmToken});
+    if (!this.props.profile.userToken) return;
     setTimeout(() => {
       this.props.updateBasicProfile();
     });

@@ -88,8 +88,8 @@ class MeaningLifeScreen extends React.Component {
   };
 
   render() {
-    const {submitted, newItem} = this.state;
-    const {t, theme, selectedReflection, updateSelectedReflection} = this.props;
+    const {submitted} = this.state;
+    const {t, theme, selectedReflection} = this.props;
     if (!selectedReflection || !selectedReflection.data) return null;
     const options = _.get(selectedReflection, ['data', 'options'], []);
     return (
@@ -100,6 +100,8 @@ class MeaningLifeScreen extends React.Component {
           headerIcon={<SkullCowSvg color={theme.colors.text} size={25} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>

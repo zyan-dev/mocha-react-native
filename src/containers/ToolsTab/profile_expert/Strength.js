@@ -86,7 +86,7 @@ class BestSelfScreen extends React.Component {
 
   render() {
     const {submitted} = this.state;
-    const {t, selectedUsers} = this.props;
+    const {t, theme, selectedUsers} = this.props;
     const isUsersError = submitted && !this.validateUsers();
     return (
       <MCRootView justify="flex-start">
@@ -95,6 +95,8 @@ class BestSelfScreen extends React.Component {
           title={t('tools_tab_best_self')}
           headerIcon={<MCIcon type="FontAwesome5Pro" name="hammer" />}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent

@@ -296,8 +296,10 @@ class AddResourceScreen extends React.PureComponent {
               ? t('resources_edit_headerTitle')
               : t('resources_add_headerTitle')
           }
-          rightIcon="cloud-upload-alt"
           hasRight
+          rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(15)}}>
