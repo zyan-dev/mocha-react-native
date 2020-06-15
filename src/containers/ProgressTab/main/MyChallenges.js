@@ -11,11 +11,15 @@ import {
   DividerLine,
   MCContent,
 } from 'components/styled/View';
-import {MCImage} from 'components/common';
+import {MCImage, MCIcon} from 'components/common';
 import {H1, H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
-import {combineChallenges, getChallengeIcon, getDayOf} from 'services/operators';
+import {
+  combineChallenges,
+  getChallengeIcon,
+  getDayOf,
+} from 'services/operators';
 import ChallengeItem from './components/ChallengeItem';
 import NavigationService from 'navigation/NavigationService';
 

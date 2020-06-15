@@ -8,25 +8,29 @@ export function* getUserChallenges(action) {
   try {
     const {
       profileReducer: {_id},
+      challengeReducer: {focusedChallenge},
     } = yield select();
     const {id} = action.payload;
     const response = yield call(API.getUserChallenges, id);
     if (response.data.status === 'success') {
+      const challenges = response.data.data.challenges;
       if (id === _id) {
         // if my challenges
         yield put({
           type: types.SET_MY_CHALLENGES,
-          payload: response.data.data.challenges,
+          payload: challenges,
         });
-        if (response.data.data.challenges.length > 0) {
-          yield put({
-            type: types.FOCUS_CHALLENGE,
-            payload: response.data.data.challenges[0],
-          });
-        } else {
+        if (challenges.length === 0) {
           yield put({
             type: types.FOCUS_CHALLENGE,
             payload: null,
+          });
+        } else if (
+          challenges.findIndex(i => i._id === focusedChallenge._id) < 0
+        ) {
+          yield put({
+            type: types.FOCUS_CHALLENGE,
+            payload: challenges[0],
           });
         }
       }
