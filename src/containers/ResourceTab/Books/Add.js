@@ -408,7 +408,7 @@ class AddResourceScreen extends React.PureComponent {
                         ? 1
                         : 0.5,
                   }}>
-                  <H4>{t(`resource_book_skills_${skill}`)}</H4>
+                  <H4 color="#000000">{t(`resource_book_skills_${skill}`)}</H4>
                 </MCButton>
               ))}
               <MCButton
@@ -452,11 +452,13 @@ class AddResourceScreen extends React.PureComponent {
                   ml={5}
                   mb={5}
                   width={160}
-                  height={80}
+                  height={120}
                   style={{
                     opacity: selectedImpacts.indexOf(impact) > -1 ? 1 : 0.5,
                   }}>
-                  <H4 align="center">{t(`resource_book_impact_${impact}`)}</H4>
+                  <H4 align="center" color="#000000">
+                    {t(`resource_book_impact_${impact}`)}
+                  </H4>
                 </MCButton>
               ))}
             </MCView>
@@ -478,11 +480,13 @@ class AddResourceScreen extends React.PureComponent {
                   ml={5}
                   mb={5}
                   width={160}
-                  height={80}
+                  height={120}
                   style={{
                     opacity: selectedVeryImpacts.indexOf(impact) > -1 ? 1 : 0.5,
                   }}>
-                  <H4 align="center">{t(`resource_book_impact_${impact}`)}</H4>
+                  <H4 align="center" color="#000000">
+                    {t(`resource_book_impact_${impact}`)}
+                  </H4>
                 </MCButton>
               ))}
             </MCView>
@@ -504,11 +508,13 @@ class AddResourceScreen extends React.PureComponent {
                   ml={5}
                   mb={5}
                   width={160}
-                  height={80}
+                  height={120}
                   style={{
                     opacity: selectedMostImpacts.indexOf(impact) > -1 ? 1 : 0.5,
                   }}>
-                  <H4 align="center">{t(`resource_book_impact_${impact}`)}</H4>
+                  <H4 align="center" color="#000000">
+                    {t(`resource_book_impact_${impact}`)}
+                  </H4>
                 </MCButton>
               ))}
             </MCView>
