@@ -7,7 +7,7 @@ buildscript {
         compileSdkVersion = 28
         targetSdkVersion = 28
     }
-    repositories {dh
+    repositories {
         google()
         jcenter()
         maven {
