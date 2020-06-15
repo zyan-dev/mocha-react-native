@@ -9,7 +9,7 @@ import {MCImage} from 'components/common';
 const TagView = styled(H4)`
   border: 1px solid ${props => props.theme.colors.border};
   border-radius: ${dySize(8)}px;
-  color: ${props => props.theme.colors.text};
+  color: #000000;
   background-color: ${props => (props.type ? '#C1F1D8' : '#FFE482')};
   overflow: hidden;
   text-align: ${props => props.align || 'left'};
