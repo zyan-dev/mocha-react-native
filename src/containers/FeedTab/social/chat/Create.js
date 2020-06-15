@@ -100,6 +100,8 @@ class CreateChatRoomScreen extends React.Component {
           title={t('title_create_chat_room')}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onSubmitChatRoom()}
         />
         <MCContent

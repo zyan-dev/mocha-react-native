@@ -58,6 +58,7 @@ class SelectQuestionScreen extends React.Component {
         <MCHeader
           hasRight
           rightIcon="plus"
+          rightText={t('button_new')}
           onPressRight={() => this.setState({showNewModal: true})}
           onPressBack={() => this.onPressBack()}
           title={t('add_feedback_select_title')}

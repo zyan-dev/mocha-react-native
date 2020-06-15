@@ -35,18 +35,19 @@ class EditEmotionScreen extends React.PureComponent {
 
   render() {
     const {submitted} = this.state;
-    const {t, selectedReflection, updateSelectedReflection} = this.props;
+    const {t, theme, selectedReflection, updateSelectedReflection} = this.props;
     if (!selectedReflection) return null;
     const emotion = _.get(selectedReflection, ['data', 'emotion'], '');
     const how = _.get(selectedReflection, ['data', 'how'], '');
     const story = _.get(selectedReflection, ['data', 'story'], '');
-    console.log({emotion});
     return (
       <MCRootView>
         <MCHeader
           title={t('edit_emotion_headerTitle')}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>

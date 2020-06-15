@@ -23,6 +23,7 @@ const MarkerTextView = styled.Text`
   width: 40px;
   height: 70px;
   justify-content: center;
+  color: ${props => props.theme.colors.text};
 `;
 
 const MarkerBottomView = styled.View`

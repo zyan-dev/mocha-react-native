@@ -244,8 +244,10 @@ class PersonalStoryScreen extends React.Component {
           hasRight
           title={`${t('practice')} 1`}
           onPressBack={() => this.onPressBack()}
-          rightIcon="cloud-upload-alt"
           hasRight
+          rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{paddingHorizontal: dySize(20)}}>

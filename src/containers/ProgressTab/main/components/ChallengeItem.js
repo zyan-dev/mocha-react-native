@@ -7,14 +7,14 @@ import * as _ from 'lodash';
 import moment from 'moment';
 import {MCView, NativeCard, DividerLine} from 'components/styled/View';
 import {MCTagsView, MCCheckBox, MCImage, MCIcon} from 'components/common';
-import {H1, H2, H3, H4, MCEmptyText} from 'components/styled/Text';
+import {H1, H2, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
-import {ChallengeIconData} from 'utils/constants';
 import {
   combineChallenges,
   getChallengeMeasure,
   getChallengeCategory,
   getStringWithOutline,
+  getChallengeIcon,
   getDayOf,
 } from 'services/operators';
 
@@ -115,14 +115,7 @@ class ChallengeItem extends React.PureComponent {
               <>
                 <MCView row align="center" width={325} mt={index > 0 ? 20 : 0}>
                   <MCView width={40} align="center">
-                    <MCIcon
-                      type="FontAwesome5Pro-Light"
-                      name={
-                        challenge.category.indexOf('custom_') < 0
-                          ? ChallengeIconData[challenge.category]
-                          : 'mountain'
-                      }
-                    />
+                    {getChallengeIcon(challenge.category, theme.colors.text)}
                   </MCView>
                   <H4 underline>{getChallengeCategory(challenge.category)}</H4>
                 </MCView>
@@ -200,7 +193,7 @@ class ChallengeItem extends React.PureComponent {
           <MCTagsView
             tags={item.skills.map(s =>
               s.indexOf('custom_') < 0
-                ? t(`resource_book_skills_${s}`)
+                ? t(`skill_${s}`)
                 : s.split('custom_')[1],
             )}
           />

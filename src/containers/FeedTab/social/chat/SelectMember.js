@@ -188,6 +188,8 @@ class SelectChatMemberScreen extends React.Component {
           title={t('title_select_chat_member')}
           hasRight={type === 'add_member'}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onAddMembersToChatRoom()}
         />
         <MCSearchInput

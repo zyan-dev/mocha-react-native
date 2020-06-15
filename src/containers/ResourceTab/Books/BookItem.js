@@ -196,7 +196,7 @@ class BookItem extends React.Component {
         {item && item.indexOf('resource_manual_') > -1 ? (
           <H5 color="#000000">{t(item.slice('resource_manual_'.length))}</H5>
         ) : (
-          <H5 color="#000000">{t(`resource_book_skills_${item}`)}</H5>
+          <H5 color="#000000">{t(`skill_${item}`)}</H5>
         )}
       </MCView>
     );

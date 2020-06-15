@@ -140,7 +140,7 @@ class ProfileBasicCard extends React.Component {
             </CompletedView>
           )}
         </MCView>
-        <MCView height={50} justify="center">
+        <MCView height={70} justify="center">
           <H4 weight="bold" align="center" ph={20}>
             {t(`tools_tab_${title}`)}
           </H4>

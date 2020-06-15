@@ -7,27 +7,31 @@ import NavigationService from 'navigation/NavigationService';
 export function* getUserChallenges(action) {
   try {
     const {
-      challengeReducer: {selectedChallenge, myChallenges},
       profileReducer: {_id},
+      challengeReducer: {focusedChallenge},
     } = yield select();
     const {id} = action.payload;
     const response = yield call(API.getUserChallenges, id);
     if (response.data.status === 'success') {
+      const challenges = response.data.data.challenges;
       if (id === _id) {
         // if my challenges
         yield put({
           type: types.SET_MY_CHALLENGES,
-          payload: response.data.data.challenges,
+          payload: challenges,
         });
-        if (response.data.data.challenges.length > 0) {
-          yield put({
-            type: types.FOCUS_CHALLENGE,
-            payload: response.data.data.challenges[0],
-          });
-        } else {
+        if (challenges.length === 0) {
           yield put({
             type: types.FOCUS_CHALLENGE,
             payload: null,
+          });
+        } else if (
+          !focusedChallenge ||
+          challenges.findIndex(i => i._id === focusedChallenge._id) < 0
+        ) {
+          yield put({
+            type: types.FOCUS_CHALLENGE,
+            payload: challenges[0],
           });
         }
       }
@@ -101,23 +105,25 @@ export function* addOrUpdateChallenge(action) {
   try {
     let response = {};
     const {
-      challengeReducer: {selectedChallenge, myChallenges},
+      challengeReducer: {selectedChallenge, focusedChallenge, myChallenges},
       routerReducer: {isInternetReachable},
       profileReducer: {userToken, _id},
     } = yield select();
+    const tempChallenge =
+      action.payload === 'focused' ? focusedChallenge : selectedChallenge;
     yield put({type: types.API_CALLING});
-    if (!selectedChallenge) {
+    if (!tempChallenge) {
       yield put({type: types.API_FINISHED, payload: 'Challenge is empty'});
-    } else if (selectedChallenge._id) {
+    } else if (tempChallenge._id) {
       if (userToken && isInternetReachable) {
         // online update
         response = yield call(API.updateChallenges, {
-          data: [selectedChallenge],
+          data: [tempChallenge],
         });
       } else {
         // offline update
         const updated = myChallenges.map(challenge => {
-          if (challenge._id === selectedChallenge._id) return selectedChallenge;
+          if (challenge._id === tempChallenge._id) return tempChallenge;
           else return challenge;
         });
         yield put({
@@ -129,14 +135,14 @@ export function* addOrUpdateChallenge(action) {
       if (userToken && isInternetReachable) {
         // online add
         response = yield call(API.addChallenges, {
-          data: [selectedChallenge],
+          data: [tempChallenge],
         });
       } else {
         // offline add
         yield put({
           type: types.SET_MY_CHALLENGES,
           payload: myChallenges.concat({
-            ...selectedChallenge,
+            ...tempChallenge,
             _id: new Date().getTime(),
           }),
         });
@@ -147,8 +153,8 @@ export function* addOrUpdateChallenge(action) {
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
-          event: selectedChallenge._id ? 'update_challenge' : 'add_challenge',
-          data: selectedChallenge,
+          event: tempChallenge._id ? 'update_challenge' : 'add_challenge',
+          data: tempChallenge,
         },
       });
       yield put({type: types.API_FINISHED});
@@ -160,6 +166,38 @@ export function* addOrUpdateChallenge(action) {
       });
     } else {
       yield put({type: types.API_FINISHED});
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
+export function* removeChallenge(action) {
+  try {
+    const {id} = action.payload;
+    const {
+      profileReducer: {_id},
+      challengeReducer: {focusedChallenge},
+    } = yield select();
+    yield put({type: types.API_CALLING});
+    response = yield call(API.removeChallenge, {
+      data: [id],
+    });
+    if (response.data && response.data.status === 'success') {
+      yield put({type: types.GET_USER_CHALLENGES, payload: {id: _id}});
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {
+          event: 'remove_challenge',
+          data: {challenge: focusedChallenge},
+        },
+      });
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
     }
   } catch (e) {
     yield put({type: types.API_FINISHED, payload: e.toString()});

@@ -141,6 +141,8 @@ class AddPostScreen extends React.Component {
           title={t(selectedPost._id ? 'title_edit_post' : 'title_add_post')}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onSubmit()}
         />
         <MCContent
@@ -250,9 +252,7 @@ class AddPostScreen extends React.Component {
                       color={
                         selected ? theme.colors.background : theme.colors.text
                       }>
-                      {custom
-                        ? skill.split('custom_')[1]
-                        : t(`resource_book_skills_${skill}`)}
+                      {custom ? skill.split('custom_')[1] : t(`skill_${skill}`)}
                     </H4>
                   </MCButton>
                 );

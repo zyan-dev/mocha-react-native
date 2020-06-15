@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList} from 'react-native';
+import {Alert, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
@@ -11,12 +11,15 @@ import {
   DividerLine,
   MCContent,
 } from 'components/styled/View';
-import {MCIcon, MCImage} from 'components/common';
-import {H1, H2, H3, H4, MCEmptyText} from 'components/styled/Text';
+import {MCImage, MCIcon} from 'components/common';
+import {H1, H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
-import {ChallengeIconData} from 'utils/constants';
-import {combineChallenges, getDayOf} from 'services/operators';
+import {
+  combineChallenges,
+  getChallengeIcon,
+  getDayOf,
+} from 'services/operators';
 import ChallengeItem from './components/ChallengeItem';
 import NavigationService from 'navigation/NavigationService';
 
@@ -48,7 +51,7 @@ class MyChallenges extends React.Component {
     challenges[findIndex].completedUsers = completedUsers;
     updateFocusedChallenge({challenges});
     setTimeout(() => {
-      addOrUpdateChallenge();
+      addOrUpdateChallenge('focused');
     });
   };
 
@@ -60,6 +63,35 @@ class MyChallenges extends React.Component {
 
   onPressAddChallenge = () => {
     this.props.onPressAdd();
+  };
+
+  onPressEditChallenge = () => {
+    this.props.selectChallenge(this.props.focusedChallenge);
+    setTimeout(() => {
+      NavigationService.navigate('SelectChallenges');
+    });
+  };
+
+  onPressRemoveChallenge = () => {
+    const {t, focusedChallenge} = this.props;
+    Alert.alert(
+      t('alert_title_mocha'),
+      t('alert_remove_challenge', {title: focusedChallenge.title}),
+      [
+        {
+          text: t('button_cancel'),
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: t('button_ok'),
+          onPress: () => {
+            this.props.removeChallenge(focusedChallenge._id);
+          },
+        },
+      ],
+      {cancelable: false},
+    );
   };
 
   _renderChallengeItem = ({item}) => {
@@ -87,16 +119,7 @@ class MyChallenges extends React.Component {
                 {combineChallenges(item.challenges)
                   .slice(0, 4)
                   .map(i => {
-                    return (
-                      <MCIcon
-                        type="FontAwesome5Pro-Light"
-                        name={
-                          i.category.indexOf('custom_') < 0
-                            ? ChallengeIconData[i.category]
-                            : 'mountain'
-                        }
-                      />
-                    );
+                    return getChallengeIcon(i.category, theme.colors.text);
                   })}
               </MCView>
               <DividerLine width={120} />
@@ -115,7 +138,7 @@ class MyChallenges extends React.Component {
   };
 
   render() {
-    const {t, myChallenges, focusedChallenge} = this.props;
+    const {t, profile, myChallenges, focusedChallenge} = this.props;
     return (
       <MCRootView justify="flex-start" background="transparent">
         <MCView height={150} justify="center">
@@ -164,6 +187,22 @@ class MyChallenges extends React.Component {
                   </H4>
                   <H4 numberOfLines={1}>{focusedChallenge.title}</H4>
                 </MCView>
+                {focusedChallenge.ownerId === profile._id && (
+                  <>
+                    <MCButton
+                      onPress={() => this.onPressEditChallenge()}
+                      pt={1}
+                      pb={1}>
+                      <MCIcon name="ios-create" padding={1} />
+                    </MCButton>
+                    <MCButton
+                      onPress={() => this.onPressRemoveChallenge()}
+                      pt={1}
+                      pb={1}>
+                      <MCIcon name="ios-trash" padding={1} />
+                    </MCButton>
+                  </>
+                )}
               </MCView>
               <ChallengeItem
                 item={focusedChallenge}
@@ -189,6 +228,8 @@ const mapDispatchToProps = {
   focusChallenge: challengeActions.focusChallenge,
   updateFocusedChallenge: challengeActions.updateFocusedChallenge,
   addOrUpdateChallenge: challengeActions.addOrUpdateChallenge,
+  selectChallenge: challengeActions.selectChallenge,
+  removeChallenge: challengeActions.removeChallenge,
   setInitialPost: postActions.setInitialPost,
 };
 

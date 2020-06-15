@@ -25,11 +25,17 @@ export const getAvailableTeammates = param => ({
   payload: param,
 });
 
-export const addOrUpdateChallenge = () => ({
+export const addOrUpdateChallenge = type => ({
   type: types.ADD_OR_UPDATE_CHALLENGE,
+  payload: type,
 });
 
 export const getUserChallenges = id => ({
   type: types.GET_USER_CHALLENGES,
+  payload: {id},
+});
+
+export const removeChallenge = id => ({
+  type: types.REMOVE_CHALLENGE,
   payload: {id},
 });

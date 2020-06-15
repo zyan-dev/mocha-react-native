@@ -9,7 +9,7 @@ import {MCImage} from 'components/common';
 const TagView = styled(H4)`
   border: 1px solid ${props => props.theme.colors.border};
   border-radius: ${dySize(8)}px;
-  color: ${props => props.theme.colors.text};
+  color: #000000;
   background-color: ${props => (props.type ? '#C1F1D8' : '#FFE482')};
   overflow: hidden;
   text-align: ${props => props.align || 'left'};
@@ -47,7 +47,7 @@ export default class MCBookTagsView extends React.PureComponent {
                   ? t(`resource_book_impact_${tag}`)
                   : tag.indexOf('resource_manual_') > -1
                   ? t(tag.slice('resource_manual_'.length))
-                  : t(`resource_book_skills_${tag}`)}
+                  : t(`skill_${tag}`)}
               </TagView>
 
               {users && (

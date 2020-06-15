@@ -138,7 +138,7 @@ class SetHabitScreen extends React.Component {
 
   render() {
     const {submitted, newHabitTitle} = this.state;
-    const {t, selectedReflection, updateSelectedReflection} = this.props;
+    const {t, theme, selectedReflection, updateSelectedReflection} = this.props;
     if (!selectedReflection || selectedReflection.type !== 'Habit') return null;
     const title = _.get(selectedReflection, ['data', 'title'], undefined);
     const habits = _.get(selectedReflection, ['data', 'habits'], []);
@@ -153,6 +153,8 @@ class SetHabitScreen extends React.Component {
           headerIcon={<AppleSvg size={30} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent
@@ -261,6 +263,7 @@ class SetHabitScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
   habit: selector.reflections.findMySpecialReflections(state, 'Habit'),
   selectedReflection: selector.reflections.getSelectedReflection(state),
   reflectionDraft: state.reflectionReducer.draft,

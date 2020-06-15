@@ -44,6 +44,7 @@ import UserCrownSvg from './UserCrown';
 import SwipeSvg from './Swipe';
 import EmotionWheelSvg from './EmotionWheel';
 import SirenOnSvg from './SirenOn';
+import NoAlcoholSvg from './NoAlcohol';
 
 export {
   AppleSvg,
@@ -92,4 +93,5 @@ export {
   SwipeSvg,
   EmotionWheelSvg,
   SirenOnSvg,
+  NoAlcoholSvg,
 };

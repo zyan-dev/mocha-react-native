@@ -1,10 +1,12 @@
 import React from 'react';
 import Toast from 'react-native-root-toast';
 import {H3, H4} from 'components/styled/Text';
+import {MCIcon} from 'components/common';
 import {dySize} from 'utils/responsive';
 import moment from 'moment';
 import i18next from 'i18next';
-import {WeekDays} from '../utils/constants';
+import {WeekDays, ChallengeIconData} from 'utils/constants';
+import {NoAlcoholSvg} from 'assets/svgs';
 
 export const showAlert = text => {
   Toast.show(text, {
@@ -374,4 +376,22 @@ export const getDayOf = t => {
   const TodayTS = new Date(Today).getTime();
   const offset = (TodayTS - CST) / (3600 * 24 * 1000);
   return offset + 1;
+};
+
+export const getChallengeIcon = (category, color) => {
+  if (category === 'prohibitions') {
+    return <NoAlcoholSvg color={color} size={25} />;
+  } else if (category.indexOf('custom_') < 0) {
+    return (
+      <MCIcon
+        type="FontAwesome5Pro-Light"
+        name={ChallengeIconData[category]}
+        color={color}
+      />
+    );
+  } else {
+    return (
+      <MCIcon type="FontAwesome5Pro-Light" name="mountain" color={color} />
+    );
+  }
 };

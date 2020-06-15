@@ -42,7 +42,7 @@ const apiCall = async (type, url, param, withToken = false, options = {}) => {
   const token = await AsyncStorage.getItem('userToken');
   console.log(`API calling: [${type}]`, url);
   // console.log({token});
-  // console.log({param});
+  console.log(JSON.stringify(param));
   if (withToken) {
     opt = {
       ...opt,
@@ -224,6 +224,8 @@ const updateChallenges = param =>
 const addChallenges = param => apiCall('post', `${URL_CHALLENGE}`, param, true);
 const getUserChallenges = id =>
   apiCall('get', `${URL_CHALLENGE}/${id}`, {}, true);
+const removeChallenge = param =>
+  apiCall('post', `${URL_CHALLENGE}/remove`, param, true);
 
 export default {
   sendSMS,
@@ -288,4 +290,5 @@ export default {
   updateChallenges,
   addChallenges,
   getUserChallenges,
+  removeChallenge,
 };

@@ -1895,23 +1895,29 @@ export const skills = [
 ];
 
 export const challengeSkills = [
-  'empathy',
-  'service',
-  'leadership',
-  'forgiveness',
-  'transcendence',
-  'spirituality',
-  'perspective_taking',
-  'humility',
-  'community',
   'belonging',
   'citizenship',
-  'critical_thinking',
-  'thinking',
-  'optimism',
-  'courage',
-  'curiosity',
   'character_development',
+  'community',
+  'confidence',
+  'courage',
+  'critical_thinking',
+  'curiosity',
+  'empathy',
+  'grittness',
+  'forgiveness',
+  'fortitude',
+  'humility',
+  'leadership',
+  'optimism',
+  'perspective_taking',
+  'self-belief',
+  'self-esteem',
+  'self-worth',
+  'service',
+  'spirituality',
+  'thinking',
+  'transcendence',
 ];
 
 export const impacts = [
@@ -2060,7 +2066,7 @@ export const EmptyChallenge = {
 export const TemplateDailyChallenges = [
   {
     category: 'eating',
-    measures: ['1_meal', '2_meal', '3_meal', 'every_meal'],
+    measures: ['1_meal', '2_meal', '3_meal', 'every_meal', 'diet'],
   },
   {
     category: 'sleep',
@@ -2068,7 +2074,7 @@ export const TemplateDailyChallenges = [
   },
   {
     category: 'hydrating',
-    measures: ['4_6', '6_plus'],
+    measures: ['gallon', '4_6', '6_plus'],
   },
   {
     category: 'exercising',
@@ -2080,6 +2086,8 @@ export const TemplateDailyChallenges = [
       'walk',
       'jog',
       'yoga',
+      '45_mins_inside',
+      '45_mins_outside',
     ],
   },
   {
@@ -2114,14 +2122,7 @@ export const TemplateDailyChallenges = [
   },
   {
     category: 'reading',
-    measures: [
-      '10_pages',
-      '25_pages',
-      '100_pages',
-      '1_book',
-      '10_books',
-      '100_books',
-    ],
+    measures: ['10_pages', '25_pages', '100_pages', '1_book'],
   },
   {
     category: 'intermittent-fasting',
@@ -2131,6 +2132,14 @@ export const TemplateDailyChallenges = [
     category: 'cold-exposure',
     measures: ['shower'],
   },
+  {
+    category: 'prohibitions',
+    measures: ['no_alcohol'],
+  },
+  {
+    category: 'progress-post',
+    measures: ['daily'],
+  },
 ];
 
 export const TemplateChallenges = [
@@ -2138,13 +2147,23 @@ export const TemplateChallenges = [
     index: 1,
     title: '#75Hard',
     challenges: [
-      {category: 'eating', measure: 'every_meal'},
-      {category: 'hydrating', measure: '4_6'},
-      {category: 'exercising', measure: '50_pushups'},
-      {category: 'reading', measure: '100_pages'},
+      {category: 'eating', measure: 'diet'},
+      {category: 'hydrating', measure: 'gallon'},
+      {category: 'exercising', measure: '45_mins_inside'},
+      {category: 'exercising', measure: '45_mins_outside'},
+      {category: 'reading', measure: '10_pages'},
+      {category: 'prohibitions', measure: 'no_alcohol'},
+      {category: 'progress-post', measure: 'daily'},
     ],
     duration: 75,
-    skills: ['grit', 'pain-tolerance'],
+    skills: [
+      'confidence',
+      'self-esteem',
+      'self-worth',
+      'fortitude',
+      'self-belief',
+      'grittness',
+    ],
     teammates: [],
     invites: [],
   },
@@ -2205,4 +2224,6 @@ export const ChallengeIconData = {
   reading: 'book',
   'intermittent-fasting': 'tachometer-slowest',
   'cold-exposure': 'snowflakes',
+  prohibitions: '',
+  'progress-post': 'arrow-circle-up',
 };

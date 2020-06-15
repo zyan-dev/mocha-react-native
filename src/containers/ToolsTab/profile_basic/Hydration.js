@@ -126,6 +126,8 @@ class HydrationScreen extends React.Component {
           headerIcon={<FaucetSvg size={30} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>

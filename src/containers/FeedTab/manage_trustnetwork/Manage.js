@@ -167,6 +167,8 @@ class ManageTrustNetworkScreen extends React.Component {
           }
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressDone()}
         />
         <MCContent contentContainerStyle={{padding: dySize(15)}}>

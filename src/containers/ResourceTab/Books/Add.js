@@ -296,8 +296,10 @@ class AddResourceScreen extends React.PureComponent {
               ? t('resources_edit_headerTitle')
               : t('resources_add_headerTitle')
           }
-          rightIcon="cloud-upload-alt"
           hasRight
+          rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(15)}}>
@@ -408,7 +410,7 @@ class AddResourceScreen extends React.PureComponent {
                         ? 1
                         : 0.5,
                   }}>
-                  <H4>{t(`resource_book_skills_${skill}`)}</H4>
+                  <H4 color="#000000">{t(`skill_${skill}`)}</H4>
                 </MCButton>
               ))}
               <MCButton
@@ -452,11 +454,13 @@ class AddResourceScreen extends React.PureComponent {
                   ml={5}
                   mb={5}
                   width={160}
-                  height={80}
+                  height={120}
                   style={{
                     opacity: selectedImpacts.indexOf(impact) > -1 ? 1 : 0.5,
                   }}>
-                  <H4 align="center">{t(`resource_book_impact_${impact}`)}</H4>
+                  <H4 align="center" color="#000000">
+                    {t(`resource_book_impact_${impact}`)}
+                  </H4>
                 </MCButton>
               ))}
             </MCView>
@@ -478,11 +482,13 @@ class AddResourceScreen extends React.PureComponent {
                   ml={5}
                   mb={5}
                   width={160}
-                  height={80}
+                  height={120}
                   style={{
                     opacity: selectedVeryImpacts.indexOf(impact) > -1 ? 1 : 0.5,
                   }}>
-                  <H4 align="center">{t(`resource_book_impact_${impact}`)}</H4>
+                  <H4 align="center" color="#000000">
+                    {t(`resource_book_impact_${impact}`)}
+                  </H4>
                 </MCButton>
               ))}
             </MCView>
@@ -504,11 +510,13 @@ class AddResourceScreen extends React.PureComponent {
                   ml={5}
                   mb={5}
                   width={160}
-                  height={80}
+                  height={120}
                   style={{
                     opacity: selectedMostImpacts.indexOf(impact) > -1 ? 1 : 0.5,
                   }}>
-                  <H4 align="center">{t(`resource_book_impact_${impact}`)}</H4>
+                  <H4 align="center" color="#000000">
+                    {t(`resource_book_impact_${impact}`)}
+                  </H4>
                 </MCButton>
               ))}
             </MCView>

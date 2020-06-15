@@ -183,6 +183,7 @@ function* mySaga() {
     challengeSaga.addOrUpdateChallenge,
   );
   yield takeEvery(types.GET_USER_CHALLENGES, challengeSaga.getUserChallenges);
+  yield takeEvery(types.REMOVE_CHALLENGE, challengeSaga.removeChallenge);
 }
 
 export default mySaga;
