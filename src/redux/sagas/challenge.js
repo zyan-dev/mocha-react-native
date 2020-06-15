@@ -101,23 +101,25 @@ export function* addOrUpdateChallenge(action) {
   try {
     let response = {};
     const {
-      challengeReducer: {selectedChallenge, myChallenges},
+      challengeReducer: {selectedChallenge, focusedChallenge, myChallenges},
       routerReducer: {isInternetReachable},
       profileReducer: {userToken, _id},
     } = yield select();
+    const tempChallenge =
+      action.payload === 'focused' ? focusedChallenge : selectedChallenge;
     yield put({type: types.API_CALLING});
-    if (!selectedChallenge) {
+    if (!tempChallenge) {
       yield put({type: types.API_FINISHED, payload: 'Challenge is empty'});
-    } else if (selectedChallenge._id) {
+    } else if (tempChallenge._id) {
       if (userToken && isInternetReachable) {
         // online update
         response = yield call(API.updateChallenges, {
-          data: [selectedChallenge],
+          data: [tempChallenge],
         });
       } else {
         // offline update
         const updated = myChallenges.map(challenge => {
-          if (challenge._id === selectedChallenge._id) return selectedChallenge;
+          if (challenge._id === tempChallenge._id) return tempChallenge;
           else return challenge;
         });
         yield put({
@@ -129,14 +131,14 @@ export function* addOrUpdateChallenge(action) {
       if (userToken && isInternetReachable) {
         // online add
         response = yield call(API.addChallenges, {
-          data: [selectedChallenge],
+          data: [tempChallenge],
         });
       } else {
         // offline add
         yield put({
           type: types.SET_MY_CHALLENGES,
           payload: myChallenges.concat({
-            ...selectedChallenge,
+            ...tempChallenge,
             _id: new Date().getTime(),
           }),
         });
@@ -147,8 +149,8 @@ export function* addOrUpdateChallenge(action) {
       yield put({
         type: types.TRACK_MIXPANEL_EVENT,
         payload: {
-          event: selectedChallenge._id ? 'update_challenge' : 'add_challenge',
-          data: selectedChallenge,
+          event: tempChallenge._id ? 'update_challenge' : 'add_challenge',
+          data: tempChallenge,
         },
       });
       yield put({type: types.API_FINISHED});

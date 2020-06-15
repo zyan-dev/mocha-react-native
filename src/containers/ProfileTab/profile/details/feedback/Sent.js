@@ -51,11 +51,7 @@ class FeedbackSentScreen extends React.Component {
         </MCView>
         {feedback.question === 'mocha_feedback_best_self' && (
           <MCView row ml={10}>
-            <MCTagsView
-              tags={feedback.meta.skills.map(i =>
-                t(`resource_book_skills_${i}`),
-              )}
-            />
+            <MCTagsView tags={feedback.meta.skills.map(i => t(`skill_${i}`))} />
           </MCView>
         )}
         <H5

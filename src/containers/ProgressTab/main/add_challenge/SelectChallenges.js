@@ -18,6 +18,7 @@ import {
 import {TemplateDailyChallenges, ChallengeIconData} from 'utils/constants';
 import NavigationService from 'navigation/NavigationService';
 import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
+import {getChallengeIcon} from '../../../../services/operators';
 
 class SelectChallengsScreen extends React.Component {
   constructor(props) {
@@ -126,7 +127,7 @@ class SelectChallengsScreen extends React.Component {
 
   render() {
     const {customChallenges, tempChallenge} = this.state;
-    const {t, selectedChallenge} = this.props;
+    const {t, theme, selectedChallenge} = this.props;
     if (!selectedChallenge) return null;
     const challenges = _.get(selectedChallenge, ['challenges'], []);
     return (
@@ -158,14 +159,7 @@ class SelectChallengsScreen extends React.Component {
                 <MCView mt={15} width={300}>
                   <MCView row align="center">
                     <MCView width={40} align="center">
-                      <MCIcon
-                        type="FontAwesome5Pro-Light"
-                        name={
-                          challenge.category.indexOf('custom_') < 0
-                            ? ChallengeIconData[challenge.category]
-                            : 'mountain'
-                        }
-                      />
+                      {getChallengeIcon(challenge.category, theme.colors.text)}
                     </MCView>
                     <H3 underline ml={20} weight="bold">
                       {getChallengeCategory(challenge.category)}
@@ -281,6 +275,7 @@ class SelectChallengsScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
   selectedChallenge: state.challengeReducer.selectedChallenge,
 });
 

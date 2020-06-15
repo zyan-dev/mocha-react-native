@@ -392,7 +392,7 @@ class AddResourceScreen extends React.PureComponent {
                         ? 1
                         : 0.5,
                   }}>
-                  <H4>{t(`resource_book_skills_${skill}`)}</H4>
+                  <H4>{t(`skill_${skill}`)}</H4>
                 </MCButton>
               ))}
             </MCView>

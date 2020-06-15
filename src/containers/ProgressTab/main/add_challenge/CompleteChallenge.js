@@ -4,6 +4,9 @@ import {withTranslation} from 'react-i18next';
 import * as _ from 'lodash';
 import moment from 'moment';
 import {challengeActions} from 'Redux/actions';
+import {MCHeader, MCIcon, MCImage, MCTagsView} from 'components/common';
+import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
+import {dySize} from 'utils/responsive';
 import {
   MCRootView,
   MCContent,
@@ -11,7 +14,6 @@ import {
   NativeCard,
   DividerLine,
 } from 'components/styled/View';
-import {MCHeader, MCIcon, MCImage, MCTagsView} from 'components/common';
 import {
   H2,
   H3,
@@ -20,14 +22,13 @@ import {
   ErrorText,
   MCEmptyText,
 } from 'components/styled/Text';
-import {OvalGreenImage, OvalYellowImage} from 'components/styled/Custom';
-import {dySize} from 'utils/responsive';
+
 import {
   combineChallenges,
   getChallengeCategory,
   getChallengeMeasure,
+  getChallengeIcon,
 } from 'services/operators';
-import {ChallengeIconData} from 'utils/constants';
 
 class CompleteChallengeScreen extends React.Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class CompleteChallengeScreen extends React.Component {
     this.setState({submitted: true});
     if (!this.validateTitle()) return;
     // console.log(JSON.stringify(this.props.selectedChallenge));
-    this.props.addOrUpdateChallenge();
+    this.props.addOrUpdateChallenge('selected');
   };
 
   validateTitle = () => {
@@ -92,16 +93,9 @@ class CompleteChallengeScreen extends React.Component {
               <H4 weight="bold">Daily Challenge</H4>
               {combineChallenges(challenges).map(i => {
                 return (
-                  <MCView row>
-                    <MCIcon
-                      type="FontAwesome5Pro-Light"
-                      name={
-                        i.category.indexOf('custom_') < 0
-                          ? ChallengeIconData[i.category]
-                          : 'mountain'
-                      }
-                    />
-                    <MCView pv={5} ml={10}>
+                  <MCView row mt={10}>
+                    {getChallengeIcon(i.category, theme.colors.text)}
+                    <MCView ml={10}>
                       <H4 underline>{getChallengeCategory(i.category)}</H4>
                       {i.measures.map(m => {
                         return <H4>{getChallengeMeasure(i.category, m)}</H4>;
@@ -171,7 +165,7 @@ class CompleteChallengeScreen extends React.Component {
             <MCTagsView
               tags={skills.map(s =>
                 s.indexOf('custom_') < 0
-                  ? t(`resource_book_skills_${s}`)
+                  ? t(`skill_${s}`)
                   : s.split('custom_')[1],
               )}
               justify="center"

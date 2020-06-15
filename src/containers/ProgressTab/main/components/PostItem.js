@@ -95,7 +95,7 @@ class PostItem extends React.PureComponent {
               .slice(0, 3)
               .map(s =>
                 s.indexOf('custom_') < 0
-                  ? t(`resource_book_skills_${s}`)
+                  ? t(`skill_${s}`)
                   : s.split('custom_')[1],
               )}
             more={

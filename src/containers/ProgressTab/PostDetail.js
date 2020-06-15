@@ -6,6 +6,10 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import {SkypeIndicator} from 'react-native-indicators';
 import i18next from 'i18next';
 import * as _ from 'lodash';
+import {H1, H3, H4} from 'components/styled/Text';
+import {MCButton} from 'components/styled/Button';
+import {dySize} from 'utils/responsive';
+import NavigationService from 'navigation/NavigationService';
 import {
   MCHeader,
   MCIcon,
@@ -20,20 +24,13 @@ import {
   MCContent,
 } from 'components/styled/View';
 import {postActions, challengeActions} from 'Redux/actions';
-import {
-  PostChallengeLevels,
-  PostMoraleLevels,
-  ChallengeIconData,
-} from 'utils/constants';
+import {PostChallengeLevels, PostMoraleLevels} from 'utils/constants';
 import {
   getStringWithOutline,
   combineChallenges,
   getDayOf,
+  getChallengeIcon,
 } from 'services/operators';
-import {H1, H3, H4} from 'components/styled/Text';
-import {MCButton} from 'components/styled/Button';
-import {dySize} from 'utils/responsive';
-import NavigationService from 'navigation/NavigationService';
 
 class PostDetailScreen extends React.Component {
   constructor(props) {
@@ -208,17 +205,7 @@ class PostDetailScreen extends React.Component {
                   {combineChallenges(relatedChallenge.challenges)
                     .slice(0, 4)
                     .map(i => {
-                      return (
-                        <MCIcon
-                          type="FontAwesome5Pro-Light"
-                          name={
-                            i.category.indexOf('custom_') < 0
-                              ? ChallengeIconData[i.category]
-                              : 'mountain'
-                          }
-                          size={30}
-                        />
-                      );
+                      return getChallengeIcon(i.category, theme.colors.text);
                     })}
                 </MCView>
                 <MCView row align="center">
@@ -242,7 +229,7 @@ class PostDetailScreen extends React.Component {
             <MCTagsView
               tags={post.skills.map(s =>
                 s.indexOf('custom_') < 0
-                  ? t(`resource_book_skills_${s}`)
+                  ? t(`skill_${s}`)
                   : s.split('custom_')[1],
               )}
             />

@@ -117,9 +117,7 @@ class BookItem extends React.Component {
             {t(item.slice('resource_manual_'.length))}
           </H5>
         ) : (
-          <H5 color={theme.colors.background}>
-            {t(`resource_book_skills_${item}`)}
-          </H5>
+          <H5 color={theme.colors.background}>{t(`skill_${item}`)}</H5>
         )}
       </MCView>
     );

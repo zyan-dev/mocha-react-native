@@ -8,7 +8,7 @@ import {MCTagsView, MCIcon} from 'components/common';
 import {H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
-import {getStringWithOutline} from 'services/operators';
+import {getStringWithOutline, getChallengeIcon} from 'services/operators';
 import NavigationService from 'navigation/NavigationService';
 import {
   MCRootView,
@@ -46,14 +46,8 @@ class SelectTemplateScreen extends React.Component {
     NavigationService.navigate('SelectTeammates');
   };
 
-  renderChallengeIcon = category => {
-    const key = category.split('_')[0];
-    return (
-      <MCIcon type="FontAwesome5Pro-Light" name={ChallengeIconData[key]} />
-    );
-  };
-
   _renderChallengeCard = item => {
+    const {theme} = this.props;
     return (
       <NativeCard
         align="center"
@@ -66,16 +60,18 @@ class SelectTemplateScreen extends React.Component {
         <MCButton
           align="center"
           width={160}
-          height={220}
+          height={250}
           pt={20}
           pb={20}
           onPress={() => this.onSelectTemplate(item)}>
           <H4 weight="bold">{item.title}</H4>
           <H4 weight="bold">{item.duration} Days</H4>
-          <MCView row align="center" justify="center" mb={10}>
-            {item.challenges.map(i => {
-              return this.renderChallengeIcon(i.category);
-            })}
+          <MCView height={70} justify="center">
+            <MCView row wrap align="center" justify="center" mb={10}>
+              {item.challenges.map(i => {
+                return getChallengeIcon(i.category, theme.colors.text);
+              })}
+            </MCView>
           </MCView>
           <DividerLine width={150} />
           <MCView width={140} mt={10} height={70}>
@@ -130,7 +126,9 @@ class SelectTemplateScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  theme: state.routerReducer.theme,
+});
 
 const mapDispatchToProps = {
   selectChallenge: challengeActions.selectChallenge,

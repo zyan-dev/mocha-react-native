@@ -130,9 +130,7 @@ class BestSelfSubmitScreen extends React.Component {
                   pb={1}
                   mr={15}
                   mt={10}>
-                  <H4 color={textColor}>
-                    {t(`resource_book_skills_${skill}`)}
-                  </H4>
+                  <H4 color={textColor}>{t(`skill_${skill}`)}</H4>
                 </MCButton>
               );
             })}

@@ -11,12 +11,11 @@ import {
   DividerLine,
   MCContent,
 } from 'components/styled/View';
-import {MCIcon, MCImage} from 'components/common';
-import {H1, H2, H3, H4, MCEmptyText} from 'components/styled/Text';
+import {MCImage} from 'components/common';
+import {H1, H3, H4, MCEmptyText} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
 import {dySize} from 'utils/responsive';
-import {ChallengeIconData} from 'utils/constants';
-import {combineChallenges} from 'services/operators';
+import {combineChallenges, getChallengeIcon} from 'services/operators';
 import ChallengeItem from './components/ChallengeItem';
 import NavigationService from 'navigation/NavigationService';
 
@@ -48,7 +47,7 @@ class MyChallenges extends React.Component {
     challenges[findIndex].completedUsers = completedUsers;
     updateFocusedChallenge({challenges});
     setTimeout(() => {
-      addOrUpdateChallenge();
+      addOrUpdateChallenge('focused');
     });
   };
 
@@ -87,16 +86,7 @@ class MyChallenges extends React.Component {
                 {combineChallenges(item.challenges)
                   .slice(0, 4)
                   .map(i => {
-                    return (
-                      <MCIcon
-                        type="FontAwesome5Pro-Light"
-                        name={
-                          i.category.indexOf('custom_') < 0
-                            ? ChallengeIconData[i.category]
-                            : 'mountain'
-                        }
-                      />
-                    );
+                    return getChallengeIcon(i.category, theme.colors.text);
                   })}
               </MCView>
               <DividerLine width={120} />

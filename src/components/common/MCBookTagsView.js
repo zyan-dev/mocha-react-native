@@ -45,7 +45,7 @@ export default class MCBookTagsView extends React.PureComponent {
                   ? t(`resource_book_impact_${tag.value}`)
                   : tag.indexOf('resource_manual_') > -1
                   ? t(tag.slice('resource_manual_'.length))
-                  : t(`resource_book_skills_${tag}`)}
+                  : t(`skill_${tag}`)}
               </TagView>
               <MCView row justify="flex-end" mt={-10} mb={20} width={120}>
                 {users &&

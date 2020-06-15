@@ -125,21 +125,21 @@ class CriticismFeedbackScreen extends React.Component {
                   }}
                   mt={paddingIndexes.indexOf(index) < 0 ? 0 : 30}
                   onPress={() => this.onPressItem(key)}>
-                  <H3
+                  <H4
                     weight={selected ? 'bold' : 'regular'}
                     align="center"
                     color={selected ? theme.colors.outline : theme.colors.text}>
                     {t(`feedback_preference_${key}`)}
-                  </H3>
+                  </H4>
                   {key === 'template' && (
-                    <H3
+                    <H4
                       weight={selected ? 'bold' : 'regular'}
                       align="center"
                       color={
                         selected ? theme.colors.outline : theme.colors.text
                       }>
                       {`"${t(`feedback_preference_${key}_question`)}"`}
-                    </H3>
+                    </H4>
                   )}
                 </MCButton>
               );

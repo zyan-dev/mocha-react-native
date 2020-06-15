@@ -96,9 +96,7 @@ class SelectSkillsScreen extends React.Component {
                     color={
                       selected ? theme.colors.background : theme.colors.text
                     }>
-                    {custom
-                      ? skill.split('custom_')[1]
-                      : t(`resource_book_skills_${skill}`)}
+                    {custom ? skill.split('custom_')[1] : t(`skill_${skill}`)}
                   </H4>
                 </MCButton>
               );
