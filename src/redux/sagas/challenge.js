@@ -26,6 +26,7 @@ export function* getUserChallenges(action) {
             payload: null,
           });
         } else if (
+          !focusedChallenge ||
           challenges.findIndex(i => i._id === focusedChallenge._id) < 0
         ) {
           yield put({
