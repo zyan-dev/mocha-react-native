@@ -66,6 +66,8 @@ class CompleteChallengeScreen extends React.Component {
           title={t('title_progress_tab_review_challenge')}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onSubmit()}
         />
         <MCContent

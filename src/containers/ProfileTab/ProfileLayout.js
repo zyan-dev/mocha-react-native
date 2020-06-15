@@ -13,7 +13,6 @@ import {dySize} from 'utils/responsive';
 import NavigationService from 'navigation/NavigationService';
 import {
   GrabberSvg,
-  SheepSvg,
   CarrotSvg,
   FaucetSvg,
   FragileSvg,
@@ -73,7 +72,9 @@ class ProfileLayoutScreen extends React.Component {
         key={item.key + item.enabled}>
         <MCView width={40} align="center">
           {!item.hasSvg && <MCIcon type={item.iconType} name={item.icon} />}
-          {item.key === 'chronotype' && <SheepSvg size={20} theme={theme} />}
+          {item.key === 'chronotype' && (
+            <MCIcon type="FontAwesome5Pro" name="bed" />
+          )}
           {item.key === 'nutrition' && <CarrotSvg size={20} />}
           {item.key === 'hydration' && <FaucetSvg size={20} />}
           {item.key === 'stress_recovery' && <FragileSvg size={20} />}
@@ -136,7 +137,7 @@ class ProfileLayoutScreen extends React.Component {
 
   render() {
     const {profileLayout} = this.state;
-    const {t} = this.props;
+    const {t, theme} = this.props;
     if (!profileLayout) return null;
     return (
       <MCRootView justify="flex-start">
@@ -144,6 +145,8 @@ class ProfileLayoutScreen extends React.Component {
           hasRight
           title={t('title_profile_layout')}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onSaveLayout()}
         />
         <DraggableFlatList

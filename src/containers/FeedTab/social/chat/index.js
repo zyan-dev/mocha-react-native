@@ -94,7 +94,7 @@ class SocialChatScreen extends React.Component {
             </H4>
           </MCView>
         </MCButton>
-        {Number(chatVisitStatus[chatRoom._id]) !==
+        {Number(chatVisitStatus[chatRoom._id]) <
           new Date(chatRoom.last_updated).getTime() && (
           <MCView
             style={{
@@ -119,7 +119,6 @@ class SocialChatScreen extends React.Component {
 
   render() {
     const {t, myRooms, loading, chatVisitStatus} = this.props;
-    console.log({chatVisitStatus});
     return (
       <MCRootView justify="flex-start" background="transparent">
         <FlatList

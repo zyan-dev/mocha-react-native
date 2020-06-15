@@ -61,6 +61,7 @@ class MCHeader extends React.PureComponent {
     rightImage: PropTypes.node,
     rightIconType: PropTypes.string,
     rightIconSize: PropTypes.number,
+    rightIconColor: PropTypes.string,
     leftIcon: PropTypes.string,
     leftIconSize: PropTypes.number,
     leftIconType: PropTypes.string,
@@ -80,6 +81,7 @@ class MCHeader extends React.PureComponent {
     rightImage: null,
     rightIconType: 'FontAwesome5',
     rightIconSize: 20,
+    rightIconColor: undefined,
     leftIconType: 'FontAwesome5',
     onPressRight: () => undefined,
     onPressBack: () => {
@@ -101,6 +103,7 @@ class MCHeader extends React.PureComponent {
       rightImage,
       leftIconType,
       rightIconType,
+      rightIconColor,
       rightIconSize,
       onPressRight,
       onPressBack,
@@ -146,6 +149,7 @@ class MCHeader extends React.PureComponent {
                 type={rightIconType}
                 name={rightIcon}
                 size={rightIconSize}
+                color={rightIconColor || theme.colors.text}
                 padding={1}
               />
             )}

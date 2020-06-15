@@ -16,7 +16,7 @@ class ChallengeDetail extends React.PureComponent {
           contentContainerStyle={{alignItems: 'center', paddingBottom: 30}}>
           <ChallengeItem
             item={selectedChallenge}
-            mine={selectedChallenge._id === profile._id}
+            isMember={selectedChallenge._id === profile._id}
           />
         </MCContent>
       </MCRootView>

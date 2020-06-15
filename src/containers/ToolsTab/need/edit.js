@@ -46,7 +46,7 @@ class EditNeedScreen extends React.PureComponent {
 
   render() {
     const {submitted} = this.state;
-    const {t, selectedReflection, updateSelectedReflection} = this.props;
+    const {t, theme, selectedReflection, updateSelectedReflection} = this.props;
     if (!selectedReflection) return null;
     const need = _.get(selectedReflection, ['data', 'need'], '');
     const value = _.get(selectedReflection, ['data', 'value'], '');
@@ -60,6 +60,8 @@ class EditNeedScreen extends React.PureComponent {
           title={t('edit_need_headerTitle')}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>

@@ -9,7 +9,7 @@ const commonTheme = {
   chart_gradient_end_color: '#000000',
   chart_bg: 'rgba(255,255,255,0.2)',
   purchase: '#19D868',
-  outline: '#30BE58',
+  outline: '#2BC675',
   like: '#F7D24F',
   toggle_on: '#30BE58',
   toggle_off: '#8B8B8B',

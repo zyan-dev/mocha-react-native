@@ -293,7 +293,7 @@ export const convertChatMessage = (msg, room) => {
 };
 
 export const compareTimeStampWithDate = (ts, date) => {
-  return Number(ts) === new Date(date).getTime();
+  return Number(ts) >= new Date(date).getTime();
 };
 
 export const getDateString = ts => {

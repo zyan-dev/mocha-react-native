@@ -46,7 +46,7 @@ class ChronotypeCard extends React.Component {
         <MCView row align="center" mb={20}>
           <MCView row align="center" style={{flex: 1}}>
             <H3 weight="bold" mr={10}>
-              {t('profile_subtitle_sleep')}
+              {t('profile_subtitle_chronotype')}
             </H3>
             <MCIcon type="FontAwesome5Pro" name="bed" size={25} />
           </MCView>

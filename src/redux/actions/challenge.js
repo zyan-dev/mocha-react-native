@@ -34,3 +34,8 @@ export const getUserChallenges = id => ({
   type: types.GET_USER_CHALLENGES,
   payload: {id},
 });
+
+export const removeChallenge = id => ({
+  type: types.REMOVE_CHALLENGE,
+  payload: {id},
+});

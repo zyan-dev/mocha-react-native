@@ -28,9 +28,9 @@ class SocialResourcesScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    const {setTrustMemberResourcePageIndex} = this.props;
-    setTrustMemberResourcePageIndex(1);
-    this.getResourceMembers();
+    const {setMemberResourcePageIndex} = this.props;
+    setMemberResourcePageIndex(1);
+    this.getMemberResources();
   }
 
   componentDidUpdate(preProps, preState) {
@@ -38,29 +38,22 @@ class SocialResourcesScreen extends React.PureComponent {
       preProps.networksWithResourcePermission !==
       this.props.networksWithResourcePermission
     ) {
-      this.getResourceMembers();
+      this.getMemberResources();
     }
   }
 
-  getResourceMembers = () => {
-    const {
-      networksWithResourcePermission,
-      getTrustMemberResources,
-      selectTrustMember,
-    } = this.props;
+  getMemberResources = () => {
+    const {getSelectedMemberResources, selectMember, profile} = this.props;
     const {selectedMember} = this.state;
 
-    if (
-      networksWithResourcePermission.length > 0 &&
-      _.isEmpty(selectedMember)
-    ) {
-      this.setState({selectedMember: networksWithResourcePermission[0]});
-      getTrustMemberResources({
+    if (_.isEmpty(selectedMember)) {
+      this.setState({selectedMember: profile});
+      getSelectedMemberResources({
         pageIndex: 1,
-        trustMember: networksWithResourcePermission[0]._id,
+        member: profile._id,
       });
 
-      selectTrustMember(networksWithResourcePermission[0]._id);
+      selectMember(profile._id);
     }
   };
 
@@ -69,12 +62,12 @@ class SocialResourcesScreen extends React.PureComponent {
   };
 
   selectMember = user => {
-    const {getTrustMemberResources, selectTrustMember} = this.props;
+    const {getSelectedMemberResources, selectMember} = this.props;
     this.setState({selectedMember: user});
-    selectTrustMember(user._id);
-    getTrustMemberResources({
+    selectMember(user._id);
+    getSelectedMemberResources({
       pageIndex: 1,
-      trustMember: user._id,
+      member: user._id,
     });
   };
 
@@ -126,29 +119,57 @@ class SocialResourcesScreen extends React.PureComponent {
     const {
       theme,
       t,
-      trustMemberResources,
+      selectedMemberResources,
       networksWithResourcePermission,
+      profile,
     } = this.props;
     const {focused, sort, selectedMember} = this.state;
 
     return (
       <MCRootView justify="flex-start">
-        <FlatList
-          data={networksWithResourcePermission}
-          renderItem={this._renderListItem}
-          keyExtractor={item => item._id}
-          keyboardShouldPersistTaps="always"
-          ListEmptyComponent={<MCEmptyText>{t('no_members')}</MCEmptyText>}
-          numColumns={1}
-          style={{
-            width: dySize(350),
-            maxHeight: dySize(60),
-            marginTop: dySize(10),
-          }}
-          horizontal={true}
-          onEndReached={() => this.searchNextPage()}
-          onEndReachedThreshold={0.5}
-        />
+        <MCView row align="center">
+          <MCButton
+            onPress={() => this.selectMember(profile)}
+            mt={15}
+            ml={10}
+            mr={30}>
+            <MCView
+              br={27}
+              width={54}
+              height={54}
+              bordered={selectedMember._id == profile._id}
+              style={{
+                borderColor: theme.colors.outline,
+                borderWidth: selectedMember._id == profile._id ? 2 : 0,
+              }}>
+              <MCImage
+                key={profile._id}
+                image={{uri: profile.avatar}}
+                round
+                width={50}
+                height={50}
+                type="avatar"
+              />
+            </MCView>
+          </MCButton>
+          <FlatList
+            data={networksWithResourcePermission}
+            renderItem={this._renderListItem}
+            keyExtractor={item => item._id}
+            keyboardShouldPersistTaps="always"
+            ListEmptyComponent={<MCEmptyText>{t('no_members')}</MCEmptyText>}
+            numColumns={1}
+            style={{
+              width: dySize(350),
+              maxHeight: dySize(60),
+              marginTop: dySize(10),
+            }}
+            horizontal={true}
+            onEndReached={() => this.searchNextPage()}
+            onEndReachedThreshold={0.5}
+          />
+        </MCView>
+
         <MCView row>
           {ResourceContentRoots.map(item => (
             <MCButton onPress={() => this.onPressItem(item)}>
@@ -184,7 +205,7 @@ class SocialResourcesScreen extends React.PureComponent {
             selectedMember={selectedMember}
             sort={sort}
             from="trust-member"
-            selectedResources={trustMemberResources}
+            selectedResources={selectedMemberResources}
           />
         ) : (
           <MCContent>
@@ -201,9 +222,8 @@ class SocialResourcesScreen extends React.PureComponent {
 const mapStateToProps = state => ({
   theme: state.routerReducer.theme,
   profile: state.profileReducer,
-  trustMemberResources: state.resourceReducer.trustMemberResources,
-  resourceTrustMemberPageIndex:
-    state.resourceReducer.resourceTrustMemberPageIndex,
+  selectedMemberResources: state.resourceReducer.selectedMemberResources,
+  resourceMemberPageIndex: state.resourceReducer.resourceMemberPageIndex,
   resourceTrustMemberLimited: state.resourceReducer.resourceTrustMemberLimited,
   networksPageLimited: state.networkReducer.networksPageLimited,
   networkPageIndex: state.networkReducer.networkPageIndex,
@@ -213,10 +233,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getTrustMemberResources: resourceActions.getTrustMemberResources,
-  setTrustMemberResourcePageIndex:
-    resourceActions.setTrustMemberResourcePageIndex,
-  selectTrustMember: resourceActions.selectTrustMember,
+  getSelectedMemberResources: resourceActions.getSelectedMemberResources,
+  setMemberResourcePageIndex: resourceActions.setMemberResourcePageIndex,
+  selectMember: resourceActions.selectMember,
   getOwnersWithResourcePermission:
     networkActions.getOwnersWithResourcePermission,
 };

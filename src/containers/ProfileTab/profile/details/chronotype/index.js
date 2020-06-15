@@ -102,6 +102,8 @@ class ChronotypeScreen extends React.PureComponent {
           headerIcon={<MCIcon type="FontAwesome5Pro" name="bed" size={30} />}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onSaveMyChronotype()}
         />
         <MCContent

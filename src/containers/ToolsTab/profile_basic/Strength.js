@@ -91,6 +91,8 @@ class StrengthScreen extends React.Component {
           headerIcon={<MCIcon type="FontAwesome5Pro" name="hammer" />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>

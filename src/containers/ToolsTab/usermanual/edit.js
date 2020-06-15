@@ -120,6 +120,8 @@ class EditUserManualScreen extends React.PureComponent {
           title={t('tools_tab_edit_user_manual')}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressRight()}
         />
         <MCContent contentContainerStyle={{padding: dySize(10)}}>

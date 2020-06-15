@@ -65,6 +65,8 @@ class BestSelfSubmitScreen extends React.Component {
           headerIcon={<MCIcon type="FontAwesome5Pro" name="hammer" />}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent

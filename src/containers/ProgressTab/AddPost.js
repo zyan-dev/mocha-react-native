@@ -141,6 +141,8 @@ class AddPostScreen extends React.Component {
           title={t(selectedPost._id ? 'title_edit_post' : 'title_add_post')}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onSubmit()}
         />
         <MCContent

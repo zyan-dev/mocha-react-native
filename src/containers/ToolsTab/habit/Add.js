@@ -230,6 +230,8 @@ class EditHabitScreen extends React.PureComponent {
           }
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressRight()}
           onPressBack={() => this.onPressBack()}
           headerIcon={<AppleSvg size={25} />}

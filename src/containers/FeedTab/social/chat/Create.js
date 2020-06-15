@@ -5,16 +5,13 @@ import {withTranslation} from 'react-i18next';
 import {userActions, chatActions} from 'Redux/actions';
 import {
   MCHeader,
-  MCSearchInput,
   MCImage,
-  MCModal,
   MCIcon,
   MCCheckBox,
   MCTextFormInput,
 } from 'components/common';
-import {H3, H4, MCEmptyText} from 'components/styled/Text';
+import {H3} from 'components/styled/Text';
 import {dySize} from 'utils/responsive';
-import {selector} from 'Redux/selectors';
 import NavigationService from 'navigation/NavigationService';
 import {MCView, MCRootView, MCCard, MCContent} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
@@ -103,6 +100,8 @@ class CreateChatRoomScreen extends React.Component {
           title={t('title_create_chat_room')}
           hasRight
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onSubmitChatRoom()}
         />
         <MCContent

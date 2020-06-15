@@ -7,7 +7,6 @@ import NavigationService from 'navigation/NavigationService';
 export function* getUserChallenges(action) {
   try {
     const {
-      challengeReducer: {selectedChallenge, myChallenges},
       profileReducer: {_id},
     } = yield select();
     const {id} = action.payload;
@@ -162,6 +161,38 @@ export function* addOrUpdateChallenge(action) {
       });
     } else {
       yield put({type: types.API_FINISHED});
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
+export function* removeChallenge(action) {
+  try {
+    const {id} = action.payload;
+    const {
+      profileReducer: {_id},
+      challengeReducer: {focusedChallenge},
+    } = yield select();
+    yield put({type: types.API_CALLING});
+    response = yield call(API.removeChallenge, {
+      data: [id],
+    });
+    if (response.data && response.data.status === 'success') {
+      yield put({type: types.GET_USER_CHALLENGES, payload: {id: _id}});
+      yield put({
+        type: types.TRACK_MIXPANEL_EVENT,
+        payload: {
+          event: 'remove_challenge',
+          data: {challenge: focusedChallenge},
+        },
+      });
+      yield put({type: types.API_FINISHED});
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
     }
   } catch (e) {
     yield put({type: types.API_FINISHED, payload: e.toString()});

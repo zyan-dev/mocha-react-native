@@ -171,6 +171,8 @@ class BodyAwarenessScreen extends React.Component {
           headerIcon={<HeadPhoneSvg theme={theme} size={30} />}
           onPressBack={() => this.onPressBack()}
           rightIcon="cloud-upload-alt"
+          rightText={t('button_save')}
+          rightIconColor={theme.colors.outline}
           onPressRight={() => this.onPressSubmit()}
         />
         <MCContent contentContainerStyle={{padding: dySize(20)}}>

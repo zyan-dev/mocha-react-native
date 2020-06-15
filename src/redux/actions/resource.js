@@ -10,16 +10,6 @@ export const setALLResourcePageIndex = index => ({
   payload: index,
 });
 
-export const getMyResources = pageIndex => ({
-  type: types.GET_MY_RESOURCES,
-  payload: pageIndex,
-});
-
-export const setMyResourcePageIndex = index => ({
-  type: types.SET_MY_RESOURCE_PAGE_INDEX,
-  payload: index,
-});
-
 export const selectResource = resource => ({
   type: types.SELECT_RESOURCE,
   payload: resource,
@@ -69,22 +59,22 @@ export const getResourceByTitle = title => ({
   payload: title,
 });
 
-export const getTrustMemberResources = data => ({
-  type: types.GET_TRUST_MEMBER_RESOURCES,
+export const getSelectedMemberResources = data => ({
+  type: types.GET_SELECTED_MEMBER_RESOURCES,
   payload: data,
 });
 
-export const resetTrustMemberResources = () => ({
-  type: types.RESET_TRUST_MEMBER_RESOURCES,
+export const resetMemberResources = () => ({
+  type: types.RESET_MEMBER_RESOURCES,
 });
 
-export const setTrustMemberResourcePageIndex = index => ({
-  type: types.SET_TRUST_MEMBER_RESOURCE_PAGE_INDEX,
+export const setMemberResourcePageIndex = index => ({
+  type: types.SET_MEMBER_RESOURCE_PAGE_INDEX,
   payload: index,
 });
 
-export const selectTrustMember = id => ({
-  type: types.SELECT_TRUST_MEMBER,
+export const selectMember = id => ({
+  type: types.SELECT_MEMBER,
   payload: id,
 });
 
@@ -107,12 +97,22 @@ export const recommendResourceToMembers = data => ({
   payload: data,
 });
 
-export const getRecommendedResources = pageIndex => ({
-  type: types.GET_RECOMMENDED_RESOURCES,
+export const getRecommendedOwners = pageIndex => ({
+  type: types.GET_RECOMMENDED_OWNERS,
   payload: pageIndex,
 });
 
-export const setRecommendedResourcePageIndex = index => ({
-  type: types.SET_RECOMMENDED_RESOURCE_PAGE_INDEX,
+export const setRecommendedOwnersPageIndex = index => ({
+  type: types.SET_RECOMMENDED_OWNERS_PAGE_INDEX,
   payload: index,
+});
+
+export const removeRecommendedResource = id => ({
+  type: types.REMOVE_RECOMMENDED_RESOURCE,
+  payload: id,
+});
+
+export const hiddenRecommendedResource = id => ({
+  type: types.HIDDEN_RECOMMENDED_RESOURCE,
+  payload: id,
 });
