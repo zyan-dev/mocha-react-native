@@ -529,7 +529,11 @@ class ProfileScreen extends React.Component {
                 // onViewableItemsChanged={this.onViewableIconsChanged}
               />
               <LinearGradient
-                colors={['white', '#ffffff00', 'white']}
+                colors={[
+                  theme.colors.background,
+                  theme.colors.background + '00',
+                  theme.colors.background,
+                ]}
                 style={{
                   position: 'absolute',
                   top: 0,
