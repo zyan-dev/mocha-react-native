@@ -107,7 +107,7 @@ class QualitiesCharacterScreen extends React.Component {
                   <MCButton onPress={() => this.onBookmark(preference)}>
                     <MCIcon
                       name={!liked ? 'ios-star-outline' : 'ios-star'}
-                      color={!liked ? theme.colors.text : theme.colors.outline}
+                      color={!liked ? theme.colors.text : theme.colors.like}
                     />
                   </MCButton>
                 </MCView>

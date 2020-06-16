@@ -10,7 +10,7 @@ const commonTheme = {
   chart_bg: 'rgba(255,255,255,0.2)',
   purchase: '#19D868',
   outline: '#2BC675',
-  like: '#F7D24F',
+  like: '#FFCF40',
   toggle_on: '#30BE58',
   toggle_off: '#8B8B8B',
 };

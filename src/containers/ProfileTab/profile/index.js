@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import i18next from 'i18next';
 import {withTranslation} from 'react-i18next';
 import {FlatList} from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   feedbackActions,
   routerActions,
@@ -60,11 +61,12 @@ const opacityArray = [1, 0.5, 0.2];
 class ProfileScreen extends React.Component {
   state = {
     viewableItems: [],
+    viewableIcons: [],
     focusedIndex: 0,
   };
   viewabilityConfig = {
     waitForInteraction: false,
-    itemVisiblePercentThreshold: 20,
+    itemVisiblePercentThreshold: 50,
   };
 
   WelcomeProfileDescription = {
@@ -143,6 +145,30 @@ class ProfileScreen extends React.Component {
       i => i.key === viewableItems[0].key,
     );
     this.setState({viewableItems, focusedIndex: findIndex}, () => {
+      this.iconScroll &&
+        this.iconScroll.scrollToIndex({
+          animated: true,
+          index: findIndex,
+          viewPosition: 0.5,
+        });
+    });
+  };
+
+  onViewableIconsChanged = ({viewableItems, changed}) => {
+    if (viewableItems.length === 0) return;
+    this.setState({viewableIcons: viewableItems});
+  };
+
+  onScrollEndIconView = () => {
+    const {viewableIcons} = this.state;
+    const {profileLayout} = this.props;
+    let centerIndex = 2;
+    if (viewableIcons.length < 4) centerIndex = 0;
+    else if (viewableIcons.length === 4) centerIndex = 1;
+    const findIndex = profileLayout.findIndex(
+      i => i.key === viewableIcons[centerIndex].key,
+    );
+    this.setState({focusedIndex: findIndex}, () => {
       this.iconScroll &&
         this.iconScroll.scrollToIndex({
           animated: true,
@@ -403,7 +429,7 @@ class ProfileScreen extends React.Component {
       (!this.props[key] || this.props[key].length === 0)
     )
       return null;
-    const selected = viewableItems.length && viewableItems[0].key === key;
+    const selected = focusedIndex === index;
     const size = selected ? 25 : 20;
     const color = selected ? theme.colors.outline : theme.colors.text;
     return (
@@ -413,8 +439,7 @@ class ProfileScreen extends React.Component {
         height={50}
         align="center"
         justify="center"
-        onPress={() => this.onPressProfileIcon(layout, index)}
-        style={{opacity: focusedIndex === index ? 1 : 0.5}}>
+        onPress={() => this.onPressProfileIcon(layout, index)}>
         {key === 'hydration' ? (
           <FaucetWhiteSvg size={size} color={color} />
         ) : key === 'dreams' ? (
@@ -456,7 +481,11 @@ class ProfileScreen extends React.Component {
             <FlatList
               ref={ref => (this.contentScroll = ref)}
               data={profileLayout}
-              renderItem={this._renderProfileSections}
+              renderItem={({item, index}) => (
+                <MCView style={{opacity: focusedIndex === index ? 1 : 0.3}}>
+                  {this._renderProfileSections({item})}
+                </MCView>
+              )}
               keyExtractor={item => item.key}
               contentContainerStyle={{
                 width: dySize(335),
@@ -494,6 +523,19 @@ class ProfileScreen extends React.Component {
                 contentContainerStyle={{
                   width: dySize(45),
                   paddingVertical: dySize(100),
+                }}
+                // onMomentumScrollEnd={() => this.onScrollEndIconView()}
+                // viewabilityConfig={this.viewabilityConfig}
+                // onViewableItemsChanged={this.onViewableIconsChanged}
+              />
+              <LinearGradient
+                colors={['white', '#ffffff00', 'white']}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  bottom: 0,
                 }}
               />
             </MCView>
