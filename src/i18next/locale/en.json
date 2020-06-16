@@ -145,7 +145,7 @@
   "emotion_how_select": "How are you feeling {{emotion}}?",
   "empty_network": "You have no your own networks",
   "empty_request": "You have no pending requests",
-  "empty_teammates": "You have no teammates",
+  "empty_teammates": "No teammates",
   "edit_emotion_headerTitle": "Edit emotion",
   "edit_need_headerTitle": "Edit Need",
   "error_add_new_duplicated": "This value already exists.",
