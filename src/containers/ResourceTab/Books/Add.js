@@ -1,5 +1,5 @@
 import React from 'react';
-import {Linking} from 'react-native';
+import {Linking, FlatList, ScrollView} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import i18next from 'i18next';
@@ -269,6 +269,91 @@ class AddResourceScreen extends React.PureComponent {
     NavigationService.navigate('SelectRecommendMember', {resource: resource});
   };
 
+  _renderImpact = ({item}) => {
+    const {t} = this.props;
+    const {selectedImpacts} = this.state;
+    return (
+      <MCButton
+        key={item}
+        onPress={() => this.updateSelectedImpacts('selectedImpacts', item)}
+        row
+        align="center"
+        justify="center"
+        background="#C1F1D8"
+        mr={5}
+        ml={5}
+        mb={5}
+        pt={1}
+        pb={1}
+        width={160}
+        height={80}
+        style={{
+          opacity: selectedImpacts.indexOf(item) > -1 ? 1 : 0.5,
+        }}>
+        <H4 align="center" color="#000000">
+          {t(`resource_book_impact_${item}`)}
+        </H4>
+      </MCButton>
+    );
+  };
+
+  _renderVeryImpact = ({item}) => {
+    const {t} = this.props;
+    const {selectedVeryImpacts} = this.state;
+    return (
+      <MCButton
+        key={item}
+        onPress={() => this.updateSelectedImpacts('selectedVeryImpacts', item)}
+        row
+        align="center"
+        justify="center"
+        background="#C1F1D8"
+        mr={5}
+        ml={5}
+        mb={5}
+        pt={1}
+        pb={1}
+        width={160}
+        height={80}
+        style={{
+          opacity: selectedVeryImpacts.indexOf(item) > -1 ? 1 : 0.5,
+        }}>
+        <H4 align="center" color="#000000">
+          {t(`resource_book_impact_${item}`)}
+        </H4>
+      </MCButton>
+    );
+  };
+
+  _renderMostImpact = ({item}) => {
+    const {t} = this.props;
+    const {selectedMostImpacts} = this.state;
+
+    return (
+      <MCButton
+        key={item}
+        onPress={() => this.updateSelectedImpacts('selectedMostImpacts', item)}
+        row
+        align="center"
+        justify="center"
+        background="#C1F1D8"
+        mr={5}
+        ml={5}
+        mb={5}
+        pt={1}
+        pb={1}
+        width={160}
+        height={100}
+        style={{
+          opacity: selectedMostImpacts.indexOf(item) > -1 ? 1 : 0.5,
+        }}>
+        <H4 align="center" color="#000000">
+          {t(`resource_book_impact_${item}`)}
+        </H4>
+      </MCButton>
+    );
+  };
+
   render() {
     const {
       flagMore,
@@ -440,86 +525,56 @@ class AddResourceScreen extends React.PureComponent {
               <H4>{t('resource_book_impact_type_one')}</H4>
             </MCView>
             <MCView row wrap>
-              {impacts.map((impact, index) => (
-                <MCButton
-                  key={index}
-                  onPress={() =>
-                    this.updateSelectedImpacts('selectedImpacts', impact)
-                  }
-                  row
-                  align="center"
-                  justify="center"
-                  background="#C1F1D8"
-                  mr={5}
-                  ml={5}
-                  mb={5}
-                  width={160}
-                  height={120}
-                  style={{
-                    opacity: selectedImpacts.indexOf(impact) > -1 ? 1 : 0.5,
-                  }}>
-                  <H4 align="center" color="#000000">
-                    {t(`resource_book_impact_${impact}`)}
-                  </H4>
-                </MCButton>
-              ))}
+              <ScrollView>
+                <FlatList
+                  data={impacts}
+                  renderItem={this._renderImpact}
+                  keyExtractor={item => item}
+                  keyboardShouldPersistTaps="always"
+                  numColumns={Math.ceil(impacts.length / 2)}
+                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={{
+                    alignSelf: 'flex-start',
+                  }}
+                />
+              </ScrollView>
             </MCView>
             <MCView>
               <H4>{t('resource_book_impact_type_two')}</H4>
             </MCView>
-            <MCView row wrap>
-              {veryImpacts.map((impact, index) => (
-                <MCButton
-                  key={index}
-                  onPress={() =>
-                    this.updateSelectedImpacts('selectedVeryImpacts', impact)
-                  }
-                  row
-                  align="center"
-                  justify="center"
-                  background="#C1F1D8"
-                  mr={5}
-                  ml={5}
-                  mb={5}
-                  width={160}
-                  height={120}
-                  style={{
-                    opacity: selectedVeryImpacts.indexOf(impact) > -1 ? 1 : 0.5,
-                  }}>
-                  <H4 align="center" color="#000000">
-                    {t(`resource_book_impact_${impact}`)}
-                  </H4>
-                </MCButton>
-              ))}
-            </MCView>
+            <ScrollView>
+              <FlatList
+                data={veryImpacts}
+                renderItem={this._renderVeryImpact}
+                keyExtractor={item => item}
+                keyboardShouldPersistTaps="always"
+                numColumns={Math.ceil(veryImpacts.length / 2)}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                  alignSelf: 'flex-start',
+                }}
+              />
+            </ScrollView>
+
             <MCView>
               <H4>{t('resource_book_impact_type_three')}</H4>
             </MCView>
-            <MCView row wrap>
-              {mostImpacts.map((impact, index) => (
-                <MCButton
-                  key={index}
-                  onPress={() =>
-                    this.updateSelectedImpacts('selectedMostImpacts', impact)
-                  }
-                  row
-                  align="center"
-                  justify="center"
-                  background="#C1F1D8"
-                  mr={5}
-                  ml={5}
-                  mb={5}
-                  width={160}
-                  height={120}
-                  style={{
-                    opacity: selectedMostImpacts.indexOf(impact) > -1 ? 1 : 0.5,
-                  }}>
-                  <H4 align="center" color="#000000">
-                    {t(`resource_book_impact_${impact}`)}
-                  </H4>
-                </MCButton>
-              ))}
-            </MCView>
+            <ScrollView>
+              <FlatList
+                data={mostImpacts}
+                renderItem={this._renderMostImpact}
+                keyExtractor={item => item}
+                keyboardShouldPersistTaps="always"
+                numColumns={Math.ceil(mostImpacts.length / 2)}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                  alignSelf: 'flex-start',
+                }}
+              />
+            </ScrollView>
           </MCView>
         </MCContent>
       </MCRootView>

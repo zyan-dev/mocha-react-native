@@ -24,15 +24,15 @@ class ResourceTabView extends React.Component {
   getResources = index => {
     const {
       getAllResources,
-
       getBookmarkedResources,
       getSelectedMemberResources,
-
       getRecommendedOwners,
       networksWithResourcePermission,
       resetMemberResources,
       setMemberResourcePageIndex,
       profile,
+      selectedMemberId,
+      resourceMemberLimited,
     } = this.props;
 
     switch (index) {
@@ -41,10 +41,11 @@ class ResourceTabView extends React.Component {
         getRecommendedOwners(1);
         break;
       case 1:
+        if (resourceMemberLimited) return;
         setMemberResourcePageIndex(1);
         profile &&
           getSelectedMemberResources({
-            member: profile._id,
+            member: selectedMemberId ? selectedMemberId : profile._id,
             pageIndex: 1,
           });
         break;
@@ -107,6 +108,8 @@ const mapStateToProps = state => ({
   networksWithResourcePermission:
     state.networkReducer.networksWithResourcePermission,
   profile: state.profileReducer,
+  selectedMemberId: state.resourceReducer.selectedMemberId,
+  resourceMemberLimited: state.resourceReducer.resourceMemberLimited,
 });
 
 const mapDispatchToProps = {

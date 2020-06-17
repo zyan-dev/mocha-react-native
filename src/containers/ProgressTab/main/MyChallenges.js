@@ -105,12 +105,17 @@ class MyChallenges extends React.Component {
     );
   };
 
+  filterChallenges = challenges => {
+    return challenges.filter(i => {
+      const dayLeft = i.duration - getDayOf(i.created);
+      return dayLeft >= 0;
+    });
+  };
+
   _renderChallengeItem = ({item}) => {
     const {t, theme, focusedChallenge} = this.props;
-    if (!focusedChallenge) return null;
-    const selected = focusedChallenge._id === item._id;
     return (
-      <NativeCard width={250} justify="flex-start" pv={1}>
+      <NativeCard width={250} justify="flex-start" pv={1} mt={10} mb={10}>
         <H3 weight="bold">{item.title}</H3>
         <MCView row>
           <MCView width={150} align="center">
@@ -162,11 +167,15 @@ class MyChallenges extends React.Component {
               ref={c => {
                 this._carousel = c;
               }}
-              data={myChallenges}
+              data={this.filterChallenges(myChallenges)}
               renderItem={this._renderChallengeItem}
               sliderWidth={dySize(345)}
               itemWidth={dySize(250)}
-              onSnapToItem={index => this.onPressChallenge(myChallenges[index])}
+              onSnapToItem={index =>
+                this.onPressChallenge(
+                  this.filterChallenges(myChallenges)[index],
+                )
+              }
             />
           )}
 

@@ -24,11 +24,13 @@ class ChallengeItem extends React.PureComponent {
     isMember: PropTypes.bool,
     onToggleCheckMeasure: PropTypes.func,
     onPressAddPost: PropTypes.func,
+    onPressJoin: PropTypes.func,
   };
 
   static defaultProps = {
     onToggleCheckMeasure: () => undefined,
     onPressAddPost: () => undefined,
+    onPressJoin: () => undefined,
     isMember: true,
   };
 
@@ -48,6 +50,7 @@ class ChallengeItem extends React.PureComponent {
       isMember,
       onToggleCheckMeasure,
       onPressAddPost,
+      onPressJoin,
     } = this.props;
     if (!item || !item.challenges || !item.invites) return null;
     const owner = {
@@ -157,6 +160,7 @@ class ChallengeItem extends React.PureComponent {
           <MCView row wrap width={315} justify="center">
             {[owner].concat(item.teammates).map(user => {
               if (user._id === profile._id) return null;
+              if (!user.name) return null;
               return (
                 <MCView align="center" width={90} ml={7.5} mr={7.5}>
                   <MCImage
