@@ -50,6 +50,11 @@ class ChallengeItem extends React.PureComponent {
       onPressAddPost,
     } = this.props;
     if (!item || !item.challenges || !item.invites) return null;
+    const owner = {
+      _id: item.ownerId,
+      name: item.ownerName,
+      avatar: item.ownerAvatar,
+    };
     return (
       <MCView width={345} align="center" pv={10}>
         <MCView row pv={10} ph={5} height={180}>
@@ -149,25 +154,24 @@ class ChallengeItem extends React.PureComponent {
           })}
         </NativeCard>
         <NativeCard width={335} mt={20} align="center">
-          {item.invites.length > 0 && (
-            <MCView row wrap width={315} justify="center">
-              {item.invites.map(user => {
-                return (
-                  <MCView align="center" width={90} ml={7.5} mr={7.5}>
-                    <MCImage
-                      image={{uri: user.avatar}}
-                      round
-                      width={70}
-                      height={70}
-                      type="avatar"
-                    />
-                    <H4>{user.name.split(' ')[0]}</H4>
-                  </MCView>
-                );
-              })}
-            </MCView>
-          )}
-          {item.invites.length === 0 ? (
+          <MCView row wrap width={315} justify="center">
+            {[owner].concat(item.teammates).map(user => {
+              if (user._id === profile._id) return null;
+              return (
+                <MCView align="center" width={90} ml={7.5} mr={7.5}>
+                  <MCImage
+                    image={{uri: user.avatar}}
+                    round
+                    width={70}
+                    height={70}
+                    type="avatar"
+                  />
+                  <H4>{user.name.split(' ')[0]}</H4>
+                </MCView>
+              );
+            })}
+          </MCView>
+          {item.teammates.length === 0 ? (
             <MCEmptyText>{t('empty_teammates')}</MCEmptyText>
           ) : isMember ? (
             <MCButton
