@@ -343,7 +343,7 @@ class AddResourceScreen extends React.PureComponent {
         pt={1}
         pb={1}
         width={160}
-        height={80}
+        height={100}
         style={{
           opacity: selectedMostImpacts.indexOf(item) > -1 ? 1 : 0.5,
         }}>
