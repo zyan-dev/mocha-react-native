@@ -30,16 +30,6 @@ class MyChallenges extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    const {myChallenges, focusedChallenge} = this.props;
-    const findIndex = myChallenges.findIndex(
-      i => i._id === focusedChallenge._id,
-    );
-    setTimeout(() => {
-      this._carousel && this._carousel.snapToItem(findIndex, true);
-    }, 2000);
-  }
-
   onPressChallenge = item => {
     this.props.focusChallenge(item);
   };
@@ -142,6 +132,11 @@ class MyChallenges extends React.Component {
 
   render() {
     const {t, profile, myChallenges, focusedChallenge} = this.props;
+    if (!focusedChallenge._id) return null;
+    const initialSliderIndex = this.filterChallenges(myChallenges).findIndex(
+      i => i._id === focusedChallenge._id,
+    );
+    console.log({initialSliderIndex});
     return (
       <MCRootView justify="flex-start" background="transparent">
         <MCContent
@@ -150,7 +145,7 @@ class MyChallenges extends React.Component {
             paddingTop: 20,
             paddingBottom: 50,
           }}>
-          {myChallenges.length === 0 ? (
+          {this.filterChallenges(myChallenges).length === 0 ? (
             <MCView width={345} align="center">
               <MCButton
                 onPress={() => this.onPressAddChallenge()}
@@ -167,10 +162,25 @@ class MyChallenges extends React.Component {
               ref={c => {
                 this._carousel = c;
               }}
+              onLayout={() => {
+                console.log('hi');
+                setTimeout(() => {
+                  this._carousel.snapToItem(initialSliderIndex, true);
+                });
+              }}
               data={this.filterChallenges(myChallenges)}
               renderItem={this._renderChallengeItem}
               sliderWidth={dySize(345)}
               itemWidth={dySize(250)}
+              initialNumToRender={1}
+              firstItem={0}
+              initialScrollIndex={0}
+              getItemLayout={(_, index) => ({
+                length: dySize(345),
+                offset: dySize(345) * index,
+                index,
+              })}
+              maxToRenderPerBatch={1}
               onSnapToItem={index =>
                 this.onPressChallenge(
                   this.filterChallenges(myChallenges)[index],

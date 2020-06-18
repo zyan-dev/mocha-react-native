@@ -203,3 +203,18 @@ export function* removeChallenge(action) {
     yield put({type: types.API_FINISHED, payload: e.toString()});
   }
 }
+
+export function* getChallengeById(action) {
+  try {
+    const {id} = action.payload;
+    response = yield call(API.getChallengeById, id);
+    if (response.data.status === 'success') {
+      yield put({
+        type: types.FOCUS_CHALLENGE,
+        payload: response.data.data.challenges[0],
+      });
+    }
+  } catch (e) {
+    yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}

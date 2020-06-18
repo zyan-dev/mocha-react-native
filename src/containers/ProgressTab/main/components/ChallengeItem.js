@@ -58,6 +58,9 @@ class ChallengeItem extends React.PureComponent {
       name: item.ownerName,
       avatar: item.ownerAvatar,
     };
+    const members = [owner]
+      .concat(item.teammates)
+      .filter(i => i._id !== profile._id);
     return (
       <MCView width={345} align="center" pv={10}>
         <MCView row pv={10} ph={5} height={180}>
@@ -158,8 +161,7 @@ class ChallengeItem extends React.PureComponent {
         </NativeCard>
         <NativeCard width={335} mt={20} align="center">
           <MCView row wrap width={315} justify="center">
-            {[owner].concat(item.teammates).map(user => {
-              if (user._id === profile._id) return null;
+            {members.map(user => {
               if (!user.name) return null;
               return (
                 <MCView align="center" width={90} ml={7.5} mr={7.5}>
@@ -175,7 +177,7 @@ class ChallengeItem extends React.PureComponent {
               );
             })}
           </MCView>
-          {item.teammates.length === 0 ? (
+          {members.length === 0 ? (
             <MCEmptyText>{t('empty_teammates')}</MCEmptyText>
           ) : isMember ? (
             <MCButton

@@ -39,3 +39,8 @@ export const removeChallenge = id => ({
   type: types.REMOVE_CHALLENGE,
   payload: {id},
 });
+
+export const getChallengeById = id => ({
+  type: types.GET_CHALLENGE_BY_ID,
+  payload: {id},
+});

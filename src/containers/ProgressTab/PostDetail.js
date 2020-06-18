@@ -93,8 +93,9 @@ class PostDetailScreen extends React.Component {
   };
 
   onPressChallenge = challenge => {
-    // this.props.focusChallenge(challenge);
-    // NavigationService.navigate('ChallengeDetail');
+    this.props.focusChallenge(challenge);
+    this.props.getChallengeById(challenge._id);
+    NavigationService.navigate('ChallengeDetail');
   };
 
   getGallaryImages = () => {
@@ -300,6 +301,7 @@ const mapDispatchToProps = {
   selectPost: postActions.selectPost,
   removePosts: postActions.removePosts,
   focusChallenge: challengeActions.focusChallenge,
+  getChallengeById: challengeActions.getChallengeById,
 };
 
 export default withTranslation()(
