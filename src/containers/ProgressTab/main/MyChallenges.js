@@ -163,7 +163,8 @@ class MyChallenges extends React.Component {
               }}
               onLayout={() => {
                 setTimeout(() => {
-                  this._carousel.snapToItem(initialSliderIndex, true);
+                  this._carousel &&
+                    this._carousel.snapToItem(initialSliderIndex, true);
                 });
               }}
               data={this.filterChallenges(myChallenges)}
