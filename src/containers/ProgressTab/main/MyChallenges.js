@@ -132,11 +132,10 @@ class MyChallenges extends React.Component {
 
   render() {
     const {t, profile, myChallenges, focusedChallenge} = this.props;
-    if (!focusedChallenge._id) return null;
+    if (!focusedChallenge || !focusedChallenge._id) return null;
     const initialSliderIndex = this.filterChallenges(myChallenges).findIndex(
       i => i._id === focusedChallenge._id,
     );
-    console.log({initialSliderIndex});
     return (
       <MCRootView justify="flex-start" background="transparent">
         <MCContent
@@ -163,7 +162,6 @@ class MyChallenges extends React.Component {
                 this._carousel = c;
               }}
               onLayout={() => {
-                console.log('hi');
                 setTimeout(() => {
                   this._carousel.snapToItem(initialSliderIndex, true);
                 });
