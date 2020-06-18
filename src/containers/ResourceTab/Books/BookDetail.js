@@ -141,9 +141,9 @@ class BookDetailScreen extends React.PureComponent {
     let allImpacts = [];
     allImpacts = _.concat(
       allImpacts,
-      resource.data.mostImpacts,
-      resource.data.veryImpacts,
-      resource.data.impacts,
+      resource.data.mostImpacts || [],
+      resource.data.veryImpacts || [],
+      resource.data.impacts || [],
     );
 
     return (
@@ -173,13 +173,15 @@ class BookDetailScreen extends React.PureComponent {
               </MCView>
               <MCView width={170} mr={40}>
                 <H3 weight="bold">{resource.data.title}</H3>
-                <H5 weight="bold">{t('resource_type_book_author')}</H5>
-                {resource.data.authors &&
-                  resource.data.authors.map((item, index) => (
-                    <H5 key={index} ml={10}>
-                      {item}
-                    </H5>
-                  ))}
+                <MCView row wrap>
+                  <H5 weight="bold">{t('resource_type_book_author')}</H5>
+                  {resource.data.authors &&
+                    resource.data.authors.map((item, index) => (
+                      <H5 key={index} ml={10}>
+                        {item}
+                      </H5>
+                    ))}
+                </MCView>
                 <MCView row>
                   <H5 weight="bold">{t('resource_type_book_released')}</H5>
                   <H5 ml={10}>{resource.data.publishDate}</H5>
@@ -276,39 +278,47 @@ class BookDetailScreen extends React.PureComponent {
             </MCView>
 
             {from == 'global' || from == 'search' || from == 'bookmark' ? (
-              <MCView width={350} mb={30} row justify="center">
-                <MCView align="center" style={{flex: 1}}>
-                  <H4 underline>{t('resource_type_book_impact')}</H4>
-                  {impactsArray.map(item => (
-                    <MCBookTagsView
-                      tags={Object.keys(item)}
-                      impact={true}
-                      users={item[Object.keys(item)]}
-                      t={t}
-                      theme={theme}
-                    />
-                  ))}
-                </MCView>
-                <MCView align="center" style={{flex: 1}}>
-                  <H4 underline>{t('resource_type_book_skill')}</H4>
-                  {skillsArray.map(item => (
-                    <MCBookTagsView
-                      tags={Object.keys(item)}
-                      impact={false}
-                      users={item[Object.keys(item)]}
-                      t={t}
-                      theme={theme}
-                    />
-                  ))}
-                </MCView>
+              <MCView mb={30}>
+                {impactsArray.length > 0 && (
+                  <MCView width={350}>
+                    <H4 underline>{t('resource_type_book_impact')}</H4>
+                    <MCView row wrap>
+                      {impactsArray.map(item => (
+                        <MCBookTagsView
+                          tags={Object.keys(item)}
+                          impact={true}
+                          users={item[Object.keys(item)]}
+                          t={t}
+                          theme={theme}
+                        />
+                      ))}
+                    </MCView>
+                  </MCView>
+                )}
+                {skillsArray.length > 0 && (
+                  <MCView width={350}>
+                    <H4 underline>{t('resource_type_book_skill')}</H4>
+                    <MCView row wrap>
+                      {skillsArray.map(item => (
+                        <MCBookTagsView
+                          tags={Object.keys(item)}
+                          impact={false}
+                          users={item[Object.keys(item)]}
+                          t={t}
+                          theme={theme}
+                        />
+                      ))}
+                    </MCView>
+                  </MCView>
+                )}
               </MCView>
             ) : (
-              <MCView width={350} mb={30} row justify="center">
-                <MCView align="center" style={{flex: 1}}>
+              <MCView mb={30}>
+                <MCView width={350}>
                   <H4 underline>{t('resource_type_book_impact')}</H4>
                   <MCBookTagsView tags={allImpacts} impact={true} t={t} />
                 </MCView>
-                <MCView align="center" style={{flex: 1}}>
+                <MCView width={350}>
                   <H4 underline>{t('resource_type_book_skill')}</H4>
                   <MCBookTagsView tags={resource.data.skills} t={t} />
                 </MCView>

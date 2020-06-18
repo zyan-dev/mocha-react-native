@@ -2,18 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {MCView} from '../styled/View';
-import {H4, H6} from '../styled/Text';
+import {H4, H5} from '../styled/Text';
 import {dySize} from 'utils/responsive';
 import {MCImage} from 'components/common';
-
-const TagView = styled(H4)`
-  border: 1px solid ${props => props.theme.colors.border};
-  border-radius: ${dySize(8)}px;
-  color: #000000;
-  background-color: ${props => (props.type ? '#C1F1D8' : '#FFE482')};
-  overflow: hidden;
-  text-align: ${props => props.align || 'left'};
-`;
 
 export default class MCBookTagsView extends React.PureComponent {
   static propTypes = {
@@ -24,34 +15,45 @@ export default class MCBookTagsView extends React.PureComponent {
     const {t, tags, impact, users, theme} = this.props;
 
     return (
-      <MCView column align="center">
+      <MCView row wrap>
         {!tags.length ? (
           <H4>No tags</H4>
         ) : (
           tags.map((tag, index) => (
             <MCView
-              mr={10}
-              mb={10}
+              mr={5}
+              mb={5}
               style={{
                 postion: 'relative',
               }}>
-              <TagView
-                width={160}
+              <MCView
+                width={110}
+                height={60}
+                br={5}
+                row
                 align="center"
                 justify="center"
-                align="center"
                 key={index}
-                ph={5}
-                type={impact}>
-                {impact
-                  ? t(`resource_book_impact_${tag}`)
-                  : tag.indexOf('resource_manual_') > -1
-                  ? t(tag.slice('resource_manual_'.length))
-                  : t(`skill_${tag}`)}
-              </TagView>
+                type={impact}
+                background={impact ? '#C1F1D8' : '#FFE482'}>
+                {impact ? (
+                  <H5 align="center" color="#000000">
+                    {' '}
+                    {t(`resource_book_impact_${tag}`)}
+                  </H5>
+                ) : tag.indexOf('resource_manual_') > -1 ? (
+                  <H5 align="center" color="#000000">
+                    {t(tag.slice('resource_manual_'.length))}
+                  </H5>
+                ) : (
+                  <H5 align="center" color="#000000">
+                    {t(`skill_${tag}`)}
+                  </H5>
+                )}
+              </MCView>
 
               {users && (
-                <MCView row justify="flex-end" mt={-10} mb={20} width={160}>
+                <MCView row justify="flex-end" mt={-10} width={105}>
                   {users.slice(0, 3).map((avatar, index) => (
                     <>
                       <MCView ml={-14}>
