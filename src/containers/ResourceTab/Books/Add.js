@@ -1,5 +1,5 @@
 import React from 'react';
-import {Linking, FlatList, ScrollView} from 'react-native';
+import {Linking, FlatList, ScrollView, SectionList} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import i18next from 'i18next';
@@ -525,7 +525,7 @@ class AddResourceScreen extends React.PureComponent {
               <H4>{t('resource_book_impact_type_one')}</H4>
             </MCView>
             <MCView row wrap>
-              <ScrollView>
+              <ScrollView horizontal>
                 <FlatList
                   data={impacts}
                   renderItem={this._renderImpact}
@@ -543,7 +543,7 @@ class AddResourceScreen extends React.PureComponent {
             <MCView>
               <H4>{t('resource_book_impact_type_two')}</H4>
             </MCView>
-            <ScrollView>
+            <ScrollView horizontal>
               <FlatList
                 data={veryImpacts}
                 renderItem={this._renderVeryImpact}
@@ -561,7 +561,7 @@ class AddResourceScreen extends React.PureComponent {
             <MCView>
               <H4>{t('resource_book_impact_type_three')}</H4>
             </MCView>
-            <ScrollView>
+            <ScrollView horizontal>
               <FlatList
                 data={mostImpacts}
                 renderItem={this._renderMostImpact}
