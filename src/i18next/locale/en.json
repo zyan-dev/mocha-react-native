@@ -148,6 +148,7 @@
   "empty_teammates": "No teammates",
   "edit_emotion_headerTitle": "Edit emotion",
   "edit_need_headerTitle": "Edit Need",
+  "ended_on": "Ended on {{date}}",
   "error_add_new_duplicated": "This value already exists.",
   "error_no_value_card_selected": "No cards is selected",
   "error_input_audio": "You must record your name pronunciation",

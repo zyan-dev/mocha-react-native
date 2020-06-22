@@ -5,6 +5,7 @@ import {withTranslation} from 'react-i18next';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {SkypeIndicator} from 'react-native-indicators';
 import i18next from 'i18next';
+import moment from 'moment';
 import * as _ from 'lodash';
 import {H1, H3, H4} from 'components/styled/Text';
 import {MCButton} from 'components/styled/Button';
@@ -92,7 +93,8 @@ class PostDetailScreen extends React.Component {
   };
 
   onPressChallenge = challenge => {
-    this.props.selectChallenge(challenge);
+    this.props.focusChallenge(challenge);
+    this.props.getChallengeById(challenge._id);
     NavigationService.navigate('ChallengeDetail');
   };
 
@@ -110,7 +112,7 @@ class PostDetailScreen extends React.Component {
     const {post, selectedImageUrl, showImagePreview} = this.state;
     const {t, theme, profile, myChallenges} = this.props;
     const mine = post.ownerId === profile._id;
-    const relatedChallenge = myChallenges.find(c => c._id === post.challengeId);
+    const relatedChallenge = post.challengeInfo[0];
     return (
       <MCRootView justify="flex-start">
         <MCHeader
@@ -208,13 +210,25 @@ class PostDetailScreen extends React.Component {
                       return getChallengeIcon(i.category, theme.colors.text);
                     })}
                 </MCView>
-                <MCView row align="center">
-                  <H3>{t('unit_day')}: </H3>
-                  <H1 weight="bold">
-                    {getDayOf(relatedChallenge.created)}
-                    <H3> /{relatedChallenge.duration}</H3>
-                  </H1>
-                </MCView>
+                {getDayOf(relatedChallenge.created) < 0 ? (
+                  <MCView row align="center">
+                    <H3 weight="italic">
+                      {t('ended_on', {
+                        date: moment(relatedChallenge.created)
+                          .add(relatedChallenge.duration, 'days')
+                          .format('MMM Do'),
+                      })}
+                    </H3>
+                  </MCView>
+                ) : (
+                  <MCView row align="center">
+                    <H3>{t('unit_day')}: </H3>
+                    <H1 weight="bold">
+                      {getDayOf(relatedChallenge.created)}
+                      <H3> /{relatedChallenge.duration}</H3>
+                    </H1>
+                  </MCView>
+                )}
               </MCButton>
             </NativeCard>
           )}
@@ -286,7 +300,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   selectPost: postActions.selectPost,
   removePosts: postActions.removePosts,
-  selectChallenge: challengeActions.selectChallenge,
+  focusChallenge: challengeActions.focusChallenge,
+  getChallengeById: challengeActions.getChallengeById,
 };
 
 export default withTranslation()(

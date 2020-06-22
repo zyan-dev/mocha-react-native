@@ -30,16 +30,6 @@ class MyChallenges extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    const {myChallenges, focusedChallenge} = this.props;
-    const findIndex = myChallenges.findIndex(
-      i => i._id === focusedChallenge._id,
-    );
-    setTimeout(() => {
-      this._carousel && this._carousel.snapToItem(findIndex, true);
-    }, 2000);
-  }
-
   onPressChallenge = item => {
     this.props.focusChallenge(item);
   };
@@ -105,12 +95,17 @@ class MyChallenges extends React.Component {
     );
   };
 
+  filterChallenges = challenges => {
+    return challenges.filter(i => {
+      const dayLeft = i.duration - getDayOf(i.created);
+      return dayLeft >= 0;
+    });
+  };
+
   _renderChallengeItem = ({item}) => {
     const {t, theme, focusedChallenge} = this.props;
-    if (!focusedChallenge) return null;
-    const selected = focusedChallenge._id === item._id;
     return (
-      <NativeCard width={250} justify="flex-start" pv={1}>
+      <NativeCard width={250} justify="flex-start" pv={1} mt={10} mb={10}>
         <H3 weight="bold">{item.title}</H3>
         <MCView row>
           <MCView width={150} align="center">
@@ -137,6 +132,10 @@ class MyChallenges extends React.Component {
 
   render() {
     const {t, profile, myChallenges, focusedChallenge} = this.props;
+    if (!focusedChallenge || !focusedChallenge._id) return null;
+    const initialSliderIndex = this.filterChallenges(myChallenges).findIndex(
+      i => i._id === focusedChallenge._id,
+    );
     return (
       <MCRootView justify="flex-start" background="transparent">
         <MCContent
@@ -145,7 +144,7 @@ class MyChallenges extends React.Component {
             paddingTop: 20,
             paddingBottom: 50,
           }}>
-          {myChallenges.length === 0 ? (
+          {this.filterChallenges(myChallenges).length === 0 ? (
             <MCView width={345} align="center">
               <MCButton
                 onPress={() => this.onPressAddChallenge()}
@@ -162,11 +161,30 @@ class MyChallenges extends React.Component {
               ref={c => {
                 this._carousel = c;
               }}
-              data={myChallenges}
+              onLayout={() => {
+                setTimeout(() => {
+                  this._carousel &&
+                    this._carousel.snapToItem(initialSliderIndex, true);
+                });
+              }}
+              data={this.filterChallenges(myChallenges)}
               renderItem={this._renderChallengeItem}
               sliderWidth={dySize(345)}
               itemWidth={dySize(250)}
-              onSnapToItem={index => this.onPressChallenge(myChallenges[index])}
+              initialNumToRender={1}
+              firstItem={0}
+              initialScrollIndex={0}
+              getItemLayout={(_, index) => ({
+                length: dySize(345),
+                offset: dySize(345) * index,
+                index,
+              })}
+              maxToRenderPerBatch={1}
+              onSnapToItem={index =>
+                this.onPressChallenge(
+                  this.filterChallenges(myChallenges)[index],
+                )
+              }
             />
           )}
 
