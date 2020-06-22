@@ -1,5 +1,5 @@
 import React from 'react';
-import {Linking, FlatList, ScrollView, ListView} from 'react-native';
+import {Linking, FlatList, ScrollView} from 'react-native';
 import {withTranslation} from 'react-i18next';
 import {connect} from 'react-redux';
 import i18next from 'i18next';
