@@ -44,3 +44,7 @@ export const getChallengeById = id => ({
   type: types.GET_CHALLENGE_BY_ID,
   payload: {id},
 });
+
+export const resetMyChallenges = () => ({
+  type: types.RESET_MY_CHALLENGES,
+});

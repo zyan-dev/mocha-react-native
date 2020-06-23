@@ -185,6 +185,7 @@ function* mySaga() {
   yield takeEvery(types.GET_USER_CHALLENGES, challengeSaga.getUserChallenges);
   yield takeEvery(types.REMOVE_CHALLENGE, challengeSaga.removeChallenge);
   yield takeEvery(types.GET_CHALLENGE_BY_ID, challengeSaga.getChallengeById);
+  yield takeEvery(types.RESET_MY_CHALLENGES, challengeSaga.resetMyChallenges);
 }
 
 export default mySaga;

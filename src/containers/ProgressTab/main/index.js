@@ -8,6 +8,7 @@ import {MCRootView} from 'components/styled/View';
 import {MCButton} from 'components/styled/Button';
 import {H3} from 'components/styled/Text';
 import {postActions, challengeActions} from 'Redux/actions';
+import {getTodayStartDateStamp} from 'services/operators';
 import MyChallengesScreen from './MyChallenges';
 import ProgressMembersTab from './Members';
 import AddChallengeScreen from './AddChallenge';
@@ -20,6 +21,17 @@ class ProgressScreen extends React.Component {
     this.state = {
       index: 0,
     };
+  }
+
+  componentWillMount() {
+    const {resetMyChallenges} = this.props;
+    // reset my challenges and set time for the next reset
+    resetMyChallenges();
+    const resetTimeIn =
+      getTodayStartDateStamp() + 86400 * 1000 - new Date().getTime();
+    setTimeout(() => {
+      resetMyChallenges();
+    }, resetTimeIn);
   }
 
   onChangeTabIndex = i => {
@@ -132,6 +144,7 @@ const mapDispatchToProps = {
   getPosts: postActions.getPosts,
   getPostTrustMembers: postActions.getPostTrustMembers,
   getUserChallenges: challengeActions.getUserChallenges,
+  resetMyChallenges: challengeActions.resetMyChallenges,
 };
 
 export default withTranslation()(

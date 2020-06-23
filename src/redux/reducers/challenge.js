@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   pageIndex: 1,
   pageLimited: false,
   loading: false,
+  resetTime: 0,
 };
 
 const challengeReducer = (state = INITIAL_STATE, action) => {
@@ -71,6 +72,11 @@ const challengeReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         teammates: state.teammates.concat(action.payload),
+      };
+    case types.SET_CHALLENGE_RESET_TIME:
+      return {
+        ...state,
+        resetTime: action.payload,
       };
     case types.RESET_ALL_REDUCER:
       return INITIAL_STATE;

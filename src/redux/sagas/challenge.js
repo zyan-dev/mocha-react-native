@@ -1,8 +1,10 @@
 import {call, put, select} from 'redux-saga/effects';
 import * as _ from 'lodash';
+import i18next from 'i18next';
 import * as types from '../actions/types';
 import API from 'services/api';
 import NavigationService from 'navigation/NavigationService';
+import {getTodayStartDateStamp, getWeekNumber} from 'services/operators';
 
 export function* getUserChallenges(action) {
   try {
@@ -32,6 +34,12 @@ export function* getUserChallenges(action) {
           yield put({
             type: types.FOCUS_CHALLENGE,
             payload: challenges[0],
+          });
+        } else {
+          const find = challenges.find(i => i._id === focusedChallenge._id);
+          yield put({
+            type: types.FOCUS_CHALLENGE,
+            payload: find,
           });
         }
       }
@@ -216,5 +224,40 @@ export function* getChallengeById(action) {
     }
   } catch (e) {
     yield put({type: types.API_FINISHED, payload: e.toString()});
+  }
+}
+
+export function* resetMyChallenges(action) {
+  try {
+    const {
+      challengeReducer: {resetTime},
+      profileReducer: {_id},
+    } = yield select();
+    const todayStartTS = getTodayStartDateStamp();
+    if (todayStartTS === resetTime) return;
+    yield put({type: types.API_CALLING});
+
+    const response = yield call(API.resetMyChallenges);
+    if (response.data.status === 'success') {
+      yield put({type: types.GET_CHALLENGE_BY_ID, payload: _id});
+      yield put({
+        type: types.SET_CHALLENGE_RESET_TIME,
+        payload: getTodayStartDateStamp(),
+      });
+      yield put({
+        type: types.API_FINISHED,
+        payload: i18next.t('challenge_reset_success'),
+      });
+    } else {
+      yield put({
+        type: types.API_FINISHED,
+        payload: response.data.data.message,
+      });
+    }
+  } catch (e) {
+    yield put({
+      type: types.API_FINISHED,
+      payload: e.toString(),
+    });
   }
 }
