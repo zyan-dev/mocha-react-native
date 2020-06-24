@@ -472,7 +472,7 @@ class AddResourceScreen extends React.PureComponent {
                 </MCButton>
               ))}
             </ScrollView>
-            <MCView>
+            <MCView mt={15}>
               <H4>{t('resource_book_impact_type_two')}</H4>
             </MCView>
             <ScrollView
@@ -508,7 +508,7 @@ class AddResourceScreen extends React.PureComponent {
                 </MCButton>
               ))}
             </ScrollView>
-            <MCView>
+            <MCView mt={15}>
               <H4>{t('resource_book_impact_type_three')}</H4>
             </MCView>
             <ScrollView
