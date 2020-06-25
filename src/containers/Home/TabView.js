@@ -164,7 +164,7 @@ class TabView extends React.PureComponent {
             row
             width={375}
             align="center"
-            height={TabBarHeight}
+            height={isIphoneX() ? 60 : 70}
             style={{
               shadowColor: '#000000',
               shadowRadius: 10,
