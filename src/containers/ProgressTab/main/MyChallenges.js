@@ -104,8 +104,17 @@ class MyChallenges extends React.Component {
 
   _renderChallengeItem = ({item}) => {
     const {t, theme, focusedChallenge} = this.props;
+    const focused = focusedChallenge._id === item._id;
     return (
-      <NativeCard width={250} justify="flex-start" pv={1} mt={10} mb={10}>
+      <NativeCard
+        width={250}
+        background={theme.colors.background}
+        justify="flex-start"
+        pv={1}
+        ml={5}
+        mr={5}
+        mt={10}
+        mb={10}>
         <H3 weight="bold">{item.title}</H3>
         <MCView row>
           <MCView width={150} align="center">
@@ -170,7 +179,7 @@ class MyChallenges extends React.Component {
               data={this.filterChallenges(myChallenges)}
               renderItem={this._renderChallengeItem}
               sliderWidth={dySize(345)}
-              itemWidth={dySize(250)}
+              itemWidth={dySize(260)}
               initialNumToRender={1}
               firstItem={0}
               initialScrollIndex={0}
