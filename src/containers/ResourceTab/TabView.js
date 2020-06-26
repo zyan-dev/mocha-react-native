@@ -67,10 +67,11 @@ class ResourceTabView extends React.Component {
     const renderTabBar = props => (
       <TabBar
         {...props}
-        indicatorStyle={{backgroundColor: theme.colors.text}}
+        indicatorStyle={{backgroundColor: theme.colors.outline}}
         style={{
           backgroundColor: theme.colors.background,
           borderBottomWidth: 0,
+          elevation: 0,
         }}
         renderLabel={({route, focused, color}) => {
           return (

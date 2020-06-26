@@ -95,6 +95,7 @@ class FeedScreen extends React.Component {
         style={{
           backgroundColor: 'transparent',
           borderBottomWidth: 0,
+          elevation: 0,
         }}
         renderLabel={({route, focused, color}) => {
           const iconColor = focused ? theme.colors.outline : theme.colors.text;
