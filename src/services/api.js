@@ -87,7 +87,7 @@ const createNotificationSettings = param =>
 const getTrustMembers = param =>
   apiCall(
     'get',
-    `${URL_TRUST_MEMBERS}?status=${param.status}&me=${param.me}&name=${
+    `${URL_TRUST_MEMBERS}?status=${param.status}&me=${param.me || ''}&name=${
       param.name
     }&page=${param.page}`,
     {},
