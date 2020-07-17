@@ -153,10 +153,19 @@ export function* updateChatRoom(action) {
   try {
     const {
       profileReducer,
-      chatReducer: {selectedRoom},
+      chatReducer: {selectedRoom, chatVisitStatus},
     } = yield select();
     const response = yield call(API.updateChatRoom, action.payload);
     if (response.data.status === 'success') {
+      // update local chatVisitStatus immediately when you sent a message (to avoid unread status after sending own message)
+      if (action.payload.last_updated) {
+        chatVisitStatus[action.payload._id] = action.payload.last_updated;
+        yield put({
+          type: types.SET_CHAT_VISIT_STATUS,
+          payload: chatVisitStatus,
+        });
+      }
+
       yield put({type: types.GET_MY_CHAT_ROOMS});
       if (response.data.data.chat) {
         yield put({

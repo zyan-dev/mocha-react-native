@@ -350,6 +350,8 @@ class ChatRoomScreen extends React.Component {
     this.setState({showEmojiView: false});
   };
 
+  // =======================================   Rendering  ==========================================
+
   _renderBubbleItem = ({item, index}) => {
     const {roomMessages} = this.props;
     let hasAvatar = true;
@@ -410,8 +412,6 @@ class ChatRoomScreen extends React.Component {
       </MCButton>
     );
   };
-
-  // =======================================   Rendering  ==========================================
 
   render() {
     const {
