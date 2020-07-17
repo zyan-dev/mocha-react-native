@@ -144,7 +144,6 @@ class ChatRoomScreen extends React.Component {
               return;
             }
 
-            console.log({uploadedSmallURL});
             // upload big image
             const uploadedURL = await API.fileUploadToS3({
               image: selectedImage.path,
@@ -156,20 +155,17 @@ class ChatRoomScreen extends React.Component {
               setLoading(false);
               return;
             }
-            console.log({uploadedURL});
             msgData.image = uploadedURL;
             msgData.imageSmall = uploadedSmallURL;
             setLoading(false);
-
-            sendMessage(msgData, () => {
-              this.setState({
-                text: '',
-                selectedImage: null,
-                lastItem: null,
-                count: count + 1,
-              });
-              getRoomMessages(selectedRoom._id, count + 1);
+            this.setState({
+              text: '',
+              selectedImage: null,
+              lastItem: null,
+              count: count + 1,
             });
+            getRoomMessages(selectedRoom._id, count + 1);
+            sendMessage(msgData);
           })
           .catch(err => {
             // Oops, something went wrong. Check that the filename is correct and
@@ -181,16 +177,14 @@ class ChatRoomScreen extends React.Component {
       }
     } else {
       setLoading(false);
-
-      sendMessage(msgData, () => {
-        this.setState({
-          text: '',
-          selectedImage: null,
-          lastItem: null,
-          count: count + 1,
-        });
-        getRoomMessages(selectedRoom._id, count + 1);
+      this.setState({
+        text: '',
+        selectedImage: null,
+        lastItem: null,
+        count: count + 1,
       });
+      getRoomMessages(selectedRoom._id, count + 1);
+      sendMessage(msgData);
     }
   };
 
@@ -424,6 +418,7 @@ class ChatRoomScreen extends React.Component {
       showEmojiView,
       selectedEmoji,
       showMemberList,
+      firstLoad,
     } = this.state;
     const {
       t,
@@ -508,113 +503,115 @@ class ChatRoomScreen extends React.Component {
             })}
           </MCView>
         )}
-
-        <KeyboardAvoidingView
-          style={{flex: 1, alignItems: 'center', marginTop: dySize(10)}}
-          behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
-          <FlatList
-            keyboardShouldPersistTaps="always"
-            ref={ref => (this.chatList = ref)}
-            contentContainerStyle={{
-              width: dySize(375),
-              alignItems: 'center',
-              paddingVertical: 10,
-              paddingTop: 40,
-            }}
-            data={roomMessageIds}
-            renderItem={this._renderBubbleItem}
-            keyExtractor={item => item}
-            ListEmptyComponent={
-              <MCEmptyText mt={50}>
-                {loading ? t('progress_loading') : t('no_messages')}
-              </MCEmptyText>
-            }
-            onScrollEndDrag={() => this.onScrollEndDrag()}
-            onScrollBeginDrag={() => this.onScrollBeginDrag()}
-            viewabilityConfig={this.viewabilityConfig}
-            onViewableItemsChanged={this.onViewableItemsChanged}
-            onScrollToIndexFailed={info => {
-              this.chatList.scrollToIndex({
-                animated: false,
-                index: info.highestMeasuredFrameIndex,
-              });
-              setTimeout(() => {
-                this.scrollToEnd();
-              }, 500);
-            }}
-            refreshControl={
-              <RefreshControl
-                colors={['#9Bd35A', '#689F38']}
-                onRefresh={this.loadMoreMessages.bind(this)}
-                title="Load more"
-              />
-            }
-          />
-          {topBubbleDate > 0 && showTopBubbleDate && (
-            <MCView
-              br={20}
-              width={240}
-              height={40}
-              style={{
-                position: 'absolute',
-                top: 10,
+        {loading && !firstLoad && (
+          <MCEmptyText mt={50}>{t('progress_loading')}</MCEmptyText>
+        )}
+        {!loading && roomMessageIds.length === 0 && (
+          <MCEmptyText mt={50}>{t('no_messages')}</MCEmptyText>
+        )}
+        {firstLoad && roomMessageIds.length > 0 && (
+          <KeyboardAvoidingView
+            style={{flex: 1, alignItems: 'center', marginTop: dySize(10)}}
+            behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
+            <FlatList
+              keyboardShouldPersistTaps="always"
+              ref={ref => (this.chatList = ref)}
+              contentContainerStyle={{
+                width: dySize(375),
                 alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: theme.colors.text,
-                opacity: 0.6,
-              }}>
-              <H4 color={theme.colors.background}>
-                {getDateString(topBubbleDate)}
-              </H4>
-            </MCView>
-          )}
-          {selectedImage && (
-            <MCView
-              row
-              align="center"
-              justify="space-between"
-              width={350}
-              pv={10}>
-              <MCImage
-                width={70}
-                height={70}
-                image={{uri: selectedImage.path}}
-                resizeMode="cover"
-                br={10}
-              />
-              <H4>Image attached</H4>
-            </MCView>
-          )}
-
-          <MCView row align="center" width={350} pv={10}>
-            <MCButton onPress={() => this.onPressAttachment()} ml={-10}>
-              <MCIcon type="FontAwesome5Pro" name="plus-circle" />
-            </MCButton>
-            <MCTextInput
-              value={text}
-              multiline
-              onChangeText={text => this.setState({text})}
-              placeholder="Type your message here..."
-              placeholderTextColor={theme.colors.border}
-              style={{flex: 1, minHeight: 'auto'}}
-              onFocus={() => this.scrollToEnd()}
+                paddingVertical: 10,
+              }}
+              data={roomMessageIds}
+              renderItem={this._renderBubbleItem}
+              keyExtractor={item => item}
+              onScrollEndDrag={() => this.onScrollEndDrag()}
+              onScrollBeginDrag={() => this.onScrollBeginDrag()}
+              viewabilityConfig={this.viewabilityConfig}
+              onViewableItemsChanged={this.onViewableItemsChanged}
+              onScrollToIndexFailed={info => {
+                this.chatList.scrollToIndex({
+                  animated: false,
+                  index: info.highestMeasuredFrameIndex,
+                });
+                setTimeout(() => {
+                  this.scrollToEnd();
+                }, 500);
+              }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={loading}
+                  colors={['#9Bd35A', '#689F38']}
+                  onRefresh={this.loadMoreMessages.bind(this)}
+                  title="Load more"
+                />
+              }
             />
-            <MCButton onPress={() => this.sendMessage()} mr={-10}>
-              <MCIcon type="FontAwesome5Pro" name="paper-plane" />
-            </MCButton>
-          </MCView>
-          <FloatingAction
-            ref={ref => {
-              this.floatingAction = ref;
-            }}
-            visible={false}
-            actions={flatingActions}
-            onPressItem={name => this.onAttachmentItem(name)}
-            position="left"
-            distanceToEdge={10}
-            overlayColor="rgba(0, 0, 0, 0.8)"
-          />
-        </KeyboardAvoidingView>
+            {topBubbleDate > 0 && showTopBubbleDate && (
+              <MCView
+                br={20}
+                width={240}
+                height={40}
+                style={{
+                  position: 'absolute',
+                  top: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: theme.colors.text,
+                  opacity: 0.6,
+                }}>
+                <H4 color={theme.colors.background}>
+                  {getDateString(topBubbleDate)}
+                </H4>
+              </MCView>
+            )}
+            {selectedImage && (
+              <MCView
+                row
+                align="center"
+                justify="space-between"
+                width={350}
+                pv={10}>
+                <MCImage
+                  width={70}
+                  height={70}
+                  image={{uri: selectedImage.path}}
+                  resizeMode="cover"
+                  br={10}
+                />
+                <H4>Image attached</H4>
+              </MCView>
+            )}
+
+            <MCView row align="center" width={350} pv={10}>
+              <MCButton onPress={() => this.onPressAttachment()} ml={-10}>
+                <MCIcon type="FontAwesome5Pro" name="plus-circle" />
+              </MCButton>
+              <MCTextInput
+                value={text}
+                multiline
+                onChangeText={text => this.setState({text})}
+                placeholder="Type your message here..."
+                placeholderTextColor={theme.colors.border}
+                style={{flex: 1, minHeight: 'auto'}}
+                onFocus={() => this.scrollToEnd()}
+              />
+              <MCButton onPress={() => this.sendMessage()} mr={-10}>
+                <MCIcon type="FontAwesome5Pro" name="paper-plane" />
+              </MCButton>
+            </MCView>
+            <FloatingAction
+              ref={ref => {
+                this.floatingAction = ref;
+              }}
+              visible={false}
+              actions={flatingActions}
+              onPressItem={name => this.onAttachmentItem(name)}
+              position="left"
+              distanceToEdge={10}
+              overlayColor="rgba(0, 0, 0, 0.8)"
+            />
+          </KeyboardAvoidingView>
+        )}
         <RBSheet
           ref={ref => (this.RBSheet = ref)}
           openDuration={500}

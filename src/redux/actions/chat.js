@@ -56,11 +56,11 @@ export const gotoChatRoom = roomID => ({
 
 export const getRoomMessages = (roomId, count) => (dispatch, getState) => {
   dispatch(closeRoomMessageListener());
+  dispatch(setChatLoading(true));
   database()
     .ref(`/chatrooms/${roomId}/history`)
     .limitToLast(count)
     .on('value', snapshot => {
-      dispatch(setChatLoading(true));
       dispatch(setRoomMessages(snapshot.val() || {}));
       dispatch(getMyChatRooms());
       dispatch(setChatLoading(false));
@@ -103,7 +103,7 @@ export const closeRoomMessageListener = () => (dispatch, getState) => {
     .off();
 };
 
-export const sendMessage = (msgData, callback) => (dispatch, getState) => {
+export const sendMessage = msgData => (dispatch, getState) => {
   const selectedRoom = getState().chatReducer.selectedRoom;
   database()
     .ref(`/chatrooms/${selectedRoom._id}/history/${msgData.date}`)
@@ -119,7 +119,6 @@ export const sendMessage = (msgData, callback) => (dispatch, getState) => {
           last_userId: msgData.userId,
         }),
       );
-      callback();
     });
 };
 
